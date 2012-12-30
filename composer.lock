@@ -1,5 +1,5 @@
 {
-    "hash": "628bec98e1f1d713ae7181a9dd2db335",
+    "hash": "5f3bdb525d97adfb60282a8cda37d5fb",
     "packages": [
         {
             "name": "doctrine/common",
@@ -273,6 +273,34 @@
             "keywords": [
                 "database",
                 "orm"
+            ]
+        },
+        {
+            "name": "heartsentwined/yuicompressor",
+            "version": "2.4.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/heartsentwined/yuicompressor",
+                "reference": "2.4.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/heartsentwined/yuicompressor/zipball/2.4.7",
+                "reference": "2.4.7",
+                "shasum": ""
+            },
+            "time": "2012-09-02 11:05:33",
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "YUI Compressor is a popular CSS and JS minifier.",
+            "homepage": "https://github.com/heartsentwined/yuicompressor",
+            "keywords": [
+                "css",
+                "JS",
+                "compressor",
+                "minifier",
+                "yui"
             ]
         },
         {
@@ -601,6 +629,43 @@
                 "compression",
                 "minification"
             ]
+        },
+        {
+            "name": "leafo/lessphp",
+            "version": "v0.3.8",
+            "source": {
+                "type": "git",
+                "url": "http://github.com/leafo/lessphp",
+                "reference": "v0.3.8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/leafo/lessphp/zipball/v0.3.8",
+                "reference": "v0.3.8",
+                "shasum": ""
+            },
+            "time": "2012-08-18 19:16:09",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "lessc.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Leaf Corcoran",
+                    "email": "leafot@gmail.com",
+                    "homepage": "http://leafo.net"
+                }
+            ],
+            "description": "lessphp is a compiler for LESS written in PHP.",
+            "homepage": "http://leafo.net/lessphp/"
         },
         {
             "name": "monolog/monolog",

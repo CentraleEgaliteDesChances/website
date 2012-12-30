@@ -21,7 +21,9 @@
         "kriswallsmith/assetic": "1.1.*@dev",
         "mopa/composer-bridge": "dev-master",
         "mopa/bootstrap-bundle": "dev-master",
-        "twitter/bootstrap": "dev-master"
+        "twitter/bootstrap": "dev-master",
+        "leafo/lessphp": "*",
+        "heartsentwined/yuicompressor": "2.4.7"
     },
     "scripts": {
         "post-install-cmd": [

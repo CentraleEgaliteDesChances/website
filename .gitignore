@@ -4,4 +4,7 @@
 /app/logs/*
 /vendor/
 /app/config/parameters.yml
-Site CEC.esproj
+
+# OS Files
+CECWebSite.esproj
+.DS_Store
