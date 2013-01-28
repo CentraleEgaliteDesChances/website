@@ -1,3 +1,7 @@
+cec_membre:
+    resource: "@CECMembreBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cec_extern_site:
     resource: "@CECExternSiteBundle/Controller/"
     type:     annotation

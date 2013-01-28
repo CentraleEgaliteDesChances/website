@@ -1,0 +1,7 @@
+parameters:
+#    cec_membre.example.class: CEC\MembreBundle\Example
+
+services:
+#    cec_membre.example:
+#        class: %cec_membre.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
