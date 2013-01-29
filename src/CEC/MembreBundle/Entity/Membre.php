@@ -2,7 +2,7 @@
 
 namespace CEC\MembreBundle\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -214,24 +214,56 @@ class Membre implements UserInterface
     
     // Méthodes personnalisées
     
+    /**
+     * Retourne les roles de l'utilisateur
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
     public function getRoles() {
         return array('ROLE_USER');
     }
     
+    /**
+     * Retourne le mot de passe
+     *
+     * @return string
+     */
     public function getPassword() {
         return $this->getMotDePasse();
     }
     
+    /**
+     * Retourne le sel du mot de passe (null, ici)
+     *
+     * @return string
+     */
     public function getSalt() {
         return null;
     }
     
+    /**
+     * Retourne le nom d'utilisateur. 
+     * Ici le prénom et le nom, séparés par un espace.
+     *
+     * @return string
+     */
     public function getUsername() {
         return $this->getPrenom() . ' ' . $this->getNom();
     }
     
+    /**
+     * Supprime les données sensibles. 
+     *
+     * @return void
+     */
     public function eraseCredentials() {}
     
+    /**
+     * Test l'égalité avec un autre utilisateur.
+     *
+     * @param UserInterface $user
+     * @return bool
+     */
     public function equals(UserInterface $user) {
         return $this->getUsername == $user->getUsername;
     }
