@@ -6,7 +6,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Membre
+ * Représente un membre de l'association, et donc un utilisateur du site.
+ *
+ * @see MembreRepository
+ *
+ * @author Jean-Baptiste Bayle <jean-baptiste.bayle@student.ecp.fr>
  */
 class Membre implements UserInterface
 {

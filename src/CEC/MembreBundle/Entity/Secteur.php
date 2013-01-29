@@ -5,7 +5,15 @@ namespace CEC\MembreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Secteur
+ * Représente un secteur de l'association Centrale Egalité des Chances.
+ * En effet, l'association est structurée en différents secteurs,
+ * chacun responsable d'un aspect de l'action et possédant un certain
+ * nombre de membres.
+ *
+ * @see SecteurRepository
+ * @see Membre
+ *
+ * @author Jean-Baptiste Bayle <jean-baptiste.bayle@student.ecp.fr>
  */
 class Secteur
 {
