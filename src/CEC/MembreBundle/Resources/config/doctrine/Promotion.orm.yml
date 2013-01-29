@@ -1,0 +1,17 @@
+CEC\MembreBundle\Entity\Promotion:
+    type: entity
+    table: null
+    repositoryClass: CEC\MembreBundle\Entity\PromotionRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        annee:
+            type: integer
+    oneToOne:
+        membre:
+            targetEntity: Membre
+            mappedBy: promotion
+    lifecycleCallbacks: {  }

@@ -1,0 +1,31 @@
+CEC\MembreBundle\Entity\Membre:
+    type: entity
+    table: null
+    repositoryClass: CEC\MembreBundle\Entity\MembreRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        prenom:
+            type: string
+            length: 255
+        nom:
+            type: string
+            length: 255
+        motDePasse:
+            type: string
+            length: 255
+        email:
+            type: string
+            length: 255
+    oneToOne:
+        promotion:
+            targetEntity: Promotion
+            mappedBy: membre
+    manyToMany:
+        secteurs:
+            targetEntity: Secteur
+            mappedBy: membres
+    lifecycleCallbacks: {  }
