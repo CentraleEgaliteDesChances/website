@@ -26,11 +26,21 @@ class MembreTest extends \PHPUnit_Framework_TestCase
             ->setEmail($email)
             ->setMotDePasse(sha1($motDePasse));
         
+        // Test de l'entité
         $this->assertInstanceOf('CEC\MembreBundle\Entity\Membre', $membre);
         
+        // Test des attributs
         $this->assertEquals($prenom, $membre->getPrenom());
         $this->assertEquals($nom, $membre->getNom());
         $this->assertEquals($email, $membre->getEmail());
         $this->assertEquals(sha1($motDePasse), $membre->getMotDePasse());
+        
+        // Test du nom d'utilisateur
+        $this->assertEquals($prenom . ' ' . $nom, $membre->getUsername());
+        
+        // Test des rôles
+        $this->assertEquals(1, count($membre->getRoles()));
+        $roles = $membre->getRoles();
+        $this->assertEquals('ROLE_USER', $roles[0]);
     }
 }

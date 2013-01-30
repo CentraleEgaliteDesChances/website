@@ -244,7 +244,7 @@ class Membre implements UserInterface
      */
     public function getUsername()
     {
-        return $this->getPrenom();
+        return $this->getPrenom() . ' ' . $this->getNom();
     }
 
     /**
