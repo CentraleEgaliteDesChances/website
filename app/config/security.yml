@@ -11,7 +11,7 @@ security:
 
     providers:
         membres:
-            entity: { class: CECMembreBundle:Membre, property: prenom }
+            entity: { class: CECMembreBundle:Membre }
 
     firewalls:
         dev:

@@ -10,8 +10,8 @@ CEC\MembreBundle\Entity\Promotion:
                 strategy: AUTO
         annee:
             type: integer
-    oneToOne:
-        membre:
+    oneToMany:
+        membres:
             targetEntity: Membre
             mappedBy: promotion
     lifecycleCallbacks: {  }

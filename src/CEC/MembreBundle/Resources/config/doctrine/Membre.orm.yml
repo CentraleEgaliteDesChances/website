@@ -1,6 +1,7 @@
 CEC\MembreBundle\Entity\Membre:
   type: entity
   table: null
+  repositoryClass: CEC\MembreBundle\Entity\MembreRepository
   fields:
     id:
       type: integer
