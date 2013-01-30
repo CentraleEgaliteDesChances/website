@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+{% if erreur %}
+    <div>{{ erreur.message }}</div>
+{% endif %}
+
+<form method="post" action="{{ path('connexion_verifications') }}">
+    <label for="utilisateur">Utilisateur : </label>
+    <input type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" />
+    
+    <label for="mot_de_passe">Mot de passe : </label>
+    <input type="password" id="mot_de_passe" name="_password" />
+    
+    <button type="submit">Se connecter</button>
+</form>
+
+{% endblock %}

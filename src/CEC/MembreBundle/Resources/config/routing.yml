@@ -1,3 +1,11 @@
-cec_membre_homepage:
-    pattern:  /hello/{name}
+connexion_verifications:
+    pattern: /connexion/verifications
+connexion:
+    pattern: /connexion
+    defaults: { _controller: CECMembreBundle:Securite:connexion }
+deconnexion:
+    pattern: /deconnexion
+    
+page_accueil:
+    pattern: /
     defaults: { _controller: CECMembreBundle:Default:index }

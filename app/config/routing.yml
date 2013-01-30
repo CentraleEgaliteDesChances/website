@@ -1,6 +1,6 @@
 cec_membre:
     resource: "@CECMembreBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /internal/
 
 cec_extern_site:
     resource: "@CECExternSiteBundle/Controller/"

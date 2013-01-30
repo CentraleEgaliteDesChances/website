@@ -5,17 +5,7 @@ namespace CEC\MembreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Représente une promotion de l'école Centrale Paris, et donc
- * un groupe de Membres de la même année.
- *
- * L'année associée est calculée de la manière suivante : année
- * d'intégration + 3, et correspond à l'année du diplôme pour un 
- * cursus classique.
- *
- * @see PromotionRepository
- * @see Membre
- *
- * @author Jean-Baptiste Bayle <jean-baptiste.bayle@student.ecp.fr>
+ * Promotion
  */
 class Promotion
 {
@@ -30,11 +20,18 @@ class Promotion
     private $annee;
 
     /**
-     * @var \CEC\MembreBundle\Entity\Membre
+     * @var \Doctrine\Common\Collections\Collection
      */
-    private $membre;
+    private $membres;
 
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->membres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -69,25 +66,35 @@ class Promotion
     }
 
     /**
-     * Set membre
+     * Add membres
      *
-     * @param \CEC\MembreBundle\Entity\Membre $membre
+     * @param \CEC\MembreBundle\Entity\Membre $membres
      * @return Promotion
      */
-    public function setMembre(\CEC\MembreBundle\Entity\Membre $membre = null)
+    public function addMembre(\CEC\MembreBundle\Entity\Membre $membres)
     {
-        $this->membre = $membre;
+        $this->membres[] = $membres;
     
         return $this;
     }
 
     /**
-     * Get membre
+     * Remove membres
      *
-     * @return \CEC\MembreBundle\Entity\Membre 
+     * @param \CEC\MembreBundle\Entity\Membre $membres
      */
-    public function getMembre()
+    public function removeMembre(\CEC\MembreBundle\Entity\Membre $membres)
     {
-        return $this->membre;
+        $this->membres->removeElement($membres);
+    }
+
+    /**
+     * Get membres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMembres()
+    {
+        return $this->membres;
     }
 }

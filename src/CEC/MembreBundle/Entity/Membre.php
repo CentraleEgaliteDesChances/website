@@ -2,15 +2,11 @@
 
 namespace CEC\MembreBundle\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Représente un membre de l'association, et donc un utilisateur du site.
- *
- * @see MembreRepository
- *
- * @author Jean-Baptiste Bayle <jean-baptiste.bayle@student.ecp.fr>
+ * Membre
  */
 class Membre implements UserInterface
 {
@@ -32,12 +28,17 @@ class Membre implements UserInterface
     /**
      * @var string
      */
-    private $motDePasse;
+    private $email;
 
     /**
      * @var string
      */
-    private $email;
+    private $telephone;
+
+    /**
+     * @var string
+     */
+    private $motDePasse;
 
     /**
      * @var \CEC\MembreBundle\Entity\Promotion
@@ -114,29 +115,6 @@ class Membre implements UserInterface
     }
 
     /**
-     * Set motDePasse
-     *
-     * @param string $motDePasse
-     * @return Membre
-     */
-    public function setMotDePasse($motDePasse)
-    {
-        $this->motDePasse = $motDePasse;
-    
-        return $this;
-    }
-
-    /**
-     * Get motDePasse
-     *
-     * @return string 
-     */
-    public function getMotDePasse()
-    {
-        return $this->motDePasse;
-    }
-
-    /**
      * Set email
      *
      * @param string $email
@@ -157,6 +135,52 @@ class Membre implements UserInterface
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set telephone
+     *
+     * @param string $telephone
+     * @return Membre
+     */
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
+    
+        return $this;
+    }
+
+    /**
+     * Get telephone
+     *
+     * @return string 
+     */
+    public function getTelephone()
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * Set motDePasse
+     *
+     * @param string $motDePasse
+     * @return Membre
+     */
+    public function setMotDePasse($motDePasse)
+    {
+        $this->motDePasse = $motDePasse;
+    
+        return $this;
+    }
+
+    /**
+     * Get motDePasse
+     *
+     * @return string 
+     */
+    public function getMotDePasse()
+    {
+        return $this->motDePasse;
     }
 
     /**
@@ -215,61 +239,62 @@ class Membre implements UserInterface
         return $this->secteurs;
     }
     
-    
-    // Méthodes personnalisées
-    
     /**
-     * Retourne les roles de l'utilisateur
-     *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @inheritDoc
      */
-    public function getRoles() {
-        return array('ROLE_USER');
+    public function getUsername()
+    {
+        return $this->getPrenom();
     }
-    
+
     /**
-     * Retourne le mot de passe
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getPassword() {
-        return $this->getMotDePasse();
-    }
-    
-    /**
-     * Retourne le sel du mot de passe (null, ici)
-     *
-     * @return string
-     */
-    public function getSalt() {
+    public function getSalt()
+    {
         return null;
     }
-    
+
     /**
-     * Retourne le nom d'utilisateur. 
-     * Ici le prénom et le nom, séparés par un espace.
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getUsername() {
-        return $this->getPrenom() . ' ' . $this->getNom();
+    public function getPassword()
+    {
+        return $this->getMotDePasse();
     }
-    
+
     /**
-     * Supprime les données sensibles. 
-     *
-     * @return void
+     * @inheritDoc
      */
-    public function eraseCredentials() {}
-    
-    /**
-     * Test l'égalité avec un autre utilisateur.
-     *
-     * @param UserInterface $user
-     * @return bool
-     */
-    public function equals(UserInterface $user) {
-        return $this->getUsername == $user->getUsername;
+    public function getRoles()
+    {
+        return array('ROLE_USER');
     }
-    
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
+    }
 }
