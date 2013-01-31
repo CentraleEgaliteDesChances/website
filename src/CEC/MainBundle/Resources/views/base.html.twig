@@ -3,7 +3,17 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets
-        '@CECMainBundle/Ressources/public/less/bootstrap-override.less'
+        '@CECMainBundle/Resources/public/less/bootstrap-override.less'
+        '@CECMainBundle/Resources/public/less/menu.less'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% block menu %}{% render 'CECMainBundle:Menu:menu' %}{% endblock %}
+    
+    <div class="container">
+        {% block container %}{% endblock %}
+    </div>
 {% endblock %}

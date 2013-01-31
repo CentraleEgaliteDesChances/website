@@ -1,0 +1,70 @@
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a href="#" class="brand">CEC</a>
+            <ul class="nav">
+                <li class="active"><a href="#">Tableau de bord</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Mon tutorat
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Mes séances</a></li>
+                        <li><a href="#">Mon groupe</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Mon lycée</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Écrire le compte-rendu</a></li>
+                        <li><a href="#">Choisir une activité</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Mon secteur
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>Secteur Fundraising</li>
+                        <li><a href="#">Statistiques</a></li>
+                        <li class="divider"></li>
+                        <li>Secteur Actis</li>
+                        <li><a href="#">Nouvelle activité</a></li>
+                        <li><a href="#">Consulter les activités</a></li>
+                        <li><a href="#">Consulter les comptes-rendus</a></li>
+                        <li class="divider"></li>
+                        <li>Buro</li>
+                        <li><a href="#">Planning des séances</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Données
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Liste des activités</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Liste des lycées</a></li>
+                        <li><a href="#">Liste des lycéens</a></li>
+                        <li><a href="#">Liste des membres</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Planning des séances</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="btn-group pull-right">
+                <a class="btn btn-primary" href="#">
+                    {{ app.user.username }}
+                </a>
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Lien 1</a></li>
+                    <li><a href="#">Lien 2</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
