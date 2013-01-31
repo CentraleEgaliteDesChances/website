@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new CEC\ExternSiteBundle\CECExternSiteBundle(),
             new CEC\MembreBundle\CECMembreBundle(),
+            new CEC\MainBundle\CECMainBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

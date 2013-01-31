@@ -1,0 +1,9 @@
+{% extends 'MopaBootstrapBundle::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECMainBundle/Ressources/public/less/bootstrap-override.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+{% endblock %}

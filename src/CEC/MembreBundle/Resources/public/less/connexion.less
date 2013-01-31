@@ -1,0 +1,34 @@
+@background-color: hsl(0, 0%, 97%);
+@box-width: 300px;
+
+body {
+    background-color: @background-color;
+}
+
+form.form-connexion {
+    max-width: @box-width;
+    margin: 50px auto 60px;
+    padding: 20px 20px 80px;
+    border: 1px solid darken(@background-color, 12%);
+    border-radius: 7px;
+    background-color: white;
+    -moz-box-shadow: 0 1px 0 rgb(255, 255, 255), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 0 rgb(255, 255, 255), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 0 rgb(255, 255, 255), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    
+    
+    h2 {
+        margin-top: 0px;
+        margin-bottom: 20px;
+    }
+    
+    input {
+        font-size: 18px;
+        height: auto;
+        padding:  7px 9px;
+    }
+    
+    button {
+        margin-top: 10px;
+    }
+}

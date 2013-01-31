@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\MembreBundle\Tests\Controller;
+namespace CEC\MainBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
