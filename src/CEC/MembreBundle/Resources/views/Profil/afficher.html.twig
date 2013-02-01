@@ -12,6 +12,12 @@
 {% block left %}
     <p>Coucou</p>
     <a href="#" class="btn btn-primary">Modifier</a>
+    <h5>Promotion</h5>
+    <p>##2014</p>
+    <h5>Email</h5>
+    <p><a href="mailto:{{ membre.email }}">{{ membre.email }}</a></p>
+    <h5>Numéro de téléphone</h5>
+    <p>{{ membre.telephone }}</p>
 {% endblock %}
 
 {% block right %}
