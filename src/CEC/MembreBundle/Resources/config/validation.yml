@@ -8,8 +8,12 @@ CEC\MembreBundle\Entity\Membre:
             - NotBlank: ~
             - MinLength: 5
         email:
-            - NotBlank: n
+            - NotBlank: ~
             - Email: ~
+        telephone:
+            - MaxLength: 14
+            - MinLength: 10
+            
 
 CEC\MembreBundle\Entity\Promotion:
     properties:
