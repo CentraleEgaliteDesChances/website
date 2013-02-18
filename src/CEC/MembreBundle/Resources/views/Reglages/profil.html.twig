@@ -1,5 +1,9 @@
 {% extends 'CECMembreBundle:Reglages:base.html.twig' %}
 
 {% block right %}
-Ici le contenu.
+<form method="post" action="{{ path('reglages_profil') }}">
+    {{ form_widget(form) }}
+    
+    <input type="submit" value="Enregistrer" class="btn btn-primary" />
+</form>
 {% endblock %}

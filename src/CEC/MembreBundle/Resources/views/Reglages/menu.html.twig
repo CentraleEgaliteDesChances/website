@@ -1,17 +1,21 @@
-<ul class="nav nac-list">
-    <li 
-        {% if app.request.attributes.get('_route') == 'reglages_profil' %}class="active"{% endif %}
-        >
-            <a href="#">Profil</a>
-    </li>
-    <li 
-        {% if app.request.attributes.get('_route') == 'reglages_groupes_de_tutorat' %}class="active"{% endif %}
-        >
-            <a href="#">Groupes de tutorat</a>
-    </li>
-    <li 
-        {% if app.request.attributes.get('_route') == 'reglages_mes_secteurs' %}class="active"{% endif %}
-        >
-            <a href="#">Mes secteurs</a>
-    </li>
-</ul>
+<div class="well">
+    <ul class="nav nav-list">
+        <li class="nav-header">Mes informations</li>
+        <li 
+            {% if app.request.attributes.get('_route') == 'reglages_profil' %}class="active"{% endif %}
+            >
+                <a href="{{ path('reglages_profil') }}">Profil</a>
+        </li>
+        <li class="nav-header">Mon activité</li>
+        <li 
+            {% if app.request.attributes.get('_route') == 'reglages_groupes_de_tutorat' %}class="active"{% endif %}
+            >
+                <a href="{{ path('reglages_groupes_de_tutorat') }}">Groupes de tutorat</a>
+        </li>
+        <li 
+            {% if app.request.attributes.get('_route') == 'reglages_mes_secteurs' %}class="active"{% endif %}
+            >
+                <a href="{{ path('reglages_mes_secteurs') }}">Mes secteurs</a>
+        </li>
+    </ul>
+</div>
