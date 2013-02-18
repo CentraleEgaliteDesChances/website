@@ -4,7 +4,9 @@ namespace CEC\MembreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+
 use CEC\MembreBundle\Form\Type\InformationsGeneralesType;
+use CEC\MembreBundle\Form\Type\MotDePasseType;
 
 class ReglagesController extends Controller
 {
@@ -22,6 +24,11 @@ class ReglagesController extends Controller
         $infomationsGenerales = $this->get('form.factory')
             ->createNamedBuilder($nomInformationsGenerales, new InformationsGeneralesType(), $membre)
             ->getForm();
+            
+        $nomMotDePasse = 'mot_de_passe';
+        $motDePasse = $this->get('form.factory')
+            ->createNamedBuilder($nomMotDePasse, new MotDePasseType())
+            ->getForm();
         
         if ($request->getMethod() == 'POST') {
             if ($request->request->has($nomInformationsGenerales))
@@ -32,10 +39,25 @@ class ReglagesController extends Controller
                     $this->redirect($this->generateUrl('reglages_profil'));
                 }
             }
+            
+            if ($request->request->has($nomMotDePasse))
+            {
+                $motDePasse->bindRequest($request);
+                if ($motDePasse->isValid()) {
+                    $factory = $this->get('security.encoder_factory');
+                    $encoder = $factory->getEncoder($membre);
+                    $password = $encoder->encodePassword($motDePasse->getData()['motDePasse'], $membre->getSalt());
+                    $membre->setMotDePasse($password);
+                    
+                    $this->getDoctrine()->getEntityManager()->flush();
+                    $this->redirect($this->generateUrl('reglages_profil'));
+                }
+            }
         }
         
         return $this->render('CECMembreBundle:Reglages:profil.html.twig', array(
             'informations_generales' => $infomationsGenerales->createView(),
+            'mot_de_passe'           => $motDePasse->createView(),
         ));
     }
     
