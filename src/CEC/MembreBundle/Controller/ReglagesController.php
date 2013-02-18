@@ -4,6 +4,7 @@ namespace CEC\MembreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use CEC\MembreBundle\Form\Type\InformationsGeneralesType;
 
 class ReglagesController extends Controller
 {
@@ -17,26 +18,24 @@ class ReglagesController extends Controller
     {
         $membre = $this->get('security.context')->getToken()->getUser();
         
-        $form = $this->createFormBuilder($membre)
-            ->add('prenom')
-            ->add('nom')
-            ->add('email')
-            ->add('telephone')
+        $nomInformationsGenerales = 'informations_generales';
+        $infomationsGenerales = $this->get('form.factory')
+            ->createNamedBuilder($nomInformationsGenerales, new InformationsGeneralesType(), $membre)
             ->getForm();
         
-        if ($request->getMethod() == 'POST')
-        {
-            $form->bindRequest($request);
-            
-            if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()
-                    ->flush();
-                $this->redirect($this->generateUrl('reglages_profil'));
+        if ($request->getMethod() == 'POST') {
+            if ($request->request->has($nomInformationsGenerales))
+            {
+                $infomationsGenerales->bindRequest($request);
+                if ($infomationsGenerales->isValid()) {
+                    $this->getDoctrine()->getEntityManager()->flush();
+                    $this->redirect($this->generateUrl('reglages_profil'));
+                }
             }
         }
         
         return $this->render('CECMembreBundle:Reglages:profil.html.twig', array(
-            'form' => $form->createView(),
+            'informations_generales' => $infomationsGenerales->createView(),
         ));
     }
     
