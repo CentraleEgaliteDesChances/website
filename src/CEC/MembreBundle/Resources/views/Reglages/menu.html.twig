@@ -1,16 +1,16 @@
 <ul class="nav nac-list">
     <li 
-        {% if app.request.attributes.get('_route') = 'reglages_profil' %}class="active"{% endif %}
+        {% if app.request.attributes.get('_route') == 'reglages_profil' %}class="active"{% endif %}
         >
             <a href="#">Profil</a>
     </li>
     <li 
-        {% if app.request.attributes.get('_route') = 'reglages_groupes_de_tutorat' %}class="active"{% endif %}
+        {% if app.request.attributes.get('_route') == 'reglages_groupes_de_tutorat' %}class="active"{% endif %}
         >
             <a href="#">Groupes de tutorat</a>
     </li>
     <li 
-        {% if app.request.attributes.get('_route') = 'reglages_mes_secteurs' %}class="active"{% endif %}
+        {% if app.request.attributes.get('_route') == 'reglages_mes_secteurs' %}class="active"{% endif %}
         >
             <a href="#">Mes secteurs</a>
     </li>
