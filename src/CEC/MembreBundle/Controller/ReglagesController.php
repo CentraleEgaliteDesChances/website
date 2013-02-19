@@ -47,7 +47,8 @@ class ReglagesController extends Controller
                 if ($motDePasse->isValid()) {
                     $factory = $this->get('security.encoder_factory');
                     $encoder = $factory->getEncoder($membre);
-                    $password = $encoder->encodePassword($motDePasse->getData()['motDePasse'], $membre->getSalt());
+                    $data = $motDePasse->getData();
+                    $password = $encoder->encodePassword($data['motDePasse'], $membre->getSalt());
                     $membre->setMotDePasse($password);
                     
                     $this->getDoctrine()->getEntityManager()->flush();
