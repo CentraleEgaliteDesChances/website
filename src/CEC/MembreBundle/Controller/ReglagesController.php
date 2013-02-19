@@ -36,6 +36,7 @@ class ReglagesController extends Controller
                 $infomationsGenerales->bindRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
+                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
                     $this->redirect($this->generateUrl('reglages_profil'));
                 }
             }
@@ -50,6 +51,7 @@ class ReglagesController extends Controller
                     $membre->setMotDePasse($password);
                     
                     $this->getDoctrine()->getEntityManager()->flush();
+                    $this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
                     $this->redirect($this->generateUrl('reglages_profil'));
                 }
             }

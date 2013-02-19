@@ -1,6 +1,8 @@
 {% extends 'CECMembreBundle:Reglages:base.html.twig' %}
 
 {% block right %}
+{{ parent() }}
+
 <form method="post" action="{{ path('reglages_profil') }}">
     {{ form_widget(informations_generales) }}
     
