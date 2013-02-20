@@ -44,6 +44,11 @@ class Membre implements UserInterface
      * @var integer
      */
     private $promotion;
+    
+    /**
+     * @var boolean
+     */
+    private $actif;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -207,6 +212,29 @@ class Membre implements UserInterface
     }
     
     /**
+     * Set actif
+     *
+     * @param boolean $actif
+     * @return Membre
+     */
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+    
+        return $this;
+    }
+
+    /**
+     * Get actif
+     *
+     * @return boolean 
+     */
+    public function getActif()
+    {
+        return $this->actif;
+    }
+    
+    /**
      * Add secteurs
      *
      * @param \CEC\MembreBundle\Entity\Secteur $secteurs
@@ -303,8 +331,11 @@ class Membre implements UserInterface
      */
     public function setDefaultValues()
     {
-        if (!$this->getPromotion()) {
+        if (!isset($this->promotion)) {
             $this->setPromotion(date('Y') + 3);
+        }
+        if (!isset($this->actif)) {
+            $this->setActif(true);
         }
     }
 }

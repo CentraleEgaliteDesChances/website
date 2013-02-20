@@ -25,6 +25,8 @@ CEC\MembreBundle\Entity\Membre:
       length: 255
     promotion:
       type: integer
+    actif:
+      type: boolean
   manyToMany:
       secteurs:
           targetEntity: Secteur

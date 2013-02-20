@@ -10,6 +10,7 @@ class InformationsGeneralesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('prenom', null, array('label' => 'Prénom'));
         $builder->add('nom');
+        $builder->add('promotion', null, array('grouping' => false));
         $builder->add('email');
         $builder->add('telephone', null, array('label' => 'Numéro de téléphone'));
     }

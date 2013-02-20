@@ -64,6 +64,28 @@ class ReglagesController extends Controller
         ));
     }
     
+    public function notificationsAction(Request $request)
+    {
+        $membre = $this->get('security.context')->getToken()->getUser();
+        
+        $form = $this->createFormBuilder($membre)
+            ->add('actif')
+            ->getForm();
+        
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Votre statut a bien été modifié.');
+                $this->redirect($this->generateUrl('reglages_notifications'));
+            }
+        }
+    
+        return $this->render('CECMembreBundle:Reglages:notifications.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    } 
+    
     public function groupesDeTutoratAction()
     {
         return $this->render('CECMembreBundle:Reglages:profil.html.twig');
