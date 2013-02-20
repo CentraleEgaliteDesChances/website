@@ -41,7 +41,7 @@ class Membre implements UserInterface
     private $motDePasse;
 
     /**
-     * @var \CEC\MembreBundle\Entity\Promotion
+     * @var integer
      */
     private $promotion;
 
@@ -182,14 +182,14 @@ class Membre implements UserInterface
     {
         return $this->motDePasse;
     }
-
+    
     /**
      * Set promotion
      *
-     * @param \CEC\MembreBundle\Entity\Promotion $promotion
+     * @param integer $promotion
      * @return Membre
      */
-    public function setPromotion(\CEC\MembreBundle\Entity\Promotion $promotion = null)
+    public function setPromotion($promotion)
     {
         $this->promotion = $promotion;
     
@@ -199,13 +199,13 @@ class Membre implements UserInterface
     /**
      * Get promotion
      *
-     * @return \CEC\MembreBundle\Entity\Promotion 
+     * @return integer 
      */
     public function getPromotion()
     {
         return $this->promotion;
     }
-
+    
     /**
      * Add secteurs
      *
@@ -296,5 +296,15 @@ class Membre implements UserInterface
         list (
             $this->id,
         ) = unserialize($serialized);
+    }
+    
+    /**
+     * Ajoute les valeurs par défaut des attributs si nécessaire
+     */
+    public function setDefaultValues()
+    {
+        if (!$this->getPromotion()) {
+            $this->setPromotion(new DateTime('YY'));
+        }
     }
 }
