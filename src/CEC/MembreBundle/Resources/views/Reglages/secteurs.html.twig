@@ -1,0 +1,20 @@
+{% extends 'CECMembreBundle:Reglages:base.html.twig' %}
+
+{% block right %}
+{{ parent() }}
+
+<div class="section">
+    <div class="section-title">Mes secteurs</div>
+    <form method="post" action="{{ path('reglages_profil') }}">
+        {% if form.secteurs|length > 0 %}
+            {{ form_widget(form) }}
+        {% else %}
+            <div>Aucun secteur. Utilisez le bouton ci-dessous pour ajouter un secteur.</div>
+        {% endif %}
+        <div class="form-actions">
+            <input type="submit" value="Enregistrer" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+{% endblock %}

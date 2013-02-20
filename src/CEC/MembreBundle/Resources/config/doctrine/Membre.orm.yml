@@ -28,8 +28,8 @@ CEC\MembreBundle\Entity\Membre:
     actif:
       type: boolean
   manyToMany:
-      secteurs:
-          targetEntity: Secteur
-          mappedBy: membres
+    secteurs:
+      targetEntity: Secteur
+      inversedBy: membres
   lifecycleCallbacks:
-      prePersist: [ setDefaultValues ]
+    prePersist: [ setDefaultValues ]

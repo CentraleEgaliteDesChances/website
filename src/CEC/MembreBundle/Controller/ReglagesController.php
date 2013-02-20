@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use CEC\MembreBundle\Form\Type\InformationsGeneralesType;
 use CEC\MembreBundle\Form\Type\MotDePasseType;
+use CEC\MembreBundle\Form\Type\ChoixSecteursType;
 
 class ReglagesController extends Controller
 {
@@ -86,13 +87,18 @@ class ReglagesController extends Controller
         ));
     } 
     
-    public function groupesDeTutoratAction()
+    public function groupesDeTutoratAction(Request $request)
     {
         return $this->render('CECMembreBundle:Reglages:profil.html.twig');
     }
     
-    public function mesSecteursAction()
+    public function secteursAction(Request $request)
     {
-        return $this->render('CECMembreBundle:Reglages:profil.html.twig');
+        $membre = $this->get('security.context')->getToken()->getUser();
+        $form = $this->createForm(new ChoixSecteursType(), $membre);
+        
+        return $this->render('CECMembreBundle:Reglages:secteurs.html.twig', array(
+          'form' => $form->createView(),
+        ));
     }
 }

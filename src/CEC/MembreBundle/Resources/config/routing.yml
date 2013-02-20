@@ -24,9 +24,9 @@ reglages_notifications:
 reglages_groupes_de_tutorat:
     pattern: /reglages/tutorat
     defaults: { _controller: CECMembreBundle:Reglages:groupesDeTutorat }
-reglages_mes_secteurs:
+reglages_secteurs:
     pattern: /reglages/secteurs
-    defaults: { _controller: CECMembreBundle:Reglages:mesSecteurs }
+    defaults: { _controller: CECMembreBundle:Reglages:secteurs }
     
 page_accueil:
     pattern: /
