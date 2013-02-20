@@ -304,7 +304,7 @@ class Membre implements UserInterface
     public function setDefaultValues()
     {
         if (!$this->getPromotion()) {
-            $this->setPromotion(new DateTime('YY'));
+            $this->setPromotion(date('Y') + 3);
         }
     }
 }
