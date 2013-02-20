@@ -1,0 +1,22 @@
+{% macro modal(header, body, footer, name, close_button) %}
+<div id="{{ name|default('modal') }}" class="modal hide fade" tabindex="-1" role="dialog">
+    <div class="modal-header">
+        {% if close_button|default(true) %}<button type="button" class="close" data-dismiss="modal">×</button>{% endif %}
+        <h3>{{ header }}</h3>
+    </div>
+    <div class="modal-body">
+        {{ body|raw }}
+    </div>
+    <div class="modal-footer">
+        {{ footer|raw }}
+    </div>
+</div>
+{% endmacro %}
+
+{% macro button(label, name, extra_class) %}
+<a href="#{{ name|default('modal') }}" class="btn {{ extra_class }}" data-toggle="modal" role="button">{{ label }}</a>
+{% endmacro %}
+
+{% macro close(label, extra_class) %}
+<button class="btn {{ extra_class|default('pull-right') }}" data-dismiss="modal">{{ label|default('Annuler') }}</button>
+{% endmacro %}

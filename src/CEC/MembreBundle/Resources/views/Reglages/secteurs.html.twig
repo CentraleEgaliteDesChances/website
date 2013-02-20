@@ -1,4 +1,6 @@
 {% extends 'CECMembreBundle:Reglages:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
 
 {% block right %}
 {{ parent() }}
@@ -9,12 +11,25 @@
         {% if form.secteurs|length > 0 %}
             {{ form_widget(form) }}
         {% else %}
-            <div>Aucun secteur. Utilisez le bouton ci-dessous pour ajouter un secteur.</div>
+            {{ flash('error', 'Aucun secteur. Utilisez le bouton ci-dessous pour ajouter un secteur.') }}
         {% endif %}
         <div class="form-actions">
+            {{ modal.button('Ajouter un secteur') }}
             <input type="submit" value="Enregistrer" class="btn btn-primary" />
         </div>
     </form>
 </div>
 
+{% endblock %}
+
+{% block modals %}
+{{ parent() }}
+    {% set body %}
+        <p>Scandaleux.</p>
+    {% endset %}
+    {% set footer %}
+        <button class="btn btn-primary pull-right">Ajouter</button>
+        {{ modal.close() }}
+    {% endset %}
+    {{ modal.modal('Ajouter un secteur', body, footer) }}
 {% endblock %}
