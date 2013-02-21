@@ -93,7 +93,7 @@ class ReglagesController extends Controller
     
     public function groupesDeTutoratAction(Request $request)
     {
-        return $this->render('CECMembreBundle:Reglages:profil.html.twig');
+        return $this->render('CECMembreBundle:Reglages:tutorat.html.twig');
     }
     
     public function secteursAction(Request $request)
