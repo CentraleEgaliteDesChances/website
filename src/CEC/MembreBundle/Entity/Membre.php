@@ -41,9 +41,14 @@ class Membre implements UserInterface
     private $motDePasse;
 
     /**
-     * @var \CEC\MembreBundle\Entity\Promotion
+     * @var integer
      */
     private $promotion;
+    
+    /**
+     * @var boolean
+     */
+    private $actif;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -182,14 +187,14 @@ class Membre implements UserInterface
     {
         return $this->motDePasse;
     }
-
+    
     /**
      * Set promotion
      *
-     * @param \CEC\MembreBundle\Entity\Promotion $promotion
+     * @param integer $promotion
      * @return Membre
      */
-    public function setPromotion(\CEC\MembreBundle\Entity\Promotion $promotion = null)
+    public function setPromotion($promotion)
     {
         $this->promotion = $promotion;
     
@@ -199,13 +204,36 @@ class Membre implements UserInterface
     /**
      * Get promotion
      *
-     * @return \CEC\MembreBundle\Entity\Promotion 
+     * @return integer 
      */
     public function getPromotion()
     {
         return $this->promotion;
     }
+    
+    /**
+     * Set actif
+     *
+     * @param boolean $actif
+     * @return Membre
+     */
+    public function setActif($actif)
+    {
+        $this->actif = $actif;
+    
+        return $this;
+    }
 
+    /**
+     * Get actif
+     *
+     * @return boolean 
+     */
+    public function getActif()
+    {
+        return $this->actif;
+    }
+    
     /**
      * Add secteurs
      *
@@ -296,5 +324,18 @@ class Membre implements UserInterface
         list (
             $this->id,
         ) = unserialize($serialized);
+    }
+    
+    /**
+     * Ajoute les valeurs par défaut des attributs si nécessaire
+     */
+    public function setDefaultValues()
+    {
+        if (!isset($this->promotion)) {
+            $this->setPromotion(date('Y') + 3);
+        }
+        if (!isset($this->actif)) {
+            $this->setActif(true);
+        }
     }
 }

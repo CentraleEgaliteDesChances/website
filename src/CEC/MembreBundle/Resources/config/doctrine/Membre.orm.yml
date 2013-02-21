@@ -23,12 +23,13 @@ CEC\MembreBundle\Entity\Membre:
     motDePasse:
       type: string
       length: 255
-  manyToOne:
-      promotion:
-          targetEntity: Promotion
-          mappedBy: membres
+    promotion:
+      type: integer
+    actif:
+      type: boolean
   manyToMany:
-      secteurs:
-          targetEntity: Secteur
-          mappedBy: membres
-  lifecycleCallbacks: {  }
+    secteurs:
+      targetEntity: Secteur
+      inversedBy: membres
+  lifecycleCallbacks:
+    prePersist: [ setDefaultValues ]

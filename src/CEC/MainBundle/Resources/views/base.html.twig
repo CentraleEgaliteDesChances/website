@@ -1,3 +1,6 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
 
 {% block stylesheets %}
@@ -11,9 +14,12 @@
 {% endblock %}
 
 {% block body %}
+    {% block modals %}{% endblock %}
     {% block menu %}{% render 'CECMainBundle:Menu:menu' %}{% endblock %}
     
     <div class="container">
-        {% block container %}{% endblock %}
+        {% block container %}
+            {{ session_flash() }}
+        {% endblock %}
     </div>
 {% endblock %}
