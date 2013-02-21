@@ -1,0 +1,62 @@
+.section {
+    .section-title {
+        h5;
+        .well;
+        
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        border-bottom: 0;
+        
+        text-transform: uppercase;
+        text-shadow: 0 1px 0 #ffffff;
+        
+        -moz-box-shadow: 0 1px 0 #ffffff;
+        -webkit-box-shadow: 0 1px 0 #ffffff;
+        box-shadow: 0 1px 0 #ffffff;
+        background: -moz-linear-gradient(90deg, #cfcfcf 0%, #dbdbdb 46.7%) #cfcfcf;
+        background: -webkit-gradient(linear, left bottom, left top, from(#cfcfcf), color-stop(0.467, #dbdbdb)) #cfcfcf;
+    }
+    
+    form {
+        .well;
+        
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+                
+        input[type='text'], 
+            input[type='password'], 
+            input[type='email'], 
+            input[type='integer'], 
+            input[type='money'], 
+            input[type='number'], 
+            input[type='percent'], 
+            input[type='search'], 
+            input[type='url'], 
+            textarea, 
+            select {
+            .input-block-level;
+        }
+        
+        fieldset legend { display: none; }
+        fieldset .control-group:first-of-type { margin-top: 0; }
+        
+        .form-actions {
+            margin-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 5px;         
+            
+            input {
+                .pull-right;
+                
+                display: inline;
+                width: auto;
+            }
+        }
+    }
+}

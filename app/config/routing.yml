@@ -1,3 +1,12 @@
+cec_membre:
+    resource: "@CECMembreBundle/Resources/config/routing.yml"
+    prefix:   /internal/
+
+cec_extern_site:
+    resource: "@CECExternSiteBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 # Internal routing configuration to handle ESI
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

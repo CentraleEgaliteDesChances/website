@@ -1,6 +1,10 @@
-/web/bundles/
-/app/bootstrap*
-/app/cache/*
-/app/logs/*
-/vendor/
-/app/config/parameters.ini
+web/bundles/
+app/bootstrap*
+app/cache/*
+app/logs/*
+vendor/
+app/config/parameters.yml
+
+# OS Files
+CECWebSite.esproj
+.DS_Store
