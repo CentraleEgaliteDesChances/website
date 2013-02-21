@@ -1,0 +1,25 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
+{% extends 'MopaBootstrapBundle::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECMainBundle/Resources/public/less/bootstrap-override.less'
+        '@CECMainBundle/Resources/public/less/menu.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% block modals %}{% endblock %}
+    {% block menu %}{% render 'CECMainBundle:Menu:menu' %}{% endblock %}
+    
+    <div class="container">
+        {% block container %}
+            {{ session_flash() }}
+        {% endblock %}
+    </div>
+{% endblock %}

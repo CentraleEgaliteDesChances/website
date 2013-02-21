@@ -1,0 +1,13 @@
+{% extends 'CECMembreBundle:Reglages:base.html.twig' %}
+
+{% block right %}
+{{ parent() }}
+
+<div class="section">
+    <div class="section-title">Mes groupes de tutorat</div>
+    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+        <p>C'est ici que vous sélectionnez votre (ou vos) groupe(s) de tutorat.</p>
+    </form>
+</div>
+
+{% endblock %}

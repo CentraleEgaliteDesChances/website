@@ -1,0 +1,18 @@
+CEC\MembreBundle\Entity\Secteur:
+    type: entity
+    table: null
+    repositoryClass: CEC\MembreBundle\Entity\SecteurRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        nom:
+            type: string
+            length: 255
+    manyToMany:
+        membres:
+            targetEntity: Membre
+            mappedBy: secteurs
+    lifecycleCallbacks: {  }

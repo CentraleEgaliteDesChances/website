@@ -1,0 +1,25 @@
+CEC\MembreBundle\Entity\Membre:
+    properties:
+        prenom:
+            - NotBlank: ~
+        nom:
+            - NotBlank: ~
+        motDePasse:
+            - NotBlank: ~
+            - MinLength: 5
+        email:
+            - NotBlank: ~
+            - Email: ~
+        telephone:
+            - MaxLength: 14
+            - MinLength: 10
+        promotion:
+            - NotBlank: ~
+            - Min: 1900
+            - Max: 9999
+
+CEC\MembreBundle\Entity\Secteur:
+    properties:
+        nom:
+            - NotBlank: ~
+            
