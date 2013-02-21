@@ -6,5 +6,5 @@ vendor/
 app/config/parameters.yml
 
 # OS Files
-CECWebSite.esproj
+CECWebSite.esproj/*
 .DS_Store
