@@ -74,7 +74,9 @@ class ReglagesController extends Controller
         $membre = $this->get('security.context')->getToken()->getUser();
         
         $form = $this->createFormBuilder($membre)
-            ->add('actif')
+            ->add('actif', null, array(
+                'help_label' => "Les membres arrêtent d'être actif lorsqu'ils partent en S8, en césure ou en double-diplôme. Ils cessent d'être répertoriés comme tuteurs, ne font plus partie des secteurs et ne reçoivent plus aucune notification.",
+            ))
             ->getForm();
         
         if ($request->getMethod() == 'POST') {

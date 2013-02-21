@@ -28,7 +28,19 @@
         border-top-left-radius: 0;
         border-top-right-radius: 0;
                 
-        input, textarea, select { .input-block-level; }
+        input[type='text'], 
+            input[type='password'], 
+            input[type='email'], 
+            input[type='integer'], 
+            input[type='money'], 
+            input[type='number'], 
+            input[type='percent'], 
+            input[type='search'], 
+            input[type='url'], 
+            textarea, 
+            select {
+            .input-block-level;
+        }
         
         fieldset legend { display: none; }
         fieldset .control-group:first-of-type { margin-top: 0; }

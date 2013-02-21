@@ -6,7 +6,6 @@
 <div class="section">
     <div class="section-title">Statut du membre</div>
     <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
-        <span class="help-block">Les membres arrêtent d'être actif lorsqu'ils partent en S8, en césure ou en double-diplôme. Ils cessent d'être répertoriés comme tuteurs, ne font plus partie des secteurs et ne reçoivent plus aucune notification.</span>
         {{ form_widget(form) }}
         <div class="form-actions">
             <input type="submit" value="Enregistrer" class="btn btn-primary" />

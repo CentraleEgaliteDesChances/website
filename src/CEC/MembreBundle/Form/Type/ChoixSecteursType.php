@@ -9,9 +9,10 @@ class ChoixSecteursType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('secteurs', null, array(
-            'expanded' => true,
-            'label'    => 'Indiquez les secteurs dans lesquels vous vous impliquez :',
-            'property' => 'nom',
+            'expanded'     => true,
+            'label'        => 'Indiquez les secteurs dans lesquels vous vous impliquez :',
+            'property'     => 'nom',
+            'widget_type'  => 'inline',
         ));
     }
     
