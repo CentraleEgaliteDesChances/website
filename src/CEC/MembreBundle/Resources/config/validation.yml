@@ -13,11 +13,7 @@ CEC\MembreBundle\Entity\Membre:
         telephone:
             - MaxLength: 14
             - MinLength: 10
-            
-
-CEC\MembreBundle\Entity\Promotion:
-    properties:
-        annee:
+        promotion:
             - NotBlank: ~
             - Min: 1900
             - Max: 9999
