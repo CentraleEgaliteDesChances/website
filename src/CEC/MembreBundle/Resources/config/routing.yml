@@ -18,7 +18,7 @@ reglages:
 reglages_profil:
     pattern: /reglages/profil
     defaults: { _controller: CECMembreBundle:Reglages:profil }
-reglages_notifications:    
+reglages_notifications:
     pattern: /reglages/notifications
     defaults: { _controller: CECMembreBundle:Reglages:notifications }
 reglages_groupes_de_tutorat:

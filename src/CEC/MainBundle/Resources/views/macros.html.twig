@@ -13,7 +13,7 @@
 </div>
 {% endmacro %}
 
-{% macro button(label, name, extra_class) %}
+{% macro button(label, extra_class, name) %}
 <a href="#{{ name|default('modal') }}" class="btn {{ extra_class }}" data-toggle="modal" role="button">{{ label }}</a>
 {% endmacro %}
 

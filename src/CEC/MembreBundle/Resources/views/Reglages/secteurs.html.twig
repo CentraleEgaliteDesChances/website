@@ -7,16 +7,19 @@
 
 <div class="section">
     <div class="section-title">Mes secteurs</div>
-    <form method="post" action="{{ path('reglages_profil') }}">
-        {% if form.secteurs|length > 0 %}
-            {{ form_widget(form) }}
+    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+        {% if choix_secteurs.secteurs|length > 0 %}
+            {{ form_widget(choix_secteurs) }}
+            <div class="form-actions">
+                {{ modal.button('Ajouter un secteur') }}
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
         {% else %}
-            {{ flash('error', 'Aucun secteur. Utilisez le bouton ci-dessous pour ajouter un secteur.') }}
+            {{ flash('info', 'Aucun secteur. Utilisez le bouton ci-dessous pour ajouter un secteur.') }}
+            <div class="form-actions">
+                {{ modal.button('Ajouter un secteur', 'btn-block btn-large btn-primary pull-right') }}
+            </div>
         {% endif %}
-        <div class="form-actions">
-            {{ modal.button('Ajouter un secteur') }}
-            <input type="submit" value="Enregistrer" class="btn btn-primary" />
-        </div>
     </form>
 </div>
 
@@ -25,11 +28,25 @@
 {% block modals %}
 {{ parent() }}
     {% set body %}
-        <p>Scandaleux.</p>
+        <span class="help-block">Pour créer un nouveau secteur, entrez son nom dans le champ ci-dessous, puis cliquez sur Ajouter.</span>
+        {{ form_widget(secteur) }}
     {% endset %}
     {% set footer %}
-        <button class="btn btn-primary pull-right">Ajouter</button>
+        <input type="submit" value="Ajouter" class="btn btn-primary pull-right" />
         {{ modal.close() }}
     {% endset %}
-    {{ modal.modal('Ajouter un secteur', body, footer) }}
+    
+    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+        {{ modal.modal('Ajouter un secteur', body, footer) }}
+    </form>
+    
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if afficher_modal %}
+    <script type="text/javascript">
+        $('#modal').modal('show');
+    </script>
+{% endif %}
 {% endblock %}

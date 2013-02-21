@@ -5,9 +5,13 @@ namespace CEC\MembreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use CEC\MembreBundle\Entity\Membre;
+use CEC\MembreBundle\Entity\Secteur;
+
 use CEC\MembreBundle\Form\Type\InformationsGeneralesType;
 use CEC\MembreBundle\Form\Type\MotDePasseType;
 use CEC\MembreBundle\Form\Type\ChoixSecteursType;
+use CEC\MembreBundle\Form\Type\SecteurType;
 
 class ReglagesController extends Controller
 {
@@ -38,7 +42,7 @@ class ReglagesController extends Controller
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
-                    $this->redirect($this->generateUrl('reglages_profil'));
+                    return $this->redirect($this->generateUrl('reglages_profil'));
                 }
             }
             
@@ -54,7 +58,7 @@ class ReglagesController extends Controller
                     
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
-                    $this->redirect($this->generateUrl('reglages_profil'));
+                    return $this->redirect($this->generateUrl('reglages_profil'));
                 }
             }
         }
@@ -78,7 +82,7 @@ class ReglagesController extends Controller
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Votre statut a bien été modifié.');
-                $this->redirect($this->generateUrl('reglages_notifications'));
+                return $this->redirect($this->generateUrl('reglages_notifications'));
             }
         }
     
@@ -95,10 +99,47 @@ class ReglagesController extends Controller
     public function secteursAction(Request $request)
     {
         $membre = $this->get('security.context')->getToken()->getUser();
-        $form = $this->createForm(new ChoixSecteursType(), $membre);
+        
+        $nomChoixSecteurs = 'choix_secteurs';
+        $choixSecteurs = $this->get('form.factory')
+            ->createNamedBuilder($nomChoixSecteurs, new ChoixSecteursType(), $membre)
+            ->getForm();
+            
+        $nomSecteurForm = 'secteur';
+        $nouveauSecteur = new Secteur();
+        $secteurForm = $this->get('form.factory')
+            ->createNamedBuilder($nomSecteurForm, new SecteurType(), $nouveauSecteur)
+            ->getForm();
+        
+        if ($request->getMethod() == 'POST') {
+            if ($request->request->has($nomChoixSecteurs))
+            {
+                $choixSecteurs->bindRequest($request);
+                if ($choixSecteurs->isValid()) {
+                    $this->getDoctrine()->getEntityManager()->flush();
+                    $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
+                    return $this->redirect($this->generateUrl('reglages_secteurs'));
+                }
+            }
+            
+            if ($request->request->has($nomSecteurForm))
+            {
+                $secteurForm->bindRequest($request);
+                if ($secteurForm->isValid()) {
+                    $entityManager = $this->getDoctrine()->getEntityManager();
+                    $entityManager->persist($nouveauSecteur);
+                    $entityManager->flush();
+                    
+                    $this->get('session')->setFlash('success', 'Le secteur a bien été ajouté.');
+                    return $this->redirect($this->generateUrl('reglages_secteurs'));
+                }
+            }
+        }
         
         return $this->render('CECMembreBundle:Reglages:secteurs.html.twig', array(
-          'form' => $form->createView(),
+          'choix_secteurs' => $choixSecteurs->createView(),
+          'secteur'        => $secteurForm->createView(),
+          'afficher_modal' => $request->request->has($nomSecteurForm),
         ));
     }
 }

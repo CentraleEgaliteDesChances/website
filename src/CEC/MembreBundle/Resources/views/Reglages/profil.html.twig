@@ -5,7 +5,7 @@
 
 <div class="section">
     <div class="section-title">Informations générales</div>
-    <form method="post" action="{{ path('reglages_profil') }}">
+    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
         {{ form_widget(informations_generales) }}
         <div class="form-actions">
             <input type="submit" value="Enregistrer" class="btn btn-primary" />
@@ -15,7 +15,7 @@
 
 <div class="section">
     <div class="section-title">Changer de mot de passe</div>
-    <form method="post" action="{{ path('reglages_profil') }}">
+    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
         {{ form_widget(mot_de_passe) }}
         <div class="form-actions">
             <input type="submit" value="Modifier le mot de passe" class="btn btn-primary" />
