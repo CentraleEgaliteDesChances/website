@@ -1,5 +1,5 @@
 {
-    "hash": "1b7c3f93f7a54eda8434a367eeb91a72",
+    "hash": "a46c732e9d6ac31caf76c994f5d9613f",
     "packages": [
         {
             "name": "doctrine/common",
@@ -1490,19 +1490,20 @@
         },
         {
             "name": "twitter/bootstrap",
-            "version": "dev-master",
+            "version": "v2.2.2",
+            "target-dir": "twitter/bootstrap",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twitter/bootstrap.git",
-                "reference": "v2.3.0"
+                "url": "git://github.com/twitter/bootstrap.git",
+                "reference": "v2.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twitter/bootstrap/zipball/v2.3.0",
-                "reference": "v2.3.0",
+                "url": "https://github.com/twitter/bootstrap/archive/v2.2.2.zip",
+                "reference": "v2.2.2",
                 "shasum": ""
             },
-            "time": "2013-02-08 06:13:13",
+            "time": "2012-12-08 20:57:21",
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1526,7 +1527,6 @@
         "doctrine/doctrine-fixtures-bundle": 20,
         "twig/extensions": 20,
         "kriswallsmith/assetic": 20,
-        "mopa/bootstrap-bundle": 20,
-        "twitter/bootstrap": 20
+        "mopa/bootstrap-bundle": 20
     }
 }

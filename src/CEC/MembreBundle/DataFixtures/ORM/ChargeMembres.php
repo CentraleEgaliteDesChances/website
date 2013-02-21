@@ -29,7 +29,7 @@ class ChargeMembres implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $membre = new Membre();
-        $membre->setPrenom('Paul')
+        $membre->setPrenom('Pol')
             ->setNom('Maire')
             ->setEmail('paul.maire@student.ecp.fr')
             ->setTelephone('0608028328');

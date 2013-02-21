@@ -22,7 +22,7 @@
         "jms/di-extra-bundle": "1.1.*",
         "kriswallsmith/assetic": "1.1.*@dev",
         "mopa/bootstrap-bundle": "dev-master",
-        "twitter/bootstrap": "dev-master",
+        "twitter/bootstrap": "2.2.*",
         "leafo/lessphp": "*",
         "heartsentwined/yuicompressor": "2.4.7"
     },
