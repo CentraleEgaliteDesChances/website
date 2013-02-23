@@ -1,7 +1,7 @@
 <div class="well">
     <ul class="nav nav-list">
         <li
-            {% if route == 'toutes_cordees' %}
+            {% if request.attributes.get('_route') == 'toutes_cordees' %}
                 class="active"
             {% endif %}
             >
@@ -10,7 +10,7 @@
         {% if cordees %}<li class="nav-header">Cordées de la réussite</li>{% endif %}
         {% for cordee in cordees %}
             <li 
-                {% if ( route == 'cordee' ) and ( app.request.attributes.get('id') == cordee.id ) %}
+                {% if ( request.attributes.get('_route') ) and ( request.attributes.get('id') == cordee.id ) %}
                     class="active"
                 {% endif %}
                 >

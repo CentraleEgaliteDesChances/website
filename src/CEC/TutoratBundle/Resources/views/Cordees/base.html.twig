@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECTutoratBundle:Cordees:menu' with { 'route': app.request.attributes.get('_route') } %}
+    {% render 'CECTutoratBundle:Cordees:menu' with { 'request': app.request } %}
 {% endblock %}
 
 {% block right %}

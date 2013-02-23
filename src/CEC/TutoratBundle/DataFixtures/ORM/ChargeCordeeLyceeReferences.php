@@ -35,7 +35,7 @@ class ChargeCordeeLyceeReferences extends AbstractFixture implements OrderedFixt
             ->setCordee($this->getReference('michelin'));
             
         $ref5 = new CordeeLyceeReference();
-        $ref5->setAnnee('2012')
+        $ref5->setAnnee('2013')
             ->setLycee($this->getReference('ginette'))
             ->setCordee($this->getReference('michelin'));
             

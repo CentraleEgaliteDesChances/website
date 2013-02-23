@@ -23,7 +23,7 @@ class LyceeRepository extends EntityRepository
     {
         if ( is_null($annee) ) $annee = intval(date('Y'));
         return $this->createQueryBuilder('l')
-            ->leftJoin('l.cordees', 'c', 'WITH', 'c.annee = :annee')
+            ->innerJoin('l.cordees', 'c', 'WITH', 'c.annee = :annee')
             ->setParameter('annee', $annee)
             ->orderBy('l.nom', 'ASC')
             ->getQuery()
@@ -38,13 +38,13 @@ class LyceeRepository extends EntityRepository
      * @param integer $annee: l'année
      * @return array(Lycee)
      */
-    public function findAllForCordeeIdAndYear(int $cordeeId, $annee = null)
+    public function findAllForCordeeIdAndYear($cordeeId, $annee = null)
     {
         if ( is_null($annee) ) $annee = intval(date('Y'));
         return $this->createQueryBuilder('l')
-            ->leftJoin('l.cordees', 'r', 'WITH', 'r.annee = :annee')
+            ->innerJoin('l.cordees', 'r', 'WITH', 'r.annee = :annee')
             ->setParameter('annee', $annee)
-            ->leftJoin('r.cordee', 'c', 'WITH', 'c.id = :cordee_id')
+            ->innerJoin('r.cordee', 'c', 'WITH', 'c.id = :cordee_id')
             ->setParameter('cordee_id', $cordeeId)
             ->orderBy('l.nom', 'ASC')
             ->getQuery()

@@ -3,6 +3,38 @@
 {% block right %}
 {{ parent() }}
 
-{{ lycees|length }}
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if sources %}
+        <thead><tr><th><h4>Lycées Sources</h4></th></tr></thead>
+        <tbody>
+            {% for source in sources %}
+            <tr>
+                <td><a href="#">
+                    {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : source } %}
+                </a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun lycée pivot</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if pivots %}
+        <thead><tr><th><h4>Lycées Pivots</h4></th></tr></thead>
+        <tbody>
+            {% for pivot in pivots %}
+            <tr>
+                <td><a href="#">
+                    {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : pivot } %}
+                </a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun lycée pivot</h4></th></tr></thead>
+    {% endif %}
+</table>
 
 {% endblock %}

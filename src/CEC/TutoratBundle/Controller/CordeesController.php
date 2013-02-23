@@ -16,9 +16,16 @@ class CordeesController extends Controller
     {
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')
             ->findAllForYear();
+        $sources = array_filter($lycees, function($lycee) {
+            return !$lycee->isPivot();
+        });
+        $pivots = array_filter($lycees, function($lycee) {
+            return $lycee->isPivot();
+        });
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
-            'lycees' => $lycees,
+            'sources' => $sources,
+            'pivots'  => $pivots,
         ));
     }
     
@@ -29,22 +36,31 @@ class CordeesController extends Controller
     {
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')
             ->findAllForCordeeIdAndYear($id);
+        $sources = array_filter($lycees, function($lycee) {
+            return !$lycee->isPivot();
+        });
+        $pivots = array_filter($lycees, function($lycee) {
+            return $lycee->isPivot();
+        });
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
-            'lycees' => $lycees,
+            'sources' => $sources,
+            'pivots'  => $pivots,
         ));
     }
     
     /*
      * Affiche le menu présentant toutes les cordées
+     *
+     * @param Request $request: requête original
      */
-    public function menuAction($route)
+    public function menuAction($request)
     {
         $cordees = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
             ->findAll();
         return $this->render('CECTutoratBundle:Cordees:menu.html.twig', array(
             'cordees' => $cordees,
-            'route'   => $route,
+            'request'   => $request,
         ));
     }
 }
