@@ -27,8 +27,14 @@ CEC\TutoratBundle\Entity\Enseignant:
             type: text
         dateCreation:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: create
         dateModification:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     oneToMany:
         lycees:
             targetEntity: EnseignantLyceeReference

@@ -24,7 +24,8 @@
         "mopa/bootstrap-bundle": "dev-master",
         "twitter/bootstrap": "2.2.*",
         "leafo/lessphp": "*",
-        "heartsentwined/yuicompressor": "2.4.7"
+        "heartsentwined/yuicompressor": "2.4.7",
+        "stof/doctrine-extensions-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

@@ -10,6 +10,16 @@ CEC\TutoratBundle\Entity\CordeeLyceeReference:
                 strategy: AUTO
         annee:
             type: integer
+        dateCreation:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        dateModification:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     manyToOne:
         cordee:
             targetEntity: Cordee

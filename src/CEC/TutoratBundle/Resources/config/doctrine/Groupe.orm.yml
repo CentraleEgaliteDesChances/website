@@ -25,8 +25,14 @@ CEC\TutoratBundle\Entity\Groupe:
             type: integer
         dateCreation:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: create
         dateModification:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     manyToMany:
         lyceens:
             targetEntity: Lyceen

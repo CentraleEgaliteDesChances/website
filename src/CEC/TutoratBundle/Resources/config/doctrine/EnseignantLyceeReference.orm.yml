@@ -13,6 +13,16 @@ CEC\TutoratBundle\Entity\EnseignantLyceeReference:
         role:
             type: string
             length: 255
+        dateCreation:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        dateModification:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     manyToOne:
         lycee:
             targetEntity: Lycee

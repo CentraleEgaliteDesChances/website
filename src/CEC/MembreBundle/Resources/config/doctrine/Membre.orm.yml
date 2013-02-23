@@ -27,6 +27,16 @@ CEC\MembreBundle\Entity\Membre:
             type: integer
         actif:
             type: boolean
+        dateCreation:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        dateModification:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     manyToMany:
         secteurs:
             targetEntity: Secteur

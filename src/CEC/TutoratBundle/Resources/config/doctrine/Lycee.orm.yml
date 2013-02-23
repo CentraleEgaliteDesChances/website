@@ -31,8 +31,14 @@ CEC\TutoratBundle\Entity\Lycee:
             type: boolean
         dateCreation:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: create
         dateModification:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     oneToMany:
         cordees:
             targetEntity: CordeeLyceeReference

@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new CEC\ExternSiteBundle\CECExternSiteBundle(),
             new CEC\MembreBundle\CECMembreBundle(),
             new CEC\MainBundle\CECMainBundle(),

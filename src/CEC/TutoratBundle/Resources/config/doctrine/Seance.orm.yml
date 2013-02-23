@@ -17,8 +17,14 @@ CEC\TutoratBundle\Entity\Seance:
             type: datetime
         dateCreation:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: create
         dateModification:
             type: datetime
+            gedmo:
+                timestampable:
+                    on: update
     manyToOne:
         groupe:
             targetEntity: Groupe

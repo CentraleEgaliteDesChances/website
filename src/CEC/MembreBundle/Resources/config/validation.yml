@@ -16,9 +16,21 @@ CEC\MembreBundle\Entity\Membre:
             - NotBlank: ~
             - Min: 1900
             - Max: 9999
+        dateCreation:
+            - NotBlank: ~
+            - DateTime: ~
+        dateModification:
+            - NotBlank: ~
+            - DateTime: ~
 
 CEC\MembreBundle\Entity\Secteur:
     properties:
         nom:
             - NotBlank: ~
+        dateCreation:
+            - NotBlank: ~
+            - DateTime: ~
+        dateModification:
+            - NotBlank: ~
+            - DateTime: ~
             
