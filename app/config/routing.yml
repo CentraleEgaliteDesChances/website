@@ -1,3 +1,7 @@
+cec_tutorat:
+    resource: "@CECTutoratBundle/Resources/config/routing.yml"
+    prefix:   /internal/
+
 cec_membre:
     resource: "@CECMembreBundle/Resources/config/routing.yml"
     prefix:   /internal/

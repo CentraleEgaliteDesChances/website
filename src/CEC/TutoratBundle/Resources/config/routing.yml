@@ -1,0 +1,3 @@
+cec_tutorat_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: CECTutoratBundle:Default:index }
