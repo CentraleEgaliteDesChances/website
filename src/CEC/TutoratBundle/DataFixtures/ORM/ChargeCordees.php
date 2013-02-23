@@ -27,6 +27,10 @@ class ChargeCordees extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($michelin);
         $manager->persist($leMoigne);
         $manager->flush();
+        
+        $this->addReference('open', $open);
+        $this->addReference('michelin', $michelin);
+        $this->addReference('le_moigne', $leMoigne);
     }
     
     /**
