@@ -6,14 +6,14 @@ CEC\TutoratBundle\Entity\Membre:
             - NotBlank: ~
         dateModification:
             - NotBlank: ~
+            
+CEC\TutoratBundle\Entity\CordeeLyceeReference:
+    properties:
+        annee:
+            - NotBlank: ~
+            - Min: 1900
+            - Max: 9999
 
- CEC\TutoratBundle\Entity\CordeeLyceeReference:
-     properties:
-         annee:
-             - NotBlank: ~
-             - Min: 1900
-             - Max: 9999
-             
 CEC\TutoratBundle\Entity\Enseignant:
     properties:
         nom:
