@@ -1,0 +1,30 @@
+CEC\TutoratBundle\Entity\Groupe:
+  type: entity
+  table: null
+  repositoryClass: CEC\TutoratBundle\Entity\GroupeRepository
+  fields:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+    niveau:
+      type: string
+      length: 255
+    typeDeTutorat:
+      type: string
+      length: 255
+    lieu:
+      type: string
+      length: 255
+    debut:
+      type: datetime
+    fin:
+      type: datetime
+    annee:
+      type: integer
+    dateCreation:
+      type: datetime
+    dateModification:
+      type: datetime
+  lifecycleCallbacks: {  }

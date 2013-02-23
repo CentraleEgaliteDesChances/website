@@ -1,0 +1,13 @@
+CEC\TutoratBundle\Entity\CordeeLyceeReference:
+  type: entity
+  table: null
+  repositoryClass: CEC\TutoratBundle\Entity\CordeeLyceeReferenceRepository
+  fields:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+    annee:
+      type: integer
+  lifecycleCallbacks: {  }

@@ -1,0 +1,32 @@
+CEC\TutoratBundle\Entity\Enseignant:
+  type: entity
+  table: null
+  repositoryClass: CEC\TutoratBundle\Entity\EnseignantRepository
+  fields:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+    prenom:
+      type: string
+      length: 255
+    nom:
+      type: string
+      length: 255
+    email:
+      type: string
+      length: 255
+    telephoneFixe:
+      type: string
+      length: 255
+    telephonePortable:
+      type: string
+      length: 255
+    commentaires:
+      type: text
+    dateCreation:
+      type: datetime
+    dateModification:
+      type: datetime
+  lifecycleCallbacks: {  }
