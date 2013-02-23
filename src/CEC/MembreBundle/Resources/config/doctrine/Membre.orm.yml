@@ -1,35 +1,38 @@
 CEC\MembreBundle\Entity\Membre:
-  type: entity
-  table: null
-  repositoryClass: CEC\MembreBundle\Entity\MembreRepository
-  fields:
-    id:
-      type: integer
-      id: true
-      generator:
-        strategy: AUTO
-    prenom:
-      type: string
-      length: 255
-    nom:
-      type: string
-      length: 255
-    email:
-      type: string
-      length: 255
-    telephone:
-      type: string
-      length: 255
-    motDePasse:
-      type: string
-      length: 255
-    promotion:
-      type: integer
-    actif:
-      type: boolean
-  manyToMany:
-    secteurs:
-      targetEntity: Secteur
-      inversedBy: membres
-  lifecycleCallbacks:
-    prePersist: [ setDefaultValues ]
+    type: entity
+    table: null
+    repositoryClass: CEC\MembreBundle\Entity\MembreRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+            strategy: AUTO
+        prenom:
+            type: string
+            length: 255
+        nom:
+            type: string
+            length: 255
+        email:
+            type: string
+            length: 255
+        telephone:
+            type: string
+            length: 255
+        motDePasse:
+            type: string
+            length: 255
+        promotion:
+            type: integer
+        actif:
+            type: boolean
+    manyToMany:
+        secteurs:
+            targetEntity: Secteur
+            mappedBy: membres
+        groupes:
+            targetEntity: CEC\TutoratBundle\Entity\Groupe
+            mappedBy: membres
+    lifecycleCallbacks:
+        prePersist: [ setDefaultValues ]

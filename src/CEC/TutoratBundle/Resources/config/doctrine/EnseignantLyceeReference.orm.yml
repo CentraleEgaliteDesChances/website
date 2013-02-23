@@ -1,0 +1,23 @@
+CEC\TutoratBundle\Entity\EnseignantLyceeReference:
+    type: entity
+    table: null
+    repositoryClass: CEC\TutoratBundle\Entity\EnseignantLyceeReferenceRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+            strategy: AUTO
+        annee:
+            type: integer
+        role:
+            type: string
+            length: 255
+    manyToOne:
+        lycee:
+            targetEntity: Lycee
+            inversedBy: enseignants
+        enseignant:
+            targetEntity: Enseignant
+            inversedBy: lycees
+    lifecycleCallbacks: {  }

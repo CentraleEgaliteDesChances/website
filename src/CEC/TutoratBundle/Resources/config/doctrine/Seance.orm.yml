@@ -1,19 +1,13 @@
-CEC\TutoratBundle\Entity\Groupe:
+CEC\TutoratBundle\Entity\Seance:
     type: entity
     table: null
-    repositoryClass: CEC\TutoratBundle\Entity\GroupeRepository
+    repositoryClass: CEC\TutoratBundle\Entity\SeanceRepository
     fields:
         id:
             type: integer
             id: true
             generator:
             strategy: AUTO
-        niveau:
-            type: string
-            length: 255
-        typeDeTutorat:
-            type: string
-            length: 255
         lieu:
             type: string
             length: 255
@@ -21,21 +15,16 @@ CEC\TutoratBundle\Entity\Groupe:
             type: datetime
         fin:
             type: datetime
-        annee:
-            type: integer
         dateCreation:
             type: datetime
         dateModification:
             type: datetime
+    manyToOne:
+        groupe:
+            targetEntity: Groupe
+            inversedBy: seances
     manyToMany:
-        lyceens:
-            targetEntity: Lyceen
-            inversedBy: groupes
-        membres:
+        tuteurs:
             targetEntity: CEC\MembreBundle\Entity\Membre
-            inversedBy: groupes
-    oneToMany:
-        seances:
-            targetEntity: Seance
-            mappedBy: groupe
+            inversedBy: seances
     lifecycleCallbacks: {  }

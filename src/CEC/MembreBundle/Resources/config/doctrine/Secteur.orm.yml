@@ -14,5 +14,5 @@ CEC\MembreBundle\Entity\Secteur:
     manyToMany:
         membres:
             targetEntity: Membre
-            mappedBy: secteurs
+            inversedBy: secteurs
     lifecycleCallbacks: {  }

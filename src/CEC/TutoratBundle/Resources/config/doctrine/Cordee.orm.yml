@@ -1,18 +1,22 @@
 CEC\TutoratBundle\Entity\Cordee:
-  type: entity
-  table: null
-  repositoryClass: CEC\TutoratBundle\Entity\CordeeRepository
-  fields:
-    id:
-      type: integer
-      id: true
-      generator:
-        strategy: AUTO
-    nom:
-      type: string
-      length: 255
-    dateCreation:
-      type: datetime
-    dateCreation:
-      type: datetime
-  lifecycleCallbacks: {  }
+    type: entity
+    table: null
+    repositoryClass: CEC\TutoratBundle\Entity\CordeeRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+            strategy: AUTO
+        nom:
+            type: string
+            length: 255
+        dateCreation:
+            type: datetime
+        dateCreation:
+            type: datetime
+    oneToMany:
+        lycees:
+            targetEntity: CordeeLyceeReference
+            mappedBy: cordee
+    lifecycleCallbacks: {  }

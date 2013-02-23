@@ -1,46 +1,53 @@
 CEC\TutoratBundle\Entity\Lyceen:
-  type: entity
-  table: null
-  repositoryClass: CEC\TutoratBundle\Entity\LyceenRepository
-  fields:
-    id:
-      type: integer
-      id: true
-      generator:
-        strategy: AUTO
-    prenom:
-      type: string
-      length: 255
-    nom:
-      type: string
-      length: 255
-    telephone:
-      type: string
-      length: 255
-    email:
-      type: string
-      length: 255
-    adresse:
-      type: string
-      length: 255
-    codePostal:
-      type: integer
-    ville:
-      type: string
-      length: 255
-    nomPere:
-      type: string
-      length: 255
-    nomMere:
-      type: string
-      length: 255
-    telephoneParent:
-      type: string
-      length: 255
-    commentaires:
-      type: text
-    dateCreation:
-      type: datetime
-    dateModification:
-      type: datetime
-  lifecycleCallbacks: {  }
+    type: entity
+    table: null
+    repositoryClass: CEC\TutoratBundle\Entity\LyceenRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+            strategy: AUTO
+        prenom:
+            type: string
+            length: 255
+        nom:
+            type: string
+            length: 255
+        telephone:
+            type: string
+            length: 255
+        email:
+            type: string
+            length: 255
+        adresse:
+            type: string
+            length: 255
+        codePostal:
+            type: integer
+        ville:
+            type: string
+            length: 255
+        nomPere:
+            type: string
+            length: 255
+        nomMere:
+            type: string
+            length: 255
+        telephoneParent:
+            type: string
+            length: 255
+        commentaires:
+            type: text
+        dateCreation:
+            type: datetime
+        dateModification:
+            type: datetime
+    manyToMany:
+        groupes:
+            targetEntity: CEC\TutoratBundle\Entity\Groupe
+            mappedBy: lyceens
+        tuteurs:
+            targetEntity: CEC\TutoratBundle\Entity\Seance
+            mappedBy: tuteurs
+    lifecycleCallbacks: {  }

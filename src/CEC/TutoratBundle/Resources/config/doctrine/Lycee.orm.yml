@@ -1,34 +1,43 @@
 CEC\TutoratBundle\Entity\Lycee:
-  type: entity
-  table: null
-  repositoryClass: CEC\TutoratBundle\Entity\LyceeRepository
-  fields:
-    id:
-      type: integer
-      id: true
-      generator:
-        strategy: AUTO
-    nom:
-      type: string
-      length: 255
-    adresse:
-      type: string
-      length: 255
-    codePostal:
-      type: integer
-    ville:
-      type: string
-      length: 255
-    statut:
-      type: string
-      length: 255
-    telephone:
-      type: string
-      length: 255
-    ZEP:
-      type: boolean
-    dateCreation:
-      type: datetime
-    dateModification:
-      type: datetime
-  lifecycleCallbacks: {  }
+    type: entity
+    table: null
+    repositoryClass: CEC\TutoratBundle\Entity\LyceeRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+            strategy: AUTO
+        nom:
+            type: string
+            length: 255
+        adresse:
+            type: string
+            length: 255
+        codePostal:
+            type: integer
+        ville:
+            type: string
+            length: 255
+        statut:
+            type: string
+            length: 255
+        telephone:
+            type: string
+            length: 255
+        ZEP:
+            type: boolean
+        pivot:
+            type: boolean
+        dateCreation:
+            type: datetime
+        dateModification:
+            type: datetime
+    oneToMany:
+        cordees:
+            targetEntity: CordeeLyceeReference
+            mappedBy: lycee
+        enseignants:
+            targetEntity: EnseignantLyceeReference
+            mappedBy: lycee
+    lifecycleCallbacks: {  }
