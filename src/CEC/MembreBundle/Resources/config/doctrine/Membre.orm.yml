@@ -7,7 +7,7 @@ CEC\MembreBundle\Entity\Membre:
             type: integer
             id: true
             generator:
-            strategy: AUTO
+                strategy: AUTO
         prenom:
             type: string
             length: 255

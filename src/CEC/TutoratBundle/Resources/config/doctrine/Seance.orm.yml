@@ -7,7 +7,7 @@ CEC\TutoratBundle\Entity\Seance:
             type: integer
             id: true
             generator:
-            strategy: AUTO
+                strategy: AUTO
         lieu:
             type: string
             length: 255

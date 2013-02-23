@@ -7,7 +7,7 @@ CEC\TutoratBundle\Entity\Cordee:
             type: integer
             id: true
             generator:
-            strategy: AUTO
+                strategy: AUTO
         nom:
             type: string
             length: 255

@@ -7,7 +7,7 @@ CEC\TutoratBundle\Entity\Groupe:
             type: integer
             id: true
             generator:
-            strategy: AUTO
+                strategy: AUTO
         niveau:
             type: string
             length: 255

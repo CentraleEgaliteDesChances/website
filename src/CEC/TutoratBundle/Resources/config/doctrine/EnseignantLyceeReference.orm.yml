@@ -7,7 +7,7 @@ CEC\TutoratBundle\Entity\EnseignantLyceeReference:
             type: integer
             id: true
             generator:
-            strategy: AUTO
+                strategy: AUTO
         annee:
             type: integer
         role:
