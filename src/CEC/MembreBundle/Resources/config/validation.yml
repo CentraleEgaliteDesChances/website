@@ -11,8 +11,7 @@ CEC\MembreBundle\Entity\Membre:
             - NotBlank: ~
             - Email: ~
         telephone:
-            - MaxLength: 14
-            - MinLength: 10
+            - Regex: "/^+33s?[1-9]d{8}$/"
         promotion:
             - NotBlank: ~
             - Min: 1900

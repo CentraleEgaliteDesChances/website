@@ -1,0 +1,105 @@
+CEC\TutoratBundle\Entity\Membre:
+    properties:
+        nom:
+            - NotBlank: ~
+        dateCreation:
+            - NotBlank: ~
+        dateModification:
+            - NotBlank: ~
+
+ CEC\TutoratBundle\Entity\CordeeLyceeReference:
+     properties:
+         annee:
+             - NotBlank: ~
+             - Min: 1900
+             - Max: 9999
+             
+CEC\TutoratBundle\Entity\Enseignant:
+    properties:
+        nom:
+            - NotBlank: ~
+        email:
+            - Email: ~
+        telephoneFixe:
+            - Regex: "/^+33s?[1-9]d{8}$/"
+        telephonePortable:
+            - Regex: "/^+33s?[1-9]d{8}$/"
+        dateCreation:
+            - NotBlank: ~
+        dateModification:
+            - NotBlank: ~
+            
+CEC\TutoratBundle\Entity\EnseignantLyceeReference:
+    properties:
+        annee:
+            - NotBlank: ~
+            - Min: 1900
+            - Max: 9999
+        role:
+            - NotBlank: ~
+            
+CEC\TutoratBundle\Entity\Groupe:
+    properties:
+        niveau:
+            - NotBlank: ~
+        typeDeTutorat:
+            - NotBlank: ~
+            - Choice:
+                choices: [ Tutorat Scientifique, Tutorat Culturel ]
+                multiple: true
+        lieu:
+            - NotBlank: ~
+        dateCreation:
+            - NotBlank: ~
+        dateModification:
+            - NotBlank: ~
+            
+CEC\TutoratBundle\Entity\Lycee:
+    properties:
+        nom:
+            - NotBlank: ~
+        adresse:
+            - NotBlank: ~
+        codePostal:
+            - Regex: "/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/"
+        ville:
+            - NotBlank: ~
+        statut:
+            - NotBlank: ~
+            - Choice:
+                choixes: [ Établissement Privé, Établissement Public ]
+        telephone:
+            - Regex: "/^+33s?[1-9]d{8}$/"
+        dateCreation:
+            - NotBlank: ~
+        dateModification:
+            - NotBlank: ~
+        
+CEC\TutoratBundle\Entity\Lyceen:
+    properties:
+        nom:
+            - NotBlank: ~
+        prenom:
+            - NotBlank: ~
+        telephone:
+            - Regex: "/^+33s?[1-9]d{8}$/"
+        email:
+            - Email: ~
+        codePostal:
+            - Regex: "/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/"
+        telephoneParent:
+            - Regex: "/^+33s?[1-9]d{8}$/"
+        dateCreation:
+            - NotBlank: ~
+        dateModification:
+            - NotBlank: ~
+            
+CEC\TutoratBundle\Entity\Seance:
+    properties:
+        lieu:
+            - NotBlank: ~
+        dateCreation:
+            - NotBlank: ~
+        dateModification:
+            - NotBlank: ~
+            
