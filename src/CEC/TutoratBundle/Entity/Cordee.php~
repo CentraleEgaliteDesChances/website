@@ -138,4 +138,32 @@ class Cordee
     {
         return $this->lycees;
     }
+    /**
+     * @var \DateTime
+     */
+    private $dateModification;
+
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return Cordee
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
 }

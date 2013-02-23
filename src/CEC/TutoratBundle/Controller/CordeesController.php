@@ -14,7 +14,12 @@ class CordeesController extends Controller
      */
     public function toutesAction()
     {
-        return $this->render('CECTutoratBundle:Cordees:voir.html.twig');
+        $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')
+            ->findAllForYear();
+    
+        return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
+            'lycees' => $lycees,
+        ));
     }
     
     /*
@@ -22,7 +27,12 @@ class CordeesController extends Controller
      */
     public function voirAction($id)
     {
-        return $this->render('CECTutoratBundle:Cordees:voir.html.twig');
+        $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')
+            ->findAllForCordeeIdAndYear($id);
+    
+        return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
+            'lycees' => $lycees,
+        ));
     }
     
     /*
