@@ -9,17 +9,32 @@ use CEC\TutoratBundle\Entity\CordeeLyceeReference;
 
 class CordeesController extends Controller
 {
+    /*
+     * Affiche tous les lycées
+     */
+    public function toutesAction()
+    {
+        return $this->render('CECTutoratBundle:Cordees:voir.html.twig');
+    }
+    
+    /*
+     * Affiche les lycées d'une cordée
+     */
     public function voirAction($id)
     {
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig');
     }
     
-    public function menuAction()
+    /*
+     * Affiche le menu présentant toutes les cordées
+     */
+    public function menuAction($route)
     {
         $cordees = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
             ->findAll();
         return $this->render('CECTutoratBundle:Cordees:menu.html.twig', array(
             'cordees' => $cordees,
+            'route'   => $route,
         ));
     }
 }

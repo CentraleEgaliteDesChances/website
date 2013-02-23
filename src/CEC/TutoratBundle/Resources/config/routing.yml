@@ -1,7 +1,8 @@
-cordees:
+toutes_cordees:
+    pattern: /cordees
+    defaults: { _controller: CECTutoratBundle:Cordees:toutes }
+cordee:
     pattern:  /cordees/{id}
-    defaults:
-        _controller: CECTutoratBundle:Cordees:voir
-        id: 0
+    defaults: { _controller: CECTutoratBundle:Cordees:voir }
     requirements:
         id: \d

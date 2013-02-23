@@ -1,19 +1,23 @@
 <div class="well">
     <ul class="nav nav-list">
-        <li 
-            {% if app.request.attributes.get('id') == '0' %}class="active"{% endif %}
+        <li
+            {% if route == 'toutes_cordees' %}
+                class="active"
+            {% endif %}
             >
-                <a href="{{ path('cordees') }}" class="strong">Tous les lycées</a>
+                <a href="{{ path('toutes_cordees') }}" class="tous_lycees">Tous les lycées</a>
         </li>
         {% if cordees %}<li class="nav-header">Cordées de la réussite</li>{% endif %}
         {% for cordee in cordees %}
             <li 
-                {% if app.request.attributes.get('id') == cordee.id %}class="active"{% endif %}
+                {% if ( route == 'cordee' ) and ( app.request.attributes.get('id') == cordee.id ) %}
+                    class="active"
+                {% endif %}
                 >
-                    <a href="{{ path('cordees', { 'id' : cordee.id }) }}">{{ cordee.nom }}</a>
+                    <a href="{{ path('cordee', { 'id' : cordee.id }) }}">{{ cordee.nom }}</a>
             </li>
         {% endfor %}
     </ul>
 </div>
 
-<a href="#" class="btn btn-primary btn-block">Ajouter une cordée</a>
+<a href="#" class="btn btn-block">Ajouter une cordée</a>
