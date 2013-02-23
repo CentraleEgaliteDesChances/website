@@ -5,4 +5,4 @@ cordee:
     pattern:  /cordees/{id}
     defaults: { _controller: CECTutoratBundle:Cordees:voir }
     requirements:
-        id: \d
+        id: \d+
