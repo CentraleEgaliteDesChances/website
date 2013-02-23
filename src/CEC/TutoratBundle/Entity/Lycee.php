@@ -230,6 +230,7 @@ class Lycee
     {
         return $this->ZEP;
     }
+    public function isZEP() { return $this->getZEP(); }
 
     /**
      * Set dateCreation
@@ -426,4 +427,5 @@ class Lycee
     {
         return $this->pivot;
     }
+    public function isPivot() { return $this->getPivot(); }
 }
