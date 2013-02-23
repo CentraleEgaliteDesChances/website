@@ -2,19 +2,20 @@
 
 namespace CEC\MembreBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use CEC\MembreBundle\Entity\Membre;
 
-class ChargeMembres implements FixtureInterface, ContainerAwareInterface
+class ChargeMembres extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
      */
     private $container;
-
+    
     /**
      * {@inheritDoc}
      */
@@ -22,7 +23,7 @@ class ChargeMembres implements FixtureInterface, ContainerAwareInterface
     {
         $this->container = $container;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -41,5 +42,14 @@ class ChargeMembres implements FixtureInterface, ContainerAwareInterface
         
         $manager->persist($membre);
         $manager->flush();
+        
+        $this->addReference('membre', $membre);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder() {
+        return 1;
     }
 }

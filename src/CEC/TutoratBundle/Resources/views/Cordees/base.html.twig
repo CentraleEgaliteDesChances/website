@@ -1,0 +1,18 @@
+{% extends 'CECMainBundle::2-columns.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/cordees.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block left %}
+    {% render 'CECTutoratBundle:Cordees:menu' %}
+{% endblock %}
+
+{% block right %}
+    {{ parent() }}
+{% endblock %}

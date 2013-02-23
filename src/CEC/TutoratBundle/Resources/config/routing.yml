@@ -1,3 +1,7 @@
-cec_tutorat_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CECTutoratBundle:Default:index }
+cordees:
+    pattern:  /cordees/{id}
+    defaults:
+        _controller: CECTutoratBundle:Cordees:voir
+        id: 0
+    requirements:
+        id: \d
