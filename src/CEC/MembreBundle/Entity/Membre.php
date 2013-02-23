@@ -389,4 +389,42 @@ class Membre implements UserInterface
     {
         return $this->groupes;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seances;
+
+
+    /**
+     * Add seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     * @return Membre
+     */
+    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances[] = $seances;
+    
+        return $this;
+    }
+
+    /**
+     * Remove seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     */
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances->removeElement($seances);
+    }
+
+    /**
+     * Get seances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeances()
+    {
+        return $this->seances;
+    }
 }

@@ -484,4 +484,42 @@ class Lyceen
     {
         return $this->tuteurs;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seances;
+
+
+    /**
+     * Add seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seances $seances
+     * @return Lyceen
+     */
+    public function addSeance(\CEC\TutoratBundle\Entity\Seances $seances)
+    {
+        $this->seances[] = $seances;
+    
+        return $this;
+    }
+
+    /**
+     * Remove seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seances $seances
+     */
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seances $seances)
+    {
+        $this->seances->removeElement($seances);
+    }
+
+    /**
+     * Get seances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeances()
+    {
+        return $this->seances;
+    }
 }

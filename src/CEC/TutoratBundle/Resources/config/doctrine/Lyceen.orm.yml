@@ -47,7 +47,7 @@ CEC\TutoratBundle\Entity\Lyceen:
         groupes:
             targetEntity: CEC\TutoratBundle\Entity\Groupe
             mappedBy: lyceens
-        tuteurs:
-            targetEntity: CEC\TutoratBundle\Entity\Seance
-            mappedBy: tuteurs
+        seances:
+            targetEntity: Seance
+            mappedBy: lyceens
     lifecycleCallbacks: {  }

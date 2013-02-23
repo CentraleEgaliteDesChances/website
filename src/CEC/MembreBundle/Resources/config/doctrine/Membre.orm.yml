@@ -34,5 +34,8 @@ CEC\MembreBundle\Entity\Membre:
         groupes:
             targetEntity: CEC\TutoratBundle\Entity\Groupe
             mappedBy: membres
+        seances:
+            targetEntity: CEC\TutoratBundle\Entity\Seance
+            mappedBy: tuteurs
     lifecycleCallbacks:
         prePersist: [ setDefaultValues ]

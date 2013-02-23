@@ -27,4 +27,7 @@ CEC\TutoratBundle\Entity\Seance:
         tuteurs:
             targetEntity: CEC\MembreBundle\Entity\Membre
             inversedBy: seances
+        lyceens:
+            targetEntity: Lyceen
+            inversedBy: seances
     lifecycleCallbacks: {  }
