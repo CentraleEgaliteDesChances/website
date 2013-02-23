@@ -17,28 +17,37 @@ CEC\TutoratBundle\Entity\Lyceen:
         telephone:
             type: string
             length: 255
+            nullable: true
         email:
             type: string
             length: 255
+            nullable: true
         adresse:
             type: string
             length: 255
+            nullable: true
         codePostal:
             type: integer
+            nullable: true
         ville:
             type: string
             length: 255
+            nullable: true
         nomPere:
             type: string
             length: 255
+            nullable: true
         nomMere:
             type: string
             length: 255
+            nullable: true
         telephoneParent:
             type: string
             length: 255
+            nullable: true
         commentaires:
             type: text
+            nullable: true
         dateCreation:
             type: datetime
             gedmo:
