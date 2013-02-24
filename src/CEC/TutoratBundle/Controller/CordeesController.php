@@ -3,6 +3,7 @@
 namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use CEC\TutoratBundle\Entity\Cordee;
 use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\CordeeLyceeReference;
@@ -12,7 +13,7 @@ class CordeesController extends Controller
     /*
      * Affiche tous les lycées actifs
      */
-    public function toutesAction()
+    public function toutesAction(Request $request)
     {
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')
             ->findAllForYear();
@@ -22,10 +23,39 @@ class CordeesController extends Controller
         $pivots = array_filter($lycees, function($lycee) {
             return $lycee->isPivot();
         });
+        
+        // Formulaire de création d'une cordée
+        $nouvelleCordee = new Cordee();
+        $form = $this->createFormBuilder($nouvelleCordee)
+            ->add('nom', null, array(
+                'label_render' => false,
+                'attr' => array('placeholder' => 'Nom de la cordée'),
+            ))
+            ->getForm();
+        
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($nouvelleCordee);
+                $em->flush();
+                
+                $this->get('session')->setFlash(
+                    'success', 
+                    'La cordée a bien été créée, mais elle ne contient encore aucun lycée. Ajouter à la cordée des lycées sources et pivots pour l\'année en cours.'
+                );
+                
+                return $this->redirect($this->generateUrl('editer_cordee', array(
+                    'id' => $nouvelleCordee->getId()
+                )));
+            }
+        }
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
             'sources' => $sources,
             'pivots'  => $pivots,
+            'form'    => $form->createView(),
+            'afficher_modal' => $request->getMethod() == 'POST',
         ));
     }
     

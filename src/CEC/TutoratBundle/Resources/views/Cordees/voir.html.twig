@@ -1,4 +1,6 @@
 {% extends 'CECTutoratBundle:Cordees:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
 
 {% block right %}
 {{ parent() }}
@@ -37,4 +39,44 @@
     {% endif %}
 </table>
 
+{% endblock %}
+
+
+{% block left %}
+{{ parent() }}
+
+{% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+    {{ modal.button('Ajouter une cordée', 'btn btn-block') }}
+{% endif %}
+
+{% endblock %}
+
+{% block modals %}
+{{ parent() }}
+{% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+    {% set body %}
+        <span class="help-block">Entrez un nom de cordée, préfixé par "Cordée".<br />
+        En cliquant sur Ajouter, vous pourrez ajouter des lycées partenaires à la cordée.</span>
+        {{ form_widget(form) }}
+    {% endset %}
+    {% set footer %}
+        <input type="submit" value="Ajouter" class="btn btn-primary pull-right" />
+        {{ modal.close() }}
+    {% endset %}
+    
+    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+        {{ modal.modal('Ajouter une cordée', body, footer) }}
+    </form>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+{% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+    {% if afficher_modal|default(false) %}
+        <script type="text/javascript">
+            $('#modal').modal('show');
+        </script>
+    {% endif %}
+{% endif %}
 {% endblock %}

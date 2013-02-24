@@ -3,10 +3,8 @@ CEC\TutoratBundle\Entity\Cordee:
         nom:
             - NotBlank: ~
         dateCreation:
-            - NotBlank: ~
             - DateTime: ~
         dateModification:
-            - NotBlank: ~
             - DateTime: ~
             
 CEC\TutoratBundle\Entity\CordeeLyceeReference:
