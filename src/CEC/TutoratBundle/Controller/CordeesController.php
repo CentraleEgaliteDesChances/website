@@ -50,14 +50,25 @@ class CordeesController extends Controller
     }
     
     /*
+     * Permet l'édition d'une cordée de la réussite
+     */
+    public function editerAction($id)
+    {
+        return $this->render('CECTutoratBundle:Cordees:editer.html.twig', array(
+            
+        ));
+    }
+    
+    /*
      * Affiche le menu présentant toutes les cordées
      *
      * @param Request $request: requête original
      */
     public function menuAction($request)
     {
-        $cordees = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
-            ->findAll();
+        $repo = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee');
+        $cordees = $repo->findAll();
+        
         return $this->render('CECTutoratBundle:Cordees:menu.html.twig', array(
             'cordees' => $cordees,
             'request'   => $request,

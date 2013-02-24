@@ -10,7 +10,7 @@
         {% if cordees %}<li class="nav-header">Cordées de la réussite</li>{% endif %}
         {% for cordee in cordees %}
             <li 
-                {% if ( request.attributes.get('_route') ) and ( request.attributes.get('id') == cordee.id ) %}
+                {% if request.attributes.get('id') == cordee.id %}
                     class="active"
                 {% endif %}
                 >
@@ -20,4 +20,10 @@
     </ul>
 </div>
 
+{% if request.attributes.get('_route') != 'editer_cordee' %}
 <a href="#" class="btn btn-block">Ajouter une cordée</a>
+{% endif %}
+
+{% if request.attributes.get('_route') == 'cordee' %}
+    <a href="{{ path('editer_cordee', { 'id': request.attributes.get('id') }) }}" class="btn btn-block">Éditer la cordée</a>
+{% endif %}
