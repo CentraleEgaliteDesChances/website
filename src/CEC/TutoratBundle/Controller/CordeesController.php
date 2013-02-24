@@ -68,10 +68,12 @@ class CordeesController extends Controller
     {
         $repo = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee');
         $cordees = $repo->findAll();
+        $cordeesActives = $repo->findAllActivesForYear();
         
         return $this->render('CECTutoratBundle:Cordees:menu.html.twig', array(
-            'cordees' => $cordees,
-            'request'   => $request,
+            'cordees_actives' => $cordeesActives,
+            'cordees_mortes'  => array_diff($cordees, $cordeesActives),
+            'request'         => $request,
         ));
     }
 }

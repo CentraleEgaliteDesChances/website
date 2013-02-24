@@ -166,4 +166,8 @@ class Cordee
     {
         return $this->dateModification;
     }
+    
+    public function __toString() {
+        return $this->getNom();
+    }
 }

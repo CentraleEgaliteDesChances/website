@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class CordeeRepository extends EntityRepository
 {
+    /*
+     * Retourne les cordées comportant des lycées pour l'année spécifiée.
+     * Si aucune année n'est spécifiée, on utilise l'année courante.
+     *
+     * @param integer $annee: l'année
+     * @return array(Cordee)
+     */
+    public function findAllActivesForYear($annee = null)
+    {
+        if ( is_null($annee) ) $annee = intval(date('Y'));
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.lycees', 'l', 'WITH', 'l.annee = :annee')
+            ->setParameter('annee', $annee)
+            ->orderBy('c.nom', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
