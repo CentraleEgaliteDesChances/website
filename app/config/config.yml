@@ -22,6 +22,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            - 'MopaBootstrapBundle:Form:fields.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -59,3 +62,24 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Mopa Twitter Bootstrap Configuration
+mopa_bootstrap:
+    form:
+        templating:        true
+        render_fieldset:   false
+        show_legend:       false
+        show_child_legend: true
+        render_required_asterisk: false
+        error_type:        'block'
+        collection:
+            widget_remove_btn:
+                attr:
+                    class: btn
+                icon: null
+                icon_color: null
+            widget_add_btn:
+                attr:
+                    class: btn
+                icon: null
+                icon_color: null

@@ -4,9 +4,8 @@ namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use CEC\TutoratBundle\Form\Type\NomCordeeType;
 use CEC\TutoratBundle\Entity\Cordee;
-use CEC\TutoratBundle\Entity\Lycee;
-use CEC\TutoratBundle\Entity\CordeeLyceeReference;
 
 class CordeesController extends Controller
 {
@@ -26,12 +25,7 @@ class CordeesController extends Controller
         
         // Formulaire de création d'une cordée
         $nouvelleCordee = new Cordee();
-        $form = $this->createFormBuilder($nouvelleCordee)
-            ->add('nom', null, array(
-                'label_render' => false,
-                'attr' => array('placeholder' => 'Nom de la cordée'),
-            ))
-            ->getForm();
+        $form = $this->createForm(new NomCordeeType(), $nouvelleCordee);
         
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
@@ -84,8 +78,16 @@ class CordeesController extends Controller
      */
     public function editerAction($id)
     {
-        return $this->render('CECTutoratBundle:Cordees:editer.html.twig', array(
+        $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
+            ->find($id);
+    
+        $nomNomForm = 'nom_form';
+        $nomForm = $this->get('form.factory')
+            ->createNamedBuilder($nomNomForm, new NomCordeeType(), $cordee)
+            ->getForm();
             
+        return $this->render('CECTutoratBundle:Cordees:editer.html.twig', array(
+            'nom_form' => $nomForm->createView(),
         ));
     }
     

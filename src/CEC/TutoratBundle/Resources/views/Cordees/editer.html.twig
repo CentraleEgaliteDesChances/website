@@ -3,6 +3,9 @@
 {% block right %}
 {{ parent() }}
 
-Edition.
+<form class="form-inline well" method="post" action="{{ path(app.request.attributes.get('_route'), { 'id': app.request.attributes.get('id') }) }}">
+    {{ form_widget(nom_form.nom) }}
+    <input type="submit" value="Changer le nom" class="btn btn-primary" />
+</form>
 
 {% endblock %}
