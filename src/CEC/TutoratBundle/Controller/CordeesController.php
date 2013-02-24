@@ -10,7 +10,7 @@ use CEC\TutoratBundle\Entity\CordeeLyceeReference;
 class CordeesController extends Controller
 {
     /*
-     * Affiche tous les lycées
+     * Affiche tous les lycées actifs
      */
     public function toutesAction()
     {
@@ -56,6 +56,28 @@ class CordeesController extends Controller
     {
         return $this->render('CECTutoratBundle:Cordees:editer.html.twig', array(
             
+        ));
+    }
+    
+    /*
+     * Affiche tous les lycées inactifs
+     */
+    public function anciennesAction()
+    {
+        $repo = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee');
+        $lyceesActifs = $repo->findAllForYear();
+        $lycees = $repo->findAll();
+        $lyceesInactifs = array_diff($lycees, $lyceesActifs);
+        $sources = array_filter($lyceesInactifs, function($lycee) {
+            return !$lycee->isPivot();
+        });
+        $pivots = array_filter($lyceesInactifs, function($lycee) {
+            return $lycee->isPivot();
+        });
+    
+        return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
+            'sources' => $sources,
+            'pivots'  => $pivots,
         ));
     }
     

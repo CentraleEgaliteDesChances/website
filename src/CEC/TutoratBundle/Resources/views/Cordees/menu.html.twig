@@ -7,6 +7,7 @@
             >
                 <a href="{{ path('toutes_cordees') }}" class="tous_lycees">Tous les lycées</a>
         </li>
+        
         {% if cordees_actives %}<li class="nav-header">Cordées de la réussite</li>{% endif %}
         {% for cordee in cordees_actives %}
             <li 
@@ -17,7 +18,15 @@
                     <a href="{{ path('cordee', { 'id' : cordee.id }) }}">{{ cordee.nom }}</a>
             </li>
         {% endfor %}
-        {% if cordees_mortes %}<li class="nav-header">Cordées mortes</li>{% endif %}
+        
+        <li class="nav-header">Anciens partenariats</li>
+        <li
+            {% if request.attributes.get('_route') == 'anciennes_cordees' %}
+                class="active"
+            {% endif %}
+            >
+                <a href="{{ path('anciennes_cordees') }}">Anciens lycées partenaires</a>
+        </li>
         {% for cordee in cordees_mortes %}
             <li 
                 {% if request.attributes.get('id') == cordee.id %}

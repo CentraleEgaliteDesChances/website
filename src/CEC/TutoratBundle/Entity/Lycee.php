@@ -428,4 +428,8 @@ class Lycee
         return $this->pivot;
     }
     public function isPivot() { return $this->getPivot(); }
+    
+    public function __toString() {
+        return $this->getId() . '-' . $this->getNom() . ' (' . $this->getVille() . ')';
+    }
 }
