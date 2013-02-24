@@ -5,7 +5,8 @@ namespace CEC\TutoratBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Cordee
+ * Cordee: Represents a cordée de la Réussite which is leading or has led
+ * a partnership with CEC.
  */
 class Cordee
 {
@@ -15,14 +16,29 @@ class Cordee
     private $id;
 
     /**
+     * Cordee's name
      * @var string
      */
     private $nom;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lycees;
 
     /**
      * @var \DateTime
      */
     private $dateCreation;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -80,18 +96,6 @@ class Cordee
     {
         return $this->dateCreation;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lycees;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
     /**
      * Set id
@@ -107,7 +111,7 @@ class Cordee
     }
 
     /**
-     * Add lycees
+     * Add a lycee
      *
      * @param \CEC\TutoratBundle\Entity\CordeeLyceeReference $lycees
      * @return Cordee
@@ -120,7 +124,7 @@ class Cordee
     }
 
     /**
-     * Remove lycees
+     * Remove a lycee
      *
      * @param \CEC\TutoratBundle\Entity\CordeeLyceeReference $lycees
      */
@@ -167,6 +171,11 @@ class Cordee
         return $this->dateModification;
     }
     
+    /**
+     * Returns a string description
+     *
+     * @return string
+     */
     public function __toString() {
         return $this->getId() . '-' . $this->getNom();
     }
