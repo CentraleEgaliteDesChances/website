@@ -8,6 +8,5 @@ class MenuController extends Controller
 {
     public function menuAction()
     {
-        return $this->render('CECMainBundle:Menu:menu.html.twig');
     }
 }

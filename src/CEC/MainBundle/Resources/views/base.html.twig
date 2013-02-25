@@ -15,7 +15,9 @@
 
 {% block body %}
     {% block modals %}{% endblock %}
-    {% block menu %}{% render 'CECMainBundle:Menu:menu' %}{% endblock %}
+    {% block menu %}
+        {% include 'CECMainBundle:Menu:menu.html.twig' with { 'route' : 'ee' } %}
+    {% endblock %}
     
     <div class="container">
         {% block container %}
