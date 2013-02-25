@@ -224,20 +224,20 @@ class CordeesController extends Controller
      */
     public function anciennesAction()
     {
-        $repo = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee');
-        $lyceesActifs = $repo->findAllForYear();
-        $lycees = $repo->findAll();
+        // On cherche tous les lycées actifs
+        $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();    // Tous les lycées
+        $lyceesActifs = array();
+        foreach ($lycees as $lycee)
+        {
+            if ( count($this->getCordeesForLycee($lycee)) > 0 ) $lyceesActifs[] = $lycee;
+        }
+        
+        // Par différence, on trouve les lycées inactifs
         $lyceesInactifs = array_diff($lycees, $lyceesActifs);
-        $sources = array_filter($lyceesInactifs, function($lycee) {
-            return !$lycee->getPivot();
-        });
-        $pivots = array_filter($lyceesInactifs, function($lycee) {
-            return $lycee->getPivot();
-        });
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
-            'sources' => $sources,
-            'pivots'  => $pivots,
+            'sources' => $this->filterLyceesSources($lyceesInactifs),
+            'pivots'  => $this->filterLyceesPivots($lyceesInactifs),
         ));
     }
     
