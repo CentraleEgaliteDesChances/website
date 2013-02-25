@@ -107,10 +107,6 @@ class CordeesController extends Controller
             if ( count($this->getCordeesForLycee($lycee)) > 0 ) $lyceesActifs[] = $lycee;
         }
         
-        // On sépare les lycées pivots et les lycées sources
-        $sources = $this->filterLyceesSources($lyceesActifs);
-        $pivots = $this->filterLyceesPivots($lyceesActifs);
-        
         // Formulaire de création d'une cordée
         $nouvelleCordee = new Cordee();
         $form = $this->createForm(new NomCordeeType(), $nouvelleCordee);
@@ -134,8 +130,8 @@ class CordeesController extends Controller
         }
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
-            'sources' => $sources,
-            'pivots'  => $pivots,
+            'sources' => $this->filterLyceesSources($lyceesActifs),
+            'pivots'  => $this->filterLyceesPivots($lyceesActifs),
             'form'    => $form->createView(),
             'afficher_modal' => $this->getRequest()->getMethod() == 'POST',
         ));
@@ -143,21 +139,18 @@ class CordeesController extends Controller
     
     /**
      * Affiche les lycées d'une cordée
+     *
+     * @param integer $id: id de la cordée a afficher
      */
     public function voirAction($id)
     {
-        $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')
-            ->findAllForCordeeIdAndYear($id);
-        $sources = array_filter($lycees, function($lycee) {
-            return !$lycee->getPivot();
-        });
-        $pivots = array_filter($lycees, function($lycee) {
-            return $lycee->getPivot();
-        });
+        $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
+            ->find($id);
+        $lycees = $this->getLyceesForCordee($cordee);
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
-            'sources' => $sources,
-            'pivots'  => $pivots,
+            'sources' => $this->filterLyceesSources($lycees),
+            'pivots'  => $this->filterLyceesPivots($lycees),
         ));
     }
     
