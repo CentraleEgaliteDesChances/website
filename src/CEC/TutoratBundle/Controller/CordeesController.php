@@ -159,44 +159,43 @@ class CordeesController extends Controller
      */
     public function editerAction($id, Request $request)
     {
+        // On récupère la cordée
         $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
             ->find($id);
+            
+        // On récupère les lycées de la cordée et les lycées sans cordée
+        $lyceesCordee = $this->getLyceesForCordee($cordee);    // Lycées de la cordée
+        $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();    // Tous les lycées
+        $lyceesInactifs = array();
+        foreach ($lycees as $lycee)
+        {
+            if ( count($this->getCordeesForLycee($lycee)) == 0 ) $lyceesInactifs[] = $lycee;
+        }
     
+        // Formulaire de changement de nom de la cordée
         $nomNomForm = 'nom_form';
         $nomForm = $this->get('form.factory')
             ->createNamedBuilder($nomNomForm, new NomCordeeType(), $cordee)
             ->getForm();
             
-        if ($request->getMethod() == 'POST') {
-            if ($request->request->has($nomNomForm))
-            {
-                $nomForm->bindRequest($request);
-                var_dump($request);
-                if (false and $nomForm->isValid()) {
-                    $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Le nom de la cordée a bien été mise à jour.');
-                    return $this->redirect($this->generateUrl('editer_cordee', array('id' => $id)));
-                }
-            }
-            
-            if ($request->request->has('ll'))
-            {
-                $secteurForm->bindRequest($request);
-                if ($secteurForm->isValid()) {
-                    $entityManager = $this->getDoctrine()->getEntityManager();
-                    $entityManager->persist($nouveauSecteur);
-                    $entityManager->flush();
-                    
-                    $this->get('session')->setFlash('success', 'Le secteur a bien été ajouté.');
-                    return $this->redirect($this->generateUrl('reglages_secteurs'));
-                }
+        if ($request->getMethod() == 'POST')
+        {
+            $nomForm->bindRequest($request);
+            var_dump($request);
+            if (false and $nomForm->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Le nom de la cordée a bien été mise à jour.');
+                return $this->redirect($this->generateUrl('editer_cordee', array('id' => $id)));
             }
         }
         
             
         return $this->render('CECTutoratBundle:Cordees:editer.html.twig', array(
-            'cordee'   => $cordee,
-            'nom_form' => $nomForm->createView(),
+            'cordee'        => $cordee,
+            'nom_form'      => $nomForm->createView(),
+            'sources'       => $this->filterLyceesSources(array_merge($lyceesCordee, $lyceesInactifs)),
+            'pivots'        => $this->filterLyceesPivots(array_merge($lyceesCordee, $lyceesInactifs)),
+            'lycees_cordee' => $lyceesCordee,
         ));
     }
     
