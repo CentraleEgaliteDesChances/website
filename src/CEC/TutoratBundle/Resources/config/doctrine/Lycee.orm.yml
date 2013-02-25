@@ -40,8 +40,8 @@ CEC\TutoratBundle\Entity\Lycee:
                 timestampable:
                     on: update
     oneToMany:
-        cordees:
-            targetEntity: CordeeLyceeReference
+        changementsCordee:
+            targetEntity: ChangementCordeeLycee
             mappedBy: lycee
         enseignants:
             targetEntity: EnseignantLyceeReference

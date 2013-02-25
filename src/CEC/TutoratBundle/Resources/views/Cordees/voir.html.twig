@@ -1,5 +1,4 @@
 {% extends 'CECTutoratBundle:Cordees:base.html.twig' %}
-{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 {% import 'CECMainBundle::macros.html.twig' as modal %}
 
 {% block right %}
@@ -60,7 +59,7 @@
         {{ form_widget(form) }}
     {% endset %}
     {% set footer %}
-        <input type="submit" value="Ajouter" class="btn btn-primary pull-right" />
+        <input type="submit" value="Ajouter une cordée" class="btn btn-primary pull-right" />
         {{ modal.close() }}
     {% endset %}
     

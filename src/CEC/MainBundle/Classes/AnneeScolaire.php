@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\MainBundle\Class;
+namespace CEC\MainBundle\Classes;
 
 /**
  * Représente une année scolaire
@@ -26,6 +26,7 @@ class AnneeScolaire
         } else {
             $this->setAnneeScolaire($date->format('Y') - 1);
         }
+        return $this;
     }
     
     /**

@@ -1,11 +1,31 @@
 {% extends 'CECTutoratBundle:Cordees:base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
 
 {% block right %}
 {{ parent() }}
 
-<form class="form-inline well" method="post" action="{{ path(app.request.attributes.get('_route'), { 'id': app.request.attributes.get('id') }) }}">
+<form class="form-inline well" method="post" action="{{ path(app.request.attributes.get('_route'), { 'id': cordee.id }) }}">
     {{ form_widget(nom_form.nom) }}
-    <input type="submit" value="Changer le nom" class="btn btn-primary" />
+    <input type="submit" value="Changer le nom" class="btn btn-primary btn-changer-nom pull-right" />
 </form>
+
+{{ modal.button('Désactiver cette cordée', 'btn btn-danger btn-desactiver-cordee btn-block') }}
+
+{% endblock %}
+
+{% block modals %}
+{{ parent() }}
+
+{% set body %}
+    <strong>En cliquant sur Désactiver, vous retirerez tous les lycées partenaires de cette cordée, qui ne sera donc plus active.</strong> Elle pourra cependant être repeuplé avec de nouveau lycée en l'éditant.<br />
+    Souhaitez-vous vraiment continuer ?
+{% endset %}
+
+{% set footer %}
+    {{ modal.close() }}
+    <a href="{{ path('desactiver_cordee', { 'id' : cordee.id }) }}" class="btn btn-danger pull-right">Désactiver la {{ cordee.nom }}</a>
+{% endset %}
+
+{{ modal.modal('Désactiver cette cordée', body, footer) }}
 
 {% endblock %}

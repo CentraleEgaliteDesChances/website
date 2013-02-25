@@ -50,6 +50,11 @@ class Lycee
     private $ZEP;
 
     /**
+     * @var boolean
+     */
+    private $pivot;
+
+    /**
      * @var \DateTime
      */
     private $dateCreation;
@@ -59,7 +64,25 @@ class Lycee
      */
     private $dateModification;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $changementsCordee;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $enseignants;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->changementsCordee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->enseignants = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -230,7 +253,29 @@ class Lycee
     {
         return $this->ZEP;
     }
-    public function isZEP() { return $this->getZEP(); }
+
+    /**
+     * Set pivot
+     *
+     * @param boolean $pivot
+     * @return Lycee
+     */
+    public function setPivot($pivot)
+    {
+        $this->pivot = $pivot;
+    
+        return $this;
+    }
+
+    /**
+     * Get pivot
+     *
+     * @return boolean 
+     */
+    public function getPivot()
+    {
+        return $this->pivot;
+    }
 
     /**
      * Set dateCreation
@@ -277,104 +322,38 @@ class Lycee
     {
         return $this->dateModification;
     }
-    /**
-     * @var \CEC\TutoratBundle\Entity\CordeeLyceeReference
-     */
-    private $cordees;
-
 
     /**
-     * Set id
+     * Add changementsCordee
      *
-     * @param integer $id
+     * @param \CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee
      * @return Lycee
      */
-    public function setId($id)
+    public function addChangementsCordee(\CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee)
     {
-        $this->id = $id;
+        $this->changementsCordee[] = $changementsCordee;
     
         return $this;
     }
 
     /**
-     * Set cordees
+     * Remove changementsCordee
      *
-     * @param \CEC\TutoratBundle\Entity\CordeeLyceeReference $cordees
-     * @return Lycee
+     * @param \CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee
      */
-    public function setCordees(\CEC\TutoratBundle\Entity\CordeeLyceeReference $cordees = null)
+    public function removeChangementsCordee(\CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee)
     {
-        $this->cordees = $cordees;
-    
-        return $this;
+        $this->changementsCordee->removeElement($changementsCordee);
     }
 
     /**
-     * Get cordees
+     * Get changementsCordee
      *
-     * @return \CEC\TutoratBundle\Entity\CordeeLyceeReference 
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getCordees()
+    public function getChangementsCordee()
     {
-        return $this->cordees;
-    }
-    /**
-     * @var \CEC\TutoratBundle\Entity\EnseignantLyceeReference
-     */
-    private $enseignants;
-
-
-    /**
-     * Set enseignants
-     *
-     * @param \CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants
-     * @return Lycee
-     */
-    public function setEnseignants(\CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants = null)
-    {
-        $this->enseignants = $enseignants;
-    
-        return $this;
-    }
-
-    /**
-     * Get enseignants
-     *
-     * @return \CEC\TutoratBundle\Entity\EnseignantLyceeReference 
-     */
-    public function getEnseignants()
-    {
-        return $this->enseignants;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->cordees = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add cordees
-     *
-     * @param \CEC\TutoratBundle\Entity\CordeeLyceeReference $cordees
-     * @return Lycee
-     */
-    public function addCordee(\CEC\TutoratBundle\Entity\CordeeLyceeReference $cordees)
-    {
-        $this->cordees[] = $cordees;
-    
-        return $this;
-    }
-
-    /**
-     * Remove cordees
-     *
-     * @param \CEC\TutoratBundle\Entity\CordeeLyceeReference $cordees
-     */
-    public function removeCordee(\CEC\TutoratBundle\Entity\CordeeLyceeReference $cordees)
-    {
-        $this->cordees->removeElement($cordees);
+        return $this->changementsCordee;
     }
 
     /**
@@ -399,37 +378,23 @@ class Lycee
     {
         $this->enseignants->removeElement($enseignants);
     }
-    /**
-     * @var boolean
-     */
-    private $pivot;
-
 
     /**
-     * Set pivot
+     * Get enseignants
      *
-     * @param boolean $pivot
-     * @return Lycee
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function setPivot($pivot)
+    public function getEnseignants()
     {
-        $this->pivot = $pivot;
-    
-        return $this;
+        return $this->enseignants;
     }
-
+    
     /**
-     * Get pivot
-     *
-     * @return boolean 
+     * Get description
+     * @return string
      */
-    public function getPivot()
+    public function __toString()
     {
-        return $this->pivot;
-    }
-    public function isPivot() { return $this->getPivot(); }
-    
-    public function __toString() {
-        return $this->getId() . '-' . $this->getNom() . ' (' . $this->getVille() . ')';
+        return $this->getId() . ' - ' . $this->getNom();
     }
 }

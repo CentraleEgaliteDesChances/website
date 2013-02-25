@@ -7,13 +7,17 @@ CEC\TutoratBundle\Entity\Cordee:
         dateModification:
             - DateTime: ~
             
-CEC\TutoratBundle\Entity\CordeeLyceeReference:
+CEC\TutoratBundle\Entity\ChangementCordeeLycee:
     properties:
         annee:
             - NotBlank: ~
             - Type: integer
             - Min: 1900
             - Max: 9999
+        action:
+            - NotBlank: ~
+            - Type: integer
+            - Choice: [ -1, 1 ]
 
 CEC\TutoratBundle\Entity\Enseignant:
     properties:

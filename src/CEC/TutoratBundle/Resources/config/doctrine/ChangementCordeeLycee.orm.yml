@@ -1,13 +1,15 @@
-CEC\TutoratBundle\Entity\CordeeLyceeReference:
+CEC\TutoratBundle\Entity\ChangementCordeeLycee:
     type: entity
     table: null
-    repositoryClass: CEC\TutoratBundle\Entity\CordeeLyceeReferenceRepository
+    repositoryClass: CEC\TutoratBundle\Entity\ChangementCordeeLyceeRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
+        action:
+            type: integer
         annee:
             type: integer
         dateCreation:
@@ -23,8 +25,8 @@ CEC\TutoratBundle\Entity\CordeeLyceeReference:
     manyToOne:
         cordee:
             targetEntity: Cordee
-            inversedBy: lycees
+            inversedBy: changementsLycee
         lycee:
             targetEntity: Lycee
-            inversedBy: cordees
+            inversedBy: changementsCordee
     lifecycleCallbacks: {  }

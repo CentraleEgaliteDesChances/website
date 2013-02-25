@@ -11,6 +11,11 @@ editer_cordee:
     defaults: { _controller: CECTutoratBundle:Cordees:editer }
     requirements:
         id: \d+
+desactiver_cordee:
+    pattern: /cordees/{id}/desactivation
+    defaults: { _controller: CECTutoratBundle:Cordees:desactiver }
+    requirements:
+        id: \d+
 anciennes_cordees:
     pattern: /cordees/anciennes
     defaults: { _controller: CECTutoratBundle:Cordees:anciennes }
