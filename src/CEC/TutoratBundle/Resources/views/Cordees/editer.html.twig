@@ -4,7 +4,7 @@
 {% block right %}
 {{ parent() }}
 
-<form class="form-inline well" method="post" action="{{ path(app.request.attributes.get('_route'), { 'id': cordee.id }) }}">
+<form class="form-inline well" method="post" action="{{ path(app.request.attributes.get('_route'), { 'cordee': cordee.id }) }}">
     {{ form_widget(nom_form.nom) }}
     <input type="submit" value="Changer le nom" class="btn btn-primary btn-changer-nom pull-right" />
 </form>
@@ -18,7 +18,7 @@
         <tbody>
             {% for source in sources %}
             <tr{% if source in lycees_cordee %} class="info"{% endif %}>
-                <td><a href="#">
+                <td><a href="{{ path('changer_lycee', { 'cordee' : cordee.id, 'lycee' : source.id }) }}">
                     {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : source } %}
                 </a></td>
             </tr>
@@ -38,7 +38,7 @@
         <tbody>
             {% for pivot in pivots %}
             <tr{% if pivot in lycees_cordee %} class="info"{% endif %}>
-                <td><a href="#">
+                <td><a href="{{ path('changer_lycee', { 'cordee' : cordee.id, 'lycee' : pivot.id }) }}">
                     {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : pivot } %}
                 </a></td>
             </tr>
@@ -55,7 +55,7 @@
 
 {% block left %}
 {{ parent() }}
-<a href="{{ path('cordee', { 'id' : cordee.id }) }}" class="btn btn-block">Annuler</a>
+<a href="{{ path('cordee', { 'cordee' : cordee.id }) }}" class="btn btn-block btn-primary">Terminer</a>
 {% endblock %}
 
 {% block modals %}
@@ -68,7 +68,7 @@
 
 {% set footer %}
     {{ modal.close() }}
-    <a href="{{ path('desactiver_cordee', { 'id' : cordee.id }) }}" class="btn btn-danger pull-right">Désactiver la {{ cordee.nom }}</a>
+    <a href="{{ path('desactiver_cordee', { 'cordee' : cordee.id }) }}" class="btn btn-danger pull-right">Désactiver la {{ cordee.nom }}</a>
 {% endset %}
 
 {{ modal.modal('Désactiver cette cordée', body, footer) }}

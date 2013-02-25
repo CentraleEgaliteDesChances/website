@@ -2,20 +2,26 @@ toutes_cordees:
     pattern: /cordees
     defaults: { _controller: CECTutoratBundle:Cordees:toutes }
 cordee:
-    pattern:  /cordees/{id}
+    pattern:  /cordees/{cordee}
     defaults: { _controller: CECTutoratBundle:Cordees:voir }
     requirements:
-        id: \d+
+        cordee: \d+
 editer_cordee:
-    pattern: /cordees/{id}/edition
+    pattern: /cordees/{cordee}/edition
     defaults: { _controller: CECTutoratBundle:Cordees:editer }
     requirements:
-        id: \d+
+        cordee: \d+
+changer_lycee:
+    pattern: /cordees/{cordee}/changer_lycee/{lycee}
+    defaults: { _controller: CECTutoratBundle:Cordees:changerLycee }
+    requirements:
+        cordee:    \d+
+        lycee: \d+
 desactiver_cordee:
-    pattern: /cordees/{id}/desactivation
+    pattern: /cordees/{cordee}/desactivation
     defaults: { _controller: CECTutoratBundle:Cordees:desactiver }
     requirements:
-        id: \d+
+        cordee: \d+
 anciennes_cordees:
     pattern: /cordees/anciennes
     defaults: { _controller: CECTutoratBundle:Cordees:anciennes }
