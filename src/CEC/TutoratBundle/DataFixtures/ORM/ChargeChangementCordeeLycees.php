@@ -15,34 +15,43 @@ class ChargeChangementCordeeLycees extends AbstractFixture implements OrderedFix
      */
     public function load(ObjectManager $manager)
     {
-        $anneeScolaire = new AnneeScolaire();
+        $annee2013 = new AnneeScolaire();
+        $annee2013->setAnneeScolaire('2012');
+        $annee2010 = new AnneeScolaire();
+        $annee2010->setAnneeScolaire('2010');
         
         $ref1 = new ChangementCordeeLycee();
-        $ref1->setAnnee($anneeScolaire->getAnneeScolaire())
+        $ref1->setAnnee($annee2010->getAnneeScolaire())
             ->setAction(ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT)
             ->setLycee($this->getReference('jj'))
             ->setCordee($this->getReference('michelin'));
         
         $ref2 = new ChangementCordeeLycee();
-        $ref2->setAnnee($anneeScolaire->getAnneeScolaire())
+        $ref2->setAnnee($annee2010->getAnneeScolaire())
             ->setAction(ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT)
             ->setLycee($this->getReference('mounier'))
             ->setCordee($this->getReference('open'));
         
         $ref3 = new ChangementCordeeLycee();
-        $ref3->setAnnee($anneeScolaire->getAnneeScolaire())
+        $ref3->setAnnee($annee2013->getAnneeScolaire())
             ->setAction(ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT)
             ->setLycee($this->getReference('montesquieu'))
             ->setCordee($this->getReference('open'));
         
         $ref4 = new ChangementCordeeLycee();
-        $ref4->setAnnee($anneeScolaire->getAnneeScolaire())
+        $ref4->setAnnee($annee2010->getAnneeScolaire())
             ->setAction(ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT)
             ->setLycee($this->getReference('vilgenis'))
             ->setCordee($this->getReference('michelin'));
             
         $ref5 = new ChangementCordeeLycee();
-        $ref5->setAnnee($anneeScolaire->getAnneeScolaire())
+        $ref5->setAnnee($annee2013->getAnneeScolaire())
+            ->setAction(ChangementCordeeLycee::CHANGEMENT_ACTION_SUPPRESSION)
+            ->setLycee($this->getReference('vilgenis'))
+            ->setCordee($this->getReference('michelin'));
+            
+        $ref6 = new ChangementCordeeLycee();
+        $ref6->setAnnee($annee2010->getAnneeScolaire())
             ->setAction(ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT)
             ->setLycee($this->getReference('ginette'))
             ->setCordee($this->getReference('michelin'));
@@ -52,6 +61,7 @@ class ChargeChangementCordeeLycees extends AbstractFixture implements OrderedFix
         $manager->persist($ref3);
         $manager->persist($ref4);
         $manager->persist($ref5);
+        $manager->persist($ref6);
         $manager->flush();
     }
     
