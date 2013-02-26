@@ -125,9 +125,14 @@ class CordeesController extends Controller
     {
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();    // Tous les lycées
         $lyceesActifs = array();
+        $cordees = array();
         foreach ($lycees as $lycee)
         {
-            if ( count($this->getCordeesForLycee($lycee)) > 0 ) $lyceesActifs[] = $lycee;
+            if ( count($this->getCordeesForLycee($lycee)) > 0 )
+            {
+                $lyceesActifs[] = $lycee;
+                $cordees[$lycee->getId()] = $this->getCordeesForLycee($lycee);
+            }
         }
         
         // Formulaire de création d'une cordée
@@ -155,6 +160,7 @@ class CordeesController extends Controller
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
             'sources' => $this->filterLyceesSources($lyceesActifs),
             'pivots'  => $this->filterLyceesPivots($lyceesActifs),
+            'cordees' => $cordees,
             'form'    => $form->createView(),
             'afficher_modal' => $this->getRequest()->getMethod() == 'POST',
         ));
@@ -172,6 +178,7 @@ class CordeesController extends Controller
         $lycees = $this->getLyceesForCordee($cordee);
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
+            'cordee'  => $cordee,
             'sources' => $this->filterLyceesSources($lycees),
             'pivots'  => $this->filterLyceesPivots($lycees),
         ));
