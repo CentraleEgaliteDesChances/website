@@ -5,13 +5,10 @@ namespace CEC\TutoratBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ChangementCordeeLycee
+ * ChangementEnseignantLycee
  */
-class ChangementCordeeLycee
+class ChangementEnseignantLycee
 {
-    const CHANGEMENT_ACTION_AJOUT       =  1;    // Ajout d'un partenariat
-    const CHANGEMENT_ACTION_SUPPRESSION = -1;    // Suppression d'un partenariat
-
     /**
      * @var integer
      */
@@ -20,12 +17,12 @@ class ChangementCordeeLycee
     /**
      * @var integer
      */
-    private $action;
+    private $annee;
 
     /**
-     * @var integer
+     * @var string
      */
-    private $annee;
+    private $role;
 
     /**
      * @var \DateTime
@@ -38,14 +35,14 @@ class ChangementCordeeLycee
     private $dateModification;
 
     /**
-     * @var \CEC\TutoratBundle\Entity\Cordee
-     */
-    private $cordee;
-
-    /**
      * @var \CEC\TutoratBundle\Entity\Lycee
      */
     private $lycee;
+
+    /**
+     * @var \CEC\TutoratBundle\Entity\Enseignant
+     */
+    private $enseignant;
 
 
     /**
@@ -59,33 +56,10 @@ class ChangementCordeeLycee
     }
 
     /**
-     * Set action
-     *
-     * @param integer $action
-     * @return ChangementCordeeLycee
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-    
-        return $this;
-    }
-
-    /**
-     * Get action
-     *
-     * @return integer 
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
      * Set annee
      *
      * @param integer $annee
-     * @return ChangementCordeeLycee
+     * @return ChangementEnseignantLycee
      */
     public function setAnnee($annee)
     {
@@ -105,10 +79,33 @@ class ChangementCordeeLycee
     }
 
     /**
+     * Set role
+     *
+     * @param string $role
+     * @return ChangementEnseignantLycee
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string 
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
-     * @return ChangementCordeeLycee
+     * @return ChangementEnseignantLycee
      */
     public function setDateCreation($dateCreation)
     {
@@ -131,7 +128,7 @@ class ChangementCordeeLycee
      * Set dateModification
      *
      * @param \DateTime $dateModification
-     * @return ChangementCordeeLycee
+     * @return ChangementEnseignantLycee
      */
     public function setDateModification($dateModification)
     {
@@ -151,33 +148,10 @@ class ChangementCordeeLycee
     }
 
     /**
-     * Set cordee
-     *
-     * @param \CEC\TutoratBundle\Entity\Cordee $cordee
-     * @return ChangementCordeeLycee
-     */
-    public function setCordee(\CEC\TutoratBundle\Entity\Cordee $cordee = null)
-    {
-        $this->cordee = $cordee;
-    
-        return $this;
-    }
-
-    /**
-     * Get cordee
-     *
-     * @return \CEC\TutoratBundle\Entity\Cordee 
-     */
-    public function getCordee()
-    {
-        return $this->cordee;
-    }
-
-    /**
      * Set lycee
      *
      * @param \CEC\TutoratBundle\Entity\Lycee $lycee
-     * @return ChangementCordeeLycee
+     * @return ChangementEnseignantLycee
      */
     public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
     {
@@ -194,5 +168,28 @@ class ChangementCordeeLycee
     public function getLycee()
     {
         return $this->lycee;
+    }
+
+    /**
+     * Set enseignant
+     *
+     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignant
+     * @return ChangementEnseignantLycee
+     */
+    public function setEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignant = null)
+    {
+        $this->enseignant = $enseignant;
+    
+        return $this;
+    }
+
+    /**
+     * Get enseignant
+     *
+     * @return \CEC\TutoratBundle\Entity\Enseignant 
+     */
+    public function getEnseignant()
+    {
+        return $this->enseignant;
     }
 }

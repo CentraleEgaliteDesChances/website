@@ -1,7 +1,7 @@
-CEC\TutoratBundle\Entity\EnseignantLyceeReference:
+CEC\TutoratBundle\Entity\ChangementEnseignantLycee:
     type: entity
     table: null
-    repositoryClass: CEC\TutoratBundle\Entity\EnseignantLyceeReferenceRepository
+    repositoryClass: CEC\TutoratBundle\Entity\ChangementEnseignantLyceeRepository
     fields:
         id:
             type: integer
