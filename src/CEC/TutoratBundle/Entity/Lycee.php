@@ -359,10 +359,10 @@ class Lycee
     /**
      * Add enseignants
      *
-     * @param \CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants
+     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants
      * @return Lycee
      */
-    public function addEnseignant(\CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants)
+    public function addEnseignant(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants)
     {
         $this->enseignants[] = $enseignants;
     
@@ -372,9 +372,9 @@ class Lycee
     /**
      * Remove enseignants
      *
-     * @param \CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants
+     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants
      */
-    public function removeEnseignant(\CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants)
+    public function removeEnseignant(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants)
     {
         $this->enseignants->removeElement($enseignants);
     }
@@ -391,10 +391,11 @@ class Lycee
     
     /**
      * Get description
+     *
      * @return string
      */
     public function __toString()
     {
-        return $this->getId() . ' - ' . $this->getNom();
+        return $this->getId() . ' - ' . $this->getNom() . ' (' . $this->getVille() . ')';
     }
 }
