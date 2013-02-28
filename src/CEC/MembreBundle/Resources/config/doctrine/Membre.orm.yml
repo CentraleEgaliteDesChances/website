@@ -2,6 +2,8 @@ CEC\MembreBundle\Entity\Membre:
     type: entity
     table: null
     repositoryClass: CEC\MembreBundle\Entity\MembreRepository
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [ prenom, nom ]
     fields:
         id:
             type: integer
