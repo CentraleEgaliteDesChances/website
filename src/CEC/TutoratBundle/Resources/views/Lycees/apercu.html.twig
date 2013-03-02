@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped table-condensed">
+<table class="table table-bordered table-striped table-hover table-condensed table-collapse">
     <thead>
         <tr><th colspan="2" class="titre"><h3>{{ lycee.nom }}</h3></th></tr>
         <tr><th colspan="2" class="image">
@@ -9,71 +9,80 @@
     </thead>
     <tbody>
         <tr>
-            <td class="legend">Ville</td>
+            <td>Ville</td>
             <td>{{ lycee.ville }}</td>
         </tr>
         <tr>
-            <td class="legend">Adresse</td>
+            <td>Adresse</td>
             <td>
                 {{ lycee.adresse }}<br />
                 {{ lycee.codePostal }} {{ lycee.ville }}
             </td>
         </tr>
         <tr>
-            <td class="legend">Secrétariat</td>
+            <td>Secrétariat</td>
             <td>{{ lycee.telephone }}</td>
         </tr>
         <tr>
-            <td class="legend">Statut</td>
+            <td>Statut</td>
             <td>{{ lycee.statut }}</td>
         </tr>
         {% if lycee.ZEP %}
         <tr>
-            <td colspan="2"><strong>Établissement classé ZEP</strong></td>
+            <td>Remarques</td>
+            <td>Cet établissement est classé ZEP</td>
         </tr>
         {% endif %}
-        
-        <tr><th colspan="2" class="section"><h4>{{ lycee.pivot ? 'Lycée Pivot' : 'Lycée Source' }}</h4></th></tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-hover table-condensed table-collapse">
+    <tbody>
         <tr>
-            <td class="legend">Cordée</td>
+            <td>Cordée</td>
             <td>Ajouter le nom et le lien de la cordée</td>
         </tr>
         <tr>
-            <td class="legend">Depuis</td>
-            <td>Ajouter date de début de partenariat</td>
+            <td>Rôle</td>
+            <td>{{ lycee.pivot ? 'Lycée Pivot' : 'Lycée Source' }}</td>
         </tr>
         <tr>
-            <td class="legend">VP Lycée</td>
+            <td>VP Lycée</td>
             <td>Ajouter le nom et le lien vers le VP Lycée</td>
         </tr>
+    </thead>
+</table>
         
-        <tr><th colspan="2" class="section"><h4>Administration</h4></th></tr>
+<table class="table table-bordered table-striped table-hover table-condensed table-collapse">
+    <tbody>
         <tr>
-            <td class="legend">Proviseur</td>
+            <td>Proviseur</td>
             <td>Ajouter le nom et le lien de la cordée</td>
         </tr>
         <tr>
-            <td class="legend">Référent</td>
+            <td>Référent</td>
             <td>Ajouter date de début de partenariat</td>
         </tr>
-        
-        <tr><th colspan="2" class="section"><h4>Tutorat</h4></th></tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-hover table-condensed table-collapse">
+    <tbody>
         <tr>
-            <td class="legend">Type</td>
+            <td>Type</td>
             <td>Ajouter le nom et le lien de la cordée</td>
         </tr>
         <tr>
-            <td class="legend">Niveaux</td>
+            <td>Niveaux</td>
             <td>Ajouter date de début de partenariat</td>
         </tr>
         <tr>
-            <td class="legend">Lycéens</td>
+            <td>Lycéens</td>
             <td>Ajouter le nom et le lien de la cordée</td>
         </tr>
         <tr>
-            <td class="legend">Tuteurs</td>
+            <td>Tuteurs</td>
             <td>Ajouter date de début de partenariat</td>
         </tr>
-        
     </tbody>
 </table>
