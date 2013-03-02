@@ -8,11 +8,14 @@ CEC\TutoratBundle\Entity\ChangementEnseignantLycee:
             id: true
             generator:
                 strategy: AUTO
+        action:
+            type: integer
         annee:
             type: integer
         role:
             type: string
             length: 255
+            nullable: true
         dateCreation:
             type: datetime
             gedmo:

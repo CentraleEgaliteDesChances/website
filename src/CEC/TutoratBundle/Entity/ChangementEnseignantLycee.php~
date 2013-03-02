@@ -9,10 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ChangementEnseignantLycee
 {
+    const CHANGEMENT_ACTION_AJOUT       =  1;    // Ajout d'un partenariat
+    const CHANGEMENT_ACTION_SUPPRESSION = -1;    // Suppression d'un partenariat
+    
     /**
      * @var integer
      */
     private $id;
+
+    /**
+     * @var integer
+     */
+    private $action;
 
     /**
      * @var integer
@@ -53,6 +61,29 @@ class ChangementEnseignantLycee
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set action
+     *
+     * @param integer $action
+     * @return ChangementEnseignantLycee
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    
+        return $this;
+    }
+
+    /**
+     * Get action
+     *
+     * @return integer 
+     */
+    public function getAction()
+    {
+        return $this->action;
     }
 
     /**

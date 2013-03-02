@@ -5,12 +5,13 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\MainBundle\Classes\AnneeScolaire;
 use CEC\TutoratBundle\Entity\Lycee;
+use CEC\TutoratBundle\Entity\ChangementEnseignantLycee;
 
 class LyceesController extends Controller
 {
     /**
      * Helper
-     * Retourne la liste des cordées actuelles d'un lycée
+     * Retourne la liste des cordées actuelles d'un lycée.
      *
      * @param Lycee $lycee: lycée
      * @return array(Cordee)
@@ -36,6 +37,38 @@ class LyceesController extends Controller
     }
     
     /**
+     * Helper
+     * Retourne la liste des enseignants pour un lycée.
+     *
+     * @param Lycee $lycee: lycée
+     * @return array(Enseignant)
+     */
+    public function getEnseignantsForLycee(Lycee $lycee)
+    {
+        // On considère tous les changements d'enseignants pour ce lycée
+        $changements = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:ChangementEnseignantLycee')
+            ->findByLycee($lycee);
+        
+        // On effectue les modifications
+        $enseignants = array();
+        foreach ($changements as $changement) {
+            if ($changement->getAction() == ChangementEnseignantLycee::CHANGEMENT_ACTION_AJOUT) {
+                $enseignants = array_merge($enseignants, array($changement->getEnseignant()));
+            } elseif ($changement->getAction() == ChangementEnseignantLycee::CHANGEMENT_ACTION_SUPPRESSION) {
+                $enseignants = array_diff($enseignants, array($changement->getEnseignant()));
+            }
+        }
+        
+        // On trie les enseignants
+        usort($enseignants, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        
+        return $enseignants;
+    }
+    
+    /**
      * Affiche la page d'un lycée.
      *
      * @param integer $lycee: id du lycée
@@ -45,8 +78,15 @@ class LyceesController extends Controller
         $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
         
+        $enseignants = $this->getEnseignantsForLycee($lycee);
+        
         return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(
-            'lycee'    => $lycee,
+            'lycee'        => $lycee,
+            'lyceens'      => array(),
+            'tuteurs'      => array(),
+            'enseignants'  => $enseignants,
+            'groupes'      => array(),
+            'seances'      => array(),
         ));
     }
     
