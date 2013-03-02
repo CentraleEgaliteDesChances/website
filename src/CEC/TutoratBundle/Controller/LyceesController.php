@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\MainBundle\Classes\AnneeScolaire;
 use CEC\TutoratBundle\Entity\Lycee;
 
-class LyceeController extends Controller
+class LyceesController extends Controller
 {
     /**
      * Helper
@@ -33,5 +33,20 @@ class LyceeController extends Controller
         }
         
         return $cordees;
+    }
+    
+    /**
+     * Affiche un résumé des informations du lycée :
+     * nom, adresse, cordée, statut, numéro de téléphone, source/pivot, ZEP ou non,
+     * proviseur, référent, type de tutorat, niveaux concernés, nombre de lycéens et de tuteurs.
+     *
+     * @param Lycee $lycee: lycée
+     */
+    public function apercuAction()
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find(1);
+        return $this->render('CECTutoratBundle:Lycees:base.html.twig', array(
+            'lycee'    => $lycee,
+        ));
     }
 }

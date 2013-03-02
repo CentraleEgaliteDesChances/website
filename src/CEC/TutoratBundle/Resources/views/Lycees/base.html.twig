@@ -1,4 +1,4 @@
-{% extends 'CECMainBundle::2-columns.html.twig' %}
+{% extends 'CECMainBundle::2-large-columns.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -10,9 +10,10 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECTutoratBundle:Cordees:menu' with { 'request': app.request } %}
+    {% include 'CECTutoratBundle:Lycees:apercu.html.twig' %}
 {% endblock %}
 
 {% block right %}
     {{ parent() }}
+    Test.
 {% endblock %}
