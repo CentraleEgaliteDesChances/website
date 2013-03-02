@@ -174,7 +174,7 @@ class CordeesController extends Controller
     {
         $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
             ->find($cordee);
-         if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
+        if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
         
         $lycees = $this->getLyceesForCordee($cordee);
     

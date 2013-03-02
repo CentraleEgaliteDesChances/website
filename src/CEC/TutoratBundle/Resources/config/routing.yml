@@ -29,6 +29,8 @@ anciennes_cordees:
     defaults: { _controller: CECTutoratBundle:Cordees:anciennes }
     
 
-apercu_lycee:
-    pattern: /lycees
-    defaults: { _controller: CECTutoratBundle:Lycees:apercu }
+lycee:
+    pattern: /lycees/{lycee}
+    defaults: { _controller: CECTutoratBundle:Lycees:voir }
+    requirements:
+        lycee: \d+

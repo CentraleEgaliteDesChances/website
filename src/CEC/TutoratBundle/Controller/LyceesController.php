@@ -36,16 +36,30 @@ class LyceesController extends Controller
     }
     
     /**
+     * Affiche la page d'un lycée.
+     *
+     * @param integer $lycee: id du lycée
+     */
+    public function voirAction($lycee)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+        
+        return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(
+            'lycee'    => $lycee,
+        ));
+    }
+    
+    /**
      * Affiche un résumé des informations du lycée :
      * nom, adresse, cordée, statut, numéro de téléphone, source/pivot, ZEP ou non,
      * proviseur, référent, type de tutorat, niveaux concernés, nombre de lycéens et de tuteurs.
      *
      * @param Lycee $lycee: lycée
      */
-    public function apercuAction()
+    public function apercuAction(Lycee $lycee)
     {
-        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find(1);
-        return $this->render('CECTutoratBundle:Lycees:base.html.twig', array(
+        return $this->render('CECTutoratBundle:Lycees:apercu.html.twig', array(
             'lycee'    => $lycee,
         ));
     }
