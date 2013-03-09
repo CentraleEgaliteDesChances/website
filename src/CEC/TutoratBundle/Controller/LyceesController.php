@@ -134,8 +134,20 @@ class LyceesController extends Controller
      */
     public function apercuAction(Lycee $lycee)
     {
+        // On récupère le proviseur et le référent
+        $enseignants = $this->getEnseignantsForLycee($lycee);
+        $proviseur = null;
+        $referent = null;
+        foreach ($enseignants as $enseignant) {
+            $roles = $this->getRolesForEnseignantInLycee($enseignant, $lycee);
+            if (in_array('Professeur référent', $roles)) $referent = $enseignant;
+            if (in_array('Chef d\'établissement', $roles)) $proviseur = $enseignant;
+        }
+        
         return $this->render('CECTutoratBundle:Lycees:apercu.html.twig', array(
             'lycee'    => $lycee,
+            'referent' => $referent,
+            'proviseur'=> $proviseur,
         ));
     }
 }

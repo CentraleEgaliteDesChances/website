@@ -52,19 +52,25 @@
         </tr>
     </thead>
 </table>
-        
+
+{% if proviseur is not null or referent is not null %}   
 <table class="table table-bordered table-striped table-hover table-collapse">
     <tbody>
-        <tr>
-            <td>Proviseur</td>
-            <td>Ajouter le nom et le lien de la cordée</td>
-        </tr>
-        <tr>
-            <td>Référent</td>
-            <td>Ajouter date de début de partenariat</td>
-        </tr>
+        {% if proviseur is not null %}
+            <tr>
+                <td>Proviseur</td>
+                <td>{{ proviseur.prenom }} {{ proviseur.nom }}</td>
+            </tr>
+        {% endif %}
+        {% if referent is not null %}
+            <tr>
+                <td>Référent</td>
+                <td>{{ referent.prenom }} {{ referent.nom }}</td>
+            </tr>
+        {% endif %}
     </tbody>
 </table>
+{% endif %}
 
 <table class="table table-bordered table-striped table-hover table-collapse">
     <tbody>

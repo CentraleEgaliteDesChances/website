@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block left %}
-    {% include 'CECTutoratBundle:Lycees:apercu.html.twig' %}
+    {% render 'CECTutoratBundle:Lycees:apercu' with { 'lycee' : lycee } %}
 {% endblock %}
 
 {% block right %}
