@@ -69,6 +69,35 @@ class LyceesController extends Controller
     }
     
     /**
+     * Helper
+     * Retourne la liste des roles associés à un enseignant pour un lycée
+     *
+     * @param Enseignant $enseignant
+     * @param Lycee $lycee
+     * @return array(string)
+     */
+    public function getRolesForEnseignantInLycee($enseignant, Lycee $lycee)
+    {
+        // On considère tous les changements d'enseignants pour ce lycée
+        $changements = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:ChangementEnseignantLycee')
+            ->findByEnseignant($enseignant);
+            
+        // On parcourt les modifications
+        $roles = array();
+        foreach ($changements as $changement) {
+            if ($changement->getLycee() == $lycee) {
+                if ($changement->getAction() == ChangementEnseignantLycee::CHANGEMENT_ACTION_AJOUT) {
+                    $roles = array_merge($roles, array($changement->getRole()));
+                } else {
+                    $roles = array_diff($roles, array($changement->getRole()));
+                }
+            }
+        }
+        return $roles;
+    }
+    
+    /**
      * Affiche la page d'un lycée.
      *
      * @param integer $lycee: id du lycée
@@ -78,13 +107,19 @@ class LyceesController extends Controller
         $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
         
+        // On trouve les enseignants et leurs rôles
         $enseignants = $this->getEnseignantsForLycee($lycee);
+        $roles = array();
+        foreach ($enseignants as $enseignant) {
+            $roles[$enseignant->getId()] = $this->getRolesForEnseignantInLycee($enseignant, $lycee);
+        }
         
         return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(
             'lycee'        => $lycee,
             'lyceens'      => array(),
             'tuteurs'      => array(),
             'enseignants'  => $enseignants,
+            'roles'        => $roles,
             'groupes'      => array(),
             'seances'      => array(),
         ));

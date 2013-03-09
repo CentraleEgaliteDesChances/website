@@ -38,6 +38,7 @@ class ChargeChangementEnseignantLycees extends AbstractFixture implements Ordere
         $ref3->setAnnee($annee2013->getAnneeScolaire())
             ->setAction(ChangementEnseignantLycee::CHANGEMENT_ACTION_SUPPRESSION)
             ->setEnseignant($this->getReference('guillou'))
+            ->setRole('Chef d\'établissement')
             ->setLycee($this->getReference('jj'));
             
         $ref4 = new ChangementEnseignantLycee();
