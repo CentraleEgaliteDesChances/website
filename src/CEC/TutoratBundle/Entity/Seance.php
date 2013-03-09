@@ -250,45 +250,7 @@ class Seance
     {
         return $this->tuteurs;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lyceens;
-
-
-    /**
-     * Add lyceens
-     *
-     * @param \CEC\TutoratBundle\Entity\Lyceens $lyceens
-     * @return Seance
-     */
-    public function addLyceen(\CEC\TutoratBundle\Entity\Lyceens $lyceens)
-    {
-        $this->lyceens[] = $lyceens;
-    
-        return $this;
-    }
-
-    /**
-     * Remove lyceens
-     *
-     * @param \CEC\TutoratBundle\Entity\Lyceens $lyceens
-     */
-    public function removeLyceen(\CEC\TutoratBundle\Entity\Lyceens $lyceens)
-    {
-        $this->lyceens->removeElement($lyceens);
-    }
-
-    /**
-     * Get lyceens
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLyceens()
-    {
-        return $this->lyceens;
-    }
-    /**
+        /**
      * @var string
      */
     private $rendezVous;
@@ -315,5 +277,43 @@ class Seance
     public function getRendezVous()
     {
         return $this->rendezVous;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lyceens;
+
+
+    /**
+     * Add lyceens
+     *
+     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
+     * @return Seance
+     */
+    public function addLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
+    {
+        $this->lyceens[] = $lyceens;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lyceens
+     *
+     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
+     */
+    public function removeLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
+    {
+        $this->lyceens->removeElement($lyceens);
+    }
+
+    /**
+     * Get lyceens
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLyceens()
+    {
+        return $this->lyceens;
     }
 }

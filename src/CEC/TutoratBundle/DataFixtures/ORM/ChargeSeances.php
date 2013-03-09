@@ -39,7 +39,9 @@ class ChargeSeances extends AbstractFixture implements OrderedFixtureInterface
         $seance5->setGroupe($this->getReference('jj_terminales_ancien'))
             ->setDebut(new \DateTime('2012-12-17 17:30:00'))
             ->addTuteur($this->getReference('helene_sicsic'))
-            ->addTuteur($this->getReference('pol_maire'));
+            ->addTuteur($this->getReference('pol_maire'))
+            ->addLyceen($this->getReference('medhi_amalou'))
+            ->addLyceen($this->getReference('meissa_dieng'));
         
         $manager->persist($seance1);
         $manager->persist($seance2);
