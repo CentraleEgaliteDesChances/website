@@ -22,6 +22,7 @@ CEC\MembreBundle\Entity\Membre:
         telephone:
             type: string
             length: 255
+            nullable: true
         motDePasse:
             type: string
             length: 255
