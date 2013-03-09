@@ -19,7 +19,9 @@
                         </a>
                     {% endif %}
                     
-                    <a href="#">{% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : lycee } %}</a>
+                    <a href="{{ path('lycee', { 'lycee' : lycee.id }) }}">
+                        {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : lycee } %}
+                    </a>
                 </td>
             </tr>
             {% endfor %}
@@ -42,7 +44,9 @@
                         </a>
                     {% endif %}
                     
-                    <a href="#">{% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : lycee } %}</a>
+                    <a href="{{ path('lycee', { 'lycee' : lycee.id }) }}">
+                        {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : lycee } %}
+                    </a>
                 </td>
             </tr>
             {% endfor %}
