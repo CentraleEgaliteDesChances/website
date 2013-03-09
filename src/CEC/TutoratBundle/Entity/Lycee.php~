@@ -73,6 +73,11 @@ class Lycee
      * @var \Doctrine\Common\Collections\Collection
      */
     private $enseignants;
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $groupes;
 
     /**
      * Constructor
@@ -81,6 +86,7 @@ class Lycee
     {
         $this->changementsCordee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->enseignants = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -387,6 +393,39 @@ class Lycee
     public function getEnseignants()
     {
         return $this->enseignants;
+    }
+
+    /**
+     * Add groupes
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
+     * @return Lycee
+     */
+    public function addGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
+    {
+        $this->groupes[] = $groupes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groupes
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
+     */
+    public function removeGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
+    {
+        $this->groupes->removeElement($groupes);
+    }
+
+    /**
+     * Get groupes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroupes()
+    {
+        return $this->groupes;
     }
     
     /**

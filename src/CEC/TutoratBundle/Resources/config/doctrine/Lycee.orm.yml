@@ -46,4 +46,7 @@ CEC\TutoratBundle\Entity\Lycee:
         enseignants:
             targetEntity: ChangementEnseignantLycee
             mappedBy: lycee
+        groupes:
+            targetEntity: Groupe
+            mappedBy: lycee
     lifecycleCallbacks: {  }

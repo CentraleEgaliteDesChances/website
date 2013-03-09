@@ -44,8 +44,8 @@ CEC\MembreBundle\Entity\Membre:
             targetEntity: Secteur
             mappedBy: membres
         groupes:
-            targetEntity: CEC\TutoratBundle\Entity\Groupe
-            mappedBy: membres
+            targetEntity: CEC\TutoratBundle\Entity\ChangementGroupeTuteur
+            mappedBy: tuteurs
         seances:
             targetEntity: CEC\TutoratBundle\Entity\Seance
             mappedBy: tuteurs

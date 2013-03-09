@@ -58,10 +58,11 @@ CEC\TutoratBundle\Entity\Lyceen:
             gedmo:
                 timestampable:
                     on: update
-    manyToMany:
+    oneToMany:
         groupes:
-            targetEntity: CEC\TutoratBundle\Entity\Groupe
-            mappedBy: lyceens
+            targetEntity: ChangementGroupeLyceen
+            mappedBy: lyceen
+    manyToMany:
         seances:
             targetEntity: Seance
             mappedBy: lyceens

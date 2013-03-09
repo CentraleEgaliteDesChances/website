@@ -5,9 +5,9 @@ namespace CEC\TutoratBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ChangementEnseignantLycee
+ * ChangementGroupeLyceen
  */
-class ChangementEnseignantLycee
+class ChangementGroupeLyceen
 {
     const CHANGEMENT_ACTION_AJOUT       =  1;    // Ajout d'un partenariat
     const CHANGEMENT_ACTION_SUPPRESSION = -1;    // Suppression d'un partenariat
@@ -28,11 +28,6 @@ class ChangementEnseignantLycee
     private $annee;
 
     /**
-     * @var string
-     */
-    private $role;
-
-    /**
      * @var \DateTime
      */
     private $dateCreation;
@@ -41,16 +36,6 @@ class ChangementEnseignantLycee
      * @var \DateTime
      */
     private $dateModification;
-
-    /**
-     * @var \CEC\TutoratBundle\Entity\Lycee
-     */
-    private $lycee;
-
-    /**
-     * @var \CEC\TutoratBundle\Entity\Enseignant
-     */
-    private $enseignant;
 
 
     /**
@@ -67,7 +52,7 @@ class ChangementEnseignantLycee
      * Set action
      *
      * @param integer $action
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeLyceen
      */
     public function setAction($action)
     {
@@ -90,7 +75,7 @@ class ChangementEnseignantLycee
      * Set annee
      *
      * @param integer $annee
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeLyceen
      */
     public function setAnnee($annee)
     {
@@ -110,33 +95,10 @@ class ChangementEnseignantLycee
     }
 
     /**
-     * Set role
-     *
-     * @param string $role
-     * @return ChangementEnseignantLycee
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-    
-        return $this;
-    }
-
-    /**
-     * Get role
-     *
-     * @return string 
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeLyceen
      */
     public function setDateCreation($dateCreation)
     {
@@ -159,7 +121,7 @@ class ChangementEnseignantLycee
      * Set dateModification
      *
      * @param \DateTime $dateModification
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeLyceen
      */
     public function setDateModification($dateModification)
     {
@@ -177,50 +139,116 @@ class ChangementEnseignantLycee
     {
         return $this->dateModification;
     }
+    /**
+     * @var string
+     */
+    private $manyToOne;
 
     /**
-     * Set lycee
-     *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
-     * @return ChangementEnseignantLycee
+     * @var string
      */
-    public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
+    private $lifecycleCallbacks;
+
+
+    /**
+     * Set manyToOne
+     *
+     * @param string $manyToOne
+     * @return ChangementGroupeLyceen
+     */
+    public function setManyToOne($manyToOne)
     {
-        $this->lycee = $lycee;
+        $this->manyToOne = $manyToOne;
     
         return $this;
     }
 
     /**
-     * Get lycee
+     * Get manyToOne
      *
-     * @return \CEC\TutoratBundle\Entity\Lycee 
+     * @return string 
      */
-    public function getLycee()
+    public function getManyToOne()
     {
-        return $this->lycee;
+        return $this->manyToOne;
     }
 
     /**
-     * Set enseignant
+     * Set lifecycleCallbacks
      *
-     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignant
-     * @return ChangementEnseignantLycee
+     * @param string $lifecycleCallbacks
+     * @return ChangementGroupeLyceen
      */
-    public function setEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignant = null)
+    public function setLifecycleCallbacks($lifecycleCallbacks)
     {
-        $this->enseignant = $enseignant;
+        $this->lifecycleCallbacks = $lifecycleCallbacks;
     
         return $this;
     }
 
     /**
-     * Get enseignant
+     * Get lifecycleCallbacks
      *
-     * @return \CEC\TutoratBundle\Entity\Enseignant 
+     * @return string 
      */
-    public function getEnseignant()
+    public function getLifecycleCallbacks()
     {
-        return $this->enseignant;
+        return $this->lifecycleCallbacks;
+    }
+    /**
+     * @var \CEC\TutoratBundle\Entity\Groupe
+     */
+    private $groupe;
+
+    /**
+     * @var \CEC\TutoratBundle\Entity\Lyceen
+     */
+    private $lyceen;
+
+
+    /**
+     * Set groupe
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
+     * @return ChangementGroupeLyceen
+     */
+    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
+    {
+        $this->groupe = $groupe;
+    
+        return $this;
+    }
+
+    /**
+     * Get groupe
+     *
+     * @return \CEC\TutoratBundle\Entity\Groupe 
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
+
+    /**
+     * Set lyceen
+     *
+     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceen
+     * @return ChangementGroupeLyceen
+     */
+    public function setLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceen = null)
+    {
+        $this->lyceen = $lyceen;
+    
+        return $this;
+    }
+
+    /**
+     * Get lyceen
+     *
+     * @return \CEC\TutoratBundle\Entity\Lyceen 
+     */
+    public function getLyceen()
+    {
+        return $this->lyceen;
     }
 }

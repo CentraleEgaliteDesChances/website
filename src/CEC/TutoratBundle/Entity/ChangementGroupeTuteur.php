@@ -5,13 +5,14 @@ namespace CEC\TutoratBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ChangementEnseignantLycee
+ * ChangementGroupeTuteur
  */
-class ChangementEnseignantLycee
+class ChangementGroupeTuteur
 {
+    
     const CHANGEMENT_ACTION_AJOUT       =  1;    // Ajout d'un partenariat
     const CHANGEMENT_ACTION_SUPPRESSION = -1;    // Suppression d'un partenariat
-    
+        
     /**
      * @var integer
      */
@@ -26,31 +27,6 @@ class ChangementEnseignantLycee
      * @var integer
      */
     private $annee;
-
-    /**
-     * @var string
-     */
-    private $role;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateModification;
-
-    /**
-     * @var \CEC\TutoratBundle\Entity\Lycee
-     */
-    private $lycee;
-
-    /**
-     * @var \CEC\TutoratBundle\Entity\Enseignant
-     */
-    private $enseignant;
 
 
     /**
@@ -67,7 +43,7 @@ class ChangementEnseignantLycee
      * Set action
      *
      * @param integer $action
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeTuteur
      */
     public function setAction($action)
     {
@@ -90,7 +66,7 @@ class ChangementEnseignantLycee
      * Set annee
      *
      * @param integer $annee
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeTuteur
      */
     public function setAnnee($annee)
     {
@@ -108,35 +84,32 @@ class ChangementEnseignantLycee
     {
         return $this->annee;
     }
+    /**
+     * @var \DateTime
+     */
+    private $dateCreation;
 
     /**
-     * Set role
-     *
-     * @param string $role
-     * @return ChangementEnseignantLycee
+     * @var \DateTime
      */
-    public function setRole($role)
-    {
-        $this->role = $role;
-    
-        return $this;
-    }
+    private $dateModification;
 
     /**
-     * Get role
-     *
-     * @return string 
+     * @var \CEC\TutoratBundle\Entity\Groupe
      */
-    public function getRole()
-    {
-        return $this->role;
-    }
+    private $groupe;
+
+    /**
+     * @var \CEC\MembreBundle\Entity\Membre
+     */
+    private $tuteur;
+
 
     /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeTuteur
      */
     public function setDateCreation($dateCreation)
     {
@@ -159,7 +132,7 @@ class ChangementEnseignantLycee
      * Set dateModification
      *
      * @param \DateTime $dateModification
-     * @return ChangementEnseignantLycee
+     * @return ChangementGroupeTuteur
      */
     public function setDateModification($dateModification)
     {
@@ -179,48 +152,48 @@ class ChangementEnseignantLycee
     }
 
     /**
-     * Set lycee
+     * Set groupe
      *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
-     * @return ChangementEnseignantLycee
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
+     * @return ChangementGroupeTuteur
      */
-    public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
+    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
     {
-        $this->lycee = $lycee;
+        $this->groupe = $groupe;
     
         return $this;
     }
 
     /**
-     * Get lycee
+     * Get groupe
      *
-     * @return \CEC\TutoratBundle\Entity\Lycee 
+     * @return \CEC\TutoratBundle\Entity\Groupe 
      */
-    public function getLycee()
+    public function getGroupe()
     {
-        return $this->lycee;
+        return $this->groupe;
     }
 
     /**
-     * Set enseignant
+     * Set tuteur
      *
-     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignant
-     * @return ChangementEnseignantLycee
+     * @param \CEC\MembreBundle\Entity\Membre $tuteur
+     * @return ChangementGroupeTuteur
      */
-    public function setEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignant = null)
+    public function setTuteur(\CEC\MembreBundle\Entity\Membre $tuteur = null)
     {
-        $this->enseignant = $enseignant;
+        $this->tuteur = $tuteur;
     
         return $this;
     }
 
     /**
-     * Get enseignant
+     * Get tuteur
      *
-     * @return \CEC\TutoratBundle\Entity\Enseignant 
+     * @return \CEC\MembreBundle\Entity\Membre 
      */
-    public function getEnseignant()
+    public function getTuteur()
     {
-        return $this->enseignant;
+        return $this->tuteur;
     }
 }

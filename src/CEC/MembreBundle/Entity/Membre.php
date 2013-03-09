@@ -54,6 +54,28 @@ class Membre implements UserInterface
      * @var \Doctrine\Common\Collections\Collection
      */
     private $secteurs;
+        
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $groupes;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seances;
+    
+    /**
+     * @var \DateTime
+     */
+    private $dateCreation;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateModification;
+    
+    
 
     /**
      * Constructor
@@ -338,11 +360,6 @@ class Membre implements UserInterface
             $this->setActif(true);
         }
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $groupes;
-
 
     /**
      * Set id
@@ -389,11 +406,6 @@ class Membre implements UserInterface
     {
         return $this->groupes;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $seances;
-
 
     /**
      * Add seances
@@ -427,17 +439,7 @@ class Membre implements UserInterface
     {
         return $this->seances;
     }
-    /**
-     * @var \DateTime
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateModification;
-
-
+    
     /**
      * Set dateCreation
      *
