@@ -52,5 +52,5 @@ CEC\TutoratBundle\Entity\Lycee:
     manyToMany:
         groupes:
             targetEntity: Groupe
-            mappedBy: lycee
+            mappedBy: lycees
     lifecycleCallbacks: {  }

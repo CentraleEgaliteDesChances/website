@@ -45,9 +45,7 @@
                 <td>
                     <a href="#">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
-                        {% if roles[enseignant.id] %}
-                            {{ roles[enseignant.id]|join(', ') }}
-                        {% endif %}
+                        {{ roles[enseignant.id] ? roles[enseignant.id]|join(', ') }}
                     </a>
                 </td>
             </tr>
@@ -65,6 +63,8 @@
             {% for groupe in groupes %}
             <tr>
                 <td>
+                    <strong>{{ groupe.niveau }}</strong><span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
+                    Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
                 </td>
             </tr>
             {% endfor %}

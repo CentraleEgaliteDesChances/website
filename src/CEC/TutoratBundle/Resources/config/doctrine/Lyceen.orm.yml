@@ -61,7 +61,7 @@ CEC\TutoratBundle\Entity\Lyceen:
     oneToMany:
         groupes:
             targetEntity: ChangementGroupeLyceen
-            mappedBy: lyceen
+            mappedBy: lycees
     manyToMany:
         seances:
             targetEntity: Seance

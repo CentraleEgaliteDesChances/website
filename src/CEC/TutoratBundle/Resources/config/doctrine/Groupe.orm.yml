@@ -37,7 +37,7 @@ CEC\TutoratBundle\Entity\Groupe:
                 timestampable:
                     on: update
     manyToMany:
-        lycee:
+        lycees:
             targetEntity: Lycee
             inversedBy: groupes
     oneToMany:

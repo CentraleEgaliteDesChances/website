@@ -104,7 +104,9 @@ class LyceesController extends Controller
      */
     public function voirAction($lycee)
     {
-        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        $lycee = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:Lycee')
+            ->find($lycee);
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
         
         // On trouve les enseignants et leurs rôles
@@ -114,13 +116,18 @@ class LyceesController extends Controller
             $roles[$enseignant->getId()] = $this->getRolesForEnseignantInLycee($enseignant, $lycee);
         }
         
+        // On trouve les groupes de tutorat
+        $groupes = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:Groupe')
+            ->findByLyceeForCurrentYear($lycee);
+        
         return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(
             'lycee'        => $lycee,
             'lyceens'      => array(),
             'tuteurs'      => array(),
             'enseignants'  => $enseignants,
             'roles'        => $roles,
-            'groupes'      => array(),
+            'groupes'      => $groupes,
             'seances'      => array(),
         ));
     }

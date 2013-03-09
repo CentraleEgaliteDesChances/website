@@ -488,4 +488,19 @@ class Groupe
     {
         return $this->rendezVous;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lycees;
+
+
+    /**
+     * Get lycees
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLycees()
+    {
+        return $this->lycees;
+    }
 }
