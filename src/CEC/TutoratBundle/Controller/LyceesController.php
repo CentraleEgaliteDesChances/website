@@ -8,6 +8,7 @@ use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Entity\ChangementEnseignantLycee;
 use CEC\TutoratBundle\Entity\ChangementGroupeTuteur;
+use CEC\TutoratBundle\Entity\ChangementGroupeLyceen;
 
 class LyceesController extends Controller
 {
@@ -63,6 +64,33 @@ class LyceesController extends Controller
         }
         
         return $tuteurs;
+    }
+    
+    /**
+     * Helper
+     * Retourne la liste des lyceens actuels d'un groupe de tutorat
+     *
+     * @param Groupe $groupe: groupe de tutorat
+     * @return array(Lyceen)
+     */
+    public function getLyceensForGroupe(Groupe $groupe)
+    {
+        // On considère tous les changements de tuteurs pour ce groupe de tutorat
+        $changements = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:ChangementGroupeLyceen')
+            ->findByGroupe($groupe);
+        
+        // On effectue les modifications
+        $lyceens = array();
+        foreach ($changements as $changement) {
+            if ($changement->getAction() == ChangementGroupeLyceen::CHANGEMENT_ACTION_AJOUT) {
+                $lyceens = array_merge($lyceens, array($changement->getLyceen()));
+            } elseif ($changement->getAction() == ChangementGroupeLyceen::CHANGEMENT_ACTION_SUPPRESSION) {
+                $lyceens = array_diff($lyceens, array($changement->getLyceen()));
+            }
+        }
+        
+        return $lyceens;
     }
     
     /**
@@ -159,9 +187,18 @@ class LyceesController extends Controller
             return strcmp($a->getNom(), $b->getNom());
         });
         
+        // On trouve les lycéens
+        $lyceens = array();
+        foreach ($groupes as $groupe) {
+            $lyceens = array_merge($lyceens, $this->getLyceensForGroupe($groupe));
+        }
+        usort($lyceens, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        
         return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(
             'lycee'        => $lycee,
-            'lyceens'      => array(),
+            'lyceens'      => $lyceens,
             'tuteurs'      => $tuteurs,
             'enseignants'  => $enseignants,
             'roles'        => $roles,
