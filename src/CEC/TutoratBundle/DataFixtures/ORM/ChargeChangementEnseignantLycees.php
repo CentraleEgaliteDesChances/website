@@ -59,6 +59,6 @@ class ChargeChangementEnseignantLycees extends AbstractFixture implements Ordere
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 3;
+        return 2;
     }
 }

@@ -11,10 +11,17 @@ CEC\TutoratBundle\Entity\Seance:
         lieu:
             type: string
             length: 255
+            nullable: true
         debut:
             type: datetime
+            nullable: true
         fin:
             type: datetime
+            nullable: true
+        rendezVous:
+            type: string
+            length: 255
+            nullable: true
         dateCreation:
             type: datetime
             gedmo:

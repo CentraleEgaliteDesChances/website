@@ -460,4 +460,32 @@ class Groupe
     {
         $this->lycee->removeElement($lycee);
     }
+    /**
+     * @var string
+     */
+    private $rendezVous;
+
+
+    /**
+     * Set rendezVous
+     *
+     * @param string $rendezVous
+     * @return Groupe
+     */
+    public function setRendezVous($rendezVous)
+    {
+        $this->rendezVous = $rendezVous;
+    
+        return $this;
+    }
+
+    /**
+     * Get rendezVous
+     *
+     * @return string 
+     */
+    public function getRendezVous()
+    {
+        return $this->rendezVous;
+    }
 }

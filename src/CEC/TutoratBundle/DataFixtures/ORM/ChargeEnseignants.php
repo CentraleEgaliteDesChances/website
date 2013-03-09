@@ -45,6 +45,6 @@ class ChargeEnseignants extends AbstractFixture implements OrderedFixtureInterfa
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 2;
+        return 1;
     }
 }

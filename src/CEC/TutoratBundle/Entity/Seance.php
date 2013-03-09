@@ -288,4 +288,32 @@ class Seance
     {
         return $this->lyceens;
     }
+    /**
+     * @var string
+     */
+    private $rendezVous;
+
+
+    /**
+     * Set rendezVous
+     *
+     * @param string $rendezVous
+     * @return Seance
+     */
+    public function setRendezVous($rendezVous)
+    {
+        $this->rendezVous = $rendezVous;
+    
+        return $this;
+    }
+
+    /**
+     * Get rendezVous
+     *
+     * @return string 
+     */
+    public function getRendezVous()
+    {
+        return $this->rendezVous;
+    }
 }

@@ -14,8 +14,10 @@ CEC\TutoratBundle\Entity\Lycee:
         adresse:
             type: string
             length: 255
+            nullable: true
         codePostal:
             type: integer
+            nullable: true
         ville:
             type: string
             length: 255
@@ -25,6 +27,7 @@ CEC\TutoratBundle\Entity\Lycee:
         telephone:
             type: string
             length: 255
+            nullable: true
         ZEP:
             type: boolean
         pivot:
