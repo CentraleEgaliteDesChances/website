@@ -399,4 +399,42 @@ class Groupe
     {
         return $this->membres;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tuteurs;
+
+
+    /**
+     * Add tuteurs
+     *
+     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
+     * @return Groupe
+     */
+    public function addTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
+    {
+        $this->tuteurs[] = $tuteurs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tuteurs
+     *
+     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
+     */
+    public function removeTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
+    {
+        $this->tuteurs->removeElement($tuteurs);
+    }
+
+    /**
+     * Get tuteurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTuteurs()
+    {
+        return $this->tuteurs;
+    }
 }

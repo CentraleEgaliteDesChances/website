@@ -437,4 +437,27 @@ class Groupe
     {
         return $this->tuteurs;
     }
+
+    /**
+     * Add lycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     * @return Groupe
+     */
+    public function addLycee(\CEC\TutoratBundle\Entity\Lycee $lycee)
+    {
+        $this->lycee[] = $lycee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     */
+    public function removeLycee(\CEC\TutoratBundle\Entity\Lycee $lycee)
+    {
+        $this->lycee->removeElement($lycee);
+    }
 }

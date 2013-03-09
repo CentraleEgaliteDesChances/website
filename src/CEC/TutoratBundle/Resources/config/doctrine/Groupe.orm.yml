@@ -33,7 +33,7 @@ CEC\TutoratBundle\Entity\Groupe:
             gedmo:
                 timestampable:
                     on: update
-    manyToOne:
+    manyToMany:
         lycee:
             targetEntity: Lycee
             inversedBy: groupes

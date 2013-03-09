@@ -20,6 +20,16 @@ class Secteur
     private $nom;
 
     /**
+     * @var \DateTime
+     */
+    private $dateCreation;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateModification;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $membres;
@@ -66,49 +76,6 @@ class Secteur
     }
 
     /**
-     * Add membres
-     *
-     * @param \CEC\MembreBundle\Entity\Membre $membres
-     * @return Secteur
-     */
-    public function addMembre(\CEC\MembreBundle\Entity\Membre $membres)
-    {
-        $this->membres[] = $membres;
-    
-        return $this;
-    }
-
-    /**
-     * Remove membres
-     *
-     * @param \CEC\MembreBundle\Entity\Membre $membres
-     */
-    public function removeMembre(\CEC\MembreBundle\Entity\Membre $membres)
-    {
-        $this->membres->removeElement($membres);
-    }
-
-    /**
-     * Get membres
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMembres()
-    {
-        return $this->membres;
-    }
-    /**
-     * @var \DateTime
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateModification;
-
-
-    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -152,5 +119,38 @@ class Secteur
     public function getDateModification()
     {
         return $this->dateModification;
+    }
+
+    /**
+     * Add membres
+     *
+     * @param \CEC\MembreBundle\Entity\Membre $membres
+     * @return Secteur
+     */
+    public function addMembre(\CEC\MembreBundle\Entity\Membre $membres)
+    {
+        $this->membres[] = $membres;
+    
+        return $this;
+    }
+
+    /**
+     * Remove membres
+     *
+     * @param \CEC\MembreBundle\Entity\Membre $membres
+     */
+    public function removeMembre(\CEC\MembreBundle\Entity\Membre $membres)
+    {
+        $this->membres->removeElement($membres);
+    }
+
+    /**
+     * Get membres
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMembres()
+    {
+        return $this->membres;
     }
 }
