@@ -44,11 +44,15 @@ CEC\MembreBundle\Entity\Membre:
         secteurs:
             targetEntity: Secteur
             mappedBy: membres
-        groupes:
-            targetEntity: CEC\TutoratBundle\Entity\ChangementGroupeTuteur
-            mappedBy: tuteurs
         seances:
             targetEntity: CEC\TutoratBundle\Entity\Seance
             mappedBy: tuteurs
+    oneToMany:
+        groupes:
+            targetEntity: CEC\TutoratBundle\Entity\ChangementGroupeTuteur
+            mappedBy: tuteurs
+        VPLycees:
+            targetEntity: CEC\TutoratBundle\Entity\ChangementLyceeVP
+            mappedBy: VP
     lifecycleCallbacks:
         prePersist: [ setDefaultValues ]

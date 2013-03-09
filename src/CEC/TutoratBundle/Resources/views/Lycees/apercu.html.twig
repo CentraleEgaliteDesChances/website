@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td>VP Lycée</td>
-            <td>Ajouter le nom et le lien vers le VP Lycée</td>
+            <td>{{ VPs ? VPs|join(', ') : 'Aucun VP Lycée' }}</td>
         </tr>
     </thead>
 </table>
@@ -76,11 +76,11 @@
     <tbody>
         <tr>
             <td>Type</td>
-            <td>{{ types ? types|join(', ') }}</td>
+            <td>{{ types ? types|join(', ') : 'Aucun groupe de tutorat' }}</td>
         </tr>
         <tr>
             <td>Niveaux</td>
-            <td>{{ niveaux ? niveaux|join(', ') }}</td>
+            <td>{{ niveaux ? niveaux|join(', ') : 'Aucun groupe de tutorat' }}</td>
         </tr>
         <tr>
             <td>Lycéens</td>

@@ -73,7 +73,7 @@ class Lycee
      * @var \Doctrine\Common\Collections\Collection
      */
     private $enseignants;
-    
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
@@ -427,6 +427,7 @@ class Lycee
     {
         return $this->groupes;
     }
+    
     
     /**
      * Get description

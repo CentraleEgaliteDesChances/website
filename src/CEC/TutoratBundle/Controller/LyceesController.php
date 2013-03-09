@@ -8,6 +8,7 @@ use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Entity\ChangementCordeeLycee;
 use CEC\TutoratBundle\Entity\ChangementEnseignantLycee;
+use CEC\TutoratBundle\Entity\ChangementLyceeVP;
 use CEC\TutoratBundle\Entity\ChangementGroupeTuteur;
 use CEC\TutoratBundle\Entity\ChangementGroupeLyceen;
 
@@ -38,6 +39,33 @@ class LyceesController extends Controller
         }
         
         return $cordees;
+    }
+    
+    /**
+     * Helper
+     * Retourne la liste des VP Lycées actuels d'un lycée.
+     *
+     * @param Lycee $lycee: lycée
+     * @return array(Membre)
+     */
+    public function getVPsForLycee(Lycee $lycee)
+    {
+        // On considère tous les changements de VP Lycée pour ce lycée
+        $changements = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:ChangementLyceeVP')
+            ->findByLycee($lycee);
+        
+        // On effectue les modifications
+        $VPs = array();
+        foreach ($changements as $changement) {
+            if ($changement->getAction() == ChangementLyceeVP::CHANGEMENT_ACTION_AJOUT) {
+                $VPs = array_merge($VPs, array($changement->getVP()));
+            } elseif ($changement->getAction() == ChangementLyceeVP::CHANGEMENT_ACTION_SUPPRESSION) {
+                $VPs = array_diff($VPs, array($changement->getVP()));
+            }
+        }
+        
+        return $VPs;
     }
     
     /**
@@ -238,6 +266,12 @@ class LyceesController extends Controller
             ->getRepository('CECTutoratBundle:Groupe')
             ->findByLyceeForCurrentYear($lycee);
             
+        // On récupère les VP Lycées
+        $VPs = $this->getVPsForLycee($lycee);
+        $VPs = array_map(function ($VP) {
+            return $VP->getPrenom() . ' ' . $VP->getNom();
+        }, $VPs);
+            
         // On trouve les tuteurs, les lycéens, les niveaux et les types de tutorat
         $tuteurs = array();
         $lyceens = array();
@@ -259,6 +293,7 @@ class LyceesController extends Controller
             'lyceens'  => $lyceens,
             'niveaux'  => $niveaux,
             'types'    => $types,
+            'VPs'      => $VPs,
         ));
     }
 }

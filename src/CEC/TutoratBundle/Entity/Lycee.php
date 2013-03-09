@@ -438,4 +438,42 @@ class Lycee
     {
         return $this->getId() . ' - ' . $this->getNom() . ' (' . $this->getVille() . ')';
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $VPLycees;
+
+
+    /**
+     * Add VPLycees
+     *
+     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
+     * @return Lycee
+     */
+    public function addVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
+    {
+        $this->VPLycees[] = $vPLycees;
+    
+        return $this;
+    }
+
+    /**
+     * Remove VPLycees
+     *
+     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
+     */
+    public function removeVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
+    {
+        $this->VPLycees->removeElement($vPLycees);
+    }
+
+    /**
+     * Get VPLycees
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVPLycees()
+    {
+        return $this->VPLycees;
+    }
 }
