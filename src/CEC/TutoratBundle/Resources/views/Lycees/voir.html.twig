@@ -20,13 +20,14 @@
     {% endif %}
 </table>
 
-<table class="table table-bordered table-hover table-striped table-large">
+<table class="table table-bordered table-hover table-condensed table-striped table-large">
     {% if tuteurs %}
         <thead><tr><th><h4>Tuteurs</h4></th></tr></thead>
         <tbody>
             {% for tuteur in tuteurs %}
             <tr>
                 <td>
+                    <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
                 </td>
             </tr>
             {% endfor %}

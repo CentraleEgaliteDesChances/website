@@ -5,7 +5,9 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\MainBundle\Classes\AnneeScolaire;
 use CEC\TutoratBundle\Entity\Lycee;
+use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Entity\ChangementEnseignantLycee;
+use CEC\TutoratBundle\Entity\ChangementGroupeTuteur;
 
 class LyceesController extends Controller
 {
@@ -34,6 +36,33 @@ class LyceesController extends Controller
         }
         
         return $cordees;
+    }
+    
+    /**
+     * Helper
+     * Retourne la liste des tuteurs actuels d'un groupe de tutorat
+     *
+     * @param Groupe $groupe: groupe de tutorat
+     * @return array(Membre)
+     */
+    public function getTuteursForGroupe(Groupe $groupe)
+    {
+        // On considère tous les changements de tuteurs pour ce groupe de tutorat
+        $changements = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:ChangementGroupeTuteur')
+            ->findByGroupe($groupe);
+        
+        // On effectue les modifications
+        $tuteurs = array();
+        foreach ($changements as $changement) {
+            if ($changement->getAction() == ChangementGroupeTuteur::CHANGEMENT_ACTION_AJOUT) {
+                $tuteurs = array_merge($tuteurs, array($changement->getTuteur()));
+            } elseif ($changement->getAction() == ChangementGroupeTuteur::CHANGEMENT_ACTION_SUPPRESSION) {
+                $tuteurs = array_diff($tuteurs, array($changement->getTuteur()));
+            }
+        }
+        
+        return $tuteurs;
     }
     
     /**
@@ -120,11 +149,20 @@ class LyceesController extends Controller
         $groupes = $this->getDoctrine()
             ->getRepository('CECTutoratBundle:Groupe')
             ->findByLyceeForCurrentYear($lycee);
+            
+        // On trouve les tuteurs
+        $tuteurs = array();
+        foreach ($groupes as $groupe) {
+            $tuteurs = array_merge($tuteurs, $this->getTuteursForGroupe($groupe));
+        }
+        usort($tuteurs, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
         
         return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(
             'lycee'        => $lycee,
             'lyceens'      => array(),
-            'tuteurs'      => array(),
+            'tuteurs'      => $tuteurs,
             'enseignants'  => $enseignants,
             'roles'        => $roles,
             'groupes'      => $groupes,

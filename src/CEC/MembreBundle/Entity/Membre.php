@@ -485,4 +485,14 @@ class Membre implements UserInterface
     {
         return $this->dateModification;
     }
+    
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId() . ' - ' . $this->getPrenom() . ' ' . $this->getNom();
+    }
 }
