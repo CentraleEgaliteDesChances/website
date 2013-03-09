@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\MainBundle\Classes\AnneeScolaire;
 use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\TutoratBundle\Entity\ChangementCordeeLycee;
 use CEC\TutoratBundle\Entity\ChangementEnseignantLycee;
 use CEC\TutoratBundle\Entity\ChangementGroupeTuteur;
 use CEC\TutoratBundle\Entity\ChangementGroupeLyceen;
@@ -216,6 +217,12 @@ class LyceesController extends Controller
      */
     public function apercuAction(Lycee $lycee)
     {
+        // On récupère les cordées pour le lycée
+        $cordees = $this->getCordeesForLycee($lycee);
+        $cordees = array_map(function ($lycee) {
+            return $lycee->getNom();
+        }, $cordees);
+        
         // On récupère le proviseur et le référent
         $enseignants = $this->getEnseignantsForLycee($lycee);
         $proviseur = null;
@@ -226,10 +233,32 @@ class LyceesController extends Controller
             if (in_array('Chef d\'établissement', $roles)) $proviseur = $enseignant;
         }
         
+        // On récupère les groupes de tutorat
+        $groupes = $this->getDoctrine()
+            ->getRepository('CECTutoratBundle:Groupe')
+            ->findByLyceeForCurrentYear($lycee);
+            
+        // On trouve les tuteurs, les lycéens, les niveaux et les types de tutorat
+        $tuteurs = array();
+        $lyceens = array();
+        $types = array();
+        $niveaux = array();
+        foreach ($groupes as $groupe) {
+            $tuteurs = array_merge($tuteurs, $this->getTuteursForGroupe($groupe));
+            $lyceens = array_merge($lyceens, $this->getLyceensForGroupe($groupe));
+            $types = array_merge($types, array($groupe->getTypeDeTutorat()));
+            $niveaux = array_merge($niveaux, array($groupe->getNiveau()));
+        }
+        
         return $this->render('CECTutoratBundle:Lycees:apercu.html.twig', array(
+            'cordees'  => $cordees,
             'lycee'    => $lycee,
             'referent' => $referent,
             'proviseur'=> $proviseur,
+            'tuteurs'  => $tuteurs,
+            'lyceens'  => $lyceens,
+            'niveaux'  => $niveaux,
+            'types'    => $types,
         ));
     }
 }

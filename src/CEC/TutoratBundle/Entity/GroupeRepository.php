@@ -22,6 +22,12 @@ class GroupeRepository extends EntityRepository
     public function findByLyceeForCurrentYear(Lycee $lycee)
     {
         $anneeScolaire = new AnneeScolaire();
-        return $this->findByAnnee($anneeScolaire->getAnneeScolaire());
+        return $this->createQueryBuilder('g')
+            ->where('g.annee = :annee')
+            ->setParameter('annee', $anneeScolaire->getAnneeScolaire())
+            ->innerJoin('g.lycees', 'gl', 'WITH', 'gl.id = :lycee_id')
+            ->setParameter('lycee_id', $lycee->getId())
+            ->getQuery()
+            ->getResult();
     }
 }

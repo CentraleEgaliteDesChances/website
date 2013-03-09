@@ -40,7 +40,7 @@
     <tbody>
         <tr>
             <td>Cordée</td>
-            <td>Ajouter le nom et le lien de la cordée</td>
+            <td>{{ cordees ? cordees|join(', ') : 'Aucune cordée' }}</td>
         </tr>
         <tr>
             <td>Rôle</td>
@@ -76,19 +76,19 @@
     <tbody>
         <tr>
             <td>Type</td>
-            <td>Ajouter le nom et le lien de la cordée</td>
+            <td>{{ types ? types|join(', ') }}</td>
         </tr>
         <tr>
             <td>Niveaux</td>
-            <td>Ajouter date de début de partenariat</td>
+            <td>{{ niveaux ? niveaux|join(', ') }}</td>
         </tr>
         <tr>
             <td>Lycéens</td>
-            <td>Ajouter le nom et le lien de la cordée</td>
+            <td>{{ lyceens ? lyceens|length : 'Aucun' }} lycéen{{ lyceens|length > 1 ? 's' }} actuellement</td>
         </tr>
         <tr>
             <td>Tuteurs</td>
-            <td>Ajouter date de début de partenariat</td>
+            <td>{{ tuteurs ? tuteurs|length : 'Aucun' }} tuteur{{ tuteurs|length > 1 ? 's' }} actuellement</td>
         </tr>
     </tbody>
 </table>

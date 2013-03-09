@@ -65,7 +65,7 @@ class ChargeGroupes extends AbstractFixture implements OrderedFixtureInterface
         $jj_terminales_ancien->addLycee($this->getReference('jj'));
         $mounier_montesquieu_secondes->addLycee($this->getReference('mounier'));
         $mounier_montesquieu_secondes->addLycee($this->getReference('montesquieu'));
-            
+                    
         $manager->persist($jj_premieres);
         $manager->persist($jj_terminales);
         $manager->persist($jj_terminales_ancien);

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Groupe
 {
-     /**
+    /**
      * @var integer
      */
     private $id;
@@ -40,6 +40,11 @@ class Groupe
     private $fin;
 
     /**
+     * @var string
+     */
+    private $rendezVous;
+
+    /**
      * @var integer
      */
     private $annee;
@@ -57,31 +62,32 @@ class Groupe
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $seances;
-
-    /**
-     * @var \CEC\TutoratBundle\Entity\Lycee
-     */
-    private $lycee;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $lyceens;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $membres;
+    private $tuteurs;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seances;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lycees;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->membres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -210,6 +216,29 @@ class Groupe
     }
 
     /**
+     * Set rendezVous
+     *
+     * @param string $rendezVous
+     * @return Groupe
+     */
+    public function setRendezVous($rendezVous)
+    {
+        $this->rendezVous = $rendezVous;
+    
+        return $this;
+    }
+
+    /**
+     * Get rendezVous
+     *
+     * @return string 
+     */
+    public function getRendezVous()
+    {
+        return $this->rendezVous;
+    }
+
+    /**
      * Set annee
      *
      * @param integer $annee
@@ -279,68 +308,12 @@ class Groupe
     }
 
     /**
-     * Add seances
-     *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
-     * @return Groupe
-     */
-    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
-    {
-        $this->seances[] = $seances;
-    
-        return $this;
-    }
-
-    /**
-     * Remove seances
-     *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
-     */
-    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
-    {
-        $this->seances->removeElement($seances);
-    }
-
-    /**
-     * Get seances
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSeances()
-    {
-        return $this->seances;
-    }
-
-    /**
-     * Set lycee
-     *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
-     * @return Groupe
-     */
-    public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
-    {
-        $this->lycee = $lycee;
-    
-        return $this;
-    }
-
-    /**
-     * Get lycee
-     *
-     * @return \CEC\TutoratBundle\Entity\Lycee 
-     */
-    public function getLycee()
-    {
-        return $this->lycee;
-    }
-
-    /**
      * Add lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
+     * @param \CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens
      * @return Groupe
      */
-    public function addLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
+    public function addLyceen(\CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens)
     {
         $this->lyceens[] = $lyceens;
     
@@ -350,9 +323,9 @@ class Groupe
     /**
      * Remove lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
+     * @param \CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens
      */
-    public function removeLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
+    public function removeLyceen(\CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens)
     {
         $this->lyceens->removeElement($lyceens);
     }
@@ -366,44 +339,6 @@ class Groupe
     {
         return $this->lyceens;
     }
-
-    /**
-     * Add membres
-     *
-     * @param \CEC\MembreBundle\Entity\Membre $membres
-     * @return Groupe
-     */
-    public function addMembre(\CEC\MembreBundle\Entity\Membre $membres)
-    {
-        $this->membres[] = $membres;
-    
-        return $this;
-    }
-
-    /**
-     * Remove membres
-     *
-     * @param \CEC\MembreBundle\Entity\Membre $membres
-     */
-    public function removeMembre(\CEC\MembreBundle\Entity\Membre $membres)
-    {
-        $this->membres->removeElement($membres);
-    }
-
-    /**
-     * Get membres
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMembres()
-    {
-        return $this->membres;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tuteurs;
-
 
     /**
      * Add tuteurs
@@ -439,60 +374,60 @@ class Groupe
     }
 
     /**
-     * Add lycee
+     * Add seances
      *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
      * @return Groupe
      */
-    public function addLycee(\CEC\TutoratBundle\Entity\Lycee $lycee)
+    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
-        $this->lycee[] = $lycee;
+        $this->seances[] = $seances;
     
         return $this;
     }
 
     /**
-     * Remove lycee
+     * Remove seances
      *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
      */
-    public function removeLycee(\CEC\TutoratBundle\Entity\Lycee $lycee)
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
-        $this->lycee->removeElement($lycee);
+        $this->seances->removeElement($seances);
     }
-    /**
-     * @var string
-     */
-    private $rendezVous;
-
 
     /**
-     * Set rendezVous
+     * Get seances
      *
-     * @param string $rendezVous
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeances()
+    {
+        return $this->seances;
+    }
+
+    /**
+     * Add lycees
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
      * @return Groupe
      */
-    public function setRendezVous($rendezVous)
+    public function addLycee(\CEC\TutoratBundle\Entity\Lycee $lycees)
     {
-        $this->rendezVous = $rendezVous;
+        $this->lycees[] = $lycees;
     
         return $this;
     }
 
     /**
-     * Get rendezVous
+     * Remove lycees
      *
-     * @return string 
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
      */
-    public function getRendezVous()
+    public function removeLycee(\CEC\TutoratBundle\Entity\Lycee $lycees)
     {
-        return $this->rendezVous;
+        $this->lycees->removeElement($lycees);
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lycees;
-
 
     /**
      * Get lycees
