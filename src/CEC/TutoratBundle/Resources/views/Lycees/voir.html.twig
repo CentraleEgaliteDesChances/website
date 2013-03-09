@@ -43,10 +43,12 @@
             {% for enseignant in enseignants %}
             <tr>
                 <td>
-                    <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
-                    {% if roles[enseignant.id] %}
-                        {{ roles[enseignant.id]|join(', ') }}
-                    {% endif %}
+                    <a href="#">
+                        <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
+                        {% if roles[enseignant.id] %}
+                            {{ roles[enseignant.id]|join(', ') }}
+                        {% endif %}
+                    </a>
                 </td>
             </tr>
             {% endfor %}
