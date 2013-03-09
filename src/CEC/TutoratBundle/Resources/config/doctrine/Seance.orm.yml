@@ -14,7 +14,6 @@ CEC\TutoratBundle\Entity\Seance:
             nullable: true
         debut:
             type: datetime
-            nullable: true
         fin:
             type: datetime
             nullable: true
