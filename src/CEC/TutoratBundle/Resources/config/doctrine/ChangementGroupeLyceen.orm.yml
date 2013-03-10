@@ -1,18 +1,17 @@
-CEC\TutoratBundle\Entity\EnseignantLyceeReference:
+CEC\TutoratBundle\Entity\ChangementGroupeLyceen:
     type: entity
     table: null
-    repositoryClass: CEC\TutoratBundle\Entity\EnseignantLyceeReferenceRepository
+    repositoryClass: CEC\TutoratBundle\Entity\ChangementGroupeLyceenRepository
     fields:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
+        action:
+            type: integer
         annee:
             type: integer
-        role:
-            type: string
-            length: 255
         dateCreation:
             type: datetime
             gedmo:
@@ -24,10 +23,10 @@ CEC\TutoratBundle\Entity\EnseignantLyceeReference:
                 timestampable:
                     on: update
     manyToOne:
-        lycee:
-            targetEntity: Lycee
-            inversedBy: enseignants
-        enseignant:
-            targetEntity: Enseignant
-            inversedBy: lycees
+        groupe:
+            targetEntity: Groupe
+            inversedBy: lyceens
+        lyceen:
+            targetEntity: Lyceen
+            inversedBy: groupes
     lifecycleCallbacks: {  }

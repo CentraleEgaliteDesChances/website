@@ -69,6 +69,6 @@ class ChargeChangementCordeeLycees extends AbstractFixture implements OrderedFix
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 3;
+        return 2;
     }
 }

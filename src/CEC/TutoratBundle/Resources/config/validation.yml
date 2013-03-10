@@ -36,7 +36,7 @@ CEC\TutoratBundle\Entity\Enseignant:
             - NotBlank: ~
             - DateTime: ~
             
-CEC\TutoratBundle\Entity\EnseignantLyceeReference:
+CEC\TutoratBundle\Entity\ChangementEnseignantLycee:
     properties:
         annee:
             - NotBlank: ~
@@ -45,6 +45,12 @@ CEC\TutoratBundle\Entity\EnseignantLyceeReference:
             - Max: 9999
         role:
             - NotBlank: ~
+        dateCreation:
+            - NotBlank: ~
+            - DateTime: ~
+        dateModification:
+            - NotBlank: ~
+            - DateTime: ~
             
 CEC\TutoratBundle\Entity\Groupe:
     properties:

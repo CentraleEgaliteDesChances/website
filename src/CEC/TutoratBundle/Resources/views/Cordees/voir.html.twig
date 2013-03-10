@@ -4,15 +4,25 @@
 {% block right %}
 {{ parent() }}
 
+<h2>{{ cordee.nom|default('Tous les lycées') }}</h2>
+
 <table class="table table-bordered table-hover table-striped table-large">
     {% if sources %}
         <thead><tr><th><h4>Lycées Sources</h4></th></tr></thead>
         <tbody>
-            {% for source in sources %}
+            {% for lycee in sources %}
             <tr>
-                <td><a href="#">
-                    {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : source } %}
-                </a></td>
+                <td>
+                    {% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+                        <a href="{{ path('cordee', { 'cordee' : cordees[lycee.id][0].id }) }}" class="label pull-right">
+                            {{ cordees[lycee.id][0].nom }}
+                        </a>
+                    {% endif %}
+                    
+                    <a href="{{ path('lycee', { 'lycee' : lycee.id }) }}">
+                        {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : lycee } %}
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -25,11 +35,19 @@
     {% if pivots %}
         <thead><tr><th><h4>Lycées Pivots</h4></th></tr></thead>
         <tbody>
-            {% for pivot in pivots %}
+            {% for lycee in pivots %}
             <tr>
-                <td><a href="#">
-                    {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : pivot } %}
-                </a></td>
+                <td>
+                    {% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+                        <a href="{{ path('cordee', { 'cordee' : cordees[lycee.id][0].id }) }}" class="label pull-right">
+                            {{ cordees[lycee.id][0].nom }}
+                        </a>
+                    {% endif %}
+                    
+                    <a href="{{ path('lycee', { 'lycee' : lycee.id }) }}">
+                        {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : lycee } %}
+                    </a>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

@@ -20,7 +20,9 @@ class ChargeSecteurs extends AbstractFixture implements OrderedFixtureInterface
         $secteurProjets = new Secteur();
         $secteurProjets->setNom('Secteur Projets');
         
-        $secteurProjets->addMembre($this->getReference('membre'));
+        $secteurProjets->addMembre($this->getReference('helene_sicsic'));
+        $secteurProjets->addMembre($this->getReference('pol_maire'));
+        $secteurSorties->addMembre($this->getReference('pol_maire'));
         
         $manager->persist($secteurSorties);
         $manager->persist($secteurProjets);

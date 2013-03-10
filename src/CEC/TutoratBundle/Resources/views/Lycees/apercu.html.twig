@@ -1,0 +1,96 @@
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <thead>
+        <tr><th colspan="2" class="titre"><h3>{{ lycee.nom }}</h3></th></tr>
+        <tr><th colspan="2" class="image">
+            {% image '@CECTutoratBundle/Resources/public/img/lycee.jpg' %}
+                <img src="{{ asset_url }}" alt="Image du lycée"/>
+            {% endimage %}
+        </th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Ville</td>
+            <td>{{ lycee.ville }}</td>
+        </tr>
+        <tr>
+            <td>Adresse</td>
+            <td>
+                {{ lycee.adresse }}<br />
+                {{ lycee.codePostal }} {{ lycee.ville }}
+            </td>
+        </tr>
+        <tr>
+            <td>Secrétariat</td>
+            <td>{{ lycee.telephone }}</td>
+        </tr>
+        <tr>
+            <td>Statut</td>
+            <td>{{ lycee.statut }}</td>
+        </tr>
+        {% if lycee.ZEP %}
+        <tr>
+            <td>Remarques</td>
+            <td>Cet établissement est classé ZEP</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <tbody>
+        <tr>
+            <td>Cordée</td>
+            <td>{{ cordees ? cordees|join(', ') : 'Aucune cordée' }}</td>
+        </tr>
+        <tr>
+            <td>Rôle</td>
+            <td>{{ lycee.pivot ? 'Lycée Pivot' : 'Lycée Source' }}</td>
+        </tr>
+        <tr>
+            <td>VP Lycée</td>
+            <td>{{ VPs ? VPs|join(', ') : 'Aucun VP Lycée' }}</td>
+        </tr>
+    </thead>
+</table>
+
+{% if proviseur is not null or referent is not null %}   
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <tbody>
+        {% if proviseur is not null %}
+            <tr>
+                <td>Proviseur</td>
+                <td>{{ proviseur.prenom }} {{ proviseur.nom }}</td>
+            </tr>
+        {% endif %}
+        {% if referent is not null %}
+            <tr>
+                <td>Référent</td>
+                <td>{{ referent.prenom }} {{ referent.nom }}</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endif %}
+
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <tbody>
+        <tr>
+            <td>Type</td>
+            <td>{{ types ? types|join(', ') : 'Aucun groupe de tutorat' }}</td>
+        </tr>
+        <tr>
+            <td>Niveaux</td>
+            <td>{{ niveaux ? niveaux|join(', ') : 'Aucun groupe de tutorat' }}</td>
+        </tr>
+        <tr>
+            <td>Lycéens</td>
+            <td>{{ lyceens ? lyceens|length : 'Aucun' }} lycéen{{ lyceens|length > 1 ? 's' }} actuellement</td>
+        </tr>
+        <tr>
+            <td>Tuteurs</td>
+            <td>{{ tuteurs ? tuteurs|length : 'Aucun' }} tuteur{{ tuteurs|length > 1 ? 's' }} actuellement</td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="#" class="btn btn-block">Éditer le lycée</a>

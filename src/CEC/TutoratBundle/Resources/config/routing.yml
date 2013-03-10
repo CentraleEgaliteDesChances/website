@@ -27,3 +27,10 @@ desactiver_cordee:
 anciennes_cordees:
     pattern: /cordees/anciennes
     defaults: { _controller: CECTutoratBundle:Cordees:anciennes }
+    
+
+lycee:
+    pattern: /lycees/{lycee}
+    defaults: { _controller: CECTutoratBundle:Lycees:voir }
+    requirements:
+        lycee: \d+

@@ -42,6 +42,6 @@ CEC\TutoratBundle\Entity\Enseignant:
                     on: update
     oneToMany:
         lycees:
-            targetEntity: EnseignantLyceeReference
+            targetEntity: ChangementEnseignantLycee
             mappedBy: enseignant
     lifecycleCallbacks: {  }

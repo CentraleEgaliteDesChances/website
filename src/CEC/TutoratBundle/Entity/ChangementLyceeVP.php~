@@ -1,0 +1,83 @@
+<?php
+
+namespace CEC\TutoratBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ChangementLyceeVP
+ */
+class ChangementLyceeVP
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var integer
+     */
+    private $action;
+
+    /**
+     * @var integer
+     */
+    private $annee;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set action
+     *
+     * @param integer $action
+     * @return ChangementLyceeVP
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    
+        return $this;
+    }
+
+    /**
+     * Get action
+     *
+     * @return integer 
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set annee
+     *
+     * @param integer $annee
+     * @return ChangementLyceeVP
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
+    
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return integer 
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
+    }
+}
