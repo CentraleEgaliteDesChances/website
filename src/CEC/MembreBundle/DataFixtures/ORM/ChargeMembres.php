@@ -29,21 +29,32 @@ class ChargeMembres extends AbstractFixture implements OrderedFixtureInterface, 
      */
     public function load(ObjectManager $manager)
     {
-        $membre = new Membre();
-        $membre->setPrenom('Pol')
+        $pol_maire = new Membre();
+        $pol_maire->setPrenom('Pol')
             ->setNom('Maire')
             ->setEmail('paul.maire@student.ecp.fr')
             ->setTelephone('0608028328');
-        
         $encoder = $this->container
                     ->get('security.encoder_factory')
-                    ->getEncoder($membre);
-        $membre->setMotDePasse($encoder->encodePassword('debug', $membre->getSalt()));
+                    ->getEncoder($pol_maire);
+        $pol_maire->setMotDePasse($encoder->encodePassword('debug', $pol_maire->getSalt()));
         
-        $manager->persist($membre);
+        $helene_sicsic = new Membre();
+        $helene_sicsic->setPrenom('Hélène')
+            ->setNom('Sicsic')
+            ->setEmail('helene.sicsic@student.ecp.fr')
+            ->setTelephone('0709080706');
+        $encoder = $this->container
+                    ->get('security.encoder_factory')
+                    ->getEncoder($helene_sicsic);
+        $helene_sicsic->setMotDePasse($encoder->encodePassword('debug', $helene_sicsic->getSalt()));
+        
+        $manager->persist($pol_maire);
+        $manager->persist($helene_sicsic);
         $manager->flush();
         
-        $this->addReference('membre', $membre);
+        $this->addReference('pol_maire', $pol_maire);
+        $this->addReference('helene_sicsic', $helene_sicsic);
     }
     
     /**

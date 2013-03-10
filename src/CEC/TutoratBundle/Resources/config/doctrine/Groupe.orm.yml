@@ -21,6 +21,9 @@ CEC\TutoratBundle\Entity\Groupe:
             type: datetime
         fin:
             type: datetime
+        rendezVous:
+            type: string
+            length: 255
         annee:
             type: integer
         dateCreation:
@@ -34,13 +37,16 @@ CEC\TutoratBundle\Entity\Groupe:
                 timestampable:
                     on: update
     manyToMany:
-        lyceens:
-            targetEntity: Lyceen
-            inversedBy: groupes
-        membres:
-            targetEntity: CEC\MembreBundle\Entity\Membre
+        lycees:
+            targetEntity: Lycee
             inversedBy: groupes
     oneToMany:
+        lyceens:
+            targetEntity: ChangementGroupeLyceen
+            mappedBy: groupe
+        tuteurs:
+            targetEntity: ChangementGroupeTuteur
+            mappedBy: groupe
         seances:
             targetEntity: Seance
             mappedBy: groupe

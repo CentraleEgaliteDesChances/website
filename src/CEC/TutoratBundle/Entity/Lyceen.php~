@@ -472,4 +472,14 @@ class Lyceen
     {
         return $this->seances;
     }
+    
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId() . ' - ' . $this->getPrenom() . ' ' . $this->getNom();
+    }
 }

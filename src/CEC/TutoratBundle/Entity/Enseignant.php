@@ -54,7 +54,19 @@ class Enseignant
      */
     private $dateModification;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lycees;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -250,37 +262,12 @@ class Enseignant
     }
 
     /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Enseignant
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    
-        return $this;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lycees;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
      * Add lycees
      *
-     * @param \CEC\TutoratBundle\Entity\EnseignantLyceeReference $lycees
+     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees
      * @return Enseignant
      */
-    public function addLycee(\CEC\TutoratBundle\Entity\EnseignantLyceeReference $lycees)
+    public function addLycee(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees)
     {
         $this->lycees[] = $lycees;
     
@@ -290,9 +277,9 @@ class Enseignant
     /**
      * Remove lycees
      *
-     * @param \CEC\TutoratBundle\Entity\EnseignantLyceeReference $lycees
+     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees
      */
-    public function removeLycee(\CEC\TutoratBundle\Entity\EnseignantLyceeReference $lycees)
+    public function removeLycee(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees)
     {
         $this->lycees->removeElement($lycees);
     }
@@ -305,5 +292,15 @@ class Enseignant
     public function getLycees()
     {
         return $this->lycees;
+    }
+    
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getId() . ' - ' . $this->getPrenom() . ' ' . $this->getNom();
     }
 }

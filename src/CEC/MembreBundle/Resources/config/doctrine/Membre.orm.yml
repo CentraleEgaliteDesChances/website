@@ -2,6 +2,8 @@ CEC\MembreBundle\Entity\Membre:
     type: entity
     table: null
     repositoryClass: CEC\MembreBundle\Entity\MembreRepository
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: [ prenom, nom ]
     fields:
         id:
             type: integer
@@ -20,6 +22,7 @@ CEC\MembreBundle\Entity\Membre:
         telephone:
             type: string
             length: 255
+            nullable: true
         motDePasse:
             type: string
             length: 255
@@ -41,11 +44,15 @@ CEC\MembreBundle\Entity\Membre:
         secteurs:
             targetEntity: Secteur
             mappedBy: membres
-        groupes:
-            targetEntity: CEC\TutoratBundle\Entity\Groupe
-            mappedBy: membres
         seances:
             targetEntity: CEC\TutoratBundle\Entity\Seance
             mappedBy: tuteurs
+    oneToMany:
+        groupes:
+            targetEntity: CEC\TutoratBundle\Entity\ChangementGroupeTuteur
+            mappedBy: tuteurs
+        VPLycees:
+            targetEntity: CEC\TutoratBundle\Entity\ChangementLyceeVP
+            mappedBy: VP
     lifecycleCallbacks:
         prePersist: [ setDefaultValues ]

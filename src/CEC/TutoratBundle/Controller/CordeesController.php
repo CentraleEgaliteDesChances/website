@@ -3,7 +3,6 @@
 namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use CEC\TutoratBundle\Form\Type\NomCordeeType;
 use CEC\MainBundle\Classes\AnneeScolaire;
 use CEC\TutoratBundle\Entity\Cordee;
@@ -125,9 +124,14 @@ class CordeesController extends Controller
     {
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();    // Tous les lycées
         $lyceesActifs = array();
+        $cordees = array();
         foreach ($lycees as $lycee)
         {
-            if ( count($this->getCordeesForLycee($lycee)) > 0 ) $lyceesActifs[] = $lycee;
+            if ( count($this->getCordeesForLycee($lycee)) > 0 )
+            {
+                $lyceesActifs[] = $lycee;
+                $cordees[$lycee->getId()] = $this->getCordeesForLycee($lycee);
+            }
         }
         
         // Formulaire de création d'une cordée
@@ -155,6 +159,7 @@ class CordeesController extends Controller
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
             'sources' => $this->filterLyceesSources($lyceesActifs),
             'pivots'  => $this->filterLyceesPivots($lyceesActifs),
+            'cordees' => $cordees,
             'form'    => $form->createView(),
             'afficher_modal' => $this->getRequest()->getMethod() == 'POST',
         ));
@@ -169,9 +174,12 @@ class CordeesController extends Controller
     {
         $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
             ->find($cordee);
+        if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
+        
         $lycees = $this->getLyceesForCordee($cordee);
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
+            'cordee'  => $cordee,
             'sources' => $this->filterLyceesSources($lycees),
             'pivots'  => $this->filterLyceesPivots($lycees),
         ));
@@ -187,6 +195,7 @@ class CordeesController extends Controller
         // On récupère la cordée
         $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
             ->find($cordee);
+        if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
             
         // On récupère les lycées de la cordée et les lycées sans cordée
         $lyceesCordee = $this->getLyceesForCordee($cordee);    // Lycées de la cordée
@@ -242,6 +251,9 @@ class CordeesController extends Controller
         $cordee = $doctrine->getRepository('CECTutoratBundle:Cordee')->find($cordee);
         $lycee = $doctrine->getRepository('CECTutoratBundle:Lycee')->find($lycee);
         
+        if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+        
         // On ajoute une changement de partenariat
         $this->changerPartenariat($cordee, $lycee);
                         
@@ -256,6 +268,7 @@ class CordeesController extends Controller
     {
         // Récupère la cordée et ses lycées
         $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->find($cordee);
+        if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
         $lycees = $this->getLyceesForCordee($cordee);
         
         // Ajoute un changement de partenariat pour chacun des lycées

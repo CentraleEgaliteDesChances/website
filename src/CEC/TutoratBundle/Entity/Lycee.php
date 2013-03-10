@@ -75,12 +75,18 @@ class Lycee
     private $enseignants;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $groupes;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->changementsCordee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->enseignants = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -359,10 +365,10 @@ class Lycee
     /**
      * Add enseignants
      *
-     * @param \CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants
+     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants
      * @return Lycee
      */
-    public function addEnseignant(\CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants)
+    public function addEnseignant(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants)
     {
         $this->enseignants[] = $enseignants;
     
@@ -372,9 +378,9 @@ class Lycee
     /**
      * Remove enseignants
      *
-     * @param \CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants
+     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants
      */
-    public function removeEnseignant(\CEC\TutoratBundle\Entity\EnseignantLyceeReference $enseignants)
+    public function removeEnseignant(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants)
     {
         $this->enseignants->removeElement($enseignants);
     }
@@ -388,13 +394,86 @@ class Lycee
     {
         return $this->enseignants;
     }
+
+    /**
+     * Add groupes
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
+     * @return Lycee
+     */
+    public function addGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
+    {
+        $this->groupes[] = $groupes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groupes
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
+     */
+    public function removeGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
+    {
+        $this->groupes->removeElement($groupes);
+    }
+
+    /**
+     * Get groupes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroupes()
+    {
+        return $this->groupes;
+    }
+    
     
     /**
      * Get description
+     *
      * @return string
      */
     public function __toString()
     {
-        return $this->getId() . ' - ' . $this->getNom();
+        return $this->getId() . ' - ' . $this->getNom() . ' (' . $this->getVille() . ')';
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $VPLycees;
+
+
+    /**
+     * Add VPLycees
+     *
+     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
+     * @return Lycee
+     */
+    public function addVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
+    {
+        $this->VPLycees[] = $vPLycees;
+    
+        return $this;
+    }
+
+    /**
+     * Remove VPLycees
+     *
+     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
+     */
+    public function removeVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
+    {
+        $this->VPLycees->removeElement($vPLycees);
+    }
+
+    /**
+     * Get VPLycees
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVPLycees()
+    {
+        return $this->VPLycees;
     }
 }

@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Groupe
 {
-    /**
+     /**
      * @var integer
      */
     private $id;
@@ -40,6 +40,11 @@ class Groupe
     private $fin;
 
     /**
+     * @var integer
+     */
+    private $annee;
+
+    /**
      * @var \DateTime
      */
     private $dateCreation;
@@ -49,7 +54,36 @@ class Groupe
      */
     private $dateModification;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seances;
 
+    /**
+     * @var \CEC\TutoratBundle\Entity\Lycee
+     */
+    private $lycee;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lyceens;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $membres;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->membres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -176,6 +210,29 @@ class Groupe
     }
 
     /**
+     * Set annee
+     *
+     * @param integer $annee
+     * @return Groupe
+     */
+    public function setAnnee($annee)
+    {
+        $this->annee = $annee;
+    
+        return $this;
+    }
+
+    /**
+     * Get annee
+     *
+     * @return integer 
+     */
+    public function getAnnee()
+    {
+        return $this->annee;
+    }
+
+    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -220,66 +277,63 @@ class Groupe
     {
         return $this->dateModification;
     }
-    /**
-     * @var integer
-     */
-    private $annee;
-
 
     /**
-     * Set annee
+     * Add seances
      *
-     * @param integer $annee
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
      * @return Groupe
      */
-    public function setAnnee($annee)
+    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
-        $this->annee = $annee;
+        $this->seances[] = $seances;
     
         return $this;
     }
 
     /**
-     * Get annee
+     * Remove seances
      *
-     * @return integer 
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
      */
-    public function getAnnee()
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
-        return $this->annee;
+        $this->seances->removeElement($seances);
     }
 
     /**
-     * Set id
+     * Get seances
      *
-     * @param integer $id
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeances()
+    {
+        return $this->seances;
+    }
+
+    /**
+     * Set lycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
      * @return Groupe
      */
-    public function setId($id)
+    public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
     {
-        $this->id = $id;
+        $this->lycee = $lycee;
     
         return $this;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lyceens;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * Get lycee
+     *
+     * @return \CEC\TutoratBundle\Entity\Lycee 
      */
-    private $membres;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getLycee()
     {
-        $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->membres = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->lycee;
     }
-    
+
     /**
      * Add lyceens
      *
@@ -348,39 +402,105 @@ class Groupe
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $seances;
+    private $tuteurs;
 
 
     /**
-     * Add seances
+     * Add tuteurs
      *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
      * @return Groupe
      */
-    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    public function addTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
     {
-        $this->seances[] = $seances;
+        $this->tuteurs[] = $tuteurs;
     
         return $this;
     }
 
     /**
-     * Remove seances
+     * Remove tuteurs
      *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
      */
-    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    public function removeTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
     {
-        $this->seances->removeElement($seances);
+        $this->tuteurs->removeElement($tuteurs);
     }
 
     /**
-     * Get seances
+     * Get tuteurs
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getSeances()
+    public function getTuteurs()
     {
-        return $this->seances;
+        return $this->tuteurs;
+    }
+
+    /**
+     * Add lycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     * @return Groupe
+     */
+    public function addLycee(\CEC\TutoratBundle\Entity\Lycee $lycee)
+    {
+        $this->lycee[] = $lycee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     */
+    public function removeLycee(\CEC\TutoratBundle\Entity\Lycee $lycee)
+    {
+        $this->lycee->removeElement($lycee);
+    }
+    /**
+     * @var string
+     */
+    private $rendezVous;
+
+
+    /**
+     * Set rendezVous
+     *
+     * @param string $rendezVous
+     * @return Groupe
+     */
+    public function setRendezVous($rendezVous)
+    {
+        $this->rendezVous = $rendezVous;
+    
+        return $this;
+    }
+
+    /**
+     * Get rendezVous
+     *
+     * @return string 
+     */
+    public function getRendezVous()
+    {
+        return $this->rendezVous;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lycees;
+
+
+    /**
+     * Get lycees
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLycees()
+    {
+        return $this->lycees;
     }
 }
