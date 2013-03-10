@@ -207,20 +207,29 @@ class LyceesController extends Controller
             ->getRepository('CECTutoratBundle:Groupe')
             ->findByLyceeForCurrentYear($lycee);
             
-        // On trouve les tuteurs
+        // On trouve les tuteurs, les lycéens et les séances à venir
         $tuteurs = array();
+        $lyceens = array();
+        $seances = array();
         foreach ($groupes as $groupe) {
             $tuteurs = array_merge($tuteurs, $this->getTuteursForGroupe($groupe));
+            $lyceens = array_merge($lyceens, $this->getLyceensForGroupe($groupe));
+            
+            // On rassemble les séances à venir
+            $query = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')
+                ->createQueryBuilder('s')
+                ->where('s.groupe = :groupe_id')
+                ->setParameter('groupe_id', $groupe->getId())
+                ->andWhere('s.fin > :maintenant')
+                ->setParameter('maintenant', new \DateTime())
+                ->getQuery();
+            $seances = array_merge($seances, $query->getResult());
         }
+        
+        // On trie les tuteurs et les lycéens par ordre alphabétique
         usort($tuteurs, function($a, $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
-        
-        // On trouve les lycéens
-        $lyceens = array();
-        foreach ($groupes as $groupe) {
-            $lyceens = array_merge($lyceens, $this->getLyceensForGroupe($groupe));
-        }
         usort($lyceens, function($a, $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
@@ -232,7 +241,7 @@ class LyceesController extends Controller
             'enseignants'  => $enseignants,
             'roles'        => $roles,
             'groupes'      => $groupes,
-            'seances'      => array(),
+            'seances'      => $seances,
         ));
     }
     
@@ -272,11 +281,12 @@ class LyceesController extends Controller
             return $VP->getPrenom() . ' ' . $VP->getNom();
         }, $VPs);
             
-        // On trouve les tuteurs, les lycéens, les niveaux et les types de tutorat
+        // On trouve les tuteurs, les lycéens, les niveaux, les types de tutorat et les prochaines séances
         $tuteurs = array();
         $lyceens = array();
         $types = array();
         $niveaux = array();
+        $seances = array();
         foreach ($groupes as $groupe) {
             $tuteurs = array_merge($tuteurs, $this->getTuteursForGroupe($groupe));
             $lyceens = array_merge($lyceens, $this->getLyceensForGroupe($groupe));
