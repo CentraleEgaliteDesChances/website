@@ -34,3 +34,7 @@ lycee:
     defaults: { _controller: CECTutoratBundle:Lycees:voir }
     requirements:
         lycee: \d+
+        
+tous_enseignants:
+    pattern: /enseignants
+    defaults: { _controller: CECTutoratBundle:Enseignants:tous }

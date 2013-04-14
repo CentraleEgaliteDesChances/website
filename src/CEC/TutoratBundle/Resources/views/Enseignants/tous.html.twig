@@ -1,0 +1,27 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}Enseignants{% endblock %}
+
+{% block narrow_body %}
+
+<table class="table table-bordered table-hover table-striped">
+    {% if enseignants|length > 0 %}
+        <tbody>
+            {% for enseignant in enseignants %}
+            <tr>
+                <td>
+                    <a href="#">
+                        <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
+                        {{ enseignant.role is not empty ? enseignant.role }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun enseignant</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+{% endblock %}
