@@ -1,97 +1,60 @@
-{% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
-{% import  'CECMainBundle::macros.html.twig' as modal %}
+{% extends 'CECMainBundle::narrow.html.twig' %}
 
-{% block right %}
-{{ parent() }}
 
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if lyceens %}
-        <thead><tr><th><h4>Lycéens</h4></th></tr></thead>
-        <tbody>
-            {% for lyceen in lyceens %}
+{% block narrow_title %}{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}{% endblock %}
+
+{% block narrow_body %}
+
+<table class="table table-bordered table-hover table-striped">
+    <tbody>
+        <tr>
+            <td>Nom</td>
+            <td>{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}</td>
+        </tr>
+        <tr>
+            <td>Fonction</td>
+            <td>{% if enseignant.lycee %}
+                {{ enseignant.role }} au lycée <a href="{{ path('lycee', { 'lycee': enseignant.lycee.id }) }}">{{ enseignant.lycee.nom|trim('Lycée') }}</a>
+            {% else %}
+                Aucune fonction
+            {% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-bordered table-hover table-striped">
+    <tbody>
+        {% if enseignant.email %}
             <tr>
-                <td>
-                    <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
-                </td>
+                <td>Email</td>
+                <td><a href="mailto:{{ enseignant.email }}">{{ enseignant.email }}</a></td>
             </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
-    {% endif %}
+        {% endif %}
+        {% if enseignant.telephonePortable %}
+            <tr>
+                <td>Téléphone portable</td>
+                <td>{{ enseignant.telephonePortable }}</td>
+            </tr>
+        {% endif %}
+        {% if enseignant.telephoneFixe %}
+            <tr>
+                <td>Téléphone fixe</td>
+                <td>{{ enseignant.telephoneFixe }}</td>
+            </tr>
+        {% endif %}
+    </tbody>
 </table>
 
-<table class="table table-bordered table-hover table-condensed table-striped table-large">
-    {% if tuteurs %}
-        <thead><tr><th><h4>Tuteurs</h4></th></tr></thead>
+{% if enseignant.commentaires %}
+    <table class="table table-bordered table-hover table-striped">
         <tbody>
-            {% for tuteur in tuteurs %}
             <tr>
-                <td>
-                    <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
-                </td>
+                <td>Commentaires</td>
+                <td>{{ enseignant.commentaires }}</td>
             </tr>
-            {% endfor %}
         </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun tuteur pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
+    </table>
+{% endif %}
 
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if lycee.enseignants|length > 0 %}
-        <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
-        <tbody>
-            {% for enseignant in lycee.enseignants %}
-            <tr>
-                <td>
-                    <a href="#">
-                        <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
-                        {{ enseignant.role is not empty ? enseignant.role }}
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun enseignant pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
-
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if lycee.groupes|length > 0 %}
-        <thead><tr><th><h4>Groupes de tutorat</h4></th></tr></thead>
-        <tbody>
-            {% for groupe in lycee.groupes %}
-            <tr>
-                <td>
-                    <strong>{{ groupe.niveau }}</strong><span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
-                    Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun groupe de tutorat pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
-
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if seances %}
-        <thead><tr><th><h4>Séances de tutorat</h4></th></tr></thead>
-        <tbody>
-            {% for seance in seances %}
-            <tr>
-                <td>
-                    <strong>{{ cycle(jours, seance.debut|date('N')) }} {{ seance.debut|date('j') }} {{ cycle(mois, seance.debut|date('n')) }} à {{ seance.debut|date('G\\hi') }}</strong><br />
-                    Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucune séance de tutorat pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
+<a href="#" class="btn pull-right">Editer la fiche</a>
 
 {% endblock %}

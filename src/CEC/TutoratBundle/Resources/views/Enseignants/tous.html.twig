@@ -11,7 +11,7 @@
             {% for enseignant in enseignants %}
             <tr>
                 <td>
-                    <a href="#">
+                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
                         {{ enseignant.role is not empty ? enseignant.role }}
                     </a>
@@ -20,7 +20,7 @@
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucun enseignant</h4></th></tr></thead>
+        <thead><tr><th class="muted"><h4>Aucun enseignant dans la base de donnée</h4></th></tr></thead>
     {% endif %}
 </table>
 

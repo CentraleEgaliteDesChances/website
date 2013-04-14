@@ -52,7 +52,7 @@
                 {{ vp.prenom|capitalize }} {{ vp.nom|capitalize }}{% if not loop.last %}, {% endif %}
             {% else %}Aucun VP Lycée{% endfor %}</td>
         </tr>
-    </thead>
+    </tbody>
 </table>
 
 {% if proviseur is not null or referent is not null %}   

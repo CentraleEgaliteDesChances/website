@@ -16,9 +16,7 @@ class EnseignantsController extends Controller
             return strcmp($a->getNom(), $b->getNom());
         });
         
-        return $this->render('CECTutoratBundle:Enseignants:tous.html.twig', array(
-            'enseignants'        => $enseignants,
-        ));
+        return $this->render('CECTutoratBundle:Enseignants:tous.html.twig', array('enseignants' => $enseignants,));
     }
     
     /**
