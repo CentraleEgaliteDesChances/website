@@ -1,0 +1,29 @@
+@narrowColor: #cccac9;
+@narrowShadow: 0 0 3px #cfcfcf;
+
+.narrow-header {
+    border: 1px solid @tableBorder;
+    border-bottom-style: none;
+    .border-top-radius(@borderRadiusLarge);
+    .gradientBar(@narrowColor, darken(@narrowColor, 10%));
+    .box-shadow(@narrowShadow);
+}
+
+.narrow-title {
+    text-align: center;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.narrow-body {
+    border: 1px solid @tableBorder;
+    border-radius: @borderRadiusLarge;
+    background-color: white;
+    .box-shadow(@narrowShadow);
+    padding: 10px;
+}
+
+.narrow-header + .narrow-body {
+    border-top-style: none;
+    .border-top-radius(0);
+}
