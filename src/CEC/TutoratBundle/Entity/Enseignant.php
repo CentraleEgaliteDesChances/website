@@ -62,7 +62,7 @@ class Enseignant
     /**
      * @var \CEC\TutoratBundle\Entity\Lycee
      */
-    private $lycees;
+    private $lycee;
 
 
     /**
@@ -283,25 +283,25 @@ class Enseignant
     }
 
     /**
-     * Set lycees
+     * Set lycee
      *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
      * @return Enseignant
      */
-    public function setLycees(\CEC\TutoratBundle\Entity\Lycee $lycees = null)
+    public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
     {
-        $this->lycees = $lycees;
+        $this->lycee = $lycee;
     
         return $this;
     }
 
     /**
-     * Get lycees
+     * Get lycee
      *
      * @return \CEC\TutoratBundle\Entity\Lycee 
      */
-    public function getLycees()
+    public function getLycee()
     {
-        return $this->lycees;
+        return $this->lycee;
     }
 }

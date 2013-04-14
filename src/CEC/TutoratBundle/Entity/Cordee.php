@@ -163,5 +163,4 @@ class Cordee
     {
         return $this->getLycees()->count() > 0;
     }
-    
 }

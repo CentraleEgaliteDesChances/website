@@ -3,6 +3,7 @@
 namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use CEC\TutoratBundle\Entity\Groupe;
 
 /**
  * SeanceRepository
@@ -12,4 +13,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class SeanceRepository extends EntityRepository
 {
+    /**
+     * Find seances for a groupe and still to come
+     *
+     * @param Groupe $groupe: the groupe
+     * @return ArrayCollection
+     */
+    public function findComingByGroupe(Groupe $groupe)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->where('s.groupe = :groupe_id')
+            ->setParameter('groupe_id', $groupe->getId())
+            ->andWhere('s.fin > :maintenant')
+            ->setParameter('maintenant', new \DateTime())
+            ->getQuery();
+        return $query->getResult();
+    }
 }

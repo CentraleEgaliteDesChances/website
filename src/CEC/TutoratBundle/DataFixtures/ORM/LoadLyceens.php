@@ -68,17 +68,12 @@ class LoadLyceen extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($tara_delpech);
         $manager->persist($pauline_tampier);
         $manager->flush();
-        
-        $this->addReference('medhi_amalou', $medhi_amalou);
-        $this->addReference('meissa_dieng', $meissa_dieng);
-        $this->addReference('tara_delpech', $tara_delpech);
-        $this->addReference('pauline_tampier', $pauline_tampier);
     }
     
     /**
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 1;
+        return 5;
     }
 }

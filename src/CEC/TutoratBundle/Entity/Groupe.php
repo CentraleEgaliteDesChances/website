@@ -45,11 +45,6 @@ class Groupe
     private $rendezVous;
 
     /**
-     * @var integer
-     */
-    private $annee;
-
-    /**
      * @var \DateTime
      */
     private $dateCreation;
@@ -236,29 +231,6 @@ class Groupe
     public function getRendezVous()
     {
         return $this->rendezVous;
-    }
-
-    /**
-     * Set annee
-     *
-     * @param integer $annee
-     * @return Groupe
-     */
-    public function setAnnee($annee)
-    {
-        $this->annee = $annee;
-    
-        return $this;
-    }
-
-    /**
-     * Get annee
-     *
-     * @return integer 
-     */
-    public function getAnnee()
-    {
-        return $this->annee;
     }
 
     /**

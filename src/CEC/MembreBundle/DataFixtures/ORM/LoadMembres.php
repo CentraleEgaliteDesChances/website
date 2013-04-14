@@ -33,20 +33,19 @@ class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, Co
         $pol_maire->setPrenom('Pol')
             ->setNom('Maire')
             ->setEmail('paul.maire@student.ecp.fr')
-            ->setTelephone('0608028328');
-        $encoder = $this->container
-                    ->get('security.encoder_factory')
-                    ->getEncoder($pol_maire);
+            ->setTelephone('0608028328')
+            ->addSecteur($this->getReference('secteur_sorties'))
+            ->addSecteur($this->getReference('secteur_projets'));
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($pol_maire);
         $pol_maire->setMotDePasse($encoder->encodePassword('debug', $pol_maire->getSalt()));
         
         $helene_sicsic = new Membre();
         $helene_sicsic->setPrenom('Hélène')
             ->setNom('Sicsic')
             ->setEmail('helene.sicsic@student.ecp.fr')
-            ->setTelephone('0709080706');
-        $encoder = $this->container
-                    ->get('security.encoder_factory')
-                    ->getEncoder($helene_sicsic);
+            ->setTelephone('0709080706')
+            ->addSecteur($this->getReference('secteur_projets'));
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($helene_sicsic);
         $helene_sicsic->setMotDePasse($encoder->encodePassword('debug', $helene_sicsic->getSalt()));
         
         $manager->persist($pol_maire);
@@ -61,6 +60,6 @@ class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, Co
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 1;
+        return 5;
     }
 }

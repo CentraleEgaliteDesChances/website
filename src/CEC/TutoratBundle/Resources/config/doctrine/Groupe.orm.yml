@@ -24,8 +24,6 @@ CEC\TutoratBundle\Entity\Groupe:
         rendezVous:
             type: string
             length: 255
-        annee:
-            type: integer
         dateCreation:
             type: datetime
             gedmo:

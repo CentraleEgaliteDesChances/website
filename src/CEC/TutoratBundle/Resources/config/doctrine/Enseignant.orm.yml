@@ -44,7 +44,7 @@ CEC\TutoratBundle\Entity\Enseignant:
                 timestampable:
                     on: update
     manyToOne:
-        lycees:
+        lycee:
             targetEntity: Lycee
-            mappedBy: enseignants
+            inversedBy: enseignants
     lifecycleCallbacks: {  }

@@ -59,9 +59,9 @@ CEC\TutoratBundle\Entity\Lyceen:
                 timestampable:
                     on: update
     manyToOne:
-        groupes:
+        groupe:
             targetEntity: Groupe
-            mappedBy: lycees
+            inversedBy: lycees
     manyToMany:
         seances:
             targetEntity: Seance

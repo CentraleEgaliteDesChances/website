@@ -23,10 +23,7 @@ class LoadLycees extends AbstractFixture implements OrderedFixtureInterface
             ->setTelephone('01 42 87 49 84')
             ->setPivot(false)
             ->setZEP(true)
-            ->setCordee($this->getReference('michelin'))
-            ->addEnseignant($this->getReference('merlet'))
-            ->addEnseignant($this->getReference('laine'))
-            ->addVPLycee($this->getReference('pol_maire'));
+            ->setCordee($this->getReference('michelin'));
         
         $mounier = new Lycee();
         $mounier->setNom('Lycée Emmanuel Mounier')
@@ -48,8 +45,7 @@ class LoadLycees extends AbstractFixture implements OrderedFixtureInterface
             ->setTelephone('01 46 30 35 61')
             ->setPivot(false)
             ->setZEP(false)
-            ->setCordee($this->getReference('open'))
-            ->addVPLycee($this->getReference('helene_sicsic'));
+            ->setCordee($this->getReference('open'));
             
         $vilgenis = new Lycee();
         $vilgenis->setNom('Lycée Parc de Vilgénis')

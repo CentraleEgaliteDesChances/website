@@ -45,12 +45,12 @@ CEC\TutoratBundle\Entity\Lycee:
     manyToOne:
         cordee:
             targetEntity: Cordee
-            mappedBy: lycees
+            inversedBy: lycees
     oneToMany:
         enseignants:
             targetEntity: Enseignant
             mappedBy: lycee
-        vpLycee:
+        vpLycees:
             targetEntity: CEC\MembreBundle\Entity\Membre
             mappedBy: vpLycee
     manyToMany:

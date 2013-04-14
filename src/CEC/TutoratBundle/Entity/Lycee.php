@@ -72,7 +72,7 @@ class Lycee
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $vpLycee;
+    private $vpLycees;
 
     /**
      * @var \CEC\TutoratBundle\Entity\Cordee
@@ -248,7 +248,7 @@ class Lycee
      * @param boolean $zep
      * @return Lycee
      */
-    public function setZEP($zep)
+    public function setZep($zep)
     {
         $this->zep = $zep;
     
@@ -260,7 +260,7 @@ class Lycee
      *
      * @return boolean 
      */
-    public function getZEP()
+    public function getZep()
     {
         return $this->zep;
     }
@@ -368,36 +368,36 @@ class Lycee
     }
 
     /**
-     * Add vpLycee
+     * Add vpLycees
      *
-     * @param \CEC\MembreBundle\Entity\Membre $vpLycee
+     * @param \CEC\MembreBundle\Entity\Membre $vpLycees
      * @return Lycee
      */
-    public function addVPLycee(\CEC\MembreBundle\Entity\Membre $vpLycee)
+    public function addVpLycee(\CEC\MembreBundle\Entity\Membre $vpLycees)
     {
-        $this->vpLycee[] = $vpLycee;
+        $this->vpLycees[] = $vpLycees;
     
         return $this;
     }
 
     /**
-     * Remove vpLycee
+     * Remove vpLycees
      *
-     * @param \CEC\MembreBundle\Entity\Membre $vpLycee
+     * @param \CEC\MembreBundle\Entity\Membre $vpLycees
      */
-    public function removeVPLycee(\CEC\MembreBundle\Entity\Membre $vpLycee)
+    public function removeVpLycee(\CEC\MembreBundle\Entity\Membre $vpLycees)
     {
-        $this->vpLycee->removeElement($vpLycee);
+        $this->vpLycees->removeElement($vpLycees);
     }
 
     /**
-     * Get vpLycee
+     * Get vpLycees
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getVPLycee()
+    public function getVpLycees()
     {
-        return $this->vpLycee;
+        return $this->vpLycees;
     }
 
     /**

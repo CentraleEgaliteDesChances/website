@@ -4,10 +4,8 @@ namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Form\Type\NomCordeeType;
-use CEC\MainBundle\Classes\AnneeScolaire;
 use CEC\TutoratBundle\Entity\Cordee;
 use CEC\TutoratBundle\Entity\Lycee;
-use CEC\TutoratBundle\Entity\ChangementCordeeLycee;
 
 class CordeesController extends Controller
 {

@@ -20,19 +20,18 @@ class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
         $secteurProjets = new Secteur();
         $secteurProjets->setNom('Secteur Projets');
         
-        $secteurProjets->addMembre($this->getReference('helene_sicsic'));
-        $secteurProjets->addMembre($this->getReference('pol_maire'));
-        $secteurSorties->addMembre($this->getReference('pol_maire'));
-        
         $manager->persist($secteurSorties);
         $manager->persist($secteurProjets);
         $manager->flush();
+        
+        $this->addReference('secteur_sorties', $secteurSorties);
+        $this->addReference('secteur_projets', $secteurProjets);
     }
     
     /**
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 2;
+        return 1;
     }
 }

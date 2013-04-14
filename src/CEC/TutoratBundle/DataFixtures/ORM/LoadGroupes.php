@@ -6,7 +6,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Groupe;
-use CEC\MainBundle\Classes\AnneeScolaire;
 
 
 class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
@@ -19,19 +18,13 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
         $debut = new \DateTime('2013-03-12 17:30:00');
         $fin = new \DateTime('2013-03-12 19:30:00');
         
-        $annee2013 = new AnneeScolaire();
-        $annee2013->setAnneeScolaire('2012');
-        $annee2010 = new AnneeScolaire();
-        $annee2010->setAnneeScolaire('2010');
-        
         $jj_premieres = new Groupe();
         $jj_premieres->setNiveau('Premières')
             ->setTypeDeTutorat('Tutorat Scientifique')
             ->setLieu('Dans le lycée')
             ->setDebut($debut)
             ->setFin($fin)
-            ->setRendezVous('aux barrières')
-            ->setAnnee($annee2013->getAnneeScolaire());
+            ->setRendezVous('aux barrières');
             
         $jj_terminales = new Groupe();
         $jj_terminales->setNiveau('Terminales')
@@ -39,8 +32,7 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
             ->setLieu('Dans le lycée')
             ->setDebut($debut)
             ->setFin($fin)
-            ->setRendezVous('aux barrières')
-            ->setAnnee($annee2013->getAnneeScolaire());
+            ->setRendezVous('aux barrières');
             
         $jj_terminales_ancien = new Groupe();
         $jj_terminales_ancien->setNiveau('Premières et terminales')
@@ -48,8 +40,7 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
             ->setLieu('Dans le lycée')
             ->setDebut($debut)
             ->setFin($fin)
-            ->setRendezVous('aux barrières')
-            ->setAnnee($annee2010->getAnneeScolaire());
+            ->setRendezVous('aux barrières');
             
         $mounier_montesquieu_secondes = new Groupe();
         $mounier_montesquieu_secondes->setNiveau('Secondes')
@@ -57,8 +48,7 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
             ->setLieu('A Centrale')
             ->setDebut($debut)
             ->setFin($fin)
-            ->setRendezVous('à l\'entrée Nord du Bat\'ens')
-            ->setAnnee($annee2013->getAnneeScolaire());
+            ->setRendezVous('à l\'entrée Nord du Bat\'ens');
             
         $jj_premieres->addLycee($this->getReference('jj'));
         $jj_terminales->addLycee($this->getReference('jj'));
@@ -82,6 +72,6 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 2;
+        return 3;
     }
 }

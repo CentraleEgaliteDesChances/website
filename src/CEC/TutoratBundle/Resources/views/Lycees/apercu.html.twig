@@ -40,7 +40,7 @@
     <tbody>
         <tr>
             <td>Cordée</td>
-            <td>{{ cordees ? cordees|join(', ') : 'Aucune cordée' }}</td>
+            <td>{{ lycee.cordee.nom ?: 'Aucune cordée' }}</td>
         </tr>
         <tr>
             <td>Rôle</td>
@@ -48,7 +48,9 @@
         </tr>
         <tr>
             <td>VP Lycée</td>
-            <td>{{ VPs ? VPs|join(', ') : 'Aucun VP Lycée' }}</td>
+            <td>{% for vp in lycee.vpLycees %}
+                {{ vp.prenom|capitalize }} {{ vp.nom|capitalize }}{% if not loop.last %}, {% endif %}
+            {% else %}Aucun VP Lycée{% endfor %}</td>
         </tr>
     </thead>
 </table>

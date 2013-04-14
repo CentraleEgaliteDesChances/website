@@ -461,4 +461,32 @@ class Lyceen
     {
         return $this->seances;
     }
+    /**
+     * @var \CEC\TutoratBundle\Entity\Groupe
+     */
+    private $groupe;
+
+
+    /**
+     * Set groupe
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
+     * @return Lyceen
+     */
+    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
+    {
+        $this->groupe = $groupe;
+    
+        return $this;
+    }
+
+    /**
+     * Get groupe
+     *
+     * @return \CEC\TutoratBundle\Entity\Groupe 
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
 }

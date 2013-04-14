@@ -18,7 +18,8 @@ class LoadEnseignants extends AbstractFixture implements OrderedFixtureInterface
         $guillou->setPrenom('Philippe')
             ->setNom('Le Guillou')
             ->setRole('Chef d\'établissement')
-            ->setEmail('phi.le.guillou@gmail.com');
+            ->setEmail('phi.le.guillou@gmail.com')
+            ->setLycee($this->getReference('jj'));
         
         $merlet = new Enseignant();
         $merlet->setPrenom('Thierry')
@@ -32,22 +33,19 @@ class LoadEnseignants extends AbstractFixture implements OrderedFixtureInterface
             ->setRole('Professeur référent')
             ->setEmail('b_laine_huppe@hotmail.com')
             ->setTelephonePortable('06 66 20 43 48 ')
-            ->setTelephoneFixe('01 48 49 35 69');
+            ->setTelephoneFixe('01 48 49 35 69')
+            ->setLycee($this->getReference('jj'));
             
         $manager->persist($guillou);
         $manager->persist($merlet);
         $manager->persist($laine);
         $manager->flush();
-        
-        $this->addReference('guillou', $guillou);
-        $this->addReference('merlet', $merlet);
-        $this->addReference('laine', $laine);
     }
     
     /**
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 1;
+        return 3;
     }
 }
