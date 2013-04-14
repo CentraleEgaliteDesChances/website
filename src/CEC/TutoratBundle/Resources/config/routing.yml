@@ -43,3 +43,8 @@ enseignant:
     defaults: { _controller: CECTutoratBundle:Enseignants:voir }
     requirements:
         cordee: \d+
+editer_enseignant:
+    pattern: /enseignants/{enseignant}/edition
+    defaults: { _controller: CECTutoratBundle:Enseignants:editer }
+    requirements:
+        cordee: \d+

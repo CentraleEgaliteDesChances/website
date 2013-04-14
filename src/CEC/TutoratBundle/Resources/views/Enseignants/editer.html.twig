@@ -1,0 +1,60 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}{% endblock %}
+
+{% block narrow_body %}
+
+<table class="table table-bordered table-hover table-striped">
+    <tbody>
+        <tr>
+            <td>Nom</td>
+            <td>{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}</td>
+        </tr>
+        <tr>
+            <td>Fonction</td>
+            <td>{% if enseignant.lycee %}
+                {{ enseignant.role }} au lycée <a href="{{ path('lycee', { 'lycee': enseignant.lycee.id }) }}">{{ enseignant.lycee.nom|trim('Lycée') }}</a>
+            {% else %}
+                Aucune fonction
+            {% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-bordered table-hover table-striped">
+    <tbody>
+        {% if enseignant.email %}
+            <tr>
+                <td>Email</td>
+                <td><a href="mailto:{{ enseignant.email }}">{{ enseignant.email }}</a></td>
+            </tr>
+        {% endif %}
+        {% if enseignant.telephonePortable %}
+            <tr>
+                <td>Téléphone portable</td>
+                <td>{{ enseignant.telephonePortable }}</td>
+            </tr>
+        {% endif %}
+        {% if enseignant.telephoneFixe %}
+            <tr>
+                <td>Téléphone fixe</td>
+                <td>{{ enseignant.telephoneFixe }}</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+{% if enseignant.commentaires %}
+    <table class="table table-bordered table-hover table-striped">
+        <tbody>
+            <tr>
+                <td>Commentaires</td>
+                <td>{{ enseignant.commentaires }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
+
+<a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}" class="btn btn-primary pull-right">Terminer</a>
+
+{% endblock %}

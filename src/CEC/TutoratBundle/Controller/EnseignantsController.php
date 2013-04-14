@@ -33,4 +33,19 @@ class EnseignantsController extends Controller
         ));
         
     }
+    
+    /**
+     * Permet d'éditer un enseignant
+     *
+     * @param integer $enseignant: id de l'enseignant
+     */
+    public function editerAction($enseignant) {
+        $enseignant = $this->getDoctrine()->getRepository('CECTutoratBundle:Enseignant')->find($enseignant);
+        if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
+        
+        return $this->render('CECTutoratBundle:Enseignants:editer.html.twig', array(
+            'enseignant'        => $enseignant,
+        ));
+        
+    }
 }
