@@ -49,10 +49,10 @@ CEC\MembreBundle\Entity\Membre:
             mappedBy: tuteurs
     oneToMany:
         groupes:
-            targetEntity: CEC\TutoratBundle\Entity\ChangementGroupeTuteur
+            targetEntity: CEC\TutoratBundle\Entity\Groupe
             mappedBy: tuteurs
-        VPLycees:
-            targetEntity: CEC\TutoratBundle\Entity\ChangementLyceeVP
-            mappedBy: VP
+        vpLycee:
+            targetEntity: CEC\TutoratBundle\Entity\Lycee
+            mappedBy: vpLycee
     lifecycleCallbacks:
         prePersist: [ setDefaultValues ]

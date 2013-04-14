@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Cordee;
 
-class ChargeCordees extends AbstractFixture implements OrderedFixtureInterface
+class LoadCordees extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}

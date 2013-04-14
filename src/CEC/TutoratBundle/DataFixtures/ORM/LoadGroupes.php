@@ -9,7 +9,7 @@ use CEC\TutoratBundle\Entity\Groupe;
 use CEC\MainBundle\Classes\AnneeScolaire;
 
 
-class ChargeGroupes extends AbstractFixture implements OrderedFixtureInterface
+class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}

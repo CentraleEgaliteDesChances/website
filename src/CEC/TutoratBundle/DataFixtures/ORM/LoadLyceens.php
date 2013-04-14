@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Lyceen;
 
 
-class ChargeLyceen extends AbstractFixture implements OrderedFixtureInterface
+class LoadLyceen extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}

@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Seance;
 
 
-class ChargeSeances extends AbstractFixture implements OrderedFixtureInterface
+class LoadSeances extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}

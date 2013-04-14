@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Lycee;
 
-class ChargeLycees extends AbstractFixture implements OrderedFixtureInterface
+class LoadLycees extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -22,7 +22,11 @@ class ChargeLycees extends AbstractFixture implements OrderedFixtureInterface
             ->setStatut('Établissement Public')
             ->setTelephone('01 42 87 49 84')
             ->setPivot(false)
-            ->setZEP(true);
+            ->setZEP(true)
+            ->setCordee($this->getReference('michelin'))
+            ->addEnseignant($this->getReference('merlet'))
+            ->addEnseignant($this->getReference('laine'))
+            ->addVPLycee($this->getReference('pol_maire'));
         
         $mounier = new Lycee();
         $mounier->setNom('Lycée Emmanuel Mounier')
@@ -32,7 +36,8 @@ class ChargeLycees extends AbstractFixture implements OrderedFixtureInterface
             ->setStatut('Établissement Public')
             ->setTelephone('01 41 87 60 30')
             ->setPivot(false)
-            ->setZEP(false);
+            ->setZEP(false)
+            ->setCordee($this->getReference('open'));
         
         $montesquieu = new Lycee();
         $montesquieu->setNom('Lycée Montesquieu')
@@ -42,7 +47,9 @@ class ChargeLycees extends AbstractFixture implements OrderedFixtureInterface
             ->setStatut('Établissement Public')
             ->setTelephone('01 46 30 35 61')
             ->setPivot(false)
-            ->setZEP(false);
+            ->setZEP(false)
+            ->setCordee($this->getReference('open'))
+            ->addVPLycee($this->getReference('helene_sicsic'));
             
         $vilgenis = new Lycee();
         $vilgenis->setNom('Lycée Parc de Vilgénis')
@@ -62,7 +69,8 @@ class ChargeLycees extends AbstractFixture implements OrderedFixtureInterface
             ->setStatut('Établissement Public')
             ->setTelephone('01 69 53 74 00')
             ->setPivot(true)
-            ->setZEP(false);
+            ->setZEP(false)
+            ->setCordee($this->getReference('michelin'));
             
         $manager->persist($jj);
         $manager->persist($mounier);
@@ -82,6 +90,6 @@ class ChargeLycees extends AbstractFixture implements OrderedFixtureInterface
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 1;
+        return 2;
     }
 }

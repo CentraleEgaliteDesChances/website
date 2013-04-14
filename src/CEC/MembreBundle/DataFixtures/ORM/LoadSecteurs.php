@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\MembreBundle\Entity\Secteur;
 
-class ChargeSecteurs extends AbstractFixture implements OrderedFixtureInterface
+class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}

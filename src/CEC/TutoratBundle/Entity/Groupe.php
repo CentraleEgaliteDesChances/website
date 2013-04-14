@@ -310,10 +310,10 @@ class Groupe
     /**
      * Add lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens
+     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
      * @return Groupe
      */
-    public function addLyceen(\CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens)
+    public function addLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
     {
         $this->lyceens[] = $lyceens;
     
@@ -323,9 +323,9 @@ class Groupe
     /**
      * Remove lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens
+     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
      */
-    public function removeLyceen(\CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens)
+    public function removeLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
     {
         $this->lyceens->removeElement($lyceens);
     }
@@ -343,10 +343,10 @@ class Groupe
     /**
      * Add tuteurs
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
+     * @param \CEC\MembreBundle\Entity\Membre $tuteurs
      * @return Groupe
      */
-    public function addTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
+    public function addTuteur(\CEC\MembreBundle\Entity\Membre $tuteurs)
     {
         $this->tuteurs[] = $tuteurs;
     
@@ -356,9 +356,9 @@ class Groupe
     /**
      * Remove tuteurs
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
+     * @param \CEC\MembreBundle\Entity\Membre $tuteurs
      */
-    public function removeTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
+    public function removeTuteur(\CEC\MembreBundle\Entity\Membre $tuteurs)
     {
         $this->tuteurs->removeElement($tuteurs);
     }

@@ -44,27 +44,12 @@ class Membre implements UserInterface
      * @var integer
      */
     private $promotion;
-    
+
     /**
      * @var boolean
      */
     private $actif;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $secteurs;
-        
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $groupes;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $seances;
-    
     /**
      * @var \DateTime
      */
@@ -74,15 +59,36 @@ class Membre implements UserInterface
      * @var \DateTime
      */
     private $dateModification;
-    
-    
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $groupes;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $vpLycee;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $secteurs;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seances;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->vpLycee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->secteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -209,7 +215,7 @@ class Membre implements UserInterface
     {
         return $this->motDePasse;
     }
-    
+
     /**
      * Set promotion
      *
@@ -232,7 +238,7 @@ class Membre implements UserInterface
     {
         return $this->promotion;
     }
-    
+
     /**
      * Set actif
      *
@@ -255,7 +261,119 @@ class Membre implements UserInterface
     {
         return $this->actif;
     }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return Membre
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
     
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return Membre
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
+     * Add groupes
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
+     * @return Membre
+     */
+    public function addGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
+    {
+        $this->groupes[] = $groupes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groupes
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
+     */
+    public function removeGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
+    {
+        $this->groupes->removeElement($groupes);
+    }
+
+    /**
+     * Get groupes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroupes()
+    {
+        return $this->groupes;
+    }
+
+    /**
+     * Add vpLycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $vpLycee
+     * @return Membre
+     */
+    public function addVPLycee(\CEC\TutoratBundle\Entity\Lycee $vpLycee)
+    {
+        $this->vpLycee[] = $vpLycee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove vpLycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $vpLycee
+     */
+    public function removeVPLycee(\CEC\TutoratBundle\Entity\Lycee $vpLycee)
+    {
+        $this->vpLycee->removeElement($vpLycee);
+    }
+
+    /**
+     * Get vpLycee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVPLycee()
+    {
+        return $this->vpLycee;
+    }
+
     /**
      * Add secteurs
      *
@@ -287,6 +405,52 @@ class Membre implements UserInterface
     public function getSecteurs()
     {
         return $this->secteurs;
+    }
+
+    /**
+     * Add seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     * @return Membre
+     */
+    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances[] = $seances;
+    
+        return $this;
+    }
+
+    /**
+     * Remove seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     */
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances->removeElement($seances);
+    }
+
+    /**
+     * Get seances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeances()
+    {
+        return $this->seances;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setDefaultValues()
+    {
+        if (!isset($this->promotion)) {
+            $this->setPromotion(date('Y') + 3);
+        }
+        if (!isset($this->actif)) {
+            $this->setActif(true);
+        }
     }
     
     /**
@@ -346,191 +510,5 @@ class Membre implements UserInterface
         list (
             $this->id,
         ) = unserialize($serialized);
-    }
-    
-    /**
-     * Ajoute les valeurs par défaut des attributs si nécessaire
-     */
-    public function setDefaultValues()
-    {
-        if (!isset($this->promotion)) {
-            $this->setPromotion(date('Y') + 3);
-        }
-        if (!isset($this->actif)) {
-            $this->setActif(true);
-        }
-    }
-
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Membre
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    
-        return $this;
-    }
-
-    /**
-     * Add groupes
-     *
-     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
-     * @return Membre
-     */
-    public function addGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
-    {
-        $this->groupes[] = $groupes;
-    
-        return $this;
-    }
-
-    /**
-     * Remove groupes
-     *
-     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
-     */
-    public function removeGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
-    {
-        $this->groupes->removeElement($groupes);
-    }
-
-    /**
-     * Get groupes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getGroupes()
-    {
-        return $this->groupes;
-    }
-
-    /**
-     * Add seances
-     *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
-     * @return Membre
-     */
-    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
-    {
-        $this->seances[] = $seances;
-    
-        return $this;
-    }
-
-    /**
-     * Remove seances
-     *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
-     */
-    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
-    {
-        $this->seances->removeElement($seances);
-    }
-
-    /**
-     * Get seances
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSeances()
-    {
-        return $this->seances;
-    }
-    
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Membre
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime 
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Membre
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-    
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime 
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
-    }
-    
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getId() . ' - ' . $this->getPrenom() . ' ' . $this->getNom();
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $VPLycees;
-
-
-    /**
-     * Add VPLycees
-     *
-     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
-     * @return Membre
-     */
-    public function addVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
-    {
-        $this->VPLycees[] = $vPLycees;
-    
-        return $this;
-    }
-
-    /**
-     * Remove VPLycees
-     *
-     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
-     */
-    public function removeVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
-    {
-        $this->VPLycees->removeElement($vPLycees);
-    }
-
-    /**
-     * Get VPLycees
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getVPLycees()
-    {
-        return $this->VPLycees;
     }
 }

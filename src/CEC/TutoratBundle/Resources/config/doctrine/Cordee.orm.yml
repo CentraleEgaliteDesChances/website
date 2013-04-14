@@ -22,7 +22,7 @@ CEC\TutoratBundle\Entity\Cordee:
                 timestampable:
                     on: update
     oneToMany:
-        changementsLycee:
-            targetEntity: ChangementCordeeLycee
-            mappedBy: lycee
+        lycees:
+            targetEntity: Lycee
+            mappedBy: cordee
     lifecycleCallbacks: {  }

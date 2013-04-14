@@ -47,7 +47,7 @@ class Lycee
     /**
      * @var boolean
      */
-    private $ZEP;
+    private $zep;
 
     /**
      * @var boolean
@@ -67,12 +67,17 @@ class Lycee
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $changementsCordee;
+    private $enseignants;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $enseignants;
+    private $vpLycee;
+
+    /**
+     * @var \CEC\TutoratBundle\Entity\Cordee
+     */
+    private $cordee;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -84,8 +89,8 @@ class Lycee
      */
     public function __construct()
     {
-        $this->changementsCordee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->enseignants = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->vpLycee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
@@ -238,26 +243,26 @@ class Lycee
     }
 
     /**
-     * Set ZEP
+     * Set zep
      *
-     * @param boolean $zEP
+     * @param boolean $zep
      * @return Lycee
      */
-    public function setZEP($zEP)
+    public function setZEP($zep)
     {
-        $this->ZEP = $zEP;
+        $this->zep = $zep;
     
         return $this;
     }
 
     /**
-     * Get ZEP
+     * Get zep
      *
      * @return boolean 
      */
     public function getZEP()
     {
-        return $this->ZEP;
+        return $this->zep;
     }
 
     /**
@@ -330,45 +335,12 @@ class Lycee
     }
 
     /**
-     * Add changementsCordee
-     *
-     * @param \CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee
-     * @return Lycee
-     */
-    public function addChangementsCordee(\CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee)
-    {
-        $this->changementsCordee[] = $changementsCordee;
-    
-        return $this;
-    }
-
-    /**
-     * Remove changementsCordee
-     *
-     * @param \CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee
-     */
-    public function removeChangementsCordee(\CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsCordee)
-    {
-        $this->changementsCordee->removeElement($changementsCordee);
-    }
-
-    /**
-     * Get changementsCordee
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChangementsCordee()
-    {
-        return $this->changementsCordee;
-    }
-
-    /**
      * Add enseignants
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants
+     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignants
      * @return Lycee
      */
-    public function addEnseignant(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants)
+    public function addEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignants)
     {
         $this->enseignants[] = $enseignants;
     
@@ -378,9 +350,9 @@ class Lycee
     /**
      * Remove enseignants
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants
+     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignants
      */
-    public function removeEnseignant(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $enseignants)
+    public function removeEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignants)
     {
         $this->enseignants->removeElement($enseignants);
     }
@@ -393,6 +365,62 @@ class Lycee
     public function getEnseignants()
     {
         return $this->enseignants;
+    }
+
+    /**
+     * Add vpLycee
+     *
+     * @param \CEC\MembreBundle\Entity\Membre $vpLycee
+     * @return Lycee
+     */
+    public function addVPLycee(\CEC\MembreBundle\Entity\Membre $vpLycee)
+    {
+        $this->vpLycee[] = $vpLycee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove vpLycee
+     *
+     * @param \CEC\MembreBundle\Entity\Membre $vpLycee
+     */
+    public function removeVPLycee(\CEC\MembreBundle\Entity\Membre $vpLycee)
+    {
+        $this->vpLycee->removeElement($vpLycee);
+    }
+
+    /**
+     * Get vpLycee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVPLycee()
+    {
+        return $this->vpLycee;
+    }
+
+    /**
+     * Set cordee
+     *
+     * @param \CEC\TutoratBundle\Entity\Cordee $cordee
+     * @return Lycee
+     */
+    public function setCordee(\CEC\TutoratBundle\Entity\Cordee $cordee = null)
+    {
+        $this->cordee = $cordee;
+    
+        return $this;
+    }
+
+    /**
+     * Get cordee
+     *
+     * @return \CEC\TutoratBundle\Entity\Cordee 
+     */
+    public function getCordee()
+    {
+        return $this->cordee;
     }
 
     /**
@@ -426,54 +454,5 @@ class Lycee
     public function getGroupes()
     {
         return $this->groupes;
-    }
-    
-    
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getId() . ' - ' . $this->getNom() . ' (' . $this->getVille() . ')';
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $VPLycees;
-
-
-    /**
-     * Add VPLycees
-     *
-     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
-     * @return Lycee
-     */
-    public function addVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
-    {
-        $this->VPLycees[] = $vPLycees;
-    
-        return $this;
-    }
-
-    /**
-     * Remove VPLycees
-     *
-     * @param \CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees
-     */
-    public function removeVPLycee(\CEC\TutoratBundle\Entity\ChangementLyceeVP $vPLycees)
-    {
-        $this->VPLycees->removeElement($vPLycees);
-    }
-
-    /**
-     * Get VPLycees
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getVPLycees()
-    {
-        return $this->VPLycees;
     }
 }

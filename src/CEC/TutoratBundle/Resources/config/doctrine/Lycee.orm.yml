@@ -28,7 +28,7 @@ CEC\TutoratBundle\Entity\Lycee:
             type: string
             length: 255
             nullable: true
-        ZEP:
+        zep:
             type: boolean
         pivot:
             type: boolean
@@ -42,16 +42,17 @@ CEC\TutoratBundle\Entity\Lycee:
             gedmo:
                 timestampable:
                     on: update
+    manyToOne:
+        cordee:
+            targetEntity: Cordee
+            mappedBy: lycees
     oneToMany:
-        changementsCordee:
-            targetEntity: ChangementCordeeLycee
-            mappedBy: lycee
         enseignants:
-            targetEntity: ChangementEnseignantLycee
+            targetEntity: Enseignant
             mappedBy: lycee
-        VPLycees:
-            targetEntity: ChangementLyceeVP
-            mappedBy: lycee
+        vpLycee:
+            targetEntity: CEC\MembreBundle\Entity\Membre
+            mappedBy: vpLycee
     manyToMany:
         groupes:
             targetEntity: Groupe

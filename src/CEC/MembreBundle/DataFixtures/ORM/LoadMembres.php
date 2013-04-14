@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\MembreBundle\Entity\Membre;
 
-class ChargeMembres extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface

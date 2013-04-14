@@ -12,9 +12,9 @@ editer_cordee:
     defaults: { _controller: CECTutoratBundle:Cordees:editer }
     requirements:
         cordee: \d+
-changer_lycee:
-    pattern: /cordees/{cordee}/changer_lycee/{lycee}
-    defaults: { _controller: CECTutoratBundle:Cordees:changerLycee }
+basculer_lycee:
+    pattern: /cordees/{cordee}/basculer_lycee/{lycee}
+    defaults: { _controller: CECTutoratBundle:Cordees:basculerLycee }
     requirements:
         cordee:    \d+
         lycee: \d+

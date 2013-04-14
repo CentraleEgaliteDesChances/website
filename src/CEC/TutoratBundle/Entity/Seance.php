@@ -30,6 +30,11 @@ class Seance
     private $fin;
 
     /**
+     * @var string
+     */
+    private $rendezVous;
+
+    /**
      * @var \DateTime
      */
     private $dateCreation;
@@ -39,7 +44,30 @@ class Seance
      */
     private $dateModification;
 
+    /**
+     * @var \CEC\TutoratBundle\Entity\Groupe
+     */
+    private $groupe;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tuteurs;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lyceens;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -120,6 +148,29 @@ class Seance
     }
 
     /**
+     * Set rendezVous
+     *
+     * @param string $rendezVous
+     * @return Seance
+     */
+    public function setRendezVous($rendezVous)
+    {
+        $this->rendezVous = $rendezVous;
+    
+        return $this;
+    }
+
+    /**
+     * Get rendezVous
+     *
+     * @return string 
+     */
+    public function getRendezVous()
+    {
+        return $this->rendezVous;
+    }
+
+    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -164,24 +215,6 @@ class Seance
     {
         return $this->dateModification;
     }
-    /**
-     * @var \CEC\TutoratBundle\Entity\Groupe
-     */
-    private $groupe;
-
-
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Seance
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    
-        return $this;
-    }
 
     /**
      * Set groupe
@@ -205,19 +238,7 @@ class Seance
     {
         return $this->groupe;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tuteurs;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
     /**
      * Add tuteurs
      *
@@ -250,39 +271,6 @@ class Seance
     {
         return $this->tuteurs;
     }
-        /**
-     * @var string
-     */
-    private $rendezVous;
-
-
-    /**
-     * Set rendezVous
-     *
-     * @param string $rendezVous
-     * @return Seance
-     */
-    public function setRendezVous($rendezVous)
-    {
-        $this->rendezVous = $rendezVous;
-    
-        return $this;
-    }
-
-    /**
-     * Get rendezVous
-     *
-     * @return string 
-     */
-    public function getRendezVous()
-    {
-        return $this->rendezVous;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lyceens;
-
 
     /**
      * Add lyceens

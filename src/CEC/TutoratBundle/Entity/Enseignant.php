@@ -27,6 +27,11 @@ class Enseignant
     /**
      * @var string
      */
+    private $role;
+
+    /**
+     * @var string
+     */
     private $email;
 
     /**
@@ -55,18 +60,11 @@ class Enseignant
     private $dateModification;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \CEC\TutoratBundle\Entity\Lycee
      */
     private $lycees;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
     /**
      * Get id
      *
@@ -121,6 +119,29 @@ class Enseignant
     public function getNom()
     {
         return $this->nom;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     * @return Enseignant
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string 
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**
@@ -262,45 +283,25 @@ class Enseignant
     }
 
     /**
-     * Add lycees
+     * Set lycees
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
      * @return Enseignant
      */
-    public function addLycee(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees)
+    public function setLycees(\CEC\TutoratBundle\Entity\Lycee $lycees = null)
     {
-        $this->lycees[] = $lycees;
+        $this->lycees = $lycees;
     
         return $this;
     }
 
     /**
-     * Remove lycees
-     *
-     * @param \CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees
-     */
-    public function removeLycee(\CEC\TutoratBundle\Entity\ChangementEnseignantLycee $lycees)
-    {
-        $this->lycees->removeElement($lycees);
-    }
-
-    /**
      * Get lycees
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \CEC\TutoratBundle\Entity\Lycee 
      */
     public function getLycees()
     {
         return $this->lycees;
-    }
-    
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getId() . ' - ' . $this->getPrenom() . ' ' . $this->getNom();
     }
 }
