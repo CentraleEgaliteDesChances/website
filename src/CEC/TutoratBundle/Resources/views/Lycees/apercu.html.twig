@@ -49,7 +49,7 @@
         <tr>
             <td>VP Lycée</td>
             <td>{% for vp in lycee.vpLycees %}
-                {{ vp.prenom|capitalize }} {{ vp.nom|capitalize }}{% if not loop.last %}, {% endif %}
+                <a href="{{ path('membre', { 'membre': vp.id }) }}">{{ vp.prenom|capitalize }} {{ vp.nom|capitalize }}{% if not loop.last %}, {% endif %}</a>
             {% else %}Aucun VP Lycée{% endfor %}</td>
         </tr>
     </tbody>

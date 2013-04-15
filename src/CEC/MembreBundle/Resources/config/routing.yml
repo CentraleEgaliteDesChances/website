@@ -6,11 +6,11 @@ connexion:
 deconnexion:
     pattern: /deconnexion
     
-membre_afficher_profil:
-    pattern: /membres/{id}
-    defaults: { _controller: CECMembreBundle:Profil:afficher, id: null }
+membre:
+    pattern: /membres/{membre}
+    defaults: { _controller: CECMembreBundle:Profil:voir, membre: null }
     requirements:
-        id: \d+
+        membre: \d+
 
 reglages:
     pattern: /reglages
