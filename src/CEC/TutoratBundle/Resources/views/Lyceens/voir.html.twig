@@ -23,53 +23,57 @@
         </tr>
     </tbody>
 </table>
-<table class="table table-bordered table-hover table-striped">
-    <tbody>
-        {% if lyceen.telephone %}
-            <tr>
-                <td>Téléphone</td>
-                <td>{{ lyceen.telephone }}</a></td>
-            </tr>
-        {% endif %}
-        {% if lyceen.email %}
-            <tr>
-                <td>Email</td>
-                <td>{{ lyceen.email }}</td>
-            </tr>
-        {% endif %}
-        {% if lyceen.adresse %}
-            <tr>
-                <td>Adresse</td>
-                <td>
-                    {{ lyceen.adresse }}<br />
-                    {{ lyceen.codePostal }} {{ lyceen.ville|capitalize }}
-                </td>
-            </tr>
-        {% endif %}
-    </tbody>
-</table>
-<table class="table table-bordered table-hover table-striped">
-    <tbody>
-        {% if lyceen.nomPere %}
-            <tr>
-                <td>Nom du père</td>
-                <td>{{ lyceen.nomPere }}</a></td>
-            </tr>
-        {% endif %}
-        {% if lyceen.nomMere %}
-            <tr>
-                <td>Nom de la mère</td>
-                <td>{{ lyceen.nomMere }}</td>
-            </tr>
-        {% endif %}
-        {% if lyceen.telephoneParent %}
-            <tr>
-                <td>Téléphone des parents</td>
-                <td>{{ lyceen.telephoneParent }}</td>
-            </tr>
-        {% endif %}
-    </tbody>
-</table>
+{% if lyceen.telephone or lyceen.email or lyceen.adresse %}
+    <table class="table table-bordered table-hover table-striped">
+        <tbody>
+            {% if lyceen.telephone %}
+                <tr>
+                    <td>Téléphone</td>
+                    <td>{{ lyceen.telephone }}</a></td>
+                </tr>
+            {% endif %}
+            {% if lyceen.email %}
+                <tr>
+                    <td>Email</td>
+                    <td><a href="mailto:{{ lyceen.email }}">{{ lyceen.email }}</a></td>
+                </tr>
+            {% endif %}
+            {% if lyceen.adresse %}
+                <tr>
+                    <td>Adresse</td>
+                    <td>
+                        {{ lyceen.adresse }}<br />
+                        {{ lyceen.codePostal }} {{ lyceen.ville|capitalize }}
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endif %}
+{% if lyceen.nomPere or lyceen.nomMere or lyceen.telephoneParent %}
+    <table class="table table-bordered table-hover table-striped">
+        <tbody>
+            {% if lyceen.nomPere %}
+                <tr>
+                    <td>Nom du père</td>
+                    <td>{{ lyceen.nomPere }}</a></td>
+                </tr>
+            {% endif %}
+            {% if lyceen.nomMere %}
+                <tr>
+                    <td>Nom de la mère</td>
+                    <td>{{ lyceen.nomMere }}</td>
+                </tr>
+            {% endif %}
+            {% if lyceen.telephoneParent %}
+                <tr>
+                    <td>Téléphone des parents</td>
+                    <td>{{ lyceen.telephoneParent }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endif %}
 
 {% if lyceen.commentaires %}
     <table class="table table-bordered table-hover table-striped">

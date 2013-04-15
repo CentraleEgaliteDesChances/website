@@ -71,7 +71,9 @@ class EnseignantsController extends Controller
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()->flush();
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($enseignant);
+                $em->flush();
                 $this->get('session')->setFlash('success', 'L\‘enseignant a bien été créé.');
                 return $this->redirect($this->generateUrl('enseignant', array('enseignant' => $enseignant->getId())));
             }

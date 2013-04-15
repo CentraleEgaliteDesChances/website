@@ -4,7 +4,7 @@ namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Lyceen;
-//use CEC\TutoratBundle\Form\Type\LyceenType;
+use CEC\TutoratBundle\Form\Type\LyceenType;
 
 class LyceensController extends Controller
 {
@@ -34,49 +34,51 @@ class LyceensController extends Controller
     }
     
     /**
-     * Permet d'éditer un enseignant et d'enregistrer les modifications apportées
+     * Permet d'éditer un lycéen et d'enregistrer les modifications apportées
      *
-     * @param integer $enseignant: id de l'enseignant
+     * @param integer $lyceen: id du lycéen
      */
-    public function editerAction($enseignant) {
-        $enseignant = $this->getDoctrine()->getRepository('CECTutoratBundle:Enseignant')->find($enseignant);
-        if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
+    public function editerAction($lyceen) {
+        $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
         
-        $form = $this->createForm(new EnseignantType(), $enseignant);
+        $form = $this->createForm(new LyceenType(), $lyceen);
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations de l\'enseignant ont bien été mis à jour.');
-                return $this->redirect($this->generateUrl('enseignant', array('enseignant' => $enseignant->getId())));
+                $this->get('session')->setFlash('success', 'Les informations du lycéen ont bien été mis à jour.');
+                return $this->redirect($this->generateUrl('lyceen', array('lyceen' => $lyceen->getId())));
             }
         }
         
-        return $this->render('CECTutoratBundle:Enseignants:editer.html.twig', array(
-            'enseignant'        => $enseignant,
-            'form'              => $form->createView(),
+        return $this->render('CECTutoratBundle:Lyceens:editer.html.twig', array(
+            'lyceen'        => $lyceen,
+            'form'          => $form->createView(),
         ));
     }
     
     /**
-     * Permet de créer un nouvel enseignant
+     * Permet de créer un nouveau lycéen
      */
     public function creerAction() {
-        $enseignant = new Enseignant();
-        $form = $this->createForm(new EnseignantType(), $enseignant);
+        $lyceen = new Lyceen();
+        $form = $this->createForm(new LyceenType(), $lyceen);
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->bindRequest($request);
             if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'L\‘enseignant a bien été créé.');
-                return $this->redirect($this->generateUrl('enseignant', array('enseignant' => $enseignant->getId())));
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($lyceen);
+                $em->flush();
+                $this->get('session')->setFlash('success', 'Le lycéen a bien été créé.');
+                return $this->redirect($this->generateUrl('lyceen', array('lyceen' => $lyceen->getId())));
             }
         }
         
-        return $this->render('CECTutoratBundle:Enseignants:creer.html.twig', array('form' => $form->createView()));
+        return $this->render('CECTutoratBundle:Lyceens:creer.html.twig', array('form' => $form->createView()));
     }
 }

@@ -1,17 +1,17 @@
-{% extends 'CECTutoratBundle:Enseignants:base.html.twig' %}
+{% extends 'CECTutoratBundle:Lyceens:base.html.twig' %}
 
 
-{% block narrow_title %}Edition de {{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}{% endblock %}
+{% block narrow_title %}Edition de {{ lyceen.prenom|capitalize }} {{ lyceen.nom|capitalize }}{% endblock %}
 
 {% block narrow_body %}
 
 {{ parent() }}
 
-<form class="form" method="post" action="{{ path('editer_enseignant', { 'enseignant': enseignant.id }) }}">
+<form class="form" method="post" action="{{ path('editer_lyceen', { 'lyceen': lyceen.id }) }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
         <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" />
-        <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}" class="btn pull-right">Annuler</a>
+        <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}" class="btn pull-right">Annuler</a>
     </div>
 </form>
 
