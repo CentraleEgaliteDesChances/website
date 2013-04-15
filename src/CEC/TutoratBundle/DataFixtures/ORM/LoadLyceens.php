@@ -25,7 +25,8 @@ class LoadLyceen extends AbstractFixture implements OrderedFixtureInterface
             ->setVille('Montreuil')
             ->setNomPere('Marcel Amadou')
             ->setNomMere('Sarah Claire')
-            ->setTelephoneParent('0203040302');
+            ->setTelephoneParent('0203040302')
+            ->setGroupe($this->getReference('jj_premieres'));
             
         $meissa_dieng = new Lyceen();
         $meissa_dieng->setPrenom('Meïssa')
@@ -37,7 +38,8 @@ class LoadLyceen extends AbstractFixture implements OrderedFixtureInterface
             ->setVille('Paris')
             ->setNomPere('Marcel Dieng')
             ->setNomMere('Sarah Claire')
-            ->setTelephoneParent('06 64 66 57 25');
+            ->setTelephoneParent('06 64 66 57 25')
+            ->setGroupe($this->getReference('jj_premieres'));
             
         $tara_delpech = new Lyceen();
         $tara_delpech->setPrenom('Delpech')
@@ -49,7 +51,8 @@ class LoadLyceen extends AbstractFixture implements OrderedFixtureInterface
             ->setVille('Paris')
             ->setNomPere('Marcel Delpech')
             ->setNomMere('Sarah Claire')
-            ->setTelephoneParent('06 70 79 96 15');
+            ->setTelephoneParent('06 70 79 96 15')
+            ->setGroupe($this->getReference('jj_terminales'));
             
         $pauline_tampier = new Lyceen();
         $pauline_tampier->setPrenom('Pauline')
