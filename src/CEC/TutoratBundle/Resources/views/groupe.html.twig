@@ -1,0 +1,12 @@
+{#
+    Affiche les informations d'un groupe de tutorat, in-line.
+    Note: Il faut inclure les fichiers du Bootstrap Twitter.
+
+    @param Groupe $groupe: le groupe de tutorat à afficher
+#}
+
+{% for lycee in groupe.lycees %}
+    <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">{{ lycee.nom }}</a>
+    {% if not loop.last %}- {% endif %}
+{% endfor %}
+(<a href="#">{{ groupe.niveau|lower }}</a>)

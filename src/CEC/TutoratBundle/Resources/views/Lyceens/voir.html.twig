@@ -1,7 +1,7 @@
-{% extends 'CECTutoratBundle:Enseignants:base.html.twig' %}
+{% extends 'CECTutoratBundle:Lyceens:base.html.twig' %}
 
 
-{% block narrow_title %}{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}{% endblock %}
+{% block narrow_title %}{{ lyceen.prenom|capitalize }} {{ lyceen.nom|capitalize }}{% endblock %}
 
 {% block narrow_body %}
 
@@ -11,53 +11,78 @@
     <tbody>
         <tr>
             <td>Nom</td>
-            <td>{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}</td>
+            <td><strong>{{ lyceen.prenom|capitalize }} {{ lyceen.nom|capitalize }}</strong></td>
         </tr>
         <tr>
-            <td>Fonction</td>
-            <td>{% if enseignant.lycee %}
-                {{ enseignant.role }} au lycée <a href="{{ path('lycee', { 'lycee': enseignant.lycee.id }) }}">{{ enseignant.lycee.nom|trim('Lycée') }}</a>
+            <td>Groupe de tutorat</td>
+            <td>{% if lyceen.groupe %}
+                {% include 'CECTutoratBundle::groupe.html.twig' with { 'groupe': lyceen.groupe } %}
             {% else %}
-                Aucune fonction
+                Inscrit à aucun groupe de tutorat
             {% endif %}</td>
         </tr>
     </tbody>
 </table>
 <table class="table table-bordered table-hover table-striped">
     <tbody>
-        {% if enseignant.email %}
+        {% if lyceen.telephone %}
+            <tr>
+                <td>Téléphone</td>
+                <td>{{ lyceen.telephone }}</a></td>
+            </tr>
+        {% endif %}
+        {% if lyceen.email %}
             <tr>
                 <td>Email</td>
-                <td><a href="mailto:{{ enseignant.email }}">{{ enseignant.email }}</a></td>
+                <td>{{ lyceen.email }}</td>
             </tr>
         {% endif %}
-        {% if enseignant.telephonePortable %}
+        {% if lyceen.adresse %}
             <tr>
-                <td>Téléphone portable</td>
-                <td>{{ enseignant.telephonePortable }}</td>
+                <td>Adresse</td>
+                <td>
+                    {{ lyceen.adresse }}<br />
+                    {{ lyceen.codePostal }} {{ lyceen.ville|capitalize }}
+                </td>
             </tr>
         {% endif %}
-        {% if enseignant.telephoneFixe %}
+    </tbody>
+</table>
+<table class="table table-bordered table-hover table-striped">
+    <tbody>
+        {% if lyceen.nomPere %}
             <tr>
-                <td>Téléphone fixe</td>
-                <td>{{ enseignant.telephoneFixe }}</td>
+                <td>Nom du père</td>
+                <td>{{ lyceen.nomPere }}</a></td>
+            </tr>
+        {% endif %}
+        {% if lyceen.nomMere %}
+            <tr>
+                <td>Nom de la mère</td>
+                <td>{{ lyceen.nomMere }}</td>
+            </tr>
+        {% endif %}
+        {% if lyceen.telephoneParent %}
+            <tr>
+                <td>Téléphone des parents</td>
+                <td>{{ lyceen.telephoneParent }}</td>
             </tr>
         {% endif %}
     </tbody>
 </table>
 
-{% if enseignant.commentaires %}
+{% if lyceen.commentaires %}
     <table class="table table-bordered table-hover table-striped">
         <tbody>
             <tr>
                 <td>Commentaires</td>
-                <td>{{ enseignant.commentaires }}</td>
+                <td>{{ lyceen.commentaires }}</td>
             </tr>
         </tbody>
     </table>
 {% endif %}
 
-<a href="{{ path('tous_enseignants') }}" class="btn">Tous les enseignants</a>
-<a href="{{ path('editer_enseignant', { 'enseignant': enseignant.id }) }}" class="btn pull-right">Editer la fiche</a>
+<a href="{{ path('tous_lyceens') }}" class="btn">Tous les lycéens</a>
+<a href="{{ path('editer_lyceen', { 'lyceen': lyceen.id }) }}" class="btn pull-right">Editer la fiche</a>
 
 {% endblock %}

@@ -17,21 +17,19 @@ class LyceensController extends Controller
             return strcmp($a->getNom(), $b->getNom());
         });
         
-        return $this->render('CECTutoratBundle:Lyceens:tous.html.twig', array('lyceens' => $lyceens,));
+        return $this->render('CECTutoratBundle:Lyceens:tous.html.twig', array('lyceens' => $lyceens));
     }
     
     /**
-     * Affiche un enseignant avec toutes ses informations
+     * Affiche un lycée avec toutes ses informations
      *
-     * @param integer $enseignant: id de l'enseignant
+     * @param integer $lyceen: id du lycéen
      */
-    public function voirAction($enseignant) {
-        $enseignant = $this->getDoctrine()->getRepository('CECTutoratBundle:Enseignant')->find($enseignant);
-        if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
+    public function voirAction($lyceen) {
+        $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
         
-        return $this->render('CECTutoratBundle:Enseignants:voir.html.twig', array(
-            'enseignant'        => $enseignant,
-        ));
+        return $this->render('CECTutoratBundle:Lyceens:voir.html.twig', array('lyceen' => $lyceen));
         
     }
     
