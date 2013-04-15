@@ -45,7 +45,7 @@
             {% for enseignant in lycee.enseignants %}
             <tr>
                 <td>
-                    <a href="#">
+                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
                         {{ enseignant.role is not empty ? enseignant.role }}
                     </a>
