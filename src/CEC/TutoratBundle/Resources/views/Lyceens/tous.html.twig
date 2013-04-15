@@ -1,0 +1,36 @@
+{% extends 'CECTutoratBundle:Lyceens:base.html.twig' %}
+
+
+{% block narrow_title %}Lycéens{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<table class="table table-bordered table-hover table-striped">
+    {% if lyceens|length > 0 %}
+        <tbody>
+            {% for lyceen in lyceens %}
+            <tr>
+                <td>
+                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    </a>
+                    <div class="detail">
+                        {% if lyceen.groupe %}{% for lycee in lyceen.groupe.lycees %}
+                            <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">{{ lycee.nom }}</a>
+                            {% if not loop.last %}- {% endif %}
+                        {% endfor %}{% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun lycéen dans la base de donnée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<a href="{{ path('creer_lyceen') }}" class="btn pull-right">Créer un nouveau lycéen</a>
+
+{% endblock %}

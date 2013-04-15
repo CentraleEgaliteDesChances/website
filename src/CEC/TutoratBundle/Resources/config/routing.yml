@@ -51,3 +51,20 @@ editer_enseignant:
     defaults: { _controller: CECTutoratBundle:Enseignants:editer }
     requirements:
         cordee: \d+
+        
+tous_lyceens:
+    pattern: /lyceens
+    defaults: { _controller: CECTutoratBundle:Lyceens:tous }
+creer_lyceen:
+    pattern: /lyceens/creation
+    defaults: { _controller: CECTutoratBundle:Lyceens:creer }
+lyceen:
+    pattern: /lyceens/{lyceen}
+    defaults: { _controller: CECTutoratBundle:Lyceens:voir }
+    requirements:
+        lyceen: \d+
+editer_lyceen:
+    pattern: /lyceens/{lyceen}/edition
+    defaults: { _controller: CECTutoratBundle:Lyceens:editer }
+    requirements:
+        lyceen: \d+
