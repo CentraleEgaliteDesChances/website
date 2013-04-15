@@ -18,7 +18,7 @@ CEC\TutoratBundle\Entity\Enseignant:
         telephoneFixe:
             - Regex: "/^((0[1-5] ?)|\+33 ?[1-5] ?)([0-9]{2} ?){4}$/"
         telephonePortable:
-            - Regex: "/^(([67] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/"
+            - Regex: "/^((0[67] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/"
         dateCreation:
             - NotBlank: ~
             - DateTime: ~

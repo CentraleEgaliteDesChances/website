@@ -38,6 +38,9 @@ lycee:
 tous_enseignants:
     pattern: /enseignants
     defaults: { _controller: CECTutoratBundle:Enseignants:tous }
+creer_enseignant:
+    pattern: /enseignants/creation
+    defaults: { _controller: CECTutoratBundle:Enseignants:creer }
 enseignant:
     pattern: /enseignants/{enseignant}
     defaults: { _controller: CECTutoratBundle:Enseignants:voir }

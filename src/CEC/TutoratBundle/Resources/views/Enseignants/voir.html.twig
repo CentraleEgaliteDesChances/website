@@ -1,9 +1,11 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECTutoratBundle:Enseignants:base.html.twig' %}
 
 
 {% block narrow_title %}{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}{% endblock %}
 
 {% block narrow_body %}
+
+{{ parent() }}
 
 <table class="table table-bordered table-hover table-striped">
     <tbody>
@@ -55,6 +57,7 @@
     </table>
 {% endif %}
 
-<a href="#" class="btn pull-right">Editer la fiche</a>
+<a href="{{ path('tous_enseignants') }}" class="btn">Tous les enseignants</a>
+<a href="{{ path('editer_enseignant', { 'enseignant': enseignant.id }) }}" class="btn pull-right">Editer la fiche</a>
 
 {% endblock %}

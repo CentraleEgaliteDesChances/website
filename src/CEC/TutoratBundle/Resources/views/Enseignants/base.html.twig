@@ -1,0 +1,11 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/enseignants.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
