@@ -26,6 +26,9 @@ desactiver_cordee:
     requirements:
         cordee: \d+
 
+tous_lycees:
+    pattern: /lycees
+    defaults: { _controller: CECTutoratBundle:Cordees:toutes }
 lycee:
     pattern: /lycees/{lycee}
     defaults: { _controller: CECTutoratBundle:Lycees:voir }

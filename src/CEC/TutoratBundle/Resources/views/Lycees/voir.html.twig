@@ -6,7 +6,7 @@
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if lyceens %}
-        <thead><tr><th><h4>Lycéens</h4></th></tr></thead>
+        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
         <tbody>
             {% for lyceen in lyceens %}
             <tr>
@@ -23,7 +23,7 @@
 
 <table class="table table-bordered table-hover table-condensed table-striped table-large">
     {% if tuteurs %}
-        <thead><tr><th><h4>Tuteurs</h4></th></tr></thead>
+        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
         <tbody>
             {% for tuteur in tuteurs %}
             <tr>
