@@ -11,15 +11,19 @@
     <tbody>
         <tr>
             <td>Nom</td>
-            <td>{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}</td>
+            <td><strong>{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}</strong></td>
         </tr>
         <tr>
             <td>Fonction</td>
-            <td>{% if enseignant.lycee %}
-                {{ enseignant.role }} au lycée <a href="{{ path('lycee', { 'lycee': enseignant.lycee.id }) }}">{{ enseignant.lycee.nom|trim('Lycée') }}</a>
-            {% else %}
-                Aucune fonction
-            {% endif %}</td>
+            <td>
+                {% if enseignant.role %}
+                    {{ enseignant.role }}
+                {% else %}
+                    <span class="muted">Aucune fonction</span>
+                {% endif %}
+                
+                {% if enseignant.lycee %}au <a href="{{ path('lycee', { 'lycee': enseignant.lycee.id }) }}">lycée {{ enseignant.lycee.nom|trim('Lycée') }}</a>{% endif %}
+            </td>
         </tr>
     </tbody>
 </table>
