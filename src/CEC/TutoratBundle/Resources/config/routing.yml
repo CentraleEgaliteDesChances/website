@@ -68,3 +68,9 @@ editer_lyceen:
     defaults: { _controller: CECTutoratBundle:Lyceens:editer }
     requirements:
         lyceen: \d+
+        
+groupe:
+    pattern: /groupes/{groupe}
+    defaults: { _controller: CECTutoratBundle:Groupes:voir }
+    requirements:
+        groupe: \d+

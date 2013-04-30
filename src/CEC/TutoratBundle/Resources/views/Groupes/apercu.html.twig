@@ -1,0 +1,74 @@
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <thead>
+        <tr><th colspan="2" class="titre">
+            <h3>
+                {% for lycee in groupe.lycees %}
+                    {{ lycee.nom }}
+                    {% if not loop.last %}& {% endif %}
+                {% endfor %}<br />
+                {{ groupe.niveau }}
+            </h3>
+        </th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Lycées</td>
+            <td>
+                {% for lycee in groupe.lycees %}
+                    <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">{{ lycee.nom }}</a>
+                    {% if not loop.last %}<br />{% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Niveau</td>
+            <td>
+                {{ groupe.niveau }}
+            </td>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td>{{ groupe.typeDeTutorat }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <tbody>
+        <tr>
+            <td>Lieu</td>
+            <td>{{ groupe.lieu }}</td>
+        </tr>
+        <tr>
+            <td>Début</td>
+            <td>
+                Le {{ cycle(jours, groupe.debut|date('N'))|lower }} à {{ groupe.debut|date('G\\hi') }}
+            </td>
+        </tr>
+        <tr>
+            <td>Fin</td>
+            <td>
+                À {{ groupe.fin|date('G\\hi') }}
+            </td>
+        </tr>
+        <tr>
+            <td>Rendez-vous</td>
+            <td>{{ groupe.rendezVous }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <tbody>
+        <tr>
+            <td>Lycéens</td>
+            <td>{{ groupe.lyceens ? groupe.lyceens|length : 'Aucun' }} lycéen{{ groupe.lyceens|length > 1 ? 's' }}</td>
+        </tr>
+        <tr>
+            <td>Tuteurs</td>
+            <td>{{ groupe.tuteurs ? groupe.tuteurs|length : 'Aucun' }} tuteur{{ groupe.tuteurs|length > 1 ? 's' }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="#" class="btn btn-block">Éditer le groupe de tutorat</a>

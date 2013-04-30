@@ -1,28 +1,8 @@
-{% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
+{% extends 'CECTutoratBundle:Groupes:base.html.twig' %}
 {% import  'CECMainBundle::macros.html.twig' as modal %}
 
 {% block right %}
 {{ parent() }}
-
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if lycee.groupes|length > 0 %}
-        <thead><tr><th><h4>Groupes de tutorat</h4></th></tr></thead>
-        <tbody>
-            {% for groupe in lycee.groupes %}
-            <tr>
-                <td>
-                    <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
-                        <strong>{{ groupe.niveau }}</strong><span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
-                        Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun groupe de tutorat pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if lyceens %}
@@ -59,26 +39,6 @@
         </tbody>
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun tuteur pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
-
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if lycee.enseignants|length > 0 %}
-        <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
-        <tbody>
-            {% for enseignant in lycee.enseignants %}
-            <tr>
-                <td>
-                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
-                        <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
-                        {{ enseignant.role is not empty ? enseignant.role }}
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun enseignant pour ce lycée</h4></th></tr></thead>
     {% endif %}
 </table>
 
