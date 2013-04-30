@@ -6,20 +6,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ProfilController extends Controller
 {
+    /**
+     * Affiche le profil d'un membre
+     *
+     * @param integer $membre: id du membre dont on veux afficher le profil,
+         null pour afficher le profil du membre connecté
+     */
     public function voirAction($membre)
     {
         // On récupère l'utilisateur
-        if ($membre == null) {
-            $membre = $this->get('security.context')->getToken()->getUser();
+        if ($membre == null)
+        {
+            $membre = $this->getUser();
         } else {
             $membreRepo = $this->getDoctrine()->getRepository('CECMembreBundle:Membre');
             $membre = $membreRepo->findOneById($membre);
         }
-        
-        // Erreur si on a pas de membre
-        if (!$membre) {
-            throw new Exception('Utilisateur inconnu');    // Changer
-        }
+        if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil demandé !');
         
         return $this->render('CECMembreBundle:Profil:voir.html.twig', array(
             'membre'    => $membre,

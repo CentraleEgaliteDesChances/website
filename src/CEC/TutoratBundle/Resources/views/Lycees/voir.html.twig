@@ -11,7 +11,9 @@
             {% for lyceen in lyceens %}
             <tr>
                 <td>
-                    <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    </a>
                 </td>
             </tr>
             {% endfor %}

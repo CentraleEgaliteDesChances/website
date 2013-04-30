@@ -15,6 +15,8 @@ class Secteur
     private $id;
 
     /**
+     * Nom du secteur, incluant le préfixe "Secteur"
+     *
      * @var string
      */
     private $nom;
@@ -152,5 +154,14 @@ class Secteur
     public function getMembres()
     {
         return $this->membres;
+    }
+    
+    /**
+     * Retourne la description d'un secteur
+     */
+    public function __toString()
+    {
+        
+        return $this->getNom();
     }
 }

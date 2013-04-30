@@ -43,6 +43,6 @@ class LyceeType extends AbstractType
 
     public function getName()
     {
-        return 'cec_tutoratbundle_lyceetype';
+        return 'lycee';
     }
 }

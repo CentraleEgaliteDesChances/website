@@ -30,4 +30,4 @@ reglages_secteurs:
     
 page_accueil:
     pattern: /
-    defaults: { _controller: CECMembreBundle:Profil:afficher }
+    defaults: { _controller: CECMembreBundle:Profil:voir, membre:null }

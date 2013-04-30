@@ -45,7 +45,7 @@ class LyceenType extends AbstractType
     
     public function getName()
     {
-        return 'Lyceen';
+        return 'lyceen';
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

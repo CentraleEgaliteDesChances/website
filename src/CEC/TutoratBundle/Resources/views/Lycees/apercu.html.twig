@@ -40,7 +40,13 @@
     <tbody>
         <tr>
             <td>Cordée</td>
-            <td>{{ lycee.cordee.nom ?: 'Aucune cordée' }}</td>
+            <td>
+                {% if lycee.cordee %}
+                    <a href="{{ path('cordee', { 'cordee' : lycee.cordee.id }) }}">{{ lycee.cordee.nom }}</a>
+                {% else %}
+                    <a href="{{ path('anciennes_cordees') }}" class="muted">Aucune cordée</a>
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <td>Rôle</td>

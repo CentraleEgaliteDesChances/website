@@ -423,12 +423,8 @@ class Membre implements UserInterface
      */
     public function setDefaultValues()
     {
-        if (!isset($this->promotion)) {
-            $this->setPromotion(date('Y') + 3);
-        }
-        if (!isset($this->actif)) {
-            $this->setActif(true);
-        }
+        if (!isset($this->promotion)) $this->setPromotion(date('Y') + 3);
+        if (!isset($this->actif))     $this->setActif(true);
     }
     
     /**
@@ -489,4 +485,14 @@ class Membre implements UserInterface
             $this->id,
         ) = unserialize($serialized);
     }
+    
+    /**
+     * Retourne la description d'un membre
+     */
+    public function __toString()
+    {
+        
+        return $this->getPrenom() . ' ' . $this->getNom();
+    }
+    
 }
