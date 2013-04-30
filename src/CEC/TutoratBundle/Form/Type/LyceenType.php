@@ -10,16 +10,36 @@ class LyceenType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('prenom')
+        $builder->add('prenom', null, array(
+            'label' => 'Prénom',
+            ))
             ->add('nom')
-            ->add('telephone')
-            ->add('email')
-            ->add('adresse')
-            ->add('codePostal')
+            ->add('groupe', null, array(
+                'label' => 'Groupe de tutorat',
+                'empty_value' => 'Aucun groupe de tutorat',
+            ))
+            ->add('telephone', null, array(
+                'label' => 'Numéro de téléphone',
+            ))
+            ->add('email', null, array(
+                'label' => 'Adresse Email',
+            ))
+            ->add('adresse', null, array(
+                'label' => 'Adresse postale',
+            ))
+            ->add('codePostal', null, array(
+                'label' => 'Code postal',
+            ))
             ->add('ville')
-            ->add('nomPere')
-            ->add('nomMere')
-            ->add('telephoneParent')
+            ->add('nomPere', null, array(
+                'label' => 'Nom du père',
+            ))
+            ->add('nomMere', null, array(
+                'label' => 'Nom de la mère',
+            ))
+            ->add('telephoneParent', null, array(
+                'label' => 'Téléphone des parents',
+            ))
             ->add('commentaires');
     }
     

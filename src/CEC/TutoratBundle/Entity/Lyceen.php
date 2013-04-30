@@ -489,4 +489,13 @@ class Lyceen
     {
         return $this->groupe;
     }
+    
+    /**
+     * Retourne la description d'un lycéen
+     */
+    public function __toString()
+    {
+        
+        return $this->getPrenom() . ' ' . $this->getPrenom();
+    }
 }

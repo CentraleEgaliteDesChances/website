@@ -13,9 +13,15 @@
             {% for enseignant in enseignants %}
             <tr>
                 <td>
-                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
+                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}" {{ enseignant.lycee ? '' : ' class="muted"' }}>
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
-                        {{ enseignant.role is not empty ? enseignant.role }}
+                        {% if enseignant.role %}
+                            {{ enseignant.role }}
+                        {% else %}
+                            <span class="muted">Aucune fonction</span>
+                        {% endif %}
+                        
+                        {% if enseignant.lycee %}au lycée {{ enseignant.lycee.nom|trim('Lycée') }} ({{ enseignant.lycee.ville }}){% endif %}
                     </a>
                 </td>
             </tr>

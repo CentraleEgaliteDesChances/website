@@ -410,4 +410,19 @@ class Groupe
     {
         return $this->lycees;
     }
+    
+    /**
+     * Retourne la description d'un groupe de tutorat
+     */
+    public function __toString()
+    {
+        $description = '';
+        foreach ($this->getLycees() as $lycee)
+        {
+            if ($description != '') $description .= ' & ';
+            $description .= $lycee->getNom();
+        }
+        $description .= ' (' . $this->getNiveau() . ')';
+        return $description;
+    }
 }

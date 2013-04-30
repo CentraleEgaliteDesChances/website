@@ -12,13 +12,23 @@ class LyceeType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('adresse')
-            ->add('codePostal')
+            ->add('adresse', null, array(
+                'label' => 'Adresse postal',
+            ))
+            ->add('codePostal', null, array(
+                'label' => 'Code postal',
+            ))
             ->add('ville')
             ->add('statut')
-            ->add('telephone')
-            ->add('ZEP')
-            ->add('pivot')
+            ->add('telephone', null, array(
+                'label' => 'Numéro de téléphone',
+            ))
+            ->add('ZEP', null, array(
+                'label' => 'Lycée de ZEP ?',
+            ))
+            ->add('pivot', null, array(
+                'label' => 'Lycée pivot ?',
+            ))
             ->add('dateCreation')
             ->add('dateModification')
         ;

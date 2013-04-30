@@ -7,6 +7,6 @@
 
 {% for lycee in groupe.lycees %}
     <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">{{ lycee.nom }}</a>
-    {% if not loop.last %}- {% endif %}
+    {% if not loop.last %}& {% endif %}
 {% endfor %}
 (<a href="#">{{ groupe.niveau|lower }}</a>)

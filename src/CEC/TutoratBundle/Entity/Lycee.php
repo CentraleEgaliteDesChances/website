@@ -455,4 +455,14 @@ class Lycee
     {
         return $this->groupes;
     }
+    
+    /**
+     * Retourne la description d'un lycée
+     */
+    public function __toString()
+    {
+        
+        return $this->getNom() . ' (' . $this->getVille() . ')';
+    }
+    
 }

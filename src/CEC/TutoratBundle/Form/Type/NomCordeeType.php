@@ -9,7 +9,7 @@ class NomCordeeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('nom', null, array(
-            'label_render' => false,
+            'label' => false,
             'attr' => array('placeholder' => 'Nom de la cordée', 'class' => 'input-nom'),
         ));
     }

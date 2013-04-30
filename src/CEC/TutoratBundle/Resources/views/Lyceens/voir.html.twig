@@ -18,7 +18,7 @@
             <td>{% if lyceen.groupe %}
                 {% include 'CECTutoratBundle::groupe.html.twig' with { 'groupe': lyceen.groupe } %}
             {% else %}
-                Inscrit à aucun groupe de tutorat
+                <span class="muted">Aucun groupe de tutorat</span>
             {% endif %}</td>
         </tr>
     </tbody>
