@@ -14,6 +14,12 @@ class AjouterLyceenType extends AbstractType
         $builder->add('lyceen', 'entity', array(
             'label' => false,
             'class' => 'CECTutoratBundle:Lyceen',
+            'query_builder' => function (EntityRepository $entityRepository)
+            {
+                return $entityRepository->createQueryBuilder('l')
+                    ->where('l.groupe IS NULL')
+                    ->orderBy('l.nom', 'ASC');
+            },
             'empty_value' => false,
             'attr' => array('class' => 'input-ajouter-lyceen'),
         ));

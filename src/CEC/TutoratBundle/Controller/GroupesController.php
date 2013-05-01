@@ -123,7 +123,13 @@ class GroupesController extends Controller
         $ajouterLyceenType = new AjouterLyceenType();    // Permet de trouver le nom du formulaire — Attention, ne doit pas
                                                   // se confondre avec le nom de la route, ajouter_lyceen !
         $data = $this->getRequest()->get($ajouterLyceenType->getName());
-        $lyceen = $data['lyceen'];
+        if (in_array('lyceen', $data))
+        {
+            $lyceen = $data['lyceen'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter');
+            return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+        }
         $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
         
