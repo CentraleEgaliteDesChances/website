@@ -74,3 +74,8 @@ groupe:
     defaults: { _controller: CECTutoratBundle:Groupes:voir }
     requirements:
         groupe: \d+
+editer_groupe:
+    pattern: /groupes/{groupe}/edition
+    defaults: { _controller: CECTutoratBundle:Groupes:editer }
+    requirements:
+        groupe: \d+

@@ -23,8 +23,7 @@ CEC\TutoratBundle\Entity\Groupe:
         typeDeTutorat:
             - NotBlank: ~
             - Choice:
-                choices: [ Tutorat Scientifique, Tutorat Culturel ]
-                multiple: true
+                choices: [ Tutorat Scientifique, Tutorat Culturel, Tutorat Culturel et Scientifique ]
         lieu:
             - NotBlank: ~
             
