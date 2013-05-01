@@ -14,7 +14,8 @@ class GroupesController extends Controller
     /**
      * Affiche la liste des groupes de tutorat
      */
-    public function tousAction() {
+    public function tousAction()
+    {
         $groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findAll();    // tous les Groupes
         return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes));
     }
@@ -98,6 +99,33 @@ class GroupesController extends Controller
             'ajouter_tuteur_form' => $ajouterTuteurForm->createView(),
         ));
     }
+    
+    /**
+     * Permet de créer un nouveau groupe de tutorat
+     */
+    public function creerAction()
+    {
+        $groupe = new Groupe();
+        $form = $this->createForm(new GroupeType(), $groupe);
+        
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST')
+        {
+            $form->bindRequest($request);
+            if ($form->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($groupe);
+                $entityManager->flush();
+                
+                $this->get('session')->setFlash('success', 'Le groupe de tutorat a bien été créé. Vous pouvez désormais ajouter des séances, des lycéens et des tuteurs à ce groupe.');
+                return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+            }
+        }
+        
+        return $this->render('CECTutoratBundle:Groupes:creer.html.twig', array('form' => $form->createView(),));
+    }
+    
     
     /**
      * Retire un lycéen du groupe de tutorat.
