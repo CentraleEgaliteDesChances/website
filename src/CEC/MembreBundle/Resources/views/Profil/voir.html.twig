@@ -1,7 +1,13 @@
 {% extends 'CECMembreBundle:Profil:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
 
 {% block right %}
 {{ parent() }}
+
+{% if membre == app.user %}
+{{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les membres de CEC. N'hésitez pas à modifiez vos informations en utilisant le bouton idoine, en bas à gauche de votre écran.") }}
+{% endif %}
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if membre.groupe %}
@@ -9,8 +15,10 @@
         <tbody>
             <tr>
                 <td>
-                    <strong>{{ membre.groupe.niveau }}</strong><span class="muted"> - {{ membre.groupe.typeDeTutorat }}</span><br />
-                    Tous les {{ cycle(jours, membre.groupe.debut|date('N'))|lower }}s à {{ membre.groupe.debut|date('G\\hi') }}, {{ membre.groupe.lieu|lower }}.
+                    <a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">
+                        <strong>{{ membre.groupe.niveau }}</strong><span class="muted"> - {{ membre.groupe.typeDeTutorat }}</span><br />
+                        Tous les {{ cycle(jours, membre.groupe.debut|date('N'))|lower }}s à {{ membre.groupe.debut|date('G\\hi') }}, {{ membre.groupe.lieu|lower }}.
+                    </a>
                 </td>
             </tr>
         </tbody>
