@@ -14,6 +14,10 @@
                     <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
                         <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
                     </a>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('supprimer_lyceen', { 'groupe': groupe.id, 'lyceen': lyceen.id }) }}">
+                            &times;
+                    </a>
                 </td>
             </tr>
             {% endfor %}
@@ -21,6 +25,16 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
     {% endif %}
+    <tbody>
+        <tr>
+            <td>
+                <form class="form" method="post" action="{{ path('editer_groupe', { 'groupe': groupe.id }) }}">
+                    {{ form_widget(ajouter_lyceen_form) }}
+                    <input type="submit" name="ajouter_lyceen" class="btn btn-primary pull-right" value="Ajouter le lycéen" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <table class="table table-bordered table-hover table-condensed table-striped table-large">
@@ -82,7 +96,7 @@
         <tr>
             <td>
                 <form class="form" method="post" action="{{ path('editer_groupe', { 'groupe': groupe.id }) }}">
-                    {{ form_widget(form) }}
+                    {{ form_widget(groupe_form) }}
                     
                     <input type="submit" name="enregistrer" class="btn btn-block btn-primary btn-large" value="Enregistrer les modifications" />
                 </form>

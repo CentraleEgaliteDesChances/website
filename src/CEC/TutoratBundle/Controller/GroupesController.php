@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Groupe;
 
 use CEC\TutoratBundle\Form\Type\GroupeType;
+use CEC\TutoratBundle\Form\Type\AjouterLyceenType;
 
 class GroupesController extends Controller
 {
@@ -63,16 +64,32 @@ class GroupesController extends Controller
             return strcmp($a->getNom(), $b->getNom());
         });
         
-        $form = $this->createForm(new GroupeType(), $groupe);
+        $groupeForm = $this->createForm(new GroupeType(), $groupe);
+        $ajouterLyceenForm = $this->createForm(new AjouterLyceenType());
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
-            if ($form->isValid())
+            if ($request->request->has('groupe'))
             {
+                $groupeForm->bindRequest($request);
+                if ($groupeForm->isValid())
+                {
+                    $this->getDoctrine()->getEntityManager()->flush();
+                    return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
+                }
+            }
+            
+            if ($request->request->has('ajouter_lyceen'))
+            {
+                $ajouterLyceenForm->bindRequest($request);
+                    var_dump('You reached the breakpoint'); die;
+                $data = $ajouterLyceenForm->getData();
+                $lycee = $data['lyceen'];
+                
+                $lycee->setGroupe($groupe);
                 $this->getDoctrine()->getEntityManager()->flush();
-                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
+                return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
             }
         }
         
@@ -81,8 +98,28 @@ class GroupesController extends Controller
             'lyceens'      => $lyceens,
             'tuteurs'      => $tuteurs,
             'seances'      => $seances,
-            
-            'form'         => $form->createView(),
+            'groupe_form'  => $groupeForm->createView(),
+            'ajouter_lyceen_form' => $ajouterLyceenForm->createView(),
         ));
+    }
+    
+    /**
+     * Retire un lycéen du groupe de tutorat
+     *
+     * @param integer $groupe: id du groupe de tutorat
+     * @param integer $lyceen: id du lycéen
+     */
+    public function supprimerLyceenAction($groupe, $lyceen)
+    {
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+            
+        $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
+        
+        $lyceen->setGroupe(null);
+        
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
     }
 }

@@ -79,3 +79,15 @@ editer_groupe:
     defaults: { _controller: CECTutoratBundle:Groupes:editer }
     requirements:
         groupe: \d+
+supprimer_lyceen:
+    pattern: /groupes/{groupe}/supprimer_lyceen/{lyceen}
+    defaults: { _controller: CECTutoratBundle:Groupes:supprimerLyceen }
+    requirements:
+        groupe: \d+
+        lyceen: \d+
+ajouter_lyceen:
+    pattern: /groupes/{groupe}/ajouter_lyceen/{lyceen}
+    defaults: { _controller: CECTutoratBundle:Groupes:ajouterLyceen }
+    requirements:
+        groupe: \d+
+        lyceen: \d+
