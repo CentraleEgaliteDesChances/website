@@ -12,6 +12,14 @@ use CEC\TutoratBundle\Form\Type\AjouterTuteurType;
 class GroupesController extends Controller
 {
     /**
+     * Affiche la liste des groupes de tutorat
+     */
+    public function tousAction() {
+        $groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findAll();    // tous les Groupes
+        return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes));
+    }
+
+    /**
      * Affiche la page d'un groupe de tutorat.
      *
      * @param integer $groupe: id du groupe de tutorat

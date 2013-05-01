@@ -1,0 +1,38 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}Groupes de tutorat{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<table class="table table-bordered table-hover table-striped">
+    {% if groupes|length > 0 %}
+        <tbody>
+            {% for groupe in groupes %}
+            <tr>
+                <td>
+                    <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
+                        <strong>
+                            {% for lycee in groupe.lycees %}
+                                {{ lycee.nom }}
+                                {% if not loop.last %}& {% endif %}
+                            {% endfor %}
+                            ({{ groupe.niveau }})
+                        </strong>
+                        <span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
+                        Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun groupe de tutorat dans la base de donnée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<a href="#" class="btn pull-right">Créer un groupe de tutorat</a>
+
+{% endblock %}
