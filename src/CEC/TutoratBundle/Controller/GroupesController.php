@@ -68,28 +68,13 @@ class GroupesController extends Controller
         $ajouterLyceenForm = $this->createForm(new AjouterLyceenType());
         
         $request = $this->getRequest();
-        if ($request->getMethod() == 'POST')
+        if ($request->getMethod() == 'POST' && $request->request->has('groupe'))
         {
-            if ($request->request->has('groupe'))
+            $groupeForm->bindRequest($request);
+            if ($groupeForm->isValid())
             {
-                $groupeForm->bindRequest($request);
-                if ($groupeForm->isValid())
-                {
-                    $this->getDoctrine()->getEntityManager()->flush();
-                    return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
-                }
-            }
-            
-            if ($request->request->has('ajouter_lyceen'))
-            {
-                $ajouterLyceenForm->bindRequest($request);
-                    var_dump('You reached the breakpoint'); die;
-                $data = $ajouterLyceenForm->getData();
-                $lycee = $data['lyceen'];
-                
-                $lycee->setGroupe($groupe);
                 $this->getDoctrine()->getEntityManager()->flush();
-                return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
             }
         }
         
@@ -104,7 +89,7 @@ class GroupesController extends Controller
     }
     
     /**
-     * Retire un lycéen du groupe de tutorat
+     * Retire un lycéen du groupe de tutorat.
      *
      * @param integer $groupe: id du groupe de tutorat
      * @param integer $lyceen: id du lycéen
@@ -120,6 +105,31 @@ class GroupesController extends Controller
         $lyceen->setGroupe(null);
         
         $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+    }
+    
+    /**
+     * Ajoute un lycéen au groupe de tutorat
+     *
+     * @param integer $groupe: id du groupe de tutorat
+     * @param integer $lyceen: id du lycéen — Variable POST
+     */
+    public function ajouterLyceenAction($groupe)
+    {
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+
+        // Get the lycéen
+        $ajouterLyceenType = new AjouterLyceenType();    // Permet de trouver le nom du formulaire — Attention, ne doit pas
+                                                  // se confondre avec le nom de la route, ajouter_lyceen !
+        $data = $this->getRequest()->get($ajouterLyceenType->getName());
+        $lyceen = $data['lyceen'];
+        $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
+        
+        $lyceen->setGroupe($groupe);
+        $this->getDoctrine()->getEntityManager()->flush();
+        
         return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
     }
 }

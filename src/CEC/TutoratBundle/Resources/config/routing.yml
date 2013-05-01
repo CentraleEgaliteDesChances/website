@@ -86,7 +86,7 @@ supprimer_lyceen:
         groupe: \d+
         lyceen: \d+
 ajouter_lyceen:
-    pattern: /groupes/{groupe}/ajouter_lyceen/{lyceen}
+    pattern: /groupes/{groupe}/ajouter_lyceen
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterLyceen }
     requirements:
         groupe: \d+

@@ -496,6 +496,6 @@ class Lyceen
     public function __toString()
     {
         
-        return $this->getPrenom() . ' ' . $this->getPrenom();
+        return $this->getPrenom() . ' ' . $this->getNom();
     }
 }

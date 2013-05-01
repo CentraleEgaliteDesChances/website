@@ -15,12 +15,12 @@ class AjouterLyceenType extends AbstractType
             'label' => false,
             'class' => 'CECTutoratBundle:Lyceen',
             'empty_value' => false,
-        ))
-            ->add('groupe', 'hidden');
+            'attr' => array('class' => 'input-ajouter-lyceen'),
+        ));
     }
     
     public function getName()
     {
-        return 'ajouter_lyceen';
+        return 'ajouter_lyceen_type';
     }
 }

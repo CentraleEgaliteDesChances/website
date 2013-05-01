@@ -27,10 +27,13 @@
     {% endif %}
     <tbody>
         <tr>
-            <td>
-                <form class="form" method="post" action="{{ path('editer_groupe', { 'groupe': groupe.id }) }}">
-                    {{ form_widget(ajouter_lyceen_form) }}
-                    <input type="submit" name="ajouter_lyceen" class="btn btn-primary pull-right" value="Ajouter le lycéen" />
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('ajouter_lyceen', { 'groupe': groupe.id }) }}">
+                    {{ form_errors(ajouter_lyceen_form) }}
+                    {{ form_widget(ajouter_lyceen_form.lyceen) }}
+                    {{ form_rest(ajouter_lyceen_form) }}
+                    <input type="submit" name="ajouter_lyceen" class="btn btn-primary" value="Ajouter" />
+                    <a href="{{ path('creer_lyceen') }}" class="btn pull-right">Créer un lycéen</a>
                 </form>
             </td>
         </tr>
