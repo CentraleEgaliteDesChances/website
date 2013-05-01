@@ -12,8 +12,13 @@ class LyceeType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('pivot', 'choice', array(
+                'label'     => false,
+                'expanded'  => true,
+                'choices'   => array('0' => 'Lycée Source', '1' => 'Lycée Pivot'),
+            ))
             ->add('adresse', null, array(
-                'label' => 'Adresse postal',
+                'label' => 'Adresse postale',
             ))
             ->add('codePostal', null, array(
                 'label' => 'Code postal',
@@ -23,15 +28,10 @@ class LyceeType extends AbstractType
             ->add('telephone', null, array(
                 'label' => 'Numéro de téléphone',
             ))
-            ->add('ZEP', null, array(
-                'label' => 'Lycée de ZEP ?',
-            ))
-            ->add('pivot', null, array(
-                'label' => 'Lycée pivot ?',
-            ))
-            ->add('dateCreation')
-            ->add('dateModification')
-        ;
+            ->add('zep', 'checkbox', array(
+                'label'  => false,
+                'help_inline'    => 'Ce lycée est situé dans une ZEP',
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

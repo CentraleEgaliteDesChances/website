@@ -85,6 +85,7 @@ class GroupesController extends Controller
             if ($groupeForm->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Les informations du groupe de tutorat ont bien été enregistrées');
                 return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
             }
         }

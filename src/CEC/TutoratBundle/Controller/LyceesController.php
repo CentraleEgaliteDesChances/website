@@ -5,6 +5,7 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\TutoratBundle\Form\Type\LyceeType;
 
 class LyceesController extends Controller
 {
@@ -91,4 +92,58 @@ class LyceesController extends Controller
             'types'    => $types,
         ));
     }
+    
+    /**
+     * Permet l'édition d'un lycée.
+     *
+     * @param integer $lycee: id du lycée
+     */
+    public function editerAction($lycee)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+            
+        // On trouve les tuteurs, les lycéens et les séances à venir
+        $tuteurs = array();
+        $lyceens = array();
+        $seances = array();
+        foreach ($lycee->getGroupes() as $groupe) {
+            $tuteurs = array_merge($tuteurs, $groupe->getTuteurs()->toArray());
+            $lyceens = array_merge($lyceens, $groupe->getLyceens()->toArray());
+            
+            // On rassemble les séances à venir
+            $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
+            $seances = array_merge($seances);
+        }
+        
+        // On trie les tuteurs et les lycéens par ordre alphabétique
+        usort($tuteurs, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        usort($lyceens, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        
+        // On génère les formulaires
+        $lyceeForm = $this->createForm(new LyceeType(), $lycee);
+        
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST')
+        {
+            $lyceeForm->bindRequest($request);
+            if ($lyceeForm->isValid())
+            {
+                $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées');
+                return $this->redirect($this->generateUrl('lycee', array('lycee' => $lycee->getId())));
+            }
+        }
+        
+        return $this->render('CECTutoratBundle:Lycees:editer.html.twig', array(
+            'lycee'        => $lycee,
+            'lyceens'      => $lyceens,
+            'tuteurs'      => $tuteurs,
+            'seances'      => $seances,
+            'lycee_form'   => $lyceeForm->createView(),
+        ));
+    } 
 }
