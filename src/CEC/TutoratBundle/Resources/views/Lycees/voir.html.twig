@@ -1,8 +1,13 @@
 {% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
 {% import  'CECMainBundle::macros.html.twig' as modal %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 {% block right %}
 {{ parent() }}
+
+{% if lycee in app.user.groupe.lycees|default('') %}
+{{ flash('info', 'Bienvenue sur la page de votre lycée !') }}
+{% endif %}
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if lycee.groupes|length > 0 %}
