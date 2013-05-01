@@ -5,6 +5,7 @@ namespace CEC\TutoratBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class GroupeType extends AbstractType
 {
@@ -12,6 +13,13 @@ class GroupeType extends AbstractType
     {
         $builder->add('lycees', null, array(
                 'label' => 'Lycées associés (pour sélectionner plusieurs lycées, maintenez la touche Ctr enfoncée)',
+                'query_builder' => function (EntityRepository $entityRepository)
+                {
+                    return $entityRepository->createQueryBuilder('l')
+                        ->where('l.pivot = 0')
+                        ->andWhere('l.cordee IS NOT NULL')
+                        ->orderBy('l.nom', 'ASC');
+                },
             ))
             ->add('niveau')
             ->add('typeDeTutorat', 'choice', array(
