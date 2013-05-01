@@ -91,3 +91,15 @@ ajouter_lyceen:
     requirements:
         groupe: \d+
         lyceen: \d+
+supprimer_tuteur:
+    pattern: /groupes/{groupe}/supprimer_tuteur/{tuteur}
+    defaults: { _controller: CECTutoratBundle:Groupes:supprimerTuteur }
+    requirements:
+        groupe: \d+
+        tuteur: \d+
+ajouter_tuteur:
+    pattern: /groupes/{groupe}/ajouter_tuteur
+    defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
+    requirements:
+        groupe: \d+
+        tuteur: \d+

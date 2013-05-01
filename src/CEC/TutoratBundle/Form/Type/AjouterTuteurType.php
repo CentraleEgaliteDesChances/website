@@ -7,18 +7,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
-class AjouterLyceenType extends AbstractType
+class AjouterTuteurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lyceen', 'entity', array(
+        $builder->add('tuteur', 'entity', array(
             'label' => false,
-            'class' => 'CECTutoratBundle:Lyceen',
+            'class' => 'CECMembreBundle:Membre',
             'query_builder' => function (EntityRepository $entityRepository)
             {
-                return $entityRepository->createQueryBuilder('l')
-                    ->where('l.groupe IS NULL')
-                    ->orderBy('l.nom', 'ASC');
+                return $entityRepository->createQueryBuilder('t')
+                    ->where('t.groupe IS NULL')
+                    ->orderBy('t.nom', 'ASC');
             },
             'empty_value' => false,
             'attr' => array('class' => 'input-ajouter'),
@@ -27,6 +27,6 @@ class AjouterLyceenType extends AbstractType
     
     public function getName()
     {
-        return 'ajouter_lyceen_type';
+        return 'ajouter_tuteur_type';
     }
 }

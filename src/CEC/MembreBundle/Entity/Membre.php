@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Membre
  */
-class Membre implements UserInterface
+class Membre implements UserInterface, \Serializable
 {
     /**
      * @var integer

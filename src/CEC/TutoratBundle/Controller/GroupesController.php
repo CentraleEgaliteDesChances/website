@@ -7,6 +7,7 @@ use CEC\TutoratBundle\Entity\Groupe;
 
 use CEC\TutoratBundle\Form\Type\GroupeType;
 use CEC\TutoratBundle\Form\Type\AjouterLyceenType;
+use CEC\TutoratBundle\Form\Type\AjouterTuteurType;
 
 class GroupesController extends Controller
 {
@@ -66,6 +67,7 @@ class GroupesController extends Controller
         
         $groupeForm = $this->createForm(new GroupeType(), $groupe);
         $ajouterLyceenForm = $this->createForm(new AjouterLyceenType());
+        $ajouterTuteurForm = $this->createForm(new ajouterTuteurType());
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' && $request->request->has('groupe'))
@@ -85,6 +87,7 @@ class GroupesController extends Controller
             'seances'      => $seances,
             'groupe_form'  => $groupeForm->createView(),
             'ajouter_lyceen_form' => $ajouterLyceenForm->createView(),
+            'ajouter_tuteur_form' => $ajouterTuteurForm->createView(),
         ));
     }
     
@@ -119,11 +122,11 @@ class GroupesController extends Controller
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
 
-        // Get the lycéen
+        // Récupère le lycéen
         $ajouterLyceenType = new AjouterLyceenType();    // Permet de trouver le nom du formulaire — Attention, ne doit pas
                                                   // se confondre avec le nom de la route, ajouter_lyceen !
         $data = $this->getRequest()->get($ajouterLyceenType->getName());
-        if (in_array('lyceen', $data))
+        if (array_key_exists('lyceen', $data))
         {
             $lyceen = $data['lyceen'];
         } else {
@@ -134,6 +137,57 @@ class GroupesController extends Controller
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
         
         $lyceen->setGroupe($groupe);
+        $this->getDoctrine()->getEntityManager()->flush();
+        
+        return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+    }
+    
+    /**
+     * Retire un tuteur du groupe de tutorat.
+     *
+     * @param integer $groupe: id du groupe de tutorat
+     * @param integer $tuteur: id du tuteur
+     */
+    public function supprimerTuteurAction($groupe, $tuteur)
+    {
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+            
+        $tuteur = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($tuteur);
+        if (!$tuteur) throw $this->createNotFoundException('Impossible de trouver le tuteur !');
+        
+        $tuteur->setGroupe(null);
+        
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+    }
+    
+    /**
+     * Ajoute un tuteur au groupe de tutorat
+     *
+     * @param integer $groupe: id du groupe de tutorat
+     * @param integer $tuteur: id du tuteur — Variable POST
+     */
+    public function ajouterTuteurAction($groupe)
+    {
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+
+        // Récupère le tuteur
+        $ajouterTuteurType = new AjouterTuteurType(); // Permet de trouver le nom du formulaire — Attention, ne doit pas
+                                                      // se confondre avec le nom de la route, ajouter_tuteur !
+        $data = $this->getRequest()->get($ajouterTuteurType->getName());
+        if (array_key_exists('tuteur', $data))
+        {
+            $tuteur = $data['tuteur'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un tuteur à ajouter');
+            return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+        }
+        $tuteur = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($tuteur);
+        if (!$tuteur) throw $this->createNotFoundException('Impossible de trouver le tuteur !');
+        
+        $tuteur->setGroupe($groupe);
         $this->getDoctrine()->getEntityManager()->flush();
         
         return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));

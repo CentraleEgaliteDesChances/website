@@ -50,6 +50,10 @@
                     <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
                         <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
                     </a>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('supprimer_tuteur', { 'groupe': groupe.id, 'tuteur': tuteur.id }) }}">
+                            &times;
+                    </a>
                 </td>
             </tr>
             {% endfor %}
@@ -57,6 +61,19 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun tuteur pour ce lycée</h4></th></tr></thead>
     {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('ajouter_tuteur', { 'groupe': groupe.id }) }}">
+                    {{ form_errors(ajouter_tuteur_form) }}
+                    {{ form_widget(ajouter_tuteur_form.tuteur) }}
+                    {{ form_rest(ajouter_tuteur_form) }}
+                    <input type="submit" name="ajouter_tuteur" class="btn btn-primary" value="Ajouter" />
+                    <a href="#" class="btn pull-right">Créer un tuteur</a>
+                </form>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
