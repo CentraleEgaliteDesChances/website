@@ -103,10 +103,26 @@ class GroupesController extends Controller
     
     /**
      * Permet de créer un nouveau groupe de tutorat
+     *
+     * @param integer $lycee: id du lycée auquel le nouveau groupe de tutorat
+     *                        doit être associé par défaut. S'il est null, on ne sélectionne aucun lycée.
      */
-    public function creerAction()
+    public function creerAction($lycee)
     {
         $groupe = new Groupe();
+        
+        // Sélectionne le lycée associé s'il est spécifié
+        if ($lycee != null)
+        {
+            $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+            if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+            if (!$lycee->getPivot())
+            {
+                $groupe->addLycee($lycee);
+            }
+        }
+        
+        // Génère le formulaire
         $form = $this->createForm(new GroupeType(), $groupe);
         
         $request = $this->getRequest();

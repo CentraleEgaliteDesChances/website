@@ -90,8 +90,10 @@ tous_groupes:
     pattern: /groupes
     defaults: { _controller: CECTutoratBundle:Groupes:tous }
 creer_groupe:
-    pattern: /groupes/creation
-    defaults: { _controller: CECTutoratBundle:Groupes:creer }
+    pattern: /groupes/creation/{lycee}
+    defaults: { _controller: CECTutoratBundle:Groupes:creer, lycee: null }
+    requirements:
+        lycee: \d+
 groupe:
     pattern: /groupes/{groupe}
     defaults: { _controller: CECTutoratBundle:Groupes:voir }
