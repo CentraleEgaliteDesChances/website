@@ -39,17 +39,12 @@ editer_lycee:
     defaults: { _controller: CECTutoratBundle:Lycees:editer }
     requirements:
         lycee: \d+
-supprimer_groupe:
+lycee_supprimer_groupe:
     pattern: /lycees/{lycee}/supprimer_groupe/{groupe}
     defaults: { _controller: CECTutoratBundle:Lycees:supprimerGroupe }
     requirements:
         lycee: \d+
         groupe: \d+
-ajouter_groupe:
-    pattern: /lycees/{lycee}/ajouter_groupe
-    defaults: { _controller: CECTutoratBundle:Lycees:ajouterGroupe }
-    requirements:
-        lycee: \d+
 
         
 tous_enseignants:

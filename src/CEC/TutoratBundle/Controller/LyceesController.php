@@ -163,10 +163,15 @@ class LyceesController extends Controller
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
         
+        // On supprime les références aux séances associées, et on supprime le groupe
         $entityManager = $this->getDoctrine()->getEntityManager();
-        $entityManager->delete($groupe);
+        foreach ($groupe->getSeances() as $seance) $seance->setGroupe(null);
+        foreach ($groupe->getLyceens() as $lyceen) $lyceen->setGroupe(null);
+        foreach ($groupe->getTuteurs() as $tuteur) $tuteur->setGroupe(null);
+        $entityManager->remove($groupe);
         
         $this->getDoctrine()->getEntityManager()->flush();
+        $this->get('session')->setFlash('alert', 'Le groupe de tutorat a bien été supprimé. Les séances, lycéens et tuteurs associés ont donc été retirés de ce groupe de tutorat avant sa suppression ; les statistiques associées — présences, nombre d\'heures de tutorat, nombre de tuteurs, activités utilisées — ont par conséquent été conservées.');
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
     }
 

@@ -1,5 +1,4 @@
 {% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
-{% import  'CECMainBundle::macros.html.twig' as modal %}
 
 {% block right %}
 {{ parent() }}
@@ -12,7 +11,7 @@
             <tr>
                 <td>
                     <a class="close pull-right close-red" 
-                        href="{{ path('supprimer_groupe', { 'lycee': lycee.id, 'groupe': groupe.id }) }}">
+                        href="{{ path('lycee_supprimer_groupe', { 'lycee': lycee.id, 'groupe': groupe.id }) }}">
                             &times;
                     </a>
                     <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
@@ -29,7 +28,7 @@
     <tbody>
         <tr>
             <td class="ajout">
-                <a href="{{ path('creer_groupe', { 'lycee': lycee.id }) }}" class="btn btn-block">Créer un groupe de tutorat</a>
+                <a href="{{ path('creer_groupe') }}" class="btn btn-block">Créer un groupe de tutorat</a>
             </td>
         </tr>
     </tbody>
