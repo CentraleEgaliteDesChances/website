@@ -133,6 +133,7 @@ class LyceesController extends Controller
             $lyceeForm->bindRequest($request);
             if ($lyceeForm->isValid())
             {
+                $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées');
                 return $this->redirect($this->generateUrl('lycee', array('lycee' => $lycee->getId())));
             }

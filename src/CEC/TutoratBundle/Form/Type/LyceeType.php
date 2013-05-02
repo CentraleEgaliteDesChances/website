@@ -17,6 +17,10 @@ class LyceeType extends AbstractType
                 'expanded'  => true,
                 'choices'   => array('0' => 'Lycée Source', '1' => 'Lycée Pivot'),
             ))
+            ->add('cordee', null, array(
+                'label'       => 'Cordée',
+                'empty_value' => 'Aucune cordée',
+            ))
             ->add('adresse', null, array(
                 'label' => 'Adresse postale',
             ))

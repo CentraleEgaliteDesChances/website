@@ -163,4 +163,13 @@ class Cordee
     {
         return $this->getLycees()->count() > 0;
     }
+    
+    /**
+     * Retourne la description d'une cordée
+     */
+    public function __toString()
+    {
+        
+        return $this->getNom();
+    }
 }
