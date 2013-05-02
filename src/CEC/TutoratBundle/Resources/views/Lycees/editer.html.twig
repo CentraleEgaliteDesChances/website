@@ -11,6 +11,10 @@
             {% for groupe in lycee.groupes %}
             <tr>
                 <td>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('supprimer_groupe', { 'lycee': lycee.id, 'groupe': groupe.id }) }}">
+                            &times;
+                    </a>
                     <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
                         <strong>{{ groupe.niveau }}</strong><span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
                         Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
@@ -22,6 +26,13 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun groupe de tutorat pour ce lycée</h4></th></tr></thead>
     {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <a href="{{ path('creer_groupe') }}" class="btn btn-block">Créer un groupe de tutorat</a>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">

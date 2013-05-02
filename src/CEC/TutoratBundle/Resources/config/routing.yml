@@ -39,6 +39,18 @@ editer_lycee:
     defaults: { _controller: CECTutoratBundle:Lycees:editer }
     requirements:
         lycee: \d+
+supprimer_groupe:
+    pattern: /lycees/{lycee}/supprimer_groupe/{groupe}
+    defaults: { _controller: CECTutoratBundle:Lycees:supprimerGroupe }
+    requirements:
+        lycee: \d+
+        groupe: \d+
+ajouter_groupe:
+    pattern: /lycees/{lycee}/ajouter_groupe
+    defaults: { _controller: CECTutoratBundle:Lycees:ajouterGroupe }
+    requirements:
+        lycee: \d+
+
         
 tous_enseignants:
     pattern: /enseignants
@@ -101,7 +113,6 @@ ajouter_lyceen:
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterLyceen }
     requirements:
         groupe: \d+
-        lyceen: \d+
 supprimer_tuteur:
     pattern: /groupes/{groupe}/supprimer_tuteur/{tuteur}
     defaults: { _controller: CECTutoratBundle:Groupes:supprimerTuteur }
@@ -113,4 +124,3 @@ ajouter_tuteur:
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
     requirements:
         groupe: \d+
-        tuteur: \d+

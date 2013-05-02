@@ -147,4 +147,27 @@ class LyceesController extends Controller
             'lycee_form'   => $lyceeForm->createView(),
         ));
     } 
+    
+    
+    /**
+     * Supprime un groupe de tutorat du lycée
+     *
+     * @param integer $lycee: id du lycée
+     * @param integer $groupe: id du groupe
+     */
+    public function supprimerGroupeAction($lycee, $groupe)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+            
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+        
+        $entityManager = $this->getDoctrine()->getEntityManager();
+        $entityManager->delete($groupe);
+        
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+    }
+
 }
