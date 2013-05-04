@@ -140,7 +140,7 @@ class GroupesController extends Controller
             }
         }
         
-        return $this->render('CECTutoratBundle:Groupes:creer.html.twig', array('form' => $form->createView(),));
+        return $this->render('CECTutoratBundle:Groupes:creer.html.twig', array('form' => $form->createView()));
     }
     
     

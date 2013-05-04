@@ -19,10 +19,12 @@
                 {{ lycee.codePostal }} {{ lycee.ville }}
             </td>
         </tr>
+        {% if lycee.telephone %}
         <tr>
             <td>Secrétariat</td>
             <td>{{ lycee.telephone }}</td>
         </tr>
+        {% endif %}
         <tr>
             <td>Statut</td>
             <td>{{ lycee.statut }}</td>

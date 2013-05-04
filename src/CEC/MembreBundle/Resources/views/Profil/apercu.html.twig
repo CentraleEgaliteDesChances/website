@@ -5,6 +5,11 @@
                 <h3>{{ membre.prenom|capitalize }} {{ membre.nom|capitalize }}</h3>
             </th>
         </tr>
+        <tr><th colspan="2" class="image">
+            {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
+                <img src="{{ asset_url }}" alt="Image du lycée"/>
+            {% endimage %}
+        </th></tr>
     </thead>
     <tbody>
         <tr>

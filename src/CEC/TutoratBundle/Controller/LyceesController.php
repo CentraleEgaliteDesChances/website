@@ -136,7 +136,46 @@ class LyceesController extends Controller
             'lycee_form'   => $lyceeForm->createView(),
             'ajouter_enseignant_form' => $ajouterEnseignantForm->createView(),
         ));
-    } 
+    }
+    
+    /**
+     * Permet de créer un nouveau lycée
+     *
+     * @param integer $cordee: id de la cordée à laquelle le nouveau lycée doit se rattacher.
+     *                         S'il est null, on ne sélectionne aucune cordée par défaut.
+     */
+    public function creerAction($cordee)
+    {
+        $lycee = new Lycee();
+        
+        // Sélectionne le lycée associé s'il est spécifié
+        if ($cordee != null)
+        {
+            $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->find($cordee);
+            if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la Cordée de la Réussite !');
+            $lycee->setCordee($cordee);
+        }
+        
+        // Génère le formulaire
+        $form = $this->createForm(new LyceeType(), $lycee);
+        
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST')
+        {
+            $form->bindRequest($request);
+            if ($form->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($lycee);
+                $entityManager->flush();
+                
+                $this->get('session')->setFlash('success', 'Le lycée a bien été créé. Vous pouvez désormais ajouter des groupes de tutorat et des contacts — rubrique Enseignants.');
+                return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+            }
+        }
+        
+        return $this->render('CECTutoratBundle:Lycees:creer.html.twig', array('form' => $form->createView()));
+    }
     
 
     /**

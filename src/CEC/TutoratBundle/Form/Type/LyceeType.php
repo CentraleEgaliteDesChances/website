@@ -28,7 +28,12 @@ class LyceeType extends AbstractType
                 'label' => 'Code postal',
             ))
             ->add('ville')
-            ->add('statut')
+            ->add('statut', 'choice', array(
+                'label'     => false,
+                'expanded'  => true,
+                'choices'   => array('Établissement Public' => 'Établissement Public', 
+                                     'Établissement Privé'  => 'Établissement Privé'),
+            ))
             ->add('telephone', null, array(
                 'label' => 'Numéro de téléphone',
             ))

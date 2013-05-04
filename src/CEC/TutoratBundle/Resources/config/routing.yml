@@ -29,6 +29,11 @@ desactiver_cordee:
 tous_lycees:
     pattern: /lycees
     defaults: { _controller: CECTutoratBundle:Cordees:toutes }
+creer_lycee:
+    pattern: /lycees/creation/{cordee}
+    defaults: { _controller: CECTutoratBundle:Lycees:creer, cordee: null }
+    requirements:
+        cordee: \d+
 lycee:
     pattern: /lycees/{lycee}
     defaults: { _controller: CECTutoratBundle:Lycees:voir }
