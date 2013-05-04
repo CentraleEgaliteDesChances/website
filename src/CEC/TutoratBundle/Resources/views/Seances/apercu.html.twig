@@ -1,0 +1,48 @@
+{% set indisponible = '(indisponible)' %}
+
+<table class="table table-bordered table-striped table-centered">
+    <tbody>
+        <tr><td></td></tr>
+        <tr>
+            <td class="date">
+                {{ cycle(jours, seance.debut|date('N'))|lower }}<br />
+                <span class="jour">{{ seance.debut|date('d') }}</span><br />
+                <span class="mois">{{ cycle(mois, seance.debut|date('m'))|lower }}</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-centered">
+    <tbody>
+        <tr><td class="td-label">rendez-vous</td></tr>
+        <tr><td class="td-content">{{ seance.rendezVous ?: seance.groupe.rendezVous|default(indisponible) }}</td></tr>
+        <tr><td class="td-label">pour la séance</td></tr>
+        <tr>
+            <td class="td-content">
+                de {{ seance.debut|date('G\\hi') ?: seance.groupe.debut|date('G\\hi')|default(indisponible) }}
+                à {{ seance.fin|date('G\\hi') ?: seance.groupe.fin|date('G\\hi')|default(indisponible) }}<br />
+                {{ seance.lieu|lower ?: seance.groupe.lieu|lower|default(indisponible) }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% if seance.groupe is not null %}
+<table class="table table-bordered table-striped table-centered">
+    <tbody>
+        <tr><td class="td-label">Groupe de tutorat</td></tr>
+        <tr>
+            <td class="td-content">
+                {% for lycee in seance.groupe.lycees %}
+                    <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">{{ lycee.nom }}</a>
+                    {% if not loop.last %}& {% endif %}
+                {% endfor %}<br />
+                <a href="{{ path('groupe', { 'groupe': seance.groupe.id }) }}">
+                    {{ seance.groupe.niveau }}
+                </a>  
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endif %}

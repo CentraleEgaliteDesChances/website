@@ -1,0 +1,14 @@
+{% extends 'CECMainBundle::2-columns.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/seances.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block left %}
+    {% include 'CECTutoratBundle:Seances:apercu.html.twig' with { 'seance' : seance } %}
+{% endblock %}

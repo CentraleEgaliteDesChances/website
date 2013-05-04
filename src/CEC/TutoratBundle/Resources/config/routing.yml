@@ -143,3 +143,10 @@ groupe_ajouter_tuteur:
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
     requirements:
         groupe: \d+
+
+# Séances de tutorat
+seance:
+    pattern: /seances/{seance}
+    defaults: { _controller: CECTutoratBundle:Seances:voir }
+    requirements:
+        seance: \d+
