@@ -11,7 +11,7 @@
             <tr>
                 <td>
                     <a class="close pull-right close-red" 
-                        href="{{ path('supprimer_lyceen', { 'groupe': groupe.id, 'lyceen': lyceen.id }) }}">
+                        href="{{ path('groupe_supprimer_lyceen', { 'groupe': groupe.id, 'lyceen': lyceen.id }) }}">
                             &times;
                     </a>
                     <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
@@ -27,7 +27,7 @@
     <tbody>
         <tr>
             <td class="ajout">
-                <form class="form form-inline" method="post" action="{{ path('ajouter_lyceen', { 'groupe': groupe.id }) }}">
+                <form class="form form-inline" method="post" action="{{ path('groupe_ajouter_lyceen', { 'groupe': groupe.id }) }}">
                     {{ form_errors(ajouter_lyceen_form) }}
                     {{ form_widget(ajouter_lyceen_form.lyceen) }}
                     {{ form_rest(ajouter_lyceen_form) }}
@@ -47,7 +47,7 @@
             <tr>
                 <td>
                     <a class="close pull-right close-red" 
-                        href="{{ path('supprimer_tuteur', { 'groupe': groupe.id, 'tuteur': tuteur.id }) }}">
+                        href="{{ path('groupe_supprimer_tuteur', { 'groupe': groupe.id, 'tuteur': tuteur.id }) }}">
                             &times;
                     </a>
                     <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
@@ -63,7 +63,7 @@
     <tbody>
         <tr>
             <td class="ajout">
-                <form class="form form-inline" method="post" action="{{ path('ajouter_tuteur', { 'groupe': groupe.id }) }}">
+                <form class="form form-inline" method="post" action="{{ path('groupe_ajouter_tuteur', { 'groupe': groupe.id }) }}">
                     {{ form_errors(ajouter_tuteur_form) }}
                     {{ form_widget(ajouter_tuteur_form.tuteur) }}
                     {{ form_rest(ajouter_tuteur_form) }}

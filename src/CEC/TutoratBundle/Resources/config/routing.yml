@@ -111,24 +111,24 @@ editer_groupe:
     defaults: { _controller: CECTutoratBundle:Groupes:editer }
     requirements:
         groupe: \d+
-supprimer_lyceen:
+groupe_supprimer_lyceen:
     pattern: /groupes/{groupe}/supprimer_lyceen/{lyceen}
     defaults: { _controller: CECTutoratBundle:Groupes:supprimerLyceen }
     requirements:
         groupe: \d+
         lyceen: \d+
-ajouter_lyceen:
+groupe_ajouter_lyceen:
     pattern: /groupes/{groupe}/ajouter_lyceen
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterLyceen }
     requirements:
         groupe: \d+
-supprimer_tuteur:
+groupe_supprimer_tuteur:
     pattern: /groupes/{groupe}/supprimer_tuteur/{tuteur}
     defaults: { _controller: CECTutoratBundle:Groupes:supprimerTuteur }
     requirements:
         groupe: \d+
         tuteur: \d+
-ajouter_tuteur:
+groupe_ajouter_tuteur:
     pattern: /groupes/{groupe}/ajouter_tuteur
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
     requirements:
