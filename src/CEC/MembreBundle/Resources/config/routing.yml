@@ -6,6 +6,9 @@ connexion:
 deconnexion:
     pattern: /deconnexion
     
+tous_membres:
+    pattern: /membres/tous
+    defaults: { _controller: CECMembreBundle:Profil:tous }
 membre:
     pattern: /membres/{membre}
     defaults: { _controller: CECMembreBundle:Profil:voir, membre: null }

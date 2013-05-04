@@ -7,6 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ProfilController extends Controller
 {
     /**
+     * Affiche la liste des membres
+     */
+    public function tousAction()
+    {
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->findAll();    // tous les Membres
+        return $this->render('CECMembreBundle:Profil:tous.html.twig', array('membres' => $membres));
+    }
+
+    /**
      * Affiche le profil d'un membre
      *
      * @param integer $membre: id du membre dont on veux afficher le profil,
