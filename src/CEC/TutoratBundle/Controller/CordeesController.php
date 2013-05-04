@@ -178,7 +178,8 @@ class CordeesController extends Controller
     }
     
     /**
-     * Désactive une cordee
+     * Désactive une cordee :
+     * Retire tous les lycées de la cordée, qui devient donc vide.
      */
     public function desactiverAction($cordee)
     {

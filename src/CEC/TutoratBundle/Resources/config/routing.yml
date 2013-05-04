@@ -1,3 +1,4 @@
+# Cordées
 toutes_cordees:
     pattern: /cordees
     defaults: { _controller: CECTutoratBundle:Cordees:toutes }
@@ -26,6 +27,7 @@ desactiver_cordee:
     requirements:
         cordee: \d+
 
+# Lycées
 tous_lycees:
     pattern: /lycees
     defaults: { _controller: CECTutoratBundle:Cordees:toutes }
@@ -62,6 +64,7 @@ lycee_ajouter_enseignant:
     requirements:
         lycee: \d+
         
+# Enseignants
 tous_enseignants:
     pattern: /enseignants
     defaults: { _controller: CECTutoratBundle:Enseignants:tous }
@@ -80,7 +83,8 @@ editer_enseignant:
     defaults: { _controller: CECTutoratBundle:Enseignants:editer }
     requirements:
         cordee: \d+
-        
+
+# Lycéens
 tous_lyceens:
     pattern: /lyceens
     defaults: { _controller: CECTutoratBundle:Lyceens:tous }
@@ -98,6 +102,7 @@ editer_lyceen:
     requirements:
         lyceen: \d+
    
+# Groupes de tutorat
 tous_groupes:
     pattern: /groupes
     defaults: { _controller: CECTutoratBundle:Groupes:tous }

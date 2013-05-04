@@ -51,6 +51,8 @@
     {% endif %}
 </table>
 
+<a href="{{ path('creer_lycee', { 'cordee': cordee.id }) }}" class="btn btn-block btn-large btn-success">Créer un nouveau lycée</a>
+
 {% if cordee.lycees.count %}
 {{ modal.button('Désactiver cette cordée', 'btn btn-danger btn-desactiver-cordee btn-block') }}
 {% endif %}
@@ -66,7 +68,8 @@
 {{ parent() }}
 
 {% set body %}
-    <strong>En cliquant sur Désactiver, vous retirerez tous les lycées partenaires de cette cordée, qui ne sera donc plus active.</strong> Elle pourra cependant être repeuplé avec de nouveau lycée en l'éditant.<br />
+    <strong>En cliquant sur Désactiver, vous retirerez tous les lycées partenaires de cette cordée, qui ne sera donc plus active.</strong><br />
+    Elle pourra cependant être repeuplé avec de nouveau lycée en l'éditant.<br />
     Souhaitez-vous vraiment continuer ?
 {% endset %}
 
