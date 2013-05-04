@@ -10,12 +10,12 @@
             {% for lyceen in lyceens %}
             <tr>
                 <td>
-                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
-                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
-                    </a>
                     <a class="close pull-right close-red" 
                         href="{{ path('supprimer_lyceen', { 'groupe': groupe.id, 'lyceen': lyceen.id }) }}">
                             &times;
+                    </a>
+                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
                     </a>
                 </td>
             </tr>
@@ -46,12 +46,12 @@
             {% for tuteur in tuteurs %}
             <tr>
                 <td>
-                    <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
-                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
-                    </a>
                     <a class="close pull-right close-red" 
                         href="{{ path('supprimer_tuteur', { 'groupe': groupe.id, 'tuteur': tuteur.id }) }}">
                             &times;
+                    </a>
+                    <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
+                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
                     </a>
                 </td>
             </tr>

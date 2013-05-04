@@ -35,44 +35,6 @@
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
-    {% if lyceens %}
-        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
-        <tbody>
-            {% for lyceen in lyceens %}
-            <tr>
-                <td>
-                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
-                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
-
-<table class="table table-bordered table-hover table-condensed table-striped table-large">
-    {% if tuteurs %}
-        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
-        <tbody>
-            {% for tuteur in tuteurs %}
-            <tr>
-                <td>
-                    <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
-                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun tuteur pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
-
-<table class="table table-bordered table-hover table-striped table-large">
     {% if lycee.enseignants|length > 0 %}
         <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
         <tbody>

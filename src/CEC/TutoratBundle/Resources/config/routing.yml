@@ -45,7 +45,6 @@ lycee_supprimer_groupe:
     requirements:
         lycee: \d+
         groupe: \d+
-
         
 tous_enseignants:
     pattern: /enseignants

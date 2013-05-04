@@ -75,7 +75,8 @@ class LyceesController extends Controller
         $types = array();
         $niveaux = array();
         $seances = array();
-        foreach ($lycee->getGroupes() as $groupe) {
+        foreach ($lycee->getGroupes() as $groupe)
+        {
             $tuteurs = array_merge($tuteurs, $groupe->getTuteurs()->toArray());
             $lyceens = array_merge($lyceens, $groupe->getLyceens()->toArray());
             if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
@@ -104,25 +105,13 @@ class LyceesController extends Controller
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
             
         // On trouve les tuteurs, les lycéens et les séances à venir
-        $tuteurs = array();
-        $lyceens = array();
         $seances = array();
-        foreach ($lycee->getGroupes() as $groupe) {
-            $tuteurs = array_merge($tuteurs, $groupe->getTuteurs()->toArray());
-            $lyceens = array_merge($lyceens, $groupe->getLyceens()->toArray());
-            
+        foreach ($lycee->getGroupes() as $groupe)
+        {
             // On rassemble les séances à venir
             $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
             $seances = array_merge($seances);
         }
-        
-        // On trie les tuteurs et les lycéens par ordre alphabétique
-        usort($tuteurs, function($a, $b) {
-            return strcmp($a->getNom(), $b->getNom());
-        });
-        usort($lyceens, function($a, $b) {
-            return strcmp($a->getNom(), $b->getNom());
-        });
         
         // On génère les formulaires
         $lyceeForm = $this->createForm(new LyceeType(), $lycee);
@@ -141,14 +130,12 @@ class LyceesController extends Controller
         
         return $this->render('CECTutoratBundle:Lycees:editer.html.twig', array(
             'lycee'        => $lycee,
-            'lyceens'      => $lyceens,
-            'tuteurs'      => $tuteurs,
             'seances'      => $seances,
             'lycee_form'   => $lyceeForm->createView(),
         ));
     } 
     
-    
+
     /**
      * Supprime un groupe de tutorat du lycée
      *
