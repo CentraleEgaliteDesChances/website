@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Form\Type\LyceeType;
+use CEC\TutoratBundle\Form\Type\AjouterEnseignantType;
 
 class LyceesController extends Controller
 {
@@ -115,6 +116,7 @@ class LyceesController extends Controller
         
         // On génère les formulaires
         $lyceeForm = $this->createForm(new LyceeType(), $lycee);
+        $ajouterEnseignantForm = $this->createForm(new AjouterEnseignantType());
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
@@ -132,6 +134,7 @@ class LyceesController extends Controller
             'lycee'        => $lycee,
             'seances'      => $seances,
             'lycee_form'   => $lyceeForm->createView(),
+            'ajouter_enseignant_form' => $ajouterEnseignantForm->createView(),
         ));
     } 
     
@@ -157,8 +160,57 @@ class LyceesController extends Controller
         foreach ($groupe->getTuteurs() as $tuteur) $tuteur->setGroupe(null);
         $entityManager->remove($groupe);
         
-        $this->getDoctrine()->getEntityManager()->flush();
+        $entityManager->flush();
         $this->get('session')->setFlash('alert', 'Le groupe de tutorat a bien été supprimé. Les séances, lycéens et tuteurs associés ont donc été retirés de ce groupe de tutorat avant sa suppression ; les statistiques associées — présences, nombre d\'heures de tutorat, nombre de tuteurs, activités utilisées — ont par conséquent été conservées.');
+        return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+    }
+    
+    /**
+     * Supprime un enseignant d'un lycée.
+     *
+     * @param integer $lycee: id du lycée
+     * @param integer $enseignant: id de l'enseignant
+     */
+    public function supprimerEnseignantAction($lycee, $enseignant)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+            
+        $enseignant = $this->getDoctrine()->getRepository('CECTutoratBundle:Enseignant')->find($enseignant);
+        if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
+        
+        $enseignant->setLycee(null);
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+    }
+    
+    /**
+     * Ajoute un enseignant à un lycée.
+     *
+     * @param integer $lycee: id du lycée
+     * @param integer $enseignant: id de l'enseignant — Variable POST
+     */
+    public function ajouterEnseignantAction($lycee)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+
+        // Récupère l'enseignant
+        $ajouterEnseignantType = new AjouterEnseignantType();
+        $data = $this->getRequest()->get($ajouterEnseignantType->getName());
+        if (array_key_exists('enseignant', $data))
+        {
+            $enseignant = $data['enseignant'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un enseignant à ajouter.');
+            return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+        }
+        $enseignant = $this->getDoctrine()->getRepository('CECTutoratBundle:Enseignant')->find($enseignant);
+        if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
+        
+        $enseignant->setLycee($lycee);
+        $this->getDoctrine()->getEntityManager()->flush();
+        
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
     }
 

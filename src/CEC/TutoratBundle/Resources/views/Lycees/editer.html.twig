@@ -28,7 +28,7 @@
     <tbody>
         <tr>
             <td class="ajout">
-                <a href="{{ path('creer_groupe') }}" class="btn btn-block">Créer un groupe de tutorat</a>
+                <a href="{{ path('creer_groupe', { 'lycee': lycee.id }) }}" class="btn btn-block">Créer un groupe de tutorat</a>
             </td>
         </tr>
     </tbody>
@@ -41,6 +41,10 @@
             {% for enseignant in lycee.enseignants %}
             <tr>
                 <td>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('lycee_supprimer_enseignant', { 'lycee': lycee.id, 'enseignant': enseignant.id }) }}">
+                            &times;
+                    </a>
                     <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
                         {{ enseignant.role is not empty ? enseignant.role }}
@@ -52,6 +56,19 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun enseignant pour ce lycée</h4></th></tr></thead>
     {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('lycee_ajouter_enseignant', { 'lycee': lycee.id }) }}">
+                    {{ form_errors(ajouter_enseignant_form) }}
+                    {{ form_widget(ajouter_enseignant_form.enseignant) }}
+                    {{ form_rest(ajouter_enseignant_form) }}
+                    <input type="submit" name="ajouter_enseignant_button" class="btn btn-primary" value="Ajouter" />
+                    <a href="{{ path('creer_enseignant', { 'lycee': lycee.id }) }}" class="btn pull-right">Nouvel enseignant</a>
+                </form>
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">

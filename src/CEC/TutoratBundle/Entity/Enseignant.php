@@ -304,4 +304,14 @@ class Enseignant
     {
         return $this->lycee;
     }
+    
+    
+    /**
+     * Retourne la description d'un enseignant
+     */
+    public function __toString()
+    {
+        
+        return $this->getPrenom() . ' ' . $this->getNom();
+    }
 }

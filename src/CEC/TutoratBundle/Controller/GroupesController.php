@@ -183,7 +183,7 @@ class GroupesController extends Controller
         {
             $lyceen = $data['lyceen'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter');
+            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
             return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
         }
         $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
@@ -234,7 +234,7 @@ class GroupesController extends Controller
         {
             $tuteur = $data['tuteur'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un tuteur à ajouter');
+            $this->get('session')->setFlash('error', 'Merci de spécifier un tuteur à ajouter.');
             return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
         }
         $tuteur = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($tuteur);
