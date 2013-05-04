@@ -36,7 +36,7 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
             
         $jj_terminales_ancien = new Groupe();
         $jj_terminales_ancien->setNiveau('Premières et terminales')
-            ->setTypeDeTutorat('Tutorat Scientifique')
+            ->setTypeDeTutorat('Tutorat Culturel et Scientifique')
             ->setLieu('Dans le lycée')
             ->setDebut($debut)
             ->setFin($fin)

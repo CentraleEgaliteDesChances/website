@@ -13,18 +13,18 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Prochaines séances</a></li>
                             <li class="divider"></li>
-                            {% for lycee in app.user.groupe.lycees %}
-                                <li>
-                                    <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">
-                                        Mon {{lycee.nom }}
-                                    </a>
-                                </li>
-                            {% endfor %}
                             <li>
                                 <a href="{{ path('groupe', { 'groupe': app.user.groupe.id }) }}">
                                     Mon groupe de tutorat
                                 </a>
                             </li>
+                            {% for lycee in app.user.groupe.lycees %}
+                                <li>
+                                    <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">
+                                        {{lycee.nom }}
+                                    </a>
+                                </li>
+                            {% endfor %}
                             <li class="divider"></li>
                             <li><a href="#">Écrire le compte-rendu</a></li>
                             <li><a href="#">Choisir une activité</a></li>

@@ -35,7 +35,8 @@ class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, Co
             ->setEmail('paul.maire@student.ecp.fr')
             ->setTelephone('0608028328')
             ->addSecteur($this->getReference('secteur_sorties'))
-            ->addSecteur($this->getReference('secteur_projets'));
+            ->addSecteur($this->getReference('secteur_projets'))
+            ->setGroupe($this->getReference('jj_premieres'));
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($pol_maire);
         $pol_maire->setMotDePasse($encoder->encodePassword('debug', $pol_maire->getSalt()));
         
@@ -44,7 +45,8 @@ class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, Co
             ->setNom('Sicsic')
             ->setEmail('helene.sicsic@student.ecp.fr')
             ->setTelephone('0709080706')
-            ->addSecteur($this->getReference('secteur_projets'));
+            ->addSecteur($this->getReference('secteur_projets'))
+            ->setGroupe($this->getReference('jj_premieres'));
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($helene_sicsic);
         $helene_sicsic->setMotDePasse($encoder->encodePassword('debug', $helene_sicsic->getSalt()));
         

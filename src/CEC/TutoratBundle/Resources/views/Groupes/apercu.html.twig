@@ -68,12 +68,18 @@
     <tbody>
         <tr>
             <td>Lycéens</td>
-            <td>{{ groupe.lyceens ? groupe.lyceens|length : 'Aucun' }} lycéen{{ groupe.lyceens|length > 1 ? 's' }}</td>
+            <td>{{ groupe.lyceens|length ?: 'Aucun' }} lycéen{{ groupe.lyceens|length > 1 ? 's' }}</td>
         </tr>
         <tr>
             <td>Tuteurs</td>
-            <td>{{ groupe.tuteurs ? groupe.tuteurs|length : 'Aucun' }} tuteur{{ groupe.tuteurs|length > 1 ? 's' }}</td>
+            <td>{{ groupe.tuteurs|length ?: 'Aucun' }} tuteur{{ groupe.tuteurs|length > 1 ? 's' }}</td>
         </tr>
+        {% if groupe.tuteurs|length and groupe.lyceens|length %}
+        <tr>
+            <td>Encadrement</td>
+            <td>Un tuteur pour {{ groupe.lyceens|length / groupe.tuteurs|length }} lycéen{{ groupe.lyceens|length / groupe.tuteurs|length > 1 ? 's' : ''}}</td>
+        </tr>
+        {% endif %}
     </tbody>
 </table>
 
