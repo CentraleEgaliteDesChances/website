@@ -71,24 +71,6 @@
     </tbody>
 </table>
 
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if seances %}
-        <thead><tr><th><h4>Prochaines séances de tutorat</h4></th></tr></thead>
-        <tbody>
-            {% for seance in seances %}
-            <tr>
-                <td>
-                    <strong>{{ cycle(jours, seance.debut|date('N')) }} {{ seance.debut|date('j') }} {{ cycle(mois, seance.debut|date('n')) }} à {{ seance.debut|date('G\\hi') }}</strong><br />
-                    Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
-
 {% endblock %}
 
 

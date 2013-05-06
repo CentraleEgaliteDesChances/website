@@ -107,15 +107,6 @@ class LyceesController extends Controller
     {
         $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
-            
-        // On trouve les tuteurs, les lycéens et les séances à venir
-        $seances = array();
-        foreach ($lycee->getGroupes() as $groupe)
-        {
-            // On rassemble les séances à venir
-            $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
-            $seances = array_merge($seances);
-        }
         
         // On génère les formulaires
         $lyceeForm = $this->createForm(new LyceeType(), $lycee);
@@ -128,16 +119,15 @@ class LyceesController extends Controller
             if ($lyceeForm->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées');
+                $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('lycee', array('lycee' => $lycee->getId())));
             }
         }
         
         return $this->render('CECTutoratBundle:Lycees:editer.html.twig', array(
-            'lycee'        => $lycee,
-            'seances'      => $seances,
-            'lycee_form'   => $lyceeForm->createView(),
-            'ajouter_enseignant_form' => $ajouterEnseignantForm->createView(),
+            'lycee'                        => $lycee,
+            'lycee_form'                   => $lyceeForm->createView(),
+            'ajouter_enseignant_form'      => $ajouterEnseignantForm->createView(),
         ));
     }
     
