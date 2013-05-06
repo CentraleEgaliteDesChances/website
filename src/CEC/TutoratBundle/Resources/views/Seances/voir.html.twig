@@ -1,4 +1,5 @@
 {% extends 'CECTutoratBundle:Seances:base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
 
 
 {% block right %}
@@ -15,13 +16,28 @@
 
 <table class="table table-bordered table-hover table-condensed table-striped table-large">
     {% if tuteurs %}
-        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
+        <thead>
+            <tr>
+                <th>
+                    <h4>
+                        Tuteurs
+                        <span class="count">{{ seance.tuteurs|length }} sur {{ tuteurs|length }}</span>
+                    </h4>
+                    <p>Cette liste présente, pour chaque tuteur du groupe de tutorat, son intention de participer à la séance ou non. Pour basculer l'état d'un tuteur, cliquez simplement sur son nom.</p>
+                </th>
+            </tr>
+        </thead>
         <tbody>
             {% for tuteur in tuteurs %}
-            <tr>
+            <tr class="{{ tuteur in seance.tuteurs ? 'success' : 'warning' }}">
                 <td>
-                    <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
-                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
+                    <span class="checkmark">
+                        {% if tuteur in seance.tuteurs %}&#10004;{% else %}&#10008;{% endif %}
+                    </span>
+                    <a href="{{ path('seance_basculer_tuteur', { 'seance': seance.id, 'tuteur': tuteur.id }) }}">
+                        <strong>
+                            {{ tuteur.prenom }} {{ tuteur.nom }}
+                        </strong>
                     </a>
                 </td>
             </tr>
@@ -55,4 +71,43 @@
     <thead><tr><th class="muted"><h4>ActiviteBundle — Compte-rendu</h4></th></tr></thead>
 </table>
 
+{% endblock %}
+
+
+{% block left %}
+{{ parent() }}
+
+{{ modal.button('Éditer la séance', 'btn btn-block') }}
+
+{% endblock %}
+
+
+{% block modals %}
+{{ parent() }}
+
+{% set body %}
+    <p>Modifiez ci-dessous les informations relatives à la séance de tutorat, et cliquez sur <strong>Enregistrer les modifications</strong> pour appliquer les changements.</p>
+    <p>Les champs marqués <em>optional</em> peuvent rester vides ; dans ce cas, les informations de la séance correspondront à celles du groupe de tutorat associé.</p>
+    {{ form_widget(form) }}
+{% endset %}
+
+{% set footer %}
+    <a href="#" class="btn btn-danger pull-left">Supprimer la séance</a>
+    <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" />
+    {{ modal.close() }}
+{% endset %}
+
+<form method="post" action="{{ path('seance', { 'seance': seance.id }) }}">
+    {{ modal.modal('Éditer une séance de tutorat', body, footer) }}
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+    {% if afficher_modal|default(false) %}
+        <script type="text/javascript">
+            $('#modal').modal('show');
+        </script>
+    {% endif %}
 {% endblock %}

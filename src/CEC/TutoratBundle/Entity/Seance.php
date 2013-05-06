@@ -18,6 +18,11 @@ class Seance
      * @var string
      */
     private $lieu;
+    
+    /**
+     * @var \DateTime
+     */
+    private $date;
 
     /**
      * @var \DateTime
@@ -99,6 +104,29 @@ class Seance
     public function getLieu()
     {
         return $this->lieu;
+    }
+    
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Seance
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 
     /**

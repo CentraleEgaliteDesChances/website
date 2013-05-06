@@ -150,3 +150,9 @@ seance:
     defaults: { _controller: CECTutoratBundle:Seances:voir }
     requirements:
         seance: \d+
+seance_basculer_tuteur:
+    pattern: /seances/{seance}/basculer_tuteur/{tuteur}
+    defaults: { _controller: CECTutoratBundle:Seances:basculerTuteur }
+    requirements:
+        seance: \d+
+        tuteur: \d+
