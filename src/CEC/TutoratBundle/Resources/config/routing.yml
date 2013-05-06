@@ -145,6 +145,11 @@ groupe_ajouter_tuteur:
         groupe: \d+
 
 # Séances de tutorat
+supprimer_seance:
+    pattern: /seances/{seance}/suppression
+    defaults: { _controller: CECTutoratBundle:Seances:supprimer }
+    requirements:
+        seance: \d+
 seance:
     pattern: /seances/{seance}
     defaults: { _controller: CECTutoratBundle:Seances:voir }

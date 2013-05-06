@@ -73,18 +73,46 @@ class SeancesController extends Controller
             $groupe = $seance->getGroupe();
             $formView->getChild('lieu')->setAttribute('placeholder', $groupe->getLieu());
             $formView->getChild('rendezVous')->setAttribute('placeholder', $groupe->getRendezVous());
-            $formView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('h:m'));
-            $formView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('h:m'));
+            $formView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
+            $formView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
         }
         
         return $this->render('CECTutoratBundle:Seances:voir.html.twig', array(
-            'seance'       => $seance,
-            'lyceens'      => $lyceens,
-            'tuteurs'      => $tuteurs,
-            'form'         => $formView,
+            'seance'         => $seance,
+            'lyceens'        => $lyceens,
+            'tuteurs'        => $tuteurs,
+            'form'           => $formView,
             'afficher_modal' => $afficherModal,
         ));
     }
+    
+    /**
+     * Supprime la séance de tutorat.
+     *
+     * @param integer $seance: id de la séance de tutorat
+     */
+    public function supprimerAction($seance)
+    {
+        $seance = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->find($seance);
+        if (!$seance) throw $this->createNotFoundException('Impossible de trouver la séance de tutorat !');
+        
+        // Retire le groupe en le gardant en mémoire
+        $groupe = $seance->getGroupe();
+        $seance->setGroupe(null);
+        
+        // Retire les tuteurs et les lycéens
+        foreach ($seance->getTuteurs() as $tuteur) $seance->removeTuteur($tuteur);
+        foreach ($seance->getLyceens() as $lyceen) $seance->removeLyceen($lyceen);
+        
+        // Supprime la séance
+        $entityManager = $this->getDoctrine()->getEntityManager();
+        $entityManager->remove($seance);
+        $entityManager->flush();
+        
+        $this->get('session')->setFlash('success', 'La séance de tutorat a bien été supprimée.');
+        return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
+    }
+    
     
     /**
      * Bascule l'état d'un tuteur pour cette séance :

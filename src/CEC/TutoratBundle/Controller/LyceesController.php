@@ -33,12 +33,15 @@ class LyceesController extends Controller
             $seances = array_merge($seances, $groupeSeances);
         }
         
-        // On trie les tuteurs et les lycéens par ordre alphabétique
+        // On trie les tuteurs, les lycéens et les séances par ordre alphabétique et chronologique
         usort($tuteurs, function($a, $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
         usort($lyceens, function($a, $b) {
             return strcmp($a->getNom(), $b->getNom());
+        });
+        usort($seances, function($a, $b) {
+            return $a->getDate() > $b->getDate();
         });
         
         return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(

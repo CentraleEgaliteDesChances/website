@@ -95,7 +95,7 @@
             <tr>
                 <td>
                     <a href="{{ path('seance', { 'seance': seance.id }) }}">
-                        <strong>{{ cycle(jours, seance.debut|date('N')) }} {{ seance.debut|date('j') }} {{ cycle(mois, seance.debut|date('n')) }} à {{ seance.debut|date('G\\hi') }}</strong><br />
+                        <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }} à {{ (seance.debut ?: seance.groupe.debut)|date('G\\hi') }}</strong><br />
                         Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
                     </a>
                 </td>

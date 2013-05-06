@@ -16,7 +16,14 @@
             <tr>
                 <td>
                     <a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">
-                        <strong>{{ membre.groupe.niveau }}</strong><span class="muted"> - {{ membre.groupe.typeDeTutorat }}</span><br />
+                        <strong>
+                            {% for lycee in membre.groupe.lycees %}
+                                {{ lycee.nom }}
+                                {% if not loop.last %}& {% endif %}
+                            {% endfor %}
+                            ({{ membre.groupe.niveau|lower }})
+                        </strong>
+                        <span class="muted">- {{ membre.groupe.typeDeTutorat }}</span><br />
                         Tous les {{ cycle(jours, membre.groupe.debut|date('N'))|lower }}s à {{ membre.groupe.debut|date('G\\hi') }}, {{ membre.groupe.lieu|lower }}.
                     </a>
                 </td>

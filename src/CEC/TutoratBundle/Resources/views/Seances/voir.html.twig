@@ -92,7 +92,7 @@
 {% endset %}
 
 {% set footer %}
-    <a href="#" class="btn btn-danger pull-left">Supprimer la séance</a>
+    <a href="{{ path('supprimer_seance', { 'seance': seance.id }) }}" class="btn btn-danger pull-left">Supprimer la séance</a>
     <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" />
     {{ modal.close() }}
 {% endset %}

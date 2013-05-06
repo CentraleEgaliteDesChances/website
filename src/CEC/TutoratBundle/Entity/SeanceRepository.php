@@ -15,20 +15,22 @@ class SeanceRepository extends EntityRepository
 {
     /**
      * Récupère les séances qui sont encore à venir pour un groupe.
-     * On filtre les séances en ne considérant que celles qui ne sont pas terminées.
+     * On filtre les séances en ne considérant que celles qui se déroule aujourd'hui et antérieures.
      * On applique aussi un tri croissant par date de début.
+     * On se limite par défaut aux 5 prochaines séances.
      *
      * @param Groupe $groupe: the groupe
      * @return ArrayCollection
      */
-    public function findComingByGroupe(Groupe $groupe)
+    public function findComingByGroupe(Groupe $groupe, $limite = 5)
     {
         $query = $this->createQueryBuilder('s')
             ->where('s.groupe = :groupe_id')
             ->setParameter('groupe_id', $groupe->getId())
-            ->andWhere('s.fin > :maintenant')
+            ->andWhere('s.date > :maintenant')
             ->setParameter('maintenant', new \DateTime())
-            ->orderBy('s.debut', 'ASC')
+            ->orderBy('s.date', 'ASC')
+            ->setMaxResults($limite)
             ->getQuery();
         return $query->getResult();
     }
