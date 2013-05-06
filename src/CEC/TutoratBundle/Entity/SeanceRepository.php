@@ -14,7 +14,9 @@ use CEC\TutoratBundle\Entity\Groupe;
 class SeanceRepository extends EntityRepository
 {
     /**
-     * Find seances for a groupe and still to come
+     * Récupère les séances qui sont encore à venir pour un groupe.
+     * On filtre les séances en ne considérant que celles qui ne sont pas terminées.
+     * On applique aussi un tri croissant par date de début.
      *
      * @param Groupe $groupe: the groupe
      * @return ArrayCollection
@@ -26,6 +28,7 @@ class SeanceRepository extends EntityRepository
             ->setParameter('groupe_id', $groupe->getId())
             ->andWhere('s.fin > :maintenant')
             ->setParameter('maintenant', new \DateTime())
+            ->orderBy('s.debut', 'ASC')
             ->getQuery();
         return $query->getResult();
     }

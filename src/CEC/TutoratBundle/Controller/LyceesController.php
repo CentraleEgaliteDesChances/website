@@ -30,7 +30,7 @@ class LyceesController extends Controller
             
             // On rassemble les séances à venir
             $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
-            $seances = array_merge($seances);
+            $seances = array_merge($seances, $groupeSeances);
         }
         
         // On trie les tuteurs et les lycéens par ordre alphabétique
