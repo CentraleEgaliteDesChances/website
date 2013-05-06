@@ -4,10 +4,12 @@ namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\TutoratBundle\Entity\Seance;
 
 use CEC\TutoratBundle\Form\Type\GroupeType;
 use CEC\TutoratBundle\Form\Type\AjouterLyceenType;
 use CEC\TutoratBundle\Form\Type\AjouterTuteurType;
+use CEC\TutoratBundle\Form\Type\SeanceType;
 
 class GroupesController extends Controller
 {
@@ -74,9 +76,16 @@ class GroupesController extends Controller
             return strcmp($a->getNom(), $b->getNom());
         });
         
+        // On génère les formulaires
         $groupeForm = $this->createForm(new GroupeType(), $groupe);
         $ajouterLyceenForm = $this->createForm(new AjouterLyceenType());
         $ajouterTuteurForm = $this->createForm(new ajouterTuteurType());
+        $nouvelleSeance = new Seance();
+        $nouvelleSeance->setGroupe($groupe);
+        $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance);
+        
+        // Par défaut, on masque le modal
+        $afficherModal = false;
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' && $request->request->has('groupe'))
@@ -85,10 +94,32 @@ class GroupesController extends Controller
             if ($groupeForm->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations du groupe de tutorat ont bien été enregistrées');
+                $this->get('session')->setFlash('success', 'Les informations du groupe de tutorat ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
             }
         }
+        if ($request->getMethod() == 'POST' && $request->request->has('seance'))
+        {
+            $nouvelleSeanceForm->bindRequest($request);
+            if ($nouvelleSeanceForm->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($nouvelleSeance);
+                $entityManager->flush();
+                $this->get('session')->setFlash('success', 'La séance de tutorat a bien été ajoutée.');
+                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
+            } else {
+                $afficherModal = true;
+            }
+        }
+        
+        // On change les placeholders du formulaire de création de séance
+        // pour correspondre aux infos du groupe de tutorat.
+        $nouvelleSeanceFormView = $nouvelleSeanceForm->createView();
+        $nouvelleSeanceFormView->getChild('lieu')->setAttribute('placeholder', $groupe->getLieu());
+        $nouvelleSeanceFormView->getChild('rendezVous')->setAttribute('placeholder', $groupe->getRendezVous());
+        $nouvelleSeanceFormView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
+        $nouvelleSeanceFormView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
         
         return $this->render('CECTutoratBundle:Groupes:editer.html.twig', array(
             'groupe'       => $groupe,
@@ -96,8 +127,10 @@ class GroupesController extends Controller
             'tuteurs'      => $tuteurs,
             'seances'      => $seances,
             'groupe_form'  => $groupeForm->createView(),
-            'ajouter_lyceen_form' => $ajouterLyceenForm->createView(),
-            'ajouter_tuteur_form' => $ajouterTuteurForm->createView(),
+            'ajouter_lyceen_form'  => $ajouterLyceenForm->createView(),
+            'ajouter_tuteur_form'  => $ajouterTuteurForm->createView(),
+            'nouvelle_seance_form' => $nouvelleSeanceFormView,
+            'afficher_modal'       => $afficherModal,
         ));
     }
     

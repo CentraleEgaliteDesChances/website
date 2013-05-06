@@ -1,4 +1,6 @@
 {% extends 'CECTutoratBundle:Groupes:base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
+
 
 {% block right %}
 {{ parent() }}
@@ -93,6 +95,13 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></thead>
     {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                {{ modal.button('Créer une séance de tutorat', 'btn btn-block') }}
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 {% endblock %}
@@ -127,3 +136,32 @@
 </table>
 
 {% endblock left %}
+
+
+{% block modals %}
+{{ parent() }}
+
+{% set body %}
+    <p>Pour pouvoir créer une séance, entrez au minimum la date de la séance et cliquez sur <strong>Créer la séance</strong>. Les informations par défaut correspondent à celles du groupe de tutorat associé.</p>
+    {{ form_widget(nouvelle_seance_form) }}
+{% endset %}
+
+{% set footer %}
+    <input type="submit" value="Créer la séance" class="btn btn-primary pull-right" />
+    {{ modal.close() }}
+{% endset %}
+
+<form method="post" action="{{ path('editer_groupe', { 'groupe': groupe.id }) }}">
+    {{ modal.modal('Créer une séance de tutorat', body, footer) }}
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+    {% if afficher_modal|default(false) %}
+        <script type="text/javascript">
+            $('#modal').modal('show');
+        </script>
+    {% endif %}
+{% endblock %}
