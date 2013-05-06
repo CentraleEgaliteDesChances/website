@@ -1,3 +1,8 @@
+# Tableau de Bord
+tableau_de_bord:
+    pattern: /
+    defaults: { _controller: CECTutoratBundle:TableauDeBord:index }
+
 # Cordées
 toutes_cordees:
     pattern: /cordees

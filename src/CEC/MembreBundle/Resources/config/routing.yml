@@ -30,7 +30,3 @@ reglages_groupes_de_tutorat:
 reglages_secteurs:
     pattern: /reglages/secteurs
     defaults: { _controller: CECMembreBundle:Reglages:secteurs }
-    
-page_accueil:
-    pattern: /
-    defaults: { _controller: CECMembreBundle:Profil:voir, membre:null }
