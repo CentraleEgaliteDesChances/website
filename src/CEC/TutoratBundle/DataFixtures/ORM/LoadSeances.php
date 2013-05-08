@@ -17,11 +17,11 @@ class LoadSeances extends AbstractFixture implements OrderedFixtureInterface
     {
         $seance1 = new Seance();
         $seance1->setGroupe($this->getReference('jj_premieres'))
-            ->setDate(new \DateTime('2013-06-12'));
+            ->setDate(new \DateTime('2013-05-13'));
             
         $seance2 = new Seance();
         $seance2->setGroupe($this->getReference('jj_premieres'))
-            ->setDate(new \DateTime('2013-05-17'));
+            ->setDate(new \DateTime('2013-05-14'));
             
         $seance3 = new Seance();
         $seance3->setGroupe($this->getReference('jj_terminales'))

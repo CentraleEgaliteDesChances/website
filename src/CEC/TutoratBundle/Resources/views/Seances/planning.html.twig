@@ -1,8 +1,10 @@
 {% extends 'CECMainBundle::base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
 
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/planning.less'
         '@ADesignsCalendarBundle/Resources/public/css/fullcalendar/fullcalendar.css'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
@@ -23,9 +25,37 @@
 {% endblock %}
 
 {% block container %}
+    {{ parent() }}
     <div class="row">
         <div class="span12">
-            {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
+            <div class="well">
+                {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
+                {% if groupe %}
+                    {{ modal.button('Ajouter une nouvelle séance de tutorat', 'btn btn-large btn-block btn-primary') }}
+                {% endif %}
+            </div>
         </div>
     </div>
+{% endblock %}
+
+
+{% block modals %}
+{{ parent() }}
+
+{% if groupe %}
+    {% set body %}
+        <p>Pour pouvoir créer une séance, entrez au minimum la date de la séance et cliquez sur <strong>Créer la séance</strong>. Les informations par défaut correspondent à celles du groupe de tutorat associé.</p>
+        {{ form_widget(form) }}
+    {% endset %}
+    
+    {% set footer %}
+        <input type="submit" value="Créer la séance" class="btn btn-primary pull-right" />
+        {{ modal.close() }}
+    {% endset %}
+    
+    <form method="post" action="{{ path('toutes_seances', { 'groupe': groupe.id }) }}">
+        {{ modal.modal('Créer une séance de tutorat', body, footer) }}
+    </form>
+{% endif %}
+
 {% endblock %}

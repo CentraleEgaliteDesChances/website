@@ -87,7 +87,7 @@
 {% endif %}
 {% endblock %}
 
-{% block scripts %}
+{% block javascripts %}
 {{ parent() }}
 {% if app.request.attributes.get('_route') == 'toutes_cordees' %}
     {% if afficher_modal|default(false) %}

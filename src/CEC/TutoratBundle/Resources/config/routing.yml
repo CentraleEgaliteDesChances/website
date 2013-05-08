@@ -161,7 +161,7 @@ seance:
     requirements:
         seance: \d+
 toutes_seances:
-    pattern: /seances
+    pattern: /seances/planning/{groupe}
     defaults: { _controller: CECTutoratBundle:Seances:toutes, groupe: null }
     requirements:
         groupe: \d+

@@ -6,6 +6,7 @@ use ADesigns\CalendarBundle\Event\CalendarEvent;
 use ADesigns\CalendarBundle\Entity\EventEntity;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use CEC\TutoratBundle\Entity\Seance;
 
 class SeancesPlanningEventListener
 {
@@ -32,6 +33,10 @@ class SeancesPlanningEventListener
         '#dc0000'
     );
     private $groupesCouleurs = array(); // Association des groupes avec les couleurs
+    
+    // Null pour tout afficher, l'id d'un groupe pour filter les séances
+    private $groupe = null;
+    
 
     public function __construct(EntityManager $entityManager, Router $router)
     {
@@ -64,8 +69,13 @@ class SeancesPlanningEventListener
                 $event->setBgColor($this->couleurGris);
             }
 
-            // On ajout l'événement au planning
-            $calendarEvent->addEvent($event);
+            // On ajout l'événement au planning après filtrage
+            if ($this->getGroupe() != null)
+            {
+                if ($seance->getGroupe()->getId() === $this->getGroupe()) $calendarEvent->addEvent($event);
+            } else {
+                $calendarEvent->addEvent($event);
+            }
         }
     }
     
@@ -85,4 +95,28 @@ class SeancesPlanningEventListener
         }
         return $this->groupesCouleurs[$groupe];
     }
+    
+    /**
+     * Permet de n'afficher que les séances d'un groupe,
+     * ou toutes les séances si null.
+     *
+     * @param integer $groupe: id du groupe
+     */
+    public function setGroupe($groupe)
+    {
+        $this->groupe = $groupe;
+    }
+    
+    /**
+     * Retourne le groupe qui permet de filtrer les séances affichées,
+     * ou null sinon.
+     *
+     * @return integer
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
+    
+    
 }

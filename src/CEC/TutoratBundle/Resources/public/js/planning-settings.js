@@ -35,6 +35,7 @@ $(function () {
 			axisFormat: 'H:mm',
 			minTime: 8,
 			maxTime: 22,
+			defaultView: 'agendaWeek',
 			buttonText:
 			{
 			    today: 'Aujourd\'hui',

@@ -49,7 +49,18 @@
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if seances %}
-        <thead><tr><th><h4>Prochaines séances de tutorat</h4></th></tr></thead>
+        <thead>
+            <tr>
+                <th>
+                    <h4>
+                        Prochaines séances de tutorat
+                        <a href="{{ path('toutes_seances', { 'groupe': groupe.id }) }}" class="btn btn-small pull-right">
+                            Planning des séances
+                        </a>
+                    </h4>
+                </th>
+            </tr>
+        </thead>
         <tbody>
             {% for seance in seances %}
             <tr>

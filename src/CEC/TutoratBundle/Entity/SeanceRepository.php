@@ -4,6 +4,7 @@ namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\TutoratBundle\Entity\Seance;
 
 /**
  * SeanceRepository
