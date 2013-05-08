@@ -1,56 +1,41 @@
-.table-collapse {
-    margin-bottom: 10px;
-
-    tbody tr td {
-        border-bottom: 0;
-        border-top: 0;
-    }
-
-    tbody tr > td:first-child {
-        font-weight: bold;
-        text-align: right;
-        border-right: 0;
-        width: 100px;
-    }
-    
-    tbody tr td:last-child {
-        border-left: 0;
-    }
-    
-    .titre {
-        background-color: #f9f9f9;
-        text-align: center;
-        h3 { line-height: normal; }
-    }
-    .image {
-        padding: 0;
-        background-color: white;
-        border-bottom: 1px solid #dddddd;
-    }
-}
-
-.table-collapse { margin-bottom: 0; }
-.table-collapse + .table-collapse,
-    .table-collapse + .table-collapse tbody:first-child tr:first-child > td {
-    border-top: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    
-}
-
-.table-collapse,
-    .table-collapse tbody:last-child tr:last-child td:first-child,
-    .table-collapse tbody:last-child tr:last-child td:last-child {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.table-collapse:last-of-type {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    margin-bottom: 10px;
+.count {
+    display: inline-block;
+    color: silver;
+    float: right;
 }
 
 .btn-block {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
+
+.table {
+    .edition {
+        background: url(/bundles/cecmain/images/stripes.png) repeat-x 0 top red;
+        height: 20px;
+        border-left: 1px solid #dddddd;
+    }
+    .titre-edition {
+        border-bottom: 0;
+        color: maroon;
+    }
+    
+    .btn-block {
+        margin-bottom: 0;
+        margin-top: 25px;
+    }
+    .form {
+        margin-bottom: 0;
+        select[multiple] {
+            height: 200px;
+        }
+    }
+    
+    .ajout {
+        border-top-width: 2px;
+        .btn-block { margin-top: 0; }
+    }
+}
+
+.close-red, .close-red:hover { color: red; }
+
+.input-ajouter { width: 280px; }

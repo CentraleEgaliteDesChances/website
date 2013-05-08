@@ -80,7 +80,7 @@ class Lyceen
     private $dateModification;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \CEC\TutoratBundle\Entity\Groupe
      */
     private $groupes;
 
@@ -94,7 +94,6 @@ class Lyceen
      */
     public function __construct()
     {
-        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
@@ -408,32 +407,22 @@ class Lyceen
     }
 
     /**
-     * Add groupes
+     * Set groupes
      *
      * @param \CEC\TutoratBundle\Entity\Groupe $groupes
      * @return Lyceen
      */
-    public function addGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
+    public function setGroupes(\CEC\TutoratBundle\Entity\Groupe $groupes = null)
     {
-        $this->groupes[] = $groupes;
+        $this->groupes = $groupes;
     
         return $this;
     }
 
     /**
-     * Remove groupes
-     *
-     * @param \CEC\TutoratBundle\Entity\Groupe $groupes
-     */
-    public function removeGroupe(\CEC\TutoratBundle\Entity\Groupe $groupes)
-    {
-        $this->groupes->removeElement($groupes);
-    }
-
-    /**
      * Get groupes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \CEC\TutoratBundle\Entity\Groupe 
      */
     public function getGroupes()
     {
@@ -472,14 +461,41 @@ class Lyceen
     {
         return $this->seances;
     }
+    /**
+     * @var \CEC\TutoratBundle\Entity\Groupe
+     */
+    private $groupe;
+
+
+    /**
+     * Set groupe
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
+     * @return Lyceen
+     */
+    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
+    {
+        $this->groupe = $groupe;
+    
+        return $this;
+    }
+
+    /**
+     * Get groupe
+     *
+     * @return \CEC\TutoratBundle\Entity\Groupe 
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
     
     /**
-     * Get description
-     *
-     * @return string
+     * Retourne la description d'un lycéen
      */
     public function __toString()
     {
-        return $this->getId() . ' - ' . $this->getPrenom() . ' ' . $this->getNom();
+        
+        return $this->getPrenom() . ' ' . $this->getNom();
     }
 }

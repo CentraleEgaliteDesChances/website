@@ -1,20 +1,28 @@
+# Tableau de Bord
+tableau_de_bord:
+    pattern: /
+    defaults: { _controller: CECTutoratBundle:TableauDeBord:index }
+
+# Cordées
 toutes_cordees:
     pattern: /cordees
     defaults: { _controller: CECTutoratBundle:Cordees:toutes }
+anciennes_cordees:
+    pattern: /cordees/anciennes
+    defaults: { _controller: CECTutoratBundle:Cordees:anciennes }
 cordee:
     pattern:  /cordees/{cordee}
     defaults: { _controller: CECTutoratBundle:Cordees:voir }
     requirements:
         cordee: \d+
-
 editer_cordee:
     pattern: /cordees/{cordee}/edition
     defaults: { _controller: CECTutoratBundle:Cordees:editer }
     requirements:
         cordee: \d+
-changer_lycee:
-    pattern: /cordees/{cordee}/changer_lycee/{lycee}
-    defaults: { _controller: CECTutoratBundle:Cordees:changerLycee }
+basculer_lycee:
+    pattern: /cordees/{cordee}/basculer_lycee/{lycee}
+    defaults: { _controller: CECTutoratBundle:Cordees:basculerLycee }
     requirements:
         cordee:    \d+
         lycee: \d+
@@ -24,13 +32,142 @@ desactiver_cordee:
     requirements:
         cordee: \d+
 
-anciennes_cordees:
-    pattern: /cordees/anciennes
-    defaults: { _controller: CECTutoratBundle:Cordees:anciennes }
-    
-
+# Lycées
+tous_lycees:
+    pattern: /lycees
+    defaults: { _controller: CECTutoratBundle:Cordees:toutes }
+creer_lycee:
+    pattern: /lycees/creation/{cordee}
+    defaults: { _controller: CECTutoratBundle:Lycees:creer, cordee: null }
+    requirements:
+        cordee: \d+
 lycee:
     pattern: /lycees/{lycee}
     defaults: { _controller: CECTutoratBundle:Lycees:voir }
     requirements:
         lycee: \d+
+editer_lycee:
+    pattern: /lycees/{lycee}/edition
+    defaults: { _controller: CECTutoratBundle:Lycees:editer }
+    requirements:
+        lycee: \d+
+lycee_supprimer_groupe:
+    pattern: /lycees/{lycee}/supprimer_groupe/{groupe}
+    defaults: { _controller: CECTutoratBundle:Lycees:supprimerGroupe }
+    requirements:
+        lycee: \d+
+        groupe: \d+
+lycee_supprimer_enseignant:
+    pattern: /lycees/{lycee}/supprimer_enseignant/{enseignant}
+    defaults: { _controller: CECTutoratBundle:Lycees:supprimerEnseignant }
+    requirements:
+        lycee: \d+
+        enseignant: \d+
+lycee_ajouter_enseignant:
+    pattern: /lycees/{lycee}/ajouter_enseignant
+    defaults: { _controller: CECTutoratBundle:Lycees:ajouterEnseignant }
+    requirements:
+        lycee: \d+
+        
+# Enseignants
+tous_enseignants:
+    pattern: /enseignants
+    defaults: { _controller: CECTutoratBundle:Enseignants:tous }
+creer_enseignant:
+    pattern: /enseignants/creation/{lycee}
+    defaults: { _controller: CECTutoratBundle:Enseignants:creer, lycee: null }
+    requirements:
+        lycee: \d+
+enseignant:
+    pattern: /enseignants/{enseignant}
+    defaults: { _controller: CECTutoratBundle:Enseignants:voir }
+    requirements:
+        cordee: \d+
+editer_enseignant:
+    pattern: /enseignants/{enseignant}/edition
+    defaults: { _controller: CECTutoratBundle:Enseignants:editer }
+    requirements:
+        cordee: \d+
+
+# Lycéens
+tous_lyceens:
+    pattern: /lyceens
+    defaults: { _controller: CECTutoratBundle:Lyceens:tous }
+creer_lyceen:
+    pattern: /lyceens/creation
+    defaults: { _controller: CECTutoratBundle:Lyceens:creer }
+lyceen:
+    pattern: /lyceens/{lyceen}
+    defaults: { _controller: CECTutoratBundle:Lyceens:voir }
+    requirements:
+        lyceen: \d+
+editer_lyceen:
+    pattern: /lyceens/{lyceen}/edition
+    defaults: { _controller: CECTutoratBundle:Lyceens:editer }
+    requirements:
+        lyceen: \d+
+   
+# Groupes de tutorat
+tous_groupes:
+    pattern: /groupes
+    defaults: { _controller: CECTutoratBundle:Groupes:tous }
+creer_groupe:
+    pattern: /groupes/creation/{lycee}
+    defaults: { _controller: CECTutoratBundle:Groupes:creer, lycee: null }
+    requirements:
+        lycee: \d+
+groupe:
+    pattern: /groupes/{groupe}
+    defaults: { _controller: CECTutoratBundle:Groupes:voir }
+    requirements:
+        groupe: \d+
+editer_groupe:
+    pattern: /groupes/{groupe}/edition
+    defaults: { _controller: CECTutoratBundle:Groupes:editer }
+    requirements:
+        groupe: \d+
+groupe_supprimer_lyceen:
+    pattern: /groupes/{groupe}/supprimer_lyceen/{lyceen}
+    defaults: { _controller: CECTutoratBundle:Groupes:supprimerLyceen }
+    requirements:
+        groupe: \d+
+        lyceen: \d+
+groupe_ajouter_lyceen:
+    pattern: /groupes/{groupe}/ajouter_lyceen
+    defaults: { _controller: CECTutoratBundle:Groupes:ajouterLyceen }
+    requirements:
+        groupe: \d+
+groupe_supprimer_tuteur:
+    pattern: /groupes/{groupe}/supprimer_tuteur/{tuteur}
+    defaults: { _controller: CECTutoratBundle:Groupes:supprimerTuteur }
+    requirements:
+        groupe: \d+
+        tuteur: \d+
+groupe_ajouter_tuteur:
+    pattern: /groupes/{groupe}/ajouter_tuteur
+    defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
+    requirements:
+        groupe: \d+
+
+# Séances de tutorat
+supprimer_seance:
+    pattern: /seances/{seance}/suppression
+    defaults: { _controller: CECTutoratBundle:Seances:supprimer }
+    requirements:
+        seance: \d+
+seance:
+    pattern: /seances/{seance}
+    defaults: { _controller: CECTutoratBundle:Seances:voir }
+    requirements:
+        seance: \d+
+toutes_seances:
+    pattern: /seances/planning/{groupe}
+    defaults: { _controller: CECTutoratBundle:Seances:toutes, groupe: null }
+    requirements:
+        groupe: \d+
+seance_basculer_tuteur:
+    pattern: /seances/{seance}/basculer_tuteur/{tuteur}
+    defaults: { _controller: CECTutoratBundle:Seances:basculerTuteur }
+    requirements:
+        seance: \d+
+        tuteur: \d+

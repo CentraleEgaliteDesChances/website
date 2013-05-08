@@ -15,6 +15,9 @@ CEC\TutoratBundle\Entity\Enseignant:
         nom:
             type: string
             length: 255
+        role:
+            type: string
+            length: 255
         email:
             type: string
             length: 255
@@ -40,8 +43,8 @@ CEC\TutoratBundle\Entity\Enseignant:
             gedmo:
                 timestampable:
                     on: update
-    oneToMany:
-        lycees:
-            targetEntity: ChangementEnseignantLycee
-            mappedBy: enseignant
+    manyToOne:
+        lycee:
+            targetEntity: Lycee
+            inversedBy: enseignants
     lifecycleCallbacks: {  }

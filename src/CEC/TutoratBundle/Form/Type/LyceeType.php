@@ -12,16 +12,35 @@ class LyceeType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('adresse')
-            ->add('codePostal')
+            ->add('pivot', 'choice', array(
+                'label'     => false,
+                'expanded'  => true,
+                'choices'   => array('0' => 'Lycée Source', '1' => 'Lycée Pivot'),
+            ))
+            ->add('cordee', null, array(
+                'label'       => 'Cordée',
+                'empty_value' => 'Aucune cordée',
+            ))
+            ->add('adresse', null, array(
+                'label' => 'Adresse postale',
+            ))
+            ->add('codePostal', null, array(
+                'label' => 'Code postal',
+            ))
             ->add('ville')
-            ->add('statut')
-            ->add('telephone')
-            ->add('ZEP')
-            ->add('pivot')
-            ->add('dateCreation')
-            ->add('dateModification')
-        ;
+            ->add('statut', 'choice', array(
+                'label'     => false,
+                'expanded'  => true,
+                'choices'   => array('Établissement Public' => 'Établissement Public', 
+                                     'Établissement Privé'  => 'Établissement Privé'),
+            ))
+            ->add('telephone', null, array(
+                'label' => 'Numéro de téléphone',
+            ))
+            ->add('zep', 'checkbox', array(
+                'label'  => false,
+                'help_inline'    => 'Ce lycée est situé dans une ZEP',
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -33,6 +52,6 @@ class LyceeType extends AbstractType
 
     public function getName()
     {
-        return 'cec_tutoratbundle_lyceetype';
+        return 'lycee';
     }
 }

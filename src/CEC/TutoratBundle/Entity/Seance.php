@@ -18,6 +18,11 @@ class Seance
      * @var string
      */
     private $lieu;
+    
+    /**
+     * @var \DateTime
+     */
+    private $date;
 
     /**
      * @var \DateTime
@@ -30,6 +35,11 @@ class Seance
     private $fin;
 
     /**
+     * @var string
+     */
+    private $rendezVous;
+
+    /**
      * @var \DateTime
      */
     private $dateCreation;
@@ -39,7 +49,159 @@ class Seance
      */
     private $dateModification;
 
+    /**
+     * @var \CEC\TutoratBundle\Entity\Groupe
+     */
+    private $groupe;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $tuteurs;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $lyceens;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Retourne les lycées du groupe de tutorat associé à la séance.
+     * Si la séance n'est associé à aucun groupe, on renvoit un ArrayCollection vide.
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection()
+     */
+    public function retreiveLycees()
+    {
+        if ($this->getGroupe())
+        {
+            $lycees = $this->getGroupe()->getLycees();
+        } else {
+            $lycees = new \Doctrine\Common\Collections\ArrayCollection();
+        }
+        return $lycees;
+    }
+    
+    /**
+     * Retourne le lieu de la séance de tutorat, qu'il soit spécifique ou commun au groupe.
+     * Si la séance n'est associé à aucun groupe et qu'aucun lieu n'est spécifié, 
+     * on renvoit null.
+     *
+     * @return string
+     */
+    public function retreiveLieu()
+    {
+        if (!$lieu = $this->getLieu())
+        {
+            if ($this->getGroupe())
+            {
+                $lieu = $this->getGroupe()->getLieu();
+            } else {
+                $lieu = null;
+            }
+        }
+        return $lieu;
+    }
+    
+    /**
+     * Retourne le début de la séance de tutorat, qu'il soit spécifique ou commun au groupe.
+     * Si la séance n'est associé à aucun groupe et qu'aucun début n'est spécifié, 
+     * on renvoit null.
+     *
+     * @return \DateTime
+     */
+    public function retreiveDebut()
+    {
+        if (!$debut = $this->getDebut())
+        {
+            if ($this->getGroupe())
+            {
+                $debut = $this->getGroupe()->getDebut();
+            } else {
+                $debut = null;
+            }
+        }
+        return $debut;
+    }
+    
+    /**
+     * Retourne la fin de la séance de tutorat, qu'elle soit spécifique ou commun au groupe.
+     * Si la séance n'est associé à aucun groupe et qu'aucune fin n'est spécifiée, 
+     * on renvoit null.
+     *
+     * @return \DateTime
+     */
+    public function retreiveFin()
+    {
+        if (!$fin = $this->getFin())
+        {
+            if ($this->getGroupe())
+            {
+                $fin = $this->getGroupe()->getFin();
+            } else {
+                $fin = null;
+            }
+        }
+        return $fin;
+    }
+    
+    /**
+     * Retourne le lieu de rendez-vous de la séance, qu'il soit spécifique ou commun au groupe.
+     * Si la séance n'est associé à aucun groupe et qu'aucun lieu n'est spécifié, 
+     * on renvoit null.
+     *
+     * @return string
+     */
+    public function retreiveRendezVous()
+    {
+        if (!$rendezVous = $this->getRendezVous())
+        {
+            if ($this->getGroupe())
+            {
+                $rendezVous = $this->getGroupe()->getRendezVous();
+            } else {
+                $rendezVous = null;
+            }
+        }
+        return $rendezVous;
+    }
+    
+    /**
+     * Retourne la date de début de la séance.
+     *
+     * @return \DateTime
+     */
+    public function retreiveDateDebut()
+    {
+        $time = $this->retreiveDebut()->format('H:i:s');
+        $date = $this->getDate()->format('Y-m-d');
+        $dateDebut = new \DateTime($date . ' ' . $time);
+        return $dateDebut;
+    }
+    
+    /**
+     * Retourne la date de fin de la séance.
+     *
+     * @return \DateTime
+     */
+    public function retreiveDateFin()
+    {
+        $time = $this->retreiveFin()->format('H:i:s');
+        $date = $this->getDate()->format('Y-m-d');
+        $dateFin = new \DateTime($date . ' ' . $time);
+        return $dateFin;
+    }
+    
+    
+    
     /**
      * Get id
      *
@@ -71,6 +233,29 @@ class Seance
     public function getLieu()
     {
         return $this->lieu;
+    }
+    
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Seance
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 
     /**
@@ -120,6 +305,29 @@ class Seance
     }
 
     /**
+     * Set rendezVous
+     *
+     * @param string $rendezVous
+     * @return Seance
+     */
+    public function setRendezVous($rendezVous)
+    {
+        $this->rendezVous = $rendezVous;
+    
+        return $this;
+    }
+
+    /**
+     * Get rendezVous
+     *
+     * @return string 
+     */
+    public function getRendezVous()
+    {
+        return $this->rendezVous;
+    }
+
+    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -164,24 +372,6 @@ class Seance
     {
         return $this->dateModification;
     }
-    /**
-     * @var \CEC\TutoratBundle\Entity\Groupe
-     */
-    private $groupe;
-
-
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Seance
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    
-        return $this;
-    }
 
     /**
      * Set groupe
@@ -205,19 +395,7 @@ class Seance
     {
         return $this->groupe;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $tuteurs;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
     /**
      * Add tuteurs
      *
@@ -250,39 +428,6 @@ class Seance
     {
         return $this->tuteurs;
     }
-        /**
-     * @var string
-     */
-    private $rendezVous;
-
-
-    /**
-     * Set rendezVous
-     *
-     * @param string $rendezVous
-     * @return Seance
-     */
-    public function setRendezVous($rendezVous)
-    {
-        $this->rendezVous = $rendezVous;
-    
-        return $this;
-    }
-
-    /**
-     * Get rendezVous
-     *
-     * @return string 
-     */
-    public function getRendezVous()
-    {
-        return $this->rendezVous;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $lyceens;
-
 
     /**
      * Add lyceens

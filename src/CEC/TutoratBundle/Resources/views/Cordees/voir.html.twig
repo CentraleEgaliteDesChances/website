@@ -14,8 +14,8 @@
             <tr>
                 <td>
                     {% if app.request.attributes.get('_route') == 'toutes_cordees' %}
-                        <a href="{{ path('cordee', { 'cordee' : cordees[lycee.id][0].id }) }}" class="label pull-right">
-                            {{ cordees[lycee.id][0].nom }}
+                        <a href="{{ path('cordee', { 'cordee' : lycee.cordee.id }) }}" class="label pull-right">
+                            {{ lycee.cordee.nom }}
                         </a>
                     {% endif %}
                     
@@ -39,8 +39,8 @@
             <tr>
                 <td>
                     {% if app.request.attributes.get('_route') == 'toutes_cordees' %}
-                        <a href="{{ path('cordee', { 'cordee' : cordees[lycee.id][0].id }) }}" class="label pull-right">
-                            {{ cordees[lycee.id][0].nom }}
+                        <a href="{{ path('cordee', { 'cordee' : lycee.cordee.id }) }}" class="label pull-right">
+                            {{ lycee.cordee.nom }}
                         </a>
                     {% endif %}
                     
@@ -87,7 +87,7 @@
 {% endif %}
 {% endblock %}
 
-{% block scripts %}
+{% block javascripts %}
 {{ parent() }}
 {% if app.request.attributes.get('_route') == 'toutes_cordees' %}
     {% if afficher_modal|default(false) %}

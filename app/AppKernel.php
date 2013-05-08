@@ -22,6 +22,9 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new ADesigns\CalendarBundle\ADesignsCalendarBundle(),
+            
             new CEC\ExternSiteBundle\CECExternSiteBundle(),
             new CEC\MembreBundle\CECMembreBundle(),
             new CEC\MainBundle\CECMainBundle(),

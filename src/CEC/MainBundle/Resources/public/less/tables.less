@@ -1,3 +1,58 @@
+// Couleur des liens dans les tableaux
+td {
+    a { color: black; }
+    a:hover { text-decoration: none; }
+}
+
+// .detail permet une informations sur la droite des cellules
+td {
+    .detail, .detail a {
+        display: inline-block;
+        float: right;
+        .muted;
+    }
+}
+
+// .titre dans un tableau permet d'insérer un titre dans une cellule
+// .image dans un tableau permet d'insérer une image sans marge
+.table {
+    .titre {
+        background-color: #f9f9f9;
+        text-align: center;
+        h3 { line-height: normal; }
+        border-bottom: 1px solid #dddddd;
+    }
+    
+    .image {
+        padding: 0;
+        background-color: white;
+        border-bottom: 1px solid #dddddd;
+    }
+}
+
+// .table-form permet d'insérer un formulaire dans un tableau
+.table-form td {
+    select,
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"], {
+        .input-block-level;
+    }
+}
+
+// .table-large permet des cellules hautes et larges
 .table-large {
     th, td {
         padding: 15px;
@@ -5,7 +60,42 @@
     }
 }
 
-td {
-    a { color: black; }
-    a:hover { text-decoration: none; }
+// .table-collapse permet de fusionner les tableaux quand ils se suivent
+.table-collapse {
+    margin-bottom: 0;
+
+    tbody tr td {
+        border-bottom: 0;
+        border-top: 0;
+    }
+
+    tbody tr > td:first-child {
+        font-weight: bold;
+        text-align: right;
+        border-right: 0;
+        width: 100px;
+    }
+    
+    tbody tr td:last-child {
+        border-left: 0;
+    }
+}
+.table-collapse + .table-collapse,
+    .table-collapse + .table-collapse tbody:first-child tr:first-child > td {
+    border-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.table-collapse,
+    .table-collapse tbody:last-child tr:last-child td:first-child,
+    .table-collapse tbody:last-child tr:last-child td:last-child {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.table-collapse:last-of-type {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin-bottom: 10px;
 }

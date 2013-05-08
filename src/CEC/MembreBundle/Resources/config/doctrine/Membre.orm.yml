@@ -43,16 +43,16 @@ CEC\MembreBundle\Entity\Membre:
     manyToMany:
         secteurs:
             targetEntity: Secteur
-            mappedBy: membres
+            inversedBy: membres
         seances:
             targetEntity: CEC\TutoratBundle\Entity\Seance
             mappedBy: tuteurs
-    oneToMany:
-        groupes:
-            targetEntity: CEC\TutoratBundle\Entity\ChangementGroupeTuteur
-            mappedBy: tuteurs
-        VPLycees:
-            targetEntity: CEC\TutoratBundle\Entity\ChangementLyceeVP
-            mappedBy: VP
+    manyToOne:
+        vpLycee:
+            targetEntity: CEC\TutoratBundle\Entity\Lycee
+            inversedBy: vpLycees
+        groupe:
+            targetEntity: CEC\TutoratBundle\Entity\Groupe
+            inversedBy: tuteurs
     lifecycleCallbacks:
         prePersist: [ setDefaultValues ]

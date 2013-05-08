@@ -4,77 +4,22 @@ namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Form\Type\NomCordeeType;
-use CEC\MainBundle\Classes\AnneeScolaire;
 use CEC\TutoratBundle\Entity\Cordee;
 use CEC\TutoratBundle\Entity\Lycee;
-use CEC\TutoratBundle\Entity\ChangementCordeeLycee;
 
 class CordeesController extends Controller
 {
     /**
      * Helper
-     * Retourne la liste des cordées actuelles d'un lycée
-     *
-     * @param Lycee $lycee: lycée
-     * @return array(Cordee)
-     */
-    public function getCordeesForLycee(Lycee $lycee)
-    {
-        // On considère tous les changements de partenariat pour ce lycée
-        $changements = $this->getDoctrine()
-            ->getRepository('CECTutoratBundle:ChangementCordeeLycee')
-            ->findByLycee($lycee);
-        
-        // On effectue les modifications
-        $cordees = array();
-        foreach ($changements as $changement) {
-            if ($changement->getAction() == ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT) {
-                $cordees = array_merge($cordees, array($changement->getCordee()));
-            } elseif ($changement->getAction() == ChangementCordeeLycee::CHANGEMENT_ACTION_SUPPRESSION) {
-                $cordees = array_diff($cordees, array($changement->getCordee()));
-            }
-        }
-        
-        return $cordees;
-    }
-    
-    /**
-     * Helper
-     * Retourne la liste des lycées actuels pour une cordée
-     *
-     * @param Cordee $cordee: cordée
-     * @return array(Lycee)
-     */
-    public function getLyceesForCordee(Cordee $cordee)
-    {
-        // On considère tous les changements de partenariat pour cette cordée
-        $changements = $this->getDoctrine()
-            ->getRepository('CECTutoratBundle:ChangementCordeeLycee')
-            ->findByCordee($cordee);
-        
-        // On effectue les modifications
-        $lycees = array();
-        foreach ($changements as $changement) {
-            if ($changement->getAction() == ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT) {
-                $lycees = array_merge($lycees, array($changement->getLycee()));
-            } elseif ($changement->getAction() == ChangementCordeeLycee::CHANGEMENT_ACTION_SUPPRESSION) {
-                $lycees = array_diff($lycees, array($changement->getLycee()));
-            }
-        }
-        
-        return $lycees;
-    }
-    
-    /**
-     * Helper
-     * Retourne les listes sources d'une liste de lycée
+     * Retourne les lycées sources d'une liste de lycée
      *
      * @param array(Lycee) $lycees: lycées
      * @return array(Lycee)
      */
-    public function filterLyceesSources($lycee)
+    public function filterLyceesSources($lycees)
     {
-        $sources = array_filter($lycee, function($lycee) {
+        if (!is_array($lycees)) $lycees = $lycees->toArray();
+        $sources = array_filter($lycees, function(Lycee $lycee) {
             return !$lycee->getPivot();
         });
         return $sources;
@@ -82,40 +27,19 @@ class CordeesController extends Controller
     
     /**
      * Helper
-     * Retourne les listes pivots d'une liste de lycée
+     * Retourne les lycées pivots d'une liste de lycée
      *
      * @param array(Lycee) $lycees: lycées
      * @return array(Lycee)
      */
-    public function filterLyceesPivots($lycee)
+    public function filterLyceesPivots($lycees)
     {
-        $pivots = array_filter($lycee, function($lycee) {
+        if (!is_array($lycees)) $lycees = $lycees->toArray();
+        $pivots = array_filter($lycees, function(Lycee $lycee) {
             return $lycee->getPivot();
         });
         return $pivots;
     }
-    
-    /**
-     * Helper
-     * Effectue un changement de partenariat entre une cordée et un lycée.
-     * Si le lycée était partenaire, il ne l'est plus et vice-versa.
-     *
-     * @param Cordee $cordee: cordée
-     * @param Lycee $lycee: lycée
-     */
-    public function changerPartenariat(Cordee $cordee, Lycee $lycee)
-    {
-        $changement = new ChangementCordeeLycee();
-        $anneeScolaire = new AnneeScolaire();
-        $changement->setAnnee($anneeScolaire->getAnneeScolaire())
-            ->setLycee($lycee)
-            ->setCordee($cordee)
-            ->setAction( in_array($lycee, $this->getLyceesForCordee($cordee)) ? ChangementCordeeLycee::CHANGEMENT_ACTION_SUPPRESSION : ChangementCordeeLycee::CHANGEMENT_ACTION_AJOUT );
-        
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->persist($changement);
-        $em->flush();
-    }    
 
     /**
      * Affiche tous les lycées actifs
@@ -123,16 +47,9 @@ class CordeesController extends Controller
     public function toutesAction()
     {
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();    // Tous les lycées
-        $lyceesActifs = array();
-        $cordees = array();
-        foreach ($lycees as $lycee)
-        {
-            if ( count($this->getCordeesForLycee($lycee)) > 0 )
-            {
-                $lyceesActifs[] = $lycee;
-                $cordees[$lycee->getId()] = $this->getCordeesForLycee($lycee);
-            }
-        }
+        $lyceesActifs = array_filter($lycees, function (Lycee $lycee) {
+            return $lycee->getCordee();
+        });
         
         // Formulaire de création d'une cordée
         $nouvelleCordee = new Cordee();
@@ -159,7 +76,6 @@ class CordeesController extends Controller
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
             'sources' => $this->filterLyceesSources($lyceesActifs),
             'pivots'  => $this->filterLyceesPivots($lyceesActifs),
-            'cordees' => $cordees,
             'form'    => $form->createView(),
             'afficher_modal' => $this->getRequest()->getMethod() == 'POST',
         ));
@@ -172,11 +88,10 @@ class CordeesController extends Controller
      */
     public function voirAction($cordee)
     {
-        $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
-            ->find($cordee);
+        $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->find($cordee);
         if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
         
-        $lycees = $this->getLyceesForCordee($cordee);
+        $lycees = $cordee->getLycees();
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
             'cordee'  => $cordee,
@@ -193,21 +108,18 @@ class CordeesController extends Controller
     public function editerAction($cordee)
     {
         // On récupère la cordée
-        $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')
-            ->find($cordee);
+        $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->find($cordee);
         if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
             
         // On récupère les lycées de la cordée et les lycées sans cordée
-        $lyceesCordee = $this->getLyceesForCordee($cordee);    // Lycées de la cordée
+        $lyceesCordee = $cordee->getLycees();    // Lycées de la cordée
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();    // Tous les lycées
-        $lyceesInactifs = array();
-        foreach ($lycees as $lycee)
-        {
-            if ( count($this->getCordeesForLycee($lycee)) == 0 ) $lyceesInactifs[] = $lycee;
-        }
+        $lyceesInactifs = array_filter($lycees, function (Lycee $lycee) {
+            return !$lycee->getCordee();
+        });
         
         // On trie les lycées à afficher par ordre alphabétique
-        $lycees = array_merge($lyceesCordee, $lyceesInactifs);
+        $lycees = array_merge($lyceesCordee->toArray(), $lyceesInactifs);
         usort($lycees, function($a, $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
@@ -218,13 +130,13 @@ class CordeesController extends Controller
             ->createNamedBuilder($nomNomForm, new NomCordeeType(), $cordee)
             ->getForm();
             
-        if ($this->getRequest()->getMethod() == 'POST')
+        if ($this->getRequest()->isMethod('POST'))
         {
             $nomForm->bindRequest($this->getRequest());
-            if (false and $nomForm->isValid()) {
+            if ($nomForm->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Le nom de la cordée a bien été mise à jour.');
-                return $this->redirect($this->generateUrl('editer_cordee', array('cordee' => $cordee)));
+                return $this->redirect($this->generateUrl('editer_cordee', array('cordee' => $cordee->getId())));
             }
         }
         
@@ -244,7 +156,7 @@ class CordeesController extends Controller
      * @param integer $cordee: id de la cordée
      * @param integer $lycee: id du lycée
      */
-    public function changerLyceeAction($cordee, $lycee)
+    public function basculerLyceeAction($cordee, $lycee)
     {
         // On récupère la cordée et le lycée
         $doctrine = $this->getDoctrine();
@@ -254,27 +166,29 @@ class CordeesController extends Controller
         if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
         
-        // On ajoute une changement de partenariat
-        $this->changerPartenariat($cordee, $lycee);
-                        
-        $this->get('session')->setFlash('success', 'Les modifications ont été enregistrés.');
+        // On ajoute fait basculer l'état du lycée dans la cordée
+        if ($lycee->getCordee() === $cordee) {
+            $lycee->setCordee(null);
+        } else {
+            $lycee->setCordee($cordee);
+        }
+        
+        $doctrine->getEntityManager()->flush();
         return $this->redirect($this->generateUrl('editer_cordee', array('cordee' => $cordee->getId() )));
     }
     
     /**
-     * Désactive une cordee
+     * Désactive une cordee :
+     * Retire tous les lycées de la cordée, qui devient donc vide.
      */
     public function desactiverAction($cordee)
     {
         // Récupère la cordée et ses lycées
         $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->find($cordee);
         if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la cordée !');
-        $lycees = $this->getLyceesForCordee($cordee);
         
-        // Ajoute un changement de partenariat pour chacun des lycées
-        foreach ($lycees as $lycee) {
-            $this->changerPartenariat($cordee, $lycee);
-        }
+        foreach ($cordee->getLycees() as $lycee) $lycee->setCordee(null);
+        $this->getDoctrine()->getEntityManager()->flush();
         
         $this->get('session')->setFlash('success', 'La cordée a bien été désactivée.');
         return $this->redirect($this->generateUrl('toutes_cordees'));
@@ -287,14 +201,9 @@ class CordeesController extends Controller
     {
         // On cherche tous les lycées actifs
         $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();    // Tous les lycées
-        $lyceesActifs = array();
-        foreach ($lycees as $lycee)
-        {
-            if ( count($this->getCordeesForLycee($lycee)) > 0 ) $lyceesActifs[] = $lycee;
-        }
-        
-        // Par différence, on trouve les lycées inactifs
-        $lyceesInactifs = array_diff($lycees, $lyceesActifs);
+        $lyceesInactifs = array_filter($lycees, function (Lycee $lycee) {
+            return !$lycee->getCordee();
+        });
     
         return $this->render('CECTutoratBundle:Cordees:voir.html.twig', array(
             'sources' => $this->filterLyceesSources($lyceesInactifs),
@@ -311,15 +220,13 @@ class CordeesController extends Controller
     {
         $repo = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee');
         $cordees = $repo->findAll();
-        $cordeesActives = array();
-        foreach ($cordees as $cordee)
-        {
-            if ( count($this->getLyceesForCordee($cordee)) > 0 ) $cordeesActives[] = $cordee;
-        }
+        
+        $cordeesActives = array_filter($cordees, function (Cordee $cordee) { return $cordee->isActive(); });
+        $cordeesMortes = array_filter($cordees, function (Cordee $cordee) { return !$cordee->isActive(); });
         
         return $this->render('CECTutoratBundle:Cordees:menu.html.twig', array(
             'cordees_actives' => $cordeesActives,
-            'cordees_mortes'  => array_diff($cordees, $cordeesActives),
+            'cordees_mortes'  => $cordeesMortes,
             'request'         => $request,
         ));
     }

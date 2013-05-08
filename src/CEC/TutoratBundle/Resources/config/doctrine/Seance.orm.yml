@@ -12,10 +12,13 @@ CEC\TutoratBundle\Entity\Seance:
             type: string
             length: 255
             nullable: true
+        date:
+            type: date
         debut:
-            type: datetime
+            type: time
+            nullable: true
         fin:
-            type: datetime
+            type: time
             nullable: true
         rendezVous:
             type: string

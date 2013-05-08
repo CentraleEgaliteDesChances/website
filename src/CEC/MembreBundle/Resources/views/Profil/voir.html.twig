@@ -1,0 +1,71 @@
+{% extends 'CECMembreBundle:Profil:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+
+{% block right %}
+{{ parent() }}
+
+{% if membre == app.user %}
+{{ flash('info', "Voici ta page de profil telle qu'elle apparaît pour les membres de CEC. Pour modifier tes infos, utilise le bouton en bas à gauche de votre écran.") }}
+{% endif %}
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if membre.groupe %}
+        <thead><tr><th><h4>Groupe de tutorat</h4></th></tr></thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">
+                        <strong>
+                            {% for lycee in membre.groupe.lycees %}
+                                {{ lycee.nom }}
+                                {% if not loop.last %}& {% endif %}
+                            {% endfor %}
+                            ({{ membre.groupe.niveau|lower }})
+                        </strong>
+                        <span class="muted">- {{ membre.groupe.typeDeTutorat }}</span><br />
+                        Tous les {{ cycle(jours, membre.groupe.debut|date('N'))|lower }}s à {{ membre.groupe.debut|date('G\\hi') }}, {{ membre.groupe.lieu|lower }}.
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucune activité de tutorat</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if membre.secteurs %}
+        <thead><tr><th><h4>Secteurs</h4></th></tr></thead>
+        <tbody>
+            {% for secteur in membre.secteurs %}
+            <tr>
+                <td>
+                    <a href="#">{{ secteur.nom }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucune activité dans un secteur</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if false %}
+        <thead><tr><th><h4>Activités rédigées</h4></th></tr></thead>
+        <tbody>
+            {% for activite in membre.activites %}
+            <tr>
+                <td>
+                    <a href="#">{{ activite.titre }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucune activité rédigée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+{% endblock %}

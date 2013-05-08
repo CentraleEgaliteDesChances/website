@@ -2,22 +2,6 @@ CEC\TutoratBundle\Entity\Cordee:
     properties:
         nom:
             - NotBlank: ~
-        dateCreation:
-            - DateTime: ~
-        dateModification:
-            - DateTime: ~
-            
-CEC\TutoratBundle\Entity\ChangementCordeeLycee:
-    properties:
-        annee:
-            - NotBlank: ~
-            - Type: integer
-            - Min: 1900
-            - Max: 9999
-        action:
-            - NotBlank: ~
-            - Type: integer
-            - Choice: [ -1, 1 ]
 
 CEC\TutoratBundle\Entity\Enseignant:
     properties:
@@ -25,32 +9,12 @@ CEC\TutoratBundle\Entity\Enseignant:
             - NotBlank: ~
         email:
             - Email: ~
+        role:
+            - NotBlank: ~
         telephoneFixe:
             - Regex: "/^((0[1-5] ?)|\+33 ?[1-5] ?)([0-9]{2} ?){4}$/"
         telephonePortable:
-            - Regex: "/^(([67] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/"
-        dateCreation:
-            - NotBlank: ~
-            - DateTime: ~
-        dateModification:
-            - NotBlank: ~
-            - DateTime: ~
-            
-CEC\TutoratBundle\Entity\ChangementEnseignantLycee:
-    properties:
-        annee:
-            - NotBlank: ~
-            - Type: integer
-            - Min: 1900
-            - Max: 9999
-        role:
-            - NotBlank: ~
-        dateCreation:
-            - NotBlank: ~
-            - DateTime: ~
-        dateModification:
-            - NotBlank: ~
-            - DateTime: ~
+            - Regex: "/^((0[67] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/"
             
 CEC\TutoratBundle\Entity\Groupe:
     properties:
@@ -59,16 +23,9 @@ CEC\TutoratBundle\Entity\Groupe:
         typeDeTutorat:
             - NotBlank: ~
             - Choice:
-                choices: [ Tutorat Scientifique, Tutorat Culturel ]
-                multiple: true
+                choices: [ Tutorat Scientifique, Tutorat Culturel, Tutorat Culturel et Scientifique ]
         lieu:
             - NotBlank: ~
-        dateCreation:
-            - NotBlank: ~
-            - DateTime: ~
-        dateModification:
-            - NotBlank: ~
-            - DateTime: ~
             
 CEC\TutoratBundle\Entity\Lycee:
     properties:
@@ -83,15 +40,11 @@ CEC\TutoratBundle\Entity\Lycee:
         statut:
             - NotBlank: ~
             - Choice:
-                choixes: [ Établissement Privé, Établissement Public ]
+                choices: [ Établissement Privé, Établissement Public ]
         telephone:
             - Regex: "/^((0[1-5] ?)|\+33 ?[1-5] ?)([0-9]{2} ?){4}$/"
-        dateCreation:
+        pivot:
             - NotBlank: ~
-            - DateTime: ~
-        dateModification:
-            - NotBlank: ~
-            - DateTime: ~
         
 CEC\TutoratBundle\Entity\Lyceen:
     properties:
@@ -107,21 +60,6 @@ CEC\TutoratBundle\Entity\Lyceen:
             - Regex: "/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/"
         telephoneParent:
             - Regex: "/^((0[1-7] ?)|\+33 ?[1-7] ?)([0-9]{2} ?){4}$/"
-        dateCreation:
-            - NotBlank: ~
-            - DateTime: ~
-        dateModification:
-            - NotBlank: ~
-            - DateTime: ~
             
 CEC\TutoratBundle\Entity\Seance:
     properties:
-        lieu:
-            - NotBlank: ~
-        dateCreation:
-            - NotBlank: ~
-            - DateTime: ~
-        dateModification:
-            - NotBlank: ~
-            - DateTime: ~
-            
