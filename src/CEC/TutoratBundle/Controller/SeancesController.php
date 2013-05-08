@@ -15,9 +15,12 @@ class SeancesController extends Controller
      * @param integer $groupe: id du groupe de tutorat permettant de filtrer les séances.
      *                         Si null, affiche toutes les séances de tutorat.
      */
-    public function tousAction()
+    public function toutesAction($groupe = null)
     {
-        // TODO
+        // TODO: restreindre les séances à un groupe
+        return $this->render('CECTutoratBundle:Seances:planning.html.twig', array(
+            
+        ));
     }
 
     /**

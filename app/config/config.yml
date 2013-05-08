@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: doctrine_extensions.yml }    # doctrine-extensions config file
+    - { resource: @CECTutoratBundle/Resources/config/services.yml }
 
 framework:
     #esi:             ~

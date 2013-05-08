@@ -86,6 +86,35 @@ class Groupe
     }
     
     /**
+     * Retourne la description des lycées composant le groupe de tutorat.
+     *
+     * @return string
+     */
+    public function getLyceesDescription()
+    {
+        $description = '';
+        foreach ($this->getLycees() as $lycee)
+        {
+            if ($description != '') $description .= ' & ';
+            $description .= $lycee->getNom();
+        }
+        return $description;
+    }
+    
+    /**
+     * Retourne la description du groupe, composé de la description des lycées
+     * et du niveau entre parenthèses.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        $description = $this->getLyceesDescription();
+        $description .= ' (' . $this->getNiveau() . ')';
+        return $description;
+    }
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -416,13 +445,6 @@ class Groupe
      */
     public function __toString()
     {
-        $description = '';
-        foreach ($this->getLycees() as $lycee)
-        {
-            if ($description != '') $description .= ' & ';
-            $description .= $lycee->getNom();
-        }
-        $description .= ' (' . $this->getNiveau() . ')';
-        return $description;
+        return $this->getDescription();
     }
 }
