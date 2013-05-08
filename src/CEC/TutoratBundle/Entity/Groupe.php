@@ -45,11 +45,6 @@ class Groupe
     private $rendezVous;
 
     /**
-     * @var integer
-     */
-    private $annee;
-
-    /**
      * @var \DateTime
      */
     private $dateCreation;
@@ -88,6 +83,35 @@ class Groupe
         $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Retourne la description des lycées composant le groupe de tutorat.
+     *
+     * @return string
+     */
+    public function getLyceesDescription()
+    {
+        $description = '';
+        foreach ($this->getLycees() as $lycee)
+        {
+            if ($description != '') $description .= ' & ';
+            $description .= $lycee->getNom();
+        }
+        return $description;
+    }
+    
+    /**
+     * Retourne la description du groupe, composé de la description des lycées
+     * et du niveau entre parenthèses.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        $description = $this->getLyceesDescription();
+        $description .= ' (' . $this->getNiveau() . ')';
+        return $description;
     }
     
     /**
@@ -239,29 +263,6 @@ class Groupe
     }
 
     /**
-     * Set annee
-     *
-     * @param integer $annee
-     * @return Groupe
-     */
-    public function setAnnee($annee)
-    {
-        $this->annee = $annee;
-    
-        return $this;
-    }
-
-    /**
-     * Get annee
-     *
-     * @return integer 
-     */
-    public function getAnnee()
-    {
-        return $this->annee;
-    }
-
-    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -310,10 +311,10 @@ class Groupe
     /**
      * Add lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens
+     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
      * @return Groupe
      */
-    public function addLyceen(\CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens)
+    public function addLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
     {
         $this->lyceens[] = $lyceens;
     
@@ -323,9 +324,9 @@ class Groupe
     /**
      * Remove lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens
+     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
      */
-    public function removeLyceen(\CEC\TutoratBundle\Entity\ChangementGroupeLyceen $lyceens)
+    public function removeLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
     {
         $this->lyceens->removeElement($lyceens);
     }
@@ -343,10 +344,10 @@ class Groupe
     /**
      * Add tuteurs
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
+     * @param \CEC\MembreBundle\Entity\Membre $tuteurs
      * @return Groupe
      */
-    public function addTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
+    public function addTuteur(\CEC\MembreBundle\Entity\Membre $tuteurs)
     {
         $this->tuteurs[] = $tuteurs;
     
@@ -356,9 +357,9 @@ class Groupe
     /**
      * Remove tuteurs
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs
+     * @param \CEC\MembreBundle\Entity\Membre $tuteurs
      */
-    public function removeTuteur(\CEC\TutoratBundle\Entity\ChangementGroupeTuteur $tuteurs)
+    public function removeTuteur(\CEC\MembreBundle\Entity\Membre $tuteurs)
     {
         $this->tuteurs->removeElement($tuteurs);
     }
@@ -437,5 +438,13 @@ class Groupe
     public function getLycees()
     {
         return $this->lycees;
+    }
+    
+    /**
+     * Retourne la description d'un groupe de tutorat
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
     }
 }

@@ -1,0 +1,167 @@
+{% extends 'CECTutoratBundle:Groupes:base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
+
+
+{% block right %}
+{{ parent() }}
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if lyceens %}
+        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
+        <tbody>
+            {% for lyceen in lyceens %}
+            <tr>
+                <td>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('groupe_supprimer_lyceen', { 'groupe': groupe.id, 'lyceen': lyceen.id }) }}">
+                            &times;
+                    </a>
+                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
+    {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('groupe_ajouter_lyceen', { 'groupe': groupe.id }) }}">
+                    {{ form_errors(ajouter_lyceen_form) }}
+                    {{ form_widget(ajouter_lyceen_form.lyceen) }}
+                    {{ form_rest(ajouter_lyceen_form) }}
+                    <input type="submit" name="ajouter_lyceen" class="btn btn-primary" value="Ajouter" />
+                    <a href="{{ path('creer_lyceen') }}" class="btn pull-right">Nouveau lycéen</a>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-hover table-condensed table-striped table-large">
+    {% if tuteurs %}
+        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
+        <tbody>
+            {% for tuteur in tuteurs %}
+            <tr>
+                <td>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('groupe_supprimer_tuteur', { 'groupe': groupe.id, 'tuteur': tuteur.id }) }}">
+                            &times;
+                    </a>
+                    <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
+                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun tuteur pour ce lycée</h4></th></tr></thead>
+    {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('groupe_ajouter_tuteur', { 'groupe': groupe.id }) }}">
+                    {{ form_errors(ajouter_tuteur_form) }}
+                    {{ form_widget(ajouter_tuteur_form.tuteur) }}
+                    {{ form_rest(ajouter_tuteur_form) }}
+                    <input type="submit" name="ajouter_tuteur" class="btn btn-primary" value="Ajouter" />
+                    <a href="#" class="btn pull-right">Nouveau tuteur</a>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if seances %}
+        <thead><tr><th><h4>Prochaines séances de tutorat</h4></th></tr></thead>
+        <tbody>
+            {% for seance in seances %}
+            <tr>
+                <td>
+                    <a href="{{ path('seance', { 'seance': seance.id }) }}">
+                        <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }} à {{ (seance.debut ?: seance.groupe.debut)|date('G\\hi') }}</strong><br />
+                        Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></thead>
+    {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                {{ modal.button('Créer une séance de tutorat', 'btn btn-block') }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock %}
+
+{% block left %}
+    
+<table class="table table-bordered table-form">
+    <thead>
+        <tr><th class="edition"></th></tr>
+        <tr><th class="titre titre-edition">
+            <h3>
+                Édition de<br />
+                {% for lycee in groupe.lycees %}
+                    {{ lycee.nom }}
+                    {% if not loop.last %}& {% endif %}
+                {% endfor %}<br />
+                {{ groupe.niveau }}
+            </h3>
+        </th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <form class="form" method="post" action="{{ path('editer_groupe', { 'groupe': groupe.id }) }}">
+                    {{ form_widget(groupe_form) }}
+                    
+                    <input type="submit" name="enregistrer" class="btn btn-block btn-primary btn-large" value="Enregistrer les modifications" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% endblock left %}
+
+
+{% block modals %}
+{{ parent() }}
+
+{% set body %}
+    <p>Pour pouvoir créer une séance, entrez au minimum la date de la séance et cliquez sur <strong>Créer la séance</strong>. Les informations par défaut correspondent à celles du groupe de tutorat associé.</p>
+    {{ form_widget(nouvelle_seance_form) }}
+{% endset %}
+
+{% set footer %}
+    <input type="submit" value="Créer la séance" class="btn btn-primary pull-right" />
+    {{ modal.close() }}
+{% endset %}
+
+<form method="post" action="{{ path('editer_groupe', { 'groupe': groupe.id }) }}">
+    {{ modal.modal('Créer une séance de tutorat', body, footer) }}
+</form>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    {% if afficher_modal|default(false) %}
+        <script type="text/javascript">
+            $('#modal').modal('show');
+        </script>
+    {% endif %}
+{% endblock %}

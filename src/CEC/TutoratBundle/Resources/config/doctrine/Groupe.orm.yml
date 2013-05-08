@@ -24,8 +24,6 @@ CEC\TutoratBundle\Entity\Groupe:
         rendezVous:
             type: string
             length: 255
-        annee:
-            type: integer
         dateCreation:
             type: datetime
             gedmo:
@@ -42,10 +40,10 @@ CEC\TutoratBundle\Entity\Groupe:
             inversedBy: groupes
     oneToMany:
         lyceens:
-            targetEntity: ChangementGroupeLyceen
+            targetEntity: Lyceen
             mappedBy: groupe
         tuteurs:
-            targetEntity: ChangementGroupeTuteur
+            targetEntity: CEC\MembreBundle\Entity\Membre
             mappedBy: groupe
         seances:
             targetEntity: Seance

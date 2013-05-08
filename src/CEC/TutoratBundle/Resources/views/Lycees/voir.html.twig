@@ -1,17 +1,44 @@
 {% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
-{% import 'CECMainBundle::macros.html.twig' as modal %}
+{% import  'CECMainBundle::macros.html.twig' as modal %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 {% block right %}
 {{ parent() }}
 
+{% if lycee in app.user.groupe.lycees|default('') %}
+{{ flash('info', 'Bienvenue sur la page de votre lycée !') }}
+{% endif %}
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if lycee.groupes|length > 0 %}
+        <thead><tr><th><h4>Groupes de tutorat</h4></th></tr></thead>
+        <tbody>
+            {% for groupe in lycee.groupes %}
+            <tr>
+                <td>
+                    <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
+                        <strong>{{ groupe.niveau }}</strong><span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
+                        Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun groupe de tutorat pour ce lycée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
 <table class="table table-bordered table-hover table-striped table-large">
     {% if lyceens %}
-        <thead><tr><th><h4>Lycéens</h4></th></tr></thead>
+        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
         <tbody>
             {% for lyceen in lyceens %}
             <tr>
                 <td>
-                    <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    </a>
                 </td>
             </tr>
             {% endfor %}
@@ -23,12 +50,14 @@
 
 <table class="table table-bordered table-hover table-condensed table-striped table-large">
     {% if tuteurs %}
-        <thead><tr><th><h4>Tuteurs</h4></th></tr></thead>
+        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
         <tbody>
             {% for tuteur in tuteurs %}
             <tr>
                 <td>
-                    <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
+                    <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
+                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
+                    </a>
                 </td>
             </tr>
             {% endfor %}
@@ -39,15 +68,15 @@
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
-    {% if enseignants %}
+    {% if lycee.enseignants|length > 0 %}
         <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
         <tbody>
-            {% for enseignant in enseignants %}
+            {% for enseignant in lycee.enseignants %}
             <tr>
                 <td>
-                    <a href="#">
+                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
-                        {{ roles[enseignant.id] ? roles[enseignant.id]|join(', ') }}
+                        {{ enseignant.role is not empty ? enseignant.role }}
                     </a>
                 </td>
             </tr>
@@ -59,38 +88,33 @@
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
-    {% if groupes %}
-        <thead><tr><th><h4>Groupes de tutorat</h4></th></tr></thead>
-        <tbody>
-            {% for groupe in groupes %}
-            <tr>
-                <td>
-                    <strong>{{ groupe.niveau }}</strong><span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
-                    Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun groupe de tutorat pour ce lycée</h4></th></tr></thead>
-    {% endif %}
-</table>
-
-<table class="table table-bordered table-hover table-striped table-large">
     {% if seances %}
-        <thead><tr><th><h4>Séances de tutorat</h4></th></tr></thead>
+        <thead>
+            <tr>
+                <th>
+                    <h4>
+                        Prochaines séances de tutorat
+                        <a href="{{ path('toutes_seances') }}" class="btn btn-small pull-right">
+                            Planning des séances
+                        </a>
+                    </h4>
+                </th>
+            </tr>
+        </thead>
         <tbody>
             {% for seance in seances %}
             <tr>
                 <td>
-                    <strong>{{ cycle(jours, seance.debut|date('N')) }} {{ seance.debut|date('j') }} {{ cycle(mois, seance.debut|date('n')) }} à {{ seance.debut|date('G\\hi') }}</strong><br />
-                    Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
+                    <a href="{{ path('seance', { 'seance': seance.id }) }}">
+                        <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }} à {{ (seance.debut ?: seance.groupe.debut)|date('G\\hi') }}</strong><br />
+                        Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
+                    </a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucune séance de tutorat pour ce lycée</h4></th></tr></thead>
+        <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></thead>
     {% endif %}
 </table>
 

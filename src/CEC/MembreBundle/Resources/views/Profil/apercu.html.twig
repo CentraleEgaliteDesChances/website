@@ -1,0 +1,71 @@
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th colspan="2" class="titre">
+                <h3>{{ membre.prenom|capitalize }} {{ membre.nom|capitalize }}</h3>
+            </th>
+        </tr>
+        <tr><th colspan="2" class="image">
+            {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
+                <img src="{{ asset_url }}" alt="Image du lycée"/>
+            {% endimage %}
+        </th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Promotion</td>
+            <td>Promotion {{ membre.promotion }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><a href="mailto:{{ membre.email }}">{{ membre.email }}</a></td>
+        </tr>
+        <tr>
+            <td>Téléphone</td>
+            <td>{{ membre.telephone }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-hover">
+    <tbody>
+        <tr>
+            <td>Tutorat</td>
+            <td>
+                {% if membre.groupe %}
+                    Actif en tant que tuteur
+                {% else %}
+                    <span class="muted">Pas de tutorat</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% if membre.vpLycee %}
+            <tr>
+                <td>VP Lycée</td>
+                <td>
+                    Responsable du lycée <a href="{{ path('lycee', { 'lycee': membre.vpLycee.id }) }}">{{ membre.vpLycee.nom }}</a>
+                </td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td>Secteurs</td>
+            <td>
+                {% if membre.secteurs %}
+                    Actif dans un secteur
+                {% else %}
+                    <span class="muted">Aucun secteur</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Activités</td>
+            <td>
+                <span class="muted">Aucune activité rédigée</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% if app.user == membre %}
+    <a href="{{ path('reglages_profil') }}" class="btn btn-block">Modifier mon profil</a>
+{% endif %}

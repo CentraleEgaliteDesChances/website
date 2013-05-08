@@ -3,8 +3,6 @@
 namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use CEC\MainBundle\Classes\AnneeScolaire;
-use CEC\TutoratBundle\Entity\Lycee;
 
 /**
  * GroupeRepository
@@ -14,20 +12,4 @@ use CEC\TutoratBundle\Entity\Lycee;
  */
 class GroupeRepository extends EntityRepository
 {
-    /**
-     * Récupère les groupes pour un lycée spécifique, et l'année actuelle
-     *
-     * @param CEC\TutoratBundle\Entity\Lycee $lycee
-     */
-    public function findByLyceeForCurrentYear(Lycee $lycee)
-    {
-        $anneeScolaire = new AnneeScolaire();
-        return $this->createQueryBuilder('g')
-            ->where('g.annee = :annee')
-            ->setParameter('annee', $anneeScolaire->getAnneeScolaire())
-            ->innerJoin('g.lycees', 'gl', 'WITH', 'gl.id = :lycee_id')
-            ->setParameter('lycee_id', $lycee->getId())
-            ->getQuery()
-            ->getResult();
-    }
 }

@@ -19,10 +19,12 @@
                 {{ lycee.codePostal }} {{ lycee.ville }}
             </td>
         </tr>
+        {% if lycee.telephone %}
         <tr>
             <td>Secrétariat</td>
             <td>{{ lycee.telephone }}</td>
         </tr>
+        {% endif %}
         <tr>
             <td>Statut</td>
             <td>{{ lycee.statut }}</td>
@@ -40,7 +42,13 @@
     <tbody>
         <tr>
             <td>Cordée</td>
-            <td>{{ cordees ? cordees|join(', ') : 'Aucune cordée' }}</td>
+            <td>
+                {% if lycee.cordee %}
+                    <a href="{{ path('cordee', { 'cordee' : lycee.cordee.id }) }}">{{ lycee.cordee.nom }}</a>
+                {% else %}
+                    <a href="{{ path('anciennes_cordees') }}" class="muted">Aucune cordée</a>
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <td>Rôle</td>
@@ -48,9 +56,11 @@
         </tr>
         <tr>
             <td>VP Lycée</td>
-            <td>{{ VPs ? VPs|join(', ') : 'Aucun VP Lycée' }}</td>
+            <td>{% for vp in lycee.vpLycees %}
+                <a href="{{ path('membre', { 'membre': vp.id }) }}">{{ vp.prenom|capitalize }} {{ vp.nom|capitalize }}{% if not loop.last %}, {% endif %}</a>
+            {% else %}Aucun VP Lycée{% endfor %}</td>
         </tr>
-    </thead>
+    </tbody>
 </table>
 
 {% if proviseur is not null or referent is not null %}   
@@ -59,13 +69,13 @@
         {% if proviseur is not null %}
             <tr>
                 <td>Proviseur</td>
-                <td>{{ proviseur.prenom }} {{ proviseur.nom }}</td>
+                <td><a href="{{ path('enseignant', { 'enseignant': proviseur.id }) }}">{{ proviseur.prenom }} {{ proviseur.nom }}</a></td>
             </tr>
         {% endif %}
         {% if referent is not null %}
             <tr>
                 <td>Référent</td>
-                <td>{{ referent.prenom }} {{ referent.nom }}</td>
+                <td><a href="{{ path('enseignant', { 'enseignant': referent.id }) }}">{{ referent.prenom }} {{ referent.nom }}</a></td>
             </tr>
         {% endif %}
     </tbody>
@@ -93,4 +103,4 @@
     </tbody>
 </table>
 
-<a href="#" class="btn btn-block">Éditer le lycée</a>
+<a href="{{ path('editer_lycee', { 'lycee': lycee.id }) }}" class="btn btn-block">Éditer le lycée</a>

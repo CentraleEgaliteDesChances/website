@@ -1,0 +1,61 @@
+{% extends 'CECMainBundle::base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/planning.less'
+        '@ADesignsCalendarBundle/Resources/public/css/fullcalendar/fullcalendar.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% javascripts
+        '@ADesignsCalendarBundle/Resources/public/js/jquery/jquery-1.8.2.min.js'
+        '@ADesignsCalendarBundle/Resources/public/js/fullcalendar/jquery.fullcalendar.min.js'
+        '@CECTutoratBundle/Resources/public/js/planning-settings.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block container %}
+    {{ parent() }}
+    <div class="row">
+        <div class="span12">
+            <div class="well">
+                {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
+                {% if groupe %}
+                    {{ modal.button('Ajouter une nouvelle séance de tutorat', 'btn btn-large btn-block btn-primary') }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block modals %}
+{{ parent() }}
+
+{% if groupe %}
+    {% set body %}
+        <p>Pour pouvoir créer une séance, entrez au minimum la date de la séance et cliquez sur <strong>Créer la séance</strong>. Les informations par défaut correspondent à celles du groupe de tutorat associé.</p>
+        {{ form_widget(form) }}
+    {% endset %}
+    
+    {% set footer %}
+        <input type="submit" value="Créer la séance" class="btn btn-primary pull-right" />
+        {{ modal.close() }}
+    {% endset %}
+    
+    <form method="post" action="{{ path('toutes_seances', { 'groupe': groupe.id }) }}">
+        {{ modal.modal('Créer une séance de tutorat', body, footer) }}
+    </form>
+{% endif %}
+
+{% endblock %}

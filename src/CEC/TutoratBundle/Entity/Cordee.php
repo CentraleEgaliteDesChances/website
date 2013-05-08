@@ -32,14 +32,14 @@ class Cordee
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $changementsLycee;
+    private $lycees;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->changementsLycee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -122,45 +122,54 @@ class Cordee
     }
 
     /**
-     * Add changementsLycee
+     * Add lycees
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsLycee
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
      * @return Cordee
      */
-    public function addChangementsLycee(\CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsLycee)
+    public function addLycee(\CEC\TutoratBundle\Entity\Lycee $lycees)
     {
-        $this->changementsLycee[] = $changementsLycee;
+        $this->lycees[] = $lycees;
     
         return $this;
     }
 
     /**
-     * Remove changementsLycee
+     * Remove lycees
      *
-     * @param \CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsLycee
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
      */
-    public function removeChangementsLycee(\CEC\TutoratBundle\Entity\ChangementCordeeLycee $changementsLycee)
+    public function removeLycee(\CEC\TutoratBundle\Entity\Lycee $lycees)
     {
-        $this->changementsLycee->removeElement($changementsLycee);
+        $this->lycees->removeElement($lycees);
     }
 
     /**
-     * Get changementsLycee
+     * Get lycees
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getChangementsLycee()
+    public function getLycees()
     {
-        return $this->changementsLycee;
+        return $this->lycees;
     }
     
     /**
-     * Get description
+     * Returns true if has at least one lycee
      *
-     * @return string
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->getLycees()->count() > 0;
+    }
+    
+    /**
+     * Retourne la description d'une cordée
      */
     public function __toString()
     {
-        return $this->getId() . ' - ' . $this->getNom();
+        
+        return $this->getNom();
     }
 }
