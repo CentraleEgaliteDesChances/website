@@ -1,0 +1,10 @@
+.table .titre {
+  background-color: #f9f9f9;
+  text-align: center;
+}
+.table .titre h3 {
+  line-height: normal;
+}
+.btn-block {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,67 @@
+{% extends 'CECTutoratBundle:Enseignants:base.html.twig' %}
+
+
+{% block narrow_title %}{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<table class="table table-bordered table-hover table-striped">
+    <tbody>
+        <tr>
+            <td>Nom</td>
+            <td><strong>{{ enseignant.prenom|capitalize }} {{ enseignant.nom|capitalize }}</strong></td>
+        </tr>
+        <tr>
+            <td>Fonction</td>
+            <td>
+                {% if enseignant.role %}
+                    {{ enseignant.role }}
+                {% else %}
+                    <span class="muted">Aucune fonction</span>
+                {% endif %}
+                
+                {% if enseignant.lycee %}au <a href="{{ path('lycee', { 'lycee': enseignant.lycee.id }) }}">lycée {{ enseignant.lycee.nom|trim('Lycée') }}</a>{% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="table table-bordered table-hover table-striped">
+    <tbody>
+        {% if enseignant.email %}
+            <tr>
+                <td>Email</td>
+                <td><a href="mailto:{{ enseignant.email }}">{{ enseignant.email }}</a></td>
+            </tr>
+        {% endif %}
+        {% if enseignant.telephonePortable %}
+            <tr>
+                <td>Téléphone portable</td>
+                <td>{{ enseignant.telephonePortable }}</td>
+            </tr>
+        {% endif %}
+        {% if enseignant.telephoneFixe %}
+            <tr>
+                <td>Téléphone fixe</td>
+                <td>{{ enseignant.telephoneFixe }}</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+{% if enseignant.commentaires %}
+    <table class="table table-bordered table-hover table-striped">
+        <tbody>
+            <tr>
+                <td>Commentaires</td>
+                <td>{{ enseignant.commentaires }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
+
+<a href="{{ path('tous_enseignants') }}" class="btn">Tous les enseignants</a>
+<a href="{{ path('editer_enseignant', { 'enseignant': enseignant.id }) }}" class="btn pull-right">Editer la fiche</a>
+
+{% endblock %}

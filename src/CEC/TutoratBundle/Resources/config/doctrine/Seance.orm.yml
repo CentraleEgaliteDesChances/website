@@ -1,0 +1,48 @@
+CEC\TutoratBundle\Entity\Seance:
+    type: entity
+    table: null
+    repositoryClass: CEC\TutoratBundle\Entity\SeanceRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        lieu:
+            type: string
+            length: 255
+            nullable: true
+        date:
+            type: date
+        debut:
+            type: time
+            nullable: true
+        fin:
+            type: time
+            nullable: true
+        rendezVous:
+            type: string
+            length: 255
+            nullable: true
+        dateCreation:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        dateModification:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        groupe:
+            targetEntity: Groupe
+            inversedBy: seances
+    manyToMany:
+        tuteurs:
+            targetEntity: CEC\MembreBundle\Entity\Membre
+            inversedBy: seances
+        lyceens:
+            targetEntity: Lyceen
+            inversedBy: seances
+    lifecycleCallbacks: {  }

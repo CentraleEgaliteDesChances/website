@@ -23,7 +23,9 @@ class ReglagesController extends Controller
     
     public function profilAction(Request $request)
     {
-        $membre = $this->get('security.context')->getToken()->getUser();
+        // On récupère l'utilisateur
+        $membre = $this->getUser();
+        if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
         
         $nomInformationsGenerales = 'informations_generales';
         $infomationsGenerales = $this->get('form.factory')
@@ -71,7 +73,9 @@ class ReglagesController extends Controller
     
     public function notificationsAction(Request $request)
     {
-        $membre = $this->get('security.context')->getToken()->getUser();
+        // On récupère l'utilisateur
+        $membre = $this->getUser();
+        if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
         
         $form = $this->createFormBuilder($membre)
             ->add('actif', null, array(
@@ -100,7 +104,9 @@ class ReglagesController extends Controller
     
     public function secteursAction(Request $request)
     {
-        $membre = $this->get('security.context')->getToken()->getUser();
+        // On récupère l'utilisateur
+        $membre = $this->getUser();
+        if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
         
         $nomChoixSecteurs = 'choix_secteurs';
         $choixSecteurs = $this->get('form.factory')

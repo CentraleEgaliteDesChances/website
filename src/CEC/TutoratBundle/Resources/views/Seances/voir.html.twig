@@ -1,0 +1,113 @@
+{% extends 'CECTutoratBundle:Seances:base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
+
+
+{% block right %}
+{{ parent() }}
+
+{% if seance.groupe is null %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+{{ flash('alert', 'Attention ! Le groupe de tutorat associé à cette séance a été supprimée et certaines informations ne sont donc plus disponibles. Les statistiques sont en revanche conservées.') }}
+{% endif %}
+
+<table class="table table-bordered table-hover table-striped table-large">
+    <thead><tr><th class="muted"><h4>ActiviteBundle — Activité et autres</h4></th></tr></thead>
+</table>
+
+<table class="table table-bordered table-hover table-condensed table-striped table-large">
+    {% if tuteurs %}
+        <thead>
+            <tr>
+                <th>
+                    <h4>
+                        Tuteurs
+                        <span class="count">{{ seance.tuteurs|length }} sur {{ tuteurs|length }}</span>
+                    </h4>
+                    <p>Cette liste présente, pour chaque tuteur du groupe de tutorat, son intention de participer à la séance ou non. Pour basculer l'état d'un tuteur, cliquez simplement sur son nom.</p>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tuteur in tuteurs %}
+            <tr class="{{ tuteur in seance.tuteurs ? 'success' : 'warning' }}">
+                <td>
+                    <span class="checkmark">
+                        {% if tuteur in seance.tuteurs %}&#10004;{% else %}&#10008;{% endif %}
+                    </span>
+                    <a href="{{ path('seance_basculer_tuteur', { 'seance': seance.id, 'tuteur': tuteur.id }) }}">
+                        <strong>
+                            {{ tuteur.prenom }} {{ tuteur.nom }}
+                        </strong>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun tuteur pour ce groupe de tutorat</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if lyceens %}
+        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
+        <tbody>
+            {% for lyceen in lyceens %}
+            <tr>
+                <td>
+                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    <thead><tr><th class="muted"><h4>ActiviteBundle — Compte-rendu</h4></th></tr></thead>
+</table>
+
+{% endblock %}
+
+
+{% block left %}
+{{ parent() }}
+
+{{ modal.button('Éditer la séance', 'btn btn-block') }}
+
+{% endblock %}
+
+
+{% block modals %}
+{{ parent() }}
+
+{% set body %}
+    <p>Modifiez ci-dessous les informations relatives à la séance de tutorat, et cliquez sur <strong>Enregistrer les modifications</strong> pour appliquer les changements.</p>
+    <p>Les champs marqués <em>optional</em> peuvent rester vides ; dans ce cas, les informations de la séance correspondront à celles du groupe de tutorat associé.</p>
+    {{ form_widget(form) }}
+{% endset %}
+
+{% set footer %}
+    <a href="{{ path('supprimer_seance', { 'seance': seance.id }) }}" class="btn btn-danger pull-left">Supprimer la séance</a>
+    <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" />
+    {{ modal.close() }}
+{% endset %}
+
+<form method="post" action="{{ path('seance', { 'seance': seance.id }) }}">
+    {{ modal.modal('Éditer une séance de tutorat', body, footer) }}
+</form>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    {% if afficher_modal|default(false) %}
+        <script type="text/javascript">
+            $('#modal').modal('show');
+        </script>
+    {% endif %}
+{% endblock %}

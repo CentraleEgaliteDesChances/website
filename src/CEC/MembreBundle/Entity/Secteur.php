@@ -15,9 +15,21 @@ class Secteur
     private $id;
 
     /**
+     * Nom du secteur, incluant le préfixe "Secteur"
+     *
      * @var string
      */
     private $nom;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateCreation;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateModification;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -66,6 +78,52 @@ class Secteur
     }
 
     /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return Secteur
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return Secteur
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
      * Add membres
      *
      * @param \CEC\MembreBundle\Entity\Membre $membres
@@ -96,5 +154,14 @@ class Secteur
     public function getMembres()
     {
         return $this->membres;
+    }
+    
+    /**
+     * Retourne la description d'un secteur
+     */
+    public function __toString()
+    {
+        
+        return $this->getNom();
     }
 }

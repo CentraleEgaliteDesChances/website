@@ -1,0 +1,99 @@
+@color-success: #5da043;
+@color-warning: #c6b14d;
+
+.count {
+    display: inline-block;
+    color: silver;
+    float: right;
+}
+
+.table {
+    .edition {
+        background: url(/bundles/cecmain/images/stripes.png) repeat-x 0 top red;
+        height: 20px;
+        border-left: 1px solid #dddddd;
+    }
+    .titre-edition {
+        border-bottom: 0;
+        color: maroon;
+    }
+    .btn-block {
+        margin-bottom: 0;
+        margin-top: 25px;
+    }
+    .form {
+        margin-bottom: 0;
+        select[multiple] {
+            height: 200px;
+        }
+    }
+    th {
+        p {
+            margin-top: 5px;
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+    }
+    td {
+        .checkmark {
+            float: right;
+            font-size: 140%;
+        }
+    } 
+    .success {
+        .checkmark { color: @color-success; }
+        a:hover    { color: darken(@color-success, 25%); }
+    }
+    .warning {
+        .checkmark { color: @color-warning; }
+        a:hover    { color: darken(@color-warning, 25%); }
+    }
+}
+
+.close-red, .close-red:hover { color: red; }
+
+.input-ajouter { width: 280px; }
+
+#seance_debut_control_group, #seance_fin_control_group {
+    display: inline-block;
+    .controls input {
+        width: 225px;
+    }
+}
+#seance_fin_control_group {
+    margin-left: 25px;
+}
+
+.btn-block {
+    margin-bottom: 10px;
+}
+
+
+// .table-centered
+.table-centered {
+    td {
+        text-align: center;
+    }
+    .date {
+        font-weight: bold;
+        font-size: 180%;
+        padding: 30px 20px;
+        .jour {
+            font-size: 400%;
+            line-height: 110px;
+        }
+        .mois {
+            font-size: 150%;
+            line-height: 30px;
+        }
+    }
+    .td-label {
+        font-weight: bold;
+        font-size: 110%;
+    }
+    .td-content {
+        font-weight: bold;
+        font-size: 135%;
+        padding: 12px;
+    }
+}
