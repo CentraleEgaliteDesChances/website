@@ -1,0 +1,71 @@
+@import "../../../vendor/mopa/bootstrap-bundle/Mopa/Bundle/BootstrapBundle/Resources/public/less/mopabootstrapbundle.less";
+.section .section-title {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-bottom: 0;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 #ffffff;
+  -moz-box-shadow: 0 1px 0 #ffffff;
+  -webkit-box-shadow: 0 1px 0 #ffffff;
+  box-shadow: 0 1px 0 #ffffff;
+  background: -moz-linear-gradient(90deg,#cfcfcf 0%,#dbdbdb 46.7%) #cfcfcf;
+  background: -webkit-gradient(linear,left bottom,left top,from(#cfcfcf),color-stop(0.467,#dbdbdb)) #cfcfcf;
+}
+.section form {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.section form fieldset legend {
+  display: none;
+}
+.section form fieldset .control-group:first-of-type {
+  margin-top: 0;
+}
+.section form .form-actions {
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 5px;
+}
+.section form .form-actions input {
+  display: inline;
+  width: auto;
+}
+.modal .modal-footer .btn.pull-right {
+  margin-left: 5px;
+}
+.modal fieldset legend {
+  display: none;
+}
+.modal fieldset .control-group:first-of-type {
+  margin-top: 0;
+}
+.modal input[type='submit'] {
+  display: inline;
+  width: auto;
+}
+body > form:first-of-type {
+  margin-bottom: 0;
+}
+.table-large th,
+.table-large td {
+  padding: 15px;
+}
+.table-large th h1,
+.table-large th h2,
+.table-large th h3,
+.table-large th h4,
+.table-large th h5,
+.table-large th h6,
+.table-large td h1,
+.table-large td h2,
+.table-large td h3,
+.table-large td h4,
+.table-large td h5,
+.table-large td h6 {
+  margin: 0;
+}

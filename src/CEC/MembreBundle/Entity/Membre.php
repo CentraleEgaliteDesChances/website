@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Membre
  */
-class Membre implements UserInterface
+class Membre implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -44,11 +44,31 @@ class Membre implements UserInterface
      * @var integer
      */
     private $promotion;
-    
+
     /**
      * @var boolean
      */
     private $actif;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateCreation;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateModification;
+
+    /**
+     * @var \CEC\TutoratBundle\Entity\Lycee
+     */
+    private $vpLycee;
+
+    /**
+     * @var \CEC\TutoratBundle\Entity\Groupe
+     */
+    private $groupe;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -56,11 +76,17 @@ class Membre implements UserInterface
     private $secteurs;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $seances;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->secteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -187,7 +213,7 @@ class Membre implements UserInterface
     {
         return $this->motDePasse;
     }
-    
+
     /**
      * Set promotion
      *
@@ -210,7 +236,7 @@ class Membre implements UserInterface
     {
         return $this->promotion;
     }
-    
+
     /**
      * Set actif
      *
@@ -233,7 +259,99 @@ class Membre implements UserInterface
     {
         return $this->actif;
     }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return Membre
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
     
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return Membre
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
+     * Set vpLycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $vpLycee
+     * @return Membre
+     */
+    public function setVpLycee(\CEC\TutoratBundle\Entity\Lycee $vpLycee = null)
+    {
+        $this->vpLycee = $vpLycee;
+    
+        return $this;
+    }
+
+    /**
+     * Get vpLycee
+     *
+     * @return \CEC\TutoratBundle\Entity\Lycee 
+     */
+    public function getVpLycee()
+    {
+        return $this->vpLycee;
+    }
+
+    /**
+     * Set groupe
+     *
+     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
+     * @return Membre
+     */
+    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
+    {
+        $this->groupe = $groupe;
+    
+        return $this;
+    }
+
+    /**
+     * Get groupe
+     *
+     * @return \CEC\TutoratBundle\Entity\Groupe 
+     */
+    public function getGroupe()
+    {
+        return $this->groupe;
+    }
+
     /**
      * Add secteurs
      *
@@ -265,6 +383,48 @@ class Membre implements UserInterface
     public function getSecteurs()
     {
         return $this->secteurs;
+    }
+
+    /**
+     * Add seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     * @return Membre
+     */
+    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances[] = $seances;
+    
+        return $this;
+    }
+
+    /**
+     * Remove seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     */
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances->removeElement($seances);
+    }
+
+    /**
+     * Get seances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeances()
+    {
+        return $this->seances;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setDefaultValues()
+    {
+        if (!isset($this->promotion)) $this->setPromotion(date('Y') + 3);
+        if (!isset($this->actif))     $this->setActif(true);
     }
     
     /**
@@ -327,15 +487,12 @@ class Membre implements UserInterface
     }
     
     /**
-     * Ajoute les valeurs par défaut des attributs si nécessaire
+     * Retourne la description d'un membre
      */
-    public function setDefaultValues()
+    public function __toString()
     {
-        if (!isset($this->promotion)) {
-            $this->setPromotion(date('Y') + 3);
-        }
-        if (!isset($this->actif)) {
-            $this->setActif(true);
-        }
+        
+        return $this->getPrenom() . ' ' . $this->getNom();
     }
+    
 }

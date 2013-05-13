@@ -1,0 +1,81 @@
+{% extends 'CECTutoratBundle:Groupes:base.html.twig' %}
+{% import  'CECMainBundle::macros.html.twig' as modal %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block right %}
+{{ parent() }}
+
+{% if groupe == app.user.groupe %}
+{{ flash('info', 'Bienvenue sur la page de votre groupe de tutorat !') }}
+{% endif %}
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if lyceens %}
+        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
+        <tbody>
+            {% for lyceen in lyceens %}
+            <tr>
+                <td>
+                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce groupe de tutorat</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-condensed table-striped table-large">
+    {% if tuteurs %}
+        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
+        <tbody>
+            {% for tuteur in tuteurs %}
+            <tr>
+                <td>
+                    <a href="{{ path('membre', { 'membre': tuteur.id }) }}">
+                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun tuteur pour ce groupe de tutorat</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if seances %}
+        <thead>
+            <tr>
+                <th>
+                    <h4>
+                        Prochaines séances de tutorat
+                        <a href="{{ path('toutes_seances', { 'groupe': groupe.id }) }}" class="btn btn-small pull-right">
+                            Planning des séances
+                        </a>
+                    </h4>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for seance in seances %}
+            <tr>
+                <td>
+                    <a href="{{ path('seance', { 'seance': seance.id }) }}">
+                        <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }} à {{ (seance.debut ?: seance.groupe.debut)|date('G\\hi') }}</strong><br />
+                        Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce groupe de tutorat</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+{% endblock %}

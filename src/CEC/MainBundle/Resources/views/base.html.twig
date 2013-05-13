@@ -2,6 +2,8 @@
 
 
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
+{% set jours = ['Invalide', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+{% set mois = ['Invalide', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -15,7 +17,9 @@
 
 {% block body %}
     {% block modals %}{% endblock %}
-    {% block menu %}{% render 'CECMainBundle:Menu:menu' %}{% endblock %}
+    {% block menu %}
+        {% include 'CECMainBundle:Menu:menu.html.twig' with { 'route' : 'ee' } %}
+    {% endblock %}
     
     <div class="container">
         {% block container %}

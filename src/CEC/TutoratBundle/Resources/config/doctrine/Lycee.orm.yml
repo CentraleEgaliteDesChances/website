@@ -1,0 +1,60 @@
+CEC\TutoratBundle\Entity\Lycee:
+    type: entity
+    table: null
+    repositoryClass: CEC\TutoratBundle\Entity\LyceeRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        nom:
+            type: string
+            length: 255
+        adresse:
+            type: string
+            length: 255
+            nullable: true
+        codePostal:
+            type: integer
+            nullable: true
+        ville:
+            type: string
+            length: 255
+        statut:
+            type: string
+            length: 255
+        telephone:
+            type: string
+            length: 255
+            nullable: true
+        zep:
+            type: boolean
+        pivot:
+            type: boolean
+        dateCreation:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        dateModification:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        cordee:
+            targetEntity: Cordee
+            inversedBy: lycees
+    oneToMany:
+        enseignants:
+            targetEntity: Enseignant
+            mappedBy: lycee
+        vpLycees:
+            targetEntity: CEC\MembreBundle\Entity\Membre
+            mappedBy: vpLycee
+    manyToMany:
+        groupes:
+            targetEntity: Groupe
+            mappedBy: lycees
+    lifecycleCallbacks: {  }

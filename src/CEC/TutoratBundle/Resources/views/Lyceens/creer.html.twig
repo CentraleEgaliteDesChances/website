@@ -1,0 +1,18 @@
+{% extends 'CECTutoratBundle:Lyceens:base.html.twig' %}
+
+
+{% block narrow_title %}Nouveau lycée{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<form class="form" method="post" action="{{ path('creer_lyceen') }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Créer le lycéen" class="btn btn-primary pull-right" />
+        <a href="{{ path('tous_lyceens') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+
+{% endblock %}

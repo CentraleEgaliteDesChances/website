@@ -1,0 +1,30 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}Membres{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<table class="table table-bordered table-hover table-striped">
+    {% if membres|length > 0 %}
+        <tbody>
+            {% for membre in membres %}
+            <tr>
+                <td>
+                    <a href="{{ path('membre', { 'membre': membre.id }) }}">
+                        {{ membre.prenom|capitalize }} {{ membre.nom|capitalize }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun membre dans la base de donnée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<a href="#" class="btn pull-right">Ajouter un membre</a>
+
+{% endblock %}

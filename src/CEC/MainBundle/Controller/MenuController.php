@@ -8,6 +8,9 @@ class MenuController extends Controller
 {
     public function menuAction()
     {
-        return $this->render('CECMainBundle:Menu:menu.html.twig');
+        $membre = $this->getUser();
+        if (!$membre) throw $this->createNotFoundException('Impossible de trouver votre profil');
+        
+        
     }
 }

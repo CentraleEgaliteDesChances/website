@@ -1,0 +1,69 @@
+CEC\TutoratBundle\Entity\Lyceen:
+    type: entity
+    table: null
+    repositoryClass: CEC\TutoratBundle\Entity\LyceenRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        prenom:
+            type: string
+            length: 255
+        nom:
+            type: string
+            length: 255
+        telephone:
+            type: string
+            length: 255
+            nullable: true
+        email:
+            type: string
+            length: 255
+            nullable: true
+        adresse:
+            type: string
+            length: 255
+            nullable: true
+        codePostal:
+            type: integer
+            nullable: true
+        ville:
+            type: string
+            length: 255
+            nullable: true
+        nomPere:
+            type: string
+            length: 255
+            nullable: true
+        nomMere:
+            type: string
+            length: 255
+            nullable: true
+        telephoneParent:
+            type: string
+            length: 255
+            nullable: true
+        commentaires:
+            type: text
+            nullable: true
+        dateCreation:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        dateModification:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+    manyToOne:
+        groupe:
+            targetEntity: Groupe
+            inversedBy: lycees
+    manyToMany:
+        seances:
+            targetEntity: Seance
+            mappedBy: lyceens
+    lifecycleCallbacks: {  }

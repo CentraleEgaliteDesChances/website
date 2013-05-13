@@ -1,0 +1,83 @@
+{% extends 'CECTutoratBundle:Cordees:base.html.twig' %}
+{% import 'CECMainBundle::macros.html.twig' as modal %}
+
+{% block right %}
+{{ parent() }}
+
+<form class="form-inline well" method="post" action="{{ path(app.request.attributes.get('_route'), { 'cordee': cordee.id }) }}">
+    {{ form_errors(nom_form) }}
+    {{ form_widget(nom_form.nom) }}
+    {{ form_rest(nom_form) }}
+    <input type="submit" value="Changer le nom" class="btn btn-primary btn-changer-nom pull-right" />
+</form>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if sources %}
+        <thead><tr><th>
+            <h4>Lycées Sources</h4>
+            <p>Vous pouvez ici changer les lycées sources de la cordée en supprimant des lycées ou en ajoutant des lycées n'appartenant à aucune cordée actuellement.</p>
+        </th></tr></thead>
+        <tbody>
+            {% for source in sources %}
+            <tr{% if source in lycees_cordee %} class="info"{% endif %}>
+                <td><a href="{{ path('basculer_lycee', { 'cordee' : cordee.id, 'lycee' : source.id }) }}">
+                    {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : source } %}
+                </a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Tous les lycées sources partenaires sont déjà dans une cordée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if pivots %}
+        <thead><tr><th>
+            <h4>Lycées Pivots</h4>
+            <p>Vous pouvez ici changer les lycées pivots de la cordée en supprimant des lycées ou en ajoutant des lycées n'appartenant à aucune cordée actuellement.</p>
+        </th></tr></thead>
+        <tbody>
+            {% for pivot in pivots %}
+            <tr{% if pivot in lycees_cordee %} class="info"{% endif %}>
+                <td><a href="{{ path('basculer_lycee', { 'cordee' : cordee.id, 'lycee' : pivot.id }) }}">
+                    {% include 'CECTutoratBundle::lycee.html.twig' with { 'lycee' : pivot } %}
+                </a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Tous les lycées pivots partenaires sont déjà dans une cordée</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+<a href="{{ path('creer_lycee', { 'cordee': cordee.id }) }}" class="btn btn-block btn-large btn-success">Créer un nouveau lycée</a>
+
+{% if cordee.lycees.count %}
+{{ modal.button('Désactiver cette cordée', 'btn btn-danger btn-desactiver-cordee btn-block') }}
+{% endif %}
+
+{% endblock %}
+
+{% block left %}
+{{ parent() }}
+<a href="{{ path('cordee', { 'cordee' : cordee.id }) }}" class="btn btn-block btn-primary">Terminer</a>
+{% endblock %}
+
+{% block modals %}
+{{ parent() }}
+
+{% set body %}
+    <strong>En cliquant sur Désactiver, vous retirerez tous les lycées partenaires de cette cordée, qui ne sera donc plus active.</strong><br />
+    Elle pourra cependant être repeuplé avec de nouveau lycée en l'éditant.<br />
+    Souhaitez-vous vraiment continuer ?
+{% endset %}
+
+{% set footer %}
+    {{ modal.close() }}
+    <a href="{{ path('desactiver_cordee', { 'cordee' : cordee.id }) }}" class="btn btn-danger pull-right">Désactiver la {{ cordee.nom }}</a>
+{% endset %}
+
+{{ modal.modal('Désactiver cette cordée', body, footer) }}
+
+{% endblock %}
