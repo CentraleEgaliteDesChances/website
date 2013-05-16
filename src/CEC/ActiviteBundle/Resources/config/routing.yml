@@ -1,3 +1,0 @@
-cec_activite_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: CECActiviteBundle:Default:index }
