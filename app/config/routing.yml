@@ -1,3 +1,7 @@
+cec_activite:
+    resource: "@CECActiviteBundle/Resources/config/routing.yml"
+    prefix:   /
+
 # FOSJsRoutingBundle (needed for adesigns/calendar-bundle)
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
