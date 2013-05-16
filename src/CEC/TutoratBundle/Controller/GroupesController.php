@@ -45,11 +45,45 @@ class GroupesController extends Controller
             return strcmp($a->getNom(), $b->getNom());
         });
         
+        // On génère le formulaire
+        $nouvelleSeance = new Seance();
+        $nouvelleSeance->setGroupe($groupe);
+        $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance);
+        
+        // Par défaut, on masque le modal
+        $afficherModal = false;
+        
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST' )
+        {
+            $nouvelleSeanceForm->bindRequest($request);
+            if ($nouvelleSeanceForm->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($nouvelleSeance);
+                $entityManager->flush();
+                $this->get('session')->setFlash('success', 'La séance de tutorat a bien été ajoutée.');
+                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
+            } else {
+                $afficherModal = true;
+            }
+        }
+        
+        // On change les placeholders du formulaire de création de séance
+        // pour correspondre aux infos du groupe de tutorat.
+        $nouvelleSeanceFormView = $nouvelleSeanceForm->createView();
+        $nouvelleSeanceFormView->getChild('lieu')->setAttribute('placeholder', $groupe->getLieu());
+        $nouvelleSeanceFormView->getChild('rendezVous')->setAttribute('placeholder', $groupe->getRendezVous());
+        $nouvelleSeanceFormView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
+        $nouvelleSeanceFormView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
+        
         return $this->render('CECTutoratBundle:Groupes:voir.html.twig', array(
             'groupe'       => $groupe,
             'lyceens'      => $lyceens,
             'tuteurs'      => $tuteurs,
             'seances'      => $seances,
+            'nouvelle_seance_form' => $nouvelleSeanceFormView,
+            'afficher_modal'       => $afficherModal,
         ));
     }
     

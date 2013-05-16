@@ -12,6 +12,11 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Prochaines séances</a></li>
+                            <li>
+                                <a href="{{ path('toutes_seances', { 'groupe': app.user.groupe.id, 'ajoutSeance': 1 }) }}">
+                                    Ajouter une séance
+                                </a>
+                            </li>
                             <li class="divider"></li>
                             <li>
                                 <a href="{{ path('groupe', { 'groupe': app.user.groupe.id }) }}">

@@ -11,16 +11,21 @@ class SeancesController extends Controller
     /**
      * Affiche le planning des séances de tutorat,
      * pour un groupe de tutorat en particulier, ou pour tous les groupes.
+     * Offre un lien pour ajouter rapidement une séance pour un groupe en particulier.
      *
      * @param integer $groupe: id du groupe de tutorat permettant de filtrer les séances.
      *                         Si null, affiche toutes les séances de tutorat.
+     * @param boolean $ajoutSeance: si true, afficher le dialogue pour ajouter une séance.
      */
-    public function toutesAction($groupe)
+    public function toutesAction($groupe, $ajoutSeance)
     {
         // Par défaut, pas de formulaire et on a pas d'objet groupe
         $formView = null;
         $objetGroupe = null;
         
+        // Par défaut, on masque le modal
+        $afficherModal = false;
+                
         if ($groupe)
         {
             // Récupère le groupe associé
@@ -31,6 +36,9 @@ class SeancesController extends Controller
             $nouvelleSeance = new Seance();
             $nouvelleSeance->setGroupe($objetGroupe);
             $form = $this->createForm(new SeanceType(), $nouvelleSeance);
+            
+            // Par défaut, on affiche le modal si l'ajout de séance est demandée
+            $afficherModal = $ajoutSeance;
             
             $request = $this->getRequest();
             if ($request->getMethod() == 'POST')
@@ -44,7 +52,7 @@ class SeancesController extends Controller
                     $this->get('session')->setFlash('success', 'La séance de tutorat a bien été ajoutée.');
                     return $this->redirect($this->generateUrl('toutes_seances', array('groupe' => $groupe)));
                 } else {
-                    $this->get('session')->setFlash('error', 'Les données que vous avez entrées ne sont pas valides. Impossible de créer une nouvelle séance de tutorat, veuillez ré-essayer.');
+                    $afficherModal = true;
                 }
             }
             
@@ -63,6 +71,7 @@ class SeancesController extends Controller
         return $this->render('CECTutoratBundle:Seances:planning.html.twig', array(
             'groupe'         => $objetGroupe,
             'form'           => $formView,
+            'afficher_modal' => $afficherModal,
         ));
     }
 
