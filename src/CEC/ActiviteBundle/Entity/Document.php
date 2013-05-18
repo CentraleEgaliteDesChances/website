@@ -3,12 +3,12 @@
 namespace CEC\ActiviteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFountdation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Document
+ * (Jean-Baptiste Bayle — Mai 2013)
  *
  * Un document représente une paire de fichiers enregistrés sur le serveur
  * et associée à une activité. Il s'agit d'une version du contenu de l'activité, 
@@ -128,7 +128,7 @@ class Document
     private $activite;
     
     /**
-     * Membre auteur du document. Il est enregistrer lors de l'ajout du document
+     * Membre auteur du document. Il est enregistré lors de l'ajout du document
      * et permet de garder une trace de l'activité du membre.
      *
      * @var CEC\MembreBundle\Entity\Membre

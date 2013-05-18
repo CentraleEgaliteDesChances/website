@@ -3,11 +3,12 @@
 namespace CEC\ActiviteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFountdation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Document
+ * (Jean-Baptiste Bayle — Mai 2013)
  *
  * Un document représente une paire de fichiers enregistrés sur le serveur
  * et associée à une activité. Il s'agit d'une version du contenu de l'activité, 
@@ -80,6 +81,7 @@ class Document
      * @var string
      *
      * @ORM\Column(name="fichierPDF", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $nomFichierPDF;
 
@@ -90,6 +92,7 @@ class Document
      * @var string
      *
      * @ORM\Column(name="fichierWord", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $nomFichierWord;
 
@@ -99,6 +102,7 @@ class Document
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime")
+     * @Assert\NotBlank()
      */
     private $dateCreation;
 
@@ -108,6 +112,7 @@ class Document
      * @var \DateTime
      *
      * @ORM\Column(name="dateModification", type="datetime")
+     * @Assert\NotBlank()
      */
     private $dateModification;
     
@@ -118,22 +123,268 @@ class Document
      * @var Activite
      *
      * @ORM\ManyToOne(targetEntity="Activite", inversedBy="versions")
+     * @Assert\NotBlank()
      */
     private $activite;
     
     /**
-     * Membre auteur du document. Il est enregistrer lors de l'ajout du document
+     * Membre auteur du document. Il est enregistré lors de l'ajout du document
      * et permet de garder une trace de l'activité du membre.
      *
      * @var CEC\MembreBundle\Entity\Membre
      *
      * @ORM\ManyToOne(targetEntity="CEC\MembreBundle\Entity\Membre", inversedBy="documents")
+     * @Assert\NotBlank()
      */
     private $auteur;
+    
+    
+    /**
+     * Retourne le chemin absolu du fichier PDF.
+     * Si aucun fichier PDF n'existe, on renvoit le chemin du fichier Word associé.
+     *
+     * @return string
+     */
+    public function getCheminPDF()
+    {
+        if ($this->getNomFichierPDF()) { 
+            return $this->getDossierTelechargement() . '/' . $this->getNomFichierPDF();
+        } else {
+            return $this->getCheminWord();
+        }
+    }
+    
+    /**
+     * Retourne le chemin absolu du fichier Word.
+     *
+     * @return string
+     */
+    public function getCheminWord()
+    {
+        return $this->getNomFichierWord() ? null : $this->getDossierTelechargement() . '/' . $this->getNomFichierWord();
+    }
+    
+    /**
+     * Retourne le chemin du dossier de téléchargement des documents.
+     *
+     * @return string
+     */
+    public function getDossierTelechargement()
+    {
+        $dossierTelechargement = 'uploads/documents';
+        return __DIR__ . '/../../../../web/' . $dossierTelechargement;
+    }
+    
+    /**
+     * Défini les noms des fichiers Word et PDF avant la persistence de l'entité.
+     *
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function genererNomsFichiers()
+    {
+        if (null !== $this->fichierPDF)
+        {
+            $this->setNomFichierPDF(uniqid() . '.' . $this->fichierPDF->guessExtension());
+        }
+        
+        if (null !== $this->fichierWord)
+        {
+            $this->setNomFichierWord(uniqid() . '.' . $this->fichierWord->guessExtension());
+        }
+    }
+    
+    /**
+     * Après la persistence et la mise à jour de l'entité :
+     * déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.
+     *
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function telechargement()
+    {
+        if ($this->fichierWord !== null)
+        {
+            $$this->fichierWord->move($this->getDossierTelechargement(), $this->getNomFichierWord());
+            unset($this->fichierWord);
+        }
+        
+        if ($this->fichierPDF !== null)
+        {
+            $this->fichierPDF->move($this->getDossierTelechargement(), $this->getNomFichierPDF());
+            unset($this->fichierPDF);
+        }
+        else
+        {
+            $this->genererFichierPDF();
+        }
+    }
+    
+    /**
+     * Génère le fichier PDF à partir du fichier Word associé à l'entité.
+     * Ne fait rien si aucun fichier Word n'existe. Le fichier PDF généré est déplacé sur le serveur
+     * suivant l'attribut $nomFichierPDF.
+     *
+     * Pour la génération, on utilise le site tierce http://www.conv2pdf.com, qui converti sur un serveur
+     * les documents Word en PDF. On télécharge ensuite le résultat. 
+     *
+     * @return string
+     */
+    public function genererFichierPDF()
+    {
+        // TODO
+    }
     
     
     //
     // Doctrine-generated accessors
     //
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nomFichierPDF
+     *
+     * @param string $nomFichierPDF
+     * @return Document
+     */
+    public function setNomFichierPDF($nomFichierPDF)
+    {
+        $this->nomFichierPDF = $nomFichierPDF;
     
+        return $this;
+    }
+
+    /**
+     * Get nomFichierPDF
+     *
+     * @return string 
+     */
+    public function getNomFichierPDF()
+    {
+        return $this->nomFichierPDF;
+    }
+
+    /**
+     * Set nomFichierWord
+     *
+     * @param string $nomFichierWord
+     * @return Document
+     */
+    public function setNomFichierWord($nomFichierWord)
+    {
+        $this->nomFichierWord = $nomFichierWord;
+    
+        return $this;
+    }
+
+    /**
+     * Get nomFichierWord
+     *
+     * @return string 
+     */
+    public function getNomFichierWord()
+    {
+        return $this->nomFichierWord;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return Document
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return Document
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
+     * Set activite
+     *
+     * @param \CEC\ActiviteBundle\Entity\Activite $activite
+     * @return Document
+     */
+    public function setActivite(\CEC\ActiviteBundle\Entity\Activite $activite = null)
+    {
+        $this->activite = $activite;
+    
+        return $this;
+    }
+
+    /**
+     * Get activite
+     *
+     * @return \CEC\ActiviteBundle\Entity\Activite 
+     */
+    public function getActivite()
+    {
+        return $this->activite;
+    }
+
+    /**
+     * Set auteur
+     *
+     * @param \CEC\MembreBundle\Entity\Membre $auteur
+     * @return Document
+     */
+    public function setAuteur(\CEC\MembreBundle\Entity\Membre $auteur = null)
+    {
+        $this->auteur = $auteur;
+    
+        return $this;
+    }
+
+    /**
+     * Get auteur
+     *
+     * @return \CEC\MembreBundle\Entity\Membre 
+     */
+    public function getAuteur()
+    {
+        return $this->auteur;
+    }
 }
