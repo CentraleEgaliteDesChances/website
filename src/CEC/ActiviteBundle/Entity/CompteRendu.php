@@ -52,9 +52,9 @@ class CompteRendu
     /**
      * @var string
      *
-     * @ORM\Column(name="commentaire", type="text")
+     * @ORM\Column(name="commentaires", type="text")
      */
-    private $commentaire;
+    private $commentaires;
 
     /**
      * @var \DateTime
@@ -174,26 +174,26 @@ class CompteRendu
     }
 
     /**
-     * Set commentaire
+     * Set commentaires
      *
-     * @param string $commentaire
+     * @param string $commentaires
      * @return CompteRendu
      */
-    public function setCommentaire($commentaire)
+    public function setCommentaires($commentaires)
     {
-        $this->commentaire = $commentaire;
+        $this->commentaires = $commentaires;
     
         return $this;
     }
 
     /**
-     * Get commentaire
+     * Get commentaires
      *
      * @return string 
      */
-    public function getCommentaire()
+    public function getCommentaires()
     {
-        return $this->commentaire;
+        return $this->commentaires;
     }
 
     /**
