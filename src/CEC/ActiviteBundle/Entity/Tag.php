@@ -66,7 +66,7 @@ class Tag
     public function __construct($contenu)
     {
         $this->activites = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setContenu = $contenu;
+        $this->setContenu($contenu);
     }
     
     
