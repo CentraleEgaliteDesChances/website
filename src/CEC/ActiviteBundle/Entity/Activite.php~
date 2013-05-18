@@ -8,17 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Activite
- * (Jean-Baptiste Bayle — Mai 2013)
- *
- * Une activité représente un contenu pédagogique clef-en-main que les tuteurs
- * utilisent pour réaliser une séance de tutorat. Une séance peut se composer de plusieurs
- * activités, sélectionnées préalablement à la séance par le VP Lycée ou un tuteur du groupe.
- * En séance, les tuteurs peuvent télécharger et consulter le document associé à la séance.
- *
- * A la suite de la séance, on demande de remplir un compte-rendu associé à l'activité,
- * et qui permettra, si nécessaire, des rectifications ou une aide au choix de l'activité
- * pour les futurs tuteurs. On peut par exemple masquer les activités déjà utilisées pour un groupe.
- *
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -35,8 +24,6 @@ class Activite
     private $id;
 
     /**
-     * Titre de l'activité.
-     *
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=255)
@@ -45,10 +32,6 @@ class Activite
     private $titre;
 
     /**
-     * Description rapide de l'activité.
-     * La description est affichée lorsque l'on choisit une activité pour une séance,
-     * et permet de cibler rapidement son contenu.
-     *
      * @var string
      *
      * @ORM\Column(name="description", type="text")
@@ -57,10 +40,6 @@ class Activite
     private $description;
 
     /**
-     * Durée approximative de l'activité, permettant au tuteur choisissant
-     * une activité d'organiser sa séance. Peut indiquer d'autres indications courtes,
-     * comme "Indéfinie", "Environ ...", "Adaptable"...
-     *
      * @var string
      *
      * @ORM\Column(name="duree", type="string", length=255)
@@ -69,10 +48,6 @@ class Activite
     private $duree;
 
     /**
-     * Type d'activité, à choisir parmi les valeurs suivantes :
-     * Activité Culturelle, Activité Scientifique, Expérience Scientifique et Autre.
-     * Cela permet de filtrer très rapidement les activités lors de leur recherche par un tuteur.
-     * 
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
@@ -84,8 +59,6 @@ class Activite
     private $type;
 
     /**
-     * Date de création.
-     *
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime")
@@ -95,8 +68,6 @@ class Activite
     private $dateCreation;
 
     /**
-     * Date de dernière modification.
-     * 
      * @var \DateTime
      *
      * @ORM\Column(name="dateModification", type="datetime")
@@ -106,9 +77,6 @@ class Activite
     private $dateModification;
     
     /**
-     * Séances associées à cette activité.
-     * Une séance est ajotuée lorsqu'un tuteur sélectionne l'activité lors d'une séance.
-     * 
      * @var CEC\MembreBundle\Entity\Seance
      *
      * @ORM\ManyToMany(targetEntity="CEC\TutoratBundle\Entity\Seance", mappedBy="activites")
@@ -116,12 +84,6 @@ class Activite
     private $seances;
     
     /**
-     * Tags associés à l'activité.
-     * Le système de classement par tag permet d'accélérer la recherche d'activité
-     * tout en permettant une très grande flexibilité.
-     * Les tags peuvent représenter, par exemple, le niveau conseillé (premières, terminales), 
-     * les objectifs pédagogiques ou les notions recouvertes, le niveau de ludicité de l'activité...
-     * 
      * @var Tag
      *
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="activites")
@@ -129,29 +91,19 @@ class Activite
     private $tags;
     
     /**
-     * Les diverses versions du document associé à l'activité.
-     * Cela permet de garder un historique des versiosn de l'activité, d'ajouter des corrections
-     * en fonction des comptes-rendus effectués en créant une nouvelle version, etc.
-     * 
      * @var Document
      *
      * @ORM\OneToMany(targetEntity="Document", mappedBy="activite")
      */
-    private $versions;
+    private $documents;
     
     /**
-     * Compte-rendus rédigées concernant cette activité.
-     * Les comptes-rendus sont rédigés à la suite d'une séance de tutorat par le VP Lycée
-     * ou un tuteur et permette aux secteurs Activités d'améliorer les activités en uploadant
-     * de nouvelles versions avec corrections.
-     * Ils permettent par ailleurs d'aider au choix d'activité avant la séance.
-     *
      * @var CompteRendu
      *
      * @ORM\OneToMany(targetEntity="CompteRendu", mappedBy="activite")
      */
     private $compteRendus;
-    
+
 
     /**
      * Constructor
@@ -163,22 +115,6 @@ class Activite
         $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-    /**
-     * Retourne la dernière version du document.
-     * Renvoit false s'il n'y a aucune version disponible.
-     *
-     * @return mixed
-     */
-    public function getDocument()
-    {
-        return $this->getVersions()->last();
-    }
-    
-    
-    //
-    // Doctrine-generated accessors
-    //
 
     /**
      * Get id
@@ -395,68 +331,35 @@ class Activite
     }
 
     /**
-     * Add versions
+     * Add documents
      *
-     * @param \CEC\ActiviteBundle\Entity\Document $versions
+     * @param \CEC\ActiviteBundle\Entity\Document $documents
      * @return Activite
      */
-    public function addVersion(\CEC\ActiviteBundle\Entity\Document $versions)
+    public function addDocument(\CEC\ActiviteBundle\Entity\Document $documents)
     {
-        $this->versions[] = $versions;
+        $this->documents[] = $documents;
     
         return $this;
     }
 
     /**
-     * Remove versions
+     * Remove documents
      *
-     * @param \CEC\ActiviteBundle\Entity\Document $versions
+     * @param \CEC\ActiviteBundle\Entity\Document $documents
      */
-    public function removeVersion(\CEC\ActiviteBundle\Entity\Document $versions)
+    public function removeDocument(\CEC\ActiviteBundle\Entity\Document $documents)
     {
-        $this->versions->removeElement($versions);
+        $this->documents->removeElement($documents);
     }
 
     /**
-     * Get versions
+     * Get documents
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getVersions()
+    public function getDocuments()
     {
-        return $this->versions;
-    }
-
-    /**
-     * Add compteRendus
-     *
-     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
-     * @return Activite
-     */
-    public function addCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
-    {
-        $this->compteRendus[] = $compteRendus;
-    
-        return $this;
-    }
-
-    /**
-     * Remove compteRendus
-     *
-     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
-     */
-    public function removeCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
-    {
-        $this->compteRendus->removeElement($compteRendus);
-    }
-
-    /**
-     * Get compteRendus
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCompteRendus()
-    {
-        return $this->compteRendus;
+        return $this->documents;
     }
 }

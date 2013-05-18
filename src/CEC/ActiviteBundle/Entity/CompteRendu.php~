@@ -80,7 +80,7 @@ class CompteRendu
     /**
      * @var CEC\MembreBundle\Entity\Activite
      *
-     * @ORM\ManyToOne(targetEntity="CEC\MembreBundle\Entity\Membre", inversedBy="documents")
+     * @ORM\ManyToOne(targetEntity="CEC\MembreBundle\Entity\Activite", inversedBy="documents")
      */
     private $auteur;
 
@@ -277,28 +277,5 @@ class CompteRendu
     public function getActivite()
     {
         return $this->activite;
-    }
-
-    /**
-     * Set auteur
-     *
-     * @param \CEC\MembreBundle\Entity\Activite $auteur
-     * @return CompteRendu
-     */
-    public function setAuteur(\CEC\MembreBundle\Entity\Activite $auteur = null)
-    {
-        $this->auteur = $auteur;
-    
-        return $this;
-    }
-
-    /**
-     * Get auteur
-     *
-     * @return \CEC\MembreBundle\Entity\Activite 
-     */
-    public function getAuteur()
-    {
-        return $this->auteur;
     }
 }

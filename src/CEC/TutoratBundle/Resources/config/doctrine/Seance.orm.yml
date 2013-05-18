@@ -45,4 +45,7 @@ CEC\TutoratBundle\Entity\Seance:
         lyceens:
             targetEntity: Lyceen
             inversedBy: seances
+        activites:
+            targetEntity: CEC\ActiviteBundle\Entity\Activite
+            inversedBy: seances
     lifecycleCallbacks: {  }

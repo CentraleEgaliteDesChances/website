@@ -79,17 +79,6 @@ class Membre implements UserInterface, \Serializable
      * @var \Doctrine\Common\Collections\Collection
      */
     private $seances;
-        
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $documents;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $compteRendus;
-        
 
     /**
      * Constructor
@@ -98,8 +87,6 @@ class Membre implements UserInterface, \Serializable
     {
         $this->secteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -507,70 +494,5 @@ class Membre implements UserInterface, \Serializable
         
         return $this->getPrenom() . ' ' . $this->getNom();
     }
-
-    /**
-     * Add documents
-     *
-     * @param \CEC\ActiviteBundle\Entity\Document $documents
-     * @return Membre
-     */
-    public function addDocument(\CEC\ActiviteBundle\Entity\Document $documents)
-    {
-        $this->documents[] = $documents;
     
-        return $this;
-    }
-
-    /**
-     * Remove documents
-     *
-     * @param \CEC\ActiviteBundle\Entity\Document $documents
-     */
-    public function removeDocument(\CEC\ActiviteBundle\Entity\Document $documents)
-    {
-        $this->documents->removeElement($documents);
-    }
-
-    /**
-     * Get documents
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDocuments()
-    {
-        return $this->documents;
-    }
-
-    /**
-     * Add compteRendus
-     *
-     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
-     * @return Membre
-     */
-    public function addCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
-    {
-        $this->compteRendus[] = $compteRendus;
-    
-        return $this;
-    }
-
-    /**
-     * Remove compteRendus
-     *
-     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
-     */
-    public function removeCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
-    {
-        $this->compteRendus->removeElement($compteRendus);
-    }
-
-    /**
-     * Get compteRendus
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCompteRendus()
-    {
-        return $this->compteRendus;
-    }
 }

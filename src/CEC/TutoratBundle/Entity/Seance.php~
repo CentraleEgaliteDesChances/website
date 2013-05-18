@@ -65,18 +65,12 @@ class Seance
     private $lyceens;
     
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $activites;
-    
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->activites = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -466,38 +460,5 @@ class Seance
     public function getLyceens()
     {
         return $this->lyceens;
-    }
-
-    /**
-     * Add activites
-     *
-     * @param \CEC\ActiviteBundle\Entity\Activite $activites
-     * @return Seance
-     */
-    public function addActivite(\CEC\ActiviteBundle\Entity\Activite $activites)
-    {
-        $this->activites[] = $activites;
-    
-        return $this;
-    }
-
-    /**
-     * Remove activites
-     *
-     * @param \CEC\ActiviteBundle\Entity\Activite $activites
-     */
-    public function removeActivite(\CEC\ActiviteBundle\Entity\Activite $activites)
-    {
-        $this->activites->removeElement($activites);
-    }
-
-    /**
-     * Get activites
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getActivites()
-    {
-        return $this->activites;
     }
 }
