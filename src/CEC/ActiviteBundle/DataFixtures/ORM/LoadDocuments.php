@@ -58,6 +58,6 @@ class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 8;
+        return 80;
     }
 }

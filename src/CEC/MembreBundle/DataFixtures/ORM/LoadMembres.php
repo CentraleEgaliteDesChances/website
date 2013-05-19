@@ -62,6 +62,6 @@ class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, Co
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 5;
+        return 50;
     }
 }

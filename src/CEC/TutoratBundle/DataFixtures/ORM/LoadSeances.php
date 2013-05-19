@@ -35,7 +35,7 @@ class LoadSeances extends AbstractFixture implements OrderedFixtureInterface
                 
         $seance5 = new Seance();
         $seance5->setGroupe($this->getReference('jj_terminales_ancien'))
-            ->setDate(new \DateTime('2012-12-27 17:30:00'));
+            ->setDate(new \DateTime('2013-04-27 17:30:00'));
         
         $manager->persist($seance1);
         $manager->persist($seance2);
@@ -43,12 +43,18 @@ class LoadSeances extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($seance4);
         $manager->persist($seance5);
         $manager->flush();
+        
+        $this->addReference('seance1', $seance1);
+        $this->addReference('seance2', $seance2);
+        $this->addReference('seance3', $seance3);
+        $this->addReference('seance4', $seance4);
+        $this->addReference('seance5', $seance5);
     }
     
     /**
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 4;
+        return 40;
     }
 }
