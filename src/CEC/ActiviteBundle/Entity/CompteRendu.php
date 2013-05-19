@@ -256,29 +256,6 @@ class CompteRendu
     }
 
     /**
-     * Set dureeAdaptee
-     *
-     * @param integer $dureeAdaptee
-     * @return CompteRendu
-     */
-    public function setDureeAdaptee($dureeAdaptee)
-    {
-        $this->dureeAdaptee = $dureeAdaptee;
-    
-        return $this;
-    }
-
-    /**
-     * Get dureeAdaptee
-     *
-     * @return integer 
-     */
-    public function getDureeAdaptee()
-    {
-        return $this->dureeAdaptee;
-    }
-
-    /**
      * Set commentaires
      *
      * @param string $commentaires
@@ -373,10 +350,10 @@ class CompteRendu
     /**
      * Set auteur
      *
-     * @param \CEC\MembreBundle\Entity\Activite $auteur
+     * @param \CEC\MembreBundle\Entity\Membre $auteur
      * @return CompteRendu
      */
-    public function setAuteur(\CEC\MembreBundle\Entity\Activite $auteur = null)
+    public function setAuteur(\CEC\MembreBundle\Entity\Membre $auteur = null)
     {
         $this->auteur = $auteur;
     
@@ -386,7 +363,7 @@ class CompteRendu
     /**
      * Get auteur
      *
-     * @return \CEC\MembreBundle\Entity\Activite 
+     * @return \CEC\MembreBundle\Entity\Membre 
      */
     public function getAuteur()
     {
