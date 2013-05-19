@@ -109,7 +109,7 @@ class Activite
      * Séances associées à cette activité.
      * Une séance est ajotuée lorsqu'un tuteur sélectionne l'activité lors d'une séance.
      * 
-     * @var CEC\MembreBundle\Entity\Seance
+     * @var CEC\TutoratBundle\Entity\Seance
      *
      * @ORM\ManyToMany(targetEntity="CEC\TutoratBundle\Entity\Seance", mappedBy="activites")
      */
@@ -331,10 +331,10 @@ class Activite
     /**
      * Add seances
      *
-     * @param \CEC\MembreBundle\Entity\Seance $seances
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
      * @return Activite
      */
-    public function addSeance(\CEC\MembreBundle\Entity\Seance $seances)
+    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances[] = $seances;
     
@@ -344,9 +344,9 @@ class Activite
     /**
      * Remove seances
      *
-     * @param \CEC\MembreBundle\Entity\Seance $seances
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
      */
-    public function removeSeance(\CEC\MembreBundle\Entity\Seance $seances)
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances->removeElement($seances);
     }
