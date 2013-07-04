@@ -69,6 +69,16 @@ class Tag
         $this->setContenu($contenu);
     }
     
+    /**
+     * Description d'un tag : son contenu.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getContenu();
+    }
+    
     
     //
     // Doctrine-generated accessors

@@ -18,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * La classe gère la gestion des fichiers sur le serveur, et, si nécessaire et disponible,
  * la conversion au format PDF grâce au site tierce http://www.conv2pdf.com.
- * On notera donc que pour créer un nouveau document, il suffit de fournir un fichier Word.
+ * On notera donc que pour créer un nouveau document, il suffit de fournir un fichier Word
+ * si la conversion est disponible ; le fichier PDF sera alors automatiquement généré.
  *
  *
  * @ORM\Table()
@@ -59,7 +60,7 @@ class Document
      * Cet attribut permet de générer un champ de téléchargement de fichier dans un formulaire
      * lors de la création du document. Il doit correspondre au fichier PDF, et n'est donc pas requis.
      * En effet, si le service est disponible, on peut convertir le fichier Word au format PDF et l'utiliser.
-     * Il est important de noter que seules l'extension .pdf est accepté, et que la 
+     * Il est important de noter que seule l'extension .pdf est accepté, et que la 
      * taille du fichier ne peut excéder 1 Mo.
      *
      * @var UploadedFile
@@ -141,7 +142,7 @@ class Document
     
     /**
      * Retourne le chemin absolu du fichier PDF.
-     * Si aucun fichier PDF n'existe, on renvoit le chemin du fichier Word associé.
+     * Si aucun fichier PDF n'existe, on renvoi le chemin du fichier Word associé.
      *
      * @return string
      */
@@ -161,7 +162,7 @@ class Document
      */
     public function getCheminWord()
     {
-        return $this->getNomFichierWord() ? null : $this->getDossierTelechargement() . '/' . $this->getNomFichierWord();
+        return $this->getNomFichierWord() ? $this->getDossierTelechargement() . '/' . $this->getNomFichierWord() : null;
     }
     
     /**
@@ -176,7 +177,7 @@ class Document
     }
     
     /**
-     * Défini les noms des fichiers Word et PDF avant la persistence de l'entité.
+     * Défini les noms des fichiers Word et PDF avant la persistance de l'entité.
      *
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -195,7 +196,7 @@ class Document
     }
     
     /**
-     * Après la persistence et la mise à jour de l'entité :
+     * Après la persistance et la mise à jour de l'entité :
      * déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.
      *
      * @ORM\PostPersist()
@@ -234,6 +235,17 @@ class Document
     {
         // TODO
     }
+    
+    /**
+     * Description d'un document : l'activité associée et sa date.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getActivite() . ' - ' . $this->getDateCreation();
+    }
+    
     
     
     //

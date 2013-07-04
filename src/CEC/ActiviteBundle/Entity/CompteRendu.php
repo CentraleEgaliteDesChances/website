@@ -95,10 +95,10 @@ class CompteRendu
      *     max = 1
      * )
      */
+    private $dureeAdaptee;
     const CompteRenduDureeAnnonceeTropCourte = -1;
     const CompteRenduDureeAdaptee            = 0;
     const CompteRenduDureeAnnonceeTropLongue = 1;
-    private $dureeAdaptee;
 
     /**
      * Laisse un espace au tuteur pour communiquer ses commentaires
@@ -106,7 +106,7 @@ class CompteRendu
      *
      * @var string
      *
-     * @ORM\Column(name="commentaires", type="text")
+     * @ORM\Column(name="commentaires", type="text", nullable=true)
      */
     private $commentaires;
 
@@ -168,6 +168,16 @@ class CompteRendu
         } else {
             return false;
         }
+    }
+    
+    /**
+     * Description d'un compte-rendu : activité, auteur et note globale.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'Compte-rendu pour l\‘activité "' . $this->getActivite() . '" (' . $this->getAuteur() . ') : ' . $this->getNoteGlobale() ;
     }
 
     
@@ -253,6 +263,29 @@ class CompteRendu
     public function getNoteAtteinteObjectifs()
     {
         return $this->noteAtteinteObjectifs;
+    }
+
+    /**
+     * Set dureeAdaptee
+     *
+     * @param integer $dureeAdaptee
+     * @return CompteRendu
+     */
+    public function setDureeAdaptee($dureeAdaptee)
+    {
+        $this->dureeAdaptee = $dureeAdaptee;
+    
+        return $this;
+    }
+
+    /**
+     * Get dureeAdaptee
+     *
+     * @return integer 
+     */
+    public function getDureeAdaptee()
+    {
+        return $this->dureeAdaptee;
     }
 
     /**

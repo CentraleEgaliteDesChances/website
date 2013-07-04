@@ -130,8 +130,9 @@ class Activite
     
     /**
      * Les diverses versions du document associé à l'activité.
-     * Cela permet de garder un historique des versiosn de l'activité, d'ajouter des corrections
+     * Cela permet de garder un historique des versions de l'activité, d'ajouter des corrections
      * en fonction des comptes-rendus effectués en créant une nouvelle version, etc.
+     * Pour obtenir la dernière version, utiliser la méthode getDocument().
      * 
      * @var Document
      *
@@ -166,13 +167,23 @@ class Activite
     
     /**
      * Retourne la dernière version du document.
-     * Renvoit false s'il n'y a aucune version disponible.
+     * Renvoi "false" s'il n'y a aucune version disponible.
      *
      * @return mixed
      */
     public function getDocument()
     {
         return $this->getVersions()->last();
+    }
+    
+    /**
+     * Description d'une activité : son titre
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getTitre();
     }
     
     
