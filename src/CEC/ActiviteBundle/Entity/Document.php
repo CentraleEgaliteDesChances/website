@@ -43,6 +43,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *     fields = "nomFichierWord",
  *     message = "Un fichier Word possédant le même nom est déjà présent sur le serveur. Merci de ré-essayer."
+ * )
  */
 class Document
 {
@@ -246,14 +247,14 @@ class Document
     {
         if ($this->getFichierWord() !== null)
         {
-            $$this->getFichierWord()->move($this->getDossierTelechargement(), $this->getNomFichierWord());
-            unset($this->getFichierWord());
+            $this->getFichierWord()->move($this->getDossierTelechargement(), $this->getNomFichierWord());
+            unset($this->fichierWord);
         }
         
         if ($this->getFichierPDF() !== null)
         {
             $this->getFichierPDF()->move($this->getDossierTelechargement(), $this->getNomFichierPDF());
-            unset($this->getFichierPDF());
+            unset($this->fichierPDF);
         }
         else
         {

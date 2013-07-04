@@ -70,7 +70,9 @@ class CompteRendu
      * @Assert\Range(
      *     min = 1,
      *     max = 5,
-     *     message = "Les notes doivent être des entiers, compris entre 1 (Mauvais avis) et 5 (Très bon avis)."
+     *     minMessage = "La note de contenu doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis).",
+     *     maxMessage = "La note de contenu doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis).",
+     *     invalidMessage = "La note de contenu doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis)."
      * )
      */
     private $noteContenu;
@@ -88,7 +90,9 @@ class CompteRendu
      * @Assert\Range(
      *     min = 1,
      *     max = 5,
-     *     message = "Les notes doivent être des entiers, compris entre 1 (Mauvais avis) et 5 (Très bon avis)."
+     *     minMessage = "La note d'interactivité doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis).",
+     *     maxMessage = "La note d'interactivité doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis).",
+     *     invalidMessage = "La note d'interactivité doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis)."
      * )
      */
     private $noteInteractivite;
@@ -105,7 +109,9 @@ class CompteRendu
      * @Assert\Range(
      *     min = 1,
      *     max = 5,
-     *     message = "Les notes doivent être des entiers, compris entre 1 (Mauvais avis) et 5 (Très bon avis)."
+     *     minMessage = "La note d'atteinte d'objectifs doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis).",
+     *     maxMessage = "La note d'atteinte d'objectifs doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis).",
+     *     invalidMessage = "La note d'atteinte d'objectifs doit être un entier compris entre 1 (Mauvais avis) et 5 (Très bon avis)."
      * )
      */
     private $noteAtteinteObjectifs;
@@ -121,9 +127,8 @@ class CompteRendu
      *
      * @ORM\Column(name = "dureeAdaptee", type = "integer")
      * @Assert\NotBlank(message = "Vous devez spécifier votre appréciation sur la durée de l'activité.")
-     * @Assert\Range(
-     *     min = -1,
-     *     max = 1,
+     * @Assert\Choice(
+     *     choices = { -1, 0, 1 },
      *     message = "Votre appréciation sur la durée de l'activité n'est pas valide."
      * )
      */
@@ -151,7 +156,7 @@ class CompteRendu
      *
      * @var \DateTime
      *
-     * @ORM\Column(name  "dateCreation", type = "datetime")
+     * @ORM\Column(name = "dateCreation", type = "datetime")
      * @Assert\NotBlank()
      */
     private $dateCreation;
