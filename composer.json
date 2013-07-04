@@ -27,7 +27,8 @@
         "heartsentwined/yuicompressor": "2.4.7",
         "stof/doctrine-extensions-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "~1.1",
-        "adesigns/calendar-bundle": "dev-master"
+        "adesigns/calendar-bundle": "dev-master",
+        "sami/sami": "*"
     },
     "scripts": {
         "post-install-cmd": [

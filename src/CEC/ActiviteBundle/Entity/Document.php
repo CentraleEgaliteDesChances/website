@@ -5,13 +5,13 @@ namespace CEC\ActiviteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFountdation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Document
- * (Jean-Baptiste Bayle — Mai 2013)
- *
  * Un document représente une paire de fichiers enregistrés sur le serveur
- * et associée à une activité. Il s'agit d'une version du contenu de l'activité, 
+ * et associés à une activité. 
+ *
+ * Il s'agit d'une version du contenu de l'activité, 
  * en deux formats : le format PDF permettant un téléchargement et une compatibilité
  * étendue, et le format Microsoft Word, permettant l'édition de l'activité si nécessaire
  * (comme par exemple si des corrections sont demandées dans un compte-rendu de l'activité).
@@ -21,18 +21,37 @@ use Symfony\Component\Validator\Constraints as Assert;
  * On notera donc que pour créer un nouveau document, il suffit de fournir un fichier Word
  * si la conversion est disponible ; le fichier PDF sera alors automatiquement généré.
  *
+ * Il est important de noter que deux documents ne peuvent avoir le même nom sur le serveur ;
+ * c'est pourquoi nomFichierPDF et nomFichierWord doivent être uniques.
+ *
+ * IMPORTANT : dans la version 1.0, la génération automatique de PDF à partir du fichier Word
+ *             n'est pas fonctionnelle. Un fichier PDF doit donc obligatoirement être fourni
+ *             par l'utilisateur lors de la création d'un document.
+ *             La méthode genererFichierPDF renvoit donc "false" par défaut, et le champ
+ *             fichierPDF est requis ; pour activer la génération automatique de PDF, il suffit
+ *             d'implémenter genererFichierPDF et de désactiver @Assert\NotBlank() pour fichierPDF.
+ *
+ * @author Jean-Baptiste Bayle
+ * @version 1.0
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(
+ *     fields = "nomFichierPDF",
+ *     message = "Un fichier PDF possédant le même nom est déjà présent sur le serveur. Merci de ré-essayer."
+ * )
+ * @UniqueEntity(
+ *     fields = "nomFichierWord",
+ *     message = "Un fichier Word possédant le même nom est déjà présent sur le serveur. Merci de ré-essayer."
  */
 class Document
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name = "id", type = "integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy = "AUTO")
      */
     private $id;
     
@@ -47,11 +66,11 @@ class Document
      *
      * @Assert\File(
      *     maxSize = "1024k",
-     *     maxSizeMessage = "La taille du fichier ne peut dépasser 1 Mo.",
+     *     maxSizeMessage = "La taille du fichier Word ne peut excéder 1 Mo.",
      *     mimeTypes = { "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
-     *     mimeTypesMessage = "Le fichier doit être sous format Microsoft Word (.doc ou .docx)."
+     *     mimeTypesMessage = "Le fichier Word doit être sous format Microsoft Word (.doc ou .docx)."
      * )
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Un fichier Word est requis !")
      */
     private $fichierWord;
     
@@ -63,46 +82,61 @@ class Document
      * Il est important de noter que seule l'extension .pdf est accepté, et que la 
      * taille du fichier ne peut excéder 1 Mo.
      *
+     * IMPORTANT : dans la version 1.0, la génération automatique de PDF n'est pas disponible.
+     *             Le champ fichierPDF est donc requis.
+     *
      * @var UploadedFile
      *
      * @Assert\File(
      *     maxSize = "1024k",
-     *     maxSizeMessage = "La taille du fichier ne peut dépasser 1 Mo.",
+     *     maxSizeMessage = "La taille du fichier PDF ne peut dépasser 1 Mo.",
      *     mimeTypes = {"application/pdf", "application/x-pdf"},
-     *     mimeTypesMessage = "Le fichier doit être sous format Adobe PDF (.pdf)."
+     *     mimeTypesMessage = "Le fichier PDF doit être sous format Adobe PDF (.pdf)."
      * )
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Un fichier PDF est requis !")
      */
     private $fichierPDF;
-
-    /**
-     * Représente le nom du fichier PDF, avec son extension.
-     * Il permet d'accéder par la suite au fichier stocké sur le serveur.
-     *
-     * @var string
-     *
-     * @ORM\Column(name="fichierPDF", type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    private $nomFichierPDF;
-
+    
     /**
      * Représente le nom du fichier Word, avec son extension.
      * Il permet d'accéder par la suite au fichier stocké sur le serveur.
+     * Il s'agit d'une chaîne de caractères de moins de 50 caractères, qui doit être
+     * non-vide et unique.
      *
      * @var string
      *
      * @ORM\Column(name="fichierWord", type="string", length=255)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Le nom du fichier Word ne peut pas être vide.")
+     * @Assert\MaxLength(
+     *     limit = 50,
+     *     message = "Le nom du fichier Word ne peut excéder 50 caractères."
+     * )
      */
     private $nomFichierWord;
+
+    /**
+     * Représente le nom du fichier PDF, avec son extension.
+     * Il permet d'accéder par la suite au fichier stocké sur le serveur.
+     * Il s'agit d'une chaîne de caractères de moins de 50 caractères, qui doit être
+     * non-vide et unique.
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "fichierPDF", type = "string", length = 50)
+     * @Assert\NotBlank(message = "Le nom du fichier PDF ne peut pas être vide.")
+     * @Assert\MaxLength(
+     *     limit = 50,
+     *     message = "Le nom du fichier PDF ne peut excéder 50 caractères."
+     * )
+     */
+    private $nomFichierPDF;
 
     /**
      * Date de création.
      *
      * @var \DateTime
      *
-     * @ORM\Column(name="dateCreation", type="datetime")
+     * @ORM\Column(name = "dateCreation", type = "datetime")
      * @Assert\NotBlank()
      */
     private $dateCreation;
@@ -112,30 +146,31 @@ class Document
      *
      * @var \DateTime
      *
-     * @ORM\Column(name="dateModification", type="datetime")
+     * @ORM\Column(name = "dateModification", type = "datetime")
      * @Assert\NotBlank()
      */
     private $dateModification;
     
     /**
-     * Activité associée au document. Le présent document représente donc
-     * une version de l'activité et fait partie de l'historique de celle-ci.
+     * Activité associée au document.
+     * Le présent document représente donc une version de l'activité (classe Activite)
+     * et fait partie de l'historique de celle-ci.
      *
      * @var Activite
      *
-     * @ORM\ManyToOne(targetEntity="Activite", inversedBy="versions")
-     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity = "Activite", inversedBy = "versions")
+     * @Assert\NotBlank(message = "Le compte-rendu doit être associé à une activité.")
      */
     private $activite;
     
     /**
-     * Membre auteur du document. Il est enregistré lors de l'ajout du document
-     * et permet de garder une trace de l'activité du membre.
+     * Membre auteur du document.
+     * Il est enregistré lors de l'ajout du document et permet de garder une trace de l'activité du membre.
      *
      * @var CEC\MembreBundle\Entity\Membre
      *
-     * @ORM\ManyToOne(targetEntity="CEC\MembreBundle\Entity\Membre", inversedBy="documents")
-     * @Assert\NotBlank()
+     * @ORM\ManyToOne(targetEntity = "CEC\MembreBundle\Entity\Membre", inversedBy = "documents")
+     * @Assert\NotBlank(message = "Le compte-rendu doit être associé à un auteur.")
      */
     private $auteur;
     
@@ -144,7 +179,7 @@ class Document
      * Retourne le chemin absolu du fichier PDF.
      * Si aucun fichier PDF n'existe, on renvoi le chemin du fichier Word associé.
      *
-     * @return string
+     * @return string Chemin absolu du fichier PDF.
      */
     public function getCheminPDF()
     {
@@ -158,7 +193,7 @@ class Document
     /**
      * Retourne le chemin absolu du fichier Word.
      *
-     * @return string
+     * @return string Chemin absolu du fichier Word.
      */
     public function getCheminWord()
     {
@@ -168,7 +203,7 @@ class Document
     /**
      * Retourne le chemin du dossier de téléchargement des documents.
      *
-     * @return string
+     * @return string Chemin absolu du dossier de téléchargement des documents.
      */
     public function getDossierTelechargement()
     {
@@ -177,7 +212,9 @@ class Document
     }
     
     /**
-     * Défini les noms des fichiers Word et PDF avant la persistance de l'entité.
+     * Génère les noms des fichiers Word et PDF.
+     * Cette méthode génère aléatoirement un nom pour les fichiers Word et PDF.
+     * Elle est appelée avant la persistance de l'entité (et avant sa mise-à-jour).
      *
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -196,24 +233,27 @@ class Document
     }
     
     /**
-     * Après la persistance et la mise à jour de l'entité :
-     * déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.
+     * Déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.
+     * Cette méthode est appelée après la persistance et la mise à jour de l'entité.
+     *
+     * ATTENTION : dans la version 1.0, la génération automatique du fichier PDF n'est pas
+     *             fonctionnelle. 
      *
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
     public function telechargement()
     {
-        if ($this->fichierWord !== null)
+        if ($this->getFichierWord() !== null)
         {
-            $$this->fichierWord->move($this->getDossierTelechargement(), $this->getNomFichierWord());
-            unset($this->fichierWord);
+            $$this->getFichierWord()->move($this->getDossierTelechargement(), $this->getNomFichierWord());
+            unset($this->getFichierWord());
         }
         
-        if ($this->fichierPDF !== null)
+        if ($this->getFichierPDF() !== null)
         {
-            $this->fichierPDF->move($this->getDossierTelechargement(), $this->getNomFichierPDF());
-            unset($this->fichierPDF);
+            $this->getFichierPDF()->move($this->getDossierTelechargement(), $this->getNomFichierPDF());
+            unset($this->getFichierPDF());
         }
         else
         {
@@ -233,13 +273,14 @@ class Document
      */
     public function genererFichierPDF()
     {
-        // TODO
+        return false;
     }
     
     /**
-     * Description d'un document : l'activité associée et sa date.
+     * Description du document.
+     * Renvoit la description de l'activité associée et la date du document.
      *
-     * @return string
+     * @return string Description dun document.
      */
     public function __toString()
     {

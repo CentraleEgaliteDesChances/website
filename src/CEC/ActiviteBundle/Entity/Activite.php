@@ -5,80 +5,109 @@ namespace CEC\ActiviteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Activite
- * (Jean-Baptiste Bayle — Mai 2013)
+ * Représente un contenu prédagogique que les tuteurs peuvent utiliser clef-en-main,
+ * en combinaison avec d'autres activités, pour réaliser une séance de tutorat.
  *
- * Une activité représente un contenu pédagogique clef-en-main que les tuteurs
- * utilisent pour réaliser une séance de tutorat. Une séance peut se composer de plusieurs
- * activités, sélectionnées préalablement à la séance par le VP Lycée ou un tuteur du groupe.
- * En séance, les tuteurs peuvent télécharger et consulter le document associé à la séance.
+ * Une séance peut se composer de plusieurs activités, sélectionnées et attribuées
+ * préalablement à la séance par le VP Lycée ou un tuteur du groupe. En séance, les
+ * tuteurs peuvent télécharger et consulter le document associé à la séance.
  *
- * A la suite de la séance, on demande de remplir un compte-rendu associé à l'activité,
+ * A la suite de la séance, on demande de remplir un compte-rendu (CompteRendu) associé à l'activité,
  * et qui permettra, si nécessaire, des rectifications ou une aide au choix de l'activité
  * pour les futurs tuteurs. On peut par exemple masquer les activités déjà utilisées pour un groupe.
  *
+ * Une activité est identifiée par son titre, qui doit donc être unique.
  *
+ * @author Jean-Baptiste Bayle
+ * @version 1.0
+ * 
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(
+ *     fields = "titre",
+ *     message = "Une activité possédant le même titre existe déjà."
+ * )
  */
 class Activite
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name = "id", type = "integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy = "AUTO")
      */
     private $id;
 
     /**
      * Titre de l'activité.
+     * Le titre de l'activité doit être une chaîne de caractère unique et non vide,
+     * et celle-ci ne doit pas excéder 100 caractères. Elle permet l'identification de
+     * l'activité lors du processus de recherche d'une activité.
      *
      * @var string
      *
-     * @ORM\Column(name="titre", type="string", length=255)
-     * @Assert\NotBlank()
+     * @ORM\Column(name = "titre", type = "string", length = 100)
+     * @Assert\NotBlank(message = "Le titre de l'activité ne peut être vide.")
+     * @Assert\MaxLength(
+     *     limit = 100,
+     *     message = "Le titre de l'activité ne peut excéder 100 caractères."
+     * )
      */
     private $titre;
 
     /**
-     * Description rapide de l'activité.
+     * Brève description de l'activité.
      * La description est affichée lorsque l'on choisit une activité pour une séance,
-     * et permet de cibler rapidement son contenu.
+     * et permet de cibler rapidement son contenu. Il s'agit d'une chaîne de caractère
+     * permettant de décrire en moins de 200 caractères le contenu de l'activité.
+     * La description est requise pour chaque activité.
      *
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
-     * @Assert\NotBlank()
+     * @ORM\Column(name = "description", type = "text")
+     * @Assert\NotBlank(message = "La description de l'activité ne peut être vide.")
+     * @Assert\MaxLength(
+     *     limit = 200,
+     *     message = "La description de l'activité ne peut excéder 200 caractères."
+     * )
      */
     private $description;
 
     /**
-     * Durée approximative de l'activité, permettant au tuteur choisissant
-     * une activité d'organiser sa séance. Peut indiquer d'autres indications courtes,
-     * comme "Indéfinie", "Environ ...", "Adaptable"...
+     * Durée approximative de l'activité.
+     * Il s'agit d'une chaîne de caractère de moins de 255 caractères, permettant
+     * aux tuteurs choisissant l'activité d'organiser sa séance. On indique la durée
+     * à titre indicatif (ex : "1h30") ; on peut aussi utiliser de courtes indications, 
+     * comme "Indéfinie", "Environ ...", "Adaptable", "Variable", etc.
      *
      * @var string
      *
-     * @ORM\Column(name="duree", type="string", length=255)
-     * @Assert\NotBlank()
+     * @ORM\Column(name = "duree", type = "string", length = 255)
+     * @Assert\NotBlank(message = "Merci d'indiquer, à titre indicatif, une durée approximative pour l'activité")
+     * @Assert\MaxLength(
+     *     limit = 255,
+     *     message = "L'indication de durée ne peut excéder 255 caractères."
+     * )
      */
     private $duree;
 
     /**
-     * Type d'activité, à choisir parmi les valeurs suivantes :
+     * Type d'activité.
+     * À choisir parmi les valeurs suivantes :
      * Activité Culturelle, Activité Scientifique, Expérience Scientifique et Autre.
-     * Cela permet de filtrer très rapidement les activités lors de leur recherche par un tuteur.
+     * Cela permet de filtrer très rapidement les activités lors de leur recherche par un tuteur,
+     * afin que celles-ci soient compatibles avec la séances ou de cibler la recherche.
      * 
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @ORM\Column(name = "type", type = "string", length = 255)
      * @Assert\Choice(
      *     choices = {"Activité Culturelle", "Activité Scientifique", "Expérience Scientifique", "Autre"},
-     *     message = "Le type doit être Activité Culturelle, Activité Scientifique, Expérience Scientifique ou Autre."
+     *     message = "Le type d'activité choisi n'est pas valide."
      * )
      */
     private $type;
@@ -88,7 +117,7 @@ class Activite
      *
      * @var \DateTime
      *
-     * @ORM\Column(name="dateCreation", type="datetime")
+     * @ORM\Column(name = "dateCreation", type = "datetime")
      * @Assert\NotBlank()
      * @Assert\DateTime()
      */
@@ -99,7 +128,7 @@ class Activite
      * 
      * @var \DateTime
      *
-     * @ORM\Column(name="dateModification", type="datetime")
+     * @ORM\Column(name = "dateModification", type = "datetime")
      * @Assert\NotBlank()
      * @Assert\DateTime()
      */
@@ -107,49 +136,60 @@ class Activite
     
     /**
      * Séances associées à cette activité.
-     * Une séance est ajotuée lorsqu'un tuteur sélectionne l'activité lors d'une séance.
+     * Il s'agit de l'ensemble des séances (classe Seance) pour lesquelles cette activité
+     * a été proposé aux lycéens, et a donc été selectionnée.
      * 
      * @var CEC\TutoratBundle\Entity\Seance
      *
-     * @ORM\ManyToMany(targetEntity="CEC\TutoratBundle\Entity\Seance", mappedBy="activites")
+     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "activites")
      */
     private $seances;
     
     /**
      * Tags associés à l'activité.
-     * Le système de classement par tag permet d'accélérer la recherche d'activité
-     * tout en permettant une très grande flexibilité.
+     * Le système de classement par tag (classe Tag) permet d'accélérer la recherche
+     * d'activité tout en permettant une très grande flexibilité.
      * Les tags peuvent représenter, par exemple, le niveau conseillé (premières, terminales), 
-     * les objectifs pédagogiques ou les notions recouvertes, le niveau de ludicité de l'activité...
+     * les objectifs pédagogiques ou les notions abordées, ainsi que le niveau de ludicité de l'activité
+     * ou tout autre attribut permettant d'aider les tuteurs lors de la recherche d'activité.
      * 
      * @var Tag
      *
-     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="activites")
+     * @ORM\ManyToMany(targetEntity = "Tag", inversedBy = "activites")
      */
     private $tags;
     
     /**
      * Les diverses versions du document associé à l'activité.
-     * Cela permet de garder un historique des versions de l'activité, d'ajouter des corrections
-     * en fonction des comptes-rendus effectués en créant une nouvelle version, etc.
+     * Cette fonction permet de garder un historique des versions de l'activité, à la suite
+     * des corrections apportées en fonction des comptes-rendus effectués et qui ont abouties
+     * à la création de nouvelles versions de l'activité.
+     * Une activité doit au minimum posséder une version.
      * Pour obtenir la dernière version, utiliser la méthode getDocument().
+     *
+     * Il ne s'agit pas du côté propriétaire. Utilisez les méthodes de Document pour
+     * ajouter une activité à un document.
      * 
      * @var Document
      *
-     * @ORM\OneToMany(targetEntity="Document", mappedBy="activite")
+     * @ORM\OneToMany(targetEntity = "Document", mappedBy = "activite")
      */
     private $versions;
     
     /**
      * Compte-rendus rédigées concernant cette activité.
-     * Les comptes-rendus sont rédigés à la suite d'une séance de tutorat par le VP Lycée
-     * ou un tuteur et permette aux secteurs Activités d'améliorer les activités en uploadant
-     * de nouvelles versions avec corrections.
-     * Ils permettent par ailleurs d'aider au choix d'activité avant la séance.
+     * Les comptes-rendus (classe CompteRendu) sont rédigés à la suite d'une séance de tutorat
+     * par le VP Lycée ou un tuteur afin de permette aux secteurs Activités de corriger les activités
+     * en téléchargeant de nouvelles versions avec corrections.
+     * Ils permettent par ailleurs d'aider au choix d'activité avant la séance grâce aux notes
+     * qui sont décernées, et permettent d'établir des statistiques fiables sur l'activité de tutorat.
+     *
+     * Il ne s'agit pas du côté propriétaire. Utilisez les méthodes de CompteRendu
+     * pour ajouter une activité relativement à un compte-rendu.
      *
      * @var CompteRendu
      *
-     * @ORM\OneToMany(targetEntity="CompteRendu", mappedBy="activite")
+     * @ORM\OneToMany(targetEntity = "CompteRendu", mappedBy = "activite")
      */
     private $compteRendus;
     
@@ -167,9 +207,10 @@ class Activite
     
     /**
      * Retourne la dernière version du document.
-     * Renvoi "false" s'il n'y a aucune version disponible.
+     * La méthode renvoit "false" s'il n'y a aucune version disponible, ce qui ne doit
+     * normalement pas arriver puisque le champ "versions" est contrainte à être non-vide.
      *
-     * @return mixed
+     * @return mixed Dernière version du document associé à l'activité.
      */
     public function getDocument()
     {
@@ -177,9 +218,10 @@ class Activite
     }
     
     /**
-     * Description d'une activité : son titre
+     * Description de l'activité.
+     * La méthode renvoit le titre de l'activité.
      *
-     * @return string
+     * @return string Description de l'activité.
      */
     public function __toString()
     {
@@ -240,7 +282,7 @@ class Activite
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>CEC\TutoratBundle\Controller\CordeesController | CEC Web Site API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">CEC Web Site API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../CEC/TutoratBundle/Controller.html">CEC\TutoratBundle\Controller</a>\CordeesController</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>CordeesController</strong>        extends <abbr title="Symfony\Bundle\FrameworkBundle\Controller\Controller">Controller</abbr></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <abbr title="CEC\TutoratBundle\Controller\array(Lycee)">array(Lycee)</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_filterLyceesSources">filterLyceesSources</a>($lycees)
+                    <p>Helper Retourne les lycées sources d&#039;une liste de lycée</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="CEC\TutoratBundle\Controller\array(Lycee)">array(Lycee)</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_filterLyceesPivots">filterLyceesPivots</a>($lycees)
+                    <p>Helper Retourne les lycées pivots d&#039;une liste de lycée</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_toutesAction">toutesAction</a>()
+                    <p>Affiche tous les lycées actifs</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_voirAction">voirAction</a>($cordee)
+                    <p>Affiche les lycées d&#039;une cordée</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_editerAction">editerAction</a>($cordee)
+                    <p>Permet l&#039;édition d&#039;une cordée de la réussite</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_basculerLyceeAction">basculerLyceeAction</a>($cordee, $lycee)
+                    <p>Bascule l&#039;état d&#039;un lycée pour une cordée</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_desactiverAction">desactiverAction</a>($cordee)
+                    <p>Désactive une cordee : Retire tous les lycées de la cordée, qui devient donc vide.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_anciennesAction">anciennesAction</a>()
+                    <p>Affiche tous les lycées inactifs</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_menuAction">menuAction</a>($request)
+                    <p>Affiche le menu présentant toutes les cordées</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_filterLyceesSources">
+        <div class="location">at line 19</div>
+        <code>            public            <abbr title="CEC\TutoratBundle\Controller\array(Lycee)">array(Lycee)</abbr>
+    <strong>filterLyceesSources</strong>($lycees)</code>
+    </h3>
+    <div class="details">
+        <p>Helper Retourne les lycées sources d&#039;une liste de lycée</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$lycees</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="CEC\TutoratBundle\Controller\array(Lycee)">array(Lycee)</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_filterLyceesPivots">
+        <div class="location">at line 35</div>
+        <code>            public            <abbr title="CEC\TutoratBundle\Controller\array(Lycee)">array(Lycee)</abbr>
+    <strong>filterLyceesPivots</strong>($lycees)</code>
+    </h3>
+    <div class="details">
+        <p>Helper Retourne les lycées pivots d&#039;une liste de lycée</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$lycees</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="CEC\TutoratBundle\Controller\array(Lycee)">array(Lycee)</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_toutesAction">
+        <div class="location">at line 47</div>
+        <code>            public            
+    <strong>toutesAction</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Affiche tous les lycées actifs</p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_voirAction">
+        <div class="location">at line 89</div>
+        <code>            public            
+    <strong>voirAction</strong>($cordee)</code>
+    </h3>
+    <div class="details">
+        <p>Affiche les lycées d&#039;une cordée</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$cordee</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_editerAction">
+        <div class="location">at line 108</div>
+        <code>            public            
+    <strong>editerAction</strong>($cordee)</code>
+    </h3>
+    <div class="details">
+        <p>Permet l&#039;édition d&#039;une cordée de la réussite</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$cordee</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_basculerLyceeAction">
+        <div class="location">at line 159</div>
+        <code>            public            
+    <strong>basculerLyceeAction</strong>($cordee, $lycee)</code>
+    </h3>
+    <div class="details">
+        <p>Bascule l&#039;état d&#039;un lycée pour une cordée</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$cordee</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$lycee</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_desactiverAction">
+        <div class="location">at line 184</div>
+        <code>            public            
+    <strong>desactiverAction</strong>($cordee)</code>
+    </h3>
+    <div class="details">
+        <p>Désactive une cordee : Retire tous les lycées de la cordée, qui devient donc vide.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$cordee</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_anciennesAction">
+        <div class="location">at line 200</div>
+        <code>            public            
+    <strong>anciennesAction</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Affiche tous les lycées inactifs</p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_menuAction">
+        <div class="location">at line 219</div>
+        <code>            public            
+    <strong>menuAction</strong>($request)</code>
+    </h3>
+    <div class="details">
+        <p>Affiche le menu présentant toutes les cordées</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$request</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
