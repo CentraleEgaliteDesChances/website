@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>CEC\ActiviteBundle\Entity\Activite | CEC Web Site API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">CEC Web Site API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../CEC/ActiviteBundle/Entity.html">CEC\ActiviteBundle\Entity</a>\Activite</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Activite</strong></p>
+
+            <div class="description">
+            <p>Représente un contenu prédagogique que les tuteurs peuvent utiliser clef-en-main, en combinaison avec d&#039;autres activités, pour réaliser une séance de tutorat.</p>
+            <p>Une séance peut se composer de plusieurs activités, sélectionnées et attribuées<br />
+ préalablement à la séance par le VP Lycée ou un tuteur du groupe. En séance, les<br />
+ tuteurs peuvent télécharger et consulter le document associé à la séance.<br />
+<br />
+ A la suite de la séance, on demande de remplir un compte-rendu (CompteRendu) associé à l&#039;activité,<br />
+ et qui permettra, si nécessaire, des rectifications ou une aide au choix de l&#039;activité<br />
+ pour les futurs tuteurs. On peut par exemple masquer les activités déjà utilisées pour un groupe.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p>Constructor</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getDocument">getDocument</a>()
+                    <p>Retourne la dernière version du document.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>Description d&#039;une activité : son titre</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getId">getId</a>()
+                    <p>Get id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setTitre">setTitre</a>(string $titre)
+                    <p>Set titre</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getTitre">getTitre</a>()
+                    <p>Get titre</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDescription">setDescription</a>(string $description)
+                    <p>Set description</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getDescription">getDescription</a>()
+                    <p>Get description</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDuree">setDuree</a>(string $duree)
+                    <p>Set duree</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getDuree">getDuree</a>()
+                    <p>Get duree</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setType">setType</a>(string $type)
+                    <p>Set type</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getType">getType</a>()
+                    <p>Get type</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDateCreation">setDateCreation</a>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)
+                    <p>Set dateCreation</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDateCreation">getDateCreation</a>()
+                    <p>Get dateCreation</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDateModification">setDateModification</a>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)
+                    <p>Set dateModification</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDateModification">getDateModification</a>()
+                    <p>Get dateModification</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addSeance">addSeance</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)
+                    <p>Add seances</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeSeance">removeSeance</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)
+                    <p>Remove seances</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getSeances">getSeances</a>()
+                    <p>Get seances</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addTag">addTag</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Tag">Tag</abbr> $tags)
+                    <p>Add tags</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeTag">removeTag</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Tag">Tag</abbr> $tags)
+                    <p>Remove tags</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getTags">getTags</a>()
+                    <p>Get tags</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addVersion">addVersion</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr> $versions)
+                    <p>Add versions</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeVersion">removeVersion</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr> $versions)
+                    <p>Remove versions</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getVersions">getVersions</a>()
+                    <p>Get versions</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addCompteRendu">addCompteRendu</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr> $compteRendus)
+                    <p>Add compteRendus</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeCompteRendu">removeCompteRendu</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr> $compteRendus)
+                    <p>Remove compteRendus</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getCompteRendus">getCompteRendus</a>()
+                    <p>Get compteRendus</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 164</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Constructor</p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDocument">
+        <div class="location">at line 178</div>
+        <code>            public            mixed
+    <strong>getDocument</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Retourne la dernière version du document.</p>
+        <p>Renvoi &quot;false&quot; s&#039;il n&#039;y a aucune version disponible.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>Dernière version du document associé à l&#039;activité.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___toString">
+        <div class="location">at line 188</div>
+        <code>            public            string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Description d&#039;une activité : son titre</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Description d&#039;une activité.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 203</div>
+        <code>            public            integer
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get id</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setTitre">
+        <div class="location">at line 214</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>setTitre</strong>(string $titre)</code>
+    </h3>
+    <div class="details">
+        <p>Set titre</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$titre</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTitre">
+        <div class="location">at line 226</div>
+        <code>            public            string
+    <strong>getTitre</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get titre</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDescription">
+        <div class="location">at line 237</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>setDescription</strong>(string $description)</code>
+    </h3>
+    <div class="details">
+        <p>Set description</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$description</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDescription">
+        <div class="location">at line 249</div>
+        <code>            public            string
+    <strong>getDescription</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get description</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDuree">
+        <div class="location">at line 260</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>setDuree</strong>(string $duree)</code>
+    </h3>
+    <div class="details">
+        <p>Set duree</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$duree</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDuree">
+        <div class="location">at line 272</div>
+        <code>            public            string
+    <strong>getDuree</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get duree</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setType">
+        <div class="location">at line 283</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>setType</strong>(string $type)</code>
+    </h3>
+    <div class="details">
+        <p>Set type</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getType">
+        <div class="location">at line 295</div>
+        <code>            public            string
+    <strong>getType</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get type</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateCreation">
+        <div class="location">at line 306</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>setDateCreation</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateCreation</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateCreation</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateCreation">
+        <div class="location">at line 318</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateCreation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateCreation</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateModification">
+        <div class="location">at line 329</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>setDateModification</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateModification</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateModification</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateModification">
+        <div class="location">at line 341</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateModification</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateModification</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addSeance">
+        <div class="location">at line 352</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>addSeance</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)</code>
+    </h3>
+    <div class="details">
+        <p>Add seances</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
+                <td>$seances</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeSeance">
+        <div class="location">at line 364</div>
+        <code>            public            
+    <strong>removeSeance</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)</code>
+    </h3>
+    <div class="details">
+        <p>Remove seances</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
+                <td>$seances</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSeances">
+        <div class="location">at line 374</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getSeances</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get seances</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addTag">
+        <div class="location">at line 385</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>addTag</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Tag">Tag</abbr> $tags)</code>
+    </h3>
+    <div class="details">
+        <p>Add tags</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Tag">Tag</abbr></td>
+                <td>$tags</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeTag">
+        <div class="location">at line 397</div>
+        <code>            public            
+    <strong>removeTag</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Tag">Tag</abbr> $tags)</code>
+    </h3>
+    <div class="details">
+        <p>Remove tags</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Tag">Tag</abbr></td>
+                <td>$tags</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTags">
+        <div class="location">at line 407</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getTags</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get tags</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addVersion">
+        <div class="location">at line 418</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>addVersion</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr> $versions)</code>
+    </h3>
+    <div class="details">
+        <p>Add versions</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr></td>
+                <td>$versions</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeVersion">
+        <div class="location">at line 430</div>
+        <code>            public            
+    <strong>removeVersion</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr> $versions)</code>
+    </h3>
+    <div class="details">
+        <p>Remove versions</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr></td>
+                <td>$versions</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getVersions">
+        <div class="location">at line 440</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getVersions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get versions</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addCompteRendu">
+        <div class="location">at line 451</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>addCompteRendu</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr> $compteRendus)</code>
+    </h3>
+    <div class="details">
+        <p>Add compteRendus</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></td>
+                <td>$compteRendus</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeCompteRendu">
+        <div class="location">at line 463</div>
+        <code>            public            
+    <strong>removeCompteRendu</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr> $compteRendus)</code>
+    </h3>
+    <div class="details">
+        <p>Remove compteRendus</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></td>
+                <td>$compteRendus</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCompteRendus">
+        <div class="location">at line 473</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getCompteRendus</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get compteRendus</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

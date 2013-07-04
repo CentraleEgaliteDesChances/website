@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>CEC\ActiviteBundle\Entity\Document | CEC Web Site API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">CEC Web Site API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../CEC/ActiviteBundle/Entity.html">CEC\ActiviteBundle\Entity</a>\Document</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Document</strong></p>
+
+            <div class="description">
+            <p>Document (Jean-Baptiste Bayle — Mai 2013)</p>
+            <p>Un document représente une paire de fichiers enregistrés sur le serveur<br />
+ et associée à une activité. Il s&#039;agit d&#039;une version du contenu de l&#039;activité, <br />
+ en deux formats : le format PDF permettant un téléchargement et une compatibilité<br />
+ étendue, et le format Microsoft Word, permettant l&#039;édition de l&#039;activité si nécessaire<br />
+ (comme par exemple si des corrections sont demandées dans un compte-rendu de l&#039;activité).<br />
+<br />
+ La classe gère la gestion des fichiers sur le serveur, et, si nécessaire et disponible,<br />
+ la conversion au format PDF grâce au site tierce http://www.conv2pdf.com.<br />
+ On notera donc que pour créer un nouveau document, il suffit de fournir un fichier Word<br />
+ si la conversion est disponible ; le fichier PDF sera alors automatiquement généré.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCheminPDF">getCheminPDF</a>()
+                    <p>Retourne le chemin absolu du fichier PDF.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCheminWord">getCheminWord</a>()
+                    <p>Retourne le chemin absolu du fichier Word.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getDossierTelechargement">getDossierTelechargement</a>()
+                    <p>Retourne le chemin du dossier de téléchargement des documents.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_genererNomsFichiers">genererNomsFichiers</a>()
+                    <p>Défini les noms des fichiers Word et PDF avant la persistance de l&#039;entité.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_telechargement">telechargement</a>()
+                    <p>Après la persistance et la mise à jour de l&#039;entité : déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_genererFichierPDF">genererFichierPDF</a>()
+                    <p>Génère le fichier PDF à partir du fichier Word associé à l&#039;entité.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>Description d&#039;un document : l&#039;activité associée et sa date.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getId">getId</a>()
+                    <p>Get id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setNomFichierPDF">setNomFichierPDF</a>(string $nomFichierPDF)
+                    <p>Set nomFichierPDF</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getNomFichierPDF">getNomFichierPDF</a>()
+                    <p>Get nomFichierPDF</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setNomFichierWord">setNomFichierWord</a>(string $nomFichierWord)
+                    <p>Set nomFichierWord</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getNomFichierWord">getNomFichierWord</a>()
+                    <p>Get nomFichierWord</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDateCreation">setDateCreation</a>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)
+                    <p>Set dateCreation</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDateCreation">getDateCreation</a>()
+                    <p>Get dateCreation</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDateModification">setDateModification</a>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)
+                    <p>Set dateModification</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDateModification">getDateModification</a>()
+                    <p>Get dateModification</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setActivite">setActivite</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite = null)
+                    <p>Set activite</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getActivite">getActivite</a>()
+                    <p>Get activite</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setAuteur">setAuteur</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr> $auteur = null)
+                    <p>Set auteur</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getAuteur">getAuteur</a>()
+                    <p>Get auteur</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getCheminPDF">
+        <div class="location">at line 149</div>
+        <code>            public            string
+    <strong>getCheminPDF</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Retourne le chemin absolu du fichier PDF.</p>
+        <p>Si aucun fichier PDF n&#039;existe, on renvoi le chemin du fichier Word associé.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCheminWord">
+        <div class="location">at line 163</div>
+        <code>            public            string
+    <strong>getCheminWord</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Retourne le chemin absolu du fichier Word.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDossierTelechargement">
+        <div class="location">at line 173</div>
+        <code>            public            string
+    <strong>getDossierTelechargement</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Retourne le chemin du dossier de téléchargement des documents.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_genererNomsFichiers">
+        <div class="location">at line 185</div>
+        <code>            public            
+    <strong>genererNomsFichiers</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Défini les noms des fichiers Word et PDF avant la persistance de l&#039;entité.</p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_telechargement">
+        <div class="location">at line 205</div>
+        <code>            public            
+    <strong>telechargement</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Après la persistance et la mise à jour de l&#039;entité : déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.</p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_genererFichierPDF">
+        <div class="location">at line 234</div>
+        <code>            public            string
+    <strong>genererFichierPDF</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Génère le fichier PDF à partir du fichier Word associé à l&#039;entité.</p>
+        <p>Ne fait rien si aucun fichier Word n&#039;existe. Le fichier PDF généré est déplacé sur le serveur<br />
+ suivant l&#039;attribut $nomFichierPDF.<br />
+<br />
+ Pour la génération, on utilise le site tierce http://www.conv2pdf.com, qui converti sur un serveur<br />
+ les documents Word en PDF. On télécharge ensuite le résultat.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___toString">
+        <div class="location">at line 244</div>
+        <code>            public            string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Description d&#039;un document : l&#039;activité associée et sa date.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 260</div>
+        <code>            public            integer
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get id</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setNomFichierPDF">
+        <div class="location">at line 271</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+    <strong>setNomFichierPDF</strong>(string $nomFichierPDF)</code>
+    </h3>
+    <div class="details">
+        <p>Set nomFichierPDF</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$nomFichierPDF</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNomFichierPDF">
+        <div class="location">at line 283</div>
+        <code>            public            string
+    <strong>getNomFichierPDF</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get nomFichierPDF</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setNomFichierWord">
+        <div class="location">at line 294</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+    <strong>setNomFichierWord</strong>(string $nomFichierWord)</code>
+    </h3>
+    <div class="details">
+        <p>Set nomFichierWord</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$nomFichierWord</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNomFichierWord">
+        <div class="location">at line 306</div>
+        <code>            public            string
+    <strong>getNomFichierWord</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get nomFichierWord</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateCreation">
+        <div class="location">at line 317</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+    <strong>setDateCreation</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateCreation</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateCreation</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateCreation">
+        <div class="location">at line 329</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateCreation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateCreation</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateModification">
+        <div class="location">at line 340</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+    <strong>setDateModification</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateModification</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateModification</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateModification">
+        <div class="location">at line 352</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateModification</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateModification</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setActivite">
+        <div class="location">at line 363</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+    <strong>setActivite</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set activite</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr></td>
+                <td>$activite</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getActivite">
+        <div class="location">at line 375</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>getActivite</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get activite</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setAuteur">
+        <div class="location">at line 386</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
+    <strong>setAuteur</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr> $auteur = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set auteur</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr></td>
+                <td>$auteur</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getAuteur">
+        <div class="location">at line 398</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>getAuteur</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get auteur</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
