@@ -1,0 +1,77 @@
+{% extends 'CECActiviteBundle:Activites:base.html.twig' %}
+
+
+{% block left %}
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <thead>
+            <tr><th colspan="2" class="titre"><h3>{{ activite.titre }}</h3></th></tr>
+            <tr><th colspan="2" class="titre"><p>{{ activite.description }}</p></th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Durée</td>
+                <td>
+                    {{ activite.duree }}
+                </td>
+            </tr>
+            <tr>
+                <td>Format</td>
+                <td>{{ activite.type }}</td>
+            </tr>
+            <tr>
+                <td>Tags</td>
+                <td>
+                    {% if activite.tags %}
+                        {{ activite.tags|join(', ') }}
+                    {% else %}
+                        <span class="muted">Aucun tag</span>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <tbody>
+            <tr>
+                <td>Versions</td>
+                <td>
+                    {{ activite.versions|length }} version(s)
+                </td>
+            </tr>
+            <tr>
+                <td>Auteur</td>
+                <td>{{ activite.document.auteur }}</td>
+            </tr>
+            <tr>
+                <td>Compte-rendus</td>
+                <td>{% for vp in lycee.vpLycees %}
+                    <a href="{{ path('membre', { 'membre': vp.id }) }}">{{ vp.prenom|capitalize }} {{ vp.nom|capitalize }}{% if not loop.last %}, {% endif %}</a>
+                {% else %}Aucun VP Lycée{% endfor %}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block right %}
+{{ parent() }}
+    <table class="table table-bordered table-hover table-striped table-large">
+        {% if lycee.groupes|length > 0 %}
+            <thead><tr><th><h4>Groupes de tutorat</h4></th></tr></thead>
+            <tbody>
+                {% for groupe in lycee.groupes %}
+                <tr>
+                    <td>
+                        <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
+                            <strong>{{ groupe.niveau }}</strong><span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
+                            Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucun groupe de tutorat pour ce lycée</h4></th></tr></thead>
+        {% endif %}
+    </table>
+{% endblock %}

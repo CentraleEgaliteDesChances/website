@@ -1,0 +1,10 @@
+{% extends 'CECMainBundle::2-large-columns.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECActiviteBundle/Resources/public/less/activites.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
