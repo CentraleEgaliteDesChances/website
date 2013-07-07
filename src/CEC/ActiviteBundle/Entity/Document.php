@@ -243,7 +243,7 @@ class Document
      */
     public function getDossierTelechargement()
     {
-        return 'uploads/documents';
+        return '/uploads/documents';
     }
     
     /**
@@ -254,7 +254,7 @@ class Document
     public function getDossierRacineTelechargement()
     {
         $dossierTelechargement = $this->getDossierTelechargement();
-        return __DIR__ . '/../../../../web/' . $dossierTelechargement;
+        return __DIR__ . '/../../../../web' . $dossierTelechargement;
     }
     
     /**

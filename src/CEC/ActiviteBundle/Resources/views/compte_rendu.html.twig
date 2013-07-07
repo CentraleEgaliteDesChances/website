@@ -1,0 +1,7 @@
+{% macro note(note, defaut = 'Aucune note disponible') %}
+    {% if note is not null %}
+        {{ note|number_format(1, ',', ' ') }} sur 5
+    {% else %}
+        <span class="muted">{{ defaut }}</span>
+    {% endif %}
+{% endmacro %}

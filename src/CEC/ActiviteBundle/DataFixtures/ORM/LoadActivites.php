@@ -26,9 +26,6 @@ class LoadActivites extends AbstractFixture implements OrderedFixtureInterface
               ->addTag($this->getReference('tag_equations_differentielles'))
               ->setDateCreation($maintenant)
               ->setDateModification($maintenant);
-              
-        $this->getReference('seance1')->addActivite($acti1);
-        $this->getReference('seance4')->addActivite($acti1);
                   
         $acti2 = new Activite();
         $acti2->setTitre("Activité 2")
@@ -41,8 +38,6 @@ class LoadActivites extends AbstractFixture implements OrderedFixtureInterface
               ->addTag($this->getReference('tag_terminales'))
               ->setDateCreation($maintenant)
               ->setDateModification($maintenant);
-              
-        $this->getReference('seance5')->addActivite($acti2);
         
         $manager->persist($acti1);
         $manager->persist($acti2);

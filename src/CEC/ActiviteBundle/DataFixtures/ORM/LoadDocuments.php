@@ -22,7 +22,7 @@ class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
     
         $acti1v1 = new Document();
         $acti1v1->setNomFichierPDF($pdfFixture)
-                ->setNomFichierWord($wordFixture)
+                ->setNomFichierOriginal($wordFixture)
                 ->setDateCreation($maintenant)
                 ->setDateModification($maintenant)
                 ->setAuteur($this->getReference('pol_maire'))
@@ -30,7 +30,7 @@ class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
         
         $acti1v2 = new Document();
         $acti1v2->setNomFichierPDF($pdfFixture)
-                ->setNomFichierWord($wordFixture)
+                ->setNomFichierOriginal($wordFixture)
                 ->setDateCreation($maintenant)
                 ->setDateModification($maintenant)
                 ->setAuteur($this->getReference('helene_sicsic'))
@@ -38,7 +38,7 @@ class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
                 
         $acti2v1 = new Document();
         $acti2v1->setNomFichierPDF($pdfFixture)
-              ->setNomFichierWord($wordFixture)
+              ->setNomFichierOriginal($wordFixture)
               ->setDateCreation($maintenant)
               ->setDateModification($maintenant)
               ->setAuteur($this->getReference('pol_maire'))

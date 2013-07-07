@@ -23,6 +23,8 @@ class LoadCompteRendus extends AbstractFixture implements OrderedFixtureInterfac
              ->setNoteAtteinteObjectifs(4)
              ->setDureeAdaptee(0)
              ->setAuteur($this->getReference('pol_maire'))
+             ->setSeance($this->getReference('seance1'))
+             ->setCommentaires('Ceci est un commentaire pour l\'exemple. On peut ici rajouter des remarques permettant au secteur Activité \'améliorer les activités.')
              ->setDateCreation($maintenant)
              ->setDateModification($maintenant);
              
@@ -33,6 +35,7 @@ class LoadCompteRendus extends AbstractFixture implements OrderedFixtureInterfac
              ->setNoteAtteinteObjectifs(3)
              ->setDureeAdaptee(1)
              ->setAuteur($this->getReference('helene_sicsic'))
+             ->setSeance($this->getReference('seance4'))
              ->setDateCreation($maintenant)
              ->setDateModification($maintenant);
              
@@ -43,6 +46,7 @@ class LoadCompteRendus extends AbstractFixture implements OrderedFixtureInterfac
              ->setNoteAtteinteObjectifs(5)
              ->setDureeAdaptee(1)
              ->setAuteur($this->getReference('helene_sicsic'))
+             ->setSeance($this->getReference('seance1'))
              ->setDateCreation($maintenant)
              ->setDateModification($maintenant);
         
