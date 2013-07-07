@@ -22,7 +22,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * si la conversion est disponible ; le fichier PDF sera alors automatiquement généré.
  *
  * Il est important de noter que deux documents ne peuvent avoir le même nom sur le serveur ;
- * c'est pourquoi nomFichierPDF et nomFichierWord doivent être uniques.
+ * c'est pourquoi nomFichierPDF et nomFichierWord doivent être uniques. Un historique des changements
+ * d'une activité est conservé grâce au champ "description" de chaque document.
  *
  * IMPORTANT : dans la version 1.0, la génération automatique de PDF à partir du fichier Word
  *             n'est pas fonctionnelle. Un fichier PDF doit donc obligatoirement être fourni
@@ -55,6 +56,23 @@ class Document
      * @ORM\GeneratedValue(strategy = "AUTO")
      */
     private $id;
+    
+    /**
+     * Brève description des nouveautés du document.
+     * Ce champ permet de conserver un historique des changements des versions d'une activité.
+     * Pour chaque nouveau document (donc nouvelle version) d'une activité (classe Activite),
+     * un court descriptif des changements effectué est enregistré.
+     * Cette chaîne de texte n'est donc pas requise mais est limitée à 255 caractères.
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "description", type = "string", length = 255, nullable = true)
+     * @Assert\MaxLength(
+     *     limit = 255,
+     *     message = "La description du document ne peut excéder 255 caractères."
+     * )
+     */
+    private $description;
     
     /**
      * Fichier Word téléchargé.
@@ -106,7 +124,7 @@ class Document
      *
      * @var string
      *
-     * @ORM\Column(name="fichierWord", type="string", length=255)
+     * @ORM\Column(name = "fichierWord", type = "string", length = 50)
      * @Assert\NotBlank(message = "Le nom du fichier Word ne peut pas être vide.")
      * @Assert\MaxLength(
      *     limit = 50,
@@ -302,6 +320,29 @@ class Document
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Document
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
