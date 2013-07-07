@@ -25,9 +25,8 @@
                 <p>class    <strong>Document</strong></p>
 
             <div class="description">
-            <p>Document (Jean-Baptiste Bayle — Mai 2013)</p>
-            <p>Un document représente une paire de fichiers enregistrés sur le serveur<br />
- et associée à une activité. Il s&#039;agit d&#039;une version du contenu de l&#039;activité, <br />
+            <p>Un document représente une paire de fichiers enregistrés sur le serveur et associés à une activité.</p>
+            <p>Il s&#039;agit d&#039;une version du contenu de l&#039;activité, <br />
  en deux formats : le format PDF permettant un téléchargement et une compatibilité<br />
  étendue, et le format Microsoft Word, permettant l&#039;édition de l&#039;activité si nécessaire<br />
  (comme par exemple si des corrections sont demandées dans un compte-rendu de l&#039;activité).<br />
@@ -35,7 +34,17 @@
  La classe gère la gestion des fichiers sur le serveur, et, si nécessaire et disponible,<br />
  la conversion au format PDF grâce au site tierce http://www.conv2pdf.com.<br />
  On notera donc que pour créer un nouveau document, il suffit de fournir un fichier Word<br />
- si la conversion est disponible ; le fichier PDF sera alors automatiquement généré.</p>
+ si la conversion est disponible ; le fichier PDF sera alors automatiquement généré.<br />
+<br />
+ Il est important de noter que deux documents ne peuvent avoir le même nom sur le serveur ;<br />
+ c&#039;est pourquoi nomFichierPDF et nomFichierWord doivent être uniques.<br />
+<br />
+ IMPORTANT : dans la version 1.0, la génération automatique de PDF à partir du fichier Word<br />
+             n&#039;est pas fonctionnelle. Un fichier PDF doit donc obligatoirement être fourni<br />
+             par l&#039;utilisateur lors de la création d&#039;un document.<br />
+             La méthode genererFichierPDF renvoit donc &quot;false&quot; par défaut, et le champ<br />
+             fichierPDF est requis ; pour activer la génération automatique de PDF, il suffit<br />
+             d&#039;implémenter genererFichierPDF et de désactiver @Assert\NotBlank() pour fichierPDF.</p>
         </div>
     
     
@@ -79,7 +88,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_genererNomsFichiers">genererNomsFichiers</a>()
-                    <p>Défini les noms des fichiers Word et PDF avant la persistance de l&#039;entité.</p>
+                    <p>Génère les noms des fichiers Word et PDF.</p>
                 </td>
                 <td></td>
             </tr>
@@ -89,7 +98,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_telechargement">telechargement</a>()
-                    <p>Après la persistance et la mise à jour de l&#039;entité : déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.</p>
+                    <p>Déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.</p>
                 </td>
                 <td></td>
             </tr>
@@ -109,7 +118,7 @@
                 </td>
                 <td class="last">
                     <a href="#method___toString">__toString</a>()
-                    <p>Description d&#039;un document : l&#039;activité associée et sa date.</p>
+                    <p>Description du document.</p>
                 </td>
                 <td></td>
             </tr>
@@ -249,7 +258,7 @@
         <h2>Details</h2>
 
                         <h3 id="method_getCheminPDF">
-        <div class="location">at line 149</div>
+        <div class="location">at line 185</div>
         <code>            public            string
     <strong>getCheminPDF</strong>()</code>
     </h3>
@@ -263,7 +272,7 @@
                     <table>
         <tr>
             <td>string</td>
-            <td></td>
+            <td>Chemin absolu du fichier PDF.</td>
         </tr>
     </table>
 
@@ -273,7 +282,7 @@
     </div>
 
                 <h3 id="method_getCheminWord">
-        <div class="location">at line 163</div>
+        <div class="location">at line 199</div>
         <code>            public            string
     <strong>getCheminWord</strong>()</code>
     </h3>
@@ -287,7 +296,7 @@
                     <table>
         <tr>
             <td>string</td>
-            <td></td>
+            <td>Chemin absolu du fichier Word.</td>
         </tr>
     </table>
 
@@ -297,7 +306,7 @@
     </div>
 
                 <h3 id="method_getDossierTelechargement">
-        <div class="location">at line 173</div>
+        <div class="location">at line 209</div>
         <code>            public            string
     <strong>getDossierTelechargement</strong>()</code>
     </h3>
@@ -311,7 +320,7 @@
                     <table>
         <tr>
             <td>string</td>
-            <td></td>
+            <td>Chemin absolu du dossier de téléchargement des documents.</td>
         </tr>
     </table>
 
@@ -321,13 +330,14 @@
     </div>
 
                 <h3 id="method_genererNomsFichiers">
-        <div class="location">at line 185</div>
+        <div class="location">at line 223</div>
         <code>            public            
     <strong>genererNomsFichiers</strong>()</code>
     </h3>
     <div class="details">
-        <p>Défini les noms des fichiers Word et PDF avant la persistance de l&#039;entité.</p>
-        <p></p>
+        <p>Génère les noms des fichiers Word et PDF.</p>
+        <p>Cette méthode génère aléatoirement un nom pour les fichiers Word et PDF.<br />
+ Elle est appelée avant la persistance de l&#039;entité (et avant sa mise-à-jour).</p>
         <div class="tags">
             
             
@@ -336,13 +346,16 @@
     </div>
 
                 <h3 id="method_telechargement">
-        <div class="location">at line 205</div>
+        <div class="location">at line 246</div>
         <code>            public            
     <strong>telechargement</strong>()</code>
     </h3>
     <div class="details">
-        <p>Après la persistance et la mise à jour de l&#039;entité : déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.</p>
-        <p></p>
+        <p>Déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.</p>
+        <p>Cette méthode est appelée après la persistance et la mise à jour de l&#039;entité.<br />
+<br />
+ ATTENTION : dans la version 1.0, la génération automatique du fichier PDF n&#039;est pas<br />
+             fonctionnelle.</p>
         <div class="tags">
             
             
@@ -351,7 +364,7 @@
     </div>
 
                 <h3 id="method_genererFichierPDF">
-        <div class="location">at line 234</div>
+        <div class="location">at line 275</div>
         <code>            public            string
     <strong>genererFichierPDF</strong>()</code>
     </h3>
@@ -379,13 +392,13 @@
     </div>
 
                 <h3 id="method___toString">
-        <div class="location">at line 244</div>
+        <div class="location">at line 286</div>
         <code>            public            string
     <strong>__toString</strong>()</code>
     </h3>
     <div class="details">
-        <p>Description d&#039;un document : l&#039;activité associée et sa date.</p>
-        <p></p>
+        <p>Description du document.</p>
+        <p>Renvoit la description de l&#039;activité associée et la date du document.</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -393,7 +406,7 @@
                     <table>
         <tr>
             <td>string</td>
-            <td></td>
+            <td>Description dun document.</td>
         </tr>
     </table>
 
@@ -403,7 +416,7 @@
     </div>
 
                 <h3 id="method_getId">
-        <div class="location">at line 260</div>
+        <div class="location">at line 302</div>
         <code>            public            integer
     <strong>getId</strong>()</code>
     </h3>
@@ -427,7 +440,7 @@
     </div>
 
                 <h3 id="method_setNomFichierPDF">
-        <div class="location">at line 271</div>
+        <div class="location">at line 313</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
     <strong>setNomFichierPDF</strong>(string $nomFichierPDF)</code>
     </h3>
@@ -461,7 +474,7 @@
     </div>
 
                 <h3 id="method_getNomFichierPDF">
-        <div class="location">at line 283</div>
+        <div class="location">at line 325</div>
         <code>            public            string
     <strong>getNomFichierPDF</strong>()</code>
     </h3>
@@ -485,7 +498,7 @@
     </div>
 
                 <h3 id="method_setNomFichierWord">
-        <div class="location">at line 294</div>
+        <div class="location">at line 336</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
     <strong>setNomFichierWord</strong>(string $nomFichierWord)</code>
     </h3>
@@ -519,7 +532,7 @@
     </div>
 
                 <h3 id="method_getNomFichierWord">
-        <div class="location">at line 306</div>
+        <div class="location">at line 348</div>
         <code>            public            string
     <strong>getNomFichierWord</strong>()</code>
     </h3>
@@ -543,7 +556,7 @@
     </div>
 
                 <h3 id="method_setDateCreation">
-        <div class="location">at line 317</div>
+        <div class="location">at line 359</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
     <strong>setDateCreation</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)</code>
     </h3>
@@ -577,7 +590,7 @@
     </div>
 
                 <h3 id="method_getDateCreation">
-        <div class="location">at line 329</div>
+        <div class="location">at line 371</div>
         <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
     <strong>getDateCreation</strong>()</code>
     </h3>
@@ -601,7 +614,7 @@
     </div>
 
                 <h3 id="method_setDateModification">
-        <div class="location">at line 340</div>
+        <div class="location">at line 382</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
     <strong>setDateModification</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)</code>
     </h3>
@@ -635,7 +648,7 @@
     </div>
 
                 <h3 id="method_getDateModification">
-        <div class="location">at line 352</div>
+        <div class="location">at line 394</div>
         <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
     <strong>getDateModification</strong>()</code>
     </h3>
@@ -659,7 +672,7 @@
     </div>
 
                 <h3 id="method_setActivite">
-        <div class="location">at line 363</div>
+        <div class="location">at line 405</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
     <strong>setActivite</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite = null)</code>
     </h3>
@@ -693,7 +706,7 @@
     </div>
 
                 <h3 id="method_getActivite">
-        <div class="location">at line 375</div>
+        <div class="location">at line 417</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
     <strong>getActivite</strong>()</code>
     </h3>
@@ -717,7 +730,7 @@
     </div>
 
                 <h3 id="method_setAuteur">
-        <div class="location">at line 386</div>
+        <div class="location">at line 428</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Document.html"><abbr title="CEC\ActiviteBundle\Entity\Document">Document</abbr></a>
     <strong>setAuteur</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr> $auteur = null)</code>
     </h3>
@@ -751,7 +764,7 @@
     </div>
 
                 <h3 id="method_getAuteur">
-        <div class="location">at line 398</div>
+        <div class="location">at line 440</div>
         <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
     <strong>getAuteur</strong>()</code>
     </h3>

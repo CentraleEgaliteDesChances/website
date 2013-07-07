@@ -25,18 +25,19 @@
                 <p>class    <strong>Tag</strong></p>
 
             <div class="description">
-            <p>Tag (Jean-Baptiste Bayle — Mai 2013)</p>
-            <p>Un tag est un mot ou une courte expression permettant un classement efficace<br />
- des activités, tout en restant extrémement flexible. Le principe est identique aux tags<br />
- des vidéos YouTube, par exemple : on associe un ou plusieurs tags à une activité,<br />
- et lors de la recherche rapide, on peut filtrer ces dernières selon les tags déjà existants.<br />
+            <p>Un tag est un mot ou une courte expression permettant un classement efficace des activités, tout en restant extrémement flexible.</p>
+            <p>Le principe est identique aux tags des vidéos YouTube, par exemple : on associe un ou<br />
+ plusieurs tags à une activité, et lors de la recherche rapide, on peut filtrer ces dernières<br />
+ selon les tags déjà existants.<br />
 <br />
  Exemples de tags : niveau pour les étudiants (première, terminale, difficile...), des objectifs<br />
  pédagogiques visés (expression orale, écriture, raisonnement logique...), des notions abordées<br />
  (anglais, suites récurrentes, équations différentielles, actualités...).<br />
 <br />
- Le constructeur permet de créer rapidement un tag à l&#039;aide de son contenu.<br />
- Il faut ensuite l&#039;ajouter à une ou plusieurs activités.</p>
+ Un constructeur permet de créer rapidement un tag à l&#039;aide de son contenu.<br />
+ Il faut ensuite l&#039;ajouter à une ou plusieurs activités.<br />
+<br />
+ Un tag est entièrement défini par son contenu, qui doit donc être unique.</p>
         </div>
     
     
@@ -49,7 +50,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>($contenu)
+                    <a href="#method___construct">__construct</a>(string $contenu)
                     <p>Constructor</p>
                 </td>
                 <td></td>
@@ -60,7 +61,7 @@
                 </td>
                 <td class="last">
                     <a href="#method___toString">__toString</a>()
-                    <p>Description d&#039;un tag : son contenu.</p>
+                    <p>Description d&#039;un tag.</p>
                 </td>
                 <td></td>
             </tr>
@@ -130,9 +131,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 66</div>
+        <div class="location">at line 84</div>
         <code>            public            
-    <strong>__construct</strong>($contenu)</code>
+    <strong>__construct</strong>(string $contenu)</code>
     </h3>
     <div class="details">
         <p>Constructor</p>
@@ -142,9 +143,9 @@
 
                     <table>
                     <tr>
-                <td></td>
+                <td>string</td>
                 <td>$contenu</td>
-                <td></td>
+                <td>Contenu du tag.</td>
             </tr>
             </table>
 
@@ -155,13 +156,13 @@
     </div>
 
                 <h3 id="method___toString">
-        <div class="location">at line 77</div>
+        <div class="location">at line 96</div>
         <code>            public            string
     <strong>__toString</strong>()</code>
     </h3>
     <div class="details">
-        <p>Description d&#039;un tag : son contenu.</p>
-        <p></p>
+        <p>Description d&#039;un tag.</p>
+        <p>La méthode renvoit le contenu du tag.</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -169,7 +170,7 @@
                     <table>
         <tr>
             <td>string</td>
-            <td></td>
+            <td>Description du tag.</td>
         </tr>
     </table>
 
@@ -179,7 +180,7 @@
     </div>
 
                 <h3 id="method_getId">
-        <div class="location">at line 92</div>
+        <div class="location">at line 111</div>
         <code>            public            integer
     <strong>getId</strong>()</code>
     </h3>
@@ -203,7 +204,7 @@
     </div>
 
                 <h3 id="method_setContenu">
-        <div class="location">at line 103</div>
+        <div class="location">at line 122</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Tag.html"><abbr title="CEC\ActiviteBundle\Entity\Tag">Tag</abbr></a>
     <strong>setContenu</strong>(string $contenu)</code>
     </h3>
@@ -237,7 +238,7 @@
     </div>
 
                 <h3 id="method_getContenu">
-        <div class="location">at line 115</div>
+        <div class="location">at line 134</div>
         <code>            public            string
     <strong>getContenu</strong>()</code>
     </h3>
@@ -261,7 +262,7 @@
     </div>
 
                 <h3 id="method_addActivite">
-        <div class="location">at line 126</div>
+        <div class="location">at line 145</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Tag.html"><abbr title="CEC\ActiviteBundle\Entity\Tag">Tag</abbr></a>
     <strong>addActivite</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activites)</code>
     </h3>
@@ -295,7 +296,7 @@
     </div>
 
                 <h3 id="method_removeActivite">
-        <div class="location">at line 138</div>
+        <div class="location">at line 157</div>
         <code>            public            
     <strong>removeActivite</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activites)</code>
     </h3>
@@ -320,7 +321,7 @@
     </div>
 
                 <h3 id="method_getActivites">
-        <div class="location">at line 148</div>
+        <div class="location">at line 167</div>
         <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
     <strong>getActivites</strong>()</code>
     </h3>
