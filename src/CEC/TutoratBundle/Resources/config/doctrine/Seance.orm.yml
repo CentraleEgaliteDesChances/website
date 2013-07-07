@@ -38,14 +38,15 @@ CEC\TutoratBundle\Entity\Seance:
         groupe:
             targetEntity: Groupe
             inversedBy: seances
+    oneToMany:
+        compteRendus:
+            targetEntity: CEC\ActiviteBundle\Entity\CompteRendu
+            mappedBy: seance
     manyToMany:
         tuteurs:
             targetEntity: CEC\MembreBundle\Entity\Membre
             inversedBy: seances
         lyceens:
             targetEntity: Lyceen
-            inversedBy: seances
-        activites:
-            targetEntity: CEC\ActiviteBundle\Entity\Activite
             inversedBy: seances
     lifecycleCallbacks: {  }

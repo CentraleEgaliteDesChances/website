@@ -67,7 +67,7 @@ class Seance
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $activites;
+    private $compteRendus;
     
     /**
      * Constructor
@@ -469,35 +469,35 @@ class Seance
     }
 
     /**
-     * Add activites
+     * Add compteRendus
      *
-     * @param \CEC\ActiviteBundle\Entity\Activite $activites
+     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
      * @return Seance
      */
-    public function addActivite(\CEC\ActiviteBundle\Entity\Activite $activites)
+    public function addCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
     {
-        $this->activites[] = $activites;
+        $this->compteRendus[] = $compteRendus;
     
         return $this;
     }
 
     /**
-     * Remove activites
+     * Remove compteRendus
      *
-     * @param \CEC\ActiviteBundle\Entity\Activite $activites
+     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
      */
-    public function removeActivite(\CEC\ActiviteBundle\Entity\Activite $activites)
+    public function removeCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
     {
-        $this->activites->removeElement($activites);
+        $this->compteRendus->removeElement($compteRendus);
     }
 
     /**
-     * Get activites
+     * Get compteRendus
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getActivites()
+    public function getCompteRendus()
     {
-        return $this->activites;
+        return $this->compteRendus;
     }
 }

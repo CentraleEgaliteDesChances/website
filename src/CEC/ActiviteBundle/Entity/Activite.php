@@ -135,17 +135,6 @@ class Activite
     private $dateModification;
     
     /**
-     * Séances associées à cette activité.
-     * Il s'agit de l'ensemble des séances (classe Seance) pour lesquelles cette activité
-     * a été proposé aux lycéens, et a donc été selectionnée.
-     * 
-     * @var CEC\TutoratBundle\Entity\Seance
-     *
-     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "activites")
-     */
-    private $seances;
-    
-    /**
      * Tags associés à l'activité.
      * Le système de classement par tag (classe Tag) permet d'accélérer la recherche
      * d'activité tout en permettant une très grande flexibilité.
@@ -381,39 +370,6 @@ class Activite
         return $this->dateModification;
     }
     
-    /**
-     * Add seances
-     *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
-     * @return Activite
-     */
-    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
-    {
-        $this->seances[] = $seances;
-    
-        return $this;
-    }
-
-    /**
-     * Remove seances
-     *
-     * @param \CEC\TutoratBundle\Entity\Seance $seances
-     */
-    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
-    {
-        $this->seances->removeElement($seances);
-    }
-
-    /**
-     * Get seances
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSeances()
-    {
-        return $this->seances;
-    }
-
     /**
      * Add tags
      *

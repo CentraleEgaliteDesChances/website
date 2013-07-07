@@ -6,12 +6,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Représente un feedback sur une activité effectué.
+ * Représente un feedback sur une activité effectuée en séance de tutorat.
  *
- * Ce feedback est rédigé par un VP Lycée ou un tuteur à la suite d'une séance de tutorat 
- * pendant laquelle cette activité à été proposée aux lycéens. Il est ensuite consulté par 
- * les membres des secteurs Activités qui cherchent à améliorer ou corriger les défauts
- * des activités en soumettant une nouvelle version.
+ * Le compte-rendu est créé dès que le VP Lycée (ou qu'un tuteur) choisit une activité pour sa séance 
+ * le compte-rendu alors vierge connecte alors l'activité avec la séance de tutorat (classe Seance).
+ * Le feedback est ensuite rédigé par un VP Lycée ou un tuteur à la suite de la séance.
+ * Il est ensuite consulté par les membres des secteurs Activités qui cherchent à améliorer ou
+ * corriger les défauts des activités en soumettant une nouvelle version.
  *
  * Il faut rendre la rédaction d'un compte-rendu très facile : c'est pourquoi 3 critères simples 
  * ont été précisément définis, plus une appréciation de la durée nécessaire pour réaliser 
@@ -182,6 +183,18 @@ class CompteRendu
      * @Assert\NotBlank(message = "Le compte-rendu doit être associé à une activité.")
      */
     private $activite;
+    
+    /**
+     * Séance associée à ce compte-rendu.
+     * Il s'agit de la séance pour laquelle ce compte-rendu a été rédigée. Par ailleurs,
+     * lorsqu'un tuteur sélectionne une activité pour une séance, un compte-rendu vierge est
+     * créé ; il sera remplie par la suite, à l'issue de la séance de tutorat.
+     * 
+     * @var CEC\TutoratBundle\Entity\Seance
+     *
+     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Seance", inversedBy = "compteRendus")
+     */
+    private $seance;
     
     /**
      * Membre auteur du compte-rendu.
@@ -447,5 +460,28 @@ class CompteRendu
     public function getAuteur()
     {
         return $this->auteur;
+    }
+
+    /**
+     * Set seance
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seance
+     * @return CompteRendu
+     */
+    public function setSeance(\CEC\TutoratBundle\Entity\Seance $seance = null)
+    {
+        $this->seance = $seance;
+    
+        return $this;
+    }
+
+    /**
+     * Get seance
+     *
+     * @return \CEC\TutoratBundle\Entity\Seance 
+     */
+    public function getSeance()
+    {
+        return $this->seance;
     }
 }
