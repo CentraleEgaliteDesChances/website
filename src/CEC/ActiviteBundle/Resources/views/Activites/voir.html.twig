@@ -1,6 +1,7 @@
 {% extends 'CECActiviteBundle:Activites:base.html.twig' %}
 
 {% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import duree as duree %}
 
 
 {% block left %}
@@ -15,6 +16,7 @@
                 </th>
             </tr>
             <tr><th colspan="2" class="titre">
+                <span class="label label-success">{{ nouvelle_version ? 'NOUVELLE VERSION' }}</span>
                 {{ activite.description }}
             </th></tr>
         </thead>
@@ -47,7 +49,6 @@
     </table>
     <table class="table table-bordered table-striped table-hover table-collapse">
         <tbody>
-            {# TODO: Insérer ici l'annonce de nouvelle version #}
             <tr>
                 <td>Utilisations</td>
                 <td>
@@ -83,6 +84,8 @@
             {# TODO: Insérer, si disponible, la possibilité de sélectionner l'activité pour la prochaine séance. #}
         </tbody>
     </table>
+    
+    <a href="#" class="btn btn-block">Éditer l'activité</a>
 {% endblock %}
 
 
@@ -94,17 +97,17 @@
             <thead>
                 <tr>
                     <th class="embed-title">
-                        <h4>Document associé</h4>
                         <div class="btn-group pull-right">
                             <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary">Télécharger le document</a>
                             <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ activite.document.cheminPDF }}">Document le fichier PDF</a></li>
-                                <li><a href="{{ activite.document.cheminOriginal }}">Document le document original</a></li>
+                                <li><a href="{{ activite.document.cheminPDF }}">Télécharger le fichier PDF</a></li>
+                                <li><a href="{{ activite.document.cheminOriginal }}">Télécharger le document original</a></li>
                             </ul>
                         </div>
+                        <h4>Document associé</h4>
                     </th>
                 </tr>
             </thead>
@@ -159,7 +162,7 @@
                             <p>
                                 <small>
                                     Interactivité : {{ note(compteRendu.noteInteractivite) }}<br />
-                                    Durée adaptée ?
+                                    {{ duree(compteRendu.dureeAdaptee) }}
                                 </small>
                             </p>
                             
@@ -173,6 +176,40 @@
             </tbody>
         {% else %}
             <thead><tr><th class="muted"><h4>Aucun compte-rendu n'a été rédigé pour cette activité !</h4></th></tr></thead>
+        {% endif %}
+    </table>
+    
+    <table class="table table-bordered table-hover table-striped table-large">
+        {% if versions_triees|length > 0 %}
+            <thead><tr><th><h4>Historique des versions<span class="count">{{ versions_triees|length }}</span></h4></th></tr></thead>
+            <tbody>
+                {% for version in versions_triees %}
+                <tr>
+                    <td>
+                        <div class="btn-group pull-right">
+                            <a href="{{ version.cheminPDF }}" class="btn btn-mini">Téléchargement</a>
+                            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ version.cheminPDF }}">Télécharger le fichier PDF</a></li>
+                                <li><a href="{{ version.cheminOriginal }}">Télécharger le document original</a></li>
+                            </ul>
+                        </div>
+                        
+                        <strong>Version du {{ version.dateCreation|date('d/m/Y') }}</strong><br />
+                        {% if version.description %}
+                            {{ version.description }}
+                        {% else %}
+                            <span class="muted">Aucun historique de version.</span> 
+                        {% endif %}
+                        <span class="muted">— <a href="{{ path('membre', { 'membre' : version.auteur.id }) }}" class="muted">{{ version.auteur }}</a></span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucune version de l'activité disponible !</h4></th></tr></thead>
         {% endif %}
     </table>
     

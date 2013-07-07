@@ -5,3 +5,13 @@
         <span class="muted">{{ defaut }}</span>
     {% endif %}
 {% endmacro %}
+
+{% macro duree(duree) %}
+    {% if duree == -1 %}
+        La durée est globalement sous-estimée.
+    {% elseif duree == 1 %}
+        La durée est globalement sur-estimée.
+    {% else %}
+        La durée estimée est globalement correcte.
+    {% endif %}
+{% endmacro %}

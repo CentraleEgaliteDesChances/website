@@ -36,10 +36,31 @@ class ActivitesController extends Controller
                                                  ->getNoteMoyenneInteractivitePourActivite($activite);
         $noteMoyenne['atteinteObjectifs'] = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
                                                      ->getNoteMoyenneAtteinteObjectifsPourActivite($activite);
+                                                     
+        // On détermine si une nouvelle version est disponible (dernier document postérieur au dernier compte-rendu)
+        $nouvelleVersion = false;
+        $dernierCompteRendu = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
+                                       ->getDernierPourActivite($activite);
+        if (!$dernierCompteRendu) {
+            $nouvelleVersion = true;
+        } else {
+            $document = $activite->getDocument();
+            if ($document) {
+                $nouvelleVersion = ( $document->getDateCreation() > $dernierCompteRendu->getDateModification() );
+            }
+        }
+        
+        // On classe les versions par date de création
+        $versionsTriees = $activite->getVersions()->toArray();
+        usort($versionsTriees, function ($version1, $version2) {
+            return $version1->getDateCreation() < $version2->getDateCreation();
+        });
 
         return array(
             'activite' => $activite,
             'note_moyenne' => $noteMoyenne,
+            'nouvelle_version' => $nouvelleVersion,
+            'versions_triees' => $versionsTriees,
         );
     }
 }

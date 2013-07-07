@@ -9,7 +9,9 @@ use CEC\ActiviteBundle\Entity\Activite;
  * Permet de récupérer aisément diverses informations sur les compte-rendus.
  *
  * La présente classe Repository permet de faciliter les tâches suivantes :
- *     - récupérer la note moyenne d'une activité ;
+ *     - récupérer la note moyenne d'une activité (note globale, de contenu, d'interactivité,
+ *       et d'atteinte des objectifs) ;
+ *     - récupérer le dernier compte-rendu ;
  *
  * @author Jean-Baptiste Bayle
  * @version 1.0
@@ -98,5 +100,20 @@ class CompteRenduRepository extends EntityRepository
         }
         
         return count($compteRendus) > 0 ? $sommeDesNotes / count($compteRendus) : null;
+    }
+    
+    /**
+     * Retourne le dernier compte-rendu d'une activité.
+     * Si aucun compte-rendu n'existe, une exception est levée.
+     *
+     * @param CEC\ActiviteBundle\Entity\Activite $activite Activite dont on veut obtenir le dernier compte-rendu.
+     * @return CEC\ActiviteBundle\Entity\CompteRendu Dernier compte-rendu.
+     */
+    public function getDernierPourActivite(Activite $activite)
+    {
+        return $this->findOneBy(
+            array('activite' => $activite->getId()),
+            array('dateModification' => 'ASC'),
+            1);
     }
 }
