@@ -195,24 +195,31 @@ class Document
     
     
     /**
-     * Retourne le chemin absolu du fichier PDF.
-     * Si aucun fichier PDF n'existe, on renvoi le chemin du fichier Word associé.
+     * Retourne le chemin relatif du fichier PDF.
+     * Si aucun fichier PDF n'existe, on renvoie "null".
      *
-     * @return string Chemin absolu du fichier PDF.
+     * @return string Chemin relatif du fichier PDF.
      */
     public function getCheminPDF()
     {
-        if ($this->getNomFichierPDF()) { 
-            return $this->getDossierTelechargement() . '/' . $this->getNomFichierPDF();
-        } else {
-            return $this->getCheminWord();
-        }
+        return $this->getNomFichierPDF() ? $this->getDossierTelechargement() . '/' . $this->getNomFichierPDF() : null;
     }
     
     /**
-     * Retourne le chemin absolu du fichier Word.
+     * Retourne le chemin absolu du fichier PDF.
+     * Si aucun fichier PDF n'existe, on renvoie "null".
      *
-     * @return string Chemin absolu du fichier Word.
+     * @return string Chemin absolu du fichier PDF.
+     */
+    public function getCheminAbsoluPDF()
+    {
+       return $this->getNomFichierPDF() ? $this->getDossierRacineTelechargement() . '/' . $this->getNomFichierPDF() : null;
+    }
+    
+    /**
+     * Retourne le chemin relatif du fichier Word.
+     *
+     * @return string Chemin relatif du fichier Word.
      */
     public function getCheminWord()
     {
@@ -220,13 +227,33 @@ class Document
     }
     
     /**
-     * Retourne le chemin du dossier de téléchargement des documents.
+     * Retourne le chemin absolu du fichier Word.
      *
-     * @return string Chemin absolu du dossier de téléchargement des documents.
+     * @return string Chemin absolu du fichier Word.
+     */
+    public function getCheminAbsoluWord()
+    {
+        return $this->getNomFichierWord() ? $this->getDossierRacineTelechargement() . '/' . $this->getNomFichierWord() : null;
+    }
+    
+    /**
+     * Retourne le chemin relatif du dossier de téléchargement des documents.
+     *
+     * @return string Chemin relatif du dossier de téléchargement des documents.
      */
     public function getDossierTelechargement()
     {
-        $dossierTelechargement = 'uploads/documents';
+        return 'uploads/documents';
+    }
+    
+    /**
+     * Retourne le chemin absolu du dossier de téléchargement des documents.
+     *
+     * @return string Chemin absolu du dossier de téléchargement des documents.
+     */
+    public function getDossierRacineTelechargement()
+    {
+        $dossierTelechargement = $this->getDossierTelechargement();
         return __DIR__ . '/../../../../web/' . $dossierTelechargement;
     }
     
@@ -261,17 +288,17 @@ class Document
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function telechargement()
+    public function telecharger()
     {
         if ($this->getFichierWord() !== null)
         {
-            $this->getFichierWord()->move($this->getDossierTelechargement(), $this->getNomFichierWord());
+            $this->getFichierWord()->move($this->getDossierRacineTelechargement(), $this->getNomFichierWord());
             unset($this->fichierWord);
         }
         
         if ($this->getFichierPDF() !== null)
         {
-            $this->getFichierPDF()->move($this->getDossierTelechargement(), $this->getNomFichierPDF());
+            $this->getFichierPDF()->move($this->getDossierRacineTelechargement(), $this->getNomFichierPDF());
             unset($this->fichierPDF);
         }
         else
@@ -288,12 +315,30 @@ class Document
      * Pour la génération, on utilise le site tierce http://www.conv2pdf.com, qui converti sur un serveur
      * les documents Word en PDF. On télécharge ensuite le résultat. 
      *
-     * @return string
+     * @return false
      */
     public function genererFichierPDF()
     {
         return false;
     }
+    
+    /**
+     * Supprime la paire de fichiers associée du serveur.
+     * Cette méthode est appelée à la suite de la suppression du document dans la base de donnée.
+     *
+     * @ORM\PostRemove()
+     */
+    public function supprimer()
+    {
+        if ($fichier = $this->getCheminAbsoluPDF()) {
+            unlink($fichier);
+        }
+        
+        if ($fichier = $this->getCheminAbsoluWord()) {
+            unlink($fichier);
+        }
+    }
+    
     
     /**
      * Description du document.
