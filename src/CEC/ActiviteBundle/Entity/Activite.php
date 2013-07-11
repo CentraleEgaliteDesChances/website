@@ -21,6 +21,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * Une activité est identifiée par son titre, qui doit donc être unique.
  *
+ * Lorsque l'on supprime une activité, ses versions (classe Document) sont aussi supprimées,
+ * et les fichiers sont retirés du serveur définitivement.
+ *
  * @author Jean-Baptiste Bayle
  * @version 1.0
  * 
@@ -161,7 +164,7 @@ class Activite
      * 
      * @var Document
      *
-     * @ORM\OneToMany(targetEntity = "Document", mappedBy = "activite")
+     * @ORM\OneToMany(targetEntity = "Document", mappedBy = "activite", cascade = {"remove"} )
      */
     private $versions;
     

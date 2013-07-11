@@ -6,8 +6,53 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use CEC\ActiviteBundle\Entity\Activite;
+use CEC\ActiviteBundle\Entity\Document;
+
 class ActivitesController extends Controller
 {
+/**
+     * TestAction.
+     *
+     * @Route("/test")
+     * @Template()
+     */
+    public function testAction()
+    {
+        $maintenant = new \DateTime();
+        
+        $pdfFixture = "data-fixture.pdf";
+        $wordFixture = "data-fixture.doc";
+    
+        $acti1 = new Activite();
+        $acti1->setTitre("Activité 1")
+              ->setDescription("Cette activité consiste en un data fixture permettant de tester le site.")
+              ->setDuree("Entre 45 et 90 minutes")
+              ->setType("Activité Culturelle")
+              ->setDateCreation($maintenant)
+              ->setDateModification($maintenant);
+              
+        $acti1v1 = new Document();
+        $acti1v1->setNomFichierPDF($pdfFixture)
+                ->setNomFichierOriginal($wordFixture)
+                ->setDescription('Téléchargement de la première version.')
+                ->setDateCreation($maintenant)
+                ->setDateModification($maintenant)
+                ->setAuteur($this->getUser())
+                ->setActivite($acti1);
+        $acti1->addVersion($acti1v1);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($acti1);
+        $em->persist($acti1v1);
+        $em->flush();
+        
+        $em->remove($acti1);
+        $em->flush();
+        
+        return array();
+    }
+    
     /**
      * Consultation d'une activité et de ses informations.
      * Affiche les données d'une activité (titre, description, type, durée, tags), un aperçu

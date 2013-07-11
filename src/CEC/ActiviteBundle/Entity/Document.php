@@ -25,6 +25,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * c'est pourquoi nomFichierPDF et nomFichierOriginal doivent être uniques. Un historique des changements
  * d'une activité est conservé grâce au champ "description" de chaque document.
  *
+ * Lorsqu'un objet Document est supprimé, les fichiers associés sont eux-aussi définitivement détruit
+ * sur le serveur. Lorsqu'une activité est supprimée, tous les documents associés (versions) sont supprimés.
+ *
  * IMPORTANT : dans la version 1.0, la génération automatique de PDF à partir du fichier Word
  *             n'est pas fonctionnelle. Un fichier PDF doit donc obligatoirement être fourni
  *             par l'utilisateur lors de la création d'un document.
@@ -325,6 +328,8 @@ class Document
     /**
      * Supprime la paire de fichiers associée du serveur.
      * Cette méthode est appelée à la suite de la suppression du document dans la base de donnée.
+     * En particulier, elle est appelée lorsque l'activité (classe Activite) associée au document
+     * est elle-même supprimée.
      *
      * @ORM\PostRemove()
      */
