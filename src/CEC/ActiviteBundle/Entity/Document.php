@@ -40,6 +40,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(
  *     fields = "nomFichierPDF",
  *     message = "Un fichier PDF possédant le même nom est déjà présent sur le serveur. Merci de ré-essayer."
@@ -265,8 +266,8 @@ class Document
      * Cette méthode génère aléatoirement un nom pour les fichiers original et PDF.
      * Elle est appelée avant la persistance de l'entité (et avant sa mise-à-jour).
      *
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function genererNomsFichiers()
     {
@@ -288,20 +289,20 @@ class Document
      * ATTENTION : dans la version 1.0, la génération automatique du fichier PDF n'est pas
      *             fonctionnelle. 
      *
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
+     * @ORM\PostPersist
+     * @ORM\PostUpdate
      */
     public function telecharger()
     {
-        if ($this->getFichierOriginal() !== null)
+        if ($this->fichierOriginal !== null)
         {
-            $this->getFichierOriginal()->move($this->getDossierRacineTelechargement(), $this->getNomFichierOriginal());
+            $this->fichierOriginal->move($this->getDossierRacineTelechargement(), $this->getNomFichierOriginal());
             unset($this->fichierOriginal);
         }
         
-        if ($this->getFichierPDF() !== null)
+        if ($this->fichierPDF !== null)
         {
-            $this->getFichierPDF()->move($this->getDossierRacineTelechargement(), $this->getNomFichierPDF());
+            $this->fichierPDF->move($this->getDossierRacineTelechargement(), $this->getNomFichierPDF());
             unset($this->fichierPDF);
         }
         else
@@ -331,16 +332,16 @@ class Document
      * En particulier, elle est appelée lorsque l'activité (classe Activite) associée au document
      * est elle-même supprimée.
      *
-     * @ORM\PostRemove()
+     * @ORM\PostRemove
      */
     public function supprimer()
     {
         if ($fichier = $this->getCheminAbsoluPDF()) {
-            unlink($fichier);
+            if (is_file($fichier)) unlink($fichier);
         }
         
         if ($fichier = $this->getCheminAbsoluOriginal()) {
-            unlink($fichier);
+            if (is_file($fichier)) unlink($fichier);
         }
     }
     
