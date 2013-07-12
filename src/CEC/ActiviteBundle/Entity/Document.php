@@ -327,6 +327,18 @@ class Document
     }
     
     /**
+     * Vérifie l'existence des documents sur le serveur.
+     * Cette méthode renvoie "true" si le fichier Original ET le fichier PDF se trouvent sur le serveur.
+     * Dans le cas contraire, on renvoie "false".
+     *
+     * @return boolean Les fichiers existent-ils sur le serveur ?
+     */
+    public function getDisponible()
+    {
+        return is_file($this->getCheminAbsoluPDF()) and is_file($this->getCheminAbsoluOriginal());
+    }
+    
+    /**
      * Supprime la paire de fichiers associée du serveur.
      * Cette méthode est appelée à la suite de la suppression du document dans la base de donnée.
      * En particulier, elle est appelée lorsque l'activité (classe Activite) associée au document

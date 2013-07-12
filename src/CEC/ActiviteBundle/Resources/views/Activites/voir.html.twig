@@ -2,6 +2,7 @@
 
 {% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
 {% from 'CECActiviteBundle::compte_rendu.html.twig' import duree as duree %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 
 {% block left %}
@@ -97,32 +98,45 @@
             <thead>
                 <tr>
                     <th class="embed-title">
-                        <div class="btn-group pull-right">
-                            <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary">Télécharger le document</a>
-                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ activite.document.cheminPDF }}">Télécharger le fichier PDF</a></li>
-                                <li><a href="{{ activite.document.cheminOriginal }}">Télécharger le document original</a></li>
-                            </ul>
-                        </div>
+                        {% if activite.document.disponible %}
+                            <div class="btn-group pull-right">
+                                <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary">Télécharger le document</a>
+                                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ activite.document.cheminPDF }}">Télécharger le fichier PDF</a></li>
+                                    <li><a href="{{ activite.document.cheminOriginal }}">Télécharger le document original</a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-primary" disabled><strong>Télécharger le document</strong></button>
+                                <button class="btn btn-primary dropdown-toggle" disabled>
+                                    <span class="caret"></span>
+                                </button>
+                            </div>
+                        {% endif %}
                         <h4>Document associé</h4>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td class="embed-document">
-                        <object type="application/pdf" data="{{ activite.document.cheminPDF }}?#view=Fit">
-                            <param name="src" value="{{ activite.document.cheminPDF }}?#view=Fit" />
-                            <param name="type" value="application/pdf" />
-                            <param name="zoom" value="75" />
-                            <param name="view" value="Fit" />
-                            <p class="muted" style="margin: 10px;">
-                                Votre navigateur ne permet pas d'afficher l'aperçu du document associé à cette activité. Pour afficher le document PDF, vous pouvez <a href="{{ activite.document.cheminPDF }}" class="muted">cliquer ici</a>.
-                            </p>
-                        </object>
+                    <td {% if activite.document.disponible %}class="embed-document"{% endif %}>
+                        {% if activite.document.disponible %}
+                            <object type="application/pdf" data="{{ activite.document.cheminPDF }}?#view=Fit">
+                                <param name="src" value="{{ activite.document.cheminPDF }}?#view=Fit" />
+                                <param name="type" value="application/pdf" />
+                                <param name="zoom" value="75" />
+                                <param name="view" value="Fit" />
+                                <p class="muted" style="margin: 10px;">
+                                    Votre navigateur ne permet pas d'afficher l'aperçu du document associé à cette activité. Pour afficher le document PDF, vous pouvez <a href="{{ activite.document.cheminPDF }}" class="muted">cliquer ici</a>.
+                                </p>
+                            </object>
+                        {% else %}
+                            {{ flash('error', 'Le fichier n\'est plus accessible sur le serveur. Merci de télécharger à nouveau le document pour utiliser l\'activité.') }}
+                        {% endif %}
                     </td>
                 </tr>
                 <tr>
