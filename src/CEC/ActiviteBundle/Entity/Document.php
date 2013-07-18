@@ -54,6 +54,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Document
 {
     /**
+     * Description pour la première version d'une activité.
+     * @var string
+     */
+    const DocumentDescriptionPremiereVersion = "Première version de l'activité";
+
+    /**
      * @var integer
      *
      * @ORM\Column(name = "id", type = "integer")

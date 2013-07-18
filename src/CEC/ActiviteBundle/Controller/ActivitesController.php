@@ -8,8 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use CEC\ActiviteBundle\Form\Type\ActiviteType;
 use CEC\ActiviteBundle\Form\Type\DocumentType;
+use CEC\ActiviteBundle\Form\Type\NouvelleActiviteType;
 use CEC\ActiviteBundle\Entity\Activite;
 use CEC\ActiviteBundle\Entity\Document;
+use CEC\ActiviteBundle\Entity\NouvelleActivite;
 
 class ActivitesController extends Controller
 {
@@ -65,7 +67,7 @@ class ActivitesController extends Controller
      *
      * @param $activite : id de l'activité
      *
-     * @Route("/activites/{activite}")
+     * @Route("/activites/{activite}", requirements = {"activite" = "\d+"})
      * @Template()
      */
     public function voirAction($activite)
@@ -112,7 +114,7 @@ class ActivitesController extends Controller
      *     - téléchargement d'une nouvelle version ;
      *     - propose un bouton pour supprimer l'activité.
      *
-     * @Route("/activites/{activite}/edition")
+     * @Route("/activites/{activite}/edition", requirements = {"activite" = "\d+"})
      * @Template()
      */
     public function editerAction($activite)
@@ -150,10 +152,52 @@ class ActivitesController extends Controller
     }
     
     /**
+     * Création d'une activité.
+     * Permet à l'utilisateur de remplir les informations d'une séance et de télécharger une première version
+     * de l'activité facilement.
+     *
+     * @Route("/activites/ajout")
+     * @Template()
+     */
+    public function ajouterAction()
+    {
+        $nouvelleActivite = new NouvelleActivite();
+        $activite = $nouvelleActivite->getActivite();
+        $document = $nouvelleActivite->getDocument();
+        
+        $document->setDescription(Document::DocumentDescriptionPremiereVersion);
+        $document->setActivite($activite);
+        $document->setAuteur($this->getUser());
+        $activite->addVersion($document);
+        
+        $form = $this->createForm(new NouvelleActiviteType(), $nouvelleActivite);
+        
+        $request = $this->getRequest();
+        if ($request->isMethod('POST'))
+        {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($activite);
+                $entityManager->persist($document);
+                $entityManager->flush();
+                
+                $this->get('session')
+                    ->setFlash('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
+                return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+            }
+        }
+        
+        return array(
+            'form' => $form->createView(),
+        );
+    }
+    
+    /**
      * Suppression d'une activité.
      * Supprime définitivement l'activité de la base de donnée, et redirige vers la liste des activités.
      *
-     * @Route("/activites/{activite}/suppression")
+     * @Route("/activites/{activite}/suppression", requirements = {"activite" = "\d+"})
      * @Template()
      */
     public function supprimerAction($activite)
