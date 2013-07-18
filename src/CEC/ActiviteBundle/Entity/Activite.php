@@ -181,7 +181,7 @@ class Activite
      *
      * @var CompteRendu
      *
-     * @ORM\OneToMany(targetEntity = "CompteRendu", mappedBy = "activite")
+     * @ORM\OneToMany(targetEntity = "CompteRendu", mappedBy = "activite", cascade = {"remove"} )
      */
     private $compteRendus;
     

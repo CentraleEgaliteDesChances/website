@@ -6,12 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+use CEC\ActiviteBundle\Form\Type\ActiviteType;
 use CEC\ActiviteBundle\Entity\Activite;
 use CEC\ActiviteBundle\Entity\Document;
 
 class ActivitesController extends Controller
 {
-/**
+    /**
      * TestAction.
      *
      * @Route("/test")
@@ -108,4 +109,73 @@ class ActivitesController extends Controller
             'versions_triees' => $versionsTriees,
         );
     }
+    
+    /**
+     * Édition d'une activité et de ses informations.
+     * Permet à l'utilisateur de :
+     *     - modifier les données d'une activité (titre, type d'activité, description, durée estimée, tags associés) ;
+     *     - gérer les versions (affichage, téléchargement et suppression des versions existantes) ;
+     *     - téléchargement d'une nouvelle version ;
+     *     - propose un bouton pour supprimer l'activité.
+     *
+     * @Route("/activites/{activite}/edition")
+     * @Template()
+     */
+    public function editerAction($activite)
+    {
+        $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
+        if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
+        
+        // On classe les versions par date de création
+        $versionsTriees = $activite->getVersions()->toArray();
+        usort($versionsTriees, function ($version1, $version2) {
+            return $version1->getDateCreation() < $version2->getDateCreation();
+        });
+        
+        $activiteForm = $this->createForm(new ActiviteType(), $activite);
+        
+        $request = $this->getRequest();
+        if ($request->isMethod('POST'))
+        {
+            $activiteForm->bindRequest($request);
+            if ($activiteForm->isValid()) {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Les modifications apportées à l\'activité ont bien été enregistrées.');
+                return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+            }
+        }
+        
+        return array(
+            'activite' => $activite,
+            'versions_triees' => $versionsTriees,
+            'activite_form' => $activiteForm->createView(),
+        );
+    }
+    
+    /**
+     * Suppression d'une activité.
+     * Supprime définitivement l'activité de la base de donnée, et redirige vers la liste des activités.
+     *
+     * @Route("/activites/{activite}/suppression")
+     * @Template()
+     */
+    public function supprimerAction($activite)
+    {
+        $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
+        if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
+        
+        $activiteForm = $this->createForm(new ActiviteType(), $activite);
+      
+        $entityManager = $this->getDoctrine()->getEntityManager();
+        $entityManager->remove($activite);
+        $entityManager->flush();
+        
+        $this->get('session')->getFlashBag()
+            ->add('success', 'L\'activité a bien été supprimée, ainsi que tous les documents et compte-rendus associés.');
+        return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+        
+        return array();
+    }
+    
 }

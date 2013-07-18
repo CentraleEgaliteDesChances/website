@@ -86,7 +86,7 @@
         </tbody>
     </table>
     
-    <a href="#" class="btn btn-block">Éditer l'activité</a>
+    <a href="{{ path('cec_activite_activites_editer', { 'activite' : activite.id }) }}" class="btn btn-block">Éditer l'activité</a>
 {% endblock %}
 
 
@@ -201,7 +201,7 @@
                 <tr>
                     <td>
                         <div class="btn-group pull-right">
-                            <a href="{{ version.cheminPDF }}" class="btn btn-mini">Téléchargement</a>
+                            <a href="{{ version.cheminPDF }}" class="btn btn-mini">Télécharger</a>
                             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </a>

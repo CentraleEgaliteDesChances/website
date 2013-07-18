@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Représente un feedback sur une activité effectuée en séance de tutorat.
  *
- * Le compte-rendu est créé dès que le VP Lycée (ou qu'un tuteur) choisit une activité pour sa séance 
- * le compte-rendu alors vierge connecte alors l'activité avec la séance de tutorat (classe Seance).
+ * Le compte-rendu est créé dès que le VP Lycée (ou qu'un tuteur) choisit une activité pour sa séance.
+ * Le compte-rendu alors vierge connecte l'activité avec la séance de tutorat (classe Seance).
  * Le feedback est ensuite rédigé par un VP Lycée ou un tuteur à la suite de la séance.
  * Il est ensuite consulté par les membres des secteurs Activités qui cherchent à améliorer ou
  * corriger les défauts des activités en soumettant une nouvelle version.
@@ -179,7 +179,7 @@ class CompteRendu
      *
      * @var Activite
      *
-     * @ORM\ManyToOne(targetEntity = "Activite", inversedBy = "documents")
+     * @ORM\ManyToOne(targetEntity = "Activite", inversedBy = "compteRendus")
      * @Assert\NotBlank(message = "Le compte-rendu doit être associé à une activité.")
      */
     private $activite;
@@ -198,9 +198,10 @@ class CompteRendu
     
     /**
      * Membre auteur du compte-rendu.
-     * Il est enregistré lors de l'ajout du compte-rendu et permet de garder
+     * Il est enregistré lors de la rédaction du compte-rendu (après la séance) et permet de garder
      * une trace de l'activité du membre dans l'activité de tutorat.
-     * Un compte-rendu doit obligatoirement être associé à un auteur (classe Membre).
+     * Un compte-rendu doit obligatoirement être associé à un auteur (classe Membre) si il est rédigé.
+     * Lors de la sélection de l'activité, le compte-rendu est créé mais aucun auteur n'est spécifié.
      *
      * @var CEC\MembreBundle\Entity\Membre
      *
