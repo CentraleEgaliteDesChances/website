@@ -96,18 +96,11 @@ class ActivitesController extends Controller
                 $nouvelleVersion = ( $document->getDateCreation() > $dernierCompteRendu->getDateModification() );
             }
         }
-        
-        // On classe les versions par date de création
-        $versionsTriees = $activite->getVersions()->toArray();
-        usort($versionsTriees, function ($version1, $version2) {
-            return $version1->getDateCreation() < $version2->getDateCreation();
-        });
 
         return array(
             'activite' => $activite,
             'note_moyenne' => $noteMoyenne,
             'nouvelle_version' => $nouvelleVersion,
-            'versions_triees' => $versionsTriees,
         );
     }
     
@@ -127,14 +120,14 @@ class ActivitesController extends Controller
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
         
+        $activiteForm = $this->createForm(new ActiviteType(), $activite);
+        $documentForm = $this->createForm(new DocumentType(), new Document());
+        
         // On classe les versions par date de création
         $versionsTriees = $activite->getVersions()->toArray();
         usort($versionsTriees, function ($version1, $version2) {
             return $version1->getDateCreation() < $version2->getDateCreation();
         });
-        
-        $activiteForm = $this->createForm(new ActiviteType(), $activite);
-        $documentForm = $this->createForm(new DocumentType(), new Document());
         
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
@@ -150,9 +143,9 @@ class ActivitesController extends Controller
         
         return array(
             'activite' => $activite,
-            'versions_triees' => $versionsTriees,
             'activite_form' => $activiteForm->createView(),
             'document_form' => $documentForm->createView(),
+            'versions_triees' => $versionsTriees,
         );
     }
     

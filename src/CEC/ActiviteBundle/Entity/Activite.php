@@ -145,6 +145,9 @@ class Activite
      * Les tags peuvent représenter, par exemple, le niveau conseillé (premières, terminales), 
      * les objectifs pédagogiques ou les notions abordées, ainsi que le niveau de ludicité de l'activité
      * ou tout autre attribut permettant d'aider les tuteurs lors de la recherche d'activité.
+     *
+     * IMPORTANT : Cette fonctionnalité n'est pas implémentée dans la version 1.0 du site.
+     *             Merci de se reporter à la description de la classe Tag pour plus d'infos.
      * 
      * @var Tag
      *

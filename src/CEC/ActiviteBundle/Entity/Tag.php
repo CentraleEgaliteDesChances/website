@@ -24,6 +24,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * Un tag est entièrement défini par son contenu, qui doit donc être unique.
  *
+ * IMPORTANT : Les tags sont désactivés dans la version 1.0 du site.
+ *             Il s'agit d'une fonctionnalité à implémenter pour la version 2.0 ; pour cela,
+ *             il suffit de créer un nouveau champ permettant de gérer les tags, par exemple
+ *             à l'aide de http://ivaynberg.github.io/select2/#tags ou de http://aehlke.github.io/tag-it/examples.html?.
+ *
  * @author Jean-Baptiste Bayle
  * @version 1.0
  *

@@ -193,38 +193,4 @@
         {% endif %}
     </table>
     
-    <table class="table table-bordered table-hover table-striped table-large">
-        {% if versions_triees|length > 0 %}
-            <thead><tr><th><h4>Historique des versions<span class="count">{{ versions_triees|length }}</span></h4></th></tr></thead>
-            <tbody>
-                {% for version in versions_triees %}
-                <tr>
-                    <td>
-                        <div class="btn-group pull-right">
-                            <a href="{{ version.cheminPDF }}" class="btn btn-mini">Télécharger</a>
-                            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ version.cheminPDF }}">Télécharger le fichier PDF</a></li>
-                                <li><a href="{{ version.cheminOriginal }}">Télécharger le document original</a></li>
-                            </ul>
-                        </div>
-                        
-                        <strong>Version du {{ version.dateCreation|date('d/m/Y') }}</strong><br />
-                        {% if version.description %}
-                            {{ version.description }}
-                        {% else %}
-                            <span class="muted">Aucun historique de version.</span> 
-                        {% endif %}
-                        <span class="muted">— <a href="{{ path('membre', { 'membre' : version.auteur.id }) }}" class="muted">{{ version.auteur }}</a></span>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        {% else %}
-            <thead><tr><th class="muted"><h4>Aucune version de l'activité disponible !</h4></th></tr></thead>
-        {% endif %}
-    </table>
-    
 {% endblock %}
