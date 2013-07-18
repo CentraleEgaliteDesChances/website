@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use CEC\ActiviteBundle\Form\Type\ActiviteType;
+use CEC\ActiviteBundle\Form\Type\DocumentType;
 use CEC\ActiviteBundle\Entity\Activite;
 use CEC\ActiviteBundle\Entity\Document;
 
@@ -133,6 +134,7 @@ class ActivitesController extends Controller
         });
         
         $activiteForm = $this->createForm(new ActiviteType(), $activite);
+        $documentForm = $this->createForm(new DocumentType(), new Document());
         
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
@@ -150,6 +152,7 @@ class ActivitesController extends Controller
             'activite' => $activite,
             'versions_triees' => $versionsTriees,
             'activite_form' => $activiteForm->createView(),
+            'document_form' => $documentForm->createView(),
         );
     }
     

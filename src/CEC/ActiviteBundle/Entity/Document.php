@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFountdation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Un document représente une paire de fichiers enregistrés sur le serveur
@@ -33,7 +34,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *             par l'utilisateur lors de la création d'un document.
  *             La méthode genererFichierPDF renvoit donc "false" par défaut, et le champ
  *             fichierPDF est requis ; pour activer la génération automatique de PDF, il suffit
- *             d'implémenter genererFichierPDF et de désactiver @Assert\NotBlank() pour fichierPDF.
+ *             d'implémenter genererFichierPDF et de désactiver Assert\NotBlank() pour fichierPDF.
  *
  * @author Jean-Baptiste Bayle
  * @version 1.0
@@ -95,7 +96,7 @@ class Document
      * )
      * @Assert\NotBlank(message = "Un fichier original est requis !")
      */
-    private $fichierOriginal;
+    public $fichierOriginal;
     
     /**
      * Fichier PDF téléchargé.
@@ -118,18 +119,16 @@ class Document
      * )
      * @Assert\NotBlank(message = "Un fichier PDF est requis !")
      */
-    private $fichierPDF;
+    public $fichierPDF;
     
     /**
      * Représente le nom du fichier original, avec son extension.
      * Il permet d'accéder par la suite au fichier stocké sur le serveur.
-     * Il s'agit d'une chaîne de caractères de moins de 50 caractères, qui doit être
-     * non-vide et unique.
+     * Il s'agit d'une chaîne de caractères de moins de 50 caractères, qui doit être unique.
      *
      * @var string
      *
      * @ORM\Column(name = "nomFichierOriginal", type = "string", length = 50)
-     * @Assert\NotBlank(message = "Le nom du fichier original ne peut pas être vide.")
      * @Assert\MaxLength(
      *     limit = 50,
      *     message = "Le nom du fichier original ne peut excéder 50 caractères."
@@ -140,13 +139,11 @@ class Document
     /**
      * Représente le nom du fichier PDF, avec son extension.
      * Il permet d'accéder par la suite au fichier stocké sur le serveur.
-     * Il s'agit d'une chaîne de caractères de moins de 50 caractères, qui doit être
-     * non-vide et unique.
+     * Il s'agit d'une chaîne de caractères de moins de 50 caractères, qui doit être unique.
      *
      * @var string
      *
      * @ORM\Column(name = "nomFichierPDF", type = "string", length = 50)
-     * @Assert\NotBlank(message = "Le nom du fichier PDF ne peut pas être vide.")
      * @Assert\MaxLength(
      *     limit = 50,
      *     message = "Le nom du fichier PDF ne peut excéder 50 caractères."
@@ -160,7 +157,8 @@ class Document
      * @var \DateTime
      *
      * @ORM\Column(name = "dateCreation", type = "datetime")
-     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on = "create")
+     * @Assert\DateTime()
      */
     private $dateCreation;
 
@@ -170,7 +168,8 @@ class Document
      * @var \DateTime
      *
      * @ORM\Column(name = "dateModification", type = "datetime")
-     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on = "update")
+     * @Assert\DateTime()
      */
     private $dateModification;
     
@@ -182,7 +181,7 @@ class Document
      * @var Activite
      *
      * @ORM\ManyToOne(targetEntity = "Activite", inversedBy = "versions")
-     * @Assert\NotBlank(message = "Le compte-rendu doit être associé à une activité.")
+     * @Assert\NotBlank(message = "Le document doit être associé à une activité.")
      */
     private $activite;
     
@@ -193,7 +192,7 @@ class Document
      * @var CEC\MembreBundle\Entity\Membre
      *
      * @ORM\ManyToOne(targetEntity = "CEC\MembreBundle\Entity\Membre", inversedBy = "documents")
-     * @Assert\NotBlank(message = "Le compte-rendu doit être associé à un auteur.")
+     * @Assert\NotBlank(message = "Le document doit être associé à un auteur.")
      */
     private $auteur;
     

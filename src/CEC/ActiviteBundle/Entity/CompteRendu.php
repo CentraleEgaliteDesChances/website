@@ -4,6 +4,7 @@ namespace CEC\ActiviteBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Représente un feedback sur une activité effectuée en séance de tutorat.
@@ -158,7 +159,7 @@ class CompteRendu
      * @var \DateTime
      *
      * @ORM\Column(name = "dateCreation", type = "datetime")
-     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on = "create")
      */
     private $dateCreation;
 
@@ -168,7 +169,7 @@ class CompteRendu
      * @var \DateTime
      *
      * @ORM\Column(name = "dateModification", type = "datetime")
-     * @Assert\NotBlank()
+     * @Gedmo\Timestampable(on = "update")
      */
     private $dateModification;
     

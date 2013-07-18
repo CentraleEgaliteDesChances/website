@@ -36,6 +36,25 @@
 {% block right %}
 {{ parent() }}
 
+    <form method="post" action="{{ path('cec_activite_documents_ajouter', { 'activite' : activite.id }) }}" {{ form_enctype(document_form) }}>
+        <table class="table table-bordered table-striped table-large">
+            <thead><tr><th colspan="2"><h4>Téléchargement d'une nouvelle version</h4></th></tr></thead>
+            <tbody>
+                <tr>
+                    <td class="file"><strong>Document original</strong>{{ form_row(document_form.fichierOriginal) }}</td>
+                    <td class="file"><strong>Fichier PDF</strong>{{ form_row(document_form.fichierPDF) }}</td>
+                </tr>
+                <tr><td colspan="2">{{ form_row(document_form.description) }}</td></tr>
+                <tr>
+                    <td colspan="2">
+                        {{ form_rest(document_form) }}
+                        <input type="submit" name="Télécharger" class="btn btn-large btn-block btn-success" value="Télécharger la nouvelle version" style="margin-top: 0;" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
     <table class="table table-bordered table-hover table-striped table-large">
         {% if versions_triees|length > 0 %}
             <thead><tr><th><h4>Gestion des versions<span class="count">{{ versions_triees|length }}</span></h4></th></tr></thead>
@@ -43,18 +62,10 @@
                 {% for version in versions_triees %}
                 <tr>
                     <td>
-                        <strong>Version du {{ version.dateCreation|date('d/m/Y') }}</strong><br />
-                        {% if version.description %}
-                            {{ version.description }}
-                        {% else %}
-                            <span class="muted">Aucun historique de version.</span> 
-                        {% endif %}
-                        <span class="muted">— <a href="{{ path('membre', { 'membre' : version.auteur.id }) }}" class="muted">{{ version.auteur }}</a></span>
-                        
-                        <div>
+                        <div class="pull-right">
                             <div class="btn-group">
-                                <a href="{{ version.cheminPDF }}" class="btn btn-small">Télécharger</a>
-                                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+                                <a href="{{ version.cheminPDF }}" class="btn btn-mini">Télécharger</a>
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -62,8 +73,17 @@
                                     <li><a href="{{ version.cheminOriginal }}">Télécharger le document original</a></li>
                                 </ul>
                             </div>
-                            <a href="{{ path('cec_activite_documents_supprimer', { 'document' : version.id }) }}" class="btn btn-danger btn-small">Supprimer la version</a>
+                            <a href="{{ path('cec_activite_documents_supprimer', { 'activite' : activite.id, 'document' : version.id }) }}" class="btn btn-danger btn-mini">Supprimer la version</a>
                         </div>
+                        
+                        
+                        <strong>Version du {{ version.dateCreation|date('d/m/Y') }}</strong><br />
+                        {% if version.description %}
+                            {{ version.description }}
+                        {% else %}
+                            <span class="muted">Aucun historique de version.</span> 
+                        {% endif %}
+                        <span class="muted">— <a href="{{ path('membre', { 'membre' : version.auteur.id }) }}" class="muted">{{ version.auteur }}</a></span>
                     </td>
                 </tr>
                 {% endfor %}
@@ -86,7 +106,7 @@
                 <li>Historique des versions ;</li>
                 <li>Compte-rendus.</li>
             </ul>
-        <p>Aucun tuteur ne pourra donc plus accéder à ces informations et le secteur Activité n'aura plus trace de ces fichiers.</p>
+        <p>Aucun tuteur ne pourra donc plus accéder à ces informations et les secteurs Activités n'aura plus trace de ces fichiers.</p>
         <p>Êtes-vous certain de vouloir supprimer l'activité ?</p>
     {% endset %}
     
