@@ -72,24 +72,23 @@ class ActivitesController extends Controller
      */
     public function rechercherAction($page)
     {
+        // On filtre les activités déjà réalisées si une séance est prévue.
+        // TODO: Pour l'instant, la condition est "si un groupe est associé à l'utilisateur.
         $recherche = new RechercheActivite();
         if ($groupe = $this->getUser()->getGroupe()) {
-            $recherche->setGroupe($groupe);
-            $recherche->setFiltrerActivitesRealisees(true);
+            $recherche->setGroupe($groupe)
+                ->setFiltrerActivitesRealisees(true);
         }
-        
-        $form = $this->createForm(new RechercheActiviteType(), $recherche);
         
         $resultats = array();
         $notes = array();
         $activiteRepository = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite');
         
+        $form = $this->createForm(new RechercheActiviteType(), $recherche);
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
             $form->bindRequest($request);
-            if ($form->isValid())
-            {
-                // On effectue la recherche
+            if ($form->isValid()) {
                 $resultats = $activiteRepository->findWithRechercheActivite($recherche);
             }
         } else if ($request->isMethod("GET")) {
@@ -101,6 +100,20 @@ class ActivitesController extends Controller
             $notes[$activite->getId()] = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')
                 ->getNoteMoyenneGlobalePourActivite($activite);
         }
+        
+        // On trie les résultat par note moyenne globale
+        usort($resultats, function (Activite $activite1, Activite $activite2) {
+            global $notes;
+            $note1 = $notes[$activite1->getId()];
+            $note2 = $notes[$activite2->getId()];
+            if (is_null($note1)) {
+                return true;
+            } elseif (is_null($note2)) {
+                return false;
+            } else {
+                return $notes[$activite1->getId()] < $notes[$activite2->getId()];
+            }
+        });
                 
         return array(
             'form' => $form->createView(),

@@ -15,7 +15,11 @@ class ActiviteRepository extends EntityRepository
 {
     /**
      * Effectue la recherche parmi toutes les activités.
-     * Les paramètres de la recherche sont passés dans l'objet $recherche.
+     * Les paramètres de la recherche sont passés dans l'objet $recherche, et permettent :
+     *     - une recherche dans le titre ;
+     *     - une recherche dans le type ;
+     *     - un filtrage des activités qui n'ont pas été réalisées en séance du groupe de tutorat
+     *       de l'utilisateur.
      *
      * @param CEC\ActiviteBundle\Entity\RechercheActivite $recherche Paramètres de la recherche
      * @return array Résultats de la recherche.
