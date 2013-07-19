@@ -34,7 +34,7 @@
 {% block right %}
 {{ parent() }}
 
-    <form method="post" action="{{ path('cec_activite_documents_ajouter', { 'activite' : activite.id }) }}" {{ form_enctype(document_form) }}>
+    <form method="post" action="{{ path('cec_activite_documents_creer', { 'activite' : activite.id }) }}" {{ form_enctype(document_form) }}>
         <table class="table table-bordered table-striped table-large">
             <thead><tr><th colspan="2"><h4>Téléchargement d'une nouvelle version</h4></th></tr></thead>
             <tbody>
@@ -71,7 +71,9 @@
                                     <li><a href="{{ version.cheminOriginal }}">Télécharger le document original</a></li>
                                 </ul>
                             </div>
-                            <a href="{{ path('cec_activite_documents_supprimer', { 'activite' : activite.id, 'document' : version.id }) }}" class="btn btn-danger btn-mini">Supprimer la version</a>
+                            {% if versions_triees|length > 1 %}
+                                <a href="{{ path('cec_activite_documents_supprimer', { 'activite' : activite.id, 'document' : version.id }) }}" class="btn btn-danger btn-mini">Supprimer la version</a>
+                            {% endif %}
                         </div>
                         
                         

@@ -138,7 +138,6 @@ class ActivitesController extends Controller
             if ($activiteForm->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Les modifications apportées à l\'activité ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
             }
         }

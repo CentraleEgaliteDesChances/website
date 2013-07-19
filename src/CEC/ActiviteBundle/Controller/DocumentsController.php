@@ -30,10 +30,20 @@ class DocumentsController extends Controller
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
     
-        $document = $this->getDoctrine()->getRepository('CECActiviteBundle:Document')->find($document);
+        $document = $this->getDoctrine()->getRepository('CECActiviteBundle:Document')->findOneBy(array(
+            'id' => $document,
+            'activite' => $activite,
+        ));
         if (!$document) throw $this->createNotFoundException("Impossible de trouver le document !");
+        
+        // S'il s'agit de la seule version de l'activité, on ne la supprime pas
+        if (count($activite->getVersions()) == 1) {
+            $this->get('session')->setFlash('error', 'Vous ne pouvez supprimer l\'unique version d\'une activité !');
+            return $this->redirect($this->generateUrl('cec_activite_activites_editer', array('activite' => $activite->getId())));
+        }
       
         $entityManager = $this->getDoctrine()->getEntityManager();
+        $activite->removeVersion($document);
         $entityManager->remove($document);
         $entityManager->flush();
         
@@ -50,10 +60,10 @@ class DocumentsController extends Controller
      *
      * @param integer $activite : id de l'activité à laquelle on ajoute un nouveau document
      *
-     * @Route("/activites/{activite}/documents/ajout", requirements = {"activite" = "\d+"})
+     * @Route("/activites/{activite}/documents/creation", requirements = {"activite" = "\d+"})
      * @Method("POST")
      */
-    public function ajouterAction($activite)
+    public function creerAction($activite)
     {
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
@@ -76,7 +86,7 @@ class DocumentsController extends Controller
             $entityManager->flush();
             
             $this->get('session')->getFlashBag()
-                ->add('success', 'Le document a bien été téléchargé sur le serveur et ajouté à l\'activité.');
+                ->add('success', 'Le document a bien été téléchargé sur le serveur et la version ajoutéé à l\'activité.');
             return $this->redirect($this->generateUrl('cec_activite_activites_editer', array('activite' => $activite->getId())));
         }
                 
