@@ -3,7 +3,7 @@
 {% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 {% block container %}
-    <form method="post" action="{{ path('cec_activite_activites_ajouter') }}" {{ form_enctype(form) }}>
+    <form method="post" action="{{ path('cec_activite_activites_creer') }}" {{ form_enctype(form) }}>
         {{ parent() }}
     </form>
 {% endblock %}
@@ -12,8 +12,7 @@
 
     <table class="table table-bordered table-form">
         <thead>
-            <tr><th class="edition"></th></tr>
-            <tr><th class="titre titre-edition">
+            <tr><th class="titre titre-creation">
                 <h3>
                     Nouvelle activité
                 </h3>

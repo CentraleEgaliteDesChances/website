@@ -153,13 +153,14 @@ class ActivitesController extends Controller
     
     /**
      * Création d'une activité.
-     * Permet à l'utilisateur de remplir les informations d'une séance et de télécharger une première version
-     * de l'activité facilement.
+     * Permet à l'utilisateur de remplir les informations d'une nouvelle séance et de télécharger une
+     * première version de l'activité facilement. Un bouton créer permet d'ajouter le document
+     * et l'activité dans la base de donnée, et télécharger les fichiers sur le serveur.
      *
-     * @Route("/activites/ajout")
+     * @Route("/activites/creation")
      * @Template()
      */
-    public function ajouterAction()
+    public function creerAction()
     {
         $nouvelleActivite = new NouvelleActivite();
         $activite = $nouvelleActivite->getActivite();
