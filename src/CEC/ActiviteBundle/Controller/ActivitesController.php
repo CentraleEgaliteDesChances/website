@@ -9,9 +9,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\ActiviteBundle\Form\Type\ActiviteType;
 use CEC\ActiviteBundle\Form\Type\DocumentType;
 use CEC\ActiviteBundle\Form\Type\NouvelleActiviteType;
+use CEC\ActiviteBundle\Form\Type\RechercheActiviteType;
 use CEC\ActiviteBundle\Entity\Activite;
 use CEC\ActiviteBundle\Entity\Document;
 use CEC\ActiviteBundle\Entity\NouvelleActivite;
+use CEC\ActiviteBundle\Entity\RechercheActivite;
+use Doctrine\Common\Util\Debug;
 
 class ActivitesController extends Controller
 {
@@ -56,6 +59,56 @@ class ActivitesController extends Controller
         
         return array();
     }
+    
+    /**
+     * Recherche d'une activité.
+     * Cette page permet la recherche d'activité, en affichant un formulaire de recherche ainsi que
+     * la liste des résultats de la recherche (et un lien vers ces activites).
+     * Lorsqu'aucun filtre n'est actif, on présente toutes les activités.
+     *
+     * @Route("/activites", defaults = {"page" = "1"})
+     * @Route("/activites/recherche/{page}", requirements = {"page" = "\d+"}, defaults = {"page" = "1"})
+     * @Template()
+     */
+    public function rechercherAction($page)
+    {
+        $recherche = new RechercheActivite();
+        if ($groupe = $this->getUser()->getGroupe()) {
+            $recherche->setGroupe($groupe);
+            $recherche->setFiltrerActivitesRealisees(true);
+        }
+        
+        $form = $this->createForm(new RechercheActiviteType(), $recherche);
+        
+        $resultats = array();
+        $notes = array();
+        $activiteRepository = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite');
+        
+        $request = $this->getRequest();
+        if ($request->isMethod("POST")) {
+            $form->bindRequest($request);
+            if ($form->isValid())
+            {
+                // On effectue la recherche
+                $resultats = $activiteRepository->findWithRechercheActivite($recherche);
+            }
+        } else if ($request->isMethod("GET")) {
+            $resultats = $activiteRepository->findAll();
+        }
+                
+        // On récupère les notes moyennes pour chaque activité
+        foreach ($resultats as $activite) {
+            $notes[$activite->getId()] = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')
+                ->getNoteMoyenneGlobalePourActivite($activite);
+        }
+                
+        return array(
+            'form' => $form->createView(),
+            'resultats' => $resultats,
+            'notes' => $notes,
+        );
+    }
+    
     
     /**
      * Consultation d'une activité et de ses informations.

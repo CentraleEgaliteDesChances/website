@@ -1,0 +1,13 @@
+{% macro type(type, class_extension = '') %}
+    {% if type == 'Activité Culturelle' %}
+        <span class="label label-info {{ class_extension }}">{{ type }}</span>
+    {% elseif type == 'Activité Scientifique' %}
+        <span class="label label-success {{ class_extension }}">{{ type }}</span>
+    {% elseif type == 'Expérience Scientifique' %}
+        <span class="label label-warning {{ class_extension }}">{{ type }}</span>
+    {% elseif type == 'Autre' %}
+        <span class="label {{ class_extension }}">{{ type }}</span>
+    {% else %}
+        <span class="label label-inverse {{ class_extension }}">Inconnu</span>
+    {% endif %}
+{% endmacro %}

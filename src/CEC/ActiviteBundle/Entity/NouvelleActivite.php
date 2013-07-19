@@ -35,6 +35,7 @@ class NouvelleActivite
      */
     private $document;
     
+    
     /**
      * Constructeur — crée les instances d'Activite et de Document.
      */

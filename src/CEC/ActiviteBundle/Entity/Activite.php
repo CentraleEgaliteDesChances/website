@@ -30,6 +30,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * 
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CEC\ActiviteBundle\Entity\ActiviteRepository")
  * @UniqueEntity(
  *     fields = "titre",
  *     message = "Une activité possédant le même titre existe déjà."
