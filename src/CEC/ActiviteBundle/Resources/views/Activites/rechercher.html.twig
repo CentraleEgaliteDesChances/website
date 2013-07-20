@@ -26,6 +26,14 @@
                 <tr{% if not app.user.groupe %} style="display: none;"{% endif %}>
                     <td>{{ form_widget(form.filtrerActivitesRealisees) }}</td>
                 </tr>
+                {% if seance_a_venir %}
+                    <tr>
+                        <td>
+                            <strong>Une séance est programmée !</strong><br />
+                            Vous pouvez choisir une activité pour cette séance en sélectionnant "Choisir pour la séance" sur la page de l'activité.
+                        </td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td>
                         {{ form_rest(form) }}

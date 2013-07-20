@@ -66,6 +66,9 @@ class ActivitesController extends Controller
      * la liste des résultats de la recherche (et un lien vers ces activites).
      * Lorsqu'aucun filtre n'est actif, on présente toutes les activités.
      *
+     * On affiche aussi la séance à venir si elle existe, en indiquant la marche à suivre pour
+     * choisir une activité.
+     *
      * @Route("/activites", defaults = {"page" = "1"})
      * @Route("/activites/recherche/{page}", requirements = {"page" = "\d+"}, defaults = {"page" = "1"})
      * @Template()
@@ -73,11 +76,12 @@ class ActivitesController extends Controller
     public function rechercherAction($page)
     {
         // On filtre les activités déjà réalisées si une séance est prévue.
-        // TODO: Pour l'instant, la condition est "si un groupe est associé à l'utilisateur.
         $recherche = new RechercheActivite();
         if ($groupe = $this->getUser()->getGroupe()) {
-            $recherche->setGroupe($groupe)
-                ->setFiltrerActivitesRealisees(true);
+            if ($seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
+                $recherche->setGroupe($groupe);
+                $recherche->setFiltrerActivitesRealisees(true);
+            }
         }
         
         $resultats = array();
@@ -119,6 +123,7 @@ class ActivitesController extends Controller
             'form' => $form->createView(),
             'resultats' => $resultats,
             'notes' => $notes,
+            'seance_a_venir' => $seanceAVenir,
         );
     }
     

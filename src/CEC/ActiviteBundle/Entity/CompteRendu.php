@@ -231,6 +231,19 @@ class CompteRendu
     }
     
     /**
+     * Indique si le compte-rendu a été rédigé.
+     * Indique si le compte-rendu a été rédigé après la tenue de la séance, c'est-à-dire si
+     * les notes et les commentaires ont été déposés par un tuteur.
+     * Retourne false si une des notes n'est pas définie.
+     *
+     * @return boolean Le compte-rendu a-t-il été rédigé ?
+     */
+    public function isRedige()
+    {
+        return (bool) $this->getNoteGlobale();
+    }
+    
+    /**
      * Description d'un compte-rendu.
      * Retourne la description de l'activité, de l'auteur auteur et sa note globale.
      *
