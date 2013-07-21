@@ -48,6 +48,10 @@ class GroupesController extends Controller
         // On génère le formulaire
         $nouvelleSeance = new Seance();
         $nouvelleSeance->setGroupe($groupe);
+        foreach ($groupe->getTuteurs() as $tuteur) {
+            $tuteur->addSeance($nouvelleSeance);
+            $nouvelleSeance->addTuteur($tuteur);
+        }
         $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance);
         
         // Par défaut, on masque le modal

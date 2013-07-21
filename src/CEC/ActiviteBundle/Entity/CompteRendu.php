@@ -206,7 +206,7 @@ class CompteRendu
      *
      * @var CEC\MembreBundle\Entity\Membre
      *
-     * @ORM\ManyToOne(targetEntity = "CEC\MembreBundle\Entity\Membre", inversedBy = "documents")
+     * @ORM\ManyToOne(targetEntity = "CEC\MembreBundle\Entity\Membre", inversedBy = "compteRendus")
      * @Assert\NotBlank(message = "Le compte-rendu doit être associé à un auteur.")
      */
     private $auteur;

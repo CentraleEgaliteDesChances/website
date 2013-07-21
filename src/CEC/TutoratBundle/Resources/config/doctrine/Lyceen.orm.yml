@@ -60,7 +60,7 @@ CEC\TutoratBundle\Entity\Lyceen:
     manyToOne:
         groupe:
             targetEntity: Groupe
-            inversedBy: lycees
+            inversedBy: lyceens
     manyToMany:
         seances:
             targetEntity: Seance

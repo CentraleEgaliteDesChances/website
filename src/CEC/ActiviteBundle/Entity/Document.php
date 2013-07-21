@@ -102,7 +102,7 @@ class Document
      * )
      * @Assert\NotBlank(message = "Un fichier original est requis !")
      */
-    public $fichierOriginal;
+    private $fichierOriginal;
     
     /**
      * Fichier PDF téléchargé.
@@ -125,7 +125,7 @@ class Document
      * )
      * @Assert\NotBlank(message = "Un fichier PDF est requis !")
      */
-    public $fichierPDF;
+    private $fichierPDF;
     
     /**
      * Représente le nom du fichier original, avec son extension.
@@ -410,6 +410,52 @@ class Document
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    /**
+     * Set fichierOriginal
+     *
+     * @param Symfony\Component\HttpFountdation\File\UploadedFile $fichierOriginal
+     * @return Document
+     */
+    public function setFichierOriginal(UploadedFile $fichierOriginal)
+    {
+        $this->fichierOriginal = $fichierOriginal;
+    
+        return $this;
+    }
+
+    /**
+     * Get fichierOriginal
+     *
+     * @return Symfony\Component\HttpFountdation\File\UploadedFile 
+     */
+    public function getFichierOriginal()
+    {
+        return $this->fichierOriginal;
+    }
+    
+    /**
+     * Set fichierPDF
+     *
+     * @param Symfony\Component\HttpFountdation\File\UploadedFile $fichierPDF
+     * @return Document
+     */
+    public function setFichierPDF(UploadedFile $fichierPDF)
+    {
+        $this->fichierPDF = $fichierPDF;
+    
+        return $this;
+    }
+
+    /**
+     * Get fichierPDF
+     *
+     * @return Symfony\Component\HttpFountdation\File\UploadedFile 
+     */
+    public function getFichierPDF()
+    {
+        return $this->fichierPDF;
     }
 
     /**
