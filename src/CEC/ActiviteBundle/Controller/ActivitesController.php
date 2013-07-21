@@ -128,7 +128,7 @@ class ActivitesController extends Controller
         $nouvelleVersion = false;
         $dernierCompteRendu = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
                                        ->getDernierPourActivite($activite);
-        if (!$dernierCompteRendu) {
+        if (!$dernierCompteRendu or !$dernierCompteRendu->isRedige()) {
             $nouvelleVersion = true;
         } else {
             $document = $activite->getDocument();

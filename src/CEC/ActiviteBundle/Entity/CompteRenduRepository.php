@@ -18,6 +18,7 @@ use CEC\ActiviteBundle\Entity\Activite;
  */
 class CompteRenduRepository extends EntityRepository
 {
+
     /**
      * Retourne la note moyenne globale pour une activité.
      * Calcule et retourne la note moyenne d'une activite (classe Activite),
@@ -30,6 +31,9 @@ class CompteRenduRepository extends EntityRepository
     public function getNoteMoyenneGlobalePourActivite(Activite $activite)
     {
         $compteRendus = $this->findByActivite($activite);
+        $compteRendus = array_filter($compteRendus, function (CompteRendu $compteRendu) {
+            return $compteRendu->isRedige();
+        });
         $sommeDesNotes = 0;
         
         foreach ($compteRendus as $compteRendu) {
@@ -51,6 +55,9 @@ class CompteRenduRepository extends EntityRepository
     public function getNoteMoyenneContenuPourActivite(Activite $activite)
     {
         $compteRendus = $this->findByActivite($activite);
+        $compteRendus = array_filter($compteRendus, function (CompteRendu $compteRendu) {
+            return $compteRendu->isRedige();
+        });
         $sommeDesNotes = 0;
         
         foreach ($compteRendus as $compteRendu) {
@@ -72,6 +79,9 @@ class CompteRenduRepository extends EntityRepository
     public function getNoteMoyenneInteractivitePourActivite(Activite $activite)
     {
         $compteRendus = $this->findByActivite($activite);
+        $compteRendus = array_filter($compteRendus, function (CompteRendu $compteRendu) {
+            return $compteRendu->isRedige();
+        });
         $sommeDesNotes = 0;
         
         foreach ($compteRendus as $compteRendu) {
@@ -93,6 +103,9 @@ class CompteRenduRepository extends EntityRepository
     public function getNoteMoyenneAtteinteObjectifsPourActivite(Activite $activite)
     {
         $compteRendus = $this->findByActivite($activite);
+        $compteRendus = array_filter($compteRendus, function (CompteRendu $compteRendu) {
+            return $compteRendu->isRedige();
+        });
         $sommeDesNotes = 0;
         
         foreach ($compteRendus as $compteRendu) {

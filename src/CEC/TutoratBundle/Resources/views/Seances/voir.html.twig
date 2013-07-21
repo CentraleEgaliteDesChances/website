@@ -32,19 +32,9 @@
                         <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
                             {{ type(activite.type, 'pull-right') }}
                             <strong>{{ activite.titre }}</strong><br />
-                            <p>
-                                <small>
-                                    {{ note(notes[activite.id]) }}
-                                    {% if activite.compteRendus|length > 0 %}
-                                        — {{ activite.compteRendus|length }} utilisation(s)
-                                    {% else %}
-                                        <span class="muted">— Aucune utilisation</span>
-                                    {% endif %}
-                                </small>
-                            </p>
                             <p>{{ activite.description }}</p>
                             <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
-                            <a href="#" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
+                            <a href="{{ path('cec_activite_compterendus_supprimer', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
                         </a>
                     </td>
                 </tr>
