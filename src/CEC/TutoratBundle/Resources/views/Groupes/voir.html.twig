@@ -101,7 +101,7 @@
     {{ modal.close() }}
 {% endset %}
 
-<form method="post" action="{{ path('editer_groupe', { 'groupe': groupe.id }) }}">
+<form method="post" action="{{ path('groupe', { 'groupe': groupe.id }) }}">
     {{ modal.modal('Créer une séance de tutorat', body, footer) }}
 </form>
 

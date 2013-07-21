@@ -63,3 +63,6 @@ CEC\TutoratBundle\Entity\Lyceen:
             
 CEC\TutoratBundle\Entity\Seance:
     properties:
+        date:
+            - NotBlank: ~ 
+ 
