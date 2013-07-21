@@ -14,52 +14,9 @@ use CEC\ActiviteBundle\Entity\Activite;
 use CEC\ActiviteBundle\Entity\Document;
 use CEC\ActiviteBundle\Entity\NouvelleActivite;
 use CEC\ActiviteBundle\Entity\RechercheActivite;
-use Doctrine\Common\Util\Debug;
 
 class ActivitesController extends Controller
 {
-    /**
-     * TestAction.
-     *
-     * @Route("/test")
-     * @Template()
-     */
-    public function testAction()
-    {
-        $maintenant = new \DateTime();
-        
-        $pdfFixture = "data-fixture.pdf";
-        $wordFixture = "data-fixture.doc";
-    
-        $acti1 = new Activite();
-        $acti1->setTitre("Activité 1")
-              ->setDescription("Cette activité consiste en un data fixture permettant de tester le site.")
-              ->setDuree("Entre 45 et 90 minutes")
-              ->setType("Activité Culturelle")
-              ->setDateCreation($maintenant)
-              ->setDateModification($maintenant);
-              
-        $acti1v1 = new Document();
-        $acti1v1->setNomFichierPDF($pdfFixture)
-                ->setNomFichierOriginal($wordFixture)
-                ->setDescription('Téléchargement de la première version.')
-                ->setDateCreation($maintenant)
-                ->setDateModification($maintenant)
-                ->setAuteur($this->getUser())
-                ->setActivite($acti1);
-        $acti1->addVersion($acti1v1);
-        
-        $em = $this->getDoctrine()->getEntityManager();
-        $em->persist($acti1);
-        $em->persist($acti1v1);
-        $em->flush();
-        
-        $em->remove($acti1);
-        $em->flush();
-        
-        return array();
-    }
-    
     /**
      * Recherche d'une activité.
      * Cette page permet la recherche d'activité, en affichant un formulaire de recherche ainsi que
@@ -146,6 +103,16 @@ class ActivitesController extends Controller
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
         
+        // On détermine si une séance est à venir et si l'activité n'est pas déjà ajoutée
+        $seanceAVenir = false;
+        $dejaChoisie = false;
+        if ($groupe = $this->getUser()->getGroupe()) {
+            if ($seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
+                $activites = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->findBySeance($seanceAVenir);
+                $dejaChoisie = in_array($activite, $activites);
+            }
+        }
+        
         // On récupère les notes moyennes de cette activité
         $doctrine = $this->getDoctrine();
         $noteMoyenne['globale'] = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
@@ -174,6 +141,8 @@ class ActivitesController extends Controller
             'activite' => $activite,
             'note_moyenne' => $noteMoyenne,
             'nouvelle_version' => $nouvelleVersion,
+            'seance_a_venir' => $seanceAVenir,
+            'deja_choisie' => $dejaChoisie,
         );
     }
     
@@ -288,5 +257,4 @@ class ActivitesController extends Controller
         
         return array();
     }
-    
 }

@@ -4,6 +4,7 @@ namespace CEC\ActiviteBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use CEC\ActiviteBundle\Entity\RechercheActivite;
+use CEC\TutoratBundle\Entity\Seance;
 
 /**
  * Permet de définir les méthodes de recherche et de filtrage des activités.
@@ -45,5 +46,22 @@ class ActiviteRepository extends EntityRepository
         if ($recherche->getFiltrerActivitesRealisees()) $requete->setParameter('groupe_id', $recherche->getGroupe()->getId());
         
         return $requete->getResult();
+    }
+    
+    /**
+     * Recherche les activités réalisées au cours d'une séance.
+     * Permet de retrouver les activités présentes dans les compte-rendus associés à une séance.
+     *
+     * @param CEC\TutoratBundle\Entity\Seance $seance : séance pour laquelle on veut retrouver les activités
+     * @return array Résultats de la recherche.
+     */
+    public function findBySeance(Seance $seance)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->join('a.compteRendus', 'cr')
+            ->where('cr.seance = :seance_id')
+            ->setParameter('seance_id', $seance->getId())
+            ->getQuery();
+        return $query->getResult();
     }
 }

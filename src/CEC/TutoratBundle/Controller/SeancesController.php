@@ -87,6 +87,10 @@ class SeancesController extends Controller
         $seance = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->find($seance);
         if (!$seance) throw $this->createNotFoundException('Impossible de trouver la séance de tutorat !');
         
+        // On détermine si la séance est à venir ou non
+        $seanceAVenir = $seance->getGroupe()
+            and $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($seance->getGroupe()) == $seance;
+        
         // Rassemble les lycéens et les tuteurs du groupe de tutorat
         if ($seance->getGroupe())
         {
@@ -138,6 +142,7 @@ class SeancesController extends Controller
             'tuteurs'        => $tuteurs,
             'form'           => $formView,
             'afficher_modal' => $afficherModal,
+            'seance_a_venir' => $seanceAVenir,
         ));
     }
     
@@ -167,7 +172,6 @@ class SeancesController extends Controller
         $this->get('session')->setFlash('success', 'La séance de tutorat a bien été supprimée.');
         return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
     }
-    
     
     /**
      * Bascule l'état d'un tuteur pour cette séance :

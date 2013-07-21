@@ -23,17 +23,32 @@
                         {{ form_row(form.type) }}
                     </td>
                 </tr>
-                <tr{% if not app.user.groupe %} style="display: none;"{% endif %}>
-                    <td>{{ form_widget(form.filtrerActivitesRealisees) }}</td>
+                <tr class="warning" {% if not seance_a_venir %} style="display: none;"{% endif %}>
+                    <td>
+                        {% if seance_a_venir %}
+                            <strong>
+                                <a href="{{ path('groupe', { 'groupe': seance_a_venir.groupe.id }) }}">
+                                    {% for lycee in app.user.groupe.lycees %}
+                                        {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
+                                    {% endfor %}
+                                    ({{ app.user.groupe.niveau }})
+                                </a>
+                            </strong><br />
+                            <a href="{{ path('seance', { 'seance' : seance_a_venir.id }) }}">
+                                <strong>Prochaine séance</strong> :
+                                {{ cycle(jours, seance_a_venir.date|date('N'))|lower }}
+                                {{ seance_a_venir.date|date('d') }}
+                                {{ cycle(mois, seance_a_venir.date|date('m'))|lower }}
+                                à
+                                {{ seance_a_venir.retreiveDebut|date('G\\hi') }}
+                            </a>
+                        {% endif %}
+                        <p style="font-size: 85%; margin-top: 5px;">
+                            Une séance de tutorat est prévue prochainement. Utilisez la recherche pour sélectionner une activité pertinente et, sur la page de l'activité, cliquez sur "Choisir l'activité".
+                        </p>
+                        {{ form_widget(form.filtrerActivitesRealisees) }}
+                    </td>
                 </tr>
-                {% if seance_a_venir %}
-                    <tr>
-                        <td>
-                            <strong>Une séance est programmée !</strong><br />
-                            Vous pouvez choisir une activité pour cette séance en sélectionnant "Choisir pour la séance" sur la page de l'activité.
-                        </td>
-                    </tr>
-                {% endif %}
                 <tr>
                     <td>
                         {{ form_rest(form) }}

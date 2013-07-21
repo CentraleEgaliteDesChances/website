@@ -67,7 +67,7 @@ class CompteRendu
      *
      * @var integer
      *
-     * @ORM\Column(name = "noteContenu", type = "integer")
+     * @ORM\Column(name = "noteContenu", type = "integer", nullable = true)
      * @Assert\NotBlank(message = "Vous devez attribuer une note de contenu.")
      * @Assert\Range(
      *     min = 1,
@@ -87,7 +87,7 @@ class CompteRendu
      *
      * @var integer
      *
-     * @ORM\Column(name = "noteInteractivite", type = "integer")
+     * @ORM\Column(name = "noteInteractivite", type = "integer", nullable = true)
      * @Assert\NotBlank(message = "Vous devez attribuer une note d'interactivité.")
      * @Assert\Range(
      *     min = 1,
@@ -106,7 +106,7 @@ class CompteRendu
      *
      * @var integer
      *
-     * @ORM\Column(name = "noteAtteinteObjectifs", type = "integer")
+     * @ORM\Column(name = "noteAtteinteObjectifs", type = "integer", nullable = true)
      * @Assert\NotBlank(message = "Vous devez attribuer une note d'atteinte des objectifs.")
      * @Assert\Range(
      *     min = 1,
@@ -127,7 +127,7 @@ class CompteRendu
      * 
      * @var integer
      *
-     * @ORM\Column(name = "dureeAdaptee", type = "integer")
+     * @ORM\Column(name = "dureeAdaptee", type = "integer", nullable = true)
      * @Assert\NotBlank(message = "Vous devez spécifier votre appréciation sur la durée de l'activité.")
      * @Assert\Choice(
      *     choices = { -1, 0, 1 },
