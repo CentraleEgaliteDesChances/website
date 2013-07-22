@@ -7,11 +7,13 @@
                 <a href="{{ path('reglages_profil') }}">Profil</a>
         </li>
         <li class="nav-header">Mon activité</li>
+        {#
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_notifications' %}class="active"{% endif %}
             >
                 <a href="{{ path('reglages_notifications') }}">Notifications</a>
         </li>
+        #}
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_groupes_de_tutorat' %}class="active"{% endif %}
             >

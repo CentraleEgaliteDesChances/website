@@ -3,7 +3,7 @@
         <div class="container">
             <a href="#" class="brand">CEC</a>
             <ul class="nav">
-                <li class="active"><a href="#">Tableau de bord</a></li>
+                <li><a href="#">Tableau de bord</a></li>
                 {% if membre.groupe %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -100,8 +100,8 @@
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('reglages_profil') }}">Modifier mon profil</a></li>
-                    <li><a href="{{ path('reglages_groupes_de_tutorat') }}">Mes groupes de tutorat</a></li>
-                    <li><a href="{{ path('reglages_secteurs') }}">Mes secteurs</a></li>
+                    <li><a href="{{ path('reglages_groupes_de_tutorat') }}">Modifier mon groupe</a></li>
+                    <li><a href="{{ path('reglages_secteurs') }}">Modifier mes secteurs</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
                 </ul>

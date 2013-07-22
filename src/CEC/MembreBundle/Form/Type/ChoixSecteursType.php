@@ -12,7 +12,6 @@ class ChoixSecteursType extends AbstractType
             'expanded'     => true,
             'label'        => 'Indiquez les secteurs dans lesquels vous vous impliquez :',
             'property'     => 'nom',
-            'widget_type'  => 'inline',
         ));
     }
     
