@@ -4,7 +4,6 @@ namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use CEC\TutoratBundle\Entity\Groupe;
-use CEC\TutoratBundle\Entity\Seance;
 
 /**
  * SeanceRepository
@@ -39,8 +38,8 @@ class SeanceRepository extends EntityRepository
     /**
      * Récupère les séances se déroulant entre deux dates spécifiques.
      *
-     * @param \DateTime $dateDebut: date de début
-     * @param \DateTime $dateFin  : date de fin
+     * @param \DateTime $dateDebut : date de début
+     * @param \DateTime $dateFin   : date de fin
      * @return ArrayCollection
      */
     public function findAllBetweenDates(\DateTime $dateDebut, \DateTime $dateFin)
@@ -51,5 +50,28 @@ class SeanceRepository extends EntityRepository
                       ->setParameter('date_fin', $dateFin->format('Y-m-d H:i:s'))
                       ->getQuery();
         return $query->getResult();
+    }
+    
+    /**
+     * Retourne la séance à venir pour le groupe de tutorat.
+     * Une séance de tutorat est dite "à venir" si les conditions suivantes sont remplies :
+     *     - la séance a lieu dans moins d'une semaine ;
+     *     - aucune autre séance n'est programmée avant.
+     * Si aucune séance n'est à venir, la méthode renvoit 'false'.
+     *
+     * @param CEC\TutoratBundle\Entity\Groupe $groupe : le groupe de tutorat pour lequel on cherche la séance.
+     * @return CEC\TutoratBundle\Entity\Seance La séance à venir, ou 'false'
+     */
+    public function findOneAVenir(Groupe $groupe)
+    {
+        $query = $this->createQueryBuilder('s')
+                      ->where("s.date BETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), 7, 'DAY')")
+                      ->andWhere('s.groupe = :groupe_id')
+                      ->orderBy('s.date', 'ASC')
+                      ->setParameter('groupe_id', $groupe->getId())
+                      ->setMaxResults(1)
+                      ->getQuery();
+        $resultat = $query->getResult();
+        return count($resultat) > 0 ? $resultat[0] : false;
     }
 }

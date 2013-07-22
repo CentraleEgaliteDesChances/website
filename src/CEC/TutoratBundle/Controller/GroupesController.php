@@ -45,60 +45,20 @@ class GroupesController extends Controller
             return strcmp($a->getNom(), $b->getNom());
         });
         
-        return $this->render('CECTutoratBundle:Groupes:voir.html.twig', array(
-            'groupe'       => $groupe,
-            'lyceens'      => $lyceens,
-            'tuteurs'      => $tuteurs,
-            'seances'      => $seances,
-        ));
-    }
-    
-    /**
-     * Permet l'édition d'un groupe de tutorat.
-     *
-     * @param integer $groupe: id du groupe de tutorat
-     */
-    public function editerAction($groupe)
-    {
-        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
-        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
-            
-        // On rassemble les séances à venir
-        $seances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
-        
-        $lyceens = $groupe->getLyceens()->toArray();
-        $tuteurs = $groupe->getTuteurs()->toArray();
-        // On trie les tuteurs et les lycéens par ordre alphabétique
-        usort($tuteurs, function($a, $b) {
-            return strcmp($a->getNom(), $b->getNom());
-        });
-        usort($lyceens, function($a, $b) {
-            return strcmp($a->getNom(), $b->getNom());
-        });
-        
-        // On génère les formulaires
-        $groupeForm = $this->createForm(new GroupeType(), $groupe);
-        $ajouterLyceenForm = $this->createForm(new AjouterLyceenType());
-        $ajouterTuteurForm = $this->createForm(new ajouterTuteurType());
+        // On génère le formulaire de nouvelle séance
         $nouvelleSeance = new Seance();
-        $nouvelleSeance->setGroupe($groupe);
         $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance);
+        $nouvelleSeance->setGroupe($groupe);
+        foreach ($groupe->getTuteurs() as $tuteur) {
+            $tuteur->addSeance($nouvelleSeance);
+            $nouvelleSeance->addTuteur($tuteur);
+        }
         
         // Par défaut, on masque le modal
         $afficherModal = false;
         
         $request = $this->getRequest();
-        if ($request->getMethod() == 'POST' && $request->request->has('groupe'))
-        {
-            $groupeForm->bindRequest($request);
-            if ($groupeForm->isValid())
-            {
-                $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations du groupe de tutorat ont bien été enregistrées.');
-                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
-            }
-        }
-        if ($request->getMethod() == 'POST' && $request->request->has('seance'))
+        if ($request->getMethod() == 'POST' )
         {
             $nouvelleSeanceForm->bindRequest($request);
             if ($nouvelleSeanceForm->isValid())
@@ -121,16 +81,60 @@ class GroupesController extends Controller
         $nouvelleSeanceFormView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
         $nouvelleSeanceFormView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
         
-        return $this->render('CECTutoratBundle:Groupes:editer.html.twig', array(
+        return $this->render('CECTutoratBundle:Groupes:voir.html.twig', array(
             'groupe'       => $groupe,
             'lyceens'      => $lyceens,
             'tuteurs'      => $tuteurs,
             'seances'      => $seances,
+            'nouvelle_seance_form' => $nouvelleSeanceFormView,
+            'afficher_modal'       => $afficherModal,
+        ));
+    }
+    
+    /**
+     * Permet l'édition d'un groupe de tutorat.
+     *
+     * @param integer $groupe: id du groupe de tutorat
+     */
+    public function editerAction($groupe)
+    {
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+        
+        $lyceens = $groupe->getLyceens()->toArray();
+        $tuteurs = $groupe->getTuteurs()->toArray();
+        // On trie les tuteurs et les lycéens par ordre alphabétique
+        usort($tuteurs, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        usort($lyceens, function($a, $b) {
+            return strcmp($a->getNom(), $b->getNom());
+        });
+        
+        // On génère les formulaires
+        $groupeForm = $this->createForm(new GroupeType(), $groupe);
+        $ajouterLyceenForm = $this->createForm(new AjouterLyceenType());
+        $ajouterTuteurForm = $this->createForm(new ajouterTuteurType());
+        
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST' && $request->request->has('groupe'))
+        {
+            $groupeForm->bindRequest($request);
+            if ($groupeForm->isValid())
+            {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Les informations du groupe de tutorat ont bien été enregistrées.');
+                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
+            }
+        }
+        
+        return $this->render('CECTutoratBundle:Groupes:editer.html.twig', array(
+            'groupe'       => $groupe,
+            'lyceens'      => $lyceens,
+            'tuteurs'      => $tuteurs,
             'groupe_form'  => $groupeForm->createView(),
             'ajouter_lyceen_form'  => $ajouterLyceenForm->createView(),
             'ajouter_tuteur_form'  => $ajouterTuteurForm->createView(),
-            'nouvelle_seance_form' => $nouvelleSeanceFormView,
-            'afficher_modal'       => $afficherModal,
         ));
     }
     

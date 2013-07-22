@@ -1,18 +1,58 @@
 {% extends 'CECTutoratBundle:Seances:base.html.twig' %}
 {% import 'CECMainBundle::macros.html.twig' as modal %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+{% from 'CECActiviteBundle::activite.html.twig' import type as type %}
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
 
 
 {% block right %}
 {{ parent() }}
 
 {% if seance.groupe is null %}
-{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
-{{ flash('alert', 'Attention ! Le groupe de tutorat associé à cette séance a été supprimée et certaines informations ne sont donc plus disponibles. Les statistiques sont en revanche conservées.') }}
+{{ flash('error', 'Attention ! Le groupe de tutorat associé à cette séance a été supprimée et certaines informations ne sont donc plus disponibles. Les statistiques sont en revanche conservées.') }}
 {% endif %}
 
-<table class="table table-bordered table-hover table-striped table-large">
-    <thead><tr><th class="muted"><h4>ActiviteBundle — Activité et autres</h4></th></tr></thead>
-</table>
+{% if app.user not in seance.tuteurs %}
+{{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquez que vous venez.") }}
+{% endif %}
+
+{% if seance_a_venir %}
+    <table class="table table-bordered table-striped table-large">
+        <thead><tr><th>
+            {% if seance.compteRendus is empty %}
+                <span class="badge badge-warning pull-right">1</span>
+            {% endif %}
+            <h4>Informations sur la séance</h4>
+        </th></tr></thead>
+        <tbody>
+            {% for compteRendu in seance.compteRendus %}
+                {% set activite = compteRendu.activite %}
+                <tr>
+                    <td>
+                        <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
+                            {{ type(activite.type, 'pull-right') }}
+                            <strong>{{ activite.titre }}</strong><br />
+                            <p>{{ activite.description }}</p>
+                            <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
+                            <a href="{{ path('cec_activite_compterendus_supprimer', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr class="warning">
+                    <td>
+                        Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('cec_activite_activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td class="reduced-padding">
+                    {{ flash('info', "Une information sur la séance.") }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
 
 <table class="table table-bordered table-hover table-condensed table-striped table-large">
     {% if tuteurs %}
@@ -67,9 +107,57 @@
     {% endif %}
 </table>
 
-<table class="table table-bordered table-hover table-striped table-large">
-    <thead><tr><th class="muted"><h4>ActiviteBundle — Compte-rendu</h4></th></tr></thead>
-</table>
+{% for compteRendu in seance.compteRendus %}
+    <form method="post" action="{{ path('seance', { 'seance' : seance.id }) }}">
+        <table class="table table-bordered table-striped table-large">
+            <thead><tr><th colspan="3">
+                {% if seance.date|date('Ymd') < "now"|date('Ymd') and not compteRendu.redige %}
+                    <span class="badge badge-important pull-right">1</span>
+                {% endif %}
+                <h4>Compte-rendu de séance</h4>
+            </th></tr></thead>
+            <tbody>
+                {% set activite = compteRendu.activite %}
+                <tr>
+                    <td colspan="3">
+                        <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
+                            <strong>{{ activite.titre }}</strong><br />
+                            {{ activite.description }}
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="note">
+                        {{ form_row(cr_forms[compteRendu.id].noteContenu) }}
+                    </td>
+                    <td class="note">
+                        {{ form_row(cr_forms[compteRendu.id].noteInteractivite) }}
+                    </td>
+                    <td class="note">
+                        {{ form_row(cr_forms[compteRendu.id].noteAtteinteObjectifs) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        {{ form_row(cr_forms[compteRendu.id].dureeAdaptee) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="hidden" name="cr_id" value="{{ compteRendu.id }}" />
+                        {{ form_rest(cr_forms[compteRendu.id]) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        {{ form_errors(cr_forms[compteRendu.id]) }}
+                        <input type="submit" name="editer_cr" value="Envoyer le compte-rendu" class="btn btn-block btn-primary" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+{% endfor %}
 
 {% endblock %}
 
@@ -93,7 +181,7 @@
 
 {% set footer %}
     <a href="{{ path('supprimer_seance', { 'seance': seance.id }) }}" class="btn btn-danger pull-left">Supprimer la séance</a>
-    <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" />
+    <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" name="editer_seance" />
     {{ modal.close() }}
 {% endset %}
 

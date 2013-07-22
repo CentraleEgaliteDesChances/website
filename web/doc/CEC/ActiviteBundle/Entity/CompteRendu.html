@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>CEC\ActiviteBundle\Entity\CompteRendu | CEC Web Site API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">CEC Web Site API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../CEC/ActiviteBundle/Entity.html">CEC\ActiviteBundle\Entity</a>\CompteRendu</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>CompteRendu</strong></p>
+
+            <div class="description">
+            <p>Représente un feedback sur une activité effectué.</p>
+            <p>Ce feedback est rédigé par un VP Lycée ou un tuteur à la suite d&#039;une séance de tutorat <br />
+ pendant laquelle cette activité à été proposée aux lycéens. Il est ensuite consulté par <br />
+ les membres des secteurs Activités qui cherchent à améliorer ou corriger les défauts<br />
+ des activités en soumettant une nouvelle version.<br />
+<br />
+ Il faut rendre la rédaction d&#039;un compte-rendu très facile : c&#039;est pourquoi 3 critères simples <br />
+ ont été précisément définis, plus une appréciation de la durée nécessaire pour réaliser <br />
+ l&#039;activité ainsi qu&#039;un champ de commentaires libres.<br />
+<br />
+ Les notes sont définies sur 5, 5 étant la note maximale (Très bon avis).<br />
+ La méthode getNoteGlobale() permet d&#039;obtenir une moyenne des notes associées au compte-rendu.</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>CompteRenduDureeAnnonceeTropCourte</td>
+                <td class="last">
+                    <p><em>Durée annoncée trop courte.</em></p>
+                    <p>La durée estimée est sous-estimée.</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>CompteRenduDureeAdaptee</td>
+                <td class="last">
+                    <p><em>Durée annoncée adaptée.</em></p>
+                    <p>La durée estimée est proche de la réalité</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>CompteRenduDureeAnnonceeTropLongue</td>
+                <td class="last">
+                    <p><em>Durée annoncée trop longue.</em></p>
+                    <p>La durée estimée est sur-estimée.</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getNoteGlobale">getNoteGlobale</a>()
+                    <p>Retourne la moyenne des notes décernées dans le compte-rendu, sur 5.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>Description d&#039;un compte-rendu.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getId">getId</a>()
+                    <p>Get id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setNoteContenu">setNoteContenu</a>(integer $noteContenu)
+                    <p>Set noteContenu</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getNoteContenu">getNoteContenu</a>()
+                    <p>Get noteContenu</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setNoteInteractivite">setNoteInteractivite</a>(integer $noteInteractivite)
+                    <p>Set noteInteractivite</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getNoteInteractivite">getNoteInteractivite</a>()
+                    <p>Get noteInteractivite</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setNoteAtteinteObjectifs">setNoteAtteinteObjectifs</a>(integer $noteAtteinteObjectifs)
+                    <p>Set noteAtteinteObjectifs</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getNoteAtteinteObjectifs">getNoteAtteinteObjectifs</a>()
+                    <p>Get noteAtteinteObjectifs</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDureeAdaptee">setDureeAdaptee</a>(integer $dureeAdaptee)
+                    <p>Set dureeAdaptee</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getDureeAdaptee">getDureeAdaptee</a>()
+                    <p>Get dureeAdaptee</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setCommentaires">setCommentaires</a>(string $commentaires)
+                    <p>Set commentaires</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCommentaires">getCommentaires</a>()
+                    <p>Get commentaires</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDateCreation">setDateCreation</a>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)
+                    <p>Set dateCreation</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDateCreation">getDateCreation</a>()
+                    <p>Get dateCreation</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDateModification">setDateModification</a>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)
+                    <p>Set dateModification</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getDateModification">getDateModification</a>()
+                    <p>Get dateModification</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setActivite">setActivite</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite = null)
+                    <p>Set activite</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getActivite">getActivite</a>()
+                    <p>Get activite</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setAuteur">setAuteur</a>(<abbr title="CEC\ActiviteBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr> $auteur = null)
+                    <p>Set auteur</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getAuteur">getAuteur</a>()
+                    <p>Get auteur</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getNoteGlobale">
+        <div class="location">at line 206</div>
+        <code>            public            integer
+    <strong>getNoteGlobale</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Retourne la moyenne des notes décernées dans le compte-rendu, sur 5.</p>
+        <p>Retourne false si une des notes n&#039;est pas définie.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>Note globale attribuée à l&#039;activité, sur 5.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___toString">
+        <div class="location">at line 224</div>
+        <code>            public            string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Description d&#039;un compte-rendu.</p>
+        <p>Retourne la description de l&#039;activité, de l&#039;auteur auteur et sa note globale.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Description d&#039;un compte-rendu.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 240</div>
+        <code>            public            integer
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get id</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setNoteContenu">
+        <div class="location">at line 251</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setNoteContenu</strong>(integer $noteContenu)</code>
+    </h3>
+    <div class="details">
+        <p>Set noteContenu</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$noteContenu</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNoteContenu">
+        <div class="location">at line 263</div>
+        <code>            public            integer
+    <strong>getNoteContenu</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get noteContenu</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setNoteInteractivite">
+        <div class="location">at line 274</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setNoteInteractivite</strong>(integer $noteInteractivite)</code>
+    </h3>
+    <div class="details">
+        <p>Set noteInteractivite</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$noteInteractivite</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNoteInteractivite">
+        <div class="location">at line 286</div>
+        <code>            public            integer
+    <strong>getNoteInteractivite</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get noteInteractivite</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setNoteAtteinteObjectifs">
+        <div class="location">at line 297</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setNoteAtteinteObjectifs</strong>(integer $noteAtteinteObjectifs)</code>
+    </h3>
+    <div class="details">
+        <p>Set noteAtteinteObjectifs</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$noteAtteinteObjectifs</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNoteAtteinteObjectifs">
+        <div class="location">at line 309</div>
+        <code>            public            integer
+    <strong>getNoteAtteinteObjectifs</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get noteAtteinteObjectifs</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDureeAdaptee">
+        <div class="location">at line 320</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setDureeAdaptee</strong>(integer $dureeAdaptee)</code>
+    </h3>
+    <div class="details">
+        <p>Set dureeAdaptee</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$dureeAdaptee</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDureeAdaptee">
+        <div class="location">at line 332</div>
+        <code>            public            integer
+    <strong>getDureeAdaptee</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dureeAdaptee</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setCommentaires">
+        <div class="location">at line 343</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setCommentaires</strong>(string $commentaires)</code>
+    </h3>
+    <div class="details">
+        <p>Set commentaires</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$commentaires</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCommentaires">
+        <div class="location">at line 355</div>
+        <code>            public            string
+    <strong>getCommentaires</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get commentaires</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateCreation">
+        <div class="location">at line 366</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setDateCreation</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateCreation</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateCreation</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateCreation">
+        <div class="location">at line 378</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateCreation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateCreation</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateModification">
+        <div class="location">at line 389</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setDateModification</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateModification</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateModification</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateModification">
+        <div class="location">at line 401</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateModification</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateModification</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setActivite">
+        <div class="location">at line 412</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setActivite</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set activite</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr></td>
+                <td>$activite</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getActivite">
+        <div class="location">at line 424</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a>
+    <strong>getActivite</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get activite</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/Activite.html"><abbr title="CEC\ActiviteBundle\Entity\Activite">Activite</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setAuteur">
+        <div class="location">at line 435</div>
+        <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a>
+    <strong>setAuteur</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr> $auteur = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set auteur</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr></td>
+                <td>$auteur</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/ActiviteBundle/Entity/CompteRendu.html"><abbr title="CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getAuteur">
+        <div class="location">at line 447</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>getAuteur</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get auteur</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

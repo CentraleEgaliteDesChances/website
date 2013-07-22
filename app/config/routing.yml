@@ -4,6 +4,11 @@ fos_js_routing:
 # adesigns/calendar-bundle
 adesigns_calendar:
     resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
+    
+cec_activite:
+    resource: "@CECActiviteBundle/Controller/"
+    type:     annotation
+    prefix:   /internal/
 
 cec_tutorat:
     resource: "@CECTutoratBundle/Resources/config/routing.yml"
@@ -17,6 +22,7 @@ cec_extern_site:
     resource: "@CECExternSiteBundle/Controller/"
     type:     annotation
     prefix:   /
+
     
 # Internal routing configuration to handle ESI
 #_internal:

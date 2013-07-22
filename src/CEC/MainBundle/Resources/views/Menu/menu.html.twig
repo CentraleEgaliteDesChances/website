@@ -3,31 +3,56 @@
         <div class="container">
             <a href="#" class="brand">CEC</a>
             <ul class="nav">
-                <li class="active"><a href="#">Tableau de bord</a></li>
-                {% if app.user.groupe %}
+                <li><a href="#">Tableau de bord</a></li>
+                {% if membre.groupe %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             Mon tutorat
+                            {% if seance_a_venir and seance_a_venir.compteRendus is empty %}
+                                <span class="badge badge-warning" style="margin-left: 5px;">1</span>
+                            {% endif %}
+                            {% if cr_a_rediger is not empty %}
+                                <span class="badge badge-important"{{ not seance_a_venir or seance_a_venir.compteRendus is not empty ? ' style="margin-left: 5px;"' }}>{{ cr_a_rediger|length }}</span>
+                            {% endif %}
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Prochaines séances</a></li>
-                            <li class="divider"></li>
+                            {% if seance_a_venir %}
+                                <li><a href="{{ path('seance', { 'seance': seance_a_venir.id }) }}">
+                                    Ma prochaine séance
+                                    {% if seance_a_venir.compteRendus is empty %}
+                                        <span class="badge badge-warning" style="margin-left: 10px;">1</span>
+                                    {% endif %}
+                                </a></li>
+                                {% if seance_a_venir.compteRendus is empty %}
+                                    <li><a href="{{ path('cec_activite_activites_rechercher') }}">Choisir une activité</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                            {% endif %}
                             <li>
                                 <a href="{{ path('groupe', { 'groupe': app.user.groupe.id }) }}">
                                     Mon groupe de tutorat
                                 </a>
                             </li>
-                            {% for lycee in app.user.groupe.lycees %}
+                            {% for lycee in membre.groupe.lycees %}
                                 <li>
                                     <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">
-                                        {{lycee.nom }}
+                                        Mon lycée {{ lycee.nom|trim('Lycée') }}
                                     </a>
                                 </li>
                             {% endfor %}
-                            <li class="divider"></li>
-                            <li><a href="#">Écrire le compte-rendu</a></li>
-                            <li><a href="#">Choisir une activité</a></li>
+                            <li>
+                                <a href="{{ path('toutes_seances', { 'groupe': app.user.groupe.id, 'ajoutSeance': 1 }) }}">
+                                    Ajouter une séance
+                                </a>
+                            </li>
+                            {% if membre.groupe and cr_a_rediger is not empty %}
+                                <li class="divider"></li>
+                                <li><a href="{{ path('cec_activite_compterendus_arediger', { 'groupe' : membre.groupe.id }) }}">
+                                    Compte-rendus à rédiger
+                                    <span class="badge badge-important" style="margin-left: 10px;">{{ cr_a_rediger|length }}</span>
+                                </a></li>
+                            {% endif %}
                         </ul>
                     </li>
                 {% endif %}
@@ -55,7 +80,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Liste des activités</a></li>
+                        <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('tous_lycees') }}">Liste des lycées</a></li>
                         <li><a href="{{ path('tous_lyceens') }}">Liste des lycéens</a></li>
@@ -70,13 +95,13 @@
             </ul>
             <div class="btn-group pull-right">
                 <a class="btn btn-primary" href="{{ path('membre') }}">
-                    {{ app.user.username }}
+                    {{ membre.username }}
                 </a>
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('reglages_profil') }}">Modifier mon profil</a></li>
-                    <li><a href="{{ path('reglages_groupes_de_tutorat') }}">Mes groupes de tutorat</a></li>
-                    <li><a href="{{ path('reglages_secteurs') }}">Mes secteurs</a></li>
+                    <li><a href="{{ path('reglages_groupes_de_tutorat') }}">Modifier mon groupe</a></li>
+                    <li><a href="{{ path('reglages_secteurs') }}">Modifier mes secteurs</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
                 </ul>

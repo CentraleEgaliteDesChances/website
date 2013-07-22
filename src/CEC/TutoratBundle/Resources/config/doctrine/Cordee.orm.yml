@@ -1,7 +1,6 @@
 CEC\TutoratBundle\Entity\Cordee:
     type: entity
     table: null
-    repositoryClass: CEC\TutoratBundle\Entity\CordeeRepository
     fields:
         id:
             type: integer

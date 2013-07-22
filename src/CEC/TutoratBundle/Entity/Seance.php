@@ -65,12 +65,18 @@ class Seance
     private $lyceens;
     
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $compteRendus;
+    
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activites = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -460,5 +466,38 @@ class Seance
     public function getLyceens()
     {
         return $this->lyceens;
+    }
+
+    /**
+     * Add compteRendus
+     *
+     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
+     * @return Seance
+     */
+    public function addCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
+    {
+        $this->compteRendus[] = $compteRendus;
+    
+        return $this;
+    }
+
+    /**
+     * Remove compteRendus
+     *
+     * @param \CEC\ActiviteBundle\Entity\CompteRendu $compteRendus
+     */
+    public function removeCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
+    {
+        $this->compteRendus->removeElement($compteRendus);
+    }
+
+    /**
+     * Get compteRendus
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCompteRendus()
+    {
+        return $this->compteRendus;
     }
 }
