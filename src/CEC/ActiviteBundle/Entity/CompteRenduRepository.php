@@ -4,6 +4,7 @@ namespace CEC\ActiviteBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use CEC\ActiviteBundle\Entity\Activite;
+use CEC\TutoratBundle\Entity\Groupe;
 
 /**
  * Permet de récupérer aisément diverses informations sur les compte-rendus.
@@ -11,7 +12,8 @@ use CEC\ActiviteBundle\Entity\Activite;
  * La présente classe Repository permet de faciliter les tâches suivantes :
  *     - récupérer la note moyenne d'une activité (note globale, de contenu, d'interactivité,
  *       et d'atteinte des objectifs) ;
- *     - récupérer le dernier compte-rendu ;
+ *     - récupérer le dernier compte-rendu d'une activité ;
+ *     - récupérer tous les compte-rendus à rédiger pour un groupe de tutorat.
  *
  * @author Jean-Baptiste Bayle
  * @version 1.0
@@ -128,5 +130,29 @@ class CompteRenduRepository extends EntityRepository
             array('activite' => $activite->getId()),
             array('dateModification' => 'ASC'),
             1);
+    }
+    
+    /**
+     * Retourne tous les compte-rendus à rédiger d'un groupe de tutorat.
+     * On retourne les compte-rendus dont les séances ont déjà débutées et qui ne sont pas rédigés.
+     * A noter qu'on ne sélectionne pas les compte-rendus plus vieux de 2 mois après le début de la séance.
+     *
+     * @param CEC\TutoratBundle\Entity\Groupe $groupe Groupe de tutorat dont on veut les compte-rendus.
+     * @return array Compte-rendus à rédiger pour le groupe.
+     */
+    public function findARedigerByGroupe(Groupe $groupe)
+    {
+        $query = $this->createQueryBuilder('cr')
+            ->join('cr.seance', 's')
+            ->where('cr.seance = s.id')
+            ->andWhere('s.groupe = :groupe_id')
+            ->andWhere("s.date BETWEEN DATE_SUB(CURRENT_DATE(), 2, 'MONTH') AND CURRENT_DATE()")
+            ->setParameter('groupe_id', $groupe->getId())
+            ->getQuery();
+         $resultats = $query->getResult();
+         $resultats = array_filter($resultats, function (CompteRendu $compteRendu) {
+             return !$compteRendu->isRedige();
+         });
+         return $resultats;
     }
 }

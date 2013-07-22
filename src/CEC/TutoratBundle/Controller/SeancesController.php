@@ -105,6 +105,7 @@ class SeancesController extends Controller
         // On génère les formulaires de compte-rendu
         $crForms = array();
         foreach ($seance->getCompteRendus() as $compteRendu) {
+            $compteRendu->setAuteur($this->getUser());
             $crForms[$compteRendu->getId()] = $this->createForm(new CompteRenduType(), $compteRendu);
         }
                 

@@ -20,7 +20,7 @@
     <table class="table table-bordered table-striped table-large">
         <thead><tr><th>
             {% if seance.compteRendus is empty %}
-                <span class="badge badge-important pull-right">1</span>
+                <span class="badge badge-warning pull-right">1</span>
             {% endif %}
             <h4>Informations sur la séance</h4>
         </th></tr></thead>
@@ -111,7 +111,7 @@
     <form method="post" action="{{ path('seance', { 'seance' : seance.id }) }}">
         <table class="table table-bordered table-striped table-large">
             <thead><tr><th colspan="3">
-                {% if seance.date|date('Ymd') < "now"|date('Ymd') and not seance.compteRendu.redige %}
+                {% if seance.date|date('Ymd') < "now"|date('Ymd') and not compteRendu.redige %}
                     <span class="badge badge-important pull-right">1</span>
                 {% endif %}
                 <h4>Compte-rendu de séance</h4>
@@ -150,6 +150,7 @@
                 </tr>
                 <tr>
                     <td colspan="3">
+                        {{ form_errors(cr_forms[compteRendu.id]) }}
                         <input type="submit" name="editer_cr" value="Envoyer le compte-rendu" class="btn btn-block btn-primary" />
                     </td>
                 </tr>

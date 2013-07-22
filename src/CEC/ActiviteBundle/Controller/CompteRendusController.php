@@ -81,4 +81,33 @@ class CompteRendusController extends Controller
         
         return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
     }
+    
+    /**
+     * Affiche les compte-rendus à rédiger pour un groupe.
+     * Un compte-rendu est à rédiger lorsque la séance de tutorat a débuté, que le compte-rendu
+     * n'a pas été rédigé et que moins de deux mois ne se sont écoulés depuis la séance.
+     *
+     * Important : si seule un compte-rendu est à rédiger, on redirige immédiatement
+     *             vers la page de la séance (pour compléter immédiatement le compte-rendu).
+     *
+     * @param CEC\TutoratBundle\Entity\Groupe $groupe : id du groupe de tutorat
+     * @Route("/groupes/{groupe}/compte_rendus", requirements = { "groupe" : "\d+" })
+     * @Template()
+     * )
+     */
+    public function aRedigerAction($groupe)
+    {
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+        
+        $compteRendus = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findARedigerByGroupe($groupe);
+        
+        if (count($compteRendus) == 1) {
+            $this->redirect($this->generateUrl('seance', array('seance' => $compteRendus[0]->getSeance()->getId())));
+        }
+        
+        return array(
+            'compte_rendus' => $compteRendus,
+        );
+    }
 }
