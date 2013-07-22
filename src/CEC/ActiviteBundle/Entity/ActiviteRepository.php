@@ -35,9 +35,10 @@ class ActiviteRepository extends EntityRepository
             $dql .= ' AND (
                         SELECT COUNT(cr) FROM CECActiviteBundle:CompteRendu cr
                         JOIN CECTutoratBundle:Seance s
-                        WHERE cr.seance = s.id
+                        WITH cr.seance = s.id
                         AND s.groupe = :groupe_id
-                    ) > 0';
+                        WHERE cr.activite = a.id
+                    ) = 0';
         }
         
         $requete = $this->getEntityManager()->createQuery($dql)
