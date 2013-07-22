@@ -11,7 +11,7 @@ use CEC\MembreBundle\Entity\Secteur;
 use CEC\MembreBundle\Form\Type\InformationsGeneralesType;
 use CEC\MembreBundle\Form\Type\MotDePasseType;
 use CEC\MembreBundle\Form\Type\ChoixSecteursType;
-use CEC\MembreBundle\Form\Type\SecteurType;
+use CEC\MembreBundle\Form\Type\ReglagesGroupeType;
 
 class ReglagesController extends Controller
 {
@@ -99,7 +99,19 @@ class ReglagesController extends Controller
     
     public function groupesDeTutoratAction(Request $request)
     {
-        return $this->render('CECMembreBundle:Reglages:tutorat.html.twig');
+        $membre = $this->getUser();
+        $form = $this->createForm(new ReglagesGroupeType(), $membre);
+        
+        if ($request->isMethod("POST")) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
+                return $this->redirect($this->generateUrl('reglages_groupes_de_tutorat'));
+            }
+        }
+        
+        return $this->render('CECMembreBundle:Reglages:tutorat.html.twig', array('form' => $form->createView()));
     }
     
     public function secteursAction(Request $request)
@@ -109,45 +121,19 @@ class ReglagesController extends Controller
         if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
         
         $nomChoixSecteurs = 'choix_secteurs';
-        $choixSecteurs = $this->get('form.factory')
-            ->createNamedBuilder($nomChoixSecteurs, new ChoixSecteursType(), $membre)
-            ->getForm();
-            
-        $nomSecteurForm = 'secteur';
-        $nouveauSecteur = new Secteur();
-        $secteurForm = $this->get('form.factory')
-            ->createNamedBuilder($nomSecteurForm, new SecteurType(), $nouveauSecteur)
-            ->getForm();
+        $form = $this->createForm(new ChoixSecteursType(), $membre);
         
         if ($request->getMethod() == 'POST') {
-            if ($request->request->has($nomChoixSecteurs))
-            {
-                $choixSecteurs->bindRequest($request);
-                if ($choixSecteurs->isValid()) {
-                    $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
-                    return $this->redirect($this->generateUrl('reglages_secteurs'));
-                }
-            }
-            
-            if ($request->request->has($nomSecteurForm))
-            {
-                $secteurForm->bindRequest($request);
-                if ($secteurForm->isValid()) {
-                    $entityManager = $this->getDoctrine()->getEntityManager();
-                    $entityManager->persist($nouveauSecteur);
-                    $entityManager->flush();
-                    
-                    $this->get('session')->setFlash('success', 'Le secteur a bien été ajouté.');
-                    return $this->redirect($this->generateUrl('reglages_secteurs'));
-                }
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
+                return $this->redirect($this->generateUrl('reglages_secteurs'));
             }
         }
         
         return $this->render('CECMembreBundle:Reglages:secteurs.html.twig', array(
-          'choix_secteurs' => $choixSecteurs->createView(),
-          'secteur'        => $secteurForm->createView(),
-          'afficher_modal' => $request->request->has($nomSecteurForm),
+          'form' => $form->createView(),
         ));
     }
 }

@@ -5,22 +5,28 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Form\Type\SeanceType;
+use CEC\ActiviteBundle\Form\Type\CompteRenduType;
 
 class SeancesController extends Controller
 {
     /**
      * Affiche le planning des séances de tutorat,
      * pour un groupe de tutorat en particulier, ou pour tous les groupes.
+     * Offre un lien pour ajouter rapidement une séance pour un groupe en particulier.
      *
      * @param integer $groupe: id du groupe de tutorat permettant de filtrer les séances.
      *                         Si null, affiche toutes les séances de tutorat.
+     * @param boolean $ajoutSeance: si true, afficher le dialogue pour ajouter une séance.
      */
-    public function toutesAction($groupe)
+    public function toutesAction($groupe, $ajoutSeance)
     {
         // Par défaut, pas de formulaire et on a pas d'objet groupe
         $formView = null;
         $objetGroupe = null;
         
+        // Par défaut, on masque le modal
+        $afficherModal = false;
+                
         if ($groupe)
         {
             // Récupère le groupe associé
@@ -31,6 +37,9 @@ class SeancesController extends Controller
             $nouvelleSeance = new Seance();
             $nouvelleSeance->setGroupe($objetGroupe);
             $form = $this->createForm(new SeanceType(), $nouvelleSeance);
+            
+            // Par défaut, on affiche le modal si l'ajout de séance est demandée
+            $afficherModal = $ajoutSeance;
             
             $request = $this->getRequest();
             if ($request->getMethod() == 'POST')
@@ -44,7 +53,7 @@ class SeancesController extends Controller
                     $this->get('session')->setFlash('success', 'La séance de tutorat a bien été ajoutée.');
                     return $this->redirect($this->generateUrl('toutes_seances', array('groupe' => $groupe)));
                 } else {
-                    $this->get('session')->setFlash('error', 'Les données que vous avez entrées ne sont pas valides. Impossible de créer une nouvelle séance de tutorat, veuillez ré-essayer.');
+                    $afficherModal = true;
                 }
             }
             
@@ -63,6 +72,7 @@ class SeancesController extends Controller
         return $this->render('CECTutoratBundle:Seances:planning.html.twig', array(
             'groupe'         => $objetGroupe,
             'form'           => $formView,
+            'afficher_modal' => $afficherModal,
         ));
     }
 
@@ -78,6 +88,10 @@ class SeancesController extends Controller
         $seance = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->find($seance);
         if (!$seance) throw $this->createNotFoundException('Impossible de trouver la séance de tutorat !');
         
+        // On détermine si la séance est à venir ou non
+        $seanceAVenir = $seance->getGroupe()
+            and $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($seance->getGroupe()) == $seance;
+        
         // Rassemble les lycéens et les tuteurs du groupe de tutorat
         if ($seance->getGroupe())
         {
@@ -86,6 +100,13 @@ class SeancesController extends Controller
         } else {
             $lyceens = array();
             $tuteurs = array();
+        }
+        
+        // On génère les formulaires de compte-rendu
+        $crForms = array();
+        foreach ($seance->getCompteRendus() as $compteRendu) {
+            $compteRendu->setAuteur($this->getUser());
+            $crForms[$compteRendu->getId()] = $this->createForm(new CompteRenduType(), $compteRendu);
         }
                 
         // On trie les tuteurs et les lycéens par ordre alphabétique
@@ -99,7 +120,7 @@ class SeancesController extends Controller
         $afficherModal = false;
         
         $request = $this->getRequest();
-        if ($request->getMethod() == 'POST')
+        if ($request->getMethod() == 'POST' and $request->request->has('editer_seance'))
         {
             $form->bindRequest($request);
             if ($form->isValid())
@@ -109,6 +130,25 @@ class SeancesController extends Controller
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
                 $afficherModal = true;
+            }
+        }
+        if ($request->getMethod() == 'POST' and $request->request->has('editer_cr'))
+        {
+            $compteRenduId = $request->request->get('cr_id');
+            $compteRendu = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findOneBy(array(
+                'id' => $compteRenduId,
+                'seance' => $seance->getId(),
+            ));
+            if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu a éditer !');
+            
+            $crForm = $crForms[$compteRenduId];
+            $crForm->bindRequest($request);
+            if ($crForm->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
+                return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
+            } else {
+                $this->get('session')->setFlash('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
             }
         }
         
@@ -123,12 +163,18 @@ class SeancesController extends Controller
             $formView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
         }
         
+        // On génère les vues de formulaires pour les CR
+        $crFormViews = array();
+        foreach ($crForms as $compteRenduId => $form) $crFormViews[$compteRenduId] = $form->createView();
+        
         return $this->render('CECTutoratBundle:Seances:voir.html.twig', array(
             'seance'         => $seance,
             'lyceens'        => $lyceens,
             'tuteurs'        => $tuteurs,
             'form'           => $formView,
             'afficher_modal' => $afficherModal,
+            'seance_a_venir' => $seanceAVenir,
+            'cr_forms'       => $crFormViews,
         ));
     }
     
@@ -158,7 +204,6 @@ class SeancesController extends Controller
         $this->get('session')->setFlash('success', 'La séance de tutorat a bien été supprimée.');
         return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
     }
-    
     
     /**
      * Bascule l'état d'un tuteur pour cette séance :

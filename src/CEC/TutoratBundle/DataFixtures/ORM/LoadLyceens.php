@@ -77,6 +77,6 @@ class LoadLyceen extends AbstractFixture implements OrderedFixtureInterface
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 5;
+        return 50;
     }
 }

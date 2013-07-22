@@ -1,0 +1,58 @@
+{% extends 'CECActiviteBundle:Activites:base.html.twig' %}
+
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block container %}
+    <form method="post" action="{{ path('cec_activite_activites_creer') }}" {{ form_enctype(form) }}>
+        {{ parent() }}
+    </form>
+{% endblock %}
+
+{% block left %}
+
+    <table class="table table-bordered table-form">
+        <thead>
+            <tr><th class="titre titre-creation">
+                <h3>
+                    Nouvelle activité
+                </h3>
+            </th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {{ form_errors(form.activite) }}
+                    {{ form_row(form.activite) }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+{% endblock %}
+
+{% block right %}
+{{ parent() }}
+
+    <table class="table table-bordered table-striped table-large">
+        <thead><tr><th colspan="2"><h4>Téléchargement d'une première version</h4></th></tr></thead>
+        <tbody>
+            <tr>
+                <td colspan="2">
+                    <p>Pour créer une nouvelle activité, vous devez télécharger une première version de celle-ci. Pour ce faire, utilisez les deux champs ci-dessous pour sélectionner le document original (document Word ou PowerPoint) et une version PDF.</p>
+                    {{ form_errors(form.document) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="file"><strong>Document original</strong>{{ form_row(form.document.fichierOriginal) }}</td>
+                <td class="file"><strong>Fichier PDF</strong>{{ form_row(form.document.fichierPDF) }}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {{ form_rest(form) }}
+                    <input type="submit" name="Télécharger" class="btn btn-large btn-block btn-success" value="Créer l'activité" style="margin-top: 0;" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

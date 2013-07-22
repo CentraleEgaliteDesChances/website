@@ -1,0 +1,111 @@
+{% extends 'CECActiviteBundle:Activites:base.html.twig' %}
+
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
+{% from 'CECActiviteBundle::activite.html.twig' import type as type %}
+
+
+{% block left %}
+
+    <table class="table table-bordered table-form">
+        <thead>
+            <tr><th class="titre">
+                <h3>
+                    Recherche d'activité
+                </h3>
+            </th></tr>
+        </thead>
+        <form class="form" method="post" action="{{ path('cec_activite_activites_rechercher') }}">
+            <tbody>
+                <tr>
+                    <td>
+                        {{ form_errors(form) }}
+                        {{ form_row(form.titre) }}
+                        {{ form_row(form.type) }}
+                    </td>
+                </tr>
+                <tr class="warning" {% if not seance_a_venir %} style="display: none;"{% endif %}>
+                    <td>
+                        {% if seance_a_venir %}
+                            <strong>
+                                <a href="{{ path('groupe', { 'groupe': seance_a_venir.groupe.id }) }}">
+                                    {% for lycee in app.user.groupe.lycees %}
+                                        {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
+                                    {% endfor %}
+                                    ({{ app.user.groupe.niveau }})
+                                </a>
+                            </strong><br />
+                            <a href="{{ path('seance', { 'seance' : seance_a_venir.id }) }}">
+                                <strong>Prochaine séance</strong> :
+                                {{ cycle(jours, seance_a_venir.date|date('N'))|lower }}
+                                {{ seance_a_venir.date|date('d') }}
+                                {{ cycle(mois, seance_a_venir.date|date('m'))|lower }}
+                                à
+                                {{ seance_a_venir.retreiveDebut|date('G\\hi') }}
+                            </a>
+                        {% endif %}
+                        <p style="font-size: 85%; margin-top: 5px;">
+                            Une séance de tutorat est prévue prochainement. Utilisez la recherche pour sélectionner une activité pertinente et, sur la page de l'activité, cliquez sur "Choisir l'activité".
+                        </p>
+                        {{ form_widget(form.filtrerActivitesRealisees) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {{ form_rest(form) }}
+                        <input type="submit" name="sumbit" class="btn btn-block btn-primary btn-large" value="Rechercher" style="margin-top: 0;" />
+                    </td>
+                </tr>
+            </tbody>
+        </form>
+    </table>
+    
+{% endblock %}
+
+{% block right %}
+{{ parent() }}
+
+    <table class="table table-bordered table-hover table-striped table-large">
+        {% if resultats|length > 0 %}
+            <thead>
+                <tr>
+                    <th>
+                        <h4>
+                            {% if app.request.method == 'POST' %}
+                                Résultats de la recherche
+                            {% else %}
+                                Toutes les activités
+                            {% endif %}
+                            <span class="count">{{ resultats|length }}</span>
+                        </h4>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activite in resultats %}
+                <tr>
+                    <td>
+                        <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
+                            {{ type(activite.type, 'pull-right') }}
+                            <strong>{{ activite.titre }}</strong><br />
+                            <p>
+                                <small>
+                                    {{ note(notes[activite.id]) }}
+                                    {% if activite.compteRendus|length > 0 %}
+                                        — {{ activite.compteRendus|length }} utilisation(s)
+                                    {% else %}
+                                        <span class="muted">— Aucune utilisation</span>
+                                    {% endif %}
+                                </small>
+                            </p>
+                            {{ activite.description }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucune activité ne correspond à vos critères de recherche !</h4></th></tr></thead>
+        {% endif %}
+    </table>
+    
+{% endblock %}

@@ -1,0 +1,17 @@
+{% macro note(note, defaut = 'Aucune note disponible') %}
+    {% if note is not null %}
+        {{ note|number_format(1, ',', ' ') }} sur 5
+    {% else %}
+        <span class="muted">{{ defaut }}</span>
+    {% endif %}
+{% endmacro %}
+
+{% macro duree(duree) %}
+    {% if duree == -1 %}
+        La durée est globalement sous-estimée.
+    {% elseif duree == 1 %}
+        La durée est globalement sur-estimée.
+    {% else %}
+        La durée estimée est globalement correcte.
+    {% endif %}
+{% endmacro %}

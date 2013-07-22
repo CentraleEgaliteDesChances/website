@@ -32,6 +32,6 @@ class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 1;
+        return 10;
     }
 }

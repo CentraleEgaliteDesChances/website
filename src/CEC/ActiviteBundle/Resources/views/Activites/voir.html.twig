@@ -1,0 +1,224 @@
+{% extends 'CECActiviteBundle:Activites:base.html.twig' %}
+
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import duree as duree %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+
+{% block left %}
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <thead>
+            <tr>
+                <th colspan="2" class="titre">
+                    <h3>
+                        <span style="font-weight: normal; font-size: 90%;">{{ activite.type }}</span><br />
+                        {{ activite.titre }}
+                    </h3>
+                </th>
+            </tr>
+            <tr><th colspan="2" class="titre">
+                <span class="label label-success">{{ nouvelle_version ? 'NOUVELLE VERSION' }}</span>
+                {{ activite.description }}
+            </th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Type d'activité</td>
+                <td>{{ activite.type }}</td>
+            </tr>
+            <tr>
+                <td>Durée</td>
+                <td>
+                    {{ activite.duree }}
+                </td>
+            </tr>
+            <tr>
+                <td>Note moyenne</td>
+                <td>{{ note(note_moyenne.globale) }}</td>
+            </tr>
+            {#
+            <tr>
+                <td>Tags</td>
+                <td>
+                    {% if activite.tags %}
+                        {{ activite.tags|join(', ') }}
+                    {% else %}
+                        <span class="muted">Aucun tag</span>
+                    {% endif %}
+                </td>
+            </tr>
+            #}
+        </tbody>
+    </table>
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <tbody>
+            <tr>
+                <td>Utilisations</td>
+                <td>
+                    {{ activite.compteRendus|length }} utilisation(s)
+                </td>
+            </tr>
+            <tr>
+                <td>Versions</td>
+                <td>
+                    {{ activite.versions|length }} version(s)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <tbody>
+            <tr>
+                <td>Contenu</td>
+                <td>{{ note(note_moyenne.contenu) }}</td>
+            </tr>
+            <tr>
+                <td>Interactivité</td>
+                <td>{{ note(note_moyenne.interactivite) }}</td>
+            </tr>
+            <tr>
+                <td>Réussite</td>
+                <td>{{ note(note_moyenne.atteinteObjectifs) }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% if seance_a_venir %}
+        <table class="table table-bordered table-striped table-collapse">
+            <tbody>
+                <tr class="warning">
+                    <td style="text-align: center;">
+                        <a href="{% if deja_choisie %}{{ path('cec_activite_compterendus_supprimer', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% else %}{{ path('cec_activite_compterendus_creer', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% endif %}" 
+                                class="btn btn-warning{{ deja_choisie ? ' active' }}" 
+                                style="display: block; padding: 10px;">
+                            <div style="font-size: 140%; margin-bottom: 5px;">
+                                Choisir l'activité
+                            </div>
+                            <div style="font-weight: normal;">
+                                {% for lycee in app.user.groupe.lycees %}
+                                    {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
+                                {% endfor %}
+                                ({{ app.user.groupe.niveau }})
+                                <br />
+                                Séance du
+                                {{ cycle(jours, seance_a_venir.date|date('N'))|lower }}
+                                {{ seance_a_venir.date|date('d') }}
+                                {{ cycle(mois, seance_a_venir.date|date('m'))|lower }}
+                                à
+                                {{ seance_a_venir.retreiveDebut|date('G\\hi') }}
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    {% endif %}
+    
+    
+    <a href="{{ path('cec_activite_activites_editer', { 'activite' : activite.id }) }}" class="btn btn-block">Éditer l'activité</a>
+{% endblock %}
+
+
+{% block right %}
+{{ parent() }}
+    <table class="table table-bordered table-striped table-large table-embed">
+        {% if activite.document %}
+            <thead>
+                <tr>
+                    <th class="embed-title">
+                        {% if activite.document.disponible %}
+                            <div class="btn-group pull-right">
+                                <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary">Télécharger le document</a>
+                                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ activite.document.cheminPDF }}">Télécharger le fichier PDF</a></li>
+                                    <li><a href="{{ activite.document.cheminOriginal }}">Télécharger le document original</a></li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-primary" disabled><strong>Télécharger le document</strong></button>
+                                <button class="btn btn-primary dropdown-toggle" disabled>
+                                    <span class="caret"></span>
+                                </button>
+                            </div>
+                        {% endif %}
+                        <h4>Document associé</h4>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td {% if activite.document.disponible %}class="embed-document"{% endif %}>
+                        {% if activite.document.disponible %}
+                            <object type="application/pdf" data="{{ activite.document.cheminPDF }}?#view=Fit">
+                                <param name="src" value="{{ activite.document.cheminPDF }}?#view=Fit" />
+                                <param name="type" value="application/pdf" />
+                                <param name="zoom" value="75" />
+                                <param name="view" value="Fit" />
+                                <p class="muted" style="margin: 10px;">
+                                    Votre navigateur ne permet pas d'afficher l'aperçu du document associé à cette activité. Pour afficher le document PDF, vous pouvez <a href="{{ activite.document.cheminPDF }}" class="muted">cliquer ici</a>.
+                                </p>
+                            </object>
+                        {% else %}
+                            {{ flash('error', 'Le fichier n\'est plus accessible sur le serveur. Merci de télécharger à nouveau le document pour utiliser l\'activité.') }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="embed-infos">
+                        <small class="muted pull-right">Créé le {{ activite.document.dateCreation|date('d/m/Y') }} par <a href="{{ path('membre', { 'membre' : activite.document.auteur.id }) }}" class="muted">{{ activite.document.auteur }}</a>.</small>
+                    </td>
+                </tr>
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucun document associé à l'activité !</h4></th></tr></thead>
+        {% endif %}
+    </table>
+    
+    <table class="table table-bordered table-hover table-striped table-large">
+        {% if activite.compteRendus|length > 0 %}
+            <thead><tr><th><h4>Compte-rendus<span class="count">{{ activite.compteRendus|length }}</span></h4></th></tr></thead>
+            <tbody>
+                {% for compteRendu in activite.compteRendus %}
+                <tr>
+                    <td class="compte-rendu">
+                        <a href="{{ path('seance', { 'seance' : compteRendu.seance.id }) }}">
+                            <h5>Séance au
+                                {% for lycee in compteRendu.seance.groupe.lycees %}
+                                    {{ lycee.nom }}
+                                    {% if not loop.last %}& {% endif %}
+                                {% endfor %}
+                                ({{ compteRendu.seance.groupe.niveau }})
+                                <span class="muted pull-right" style="font-weight: normal;">{{ compteRendu.seance.date|date('d/m/Y') }}</span>
+                            </h5>
+                            <p>Note moyenne : {{ note(compteRendu.noteGlobale) }}</p>
+                            <p class="pull-left" style="margin-right: 60px;">
+                                <small>
+                                    Contenu : {{ note(compteRendu.noteContenu) }}<br />
+                                    Atteinte des objectifs : {{ note(compteRendu.noteAtteinteObjectifs) }}
+                                </small>
+                            </p>
+                            <p>
+                                <small>
+                                    Interactivité : {{ note(compteRendu.noteInteractivite) }}<br />
+                                    {{ duree(compteRendu.dureeAdaptee) }}
+                                </small>
+                            </p>
+                            
+                            {% if compteRendu.commentaires is not null %}
+                                <p><small>{{ compteRendu.commentaires }}</small></p>
+                            {% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucun compte-rendu n'a été rédigé pour cette activité !</h4></th></tr></thead>
+        {% endif %}
+    </table>
+    
+{% endblock %}

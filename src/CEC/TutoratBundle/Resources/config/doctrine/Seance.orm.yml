@@ -38,6 +38,10 @@ CEC\TutoratBundle\Entity\Seance:
         groupe:
             targetEntity: Groupe
             inversedBy: seances
+    oneToMany:
+        compteRendus:
+            targetEntity: CEC\ActiviteBundle\Entity\CompteRendu
+            mappedBy: seance
     manyToMany:
         tuteurs:
             targetEntity: CEC\MembreBundle\Entity\Membre

@@ -40,6 +40,13 @@ CEC\MembreBundle\Entity\Membre:
             gedmo:
                 timestampable:
                     on: update
+    oneToMany:
+        documents:
+            targetEntity: CEC\ActiviteBundle\Entity\Document
+            mappedBy: auteur
+        compteRendus:
+            targetEntity: CEC\ActiviteBundle\Entity\CompteRendu
+            mappedBy: auteur
     manyToMany:
         secteurs:
             targetEntity: Secteur

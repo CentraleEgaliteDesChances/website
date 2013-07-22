@@ -72,6 +72,6 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
      * {@inheritDoc}
      */
     public function getOrder() {
-        return 3;
+        return 30;
     }
 }
