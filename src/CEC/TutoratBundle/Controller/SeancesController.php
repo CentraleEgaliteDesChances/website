@@ -5,6 +5,7 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Form\Type\SeanceType;
+use CEC\ActiviteBundle\Form\Type\CompteRenduType;
 
 class SeancesController extends Controller
 {
@@ -100,6 +101,12 @@ class SeancesController extends Controller
             $lyceens = array();
             $tuteurs = array();
         }
+        
+        // On génère les formulaires de compte-rendu
+        $crForms = array();
+        foreach ($seance->getCompteRendus() as $compteRendu) {
+            $crForms[$compteRendu->getId()] = $this->createForm(new CompteRenduType(), $compteRendu);
+        }
                 
         // On trie les tuteurs et les lycéens par ordre alphabétique
         usort($tuteurs, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
@@ -112,7 +119,7 @@ class SeancesController extends Controller
         $afficherModal = false;
         
         $request = $this->getRequest();
-        if ($request->getMethod() == 'POST')
+        if ($request->getMethod() == 'POST' and $request->request->has('editer_seance'))
         {
             $form->bindRequest($request);
             if ($form->isValid())
@@ -122,6 +129,25 @@ class SeancesController extends Controller
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
                 $afficherModal = true;
+            }
+        }
+        if ($request->getMethod() == 'POST' and $request->request->has('editer_cr'))
+        {
+            $compteRenduId = $request->request->get('cr_id');
+            $compteRendu = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findOneBy(array(
+                'id' => $compteRenduId,
+                'seance' => $seance->getId(),
+            ));
+            if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu a éditer !');
+            
+            $crForm = $crForms[$compteRenduId];
+            $crForm->bindRequest($request);
+            if ($crForm->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
+                return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
+            } else {
+                $this->get('session')->setFlash('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
             }
         }
         
@@ -136,6 +162,10 @@ class SeancesController extends Controller
             $formView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
         }
         
+        // On génère les vues de formulaires pour les CR
+        $crFormViews = array();
+        foreach ($crForms as $compteRenduId => $form) $crFormViews[$compteRenduId] = $form->createView();
+        
         return $this->render('CECTutoratBundle:Seances:voir.html.twig', array(
             'seance'         => $seance,
             'lyceens'        => $lyceens,
@@ -143,6 +173,7 @@ class SeancesController extends Controller
             'form'           => $formView,
             'afficher_modal' => $afficherModal,
             'seance_a_venir' => $seanceAVenir,
+            'cr_forms'       => $crFormViews,
         ));
     }
     

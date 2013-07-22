@@ -62,7 +62,7 @@ class CompteRendu
 
     /**
      * Note de contenu.
-     * Le contenu du sujet est-il interessant et possède-t-il un contenu pédagogique pertinent ?
+     * Le sujet est-il interessant et possède-t-il un contenu pédagogique pertinent ?
      * La note est un entier, compris entre 1 (Mauvais) et 5 (Très bon avis).
      *
      * @var integer
@@ -101,7 +101,7 @@ class CompteRendu
 
     /**
      * Note d'atteinte d'objectifs.
-     * Les objectifs pédagogiques annocés de l'activité ont-ils été atteints à la fin de la séance ?
+     * Les objectifs pédagogiques annoncés de l'activité ont-ils été atteints à la fin de la séance ?
      * La note est un entier, compris entre 1 (Mauvais) et 5 (Très bon avis).
      *
      * @var integer

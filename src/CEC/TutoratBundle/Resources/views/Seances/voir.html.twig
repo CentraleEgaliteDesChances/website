@@ -108,21 +108,54 @@
 </table>
 
 {% for compteRendu in seance.compteRendus %}
-    <table class="table table-bordered table-hover table-striped table-large">
-        <thead><tr><th colspan="3">
-            {% if seance.date|date('Ymd') < "now"|date('Ymd') and not seance.compteRendu.redige %}
-                <span class="badge badge-important pull-right">1</span>
-            {% endif %}
-            <h4>Compte-rendu de séance</h4>
-        </th></tr></thead>
-        <tbody>
-            <tr>
-                <td>
-                    Ici le formulaire.
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <form method="post" action="{{ path('seance', { 'seance' : seance.id }) }}">
+        <table class="table table-bordered table-striped table-large">
+            <thead><tr><th colspan="3">
+                {% if seance.date|date('Ymd') < "now"|date('Ymd') and not seance.compteRendu.redige %}
+                    <span class="badge badge-important pull-right">1</span>
+                {% endif %}
+                <h4>Compte-rendu de séance</h4>
+            </th></tr></thead>
+            <tbody>
+                {% set activite = compteRendu.activite %}
+                <tr>
+                    <td colspan="3">
+                        <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
+                            <strong>{{ activite.titre }}</strong><br />
+                            {{ activite.description }}
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="note">
+                        {{ form_row(cr_forms[compteRendu.id].noteContenu) }}
+                    </td>
+                    <td class="note">
+                        {{ form_row(cr_forms[compteRendu.id].noteInteractivite) }}
+                    </td>
+                    <td class="note">
+                        {{ form_row(cr_forms[compteRendu.id].noteAtteinteObjectifs) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        {{ form_row(cr_forms[compteRendu.id].dureeAdaptee) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="hidden" name="cr_id" value="{{ compteRendu.id }}" />
+                        {{ form_rest(cr_forms[compteRendu.id]) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="submit" name="editer_cr" value="Envoyer le compte-rendu" class="btn btn-block btn-primary" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
 {% endfor %}
 
 {% endblock %}
@@ -147,7 +180,7 @@
 
 {% set footer %}
     <a href="{{ path('supprimer_seance', { 'seance': seance.id }) }}" class="btn btn-danger pull-left">Supprimer la séance</a>
-    <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" />
+    <input type="submit" value="Enregistrer les modifications" class="btn btn-primary pull-right" name="editer_seance" />
     {{ modal.close() }}
 {% endset %}
 
