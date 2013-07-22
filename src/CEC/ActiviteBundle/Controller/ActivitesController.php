@@ -32,20 +32,18 @@ class ActivitesController extends Controller
      */
     public function rechercherAction($page)
     {
-        // On filtre les activités déjà réalisées si une séance est prévue.
+        // On enregistre le groupe s'il existe et si une séance est à venir
         $recherche = new RechercheActivite();
-        if ($groupe = $this->getUser()->getGroupe()) {
-            if ($seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
-                $recherche->setGroupe($groupe);
-                $recherche->setFiltrerActivitesRealisees(true);
-            }
+        if ($groupe = $this->getUser()->getGroupe()
+                and $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
+            $recherche->setGroupe($groupe);
         }
+        $form = $this->createForm(new RechercheActiviteType(), $recherche);
         
         $resultats = array();
         $notes = array();
         $activiteRepository = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite');
         
-        $form = $this->createForm(new RechercheActiviteType(), $recherche);
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
             $form->bindRequest($request);

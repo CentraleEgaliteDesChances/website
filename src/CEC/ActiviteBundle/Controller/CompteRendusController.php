@@ -46,7 +46,7 @@ class CompteRendusController extends Controller
         $entityManager->persist($compteRendu);
         $entityManager->flush();
         
-        return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+        return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
     }
     
     /**
