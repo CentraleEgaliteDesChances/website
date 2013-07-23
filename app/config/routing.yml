@@ -1,28 +1,39 @@
-# FOSJsRoutingBundle (needed for adesigns/calendar-bundle)
-fos_js_routing:
-    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-# adesigns/calendar-bundle
-adesigns_calendar:
-    resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
-    
 cec_activite:
     resource: "@CECActiviteBundle/Controller/"
     type:     annotation
-    prefix:   /internal/
+    prefix:   /internal
 
 cec_tutorat:
     resource: "@CECTutoratBundle/Resources/config/routing.yml"
-    prefix:   /internal/
+    prefix:   /internal
 
 cec_membre:
-    resource: "@CECMembreBundle/Resources/config/routing.yml"
-    prefix:   /internal/
+    resource: "@CECMembreBundle/Controller/"
+    type:     annotation
+    prefix:   /internal
 
 cec_extern_site:
     resource: "@CECExternSiteBundle/Controller/"
     type:     annotation
     prefix:   /
+    
 
+# Security routes
+connexion_verifications:
+    pattern: /internal/connexion/verifications
+connexion:
+    pattern: /internal/connexion
+    defaults: { _controller: CECMembreBundle:Securite:connexion }
+deconnexion:
+    pattern: /internal/deconnexion    
+
+# FOSJsRoutingBundle (needed for adesigns/calendar-bundle)
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+# adesigns/calendar-bundle
+adesigns_calendar:
+    resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
     
 # Internal routing configuration to handle ESI
 #_internal:

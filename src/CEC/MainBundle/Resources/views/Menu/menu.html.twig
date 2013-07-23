@@ -79,7 +79,7 @@
                         <li class="divider"></li>
                         <li><a href="{{ path('tous_lycees') }}">Liste des lycées</a></li>
                         <li><a href="{{ path('tous_lyceens') }}">Liste des lycéens</a></li>
-                        <li><a href="{{ path('tous_membres') }}">Liste des membres</a></li>
+                        <li><a href="{{ path('cec_membre_membres_tous') }}">Liste des membres</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('tous_enseignants') }}">Liste des enseignants</a></li>
                         <li><a href="{{ path('tous_groupes') }}">Liste des groupes de tutorat</a></li>
@@ -89,14 +89,14 @@
                 </li>
             </ul>
             <div class="btn-group pull-right">
-                <a class="btn btn-primary" href="{{ path('membre') }}">
+                <a class="btn btn-primary" href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">
                     {{ membre.username }}
                 </a>
                 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('reglages_profil') }}">Modifier mon profil</a></li>
-                    <li><a href="{{ path('reglages_groupes_de_tutorat') }}">Modifier mon groupe</a></li>
-                    <li><a href="{{ path('reglages_secteurs') }}">Modifier mes secteurs</a></li>
+                    <li><a href="{{ path('cec_membre_reglages_infos') }}">Modifier mon profil</a></li>
+                    <li><a href="{{ path('cec_membre_reglages_groupe') }}">Modifier mon groupe</a></li>
+                    <li><a href="{{ path('cec_membre_reglages_secteurs') }}">Modifier mes secteurs</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
                 </ul>

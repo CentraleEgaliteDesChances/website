@@ -3,23 +3,31 @@
 namespace CEC\MembreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class ProfilController extends Controller
+class MembresController extends Controller
 {
     /**
-     * Affiche la liste des membres
+     * Affiche la liste de tous les membres.
+     * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
+     *
+     * @Route("/membres")
+     * @Template()
      */
     public function tousAction()
     {
         $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->findAll();    // tous les Membres
-        return $this->render('CECMembreBundle:Profil:tous.html.twig', array('membres' => $membres));
+        return array('membres' => $membres);
     }
 
     /**
-     * Affiche le profil d'un membre
+     * Affiche le profil d'un membre.
      *
-     * @param integer $membre: id du membre dont on veux afficher le profil,
-         null pour afficher le profil du membre connecté
+     * @param integer $membre: id du membre, null pour afficher le profil du membre connecté
+     *
+     * @Route("/membres/{membre}", requirements = { "membre" = "\d+"})
+     * @Template()
      */
     public function voirAction($membre)
     {
@@ -33,8 +41,8 @@ class ProfilController extends Controller
         }
         if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil demandé !');
         
-        return $this->render('CECMembreBundle:Profil:voir.html.twig', array(
+        return array(
             'membre'    => $membre,
-        ));
+        );
     }
 }

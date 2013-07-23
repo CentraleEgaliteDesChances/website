@@ -3,12 +3,8 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets
-        '@CECMembreBundle/Resources/public/less/profil.less'
+        '@CECMembreBundle/Resources/public/less/membres.less'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
-{% endblock %}
-
-{% block left %}
-    {% include 'CECMembreBundle:Profil:apercu.html.twig' with { 'membre' : membre } %}
 {% endblock %}

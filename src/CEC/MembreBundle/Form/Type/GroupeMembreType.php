@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ReglagesGroupeType extends AbstractType
+class GroupeMembreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -18,7 +18,7 @@ class ReglagesGroupeType extends AbstractType
     
     public function getName()
     {
-        return 'ReglagesGroupe';
+        return 'GroupeMembre';
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

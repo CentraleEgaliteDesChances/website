@@ -4,18 +4,18 @@
 {% block right %}
 {{ parent() }}
 
-<div class="section">
-    <div class="section-title">Mes secteurs</div>
-    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
-        {% if form.secteurs|length > 0 %}
-            {{ form_widget(form) }}
-            <div class="form-actions">
-                <input type="submit" value="Enregistrer les modifications" class="btn btn-primary" />
-            </div>
-        {% else %}
-            {{ flash('alert', 'Aucun secteur n\'a été ajouté !') }}
-        {% endif %}
-    </form>
-</div>
+    <div class="section">
+        <div class="section-title">Mes secteurs</div>
+        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+            {% if form.secteurs|length > 0 %}
+                {{ form_widget(form) }}
+                <div class="form-actions">
+                    <input type="submit" value="Enregistrer les modifications" class="btn btn-primary" />
+                </div>
+            {% else %}
+                {{ flash('alert', 'Aucun secteur n\'a été ajouté !') }}
+            {% endif %}
+        </form>
+    </div>
 
 {% endblock %}

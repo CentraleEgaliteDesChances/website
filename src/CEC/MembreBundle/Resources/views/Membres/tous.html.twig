@@ -13,7 +13,7 @@
             {% for membre in membres %}
             <tr>
                 <td>
-                    <a href="{{ path('membre', { 'membre': membre.id }) }}">
+                    <a href="{{ path('cec_membre_membres_voir', { 'membre': membre.id }) }}">
                         {{ membre.prenom|capitalize }} {{ membre.nom|capitalize }}
                     </a>
                 </td>
@@ -21,7 +21,7 @@
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucun membre dans la base de donnée</h4></th></tr></thead>
+        <thead><tr><th class="muted"><h4>Aucun membre dans la base de donnée !</h4></th></tr></thead>
     {% endif %}
 </table>
 

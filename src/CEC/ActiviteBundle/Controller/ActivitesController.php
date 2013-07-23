@@ -26,11 +26,10 @@ class ActivitesController extends Controller
      * On affiche aussi la séance à venir si elle existe, en indiquant la marche à suivre pour
      * choisir une activité.
      *
-     * @Route("/activites", defaults = {"page" = "1"})
-     * @Route("/activites/recherche/{page}", requirements = {"page" = "\d+"}, defaults = {"page" = "1"})
+     * @Route("/activites")
      * @Template()
      */
-    public function rechercherAction($page)
+    public function rechercherAction()
     {
         // On enregistre le groupe s'il existe et si une séance est à venir
         $recherche = new RechercheActivite();

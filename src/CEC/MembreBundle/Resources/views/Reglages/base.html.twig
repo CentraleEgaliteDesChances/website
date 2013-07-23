@@ -5,14 +5,10 @@
     {% stylesheets
         '@CECMembreBundle/Resources/public/less/reglages.less'
     %}
-    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+        <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
 {% endblock %}
 
 {% block left %}
     {% include 'CECMembreBundle:Reglages:menu.html.twig' %}
-{% endblock %}
-
-{% block right %}
-    {{ parent() }}
 {% endblock %}

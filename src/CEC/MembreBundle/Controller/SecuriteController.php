@@ -3,10 +3,19 @@
 namespace CEC\MembreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class SecuriteController extends Controller
 {
+    /**
+     * Connexion au site interne.
+     * Cette page est appelé automatiquement par le composant Security de Symfony.
+     * Elle présente un formulaire permettant d'entrer un identifiant (prénom + nom) ainsi
+     * qu'un mot de passe ; un bouton connexion lance la procédure d'authentification.
+     *
+     * @Template()
+     */
     public function connexionAction()
     {
         $request = $this->getRequest();
@@ -20,10 +29,10 @@ class SecuriteController extends Controller
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
         
-        return $this->render('CECMembreBundle:Securite:connexion.html.twig', array(
+        return array(
             // Dernier nom d'utilisateur entré
             'dernier_utilisateur'    => $session->get(SecurityContext::LAST_USERNAME),
             'erreur'                 => $erreur,
-        ));
+        );
     }
 }

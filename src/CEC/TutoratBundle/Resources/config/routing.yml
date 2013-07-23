@@ -161,11 +161,8 @@ seance:
     requirements:
         seance: \d+
 toutes_seances:
-    pattern: /seances/planning/{groupe}/{ajoutSeance}
-    defaults: { _controller: CECTutoratBundle:Seances:toutes, groupe: null, ajoutSeance: 0 }
-    requirements:
-        groupe: \d+
-        ajoutSeance: 0|1
+    pattern: /seances/planning
+    defaults: { _controller: CECTutoratBundle:Seances:toutes }
 seance_basculer_tuteur:
     pattern: /seances/{seance}/basculer_tuteur/{tuteur}
     defaults: { _controller: CECTutoratBundle:Seances:basculerTuteur }

@@ -5,7 +5,7 @@ namespace CEC\MembreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class MotDePasseType extends AbstractType
+class MotDePasseMembreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('motDePasse', 'repeated', array(
@@ -16,6 +16,6 @@ class MotDePasseType extends AbstractType
     }
     
     public function getName() {
-        return 'mot_de_passe';
+        return 'MotDePasseMembre';
     }
 }
