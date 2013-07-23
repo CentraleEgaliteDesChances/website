@@ -277,7 +277,6 @@ class Membre implements UserInterface, \Serializable
         
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
-        $this->setActif(true);
     }
     
     /**

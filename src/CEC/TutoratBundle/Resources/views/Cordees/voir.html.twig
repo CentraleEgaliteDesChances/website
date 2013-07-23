@@ -62,7 +62,7 @@
 {% block left %}
 {{ parent() }}
 
-{% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+{% if app.request.attributes.get('_route') == 'toutes_cordees' or  app.request.attributes.get('_route') == 'tous_lycees' %}
     {{ modal.button('Ajouter une cordée', 'btn btn-block') }}
 {% endif %}
 
@@ -70,7 +70,7 @@
 
 {% block modals %}
 {{ parent() }}
-{% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+{% if app.request.attributes.get('_route') == 'toutes_cordees' or  app.request.attributes.get('_route') == 'tous_lycees' %}
     {% set body %}
         <span class="help-block">Entrez un nom de cordée, préfixé par "Cordée".<br />
         En cliquant sur Ajouter, vous pourrez ajouter des lycées partenaires à la cordée.</span>
@@ -89,7 +89,7 @@
 
 {% block javascripts %}
 {{ parent() }}
-{% if app.request.attributes.get('_route') == 'toutes_cordees' %}
+{% if app.request.attributes.get('_route') == 'toutes_cordees' or  app.request.attributes.get('_route') == 'tous_lycees' %}
     {% if afficher_modal|default(false) %}
         <script type="text/javascript">
             $('#modal').modal('show');

@@ -24,6 +24,8 @@ CEC\TutoratBundle\Entity\Groupe:
             - NotBlank: ~
             - Choice:
                 choices: [ Tutorat Scientifique, Tutorat Culturel, Tutorat Culturel et Scientifique ]
+        rendezVous:
+            - NotBlank: ~
         lieu:
             - NotBlank: ~
             
