@@ -32,10 +32,8 @@ class SeancesPlanningEventListener
         '#7d00dc',
         '#dc0000'
     );
-    private $groupesCouleurs = array(); // Association des groupes avec les couleurs
     
-    // Null pour tout afficher, l'id d'un groupe pour filter les séances
-    private $groupe = null;
+    private $groupesCouleurs = array(); // Association des groupes avec les couleurs
     
 
     public function __construct(EntityManager $entityManager, Router $router)
@@ -69,13 +67,7 @@ class SeancesPlanningEventListener
                 $event->setBgColor($this->couleurGris);
             }
 
-            // On ajout l'événement au planning après filtrage
-            if ($this->getGroupe() != null)
-            {
-                if ($seance->getGroupe()->getId() === $this->getGroupe()) $calendarEvent->addEvent($event);
-            } else {
-                $calendarEvent->addEvent($event);
-            }
+            $calendarEvent->addEvent($event);
         }
     }
     
@@ -94,29 +86,5 @@ class SeancesPlanningEventListener
             $this->groupesCouleurs[$groupe] = $nouvelleCouleur;
         }
         return $this->groupesCouleurs[$groupe];
-    }
-    
-    /**
-     * Permet de n'afficher que les séances d'un groupe,
-     * ou toutes les séances si null.
-     *
-     * @param integer $groupe: id du groupe
-     */
-    public function setGroupe($groupe)
-    {
-        $this->groupe = $groupe;
-    }
-    
-    /**
-     * Retourne le groupe qui permet de filtrer les séances affichées,
-     * ou null sinon.
-     *
-     * @return integer
-     */
-    public function getGroupe()
-    {
-        return $this->groupe;
-    }
-    
-    
+    }    
 }

@@ -45,11 +45,15 @@
                     </td>
                 </tr>
             {% endfor %}
-            <tr>
-                <td class="reduced-padding">
-                    {{ flash('info', "Une information sur la séance.") }}
-                </td>
-            </tr>
+            {% if infos is not empty %}
+                <tr>
+                    {% for info in infos %}
+                        <td class="reduced-padding">
+                            {{ flash('info', info) }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 {% endif %}

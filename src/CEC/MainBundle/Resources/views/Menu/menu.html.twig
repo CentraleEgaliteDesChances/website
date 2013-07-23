@@ -41,11 +41,6 @@
                                     </a>
                                 </li>
                             {% endfor %}
-                            <li>
-                                <a href="{{ path('toutes_seances', { 'groupe': app.user.groupe.id, 'ajoutSeance': 1 }) }}">
-                                    Ajouter une séance
-                                </a>
-                            </li>
                             {% if membre.groupe and cr_a_rediger is not empty %}
                                 <li class="divider"></li>
                                 <li><a href="{{ path('cec_activite_compterendus_arediger', { 'groupe' : membre.groupe.id }) }}">

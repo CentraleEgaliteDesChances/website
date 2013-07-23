@@ -10,70 +10,11 @@ use CEC\ActiviteBundle\Form\Type\CompteRenduType;
 class SeancesController extends Controller
 {
     /**
-     * Affiche le planning des séances de tutorat,
-     * pour un groupe de tutorat en particulier, ou pour tous les groupes.
-     * Offre un lien pour ajouter rapidement une séance pour un groupe en particulier.
-     *
-     * @param integer $groupe: id du groupe de tutorat permettant de filtrer les séances.
-     *                         Si null, affiche toutes les séances de tutorat.
-     * @param boolean $ajoutSeance: si true, afficher le dialogue pour ajouter une séance.
+     * Affiche le planning de toutes les séances de tutorat.
      */
-    public function toutesAction($groupe, $ajoutSeance)
+    public function toutesAction()
     {
-        // Par défaut, pas de formulaire et on a pas d'objet groupe
-        $formView = null;
-        $objetGroupe = null;
-        
-        // Par défaut, on masque le modal
-        $afficherModal = false;
-                
-        if ($groupe)
-        {
-            // Récupère le groupe associé
-            $objetGroupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
-            if (!$objetGroupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
-        
-            // Génère le formulaire de création de séance
-            $nouvelleSeance = new Seance();
-            $nouvelleSeance->setGroupe($objetGroupe);
-            $form = $this->createForm(new SeanceType(), $nouvelleSeance);
-            
-            // Par défaut, on affiche le modal si l'ajout de séance est demandée
-            $afficherModal = $ajoutSeance;
-            
-            $request = $this->getRequest();
-            if ($request->getMethod() == 'POST')
-            {
-                $form->bindRequest($request);
-                if ($form->isValid())
-                {
-                    $entityManager = $this->getDoctrine()->getEntityManager();
-                    $entityManager->persist($nouvelleSeance);
-                    $entityManager->flush();
-                    $this->get('session')->setFlash('success', 'La séance de tutorat a bien été ajoutée.');
-                    return $this->redirect($this->generateUrl('toutes_seances', array('groupe' => $groupe)));
-                } else {
-                    $afficherModal = true;
-                }
-            }
-            
-            // On change les placeholders du formulaire de création de séance
-            // pour correspondre aux infos du groupe de tutorat.
-            $formView = $form->createView();
-            $formView->getChild('lieu')->setAttribute('placeholder', $objetGroupe->getLieu());
-            $formView->getChild('rendezVous')->setAttribute('placeholder', $objetGroupe->getRendezVous());
-            $formView->getChild('debut')->setAttribute('placeholder', $objetGroupe->getDebut()->format('H:i'));
-            $formView->getChild('fin')->setAttribute('placeholder', $objetGroupe->getFin()->format('H:i'));
-        }
-    
-        // Restreint si nécessaire l'affichage des séances pour un groupe
-        $this->get('cec_tutorat.seances_planning_event_listener')->setGroupe($groupe);
-        
-        return $this->render('CECTutoratBundle:Seances:planning.html.twig', array(
-            'groupe'         => $objetGroupe,
-            'form'           => $formView,
-            'afficher_modal' => $afficherModal,
-        ));
+        return $this->render('CECTutoratBundle:Seances:planning.html.twig');
     }
 
     /**
@@ -167,6 +108,9 @@ class SeancesController extends Controller
         $crFormViews = array();
         foreach ($crForms as $compteRenduId => $form) $crFormViews[$compteRenduId] = $form->createView();
         
+        // On charge les informations de séance à afficher
+        $infos = array();
+        
         return $this->render('CECTutoratBundle:Seances:voir.html.twig', array(
             'seance'         => $seance,
             'lyceens'        => $lyceens,
@@ -175,6 +119,7 @@ class SeancesController extends Controller
             'afficher_modal' => $afficherModal,
             'seance_a_venir' => $seanceAVenir,
             'cr_forms'       => $crFormViews,
+            'infos'          => $infos,
         ));
     }
     
