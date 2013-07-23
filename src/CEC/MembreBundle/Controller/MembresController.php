@@ -26,20 +26,13 @@ class MembresController extends Controller
      *
      * @param integer $membre: id du membre, null pour afficher le profil du membre connecté
      *
-     * @Route("/membres/{membre}", requirements = { "membre" = "\d+"})
+     * @Route("/membres/{membre}", requirements = { "membre" = "\d+" })
      * @Template()
      */
     public function voirAction($membre)
     {
-        // On récupère l'utilisateur
-        if ($membre == null)
-        {
-            $membre = $this->getUser();
-        } else {
-            $membreRepo = $this->getDoctrine()->getRepository('CECMembreBundle:Membre');
-            $membre = $membreRepo->findOneById($membre);
-        }
-        if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil demandé !');
+        $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->findOneById($membre);
+        if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil !');
         
         return array(
             'membre'    => $membre,

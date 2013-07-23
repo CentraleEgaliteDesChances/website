@@ -66,7 +66,11 @@
             <tr>
                 <td>Activités</td>
                 <td>
-                    <span class="muted">Aucune activité rédigée</span>
+                    {% if membre.documents %}
+                        {{ membre.documents|length }} activité(s) rédigée(s)
+                    {% else %}
+                        <span class="muted">Aucune activité rédigée</span>
+                    {% endif %}
                 </td>
             </tr>
         </tbody>
@@ -128,21 +132,22 @@
         {% endif %}
     </table>
     
+    {% if membre.documents %}
     <table class="table table-bordered table-hover table-striped table-large">
-        {% if false %}
-            <thead><tr><th><h4>Activités rédigées</h4></th></tr></thead>
-            <tbody>
-                {% for activite in membre.activites %}
-                <tr>
-                    <td>
-                        <a href="#">{{ activite.titre }}</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        {% else %}
-            <thead><tr><th class="muted"><h4>Aucune activité rédigée</h4></th></tr></thead>
-        {% endif %}
+        <thead><tr><th><h4>Activités rédigées</h4></th></tr></thead>
+        <tbody>
+            {% for document in membre.documents %}
+            <tr>
+                <td>
+                    <a href="{{ path('cec_activite_activites_voir', { 'activite': document.activite.id }) }}">
+                        <strong>{{ document.activite.titre }}</strong><br />
+                        Version du {{ document.dateCreation|date('d/m/Y') }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
+    {% endif %}
 
 {% endblock %}
