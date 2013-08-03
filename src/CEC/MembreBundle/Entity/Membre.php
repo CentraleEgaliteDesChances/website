@@ -14,6 +14,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * 
  * Un membre possède un droit d'accès au site interne et peut affectuer des modifications
  * pour tout ce qui est accessible (activités, séances, lycéens, compte-rendus, etc.).
+ * Lorsqu'un membre est identifié comme membre du buro, il peut accéder aux fonctions
+ * avancées (nouvelle année, passations, gestion des membres).
  *
  * Un membre est identifié par son identifiant (prénom + nom), qui doit être unique.
  *
@@ -154,6 +156,21 @@ class Membre implements UserInterface, \Serializable
      * )
      */
     private $promotion;
+    
+    /**
+     * Le membre est-il au buro de l'association ?
+     * Les membres du buro peuvent accéder aux fonctions avancées (nouvelle année, passations,
+     * et gestion des membres).
+     *
+     * @var boolean
+     *
+     * @ORM\Column(name = "buro", type = "boolean")
+     * @Assert\Type(
+     *     type = "boolean",
+     *     message = "Merci d'indiquer de manière valide s'il s'agit d'un membre du Buro de l'association."
+     * )
+     */
+    private $buro;
 
     /**
      * Date de création.
