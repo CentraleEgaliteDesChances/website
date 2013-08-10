@@ -294,6 +294,7 @@ class Membre implements UserInterface, \Serializable
         
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
+        $this->setBuro(false);
     }
     
     /**
@@ -371,6 +372,8 @@ class Membre implements UserInterface, \Serializable
     //
     // Doctrine-generated accessors
     //
+    
+
     
 
     /**
@@ -519,6 +522,29 @@ class Membre implements UserInterface, \Serializable
     public function getPromotion()
     {
         return $this->promotion;
+    }
+
+    /**
+     * Set buro
+     *
+     * @param boolean $buro
+     * @return Membre
+     */
+    public function setBuro($buro)
+    {
+        $this->buro = $buro;
+    
+        return $this;
+    }
+
+    /**
+     * Get buro
+     *
+     * @return boolean 
+     */
+    public function getBuro()
+    {
+        return $this->buro;
     }
 
     /**
