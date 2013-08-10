@@ -3,7 +3,7 @@
 namespace CEC\ActiviteBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use CEC\ActiviteBundle\Entity\RechercheActivite;
+use CEC\ActiviteBundle\Utility\RechercheActivite;
 use CEC\TutoratBundle\Entity\Seance;
 
 /**
@@ -22,7 +22,7 @@ class ActiviteRepository extends EntityRepository
      *     - un filtrage des activités qui n'ont pas été réalisées en séance du groupe de tutorat
      *       de l'utilisateur.
      *
-     * @param CEC\ActiviteBundle\Entity\RechercheActivite $recherche Paramètres de la recherche
+     * @param CEC\ActiviteBundle\Utility\RechercheActivite $recherche Paramètres de la recherche
      * @return array Résultats de la recherche.
      */
     public function findWithRechercheActivite(RechercheActivite $recherche)

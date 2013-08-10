@@ -12,8 +12,8 @@ use CEC\ActiviteBundle\Form\Type\NouvelleActiviteType;
 use CEC\ActiviteBundle\Form\Type\RechercheActiviteType;
 use CEC\ActiviteBundle\Entity\Activite;
 use CEC\ActiviteBundle\Entity\Document;
-use CEC\ActiviteBundle\Entity\NouvelleActivite;
-use CEC\ActiviteBundle\Entity\RechercheActivite;
+use CEC\ActiviteBundle\Utility\NouvelleActivite;
+use CEC\ActiviteBundle\Utility\RechercheActivite;
 
 class ActivitesController extends Controller
 {

@@ -38,7 +38,7 @@ class RechercheActiviteType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\ActiviteBundle\Entity\RechercheActivite',
+            'data_class' => 'CEC\ActiviteBundle\Utility\RechercheActivite',
         ));
     }
 }

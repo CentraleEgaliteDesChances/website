@@ -42,6 +42,7 @@ CEC\TutoratBundle\Entity\Seance:
         compteRendus:
             targetEntity: CEC\ActiviteBundle\Entity\CompteRendu
             mappedBy: seance
+            cascade: ["remove"]
     manyToMany:
         tuteurs:
             targetEntity: CEC\MembreBundle\Entity\Membre

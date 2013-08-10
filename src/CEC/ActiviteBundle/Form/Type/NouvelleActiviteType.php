@@ -27,7 +27,7 @@ class NouvelleActiviteType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\ActiviteBundle\Entity\NouvelleActivite',
+            'data_class' => 'CEC\ActiviteBundle\Utility\NouvelleActivite',
         ));
     }
 }

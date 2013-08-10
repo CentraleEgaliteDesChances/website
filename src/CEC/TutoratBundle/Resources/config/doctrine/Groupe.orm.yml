@@ -49,4 +49,5 @@ CEC\TutoratBundle\Entity\Groupe:
         seances:
             targetEntity: Seance
             mappedBy: groupe
+            cascade: ["remove"]
     lifecycleCallbacks: {  }

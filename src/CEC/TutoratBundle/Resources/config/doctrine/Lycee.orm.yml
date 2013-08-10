@@ -49,6 +49,7 @@ CEC\TutoratBundle\Entity\Lycee:
         enseignants:
             targetEntity: Enseignant
             mappedBy: lycee
+            cascade: ["remove"]
         vpLycees:
             targetEntity: CEC\MembreBundle\Entity\Membre
             mappedBy: vpLycee
@@ -56,4 +57,5 @@ CEC\TutoratBundle\Entity\Lycee:
         groupes:
             targetEntity: Groupe
             mappedBy: lycees
+            cascade: ["remove"]
     lifecycleCallbacks: {  }

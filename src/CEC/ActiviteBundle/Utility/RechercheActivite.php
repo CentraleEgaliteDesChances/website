@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\ActiviteBundle\Entity;
+namespace CEC\ActiviteBundle\Utility;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContext;

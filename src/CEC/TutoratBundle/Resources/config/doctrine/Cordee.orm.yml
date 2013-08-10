@@ -24,4 +24,5 @@ CEC\TutoratBundle\Entity\Cordee:
         lycees:
             targetEntity: Lycee
             mappedBy: cordee
+            cascade: ["remove"]
     lifecycleCallbacks: {  }

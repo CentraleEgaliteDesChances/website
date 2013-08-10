@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\ActiviteBundle\Entity;
+namespace CEC\ActiviteBundle\Utility;
 
 use CEC\ActiviteBundle\Entity\Activite;
 use CEC\ActiviteBundle\Entity\Document;
