@@ -9,6 +9,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use CEC\MembreBundle\Utility\NouveauMembreBuro;
 use CEC\MembreBundle\Form\Type\NouveauMembreBuroType;
+use CEC\MembreBundle\Form\Type\MembreType;
 use CEC\MembreBundle\Entity\Membre;
 
 
@@ -44,6 +45,57 @@ class MembresController extends Controller
             'membre'    => $membre,
         );
     }
+    
+    /**
+     * Permet de créer un nouveau membre.
+     * Affiche un formulaire permettant d'entrer le nom, le prénom, l'adresse email,
+     * le numéro de téléphone, et la promotion du nouveau membre. Un bouton permet
+     * d'enregistrer le nouveau membre, et un bouton Annuler permet de revenir à la liste.
+     *
+     * @Route("/membres/creation")
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function creerAction()
+    {
+        $membre = new Membre();
+        $motDePasse = substr(str_shuffle(MD5(microtime())), 0, 10);
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($membre);    
+        $membre->setMotDePasse($encoder->encodePassword($motDePasse, $membre->getSalt()));
+    
+        $form = $this->createForm(new MembreType(), $membre);
+        
+        $request = $this->getRequest();
+        if ($request->isMethod("POST")) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($membre);
+                $entityManager->flush();
+                
+                // Envoyer un message
+                $email = \Swift_Message::newInstance()
+                    ->setSubject("Bienvenue sur le site interne de CEC !")
+                    ->setFrom(array("notification@cec-ecp.com" => "Notification CEC"))
+                    ->setTo(array($membre->getEmail() => $membre->__toString()))
+                    ->setBody(
+                        $this->renderView('CECMembreBundle:Mail:bienvenue.html.twig',
+                            array(
+                                'membre' => $membre,
+                                'mot_de_passe' => $motDePasse,
+                            )),
+                        'text/html');
+                $this->get('mailer')->send($email);
+                
+                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenu, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
+                return $this->redirect($this->generateUrl('cec_membre_membres_voir', array('membre' => $membre->getId())));
+            }
+        }
+        return array(
+            'form' => $form->createView(),
+        );
+    }
+    
     
     /**
      * Permet d'effectuer les passations du Buro.

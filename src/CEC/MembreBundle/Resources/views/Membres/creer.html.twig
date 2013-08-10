@@ -1,0 +1,18 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}Nouveau membre{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<form class="form" method="post" action="{{ path('cec_membre_membres_creer') }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Créer le membre" class="btn btn-primary pull-right" />
+        <a href="{{ path('cec_membre_membres_tous') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+
+{% endblock %}
