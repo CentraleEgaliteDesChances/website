@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\MainBundle\Utility\AnneeScolaire;
 
 
 class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
@@ -40,7 +41,8 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
             ->setLieu('Dans le lycée')
             ->setDebut($debut)
             ->setFin($fin)
-            ->setRendezVous('aux barrières');
+            ->setRendezVous('aux barrières')
+            ->setAnneeScolaire(new AnneeScolaire('2011'));
             
         $mounier_montesquieu_secondes = new Groupe();
         $mounier_montesquieu_secondes->setNiveau('Secondes')

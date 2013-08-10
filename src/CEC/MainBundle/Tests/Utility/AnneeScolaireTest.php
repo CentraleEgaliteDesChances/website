@@ -9,11 +9,13 @@ class AnneeScolaireTest extends \PHPUnit_Framework_TestCase
     protected $anneeScolaire;
     
     protected function setUp() {
+        // Par défaut, l'année scolaire est l'année 2011-2012
         $this->anneeScolaire = new AnneeScolaire();
     }
     
     public function testCreate() {
         $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", new AnneeScolaire());
+        $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", new AnneeScolaire(2040));
         $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", AnneeScolaire::withAnnees('2037-2038'));
         $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", AnneeScolaire::withDate(new \DateTime('2023-06-28')));
         $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", AnneeScolaire::withAnnees('2015/2016'));

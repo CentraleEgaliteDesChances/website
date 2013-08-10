@@ -3,6 +3,7 @@
 namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use CEC\MainBundle\Utility\AnneeScolaire;
 
 /**
  * Groupe
@@ -38,6 +39,11 @@ class Groupe
      * @var \DateTime
      */
     private $fin;
+    
+    /**
+     * @var CEC\MainBundle\Utility\AnneScolaire
+     */
+    private $anneeScolaire;
 
     /**
      * @var string
@@ -83,6 +89,7 @@ class Groupe
         $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->anneeScolaire = new AnneeScolaire(date('Y'));
     }
     
     /**
@@ -109,11 +116,21 @@ class Groupe
      */
     public function getDescription()
     {
+        return $this->__toString();
+    }
+    
+    /**
+     * Retourne la description d'un groupe de tutorat
+     */
+    public function __toString()
+    {
         $description = $this->getLyceesDescription();
         $description .= ' (' . $this->getNiveau() . ')';
         return $description;
     }
     
+    
+
     /**
      * Get id
      *
@@ -237,6 +254,29 @@ class Groupe
     public function getFin()
     {
         return $this->fin;
+    }
+
+    /**
+     * Set anneeScolaire
+     *
+     * @param \CEC\MainBundle\Utility\AnneeScolaire $anneeScolaire
+     * @return Groupe
+     */
+    public function setAnneeScolaire(\CEC\MainBundle\Utility\AnneeScolaire $anneeScolaire)
+    {
+        $this->anneeScolaire = $anneeScolaire;
+    
+        return $this;
+    }
+
+    /**
+     * Get anneeScolaire
+     *
+     * @return \CEC\MainBundle\Utility\AnneeScolaire
+     */
+    public function getAnneeScolaire()
+    {
+        return $this->anneeScolaire;
     }
 
     /**
@@ -438,13 +478,5 @@ class Groupe
     public function getLycees()
     {
         return $this->lycees;
-    }
-    
-    /**
-     * Retourne la description d'un groupe de tutorat
-     */
-    public function __toString()
-    {
-        return $this->getDescription();
     }
 }

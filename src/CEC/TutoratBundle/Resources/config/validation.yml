@@ -28,6 +28,8 @@ CEC\TutoratBundle\Entity\Groupe:
             - NotBlank: ~
         lieu:
             - NotBlank: ~
+        anneeScolaire:
+            - NotBlank: ~
             
 CEC\TutoratBundle\Entity\Lycee:
     properties:

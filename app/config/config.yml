@@ -51,7 +51,10 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
-
+        mapping_types:
+            anneescolaire: integer
+        types:
+            anneescolaire: CEC\MainBundle\Type\AnneeScolaireType
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true

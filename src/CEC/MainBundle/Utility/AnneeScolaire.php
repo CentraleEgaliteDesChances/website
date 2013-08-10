@@ -24,12 +24,15 @@ class AnneeScolaire
      
     /**
      * Constructeur par défaut.
-     * L'année scolaire par défaut est l'année scolaire 2011-2012, année de création du site.
+     * L'argument, optionnel, correspond à l'année inférieure de l'année scolaire.
+     * Si aucun argument n'est passé, l'année par défaut est l'année scolaire 2011-2012.
      *
-     * @return AnneeScolaire : année scolaire 2011-2012.
+     * @param interger or string $anneeInferieure : année inférieure, optionnelle
+     * @return AnneeScolaire : année scolaire construit à partir de l'année inférieure.
      */
-    public function __construct() {
-        $this->setAnneeInferieure(2011);
+    public function __construct($anneeInferieure = null) {
+        if (!$anneeInferieure) $anneeInferieure = 2011;
+        $this->setAnneeInferieure(intval($anneeInferieure));
         return $this;
     }
     
@@ -235,5 +238,4 @@ class AnneeScolaire
         if ($annee == $autreAnnee) return 0;
         return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? -1 : 1;
     }
-    
 }
