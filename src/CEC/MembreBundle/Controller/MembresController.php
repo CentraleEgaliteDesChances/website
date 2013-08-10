@@ -88,12 +88,34 @@ class MembresController extends Controller
                 $this->get('mailer')->send($email);
                 
                 $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenu, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
-                return $this->redirect($this->generateUrl('cec_membre_membres_voir', array('membre' => $membre->getId())));
+                return $this->redirect($this->generateUrl('cec_membre_membres_creer'));
             }
         }
         return array(
             'form' => $form->createView(),
         );
+    }
+    
+    /**
+     * Supprimer un membre de manière définitive.
+     *
+     * @param integer $membre Id du membre à supprimer.
+     *
+     * @Route("/membres/suppression/{membre}")
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function supprimerAction($membre)
+    {
+        $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($membre);
+        if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        
+        $entityManager = $this->getDoctrine()->getEntityManager();
+        $entityManager->remove($membre);
+        $entityManager->flush();
+        
+        $this->get('session')->setFlash('success', 'Le membre a bien été définitivement supprimé.');
+        return $this->redirect($this->generateUrl('cec_membre_membres_tous'));
     }
     
     

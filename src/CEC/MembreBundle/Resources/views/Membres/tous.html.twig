@@ -1,4 +1,5 @@
 {% extends 'CECMainBundle::narrow.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 
 {% block narrow_title %}Membres{% endblock %}
@@ -7,13 +8,18 @@
 
 {{ parent() }}
 
+{{ flash('alert', 'Attention ! La suppression d\'un membre est définitive et entraîne aussi la suppression de toutes les activités dont il est l\'auteur.') }}
+
 <table class="table table-bordered table-hover table-striped">
     {% if membres|length > 0 %}
         <tbody>
             {% for membre in membres %}
             <tr>
                 <td>
-                    <a href="{{ path('cec_membre_membres_voir', { 'membre': membre.id }) }}">
+                    {% if is_granted('ROLE_BURO') %}
+                        <a href="{{ path('cec_membre_membres_supprimer', { 'membre': membre.id }) }}" class="btn btn-mini btn-danger pull-right">Supprimer définitivement</a>
+                    {% endif %}
+                    <a href="{{ path('cec_membre_membres_voir', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
                         {{ membre.prenom|capitalize }} {{ membre.nom|capitalize }}
                     </a>
                 </td>
@@ -24,5 +30,9 @@
         <thead><tr><th class="muted"><h4>Aucun membre dans la base de donnée !</h4></th></tr></thead>
     {% endif %}
 </table>
+
+{% if is_granted('ROLE_BURO') %}
+<a href="{{ path('cec_membre_membres_creer') }}" class="btn pull-right">Ajouter un membre</a>
+{% endif %}
 
 {% endblock %}

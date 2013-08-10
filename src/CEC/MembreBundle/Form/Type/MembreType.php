@@ -12,6 +12,7 @@ class MembreType extends AbstractType
     {
         $builder->add('prenom', null, array(
                 'label' => 'Prénom',
+                'attr' => array('autofocus' => '1'),
             ))
             ->add('nom')
             ->add('email', null, array(
