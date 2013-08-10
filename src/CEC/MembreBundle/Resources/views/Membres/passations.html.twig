@@ -1,0 +1,65 @@
+{% extends 'CECMembreBundle:Membres:base.html.twig' %}
+
+{% block left %}
+{{ parent() }}
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th colspan="2" class="titre">
+                    <h3>Passations<br />et membres du buro</h3>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    Cette page vous permet de visualiser l'ensemble des utilisateurs bénéficiant des privilèges du buro (ajout, suppression et modification des profils, passations). Elle vous permet aussi, après les passations, d'attribuer ces privilèges à de nouveau membres de l'association.<br />
+                    Cette page n'est accessible que par les membres du buro de l'association.
+                </td>
+            </tr>
+            <tr>
+                <td>Nombre de membre de buro</td>
+                <td>{{ membres_buro|length ?: 'Aucun membre du buro' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    {% if membres_buro %}
+    <table class="table table-bordered table-striped table-hover">
+        <tbody>
+            {% for membre in membres_buro %}
+            <tr>
+                <td>
+                    {% if membre != app.user %}
+                        <a href="{{ path('cec_membre_membres_supprimermembreburo', { 'membre': membre.id }) }}" class="btn btn-danger btn-mini pull-right">Retirer les privilèges</a>
+                    {% endif %}
+                    <a href="{{ path('cec_membre_membres_voir', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">{{ membre }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+{% endblock %}
+
+
+{% block right %}
+{{ parent() }}
+    
+    <table class="table table-bordered table-striped table-large table-form">
+        <thead><tr><th><h4>Ajouter un membre au buro</h4></th></tr></thead>
+        <tbody>
+            <tr>
+                <td>
+                    <form method="post" action="">
+                        {{ form_widget(form) }}
+                        <input type="submit" name="nouveau_membre_buro" value="Ajouter au buro" class="btn btn-success btn-large btn-block" style="margin-bottom: 0;" />
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

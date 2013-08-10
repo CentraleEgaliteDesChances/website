@@ -36,7 +36,8 @@ class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, Co
             ->setTelephone('0608028328')
             ->addSecteur($this->getReference('secteur_sorties'))
             ->addSecteur($this->getReference('secteur_projets'))
-            ->setGroupe($this->getReference('jj_premieres'));
+            ->setGroupe($this->getReference('jj_premieres'))
+            ->setBuro(true);
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($pol_maire);
         $pol_maire->setMotDePasse($encoder->encodePassword('debug', $pol_maire->getSalt()));
         

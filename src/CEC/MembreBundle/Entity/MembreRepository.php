@@ -70,4 +70,19 @@ class MembreRepository extends EntityRepository implements UserProviderInterface
     {
         return $this->getEntityName() === $class || is_subclass_of($class, $this->getEntityName());
     }
+    
+    /**
+     * Recherche les membres bénéficiant des privilèges du buro.
+     * Les résultats sont classés par ordre décroissant de promotion (les plus réçentes en premier).
+     *
+     * @return array Résultats de la recherche.
+     */
+    public function findBuro() {
+        $query = $this->createQueryBuilder('m')
+            ->where('m.buro = TRUE')
+            ->orderBy('m.promotion', 'DESC')
+            ->getQuery();
+        return $query->getResult();
+    }
+    
 }
