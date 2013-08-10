@@ -81,6 +81,8 @@ class MembreRepository extends EntityRepository implements UserProviderInterface
         $query = $this->createQueryBuilder('m')
             ->where('m.buro = TRUE')
             ->orderBy('m.promotion', 'DESC')
+            ->addOrderBy('m.nom')
+            ->addOrderBy('m.prenom')
             ->getQuery();
         return $query->getResult();
     }

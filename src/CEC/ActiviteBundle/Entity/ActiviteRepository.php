@@ -41,6 +41,8 @@ class ActiviteRepository extends EntityRepository
                     ) = 0';
         }
         
+        $dql .= ' ORDER BY a.titre';
+        
         $requete = $this->getEntityManager()->createQuery($dql)
             ->setParameter('titre', '%' . $recherche->getTitre() . '%')
             ->setParameter('type', '%' . $recherche->getType() . '%');
@@ -61,6 +63,7 @@ class ActiviteRepository extends EntityRepository
         $query = $this->createQueryBuilder('a')
             ->join('a.compteRendus', 'cr')
             ->where('cr.seance = :seance_id')
+            ->orderBy('a.titre', 'ASC')
             ->setParameter('seance_id', $seance->getId())
             ->getQuery();
         return $query->getResult();

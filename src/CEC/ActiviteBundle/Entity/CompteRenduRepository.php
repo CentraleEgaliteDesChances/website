@@ -147,6 +147,7 @@ class CompteRenduRepository extends EntityRepository
             ->where('cr.seance = s.id')
             ->andWhere('s.groupe = :groupe_id')
             ->andWhere("s.date BETWEEN DATE_SUB(CURRENT_DATE(), 2, 'MONTH') AND CURRENT_DATE()")
+            ->orderBy('cr.dateCreation', 'DESC')
             ->setParameter('groupe_id', $groupe->getId())
             ->getQuery();
          $resultats = $query->getResult();
