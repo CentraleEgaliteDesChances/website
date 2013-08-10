@@ -323,10 +323,18 @@ class Membre implements UserInterface, \Serializable
 
     /**
      * @inheritDoc
+     * On attribue à tous le rôle d'utilisateur ("ROLE_USER"). Les rôles sont ensuite
+     * attribués suivant les secteurs, puis suivant si le membre appartient au buro ou non ("ROLE_BURO").
      */
     public function getRoles()
     {
-        return array('ROLE_USER');
+        $roles = array('ROLE_USER');
+        if ($this->getBuro()) $roles[] = 'ROLE_BURO';
+        foreach ($this->getSecteurs() as $secteur) {
+            $nomSecteur = str_replace(' ', '_', strtoupper($secteur->getNom()));
+            $roles[] = 'ROLE_' . $nomSecteur;
+        }
+        return $roles;
     }
 
     /**
