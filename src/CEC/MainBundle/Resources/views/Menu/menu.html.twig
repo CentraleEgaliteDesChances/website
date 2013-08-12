@@ -57,30 +57,21 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        {% if is_granted('ROLE_SECTEUR_FUNDRAISING') %}
+                        {% if is_granted('ROLE_SECTEUR_FUNDRAISING') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Fundraising</li>
-                            <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
-                            <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_SECTEUR_ACTIVITES') %}
+                        {% if is_granted('ROLE_SECTEUR_ACTIVITES') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteurs Activités</li>
-                            <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
-                            <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
+                            <li><a href="{{ path('cec_activite_compterendus_recents') }}">Consulter les comptes-rendus</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_SECTEUR_PROJETS') %}
+                        {% if is_granted('ROLE_SECTEUR_PROJETS') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Projets</li>
-                            <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
-                            <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_SECTEUR_SORTIES') %}
+                        {% if is_granted('ROLE_SECTEUR_SORTIES') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Sorties</li>
-                            <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
-                            <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_SECTEUR_EVENEMENTS') %}
+                        {% if is_granted('ROLE_SECTEUR_EVENEMENTS') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Événements</li>
-                            <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
-                            <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_BURO') %}
                             <li class="secteur">Buro</li>

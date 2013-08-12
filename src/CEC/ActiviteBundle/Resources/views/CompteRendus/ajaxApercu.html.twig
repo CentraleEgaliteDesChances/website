@@ -1,24 +1,72 @@
+{% from 'CECActiviteBundle::activite.html.twig' import type as type %}
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import duree as duree %}
+
 <thead>
     <tr>
-        <th>
-            {{ compte_rendu }}
+        <th colspan="3">
+            {{ type(cr.activite.type, 'pull-right') }}
+            <h4>Compte-rendu du {{ cr.seance.date|date('d/m/Y') }}</h4>
+            <p><a href="{{ path('seance', { 'seance': cr.seance.id }) }}" class="muted" style="font-weight: normal;">
+                {% for lycee in cr.seance.groupe.lycees %}
+                    {{ lycee.nom }}
+                    {% if not loop.last %}& {% endif %}
+                {% endfor %}
+                ({{ cr.seance.groupe.niveau }})
+            </a></p>
+            <button class="btn btn-mini" onclick="basculerLecture({{ cr.id }})">Marquer comme non-lu</button>
         </th>
     </tr>
 </thead>
 <tbody>
     <tr>
-        <td>
-            Détails et lien vers l'activité.
+        <td colspan="3">
+            <a href="{{ path('cec_activite_activites_voir', { 'activite': cr.activite.id }) }}">
+                <strong>Le compte-rendu se rapport à l'activité : </strong>{{ cr.activite.titre }}<br />
+                <small>{{ cr.activite.description }}</small>
+            </a>
         </td>
     </tr>
     <tr>
-        <td>
-            Notes et détails du compte-rendu
+        <td class="note">
+            <div>
+                <strong><span class="note-chiffre">{{ note(cr.noteContenu) }}</span><br />
+                Note de contenu</strong>
+            </div>
+            <div class="note-description">Le sujet possède-t-il un contenu pédagogique pertinent ?</div>
+        </td>
+        <td class="note">
+            <div>
+                <strong><span class="note-chiffre">{{ note(cr.noteInteractivite) }}</span><br />
+                Note d'interactivité</strong>
+            </div>
+            <div class="note-description">Le sujet est-il suffisamment interactif et ludique ?</div>
+        </td>
+        <td class="note">
+            <div>
+                <strong><span class="note-chiffre">{{ note(cr.noteAtteinteObjectifs) }}</span><br />
+                Atteinte des objectifs</strong>
+            </div>
+            <div class="note-description">Les objectifs pédagogiques annoncés ont-ils été atteints en fin de la séance ?</div>
         </td>
     </tr>
     <tr>
-        <td>
-            Lien vers l'auteur du compte-rendu.
+        <td colspan="3">
+            <strong>Appréciation sur la durée :</strong>
+            {{ duree(cr.dureeAdaptee) }}
+        </td>
+    </tr>
+    {% if cr.commentaires %}
+    <tr>
+        <td colspan="3">
+            <strong>Commentaires libres :</strong><br />
+            {{ cr.commentaires }}
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td colspan="3" class="auteur">
+            <small>Auteur : <a href="{{ path('cec_membre_membres_voir', { 'membre' : cr.activite.document.auteur.id }) }}">{{ cr.activite.document.auteur }}</a></small>
         </td>
     </tr>
 </tbody>

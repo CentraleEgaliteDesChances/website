@@ -10,19 +10,16 @@ td.muted {
 
 td.td-non-lu {
     vertical-align: middle;
-    text-align: center;
+    text-align: right;
     border-right: 0;
     padding: 0;
     font-size: 35px;
     color: #9d9df1;
+    width: 28px;
 }
 
 .td-non-lu + td {
     border-left: 0;
-    padding-left: 2px;
-}
-.td-non-lu:empty + td {
-    padding: 8px;
 }
 
 tr[onclick] {
@@ -40,4 +37,37 @@ tr[onclick] {
             }
         }
     }
+}
+
+#resultats-contenu {
+    display: block;
+    max-height: 380px;
+    overflow-y: scroll;
+}
+
+td.note {
+    width: 33%;
+    text-align: center;
+    padding-right: 5px;
+    padding-left: 5px;
+    
+    .note-chiffre {
+        font-size: 160%;
+    }
+    .note-description {
+        margin-top: 5px;
+        font-size: 80%;
+        line-height: 13px;
+    }
+}
+
+td.auteur {
+    text-align: right;
+    padding: 2px 15px;
+    * {
+        color: silver;
+    }
+    a:hover {
+        color: grey;
+    } 
 }

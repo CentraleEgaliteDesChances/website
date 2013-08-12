@@ -138,7 +138,7 @@ class CompteRendusController extends Controller
         $compteRendu = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->find($compte_rendu);
         if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu !');
         
-        return array('compte_rendu' => $compteRendu);
+        return array('cr' => $compteRendu);
     }
     
     /**
