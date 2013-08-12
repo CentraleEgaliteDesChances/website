@@ -152,6 +152,22 @@ class CompteRendu
      * )
      */
     private $commentaires;
+    
+    /**
+     * Le compte-rendu a-t-il été lu par les secteurs Actis ?
+     * Cet attribut permet aux secteurs Activités de répertoriés les compte-rendus
+     * qui n'ont pas encore été étudiés.
+     * L'attribut ne peut être vide, et est, par défaut, égal à "false".
+     *
+     * @var boolean
+     *
+     * @ORM\Column(name = "lu", type = "boolean")
+     * @Assert\Type(
+     *     type = "boolean",
+     *     message = "Merci d'indiquer de manière valide si le compte-rendu est lu ou non."
+     * )
+     */
+    private $lu;
 
     /**
      * Date de création.
@@ -213,6 +229,15 @@ class CompteRendu
     
     
     /**
+     * Constructeur.
+     * Règle les valeurs par défaut (lu = "false").
+     */
+    public function __construct()
+    {
+        $this->setLu(false);
+    }
+    
+    /**
      * Retourne la moyenne des notes décernées dans le compte-rendu, sur 5.
      * Retourne false si une des notes n'est pas définie.
      *
@@ -251,7 +276,7 @@ class CompteRendu
      */
     public function __toString()
     {
-        return 'Compte-rendu pour l\‘activité "' . $this->getActivite() . '" (' . $this->getAuteur() . ') : ' . $this->getNoteGlobale() ;
+        return 'Compte-rendu pour l\'activité "' . $this->getActivite() . '" (' . $this->getAuteur() . ') : ' . $this->getNoteGlobale() ;
     }
 
     
@@ -259,7 +284,7 @@ class CompteRendu
     //
     // Doctrine-generated accessors
     //
-
+    
     /**
      * Get id
      *
@@ -386,6 +411,29 @@ class CompteRendu
     }
 
     /**
+     * Set lu
+     *
+     * @param boolean $lu
+     * @return CompteRendu
+     */
+    public function setLu($lu)
+    {
+        $this->lu = $lu;
+    
+        return $this;
+    }
+
+    /**
+     * Get lu
+     *
+     * @return boolean 
+     */
+    public function getLu()
+    {
+        return $this->lu;
+    }
+
+    /**
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
@@ -455,29 +503,6 @@ class CompteRendu
     }
 
     /**
-     * Set auteur
-     *
-     * @param \CEC\MembreBundle\Entity\Membre $auteur
-     * @return CompteRendu
-     */
-    public function setAuteur(\CEC\MembreBundle\Entity\Membre $auteur = null)
-    {
-        $this->auteur = $auteur;
-    
-        return $this;
-    }
-
-    /**
-     * Get auteur
-     *
-     * @return \CEC\MembreBundle\Entity\Membre 
-     */
-    public function getAuteur()
-    {
-        return $this->auteur;
-    }
-
-    /**
      * Set seance
      *
      * @param \CEC\TutoratBundle\Entity\Seance $seance
@@ -498,5 +523,28 @@ class CompteRendu
     public function getSeance()
     {
         return $this->seance;
+    }
+
+    /**
+     * Set auteur
+     *
+     * @param \CEC\MembreBundle\Entity\Membre $auteur
+     * @return CompteRendu
+     */
+    public function setAuteur(\CEC\MembreBundle\Entity\Membre $auteur = null)
+    {
+        $this->auteur = $auteur;
+    
+        return $this;
+    }
+
+    /**
+     * Get auteur
+     *
+     * @return \CEC\MembreBundle\Entity\Membre 
+     */
+    public function getAuteur()
+    {
+        return $this->auteur;
     }
 }

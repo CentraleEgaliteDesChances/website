@@ -56,7 +56,7 @@
             <tr>
                 <td>Secteurs</td>
                 <td>
-                    {% if membre.secteurs %}
+                    {% if membre.secteurs|length %}
                         Actif dans un secteur
                     {% else %}
                         <span class="muted">Aucun secteur</span>
@@ -116,7 +116,7 @@
     </table>
     
     <table class="table table-bordered table-hover table-striped table-large">
-        {% if membre.secteurs %}
+        {% if membre.secteurs|length %}
             <thead><tr><th><h4>Secteurs</h4></th></tr></thead>
             <tbody>
                 {% for secteur in membre.secteurs %}

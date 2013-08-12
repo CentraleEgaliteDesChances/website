@@ -8,7 +8,9 @@
 
 {{ parent() }}
 
+{% if is_granted('ROLE_BURO') %}
 {{ flash('alert', 'Attention ! La suppression d\'un membre est définitive et entraîne aussi la suppression de toutes les activités dont il est l\'auteur.') }}
+{% endif %}
 
 <table class="table table-bordered table-hover table-striped">
     {% if membres|length > 0 %}

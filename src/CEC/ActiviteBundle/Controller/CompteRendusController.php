@@ -90,7 +90,7 @@ class CompteRendusController extends Controller
      * Si seule un compte-rendu est à rédiger, on redirige immédiatement vers la page de la séance.
      *
      * @param CEC\TutoratBundle\Entity\Groupe $groupe : id du groupe de tutorat
-     * @Route("/groupes/{groupe}/compte_rendus", requirements = { "groupe" : "\d+" })
+     * @Route("/groupes/{groupe}/comptes_rendus", requirements = { "groupe" : "\d+" })
      * @Template()
      * )
      */
@@ -109,4 +109,41 @@ class CompteRendusController extends Controller
             'compte_rendus' => $compteRendus,
         );
     }
+    
+    /**
+     * Affiche les comptes-rendus réçents et non-lus.
+     * Cette page permet aux secteurs Activités Scientifiques et Activités Culturelles
+     * de consulter les nouveau comptes-rendus afin de les utiliser pour améliorer les activités
+     * qui ont besoin de corrections ou d'ajout.
+     *
+     * @Route("/comptes_rendus")
+     * @Template()
+     */
+    public function recentsAction()
+    {
+        $comptesRendus = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findAll();
+        
+        return array(
+            'comptes_rendus' => $comptesRendus,
+        );
+    }
+    
+    /**
+     * Controller Ajax qui renvoit l'aperçu d'un compte-rendu.
+     * Ces données sont utilisées et affichées par recentsAction.
+     *
+     * @param integer $compte_rendu L'id du compte-rendu dont on souhaite l'aperçu
+     *
+     * @Route("/comptes_rendus/ajax/apercu/{compte_rendu}", options = {"expose" = true})
+     * @Template()
+     */
+    public function ajaxApercuAction($compte_rendu)
+    {
+        $compteRendu = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->find($compte_rendu);
+        if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu !');
+        
+        return array('compte_rendu' => $compteRendu);
+    }
+    
+    
 }

@@ -1,0 +1,86 @@
+{% extends 'CECActiviteBundle:Activites:base.html.twig' %}
+
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
+{% from 'CECActiviteBundle::activite.html.twig' import type as type %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECActiviteBundle/Resources/public/less/comptes_rendus.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script type="text/javascript">
+        function chargerApercu(compteRendu) {
+            $('.cr').removeClass('info');
+            $('#cr_' + compteRendu).addClass('info');
+            $('#apercu-cr-message').html('Chargement...');
+            $('#apercu-cr-contenu').load(Routing.generate('cec_activite_compterendus_ajaxapercu', { compte_rendu: compteRendu }));
+        }
+    </script>
+{% endblock %}
+
+
+{% block left %}
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr><th class="titre" colspan="2">
+                <h3>
+                   Consultation de<br />
+                   comptes-rendus
+                </h3>
+            </th></tr>
+        </thead>
+        <tbody>
+            {#<tr>
+                <td>
+                    {{ form_errors(form) }}
+                    {{ form_row(form.titre) }}
+                    {{ form_row(form.type) }}
+                </td>
+            </tr>#}
+            {% for cr in comptes_rendus %}
+            <tr onclick="chargerApercu({{ cr.id }});" id="cr_{{ cr.id }}" class="cr">
+                <td class="td-non-lu">•</td>
+                <td>
+                    {{ type(cr.activite.type, 'pull-right') }}
+                    <strong>{{ cr.activite.titre }}</strong><br />
+                    Séance du {{ cycle(jours, cr.seance.date|date('N'))|lower }} {{ cr.seance.date|date('j') }} {{ cycle(mois, cr.seance.date|date('n')) }}<br />
+                    <span class="muted">
+                        {% for lycee in cr.seance.groupe.lycees %}
+                            {{ lycee.nom }}
+                            {% if not loop.last %}& {% endif %}
+                        {% endfor %}
+                        ({{ cr.seance.groupe.niveau }})
+                    </span>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td class="muted"><h4>Aucune activité ne correspond à vos critères de recherche !</h4></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}
+
+{% block right %}
+{{ parent() }}
+    
+    <table class="table table-bordered table-striped table-large" id="apercu-cr-contenu">
+        <tbody>
+            <tr style="height: 500px;">
+                <td class="muted">
+                    <h4 id="apercu-cr-message">Sélectionnez un compte-rendu</h4>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+{% endblock %}
