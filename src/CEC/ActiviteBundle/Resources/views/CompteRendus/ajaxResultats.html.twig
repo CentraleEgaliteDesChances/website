@@ -1,0 +1,22 @@
+{% from 'CECActiviteBundle::compte_rendu.html.twig' import note as note %}
+{% from 'CECActiviteBundle::activite.html.twig' import type as type %}
+
+{% for cr in resultats %}
+<tr onclick="chargerApercu({{ cr.id }});" id="cr_{{ cr.id }}" class="cr">
+    <td class="td-non-lu">{{ not cr.lu ? '•' }}</td>
+    <td>
+        {{ type(cr.activite.type, 'pull-right') }}
+        <strong>{{ cr.activite.titre }}</strong><br />
+        Séance du {{ cr.seance.date|date('d/m/Y') }}<br />
+        <span class="muted">
+            {% for lycee in cr.seance.groupe.lycees %}
+                {{ lycee.nom }}
+                {% if not loop.last %}& {% endif %}
+            {% endfor %}
+            ({{ cr.seance.groupe.niveau }})
+        </span>
+    </td>
+</tr>
+{% else %}
+<tr><td class="muted"><h4>Aucun compte-rendu ne correspond à vos critères de recherche !</h4></td></tr>
+{% endfor %}

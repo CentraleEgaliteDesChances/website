@@ -1,10 +1,12 @@
 td.muted {
     text-align: center;
-    padding: 250px 20px;
     h4 {
          text-shadow: 0 2px 0 #ffffff;
     }
 }
+
+#apercu-cr-message-container td.muted { padding: 250px 20px; }
+#resultats-message-container td.muted { padding: 160px 10px; }
 
 td.td-non-lu {
     vertical-align: middle;
@@ -19,7 +21,23 @@ td.td-non-lu {
     border-left: 0;
     padding-left: 2px;
 }
+.td-non-lu:empty + td {
+    padding: 8px;
+}
 
 tr[onclick] {
     cursor: pointer;
+}
+
+.table-results {
+    thead {
+        th {
+            background-color: #f9f9f9;
+            select {
+                height: 22px;
+                width: 150px;
+                margin-bottom: 0;
+            }
+        }
+    }
 }

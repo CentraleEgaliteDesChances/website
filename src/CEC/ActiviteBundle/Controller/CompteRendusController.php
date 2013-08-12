@@ -121,11 +121,7 @@ class CompteRendusController extends Controller
      */
     public function recentsAction()
     {
-        $comptesRendus = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findAll();
-        
-        return array(
-            'comptes_rendus' => $comptesRendus,
-        );
+        return array();
     }
     
     /**
@@ -134,7 +130,7 @@ class CompteRendusController extends Controller
      *
      * @param integer $compte_rendu L'id du compte-rendu dont on souhaite l'aperçu
      *
-     * @Route("/comptes_rendus/ajax/apercu/{compte_rendu}", options = {"expose" = true})
+     * @Route("/comptes_rendus/ajax/apercu/{compte_rendu}", requirements = {"compte_rendu" = "\d+"}, options = {"expose" = true})
      * @Template()
      */
     public function ajaxApercuAction($compte_rendu)
@@ -145,5 +141,60 @@ class CompteRendusController extends Controller
         return array('compte_rendu' => $compteRendu);
     }
     
+    /**
+     * Controller Ajax qui renvoit la liste des résultats de la recherche de compte-rendus.
+     * Ces données sont affichées sur la page de consultation des compte-rendus apr recentsAction.
+     *
+     * @param string $lecture Doit-on afficher tous les compte-rendus ('tous') ou les non-lus ('non-lus') ?
+     * @param string $type Quel type d'activité associée doit-on afficher ?
+     *
+     * @Route("/comptes_rendus/ajax/resultats/{lecture}/{type}", options = {"expose" = true}, requirements = {
+     *     "lecture" = "tous|non-lus",
+     *     "type" = "tous|actiscientifiques|actisculturelles|experiences|autre"
+     * })
+     * @Template()
+     */
+    public function ajaxResultatsAction($lecture, $type)
+    {
+        $nonLu = ($lecture == 'non-lus');
+        switch ($type) {
+            case 'actiscientifiques':
+                $type = 'Activité Scienfitique';
+                break;
+            case 'actisculturelles':
+                $type = 'Activité Culturelle';
+                break;
+            case 'experiences':
+                $type = 'Expérience Scientifique';
+                break;
+            case 'autre':
+                $type = 'Autres';
+                break;
+            default:
+                $type = null;
+        }
+        $resultats = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findNonLusWithType($type, $nonLu);
+        return array('resultats' => $resultats);
+    }
+    
+    /**
+     * Controller Ajax qui bascule l'état de lecture (lu/non-lu) d'un compte-rendu.
+     *
+     * @param integer $compte_rendu Id du compte-rendu dont on doit basculer l'état de lecture
+     *
+     * @Route("/comptes_rendus/ajax/basculer_lecture/{compte_rendu}", 
+     *     requirements = {"compte_rendu" = "\d+"},
+     *     options = {"expose" = true}
+     * )
+     */
+    public function ajaxBasculerLectureAction($compte_rendu)
+    {
+        $compteRendu = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->find($compte_rendu);
+        if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu !');
+        
+        $compteRendu->setLu(!$compteRendu->getLu());
+        $this->getDoctrine()->getEntityManager()->flush();
+        return new \Symfony\Component\HttpFoundation\Response(200);
+    }
     
 }

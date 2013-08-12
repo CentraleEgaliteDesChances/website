@@ -133,9 +133,9 @@ class CompteRenduRepository extends EntityRepository
     }
     
     /**
-     * Retourne tous les compte-rendus à rédiger d'un groupe de tutorat.
-     * On retourne les compte-rendus dont les séances ont déjà débutées et qui ne sont pas rédigés.
-     * A noter qu'on ne sélectionne pas les compte-rendus plus vieux de 2 mois après le début de la séance.
+     * Retourne tous les comptes-rendus à rédiger d'un groupe de tutorat.
+     * On retourne les comptes-rendus dont les séances ont déjà débutées et qui ne sont pas rédigés.
+     * A noter qu'on ne sélectionne pas les comptes-rendus plus vieux de 2 mois après le début de la séance.
      *
      * @param CEC\TutoratBundle\Entity\Groupe $groupe Groupe de tutorat dont on veut les compte-rendus.
      * @return array Compte-rendus à rédiger pour le groupe.
@@ -155,5 +155,30 @@ class CompteRenduRepository extends EntityRepository
              return !$compteRendu->isRedige();
          });
          return $resultats;
+    }
+    
+    /**
+     * Retourne les comptes-rendus non-lus d'un certain type.
+     * On retourne les comptes-rendus dont les activités sont du type indiqué (Tous, Activité Scientifique,
+     * Activité Culturelle, Expérience Scientifique ou Autres). Si le deuxième argument est égal à "false",
+     * on renvoit aussi les compte-rendus qui ont été marqués comme lus.
+     *
+     * @param string $type Type des activités dont on veut les comptes-rendus
+     * @param boolean $nonLu Ne veut-on que les comptes-rendus non-lus ?
+     * @return array Compte-rendus répondant aux critères.
+     */
+    public function findNonLusWithType($type = null, $nonLu = true)
+    {
+        $query = $this->createQueryBuilder('cr');
+        if ($type) {
+            $query->join('cr.activite', 'a')
+                ->where('cr.activite = a.id')
+                ->andWhere('a.type = :type')
+                ->setParameter('type', $type);
+        }
+        if ($nonLu) $query->andWhere('cr.lu = FALSE');
+        $query->orderBy('cr.dateModification', 'DESC');
+            
+         return $query->getQuery()->getResult();
     }
 }

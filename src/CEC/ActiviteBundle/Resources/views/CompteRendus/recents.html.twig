@@ -20,8 +20,47 @@
         function chargerApercu(compteRendu) {
             $('.cr').removeClass('info');
             $('#cr_' + compteRendu).addClass('info');
+            $('#apercu-cr-contenu').hide();
             $('#apercu-cr-message').html('Chargement...');
-            $('#apercu-cr-contenu').load(Routing.generate('cec_activite_compterendus_ajaxapercu', { compte_rendu: compteRendu }));
+            $('#apercu-cr-message-container').show();
+            $.get(Routing.generate('cec_activite_compterendus_ajaxapercu', { compte_rendu: compteRendu }), function(data) {
+              $('#apercu-cr-contenu').html(data);
+              $('#apercu-cr-contenu').show();
+              $('#apercu-cr-message-container').hide();
+            });
+            if ($('#cr_' + compteRendu + ' .td-non-lu').html() == "•") basculerLecture(compteRendu);
+        }
+        
+        // Hack du bootstrap parce que sinon la classe "active" est ajoutée APRÈS l'événement onclick !
+        var _old_toggle = $.fn.button.prototype.constructor.Constructor.prototype.toggle;
+        $.fn.button.prototype.constructor.Constructor.prototype.toggle = function () {
+            _old_toggle.apply(this);
+            chargerResultats();
+        }
+          
+        function chargerResultats() {
+            var lecture = ($('#lecture-tous').hasClass('active')) ? 'tous' : 'non-lus';
+            var type = $('#lecture-type :selected').val();
+            $('#apercu-cr-contenu').hide();
+            $('#apercu-cr-message').html('Sélectionnez un compte-rendu');
+            $('#apercu-cr-message-container').show();
+            $.get(Routing.generate('cec_activite_compterendus_ajaxresultats', { lecture: lecture, type: type }), function(data) {
+              $('#resultats-contenu').html(data);
+            });
+        }
+        
+        $(document).ready(function () {
+            chargerResultats();
+        });
+        
+        function basculerLecture(compteRendu) {
+            var etaitLu = $('#cr_' + compteRendu + ' .td-non-lu').html() == "";
+            $.get(Routing.generate('cec_activite_compterendus_ajaxbasculerlecture', { compte_rendu: compteRendu }));
+            if (etaitLu) {
+                $('#cr_' + compteRendu + ' .td-non-lu').html('•');
+            } else {
+                $('#cr_' + compteRendu + ' .td-non-lu').html('');
+            }
         }
     </script>
 {% endblock %}
@@ -29,7 +68,7 @@
 
 {% block left %}
 
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover table-results">
         <thead>
             <tr><th class="titre" colspan="2">
                 <h3>
@@ -37,35 +76,23 @@
                    comptes-rendus
                 </h3>
             </th></tr>
-        </thead>
-        <tbody>
-            {#<tr>
-                <td>
-                    {{ form_errors(form) }}
-                    {{ form_row(form.titre) }}
-                    {{ form_row(form.type) }}
-                </td>
-            </tr>#}
-            {% for cr in comptes_rendus %}
-            <tr onclick="chargerApercu({{ cr.id }});" id="cr_{{ cr.id }}" class="cr">
-                <td class="td-non-lu">•</td>
-                <td>
-                    {{ type(cr.activite.type, 'pull-right') }}
-                    <strong>{{ cr.activite.titre }}</strong><br />
-                    Séance du {{ cycle(jours, cr.seance.date|date('N'))|lower }} {{ cr.seance.date|date('j') }} {{ cycle(mois, cr.seance.date|date('n')) }}<br />
-                    <span class="muted">
-                        {% for lycee in cr.seance.groupe.lycees %}
-                            {{ lycee.nom }}
-                            {% if not loop.last %}& {% endif %}
-                        {% endfor %}
-                        ({{ cr.seance.groupe.niveau }})
-                    </span>
-                </td>
+            <tr>
+                <th colspan="2">
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <button class="btn btn-mini" id="lecture-tous">Tous</button>
+                        <button class="btn btn-mini active" id="lecture-non-lus">Non-lus</button>
+                    </div>
+                    <select class="btn-mini pull-right" id="lecture-type" onchange="chargerResultats()">
+                        <option value="tous">Tous les types</option>
+                        <option value="actiscientifiques">Activités Scientifiques</option>
+                        <option value="actisculturelles">Activités Culturelles</option>
+                        <option value="experiences">Expériences Scientifiques</option>
+                        <option value="autre">Autres</option>
+                    </select>
+                </th>
             </tr>
-            {% else %}
-            <tr><td class="muted"><h4>Aucune activité ne correspond à vos critères de recherche !</h4></td></tr>
-            {% endfor %}
-        </tbody>
+        </thead>
+        <tbody id="resultats-contenu"></tbody>
     </table>
     
 {% endblock %}
@@ -73,7 +100,7 @@
 {% block right %}
 {{ parent() }}
     
-    <table class="table table-bordered table-striped table-large" id="apercu-cr-contenu">
+    <table class="table table-bordered table-striped table-large" id="apercu-cr-message-container">
         <tbody>
             <tr style="height: 500px;">
                 <td class="muted">
@@ -82,5 +109,7 @@
             </tr>
         </tbody>
     </table>
+    
+    <table class="table table-bordered table-striped table-large" id="apercu-cr-contenu" style="display: none;"></table>
     
 {% endblock %}
