@@ -1,3 +1,8 @@
+cec_secteur_fundraising:
+    resource: "@CECSecteurFundraisingBundle/Controller/"
+    type:     annotation
+    prefix:   /internal
+
 cec_activite:
     resource: "@CECActiviteBundle/Controller/"
     type:     annotation

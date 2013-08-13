@@ -10,6 +10,8 @@ use CEC\MembreBundle\Entity\Exception\NomUtilisateurInvalideException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 
+use CEC\MainBundle\Utility\AnneeScolaire;
+
 /**
  * Permet de définir les méthodes de l'interface UserProviderInterface qui chargent les membres
  * et permettent l'authentification en fonction du prénom suivi du nom.
@@ -87,4 +89,21 @@ class MembreRepository extends EntityRepository implements UserProviderInterface
         return $query->getResult();
     }
     
+    /**
+     * Retourne le compte des tuteurs actifs pour l'année scolaire indiquée.
+     * On retourne le nombre de membres appartenant à un groupe de l'année scolaire.
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return integer Compte des tuteurs actifs.
+     */
+    public function comptePourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('m')
+            ->select('COUNT(DISTINCT m)')
+            ->join('m.groupe', 'g')
+            ->where('g.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        return $query->getSingleScalarResult();
+    }
 }

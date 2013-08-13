@@ -1,6 +1,7 @@
 CEC\TutoratBundle\Entity\Lyceen:
     type: entity
     table: null
+    repositoryClass: CEC\TutoratBundle\Entity\LyceenRepository
     fields:
         id:
             type: integer

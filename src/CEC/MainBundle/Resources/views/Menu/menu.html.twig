@@ -59,6 +59,7 @@
                     <ul class="dropdown-menu">
                         {% if is_granted('ROLE_SECTEUR_FUNDRAISING') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Fundraising</li>
+                            <li><a href="{{ path('cec_secteurfundraising_statistiques_voir') }}">Statistiques</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_ACTIVITES') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteurs Activités</li>

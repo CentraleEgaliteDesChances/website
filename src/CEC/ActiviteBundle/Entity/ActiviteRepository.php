@@ -5,6 +5,7 @@ namespace CEC\ActiviteBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use CEC\ActiviteBundle\Utility\RechercheActivite;
 use CEC\TutoratBundle\Entity\Seance;
+use CEC\MainBundle\Utility\AnneeScolaire;
 
 /**
  * Permet de définir les méthodes de recherche et de filtrage des activités.
@@ -67,5 +68,40 @@ class ActiviteRepository extends EntityRepository
             ->setParameter('seance_id', $seance->getId())
             ->getQuery();
         return $query->getResult();
+    }
+    
+    /**
+     * Retourne le compte des activités.
+     * On retourne le nombre d'activités de la base de donnée.
+     *
+     * @return integer Nombre d'activités.
+     */
+    public function compte()
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('COUNT(DISTINCT a)')
+            ->getQuery();
+        return $query->getSingleScalarResult();
+    }
+    
+    /**
+     * Retourne le compte des activités utilisées pendant l'année scolaire indiquée.
+     * On retourne le nombre d'activités possédant un compte-rendu attaché à une séance,
+     * elle-même associée à un groupe dont l'année scolaire correspond à celle passée en argument.
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return integer Compte des activités utilisées.
+     */
+    public function compteUtiliseesPourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('COUNT(DISTINCT a)')
+            ->join('a.compteRendus', 'cr')
+            ->join('cr.seance', 's')
+            ->join('s.groupe', 'g')
+            ->where('g.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        return $query->getSingleScalarResult();
     }
 }

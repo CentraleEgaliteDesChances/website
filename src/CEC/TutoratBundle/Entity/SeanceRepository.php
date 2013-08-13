@@ -4,6 +4,7 @@ namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\MainBundle\Utility\AnneeScolaire;
 
 /**
  * SeanceRepository
@@ -73,5 +74,49 @@ class SeanceRepository extends EntityRepository
                       ->getQuery();
         $resultat = $query->getResult();
         return count($resultat) > 0 ? $resultat[0] : false;
+    }
+    
+    /**
+     * Retourne le compte des séances de tutorat données pour l'année scolaire indiquée.
+     * On retourne le nombre de séances dont le groupe est de l'année indiquée.
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return integer Compte des séances données.
+     */
+    public function comptePourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('COUNT(DISTINCT s)')
+            ->join('s.groupe', 'g')
+            ->where('g.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        return $query->getSingleScalarResult();
+    }
+    
+    /**
+     * Retourne le nombre d'heures de tutorat dispensées pour l'année scolaire indiquée.
+     * On retourne la somme des heures de tutorat pour les séances dont le groupe est de l'année
+     * scolaire indiquée.&
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return integer Somme des heures de tutorat dispensées pendant l'année scolaire.
+     */
+    public function compteHeuresTutoratPourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('DISTINCT s')
+            ->join('s.groupe', 'g')
+            ->where('g.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        $resultats = $query->getResult();
+        
+        $minutesTutorat = 0;
+        foreach ($resultats as $seance) {
+            $duree = $seance->retreiveFin()->diff($seance->retreiveDebut());
+            $minutesTutorat += $duree->h * 60 + $duree->i;
+        }
+        return floor($minutesTutorat / 60);
     }
 }
