@@ -1,21 +1,21 @@
 cec_secteur_fundraising:
     resource: "@CECSecteurFundraisingBundle/Controller/"
     type:     annotation
-    prefix:   /internal
+    prefix:   /
 
 cec_activite:
     resource: "@CECActiviteBundle/Controller/"
     type:     annotation
-    prefix:   /internal
+    prefix:   /
 
 cec_tutorat:
     resource: "@CECTutoratBundle/Resources/config/routing.yml"
-    prefix:   /internal
+    prefix:   /
 
 cec_membre:
     resource: "@CECMembreBundle/Controller/"
     type:     annotation
-    prefix:   /internal
+    prefix:   /
 
 cec_extern_site:
     resource: "@CECExternSiteBundle/Controller/"
@@ -25,12 +25,12 @@ cec_extern_site:
 
 # Security routes
 connexion_verifications:
-    pattern: /internal/connexion/verifications
+    pattern: /connexion/verifications
 connexion:
-    pattern: /internal/connexion
+    pattern: /connexion
     defaults: { _controller: CECMembreBundle:Securite:connexion }
 deconnexion:
-    pattern: /internal/deconnexion    
+    pattern: /deconnexion    
 
 # FOSJsRoutingBundle (needed for adesigns/calendar-bundle)
 fos_js_routing:

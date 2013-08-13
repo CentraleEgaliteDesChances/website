@@ -21,11 +21,11 @@ security:
         intern:
             pattern:    ^/internal
             form_login:
-                check_path: /internal/connexion/verifications
-                login_path: /internal/connexion
+                check_path: /connexion/verifications
+                login_path: /connexion
             logout:
-                path:   /internal/deconnexion
-                target: /internal
+                path:   /deconnexion
+                target: /
             anonymous: ~
 
     access_control:
