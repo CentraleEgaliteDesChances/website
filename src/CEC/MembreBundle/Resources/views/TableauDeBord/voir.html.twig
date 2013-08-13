@@ -1,0 +1,51 @@
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+    {% stylesheets '@CECMembreBundle/Resources/public/less/tableau_de_bord.less' %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+
+{% block container %}
+{{ parent() }}
+
+    <div class="text-centered">
+        
+        {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
+            <img src="{{ asset_url }}" alt="Image du lycée" class="logo"/>
+        {% endimage %}
+    
+        <h4 class="bienvenue">Bienvenue sur le site interne, {{ membre }} !</h4>
+        <ul class="liens">
+            {% if membre.groupe %}
+                {% if seance_a_venir %}
+                    <li><a href="{{ path('seance', { 'seance': seance_a_venir.id }) }}">
+                        Ma prochaine séance : {{ seance_a_venir.date|date('d/m/Y') }}
+                    </a></li>
+                    {% if seance_a_venir.compteRendus is empty %}
+                        <li><a href="{{ path('cec_activite_activites_rechercher') }}">Choisir une activité</a></li>
+                    {% endif %}
+                {% endif %}
+                <li><a href="{{ path('toutes_seances') }}">Planning des séances de tutorat</a></li>
+                {% if cr_a_rediger is not empty %}
+                    <li><a href="{{ path('cec_activite_compterendus_arediger', { 'groupe' : membre.groupe.id }) }}">
+                        Compte-rendus à rédiger
+                    </a></li>
+                {% endif %}
+                <li><a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">Mon groupe de tutorat</a></li>
+            {% else %}
+                <p>Vous n'êtes pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, rédiger les comptes-rendus <br />et choisir les activités, vous devez vous prendre part à un groupe.</p>
+                <a href="{{ path('cec_membre_reglages_groupe') }}" class="btn btn-primary btn-large inscription">M'inscrire à un groupe de tutorat</a>
+            {% endif %}
+        </ul>
+        <ul class="liens">
+            <li><a href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">Mon profil</a></li>
+            <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
+            <li><a href="mailto:jean-baptiste.bayle@student.ecp.fr">Aide</a></li>
+        </ul>
+    </div>
+
+{% endblock %}
+

@@ -3,7 +3,7 @@
         <div class="container">
             <a href="#" class="brand">CEC</a>
             <ul class="nav">
-                <li><a href="#">Tableau de bord</a></li>
+                <li><a href="{{ path('cec_membre_tableaudebord_voir') }}">Tableau de bord</a></li>
                 {% if membre.groupe %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -57,22 +57,27 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        {% if is_granted('ROLE_SECTEUR_FUNDRAISING') or is_granted('ROLE_BURO') %}
-                            <li class="secteur">Secteur Fundraising</li>
-                            <li><a href="{{ path('cec_secteurfundraising_statistiques_voir') }}">Statistiques</a></li>
-                        {% endif %}
                         {% if is_granted('ROLE_SECTEUR_ACTIVITES') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteurs Activités</li>
                             <li><a href="{{ path('cec_activite_compterendus_recents') }}">Consulter les comptes-rendus</a></li>
+                            <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
+                            <li><a href="{{ path('cec_activite_activites_creer') }}">Rédiger une nouvelle activité</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_PROJETS') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Projets</li>
+                            <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_SORTIES') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Sorties</li>
+                            <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_EVENEMENTS') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Événements</li>
+                            <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
+                        {% if is_granted('ROLE_SECTEUR_FUNDRAISING') or is_granted('ROLE_BURO') %}
+                            <li class="secteur">Secteur Fundraising</li>
+                            <li><a href="{{ path('cec_secteurfundraising_statistiques_voir') }}">Statistiques de l'association</a></li>
+                        {% endif %}
                         {% endif %}
                         {% if is_granted('ROLE_BURO') %}
                             <li class="secteur">Buro</li>
@@ -87,17 +92,16 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
-                        <li><a href="{{ path('cec_activite_activites_creer') }}">Rédiger une nouvelle activité</a></li>
+                        <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('tous_lycees') }}">Liste des lycées</a></li>
                         <li><a href="{{ path('tous_lyceens') }}">Liste des lycéens</a></li>
                         <li><a href="{{ path('cec_membre_membres_tous') }}">Liste des membres</a></li>
-                        <li class="divider"></li>
                         <li><a href="{{ path('tous_enseignants') }}">Liste des enseignants</a></li>
                         <li><a href="{{ path('tous_groupes') }}">Liste des groupes de tutorat</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
+                        <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
+                        <li><a href="{{ path('cec_activite_activites_creer') }}">Rédiger une nouvelle activité</a></li>
                         <li class="divider"></li>
                         <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
                     </ul>
