@@ -25,8 +25,12 @@
                 <p>class    <strong>Secteur</strong></p>
 
             <div class="description">
-            <p>Secteur</p>
-            <p></p>
+            <p>Représente un secteur de l&#039;association.</p>
+            <p>Centrale Égalité des Chances est organisé en secteur, dont chacun s&#039;attache à une action de l&#039;association.<br />
+ Cette entité permet donc de répertorier les secteurs et d&#039;associer les membres aux secteurs qu&#039;ils fréquentent.<br />
+ Le site interne met alors à leur disposition des pages et raccourcis spécifiques utiles à leur travail.<br />
+<br />
+ Un secteur est identifié par son nom, qui doit être unique.</p>
         </div>
     
     
@@ -41,6 +45,16 @@
                 <td class="last">
                     <a href="#method___construct">__construct</a>()
                     <p>Constructor</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>Retourne la description d&#039;un secteur.</p>
                 </td>
                 <td></td>
             </tr>
@@ -144,23 +158,13 @@
                 </td>
                 <td></td>
             </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method___toString">__toString</a>()
-                    <p>Retourne la description d&#039;un secteur</p>
-                </td>
-                <td></td>
-            </tr>
             </table>
 
 
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 42</div>
+        <div class="location">at line 97</div>
         <code>            public            
     <strong>__construct</strong>()</code>
     </h3>
@@ -174,8 +178,32 @@
                     </div>
     </div>
 
+                <h3 id="method___toString">
+        <div class="location">at line 108</div>
+        <code>            public            string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Retourne la description d&#039;un secteur.</p>
+        <p>La description est le nom du secteur seulement.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Description du secteur.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
                 <h3 id="method_getId">
-        <div class="location">at line 52</div>
+        <div class="location">at line 126</div>
         <code>            public            integer
     <strong>getId</strong>()</code>
     </h3>
@@ -199,7 +227,7 @@
     </div>
 
                 <h3 id="method_setNom">
-        <div class="location">at line 63</div>
+        <div class="location">at line 137</div>
         <code>            public            <a href="../../../CEC/MembreBundle/Entity/Secteur.html"><abbr title="CEC\MembreBundle\Entity\Secteur">Secteur</abbr></a>
     <strong>setNom</strong>(string $nom)</code>
     </h3>
@@ -233,7 +261,7 @@
     </div>
 
                 <h3 id="method_getNom">
-        <div class="location">at line 75</div>
+        <div class="location">at line 149</div>
         <code>            public            string
     <strong>getNom</strong>()</code>
     </h3>
@@ -257,7 +285,7 @@
     </div>
 
                 <h3 id="method_setDateCreation">
-        <div class="location">at line 86</div>
+        <div class="location">at line 160</div>
         <code>            public            <a href="../../../CEC/MembreBundle/Entity/Secteur.html"><abbr title="CEC\MembreBundle\Entity\Secteur">Secteur</abbr></a>
     <strong>setDateCreation</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)</code>
     </h3>
@@ -291,7 +319,7 @@
     </div>
 
                 <h3 id="method_getDateCreation">
-        <div class="location">at line 98</div>
+        <div class="location">at line 172</div>
         <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
     <strong>getDateCreation</strong>()</code>
     </h3>
@@ -315,7 +343,7 @@
     </div>
 
                 <h3 id="method_setDateModification">
-        <div class="location">at line 109</div>
+        <div class="location">at line 183</div>
         <code>            public            <a href="../../../CEC/MembreBundle/Entity/Secteur.html"><abbr title="CEC\MembreBundle\Entity\Secteur">Secteur</abbr></a>
     <strong>setDateModification</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)</code>
     </h3>
@@ -349,7 +377,7 @@
     </div>
 
                 <h3 id="method_getDateModification">
-        <div class="location">at line 121</div>
+        <div class="location">at line 195</div>
         <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
     <strong>getDateModification</strong>()</code>
     </h3>
@@ -373,7 +401,7 @@
     </div>
 
                 <h3 id="method_addMembre">
-        <div class="location">at line 132</div>
+        <div class="location">at line 206</div>
         <code>            public            <a href="../../../CEC/MembreBundle/Entity/Secteur.html"><abbr title="CEC\MembreBundle\Entity\Secteur">Secteur</abbr></a>
     <strong>addMembre</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr> $membres)</code>
     </h3>
@@ -407,7 +435,7 @@
     </div>
 
                 <h3 id="method_removeMembre">
-        <div class="location">at line 144</div>
+        <div class="location">at line 218</div>
         <code>            public            
     <strong>removeMembre</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Membre">Membre</abbr> $membres)</code>
     </h3>
@@ -432,7 +460,7 @@
     </div>
 
                 <h3 id="method_getMembres">
-        <div class="location">at line 154</div>
+        <div class="location">at line 228</div>
         <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
     <strong>getMembres</strong>()</code>
     </h3>
@@ -450,21 +478,6 @@
         </tr>
     </table>
 
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method___toString">
-        <div class="location">at line 162</div>
-        <code>            public            
-    <strong>__toString</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Retourne la description d&#039;un secteur</p>
-        <p></p>
-        <div class="tags">
-            
             
             
                     </div>

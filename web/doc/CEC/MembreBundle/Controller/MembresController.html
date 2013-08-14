@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>CEC\MembreBundle\Controller\MembresController | CEC Web Site API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">CEC Web Site API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../CEC/MembreBundle/Controller.html">CEC\MembreBundle\Controller</a>\MembresController</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>MembresController</strong>        extends <abbr title="Symfony\Bundle\FrameworkBundle\Controller\Controller">Controller</abbr></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_tousAction">tousAction</a>()
+                    <p>Affiche la liste de tous les membres.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_voirAction">voirAction</a>($membre)
+                    <p>Affiche le profil d&#039;un membre.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_creerAction">creerAction</a>()
+                    <p>Permet de créer un nouveau membre.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_supprimerAction">supprimerAction</a>(integer $membre)
+                    <p>Supprimer un membre de manière définitive.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_passationsAction">passationsAction</a>()
+                    <p>Permet d&#039;effectuer les passations du Buro.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_supprimerMembreBuroAction">supprimerMembreBuroAction</a>(<a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a> $membre)
+                    <p>Retire les privilèges du buro à un membre.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_tousAction">
+        <div class="location">at line 25</div>
+        <code>            public            
+    <strong>tousAction</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Affiche la liste de tous les membres.</p>
+        <p>Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_voirAction">
+        <div class="location">at line 39</div>
+        <code>            public            
+    <strong>voirAction</strong>($membre)</code>
+    </h3>
+    <div class="details">
+        <p>Affiche le profil d&#039;un membre.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$membre</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_creerAction">
+        <div class="location">at line 59</div>
+        <code>            public            
+    <strong>creerAction</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Permet de créer un nouveau membre.</p>
+        <p>Affiche un formulaire permettant d&#039;entrer le nom, le prénom, l&#039;adresse email,<br />
+ le numéro de téléphone, et la promotion du nouveau membre. Un bouton permet<br />
+ d&#039;enregistrer le nouveau membre, et un bouton Annuler permet de revenir à la liste.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_supprimerAction">
+        <div class="location">at line 108</div>
+        <code>            public            
+    <strong>supprimerAction</strong>(integer $membre)</code>
+    </h3>
+    <div class="details">
+        <p>Supprimer un membre de manière définitive.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$membre</td>
+                <td>Id du membre à supprimer.</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_passationsAction">
+        <div class="location">at line 131</div>
+        <code>            public            
+    <strong>passationsAction</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Permet d&#039;effectuer les passations du Buro.</p>
+        <p>La page affiche tous les membres bénéficiant du statut de membre du buro, et permet<br />
+ aux membres du buro d&#039;attribuer à d&#039;autres membres ce statut. A utiliser lors des passations.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_supprimerMembreBuroAction">
+        <div class="location">at line 163</div>
+        <code>            public            
+    <strong>supprimerMembreBuroAction</strong>(<a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a> $membre)</code>
+    </h3>
+    <div class="details">
+        <p>Retire les privilèges du buro à un membre.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+                <td>$membre</td>
+                <td>Membre à retirer du buro</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

@@ -5286,6 +5286,11 @@ section {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.modal .input-prepend input,
+.modal .input-prepend textarea,
+.modal .input-prepend select {
+  display: inline-block;
+}
 .modal input[type='submit'] {
   display: inline;
   width: auto;
@@ -5431,6 +5436,7 @@ td .detail a {
   box-shadow: 0 0 3px #cfcfcf;
   padding: 10px;
   padding-top: 15px;
+  margin-bottom: 20px;
 }
 .narrow-header + .narrow-body {
   border-top-style: none;
@@ -5469,8 +5475,4 @@ td .detail a {
 }
 .narrow form .footer-controls .btn-primary {
   margin-left: 10px;
-}
-.table .titre {
-  background: url("../images/stripes.png") repeat-x 0 top;
-  color: white;
 }

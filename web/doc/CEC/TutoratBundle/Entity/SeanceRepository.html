@@ -55,6 +55,36 @@
                 </td>
                 <td></td>
             </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="CEC\TutoratBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_findOneAVenir">findOneAVenir</a>(<a href="../../../CEC/TutoratBundle/Entity/Groupe.html"><abbr title="CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></a> $groupe)
+                    <p>Retourne la séance à venir pour le groupe de tutorat.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_comptePourAnneeScolaire">comptePourAnneeScolaire</a>(<a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a> $anneeScolaire)
+                    <p>Retourne le compte des séances de tutorat données pour l&#039;année scolaire indiquée.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_compteHeuresTutoratPourAnneeScolaire">compteHeuresTutoratPourAnneeScolaire</a>(<a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a> $anneeScolaire)
+                    <p>Retourne le nombre d&#039;heures de tutorat dispensées pour l&#039;année scolaire indiquée.</p>
+                </td>
+                <td></td>
+            </tr>
             </table>
 
 
@@ -116,12 +146,12 @@
                     <tr>
                 <td><abbr title="CEC\TutoratBundle\Entity\DateTime">DateTime</abbr></td>
                 <td>$dateDebut</td>
-                <td></td>
+                <td>: date de début</td>
             </tr>
                     <tr>
                 <td><abbr title="CEC\TutoratBundle\Entity\DateTime">DateTime</abbr></td>
                 <td>$dateFin</td>
-                <td></td>
+                <td>: date de fin</td>
             </tr>
             </table>
 
@@ -132,6 +162,112 @@
         <tr>
             <td><abbr title="CEC\TutoratBundle\Entity\ArrayCollection">ArrayCollection</abbr></td>
             <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_findOneAVenir">
+        <div class="location">at line 66</div>
+        <code>            public            <abbr title="CEC\TutoratBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr>
+    <strong>findOneAVenir</strong>(<a href="../../../CEC/TutoratBundle/Entity/Groupe.html"><abbr title="CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></a> $groupe)</code>
+    </h3>
+    <div class="details">
+        <p>Retourne la séance à venir pour le groupe de tutorat.</p>
+        <p>Une séance de tutorat est dite &quot;à venir&quot; si les conditions suivantes sont remplies :<br />
+     - la séance a lieu dans moins d&#039;une semaine ;<br />
+     - aucune autre séance n&#039;est programmée avant.<br />
+ Si aucune séance n&#039;est à venir, la méthode renvoit &#039;false&#039;.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../CEC/TutoratBundle/Entity/Groupe.html"><abbr title="CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></a></td>
+                <td>$groupe</td>
+                <td>: le groupe de tutorat pour lequel on cherche la séance.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="CEC\TutoratBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
+            <td>La séance à venir, ou &#039;false&#039;</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_comptePourAnneeScolaire">
+        <div class="location">at line 86</div>
+        <code>            public            integer
+    <strong>comptePourAnneeScolaire</strong>(<a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a> $anneeScolaire)</code>
+    </h3>
+    <div class="details">
+        <p>Retourne le compte des séances de tutorat données pour l&#039;année scolaire indiquée.</p>
+        <p>On retourne le nombre de séances dont le groupe est de l&#039;année indiquée.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a></td>
+                <td>$anneeScolaire</td>
+                <td>Année scolaire</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>Compte des séances données.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_compteHeuresTutoratPourAnneeScolaire">
+        <div class="location">at line 105</div>
+        <code>            public            integer
+    <strong>compteHeuresTutoratPourAnneeScolaire</strong>(<a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a> $anneeScolaire)</code>
+    </h3>
+    <div class="details">
+        <p>Retourne le nombre d&#039;heures de tutorat dispensées pour l&#039;année scolaire indiquée.</p>
+        <p>On retourne la somme des heures de tutorat pour les séances dont le groupe est de l&#039;année<br />
+ scolaire indiquée.&amp;</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a></td>
+                <td>$anneeScolaire</td>
+                <td>Année scolaire</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>Somme des heures de tutorat dispensées pendant l&#039;année scolaire.</td>
         </tr>
     </table>
 

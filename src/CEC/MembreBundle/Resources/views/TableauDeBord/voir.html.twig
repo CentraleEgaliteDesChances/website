@@ -1,5 +1,6 @@
 {% extends 'CECMainBundle::base.html.twig' %}
 
+
 {% block stylesheets %}
 {{ parent() }}
     {% stylesheets '@CECMembreBundle/Resources/public/less/tableau_de_bord.less' %}
@@ -12,6 +13,12 @@
 {{ parent() }}
 
     <div class="text-centered">
+        
+        <div class="alert alert-info">
+            <h4>Le site interne est en version 1.0 BÊTA</h4>
+            <p>Merci de signaler tout bug ou proposition d'amélioration en cliquant sur le bouton ci-dessous :</p>
+            <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
+        </div>
         
         {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
             <img src="{{ asset_url }}" alt="Image du lycée" class="logo"/>
@@ -37,7 +44,9 @@
                 <li><a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">Mon groupe de tutorat</a></li>
             {% else %}
                 <p>Vous n'êtes pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, rédiger les comptes-rendus <br />et choisir les activités, vous devez vous prendre part à un groupe.</p>
-                <a href="{{ path('cec_membre_reglages_groupe') }}" class="btn btn-primary btn-large inscription">M'inscrire à un groupe de tutorat</a>
+                <a href="{{ path('cec_membre_reglages_groupe') }}" class="btn btn-primary btn-large inscription">
+                    <strong>M'inscrire à un groupe de tutorat</strong>
+                </a>
             {% endif %}
         </ul>
         <ul class="liens">

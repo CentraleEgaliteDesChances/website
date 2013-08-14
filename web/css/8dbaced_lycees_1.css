@@ -4,5 +4,37 @@
   float: right;
 }
 .btn-block {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+.table .edition {
+  background: url(/bundles/cecmain/images/stripes.png) repeat-x 0 top red;
+  height: 20px;
+  border-left: 1px solid #dddddd;
+}
+.table .titre-edition {
+  border-bottom: 0;
+  color: maroon;
+}
+.table .btn-block {
+  margin-bottom: 0;
+  margin-top: 25px;
+}
+.table .form {
+  margin-bottom: 0;
+}
+.table .form select[multiple] {
+  height: 200px;
+}
+.table .ajout {
+  border-top-width: 2px;
+}
+.table .ajout .btn-block {
+  margin-top: 0;
+}
+.close-red,
+.close-red:hover {
+  color: red;
+}
+.input-ajouter {
+  width: 280px;
 }

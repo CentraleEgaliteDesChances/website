@@ -37,7 +37,12 @@
  Un constructeur permet de créer rapidement un tag à l&#039;aide de son contenu.<br />
  Il faut ensuite l&#039;ajouter à une ou plusieurs activités.<br />
 <br />
- Un tag est entièrement défini par son contenu, qui doit donc être unique.</p>
+ Un tag est entièrement défini par son contenu, qui doit donc être unique.<br />
+<br />
+ IMPORTANT : Les tags sont désactivés dans la version 1.0 du site.<br />
+             Il s&#039;agit d&#039;une fonctionnalité à implémenter pour la version 2.0 ; pour cela,<br />
+             il suffit de créer un nouveau champ permettant de gérer les tags, par exemple<br />
+             à l&#039;aide de http://ivaynberg.github.io/select2/#tags ou de http://aehlke.github.io/tag-it/examples.html?.</p>
         </div>
     
     
@@ -131,7 +136,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 84</div>
+        <div class="location">at line 89</div>
         <code>            public            
     <strong>__construct</strong>(string $contenu)</code>
     </h3>
@@ -156,7 +161,7 @@
     </div>
 
                 <h3 id="method___toString">
-        <div class="location">at line 96</div>
+        <div class="location">at line 101</div>
         <code>            public            string
     <strong>__toString</strong>()</code>
     </h3>
@@ -180,7 +185,7 @@
     </div>
 
                 <h3 id="method_getId">
-        <div class="location">at line 111</div>
+        <div class="location">at line 116</div>
         <code>            public            integer
     <strong>getId</strong>()</code>
     </h3>
@@ -204,7 +209,7 @@
     </div>
 
                 <h3 id="method_setContenu">
-        <div class="location">at line 122</div>
+        <div class="location">at line 127</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Tag.html"><abbr title="CEC\ActiviteBundle\Entity\Tag">Tag</abbr></a>
     <strong>setContenu</strong>(string $contenu)</code>
     </h3>
@@ -238,7 +243,7 @@
     </div>
 
                 <h3 id="method_getContenu">
-        <div class="location">at line 134</div>
+        <div class="location">at line 139</div>
         <code>            public            string
     <strong>getContenu</strong>()</code>
     </h3>
@@ -262,7 +267,7 @@
     </div>
 
                 <h3 id="method_addActivite">
-        <div class="location">at line 145</div>
+        <div class="location">at line 150</div>
         <code>            public            <a href="../../../CEC/ActiviteBundle/Entity/Tag.html"><abbr title="CEC\ActiviteBundle\Entity\Tag">Tag</abbr></a>
     <strong>addActivite</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activites)</code>
     </h3>
@@ -296,7 +301,7 @@
     </div>
 
                 <h3 id="method_removeActivite">
-        <div class="location">at line 157</div>
+        <div class="location">at line 162</div>
         <code>            public            
     <strong>removeActivite</strong>(<abbr title="CEC\ActiviteBundle\Entity\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activites)</code>
     </h3>
@@ -321,7 +326,7 @@
     </div>
 
                 <h3 id="method_getActivites">
-        <div class="location">at line 167</div>
+        <div class="location">at line 172</div>
         <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
     <strong>getActivites</strong>()</code>
     </h3>

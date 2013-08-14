@@ -1,0 +1,24 @@
+.text-centered {
+  text-align: center;
+}
+.logo {
+  max-width: 300px;
+  margin-top: 50px;
+}
+.alert + .logo {
+  margin-top: 10px;
+}
+.bienvenue {
+  margin-bottom: 20px;
+  color: #dd0023;
+}
+ul.liens {
+  list-style: none;
+  margin: 10px 0;
+}
+ul.liens li a:hover {
+  text-decoration: none;
+}
+.inscription {
+  margin-bottom: 10px;
+}

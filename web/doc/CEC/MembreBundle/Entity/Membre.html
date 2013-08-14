@@ -26,8 +26,13 @@
         <abbr title="Symfony\Component\Security\Core\User\UserInterface">UserInterface</abbr>, <a href="http://php.net/Serializable"><abbr title="Serializable">Serializable</abbr></a></p>
 
             <div class="description">
-            <p>Membre</p>
-            <p></p>
+            <p>Représente un membre de l&#039;association et donc un utilisateur du site interne.</p>
+            <p>Un membre possède un droit d&#039;accès au site interne et peut affectuer des modifications<br />
+ pour tout ce qui est accessible (activités, séances, lycéens, compte-rendus, etc.).<br />
+ Lorsqu&#039;un membre est identifié comme membre du buro, il peut accéder aux fonctions<br />
+ avancées (nouvelle année, passations, gestion des membres).<br />
+<br />
+ Un membre est identifié par son identifiant (prénom + nom), qui doit être unique.</p>
         </div>
     
     
@@ -42,6 +47,86 @@
                 <td class="last">
                     <a href="#method___construct">__construct</a>()
                     <p>Constructor</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getUsername">getUsername</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getSalt">getSalt</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getPassword">getPassword</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getRoles">getRoles</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_eraseCredentials">eraseCredentials</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_serialize">serialize</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_unserialize">unserialize</a>($serialized)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>Retourne la description d&#039;un membre.</p>
                 </td>
                 <td></td>
             </tr>
@@ -180,8 +265,8 @@
                     <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_setActif">setActif</a>(boolean $actif)
-                    <p>Set actif</p>
+                    <a href="#method_setBuro">setBuro</a>(boolean $buro)
+                    <p>Set buro</p>
                 </td>
                 <td></td>
             </tr>
@@ -190,8 +275,8 @@
                     boolean
                 </td>
                 <td class="last">
-                    <a href="#method_getActif">getActif</a>()
-                    <p>Get actif</p>
+                    <a href="#method_getBuro">getBuro</a>()
+                    <p>Get buro</p>
                 </td>
                 <td></td>
             </tr>
@@ -337,96 +422,6 @@
             </tr>
                     <tr>
                 <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_setDefaultValues">setDefaultValues</a>()
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_getUsername">getUsername</a>()
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_getSalt">getSalt</a>()
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_getPassword">getPassword</a>()
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_getRoles">getRoles</a>()
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_eraseCredentials">eraseCredentials</a>()
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_serialize">serialize</a>()
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_unserialize">unserialize</a>($serialized)
-                    <p></p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method___toString">__toString</a>()
-                    <p>Retourne la description d&#039;un membre</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
                     <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
                 </td>
                 <td class="last">
@@ -491,7 +486,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 97</div>
+        <div class="location">at line 288</div>
         <code>            public            
     <strong>__construct</strong>()</code>
     </h3>
@@ -505,851 +500,8 @@
                     </div>
     </div>
 
-                <h3 id="method_getId">
-        <div class="location">at line 110</div>
-        <code>            public            integer
-    <strong>getId</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get id</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>integer</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setPrenom">
-        <div class="location">at line 121</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setPrenom</strong>(string $prenom)</code>
-    </h3>
-    <div class="details">
-        <p>Set prenom</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$prenom</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getPrenom">
-        <div class="location">at line 133</div>
-        <code>            public            string
-    <strong>getPrenom</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get prenom</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>string</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setNom">
-        <div class="location">at line 144</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setNom</strong>(string $nom)</code>
-    </h3>
-    <div class="details">
-        <p>Set nom</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$nom</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getNom">
-        <div class="location">at line 156</div>
-        <code>            public            string
-    <strong>getNom</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get nom</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>string</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setEmail">
-        <div class="location">at line 167</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setEmail</strong>(string $email)</code>
-    </h3>
-    <div class="details">
-        <p>Set email</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$email</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getEmail">
-        <div class="location">at line 179</div>
-        <code>            public            string
-    <strong>getEmail</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get email</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>string</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setTelephone">
-        <div class="location">at line 190</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setTelephone</strong>(string $telephone)</code>
-    </h3>
-    <div class="details">
-        <p>Set telephone</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$telephone</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getTelephone">
-        <div class="location">at line 202</div>
-        <code>            public            string
-    <strong>getTelephone</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get telephone</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>string</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setMotDePasse">
-        <div class="location">at line 213</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setMotDePasse</strong>(string $motDePasse)</code>
-    </h3>
-    <div class="details">
-        <p>Set motDePasse</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$motDePasse</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getMotDePasse">
-        <div class="location">at line 225</div>
-        <code>            public            string
-    <strong>getMotDePasse</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get motDePasse</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>string</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setPromotion">
-        <div class="location">at line 236</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setPromotion</strong>(integer $promotion)</code>
-    </h3>
-    <div class="details">
-        <p>Set promotion</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>integer</td>
-                <td>$promotion</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getPromotion">
-        <div class="location">at line 248</div>
-        <code>            public            integer
-    <strong>getPromotion</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get promotion</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>integer</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setActif">
-        <div class="location">at line 259</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setActif</strong>(boolean $actif)</code>
-    </h3>
-    <div class="details">
-        <p>Set actif</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>boolean</td>
-                <td>$actif</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getActif">
-        <div class="location">at line 271</div>
-        <code>            public            boolean
-    <strong>getActif</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get actif</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>boolean</td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setDateCreation">
-        <div class="location">at line 282</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setDateCreation</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)</code>
-    </h3>
-    <div class="details">
-        <p>Set dateCreation</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
-                <td>$dateCreation</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getDateCreation">
-        <div class="location">at line 294</div>
-        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
-    <strong>getDateCreation</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get dateCreation</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setDateModification">
-        <div class="location">at line 305</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setDateModification</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)</code>
-    </h3>
-    <div class="details">
-        <p>Set dateModification</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
-                <td>$dateModification</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getDateModification">
-        <div class="location">at line 317</div>
-        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
-    <strong>getDateModification</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get dateModification</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setVpLycee">
-        <div class="location">at line 328</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setVpLycee</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Lycee">Lycee</abbr> $vpLycee = null)</code>
-    </h3>
-    <div class="details">
-        <p>Set vpLycee</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Lycee">Lycee</abbr></td>
-                <td>$vpLycee</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getVpLycee">
-        <div class="location">at line 340</div>
-        <code>            public            <a href="../../../CEC/TutoratBundle/Entity/Lycee.html"><abbr title="CEC\TutoratBundle\Entity\Lycee">Lycee</abbr></a>
-    <strong>getVpLycee</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get vpLycee</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/TutoratBundle/Entity/Lycee.html"><abbr title="CEC\TutoratBundle\Entity\Lycee">Lycee</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setGroupe">
-        <div class="location">at line 351</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>setGroupe</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Groupe">Groupe</abbr> $groupe = null)</code>
-    </h3>
-    <div class="details">
-        <p>Set groupe</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></td>
-                <td>$groupe</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getGroupe">
-        <div class="location">at line 363</div>
-        <code>            public            <a href="../../../CEC/TutoratBundle/Entity/Groupe.html"><abbr title="CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></a>
-    <strong>getGroupe</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get groupe</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/TutoratBundle/Entity/Groupe.html"><abbr title="CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_addSecteur">
-        <div class="location">at line 374</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>addSecteur</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr> $secteurs)</code>
-    </h3>
-    <div class="details">
-        <p>Add secteurs</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr></td>
-                <td>$secteurs</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_removeSecteur">
-        <div class="location">at line 386</div>
-        <code>            public            
-    <strong>removeSecteur</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr> $secteurs)</code>
-    </h3>
-    <div class="details">
-        <p>Remove secteurs</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr></td>
-                <td>$secteurs</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getSecteurs">
-        <div class="location">at line 396</div>
-        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
-    <strong>getSecteurs</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get secteurs</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_addSeance">
-        <div class="location">at line 407</div>
-        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
-    <strong>addSeance</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)</code>
-    </h3>
-    <div class="details">
-        <p>Add seances</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
-                <td>$seances</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_removeSeance">
-        <div class="location">at line 419</div>
-        <code>            public            
-    <strong>removeSeance</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)</code>
-    </h3>
-    <div class="details">
-        <p>Remove seances</p>
-        <p></p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
-                <td>$seances</td>
-                <td></td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getSeances">
-        <div class="location">at line 429</div>
-        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
-    <strong>getSeances</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Get seances</p>
-        <p></p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
-            <td></td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setDefaultValues">
-        <div class="location">at line 437</div>
-        <code>            public            
-    <strong>setDefaultValues</strong>()</code>
-    </h3>
-    <div class="details">
-        <p></p>
-        <p></p>
-        <div class="tags">
-            
-            
-            
-                    </div>
-    </div>
-
                 <h3 id="method_getUsername">
-        <div class="location">at line 446</div>
+        <div class="location">at line 303</div>
         <code>            public            
     <strong>getUsername</strong>()</code>
     </h3>
@@ -1364,7 +516,7 @@
     </div>
 
                 <h3 id="method_getSalt">
-        <div class="location">at line 454</div>
+        <div class="location">at line 311</div>
         <code>            public            
     <strong>getSalt</strong>()</code>
     </h3>
@@ -1379,7 +531,7 @@
     </div>
 
                 <h3 id="method_getPassword">
-        <div class="location">at line 462</div>
+        <div class="location">at line 319</div>
         <code>            public            
     <strong>getPassword</strong>()</code>
     </h3>
@@ -1394,7 +546,7 @@
     </div>
 
                 <h3 id="method_getRoles">
-        <div class="location">at line 470</div>
+        <div class="location">at line 329</div>
         <code>            public            
     <strong>getRoles</strong>()</code>
     </h3>
@@ -1409,7 +561,7 @@
     </div>
 
                 <h3 id="method_eraseCredentials">
-        <div class="location">at line 478</div>
+        <div class="location">at line 343</div>
         <code>            public            
     <strong>eraseCredentials</strong>()</code>
     </h3>
@@ -1424,7 +576,7 @@
     </div>
 
                 <h3 id="method_serialize">
-        <div class="location">at line 485</div>
+        <div class="location">at line 350</div>
         <code>            public            
     <strong>serialize</strong>()</code>
     </h3>
@@ -1448,7 +600,7 @@
     </div>
 
                 <h3 id="method_unserialize">
-        <div class="location">at line 495</div>
+        <div class="location">at line 360</div>
         <code>            public            
     <strong>unserialize</strong>($serialized)</code>
     </h3>
@@ -1482,22 +634,859 @@
     </div>
 
                 <h3 id="method___toString">
-        <div class="location">at line 505</div>
-        <code>            public            
+        <div class="location">at line 373</div>
+        <code>            public            string
     <strong>__toString</strong>()</code>
     </h3>
     <div class="details">
-        <p>Retourne la description d&#039;un membre</p>
+        <p>Retourne la description d&#039;un membre.</p>
+        <p>La description est le résultat de la concaténation du prénom et du nom.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>Description du membre.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 392</div>
+        <code>            public            integer
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get id</p>
         <p></p>
         <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setPrenom">
+        <div class="location">at line 403</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setPrenom</strong>(string $prenom)</code>
+    </h3>
+    <div class="details">
+        <p>Set prenom</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$prenom</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPrenom">
+        <div class="location">at line 415</div>
+        <code>            public            string
+    <strong>getPrenom</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get prenom</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setNom">
+        <div class="location">at line 426</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setNom</strong>(string $nom)</code>
+    </h3>
+    <div class="details">
+        <p>Set nom</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$nom</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNom">
+        <div class="location">at line 438</div>
+        <code>            public            string
+    <strong>getNom</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get nom</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setEmail">
+        <div class="location">at line 449</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setEmail</strong>(string $email)</code>
+    </h3>
+    <div class="details">
+        <p>Set email</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$email</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEmail">
+        <div class="location">at line 461</div>
+        <code>            public            string
+    <strong>getEmail</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get email</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setTelephone">
+        <div class="location">at line 472</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setTelephone</strong>(string $telephone)</code>
+    </h3>
+    <div class="details">
+        <p>Set telephone</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$telephone</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTelephone">
+        <div class="location">at line 484</div>
+        <code>            public            string
+    <strong>getTelephone</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get telephone</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setMotDePasse">
+        <div class="location">at line 495</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setMotDePasse</strong>(string $motDePasse)</code>
+    </h3>
+    <div class="details">
+        <p>Set motDePasse</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$motDePasse</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMotDePasse">
+        <div class="location">at line 507</div>
+        <code>            public            string
+    <strong>getMotDePasse</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get motDePasse</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setPromotion">
+        <div class="location">at line 518</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setPromotion</strong>(integer $promotion)</code>
+    </h3>
+    <div class="details">
+        <p>Set promotion</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$promotion</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPromotion">
+        <div class="location">at line 530</div>
+        <code>            public            integer
+    <strong>getPromotion</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get promotion</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setBuro">
+        <div class="location">at line 541</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setBuro</strong>(boolean $buro)</code>
+    </h3>
+    <div class="details">
+        <p>Set buro</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>boolean</td>
+                <td>$buro</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getBuro">
+        <div class="location">at line 553</div>
+        <code>            public            boolean
+    <strong>getBuro</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get buro</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateCreation">
+        <div class="location">at line 564</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setDateCreation</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateCreation)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateCreation</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateCreation</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateCreation">
+        <div class="location">at line 576</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateCreation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateCreation</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDateModification">
+        <div class="location">at line 587</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setDateModification</strong>(<a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a> $dateModification)</code>
+    </h3>
+    <div class="details">
+        <p>Set dateModification</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+                <td>$dateModification</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDateModification">
+        <div class="location">at line 599</div>
+        <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
+    <strong>getDateModification</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get dateModification</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setVpLycee">
+        <div class="location">at line 610</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setVpLycee</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Lycee">Lycee</abbr> $vpLycee = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set vpLycee</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Lycee">Lycee</abbr></td>
+                <td>$vpLycee</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getVpLycee">
+        <div class="location">at line 622</div>
+        <code>            public            <a href="../../../CEC/TutoratBundle/Entity/Lycee.html"><abbr title="CEC\TutoratBundle\Entity\Lycee">Lycee</abbr></a>
+    <strong>getVpLycee</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get vpLycee</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/TutoratBundle/Entity/Lycee.html"><abbr title="CEC\TutoratBundle\Entity\Lycee">Lycee</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setGroupe">
+        <div class="location">at line 633</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>setGroupe</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Groupe">Groupe</abbr> $groupe = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set groupe</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></td>
+                <td>$groupe</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getGroupe">
+        <div class="location">at line 645</div>
+        <code>            public            <a href="../../../CEC/TutoratBundle/Entity/Groupe.html"><abbr title="CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></a>
+    <strong>getGroupe</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get groupe</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/TutoratBundle/Entity/Groupe.html"><abbr title="CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addSecteur">
+        <div class="location">at line 656</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>addSecteur</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr> $secteurs)</code>
+    </h3>
+    <div class="details">
+        <p>Add secteurs</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr></td>
+                <td>$secteurs</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeSecteur">
+        <div class="location">at line 668</div>
+        <code>            public            
+    <strong>removeSecteur</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr> $secteurs)</code>
+    </h3>
+    <div class="details">
+        <p>Remove secteurs</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\MembreBundle\Entity\CEC\MembreBundle\Entity\Secteur">Secteur</abbr></td>
+                <td>$secteurs</td>
+                <td></td>
+            </tr>
+            </table>
+
             
             
             
                     </div>
     </div>
 
+                <h3 id="method_getSecteurs">
+        <div class="location">at line 678</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getSecteurs</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get secteurs</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addSeance">
+        <div class="location">at line 689</div>
+        <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
+    <strong>addSeance</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)</code>
+    </h3>
+    <div class="details">
+        <p>Add seances</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
+                <td>$seances</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeSeance">
+        <div class="location">at line 701</div>
+        <code>            public            
+    <strong>removeSeance</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seances)</code>
+    </h3>
+    <div class="details">
+        <p>Remove seances</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\MembreBundle\Entity\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
+                <td>$seances</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSeances">
+        <div class="location">at line 711</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getSeances</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get seances</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
                 <h3 id="method_addDocument">
-        <div class="location">at line 517</div>
+        <div class="location">at line 722</div>
         <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
     <strong>addDocument</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr> $documents)</code>
     </h3>
@@ -1531,7 +1520,7 @@
     </div>
 
                 <h3 id="method_removeDocument">
-        <div class="location">at line 529</div>
+        <div class="location">at line 734</div>
         <code>            public            
     <strong>removeDocument</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\ActiviteBundle\Entity\Document">Document</abbr> $documents)</code>
     </h3>
@@ -1556,7 +1545,7 @@
     </div>
 
                 <h3 id="method_getDocuments">
-        <div class="location">at line 539</div>
+        <div class="location">at line 744</div>
         <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
     <strong>getDocuments</strong>()</code>
     </h3>
@@ -1580,7 +1569,7 @@
     </div>
 
                 <h3 id="method_addCompteRendu">
-        <div class="location">at line 550</div>
+        <div class="location">at line 755</div>
         <code>            public            <a href="../../../CEC/MembreBundle/Entity/Membre.html"><abbr title="CEC\MembreBundle\Entity\Membre">Membre</abbr></a>
     <strong>addCompteRendu</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr> $compteRendus)</code>
     </h3>
@@ -1614,7 +1603,7 @@
     </div>
 
                 <h3 id="method_removeCompteRendu">
-        <div class="location">at line 562</div>
+        <div class="location">at line 767</div>
         <code>            public            
     <strong>removeCompteRendu</strong>(<abbr title="CEC\MembreBundle\Entity\CEC\ActiviteBundle\Entity\CompteRendu">CompteRendu</abbr> $compteRendus)</code>
     </h3>
@@ -1639,7 +1628,7 @@
     </div>
 
                 <h3 id="method_getCompteRendus">
-        <div class="location">at line 572</div>
+        <div class="location">at line 777</div>
         <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
     <strong>getCompteRendus</strong>()</code>
     </h3>

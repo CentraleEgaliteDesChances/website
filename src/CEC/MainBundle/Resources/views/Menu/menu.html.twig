@@ -1,7 +1,7 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a href="#" class="brand">CEC</a>
+            <a href="{{ path('cec_membre_tableaudebord_voir') }}" class="brand">CEC</a>
             <ul class="nav">
                 <li><a href="{{ path('cec_membre_tableaudebord_voir') }}">Tableau de bord</a></li>
                 {% if membre.groupe %}
@@ -108,10 +108,10 @@
                 </li>
             </ul>
             <div class="btn-group pull-right">
-                <a class="btn btn-primary" href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">
+                <a class="btn btn-inverse" href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">
                     {{ membre.username }}
                 </a>
-                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('cec_membre_reglages_infos') }}">Modifier mon profil</a></li>
                     <li><a href="{{ path('cec_membre_reglages_groupe') }}">Modifier mon groupe</a></li>

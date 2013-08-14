@@ -1,1 +1,0 @@
-fos.Router.setData({"base_url":"","routes":{"fullcalendar_loader":{"tokens":[["text","\/fc-load-events"]],"defaults":[],"requirements":[],"hosttokens":[]}},"prefix":"","host":"localhost","scheme":"http"});

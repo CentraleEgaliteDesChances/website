@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>CEC\ActiviteBundle\Controller\CompteRendusController | CEC Web Site API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">CEC Web Site API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../CEC/ActiviteBundle/Controller.html">CEC\ActiviteBundle\Controller</a>\CompteRendusController</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>CompteRendusController</strong>        extends <abbr title="Symfony\Bundle\FrameworkBundle\Controller\Controller">Controller</abbr></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_creerAction">creerAction</a>(<abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seance, <abbr title="CEC\ActiviteBundle\Controller\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite)
+                    <p>Ajout d&#039;une activité à une séance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_supprimerAction">supprimerAction</a>(<abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seance, <abbr title="CEC\ActiviteBundle\Controller\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite)
+                    <p>Supprime un compte-rendu.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_aRedigerAction">aRedigerAction</a>(<abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Groupe">Groupe</abbr> $groupe)
+                    <p>Affiche les compte-rendus à rédiger pour un groupe.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_recentsAction">recentsAction</a>()
+                    <p>Affiche les comptes-rendus réçents et non-lus.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_ajaxApercuAction">ajaxApercuAction</a>(integer $compte_rendu)
+                    <p>Controller Ajax qui renvoit l&#039;aperçu d&#039;un compte-rendu.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_ajaxResultatsAction">ajaxResultatsAction</a>(string $lecture, string $type)
+                    <p>Controller Ajax qui renvoit la liste des résultats de la recherche de compte-rendus.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_ajaxBasculerLectureAction">ajaxBasculerLectureAction</a>(integer $compte_rendu)
+                    <p>Controller Ajax qui bascule l&#039;état de lecture (lu/non-lu) d&#039;un compte-rendu.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_creerAction">
+        <div class="location">at line 28</div>
+        <code>            public            
+    <strong>creerAction</strong>(<abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seance, <abbr title="CEC\ActiviteBundle\Controller\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite)</code>
+    </h3>
+    <div class="details">
+        <p>Ajout d&#039;une activité à une séance.</p>
+        <p>Cette méthode permet de créer un nouveau compte-rendu vierge pour une séance ne contenant<br />
+ uniquement qu&#039;une activité, sélectionnée par un tuteur. Cette étape est la première du<br />
+ cycle de vie d&#039;un compte-rendu de séance (voir classe CompteRendu pour plus d&#039;infos).</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
+                <td>$seance</td>
+                <td>: id de la séance</td>
+            </tr>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Controller\CEC\ActiviteBundle\Entity\Activite">Activite</abbr></td>
+                <td>$activite</td>
+                <td>: id de l&#039;activité à ajouter</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_supprimerAction">
+        <div class="location">at line 64</div>
+        <code>            public            
+    <strong>supprimerAction</strong>(<abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Seance">Seance</abbr> $seance, <abbr title="CEC\ActiviteBundle\Controller\CEC\ActiviteBundle\Entity\Activite">Activite</abbr> $activite)</code>
+    </h3>
+    <div class="details">
+        <p>Supprime un compte-rendu.</p>
+        <p>Un compte-rendu est supprimé lorsqu&#039;une activité qui avait été choisie pour une séance est<br />
+ par la suite déselectionnée.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Seance">Seance</abbr></td>
+                <td>$seance</td>
+                <td>: id de la séance</td>
+            </tr>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Controller\CEC\ActiviteBundle\Entity\Activite">Activite</abbr></td>
+                <td>$activite</td>
+                <td>: id de l&#039;activité à retirer</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_aRedigerAction">
+        <div class="location">at line 97</div>
+        <code>            public            
+    <strong>aRedigerAction</strong>(<abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Groupe">Groupe</abbr> $groupe)</code>
+    </h3>
+    <div class="details">
+        <p>Affiche les compte-rendus à rédiger pour un groupe.</p>
+        <p>Un compte-rendu est à rédiger lorsque la séance de tutorat a débuté, que le compte-rendu<br />
+ n&#039;a pas été rédigé et que moins de deux mois ne se sont écoulés depuis la séance.<br />
+<br />
+ Si seule un compte-rendu est à rédiger, on redirige immédiatement vers la page de la séance.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="CEC\ActiviteBundle\Controller\CEC\TutoratBundle\Entity\Groupe">Groupe</abbr></td>
+                <td>$groupe</td>
+                <td>: id du groupe de tutorat</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_recentsAction">
+        <div class="location">at line 122</div>
+        <code>            public            
+    <strong>recentsAction</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Affiche les comptes-rendus réçents et non-lus.</p>
+        <p>Cette page permet aux secteurs Activités Scientifiques et Activités Culturelles<br />
+ de consulter les nouveau comptes-rendus afin de les utiliser pour améliorer les activités<br />
+ qui ont besoin de corrections ou d&#039;ajout.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_ajaxApercuAction">
+        <div class="location">at line 136</div>
+        <code>            public            
+    <strong>ajaxApercuAction</strong>(integer $compte_rendu)</code>
+    </h3>
+    <div class="details">
+        <p>Controller Ajax qui renvoit l&#039;aperçu d&#039;un compte-rendu.</p>
+        <p>Ces données sont utilisées et affichées par recentsAction.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$compte_rendu</td>
+                <td>L&#039;id du compte-rendu dont on souhaite l&#039;aperçu</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_ajaxResultatsAction">
+        <div class="location">at line 157</div>
+        <code>            public            
+    <strong>ajaxResultatsAction</strong>(string $lecture, string $type)</code>
+    </h3>
+    <div class="details">
+        <p>Controller Ajax qui renvoit la liste des résultats de la recherche de compte-rendus.</p>
+        <p>Ces données sont affichées sur la page de consultation des compte-rendus apr recentsAction.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$lecture</td>
+                <td>Doit-on afficher tous les compte-rendus (&#039;tous&#039;) ou les non-lus (&#039;non-lus&#039;) ?</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>Quel type d&#039;activité associée doit-on afficher ?</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_ajaxBasculerLectureAction">
+        <div class="location">at line 190</div>
+        <code>            public            
+    <strong>ajaxBasculerLectureAction</strong>(integer $compte_rendu)</code>
+    </h3>
+    <div class="details">
+        <p>Controller Ajax qui bascule l&#039;état de lecture (lu/non-lu) d&#039;un compte-rendu.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$compte_rendu</td>
+                <td>Id du compte-rendu dont on doit basculer l&#039;état de lecture</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

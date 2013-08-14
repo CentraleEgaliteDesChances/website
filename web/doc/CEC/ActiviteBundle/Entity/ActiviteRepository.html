@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>CEC\ActiviteBundle\Entity\ActiviteRepository | CEC Web Site API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">CEC Web Site API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../CEC/ActiviteBundle/Entity.html">CEC\ActiviteBundle\Entity</a>\ActiviteRepository</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>ActiviteRepository</strong>        extends <abbr title="Doctrine\ORM\EntityRepository">EntityRepository</abbr></p>
+
+            <div class="description">
+            <p>Permet de définir les méthodes de recherche et de filtrage des activités.</p>
+            <p></p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_findWithRechercheActivite">findWithRechercheActivite</a>(<a href="../../../CEC/ActiviteBundle/Utility/RechercheActivite.html"><abbr title="CEC\ActiviteBundle\Utility\RechercheActivite">RechercheActivite</abbr></a> $recherche)
+                    <p>Effectue la recherche parmi toutes les activités.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_findBySeance">findBySeance</a>(<a href="../../../CEC/TutoratBundle/Entity/Seance.html"><abbr title="CEC\TutoratBundle\Entity\Seance">Seance</abbr></a> $seance)
+                    <p>Recherche les activités réalisées au cours d&#039;une séance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_compte">compte</a>()
+                    <p>Retourne le compte des activités.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_compteUtiliseesPourAnneeScolaire">compteUtiliseesPourAnneeScolaire</a>(<a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a> $anneeScolaire)
+                    <p>Retourne le compte des activités utilisées pendant l&#039;année scolaire indiquée.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_findWithRechercheActivite">
+        <div class="location">at line 29</div>
+        <code>            public            array
+    <strong>findWithRechercheActivite</strong>(<a href="../../../CEC/ActiviteBundle/Utility/RechercheActivite.html"><abbr title="CEC\ActiviteBundle\Utility\RechercheActivite">RechercheActivite</abbr></a> $recherche)</code>
+    </h3>
+    <div class="details">
+        <p>Effectue la recherche parmi toutes les activités.</p>
+        <p>Les paramètres de la recherche sont passés dans l&#039;objet $recherche, et permettent :<br />
+     - une recherche dans le titre ;<br />
+     - une recherche dans le type ;<br />
+     - un filtrage des activités qui n&#039;ont pas été réalisées en séance du groupe de tutorat<br />
+       de l&#039;utilisateur.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../CEC/ActiviteBundle/Utility/RechercheActivite.html"><abbr title="CEC\ActiviteBundle\Utility\RechercheActivite">RechercheActivite</abbr></a></td>
+                <td>$recherche</td>
+                <td>Paramètres de la recherche</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>Résultats de la recherche.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_findBySeance">
+        <div class="location">at line 62</div>
+        <code>            public            array
+    <strong>findBySeance</strong>(<a href="../../../CEC/TutoratBundle/Entity/Seance.html"><abbr title="CEC\TutoratBundle\Entity\Seance">Seance</abbr></a> $seance)</code>
+    </h3>
+    <div class="details">
+        <p>Recherche les activités réalisées au cours d&#039;une séance.</p>
+        <p>Permet de retrouver les activités présentes dans les compte-rendus associés à une séance.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../CEC/TutoratBundle/Entity/Seance.html"><abbr title="CEC\TutoratBundle\Entity\Seance">Seance</abbr></a></td>
+                <td>$seance</td>
+                <td>: séance pour laquelle on veut retrouver les activités</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>Résultats de la recherche.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_compte">
+        <div class="location">at line 79</div>
+        <code>            public            integer
+    <strong>compte</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Retourne le compte des activités.</p>
+        <p>On retourne le nombre d&#039;activités de la base de donnée.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>Nombre d&#039;activités.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_compteUtiliseesPourAnneeScolaire">
+        <div class="location">at line 95</div>
+        <code>            public            integer
+    <strong>compteUtiliseesPourAnneeScolaire</strong>(<a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a> $anneeScolaire)</code>
+    </h3>
+    <div class="details">
+        <p>Retourne le compte des activités utilisées pendant l&#039;année scolaire indiquée.</p>
+        <p>On retourne le nombre d&#039;activités possédant un compte-rendu attaché à une séance,<br />
+ elle-même associée à un groupe dont l&#039;année scolaire correspond à celle passée en argument.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../CEC/MainBundle/Utility/AnneeScolaire.html"><abbr title="CEC\MainBundle\Utility\AnneeScolaire">AnneeScolaire</abbr></a></td>
+                <td>$anneeScolaire</td>
+                <td>Année scolaire</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>Compte des activités utilisées.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

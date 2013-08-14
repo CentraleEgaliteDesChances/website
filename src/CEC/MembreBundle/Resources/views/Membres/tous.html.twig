@@ -18,7 +18,7 @@
             {% for membre in membres %}
             <tr>
                 <td>
-                    {% if is_granted('ROLE_BURO') %}
+                    {% if is_granted('ROLE_BURO') and membre != app.user %}
                         <a href="{{ path('cec_membre_membres_supprimer', { 'membre': membre.id }) }}" class="btn btn-mini btn-danger pull-right">Supprimer définitivement</a>
                     {% endif %}
                     <a href="{{ path('cec_membre_membres_voir', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">

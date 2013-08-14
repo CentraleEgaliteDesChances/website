@@ -4,10 +4,7 @@ jms_security_extra:
 
 security:
     encoders:
-        CEC\MembreBundle\Entity\Membre:
-            algorithm:        sha1
-            encode_as_base64: false
-            iterations:       1
+        CEC\MembreBundle\Entity\Membre: sha512
 
     providers:
         membres:
@@ -19,7 +16,7 @@ security:
             security: false
             
         intern:
-            pattern:    ^/internal
+            pattern:    ^/
             form_login:
                 check_path: /connexion/verifications
                 login_path: /connexion
@@ -29,5 +26,5 @@ security:
             anonymous: ~
 
     access_control:
-        - { path: ^/internal/connexion$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/internal, roles: ROLE_USER }
+        - { path: ^/connexion$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
