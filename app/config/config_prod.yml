@@ -18,11 +18,11 @@ monolog:
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
 
-#assetic:
-#    filters:
-#       yui_css:
-#           jar: "%kernel.root_dir%/../vendor/heartsentwined/yuicompressor/yuicompressor.jar"
-#           apply_to: "\.css$"
-#       yui_js:
-#           jar: "%kernel.root_dir%/../vendor/heartsentwined/yuicompressor/yuicompressor.jar"
-#           apply_to: "\.js$"
+assetic:
+    filters:
+       yui_css:
+           jar: "%kernel.root_dir%/../vendor/heartsentwined/yuicompressor/yuicompressor.jar"
+           apply_to: "\.css$"
+       yui_js:
+           jar: "%kernel.root_dir%/../vendor/heartsentwined/yuicompressor/yuicompressor.jar"
+           apply_to: "\.js$"
