@@ -7,9 +7,11 @@ parameters:
     database_password: ~
 
     mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_encryption: ssl
+    mailer_port:       465
+    mailer_host:       auth.smtp.1and1.fr
+    mailer_user:       notification@cec-ecp.com
+    mailer_password:   reussitecec
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
