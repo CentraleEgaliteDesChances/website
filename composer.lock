@@ -1410,12 +1410,12 @@
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioDistributionBundle.git",
+                "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
                 "reference": "v2.1.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioDistributionBundle/zipball/v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/v2.1.10",
                 "reference": "v2.1.10",
                 "shasum": ""
             },
@@ -1456,12 +1456,12 @@
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioFrameworkExtraBundle.git",
+                "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
                 "reference": "v2.1.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioFrameworkExtraBundle/zipball/v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.1.10",
                 "reference": "v2.1.10",
                 "shasum": ""
             },
@@ -1503,12 +1503,12 @@
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioGeneratorBundle.git",
+                "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
                 "reference": "v2.1.10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioGeneratorBundle/zipball/v2.1.10",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.1.10",
                 "reference": "v2.1.10",
                 "shasum": ""
             },
@@ -2023,12 +2023,12 @@
             "target-dir": "twitter/bootstrap",
             "source": {
                 "type": "git",
-                "url": "git://github.com/twitter/bootstrap.git",
+                "url": "git://github.com/twbs/bootstrap.git",
                 "reference": "v2.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/twitter/bootstrap/archive/v2.2.2.zip",
+                "url": "https://github.com/twbs/bootstrap/archive/v2.2.2.zip",
                 "reference": "v2.2.2",
                 "shasum": ""
             },
