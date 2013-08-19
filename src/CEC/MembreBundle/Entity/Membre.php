@@ -119,11 +119,11 @@ class Membre implements UserInterface, \Serializable
      * formulaire, avant d'être hashé et remplaçé dans ce champ. Dans la BDD, seul
      * le mot de passe hashé est donc enregistré — et comparé lors de l'authentification.
      *
-     * Le mot de passe, requis, est une chaîne de caractère de longueur comprise entre 5 et 50 caractères.
+     * Le mot de passe, requis, est une chaîne de caractère de longueur comprise entre 5 et 100 caractères.
      *
      * @var string
      *
-     * @ORM\Column(name = "motDePasse", type = "string", length = 255)
+     * @ORM\Column(name = "motDePasse", type = "string", length = 100)
      * @Assert\NotBlank(message = "Merci de spécifier un mot de passe.")
      * @Assert\Type(
      *     type = "string",
@@ -131,9 +131,9 @@ class Membre implements UserInterface, \Serializable
      * )
      * @Assert\Length(
      *     min = "5",
-     *     max = "50",
+     *     max = "100",
      *     minMessage = "Le mot de passe doit contenir au moins 5 caractères.",
-     *     maxMessage = "Le mot de passe ne peut excéder 50 caractères."
+     *     maxMessage = "Le mot de passe ne peut excéder 100 caractères."
      * )
      */
     private $motDePasse;
