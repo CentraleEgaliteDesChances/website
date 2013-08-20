@@ -57,7 +57,9 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        {% if is_granted('ROLE_SECTEUR_ACTIVITES') or is_granted('ROLE_BURO') %}
+                        {% if is_granted('ROLE_SECTEUR_ACTIVITES_SCIENTIFIQUES') 
+                                or is_granted('ROLE_SECTEUR_ACTIVITES_CULTURELLES')
+                                or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteurs Activités</li>
                             <li><a href="{{ path('cec_activite_compterendus_recents') }}">Consulter les comptes-rendus</a></li>
                             <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
