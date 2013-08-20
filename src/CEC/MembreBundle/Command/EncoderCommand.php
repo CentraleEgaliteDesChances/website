@@ -32,7 +32,7 @@ class EncoderCommand extends ContainerAwareCommand
 
         $output->writeln(
             "<info>Mot de passe encodé :</info> " .
-            $motDePasseEncode . "\r\n"
+            $motDePasseEncode
         );
     }
 }
