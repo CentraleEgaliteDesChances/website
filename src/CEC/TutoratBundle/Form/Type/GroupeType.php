@@ -40,7 +40,7 @@ class GroupeType extends AbstractType
                 'format' => 'dd/MM/yyyy à HH:mm',
                 'attr' => array('placeholder' => 'JJ/MM/AAAA à HH:MM'),
             ))
-            ->add('fin', null, array(
+            ->add('fin', 'datetime', array(
                 'label' => 'Indiquez l\'heure de fin de séance',
                 'widget' => 'single_text',
                 'format' => 'HH:mm',
