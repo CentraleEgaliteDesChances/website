@@ -15,10 +15,11 @@ class LoadSeances extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $today = new \DateTime();
+        $hier = new \DateTime();
+        $hier->sub(\DateInterval::createFromDateString('1 day'));
         $seance1 = new Seance();
         $seance1->setGroupe($this->getReference('jj_premieres'))
-            ->setDate(new \DateTime());
+            ->setDate($hier);
         
         $dans7Jours = new \DateTime();
         $dans7Jours->add(\DateInterval::createFromDateString('7 days'));

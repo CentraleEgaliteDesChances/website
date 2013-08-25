@@ -33,7 +33,8 @@
             {% if membre.groupe %}
                 {% if seance_a_venir %}
                     <li><a href="{{ path('seance', { 'seance': seance_a_venir.id }) }}">
-                        Ma prochaine séance : {{ seance_a_venir.date|date('d/m/Y') }}
+                        Ma prochaine séance :
+                        <strong>{{ cycle(jours, seance_a_venir.date|date('N'))|lower }} {{ seance_a_venir.date|date('j') }} {{ cycle(mois, seance_a_venir.date|date('n')) }} à {{ seance_a_venir.retreiveDebut|date('G\\hi') }}</strong>
                     </a></li>
                     {% if seance_a_venir.compteRendus is empty %}
                         <li><a href="{{ path('cec_activite_activites_rechercher') }}">Choisir une activité</a></li>
