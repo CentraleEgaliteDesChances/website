@@ -14,23 +14,23 @@ class LoadCordees extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $open = new Cordee();
-        $open->setNom('Cordée OPEN');
+        $truc = new Cordee();
+        $truc->setNom('Cordée Truc');
         
-        $michelin = new Cordee();
-        $michelin->setNom('Cordée Michelin');
+        $machin = new Cordee();
+        $machin->setNom('Cordée Machin');
         
-        $leMoigne = new Cordee();
-        $leMoigne->setNom('Cordée Le Moigne');
+        $bidule = new Cordee();
+        $bidule->setNom('Cordée Bidule');
                 
-        $manager->persist($open);
-        $manager->persist($michelin);
-        $manager->persist($leMoigne);
+        $manager->persist($truc);
+        $manager->persist($machin);
+        $manager->persist($bidule);
         $manager->flush();
         
-        $this->addReference('open', $open);
-        $this->addReference('michelin', $michelin);
-        $this->addReference('le_moigne', $leMoigne);
+        $this->addReference('truc', $truc);
+        $this->addReference('machin', $machin);
+        $this->addReference('bidule', $bidule);
     }
     
     /**

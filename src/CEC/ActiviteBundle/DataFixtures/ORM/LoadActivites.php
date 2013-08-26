@@ -13,9 +13,7 @@ class LoadActivites extends AbstractFixture implements OrderedFixtureInterface
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
-    {
-        $maintenant = new \DateTime();
-    
+    {   
         $acti1 = new Activite();
         $acti1->setTitre("Activité 1")
               ->setDescription("Cette activité consiste en un data fixture permettant de tester le site.")
@@ -23,9 +21,7 @@ class LoadActivites extends AbstractFixture implements OrderedFixtureInterface
               ->setType("Activité Culturelle")
               ->addTag($this->getReference('tag_premieres'))
               ->addTag($this->getReference('tag_terminales'))
-              ->addTag($this->getReference('tag_equations_differentielles'))
-              ->setDateCreation($maintenant)
-              ->setDateModification($maintenant);
+              ->addTag($this->getReference('tag_equations_differentielles'));
                   
         $acti2 = new Activite();
         $acti2->setTitre("Activité 2")
@@ -35,9 +31,7 @@ class LoadActivites extends AbstractFixture implements OrderedFixtureInterface
               ->addTag($this->getReference('tag_premieres'))
               ->addTag($this->getReference('tag_expression_orale'))
               ->addTag($this->getReference('tag_culture_generale'))
-              ->addTag($this->getReference('tag_terminales'))
-              ->setDateCreation($maintenant)
-              ->setDateModification($maintenant);
+              ->addTag($this->getReference('tag_terminales'));
         
         $manager->persist($acti1);
         $manager->persist($acti2);

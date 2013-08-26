@@ -42,6 +42,10 @@ class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
         
         $this->addReference('secteur_sorties', $secteurSorties);
         $this->addReference('secteur_projets', $secteurProjets);
+        $this->addReference('secteur_evenements', $secteurEvenements);
+        $this->addReference('secteur_fundraising', $secteurFundraising);
+        $this->addReference('secteur_activites_scientifiques', $secteurActivitesScientifiques);
+        $this->addReference('secteur_activites_culturelles', $secteurActivitesCulturelles);
     }
     
     /**

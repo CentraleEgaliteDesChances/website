@@ -14,31 +14,36 @@ class LoadEnseignants extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $guillou = new Enseignant();
-        $guillou->setPrenom('Philippe')
-            ->setNom('Le Guillou')
-            ->setRole('Chef d\'établissement')
-            ->setEmail('phi.le.guillou@gmail.com')
-            ->setLycee($this->getReference('jj'));
+        $herve_puissetou = new Enseignant();
+        $herve_puissetou->setPrenom('Hervé')
+            ->setNom('Puissétou')
+            ->setRole('Professeur de littérature belge')
+            ->setEmail('herve.leon@debruxelle.be')
+            ->setLycee($this->getReference('palhom_kipranlamaire'))
+            ->setTelephoneFixe('01 02 03 04 05')
+            ->setTelephonePortable('0706050403')
+            ->setCommentaires('Rien à dire, une fois !');
         
-        $merlet = new Enseignant();
-        $merlet->setPrenom('Thierry')
-            ->setNom('Merlet')
-            ->setRole('Proviseur-adjoint')
-            ->setEmail('thi.merlet@gmail.com');
+        $herve_ritable = new Enseignant();
+        $herve_ritable->setPrenom('Hervé')
+            ->setNom('Ritable')
+            ->setRole("Chef d'établissement")
+            ->setEmail('herve.ritable@palhom.edu.fr')
+            ->setLycee($this->getReference('palhom_kipranlamaire'))
+            ->setTelephoneFixe('01 02 03 04 05')
+            ->setTelephonePortable('0706050403');
         
-        $laine = new Enseignant();
-        $laine->setPrenom('Bernadette')
-            ->setNom('Lainé')
-            ->setRole('Professeur référent')
-            ->setEmail('b_laine_huppe@hotmail.com')
-            ->setTelephonePortable('06 66 20 43 48 ')
-            ->setTelephoneFixe('01 48 49 35 69')
-            ->setLycee($this->getReference('jj'));
+        $herve_nerable = new Enseignant();
+        $herve_nerable->setPrenom('Hervé')
+            ->setNom('Nérable')
+            ->setRole("Chef d'établissement")
+            ->setEmail('herve.nerable@palhom.edu.fr')
+            ->setTelephoneFixe('01 02 03 04 05')
+            ->setTelephonePortable('0706050403');
             
-        $manager->persist($guillou);
-        $manager->persist($merlet);
-        $manager->persist($laine);
+        $manager->persist($herve_puissetou);
+        $manager->persist($herve_ritable);
+        $manager->persist($herve_nerable);
         $manager->flush();
     }
     
