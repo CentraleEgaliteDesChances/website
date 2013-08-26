@@ -14,21 +14,6 @@
 
     <div class="text-centered">
         
-        <div class="alert alert-info">
-            <h4>Le site interne est en version 1.0 BÊTA 1</h4>
-            <p>Merci de vous pencher de plus près sur ces points qui ont été corrigés :
-                <ul>
-                    <li>Bug pouvant survenir lors de la création ou modification d'un membre</li>
-                    <li>Correction du calcul du nombre d'heures de tutorat dispensées dans les Statistiques</li>
-                    <li>Nouvelles pages d'erreur avec un design plus pertinents</li>
-                    <li>Lors de la création de groupe de tutorat, problème avec les horaires qui ne pouvaient dépasser midi</li>
-                    <li>Correction d'un bug qui empêchait de poster une nouvelle activité.</li>
-                    <li>Corrections minimes de design</li>
-                </ul>
-            </p>
-            <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
-        </div>
-        
         {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
             <img src="{{ asset_url }}" alt="Image du lycée" class="logo"/>
         {% endimage %}
@@ -64,6 +49,23 @@
             <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
             <li><a href="mailto:jean-baptiste.bayle@student.ecp.fr">Aide</a></li>
         </ul>
+        
+        
+        <div class="alert alert-info">
+            <h3>Le site interne est en version 1.0 BÊTA 1</h3>
+            <p><strong>Merci de vous pencher de plus près sur ces points qui ont été corrigés :</strong></p>
+            <ul>
+                <li>Bug pouvant survenir lors de la création ou modification d'un membre</li>
+                <li>Correction du calcul du nombre d'heures de tutorat dispensées dans les Statistiques</li>
+                <li>Lors de la création de groupe de tutorat, problème avec les horaires qui ne pouvaient dépasser midi</li>
+                <li>Correction d'un bug qui empêchait de poster une nouvelle activité</li>
+                <li>Nouvelles pages d'erreur avec un design plus pertinents</li>
+                <li>De nombreuses données de test ont été insérées</li>
+                <li>Corrections minimes de design</li>
+            </ul>
+            <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
+        </div>
+        
     </div>
 
 {% endblock %}
