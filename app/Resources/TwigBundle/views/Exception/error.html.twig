@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Centrale Egalité des Chances — {{ status_text }}</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        
+        {% stylesheets
+            '@CECMainBundle/Resources/public/less/bootstrap-override.less'
+            '../app/Resources/public/less/error.less'
+        %}
+        <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+        {% endstylesheets %}
+    </head>
+    
+    <body>
+        <div class="container alert">
+            <div class="row">
+                <div class="span10 offset1">
+                    {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
+                        <img src="{{ asset_url }}" alt="Logo CEC" class="img-logo" />
+                    {% endimage %}
+                    <h1>Une erreur est survenue !</h1>
+                    <h3>Erreur {{ status_code }} — {{ status_text }}</h3>
+                    <p>Le serveur de l'association a renvoyé une erreur. Merci d'envoyer un email à <a href="mailto:jean-baptiste.bayle@student.ecp.fr">jean-baptiste.bayle@student.ecp.fr</a> en décrivant le problème, de manière à ce que nous trouvions une solution le plus rapidement possible.</p>
+                    <p>Toutes nos excuses pour les désagréments causés.</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

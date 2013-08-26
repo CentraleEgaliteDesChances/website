@@ -33,6 +33,7 @@ class ActivitesController extends Controller
     {
         // On enregistre le groupe s'il existe et si une séance est à venir
         $recherche = new RechercheActivite();
+        $seanceAVenir = null;
         if ($groupe = $this->getUser()->getGroupe()
                 and $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
             $recherche->setGroupe($groupe);

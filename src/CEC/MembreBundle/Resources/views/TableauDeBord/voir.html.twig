@@ -14,12 +14,6 @@
 
     <div class="text-centered">
         
-        <div class="alert alert-info">
-            <h4>Le site interne est en version 1.0 BÊTA</h4>
-            <p>Merci de signaler tout bug ou proposition d'amélioration en cliquant sur le bouton ci-dessous :</p>
-            <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
-        </div>
-        
         {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
             <img src="{{ asset_url }}" alt="Image du lycée" class="logo"/>
         {% endimage %}
@@ -29,7 +23,8 @@
             {% if membre.groupe %}
                 {% if seance_a_venir %}
                     <li><a href="{{ path('seance', { 'seance': seance_a_venir.id }) }}">
-                        Ma prochaine séance : {{ seance_a_venir.date|date('d/m/Y') }}
+                        Ma prochaine séance :
+                        <strong>{{ cycle(jours, seance_a_venir.date|date('N'))|lower }} {{ seance_a_venir.date|date('j') }} {{ cycle(mois, seance_a_venir.date|date('n')) }} à {{ seance_a_venir.retreiveDebut|date('G\\hi') }}</strong>
                     </a></li>
                     {% if seance_a_venir.compteRendus is empty %}
                         <li><a href="{{ path('cec_activite_activites_rechercher') }}">Choisir une activité</a></li>
@@ -54,6 +49,23 @@
             <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
             <li><a href="mailto:jean-baptiste.bayle@student.ecp.fr">Aide</a></li>
         </ul>
+        
+        
+        <div class="alert alert-info">
+            <h3>Le site interne est en version 1.0 BÊTA 1</h3>
+            <p><strong>Merci de vous pencher de plus près sur ces points qui ont été corrigés :</strong></p>
+            <ul>
+                <li>Bug pouvant survenir lors de la création ou modification d'un membre</li>
+                <li>Correction du calcul du nombre d'heures de tutorat dispensées dans les Statistiques</li>
+                <li>Lors de la création de groupe de tutorat, problème avec les horaires qui ne pouvaient dépasser midi</li>
+                <li>Correction d'un bug qui empêchait de poster une nouvelle activité</li>
+                <li>Nouvelles pages d'erreur avec un design plus pertinents</li>
+                <li>De nombreuses données de test ont été insérées</li>
+                <li>Corrections minimes de design</li>
+            </ul>
+            <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
+        </div>
+        
     </div>
 
 {% endblock %}

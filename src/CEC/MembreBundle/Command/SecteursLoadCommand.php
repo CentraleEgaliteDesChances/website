@@ -1,22 +1,39 @@
 <?php
 
-namespace CEC\MembreBundle\DataFixtures\ORM;
+namespace CEC\MembreBundle\Command;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use CEC\MembreBundle\Entity\Secteur;
 
-class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
+class SecteursLoadCommand extends ContainerAwareCommand
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function load(ObjectManager $manager)
+    protected function configure()
     {
+        $this
+            ->setName('membre:secteurs:load')
+            ->setDescription("Charge les secteurs de l'association en base de donnée");
+        ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $doctrine = $this->getContainer()->get('doctrine');
+        
+        $output->writeln("<info>Suppression des secteurs...</info>");
+        $secteurs = $doctrine->getRepository('CECMembreBundle:Secteur')->findAll();
+        $manager = $doctrine->getEntityManager();
+        foreach ($secteurs as $secteur) {
+            $manager->remove($secteur);
+        }
+        
+        $output->writeln("<info>Ajout des nouveaux secteurs...</info>");
         $secteurSorties = new Secteur();
         $secteurSorties->setNom('Secteur Sorties');
-        
+    
         $secteurProjets = new Secteur();
         $secteurProjets->setNom('Secteur Projets');
         
@@ -39,19 +56,5 @@ class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($secteurActivitesScientifiques);
         $manager->persist($secteurActivitesCulturelles);
         $manager->flush();
-        
-        $this->addReference('secteur_sorties', $secteurSorties);
-        $this->addReference('secteur_projets', $secteurProjets);
-        $this->addReference('secteur_evenements', $secteurEvenements);
-        $this->addReference('secteur_fundraising', $secteurFundraising);
-        $this->addReference('secteur_activites_scientifiques', $secteurActivitesScientifiques);
-        $this->addReference('secteur_activites_culturelles', $secteurActivitesCulturelles);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getOrder() {
-        return 10;
     }
 }

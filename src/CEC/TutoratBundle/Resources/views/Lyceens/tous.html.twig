@@ -18,7 +18,7 @@
                     </a>
                     <div class="pull-right">
                         {% if lyceen.groupe %}
-                            <a href="#">{{ lyceen.groupe }}</a>
+                            <a href="{{ path('groupe', { 'groupe': lyceen.groupe.id }) }}">{{ lyceen.groupe }}</a>
                         {% endif %}
                     </div>
                 </td>

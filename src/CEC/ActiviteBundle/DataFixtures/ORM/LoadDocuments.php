@@ -14,18 +14,27 @@ class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        // File-fixtures paths
+        // On supprime les fichiers de toutes les activités
+        $cheminDossierDocuments = __DIR__ . '/../../../../../web/uploads/documents';
+        $dossier = opendir($cheminDossierDocuments);
+        while ($fichier = readdir($dossier)) {
+            if ($fichier != '.' && $fichier != '..') unlink($cheminDossierDocuments . '/' . $fichier);
+        }
+
+        // On copie les fichiers d'exemple
+        $cheminDossierFixtures = __DIR__ . '/../Documents';
         $pdfFixture = "data-fixture.pdf";
         $wordFixture = "data-fixture.doc";
-        
+        copy($cheminDossierFixtures . '/' . $wordFixture, $cheminDossierDocuments . '/' . $wordFixture);
+        copy($cheminDossierFixtures . '/' . $pdfFixture, $cheminDossierDocuments . '/' . $pdfFixture);
+
+            
         $maintenant = new \DateTime();
     
         $acti1v1 = new Document();
         $acti1v1->setNomFichierPDF($pdfFixture)
                 ->setNomFichierOriginal($wordFixture)
                 ->setDescription('Téléchargement de la première version.')
-                ->setDateCreation($maintenant)
-                ->setDateModification($maintenant)
                 ->setAuteur($this->getReference('pol_maire'))
                 ->setActivite($this->getReference('acti1'));
         
@@ -33,8 +42,6 @@ class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
         $acti1v2->setNomFichierPDF($pdfFixture)
                 ->setNomFichierOriginal($wordFixture)
                 ->setDescription('Ajout de tel et tel éléments, permettant de rallonger la durée de l\'activité.')
-                ->setDateCreation($maintenant)
-                ->setDateModification($maintenant)
                 ->setAuteur($this->getReference('helene_sicsic'))
                 ->setActivite($this->getReference('acti1'));
                 

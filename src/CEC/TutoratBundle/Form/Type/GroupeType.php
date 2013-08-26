@@ -37,13 +37,13 @@ class GroupeType extends AbstractType
             ->add('debut', null, array(
                 'label' => 'Indiquez la date et l\'heure d\'une séance — seul le jour de la semaine sera pris en compte',
                 'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy à hh:mm',
+                'format' => 'dd/MM/yyyy à HH:mm',
                 'attr' => array('placeholder' => 'JJ/MM/AAAA à HH:MM'),
             ))
-            ->add('fin', null, array(
+            ->add('fin', 'datetime', array(
                 'label' => 'Indiquez l\'heure de fin de séance',
                 'widget' => 'single_text',
-                'format' => 'hh:mm',
+                'format' => 'HH:mm',
                 'attr' => array('placeholder' => 'HH:MM'),
             ))
             ->add('rendezVous', null, array(

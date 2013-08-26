@@ -4,6 +4,7 @@ app/cache/*
 app/logs/*
 vendor/
 app/config/parameters.yml
+web/uploads/*
 
 # OS Files
 CECWebSite.esproj/*

@@ -83,6 +83,7 @@ class MembresController extends Controller
                             array(
                                 'membre' => $membre,
                                 'mot_de_passe' => $motDePasse,
+                                'base_url' => $_SERVER['HTTP_HOST'],
                             )),
                         'text/html');
                 $this->get('mailer')->send($email);

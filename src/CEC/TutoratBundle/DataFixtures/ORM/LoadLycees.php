@@ -14,72 +14,99 @@ class LoadLycees extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $jj = new Lycee();
-        $jj->setNom('Lycée Jean Jaurès')
-            ->setAdresse('1, Rue Dombasle')
-            ->setCodePostal('93100')
-            ->setVille('Montreuil-sous-Bois')
+        $tropajuste = new Lycee();
+        $tropajuste->setNom('Lycée Tropajust')
+            ->setAdresse('5, Avenue Caliméro')
+            ->setCodePostal('92310')
+            ->setVille('Malhémé')
             ->setStatut('Établissement Public')
-            ->setTelephone('01 42 87 49 84')
+            ->setTelephone('0123456789')
             ->setPivot(false)
             ->setZEP(true)
-            ->setCordee($this->getReference('michelin'));
-        
-        $mounier = new Lycee();
-        $mounier->setNom('Lycée Emmanuel Mounier')
-            ->setAdresse('35, Rue des Près Hauts')
-            ->setCodePostal('92290')
-            ->setVille('Châtenay-Malabry')
-            ->setStatut('Établissement Public')
-            ->setTelephone('01 41 87 60 30')
+            ->setCordee($this->getReference('truc'));
+            
+        $comessa = new Lycee();
+        $comessa->setNom('Lycée Comessa')
+            ->setAdresse('45, rue des Fatalistes')
+            ->setCodePostal('23890')
+            ->setVille("Daix sous l'On")
+            ->setStatut('Établissement Privé')
+            ->setTelephone('0123456789')
             ->setPivot(false)
             ->setZEP(false)
-            ->setCordee($this->getReference('open'));
+            ->setCordee($this->getReference('truc'));
         
-        $montesquieu = new Lycee();
-        $montesquieu->setNom('Lycée Montesquieu')
-            ->setAdresse('23, Rue du Capitaine Facqs')
-            ->setCodePostal('92350')
-            ->setVille('Le Plessis-Robinson')
+        $temieuhavan = new Lycee();
+        $temieuhavan->setNom('Lycée Témieuhavan')
+            ->setAdresse('99, Impasse de la Nostalgie')
+            ->setCodePostal('78540')
+            ->setVille('Vieux-Conville')
             ->setStatut('Établissement Public')
-            ->setTelephone('01 46 30 35 61')
-            ->setPivot(false)
-            ->setZEP(false)
-            ->setCordee($this->getReference('open'));
-            
-        $vilgenis = new Lycee();
-        $vilgenis->setNom('Lycée Parc de Vilgénis')
-            ->setAdresse('80, Rue de Versailles')
-            ->setCodePostal('91305')
-            ->setVille('Massy')
-            ->setStatut('Établissement Public')
-            ->setTelephone('01 69 53 74 00')
-            ->setPivot(false)
-            ->setZEP(false);
-            
-        $ginette = new Lycee();
-        $ginette->setNom('Lycée Sainte-Geneviève')
-            ->setAdresse('80, Rue de Versailles')
-            ->setCodePostal('91305')
-            ->setVille('Massy')
-            ->setStatut('Établissement Public')
-            ->setTelephone('01 69 53 74 00')
+            ->setTelephone('0123456789')
             ->setPivot(true)
             ->setZEP(false)
-            ->setCordee($this->getReference('michelin'));
+            ->setCordee($this->getReference('truc'));
             
-        $manager->persist($jj);
-        $manager->persist($mounier);
-        $manager->persist($montesquieu);
-        $manager->persist($vilgenis);
-        $manager->persist($ginette);
+        $lavy_paleuparadhi = new Lycee();
+        $lavy_paleuparadhi->setNom('Lycée Lavy Paleuparadhi')
+            ->setAdresse('5, Sentier Zazie')
+            ->setCodePostal('92310')
+            ->setVille('Chansshon')
+            ->setStatut('Établissement Privé')
+            ->setTelephone('0123456789')
+            ->setPivot(false)
+            ->setZEP(false)
+            ->setCordee($this->getReference('machin'));
+            
+        $maphore = new Lycee();
+        $maphore->setNom('Lycée Maphore')
+            ->setAdresse('5, boulevard des Phares et des Feux')
+            ->setCodePostal('75013')
+            ->setVille('Tricolor City')
+            ->setStatut('Établissement Public')
+            ->setTelephone('0123456789')
+            ->setPivot(false)
+            ->setZEP(false)
+            ->setCordee($this->getReference('machin'));
+            
+        $palhom_kipranlamaire = new Lycee();
+        $palhom_kipranlamaire->setNom('Lycée Palhom Kipranlamaire')
+            ->setAdresse('23, Route du Port')
+            ->setCodePostal('92310')
+            ->setVille('Babor-Tribhor')
+            ->setStatut('Établissement Public')
+            ->setTelephone('0123456789')
+            ->setPivot(false)
+            ->setZEP(true)
+            ->setCordee($this->getReference('machin'));
+            
+        $heusse = new Lycee();
+        $heusse->setNom('Lycée Heussé')
+            ->setAdresse('7 bis, montée des Associations')
+            ->setCodePostal('92280')
+            ->setVille('Châlenay-Matabry')
+            ->setStatut('Établissement Privé')
+            ->setTelephone('0123456789')
+            ->setPivot(true)
+            ->setZEP(false)
+            ->setCordee($this->getReference('machin'));
+            
+        $manager->persist($tropajuste);
+        $manager->persist($comessa);
+        $manager->persist($temieuhavan);
+        $manager->persist($lavy_paleuparadhi);
+        $manager->persist($maphore);
+        $manager->persist($palhom_kipranlamaire);
+        $manager->persist($heusse);
         $manager->flush();
         
-        $this->addReference('jj', $jj);
-        $this->addReference('mounier', $mounier);
-        $this->addReference('montesquieu', $montesquieu);
-        $this->addReference('vilgenis', $vilgenis);
-        $this->addReference('ginette', $ginette);
+        $this->addReference('tropajuste', $tropajuste);
+        $this->addReference('comessa', $comessa);
+        $this->addReference('temieuhavan', $temieuhavan);
+        $this->addReference('lavy_paleuparadhi', $lavy_paleuparadhi);
+        $this->addReference('maphore', $maphore);
+        $this->addReference('palhom_kipranlamaire', $palhom_kipranlamaire);
+        $this->addReference('heusse', $heusse);
     }
     
     /**

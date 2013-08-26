@@ -97,7 +97,7 @@ class SeanceRepository extends EntityRepository
     /**
      * Retourne le nombre d'heures de tutorat dispensées pour l'année scolaire indiquée.
      * On retourne la somme des heures de tutorat pour les séances dont le groupe est de l'année
-     * scolaire indiquée.&
+     * scolaire indiquée.
      *
      * @param AnneeScolaire $anneeScolaire Année scolaire
      * @return integer Somme des heures de tutorat dispensées pendant l'année scolaire.
