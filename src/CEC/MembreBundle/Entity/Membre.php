@@ -101,7 +101,7 @@ class Membre implements UserInterface, \Serializable
      *
      * @var string
      *
-     * @ORM\Column(name = "telephone", type = "string", length = 15)
+     * @ORM\Column(name = "telephone", type = "string", length = 15, nullable = true)
      * @Assert\Regex(
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
