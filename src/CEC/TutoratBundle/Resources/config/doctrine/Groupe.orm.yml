@@ -19,7 +19,7 @@ CEC\TutoratBundle\Entity\Groupe:
         debut:
             type: datetime
         fin:
-            type: datetime
+            type: time
         anneeScolaire:
             type: anneescolaire
         rendezVous:

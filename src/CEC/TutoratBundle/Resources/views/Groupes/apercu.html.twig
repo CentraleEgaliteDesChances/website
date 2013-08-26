@@ -77,7 +77,7 @@
         {% if groupe.tuteurs|length and groupe.lyceens|length %}
         <tr>
             <td>Encadrement</td>
-            <td>Un tuteur pour {{ groupe.lyceens|length / groupe.tuteurs|length }} lycéen{{ groupe.lyceens|length / groupe.tuteurs|length > 1 ? 's' : ''}}</td>
+            <td>Un tuteur pour {{ ( groupe.lyceens|length / groupe.tuteurs|length )|number_format(0) }} lycéen(s)</td>
         </tr>
         {% endif %}
     </tbody>
