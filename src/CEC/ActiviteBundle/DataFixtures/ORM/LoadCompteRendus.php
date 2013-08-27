@@ -14,46 +14,6 @@ class LoadCompteRendus extends AbstractFixture implements OrderedFixtureInterfac
      */
     public function load(ObjectManager $manager)
     {
-        $maintenant = new \DateTime();
-    
-        $crs1 = new CompteRendu();
-        $crs1->setActivite($this->getReference('acti1'))
-             ->setNoteContenu(4)
-             ->setNoteInteractivite(3)
-             ->setNoteAtteinteObjectifs(4)
-             ->setDureeAdaptee(0)
-             ->setAuteur($this->getReference('pol_maire'))
-             ->setSeance($this->getReference('seance1'))
-             ->setCommentaires('Ceci est un commentaire pour l\'exemple. On peut ici rajouter des remarques permettant au secteur Activité \'améliorer les activités.')
-             ->setDateCreation($maintenant)
-             ->setDateModification($maintenant);
-             
-        $crs2 = new CompteRendu();
-        $crs2->setActivite($this->getReference('acti1'))
-             ->setNoteContenu(4)
-             ->setNoteInteractivite(2)
-             ->setNoteAtteinteObjectifs(3)
-             ->setDureeAdaptee(1)
-             ->setAuteur($this->getReference('helene_sicsic'))
-             ->setSeance($this->getReference('seance4'))
-             ->setDateCreation($maintenant)
-             ->setDateModification($maintenant);
-             
-        $crs3 = new CompteRendu();
-        $crs3->setActivite($this->getReference('acti1'))
-             ->setNoteContenu(3)
-             ->setNoteInteractivite(4)
-             ->setNoteAtteinteObjectifs(5)
-             ->setDureeAdaptee(1)
-             ->setAuteur($this->getReference('helene_sicsic'))
-             ->setSeance($this->getReference('seance1'))
-             ->setDateCreation($maintenant)
-             ->setDateModification($maintenant);
-        
-        $manager->persist($crs1);
-        $manager->persist($crs2);
-        $manager->persist($crs3);
-        $manager->flush();
     }
     
     /**

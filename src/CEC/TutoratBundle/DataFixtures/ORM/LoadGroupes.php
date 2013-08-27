@@ -241,49 +241,34 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
             ->setAnneeScolaire($anneeScolaireActuelle)
             ->setRendezVous('rendez-vous sur le parking');
         
-                    
-        $manager->persist($tropajuste_comessa_secondes_old);
-        $manager->persist($tropajuste_premieres_old);
-        $manager->persist($comessa_premieres_old);
-        $manager->persist($tropajuste_comessa_terminales_old);
-        $manager->persist($tropajuste_comessa_secondes);
-        $manager->persist($tropajuste_premieres);
-        $manager->persist($comessa_premieres);
-        $manager->persist($tropajuste_comessa_terminales);
-        $manager->persist($lavy_paleuparadhi_premieres_old);
-        $manager->persist($lavy_paleuparadhi_terminales_old);
-        $manager->persist($maphore_premieres_old);
-        $manager->persist($maphore_terminales_old);
-        $manager->persist($palhom_kipranlamaire_secondes_old);
-        $manager->persist($palhom_kipranlamaire_premieres_terminales_old);
-        $manager->persist($lavy_paleuparadhi_premieres);
-        $manager->persist($lavy_paleuparadhi_terminales);
-        $manager->persist($maphore_premieres);
-        $manager->persist($maphore_terminales);
-        $manager->persist($palhom_kipranlamaire_secondes);
-        $manager->persist($palhom_kipranlamaire_premieres_terminales);
-        $manager->flush();
+        // On crée un tableau des groupes de tutorat
+        $groupes = array();
+        $groupes['tropajuste_comessa_secondes_old'] = $tropajuste_comessa_secondes_old;
+        $groupes['tropajuste_premieres_old'] = $tropajuste_premieres_old;
+        $groupes['comessa_premieres_old'] = $comessa_premieres_old;
+        $groupes['tropajuste_comessa_terminales_old'] = $tropajuste_comessa_terminales_old;
+        $groupes['tropajuste_comessa_secondes'] = $tropajuste_comessa_secondes;
+        $groupes['tropajuste_premieres'] = $tropajuste_premieres;
+        $groupes['comessa_premieres'] = $comessa_premieres;
+        $groupes['lavy_paleuparadhi_premieres_old'] = $lavy_paleuparadhi_premieres_old;
+        $groupes['lavy_paleuparadhi_terminales_old'] = $lavy_paleuparadhi_terminales_old;
+        $groupes['maphore_premieres_old'] = $maphore_premieres_old;
+        $groupes['maphore_terminales_old'] = $maphore_terminales_old;
+        $groupes['palhom_kipranlamaire_secondes_old'] = $palhom_kipranlamaire_secondes_old;
+        $groupes['palhom_kipranlamaire_premieres_terminales_old'] = $palhom_kipranlamaire_premieres_terminales_old;
+        $groupes['lavy_paleuparadhi_premieres'] = $lavy_paleuparadhi_premieres;
+        $groupes['lavy_paleuparadhi_terminales'] = $lavy_paleuparadhi_terminales;
+        $groupes['maphore_premieres'] = $maphore_premieres;
+        $groupes['maphore_terminales'] = $maphore_terminales;
+        $groupes['palhom_kipranlamaire_secondes'] = $palhom_kipranlamaire_secondes;
+        $groupes['palhom_kipranlamaire_premieres_terminales'] = $palhom_kipranlamaire_premieres_terminales;
         
-        $this->addReference('tropajuste_comessa_secondes_old', $tropajuste_comessa_secondes_old);
-        $this->addReference('tropajuste_premieres_old', $tropajuste_premieres_old);
-        $this->addReference('comessa_premieres_old', $comessa_premieres_old);
-        $this->addReference('tropajuste_comessa_terminales_old', $tropajuste_comessa_terminales_old);
-        $this->addReference('tropajuste_comessa_secondes', $tropajuste_comessa_secondes);
-        $this->addReference('tropajuste_premieres', $tropajuste_premieres);
-        $this->addReference('comessa_premieres', $comessa_premieres);
-        $this->addReference('tropajuste_comessa_terminales', $tropajuste_comessa_terminales);
-        $this->addReference('lavy_paleuparadhi_premieres_old', $lavy_paleuparadhi_premieres_old);
-        $this->addReference('lavy_paleuparadhi_terminales_old', $lavy_paleuparadhi_terminales_old);
-        $this->addReference('maphore_premieres_old', $maphore_premieres_old);
-        $this->addReference('maphore_terminales_old', $maphore_terminales_old);
-        $this->addReference('palhom_kipranlamaire_secondes_old', $palhom_kipranlamaire_secondes_old);
-        $this->addReference('palhom_kipranlamaire_premieres_terminales_old', $palhom_kipranlamaire_premieres_terminales_old);
-        $this->addReference('lavy_paleuparadhi_premieres', $lavy_paleuparadhi_premieres);
-        $this->addReference('lavy_paleuparadhi_terminales', $lavy_paleuparadhi_terminales);
-        $this->addReference('maphore_premieres', $maphore_premieres);
-        $this->addReference('maphore_terminales', $maphore_terminales);
-        $this->addReference('palhom_kipranlamaire_secondes', $palhom_kipranlamaire_secondes);
-        $this->addReference('palhom_kipranlamaire_premieres_terminales', $palhom_kipranlamaire_premieres_terminales);
+        // On persiste tous les groupes et on ajoute les références
+        foreach ($groupes as $nomGroupe => $groupe) {
+            $manager->persist($groupe);
+            $this->addReference($nomGroupe, $groupe);
+        }
+        $manager->flush();
     }
     
     /**
