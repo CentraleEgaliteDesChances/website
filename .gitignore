@@ -7,5 +7,5 @@ app/config/parameters.yml
 web/uploads/*
 
 # OS Files
-CECWebSite.esproj/*
+*.esproj
 .DS_Store
