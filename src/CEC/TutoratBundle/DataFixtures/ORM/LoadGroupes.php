@@ -6,7 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Groupe;
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 
 class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
@@ -17,8 +17,9 @@ class LoadGroupes extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $aujourdhui = new \DateTime();
-        $anneeScolaireActuelle = new AnneeScolaire($aujourdhui->format('Y'));
-        $anneeScolairePrecedente = new AnneeScolaire($aujourdhui->format('Y') - 1);
+        $anneeScolaireActuelle = AnneeScolaire::withDate();
+        $anneeScolairePrecedente = AnneeScolaire::withDate();
+        $anneeScolairePrecedente->setAnneeInferieure($anneeScolairePrecedente->getAnneeInferieure() - 1);
     
         /**
          *

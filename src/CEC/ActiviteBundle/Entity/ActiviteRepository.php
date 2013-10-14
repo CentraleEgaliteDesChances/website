@@ -5,7 +5,7 @@ namespace CEC\ActiviteBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 use CEC\ActiviteBundle\Utility\RechercheActivite;
 use CEC\TutoratBundle\Entity\Seance;
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 /**
  * Permet de définir les méthodes de recherche et de filtrage des activités.

@@ -3,7 +3,7 @@
 namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 /**
  * Groupe
@@ -89,7 +89,7 @@ class Groupe
         $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->anneeScolaire = new AnneeScolaire(date('Y'));
+        $this->anneeScolaire = AnneeScolaire::withDate();
     }
     
     /**
@@ -259,10 +259,10 @@ class Groupe
     /**
      * Set anneeScolaire
      *
-     * @param \CEC\MainBundle\Utility\AnneeScolaire $anneeScolaire
+     * @param \CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire
      * @return Groupe
      */
-    public function setAnneeScolaire(\CEC\MainBundle\Utility\AnneeScolaire $anneeScolaire)
+    public function setAnneeScolaire(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire)
     {
         $this->anneeScolaire = $anneeScolaire;
     
@@ -272,7 +272,7 @@ class Groupe
     /**
      * Get anneeScolaire
      *
-     * @return \CEC\MainBundle\Utility\AnneeScolaire
+     * @return \CEC\MainBundle\AnneeScolaire\AnneeScolaire
      */
     public function getAnneeScolaire()
     {
