@@ -3,11 +3,11 @@
 namespace CEC\TutoratBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Enseignant;
 
-class LoadEnseignants extends AbstractFixture implements OrderedFixtureInterface
+class LoadEnseignants extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -134,7 +134,9 @@ class LoadEnseignants extends AbstractFixture implements OrderedFixtureInterface
     /**
      * {@inheritDoc}
      */
-    public function getOrder() {
-        return 30;
+    public function getDependencies() {
+        return array(
+            'CEC\TutoratBundle\DataFixtures\ORM\LoadLycees',
+        );
     }
 }

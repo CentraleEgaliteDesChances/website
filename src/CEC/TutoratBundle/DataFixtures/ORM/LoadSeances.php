@@ -3,13 +3,13 @@
 namespace CEC\TutoratBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Entity\Groupe;
 
 
-class LoadSeances extends AbstractFixture implements OrderedFixtureInterface
+class LoadSeances extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -129,7 +129,9 @@ class LoadSeances extends AbstractFixture implements OrderedFixtureInterface
     /**
      * {@inheritDoc}
      */
-    public function getOrder() {
-        return 40;
+    public function getDependencies() {
+        return array(
+            'CEC\TutoratBundle\DataFixtures\ORM\LoadGroupes',
+        );
     }
 }

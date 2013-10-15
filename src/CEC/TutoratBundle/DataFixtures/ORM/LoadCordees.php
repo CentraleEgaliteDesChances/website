@@ -3,11 +3,10 @@
 namespace CEC\TutoratBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Cordee;
 
-class LoadCordees extends AbstractFixture implements OrderedFixtureInterface
+class LoadCordees extends AbstractFixture
 {
     /**
      * {@inheritDoc}
@@ -31,12 +30,5 @@ class LoadCordees extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('truc', $truc);
         $this->addReference('machin', $machin);
         $this->addReference('bidule', $bidule);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getOrder() {
-        return 10;
     }
 }
