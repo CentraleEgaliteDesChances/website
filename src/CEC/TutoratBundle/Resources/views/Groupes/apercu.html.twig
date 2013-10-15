@@ -67,6 +67,15 @@
 <table class="table table-bordered table-striped table-hover table-collapse">
     <tbody>
         <tr>
+            <td>Année</td>
+            <td>{{ groupe.anneeScolaire }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-bordered table-striped table-hover table-collapse">
+    <tbody>
+        <tr>
             <td>Lycéens</td>
             <td>{{ groupe.lyceens|length ?: 'Aucun' }} lycéen{{ groupe.lyceens|length > 1 ? 's' }}</td>
         </tr>

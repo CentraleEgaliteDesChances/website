@@ -10,7 +10,7 @@ use CEC\MembreBundle\Entity\Exception\NomUtilisateurInvalideException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 /**
  * Permet de définir les méthodes de l'interface UserProviderInterface qui chargent les membres

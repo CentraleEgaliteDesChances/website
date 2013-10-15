@@ -51,14 +51,15 @@
                         </ul>
                     </li>
                 {% endif %}
-                <li class="dropdown">
+                {% if membre.secteurs is not empty or membre.buro %}
+                    <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Mes secteurs
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        {% if is_granted('ROLE_SECTEUR_ACTIVITES_SCIENTIFIQUES') 
-                                or is_granted('ROLE_SECTEUR_ACTIVITES_CULTURELLES')
+                        {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_SCIENTIFIQUES') 
+                                or is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES')
                                 or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteurs Activités</li>
                             <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
@@ -73,13 +74,13 @@
                             <li class="secteur">Secteur Sorties</li>
                             <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_SECTEUR_EVENEMENTS') or is_granted('ROLE_BURO') %}
+                        {% if is_granted('ROLE_SECTEUR_ÉVÉNEMENTS') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Événements</li>
                             <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
+                        {% endif %}
                         {% if is_granted('ROLE_SECTEUR_FUNDRAISING') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Fundraising</li>
                             <li><a href="{{ path('cec_secteurfundraising_statistiques_voir') }}">Statistiques de l'association</a></li>
-                        {% endif %}
                         {% endif %}
                         {% if is_granted('ROLE_BURO') %}
                             <li class="secteur">Buro</li>
@@ -88,6 +89,7 @@
                         {% endif %}
                     </ul>
                 </li>
+                {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Données

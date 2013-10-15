@@ -3,11 +3,11 @@
 namespace CEC\ActiviteBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\ActiviteBundle\Entity\Document;
 
-class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
+class LoadDocuments extends AbstractFixture implements DependentFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -66,7 +66,10 @@ class LoadDocuments extends AbstractFixture implements OrderedFixtureInterface
     /**
      * {@inheritDoc}
      */
-    public function getOrder() {
-        return 80;
+    public function getDependencies() {
+        return array(
+            'CEC\MembreBundle\DataFixtures\ORM\LoadMembres',
+            'CEC\ActiviteBundle\DataFixtures\ORM\LoadActivites',
+        );
     }
 }

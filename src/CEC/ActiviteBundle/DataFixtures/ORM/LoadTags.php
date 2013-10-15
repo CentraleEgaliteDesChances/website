@@ -3,11 +3,10 @@
 namespace CEC\ActiviteBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\ActiviteBundle\Entity\Tag;
 
-class LoadTags extends AbstractFixture implements OrderedFixtureInterface
+class LoadTags extends AbstractFixture
 {
     /**
      * {@inheritDoc}
@@ -33,12 +32,5 @@ class LoadTags extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('tag_expression_orale', $tagExpressionOrale);
         $this->addReference('tag_equations_differentielles', $tagEquationsDifferentielles);
         $this->addReference('tag_culture_generale', $tagCultureGenerale);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getOrder() {
-        return 60;
     }
 }
