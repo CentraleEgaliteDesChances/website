@@ -2,7 +2,7 @@
 
 namespace CEC\MainBundle\Tests\Utility;
 
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 class AnneeScolaireTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,11 +14,11 @@ class AnneeScolaireTest extends \PHPUnit_Framework_TestCase
     }
     
     public function testCreate() {
-        $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", new AnneeScolaire());
-        $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", new AnneeScolaire(2040));
-        $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", AnneeScolaire::withAnnees('2037-2038'));
-        $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", AnneeScolaire::withDate(new \DateTime('2023-06-28')));
-        $this->assertInstanceOf("CEC\MainBundle\Utility\AnneeScolaire", AnneeScolaire::withAnnees('2015/2016'));
+        $this->assertInstanceOf("CEC\MainBundle\AnneeScolaire\AnneeScolaire", new AnneeScolaire());
+        $this->assertInstanceOf("CEC\MainBundle\AnneeScolaire\AnneeScolaire", new AnneeScolaire(2040));
+        $this->assertInstanceOf("CEC\MainBundle\AnneeScolaire\AnneeScolaire", AnneeScolaire::withAnnees('2037-2038'));
+        $this->assertInstanceOf("CEC\MainBundle\AnneeScolaire\AnneeScolaire", AnneeScolaire::withDate(new \DateTime('2023-06-28')));
+        $this->assertInstanceOf("CEC\MainBundle\AnneeScolaire\AnneeScolaire", AnneeScolaire::withAnnees('2015/2016'));
     }
     
     public function testValidation() {
@@ -38,7 +38,7 @@ class AnneeScolaireTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2011, $this->anneeScolaire->getAnneeInferieure());
         $this->assertEquals(2012, $this->anneeScolaire->getAnneeSuperieure());
         $this->assertEquals(new \DateTime('2011-09-01'), $this->anneeScolaire->getDateRentree());
-        $this->assertEquals(new \DateTime('2012-07-01'), $this->anneeScolaire->getDateSortie());
+        $this->assertEquals(new \DateTime('2012-08-31'), $this->anneeScolaire->getDateDernierJour());
     }
     
     public function testSetters() {
@@ -57,8 +57,9 @@ class AnneeScolaireTest extends \PHPUnit_Framework_TestCase
         $as = $this->anneeScolaire;
         $this->assertTrue($as->contientDate(new \DateTime('2011-10-23')));
         $this->assertTrue($as->contientDate(new \DateTime('2012-03-10')));
-        $this->assertFalse($as->contientDate(new \DateTime('2011-08-17')));
-        $this->assertFalse($as->contientDate(new \DateTime('2012-07-02')));
+        $this->assertTrue($as->contientDate(new \DateTime('2012-08-17')));
+        $this->assertFalse($as->contientDate(new \DateTime('2012-09-17')));
+        $this->assertFalse($as->contientDate(new \DateTime('2011-05-02')));
     }
     
     public function testDescription() {

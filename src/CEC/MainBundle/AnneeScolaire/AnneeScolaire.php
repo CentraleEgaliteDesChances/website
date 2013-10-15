@@ -1,6 +1,8 @@
 <?php
 
-namespace CEC\MainBundle\Utility;
+namespace CEC\MainBundle\AnneeScolaire;
+
+use CEC\MainBundle\AnneeScolaire\Exception\MauvaisFormatAnneeException;
 
 /**
  * Représente une année scolaire.
@@ -8,9 +10,19 @@ namespace CEC\MainBundle\Utility;
 class AnneeScolaire
 {
     /**
+     * Numéro du premier mois appartenant à une année scolaire.
+     */
+    const PREMIER_MOIS = 9;
+    
+    /**
+     * Année inférieure par défaut.
+     */
+    const ANNEE_INFERIEURE_DEFAUT = 2011;
+
+    /**
      * Année inférieure des deux années.
      * L'année scolaire est représentée par son année inférieure, qui doit donc
-     * être non vide, et composé d'un entier naturel de 4 caractères, compris
+     * être non vide, et composée d'un entier naturel de 4 caractères compris
      * entre 1000 et 2999.
      *
      * @var integer
@@ -25,22 +37,20 @@ class AnneeScolaire
     /**
      * Constructeur par défaut.
      * L'argument, optionnel, correspond à l'année inférieure de l'année scolaire.
-     * Si aucun argument n'est passé, l'année par défaut est l'année scolaire 2011-2012.
+     * Si aucun argument n'est passé, l'année inférieure est l'année par défaut.
      *
      * @param interger or string $anneeInferieure : année inférieure, optionnelle
      * @return AnneeScolaire : année scolaire construit à partir de l'année inférieure.
      */
     public function __construct($anneeInferieure = null) {
-        if (!$anneeInferieure) $anneeInferieure = 2011;
-        $this->setAnneeInferieure(intval($anneeInferieure));
+        $this->anneeInferieure = self::ANNEE_INFERIEURE_DEFAUT;
+        if ($anneeInferieure) $this->setAnneeInferieure(intval($anneeInferieure));
         return $this;
     }
     
     /**
      * Constructeur avec une date.
      * L'année scolaire est crée à partir de la date passée en argument.
-     * Si la date passée en argument ne se situe dans aucune année scolaire
-     * (entre Juillet et Août), une exception est levée.
      * Si aucune date n'est passée en argument, la date actuelle est utilisée.
      *
      * @param DateTime() $date : date à utiliser
@@ -49,7 +59,7 @@ class AnneeScolaire
     public static function withDate(\DateTime $date = null) {
         if (!$date) $date = new \DateTime();
         $anneeScolaire = new self();
-        $anneeScolaire->setAnneeInferieure($date->format('Y') + AnneeScolaire::termePourAnneeInferieure($date));
+        $anneeScolaire->setAnneeInferieure(AnneeScolaire::anneeInferieurePourDate($date));
         return $anneeScolaire;
     }
     
@@ -75,8 +85,9 @@ class AnneeScolaire
                 throw new \Exception;
             }
         } catch (\Exception $exception) {
-            throw new \Exception("Impossible de parser l'année scolaire !");
+            throw new MauvaisFormatAnneeException("Le format des deux années n'est pas celui attendu !");
         }
+        
         $anneeScolaire = new self();
         $anneeScolaire->setAnneeInferieure(intval($anneeInferieure));
         return $anneeScolaire;
@@ -126,22 +137,25 @@ class AnneeScolaire
     
     /**
      * Retourne la date de la rentrée.
-     * La date de la rentrée est définie comme le 1er septembre de l'année inférieure.
+     * La date de la rentrée est définie comme le 1er du premier mois l'année scolaire.
      *
      * @return DateTime : date de la rentrée.
      */
     public function getDateRentree() {
-        return new \DateTime($this->getAnneeInferieure() . "-09-01");
+        return new \DateTime($this->getAnneeInferieure() . "-" . self::PREMIER_MOIS . "-01");
     }
     
     /**
-     * Retourne la date de la sortie des classes.
-     * La date de la sortie des classes est définie comme le 1er juillet de l'année supérieure.
+     * Retourne la date du dernier jour de l'année scolaire.
+     * La date du dernier jour de l'année scolaire est définie comme le dernier jour du dernier
+     * mois de l'année scolaire.
      *
-     * @return DateTime : date de la sortie des classes.
+     * @return DateTime : date de la rentrée.
      */
-    public function getDateSortie() {
-        return new \DateTime($this->getAnneeSuperieure() . "-07-01");
+    public function getDateDernierJour() {
+        $dateDernierJour = new \DateTime($this->getAnneeSuperieure() . "-" . self::PREMIER_MOIS . "-01");
+        $dateDernierJour->add(\DateInterval::createFromDateString('-1 day'));
+        return $dateDernierJour;
     }
     
     
@@ -157,26 +171,24 @@ class AnneeScolaire
      * @return boolean : la date est-elle dans l'année scolaire ?
      */
     public function contientDate(\DateTime $date) {
-        return ($date >= $this->getDateRentree()) &&
-                    ($date < $this->getDateSortie());
+        return ( $date >= $this->getDateRentree()     &&
+                 $date < $this->getDateDernierJour()  );
     }
     
     /**
-     * Retourne le terme additionnel permettant d'obtenir l'année inférieure
-     * de l'année scolaire correspondant à la date passée en argument.
-     * Si la date est comprise entre Janvier et Juin, la méthode renvoit -1 ; si
-     * elle est comprise entre Septembre et Décembre, la méthode renvoit 0.
-     * Sinon, une exception est levée.
+     * Retourne l'année inférieure correspondant à la date passée en argument.
+     * Celle-ci est calculée en fonction du dernier mois de l'année scolaire : si
+     * celui-ci a été dépassée, alors on renvoit l'année de l'argument. Sinon, on
+     * renvoit l'année précédent l'année de l'argument.
      *
      * @param DateTime $date : date.
-     * @return integer : terme additionel.
+     * @return integer : année inférieure correspondant à la date passée en argument
      */
-    public function termePourAnneeInferieure(\DateTime $date) {
+    public static function anneeInferieurePourDate(\DateTime $date) {
         $mois = $date->format('m');
-        if ($mois > 6 && $mois < 9) {
-            throw new \Exception("La date ne se situe dans aucune année scolaire !");
-        }
-        return ($mois < 7) ? -1 : 0;
+        $annee = $date->format('Y');
+        if ($mois < self::PREMIER_MOIS) $annee--;
+        return $annee;
     }
         
     
@@ -218,7 +230,13 @@ class AnneeScolaire
      */
     protected static function validerAnnee($annee) {
         $annee = intval($annee);
-        return ($annee >= 1000) && ($annee < 3000);
+        $validation = ($annee >= 1000) && ($annee < 3000);
+        if (!$validation) {
+            throw new MauvaisFormatAnneeException("Le format de l'année ('" . $annee . "') ne correspond pas à celui attendu !");
+            return false;
+        }
+        
+        return true;
     }
     
     

@@ -3,13 +3,13 @@
 namespace CEC\MembreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\MembreBundle\Entity\Membre;
 
-class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadMembres extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -141,7 +141,9 @@ class LoadMembres extends AbstractFixture implements OrderedFixtureInterface, Co
     /**
      * {@inheritDoc}
      */
-    public function getOrder() {
-        return 50;
+    public function getDependencies() {
+        return array(
+            'CEC\MembreBundle\DataFixtures\ORM\LoadSecteurs',
+        );
     }
 }

@@ -75,6 +75,18 @@
             </tr>
         </tbody>
     </table>
+    
+    {% if membre.buro %}
+        <table class="table table-bordered table-striped table-hover">
+            <tbody>
+                <tr>
+                    <td>
+                        {{ membre }} est (ou a été) membre du buro de l'association
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    {% endif %}
 
     {% if app.user == membre %}
         <a href="{{ path('cec_membre_reglages_infos') }}" class="btn btn-block">Modifier mon profil</a>

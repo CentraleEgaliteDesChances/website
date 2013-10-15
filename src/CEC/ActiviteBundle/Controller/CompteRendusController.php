@@ -159,7 +159,7 @@ class CompteRendusController extends Controller
         $nonLu = ($lecture == 'non-lus');
         switch ($type) {
             case 'actiscientifiques':
-                $type = 'Activité Scienfitique';
+                $type = 'Activité Scientifique';
                 break;
             case 'actisculturelles':
                 $type = 'Activité Culturelle';

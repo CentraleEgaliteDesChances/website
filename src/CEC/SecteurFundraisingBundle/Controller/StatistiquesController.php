@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 class StatistiquesController extends Controller
 {
@@ -18,18 +18,14 @@ class StatistiquesController extends Controller
      * @param string $annees Année scolaire sous la forme "2012-2013" à laquelle se rapporte les statistiques.
      * @Route(
      *     "/statistiques/{annees}",
-     *     requirements = {"annees" = "^[[:digit:]]{4}\-[[:digit:]]{4}$"},
+     *     requirements = {"annees" = "^[0-9]{4}\-[0-9]{4}$"},
      *     defaults = {"annees" = null}
      * )
      * @Template()
      */
     public function voirAction($annees = null)
     {
-        if ($annees) {
-            $anneeScolaire = AnneeScolaire::withAnnees($annees);
-        } else {
-            $anneeScolaire = new AnneeScolaire(date('Y'));
-        }
+        $anneeScolaire = $annees ? AnneeScolaire::withAnnees($annees) : AnneeScolaire::withDate();
         $doctrine = $this->getDoctrine();
         
         // Partenariats

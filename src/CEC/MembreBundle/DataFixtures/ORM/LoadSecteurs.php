@@ -3,11 +3,10 @@
 namespace CEC\MembreBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CEC\MembreBundle\Entity\Secteur;
 
-class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
+class LoadSecteurs extends AbstractFixture
 {
     /**
      * {@inheritDoc}
@@ -46,12 +45,5 @@ class LoadSecteurs extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('secteur_fundraising', $secteurFundraising);
         $this->addReference('secteur_activites_scientifiques', $secteurActivitesScientifiques);
         $this->addReference('secteur_activites_culturelles', $secteurActivitesCulturelles);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public function getOrder() {
-        return 10;
     }
 }

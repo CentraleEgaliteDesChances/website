@@ -4,7 +4,7 @@ namespace CEC\MainBundle\Type;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 
 /**

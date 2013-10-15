@@ -3,7 +3,7 @@
 namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use CEC\MainBundle\Utility\AnneeScolaire;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 /**
  * LyceenRepository
