@@ -331,9 +331,10 @@ class Membre implements UserInterface, \Serializable
         $roles = array('ROLE_USER');
         if ($this->getBuro()) $roles[] = 'ROLE_BURO';
         foreach ($this->getSecteurs() as $secteur) {
-            $nomSecteur = str_replace(' ', '_', strtoupper($secteur->getNom()));
+            $nomSecteur = str_replace(' ', '_', mb_strtoupper($secteur->getNom(), 'UTF-8'));
             $roles[] = 'ROLE_' . $nomSecteur;
         }
+
         return $roles;
     }
 
