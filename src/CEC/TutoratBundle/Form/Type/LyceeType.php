@@ -39,6 +39,7 @@ class LyceeType extends AbstractType
             ))
             ->add('zep', 'checkbox', array(
                 'label'  => false,
+                'required' => false,
                 'help_inline'    => 'Ce lycée est situé dans une ZEP',
             ));
     }
