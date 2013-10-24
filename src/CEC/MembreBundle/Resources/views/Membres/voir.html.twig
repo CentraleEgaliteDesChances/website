@@ -144,7 +144,7 @@
         {% endif %}
     </table>
     
-    {% if membre.documents %}
+    {% if membre.documents|length > 0 %}
     <table class="table table-bordered table-hover table-striped table-large">
         <thead><tr><th><h4>Activités rédigées</h4></th></tr></thead>
         <tbody>
