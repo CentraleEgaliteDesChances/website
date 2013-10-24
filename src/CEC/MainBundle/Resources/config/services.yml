@@ -1,7 +1,7 @@
 parameters:
-#    cec_main.example.class: CEC\MainBundle\Example
 
 services:
-#    cec_main.example:
-#        class: %cec_main.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cec.twig.cec_extension:    
+        class: "CEC\MainBundle\Twig\CECExtension"
+        tags:
+            - { name: twig.extension }
