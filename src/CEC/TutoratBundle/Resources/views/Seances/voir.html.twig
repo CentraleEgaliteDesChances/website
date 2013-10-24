@@ -12,7 +12,7 @@
 {{ flash('error', 'Attention ! Le groupe de tutorat associé à cette séance a été supprimée et certaines informations ne sont donc plus disponibles. Les statistiques sont en revanche conservées.') }}
 {% endif %}
 
-{% if app.user not in seance.tuteurs %}
+{% if app.user in seance.groupe.tuteurs and app.user not in seance.tuteurs %}
 {{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquez que vous venez.") }}
 {% endif %}
 
