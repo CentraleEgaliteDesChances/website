@@ -28,7 +28,13 @@
             </tr>
             <tr>
                 <td>Téléphone</td>
-                <td>{{ membre.telephone }}</td>
+                <td>
+                    {% if membre.telephone %}
+                        {{ membre.telephone }}
+                    {% else %}
+                        <span class="muted">Aucun numéro</span>
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>
