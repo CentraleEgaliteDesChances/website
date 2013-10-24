@@ -14,7 +14,7 @@
             <tr>
                 <td>
                     <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}" {{ enseignant.lycee ? '' : ' class="muted"' }}>
-                        <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
+                        <strong>{{ enseignant.prenom|ucwords }} {{ enseignant.nom|ucwords }}</strong><br />
                         {% if enseignant.role %}
                             {{ enseignant.role }}
                         {% else %}

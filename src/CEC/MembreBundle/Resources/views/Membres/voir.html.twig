@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th colspan="2" class="titre">
-                    <h3>{{ membre.prenom|capitalize }} {{ membre.nom|capitalize }}</h3>
+                    <h3>{{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}</h3>
                 </th>
             </tr>
             <tr><th colspan="2" class="image">
@@ -81,7 +81,7 @@
             <tbody>
                 <tr>
                     <td>
-                        {{ membre }} est (ou a été) membre du buro de l'association
+                        {{ membre|ucwords }} est (ou a été) membre du buro de l'association
                     </td>
                 </tr>
             </tbody>
