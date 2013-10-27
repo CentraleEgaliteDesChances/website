@@ -56,9 +56,15 @@
         </tr>
         <tr>
             <td>VP Lycée</td>
-            <td>{% for vp in lycee.vpLycees %}
-                <a href="{{ path('membre', { 'membre': vp.id }) }}">{{ vp.prenom|capitalize }} {{ vp.nom|capitalize }}{% if not loop.last %}, {% endif %}</a>
-            {% else %}<span class="muted">Aucun VP Lycée</span>{% endfor %}</td>
+            <td>
+                {% for vp in lycee.vpLycees %}
+                    <a href="{{ path('cec_membre_membres_voir', { 'membre': vp.id }) }}">
+                        {{ vp.prenom|ucwords }} {{ vp.nom|ucwords }}{% if not loop.last %}, {% endif %}
+                    </a>
+                {% else %}
+                    <span class="muted">Aucun VP Lycée</span>
+                {% endfor %}
+            </td>
         </tr>
     </tbody>
 </table>

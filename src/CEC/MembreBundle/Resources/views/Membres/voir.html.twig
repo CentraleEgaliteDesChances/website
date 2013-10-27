@@ -51,11 +51,15 @@
                     {% endif %}
                 </td>
             </tr>
-            {% if membre.vpLycee %}
+            {% if membre.lyceesPourVP|length %}
                 <tr>
                     <td>VP Lycée</td>
                     <td>
-                        Responsable du lycée <a href="{{ path('lycee', { 'lycee': membre.vpLycee.id }) }}">{{ membre.vpLycee.nom }}</a>
+                        {% for lycee in membre.lyceesPourVP %}
+                            <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">
+                                {{ lycee.nom }}{% if not loop.last %}, {% endif %}
+                            </a>
+                        {% endfor %}
                     </td>
                 </tr>
             {% endif %}
