@@ -51,12 +51,12 @@ CEC\TutoratBundle\Entity\Lycee:
             targetEntity: Enseignant
             mappedBy: lycee
             cascade: ["remove"]
-        vpLycees:
-            targetEntity: CEC\MembreBundle\Entity\Membre
-            mappedBy: vpLycee
     manyToMany:
         groupes:
             targetEntity: Groupe
             mappedBy: lycees
             cascade: ["remove"]
+        vpLycees:
+            targetEntity: CEC\MembreBundle\Entity\Membre
+            inversedBy: lyceesPourVP
     lifecycleCallbacks: {  }
