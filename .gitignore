@@ -6,7 +6,6 @@ vendor/
 app/config/parameters.yml
 web/uploads
 web/css
-web/doc
 web/images
 web/js
 
