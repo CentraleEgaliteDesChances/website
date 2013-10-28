@@ -69,7 +69,9 @@
                     {{ form_widget(ajouter_tuteur_form.tuteur) }}
                     {{ form_rest(ajouter_tuteur_form) }}
                     <input type="submit" name="ajouter_tuteur" class="btn btn-primary" value="Ajouter" />
-                    <a href="#" class="btn pull-right">Nouveau tuteur</a>
+                    {% if is_granted('ROLE_BURO') %}
+                        <a href="{{ path('cec_membre_membres_creer') }}" class="btn pull-right">Nouveau tuteur</a>
+                    {% endif %}
                 </form>
             </td>
         </tr>
