@@ -195,14 +195,14 @@ class Membre implements UserInterface, \Serializable
     private $dateModification;
 
     /**
-     * Lycée pour lequel le membre est VP Lycée.
+     * Lycées pour lesquels le membre est VP Lycée.
      * Ce champ pour rester null si le membre n'est pas VP Lycée.
      * 
      * @var CEC\TutoratBundle\Entity\Lycee
      *
-     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Lycee", inversedBy = "vpLycees" )
+     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Lycee", mappedBy = "vpLycees" )
      */
-    private $vpLycee;
+    private $lyceesPourVP;
 
     /**
      * Groupe de tutorat fréquenté régulièrement par le membre.
@@ -381,9 +381,7 @@ class Membre implements UserInterface, \Serializable
     //
     // Doctrine-generated accessors
     //
-    
 
-    
 
     /**
      * Get id
@@ -603,26 +601,36 @@ class Membre implements UserInterface, \Serializable
     }
 
     /**
-     * Set vpLycee
+     * Add lyceesPourVP
      *
-     * @param \CEC\TutoratBundle\Entity\Lycee $vpLycee
+     * @param \CEC\TutoratBundle\Entity\Lycee $lyceesPourVP
      * @return Membre
      */
-    public function setVpLycee(\CEC\TutoratBundle\Entity\Lycee $vpLycee = null)
+    public function addLyceesPourVP(\CEC\TutoratBundle\Entity\Lycee $lyceesPourVP)
     {
-        $this->vpLycee = $vpLycee;
+        $this->lyceesPourVP[] = $lyceesPourVP;
     
         return $this;
     }
 
     /**
-     * Get vpLycee
+     * Remove lyceesPourVP
      *
-     * @return \CEC\TutoratBundle\Entity\Lycee 
+     * @param \CEC\TutoratBundle\Entity\Lycee $lyceesPourVP
      */
-    public function getVpLycee()
+    public function removeLyceesPourVP(\CEC\TutoratBundle\Entity\Lycee $lyceesPourVP)
     {
-        return $this->vpLycee;
+        $this->lyceesPourVP->removeElement($lyceesPourVP);
+    }
+
+    /**
+     * Get lyceesPourVP
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLyceesPourVP()
+    {
+        return $this->lyceesPourVP;
     }
 
     /**

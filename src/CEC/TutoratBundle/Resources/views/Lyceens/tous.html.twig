@@ -14,7 +14,7 @@
             <tr>
                 <td>
                     <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
-                        <strong{% if not lyceen.groupe %} class="muted"{% endif %}>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                        <strong{% if not lyceen.groupe %} class="muted"{% endif %}>{{ lyceen.prenom|ucwords }} {{ lyceen.nom|ucwords }}</strong>
                     </a>
                     <div class="pull-right">
                         {% if lyceen.groupe %}

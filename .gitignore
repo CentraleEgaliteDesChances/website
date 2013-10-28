@@ -4,7 +4,10 @@ app/cache/*
 app/logs/*
 vendor/
 app/config/parameters.yml
-web/uploads/*
+web/uploads
+web/css
+web/images
+web/js
 
 # OS Files
 *.esproj

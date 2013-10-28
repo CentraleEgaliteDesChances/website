@@ -6,7 +6,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use CEC\MembreBundle\Entity\Exception\NomUtilisateurInvalideException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 
@@ -26,27 +25,17 @@ class MembreRepository extends EntityRepository implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $usernameExploded = explode(' ', $username);
-        if (count($usernameExploded) <> 2) {
-            throw new NomUtilisateurInvalideException(sprintf('Bad credentials format'), null, 0);
-        }
-        $prenom = $usernameExploded[0];
-        $nom = $usernameExploded[1];
-    
-        $q = $this
-            ->createQueryBuilder('m')
-            ->where('m.prenom = :prenom and m.nom = :nom')
-            ->setParameter('prenom', $prenom)
-            ->setParameter('nom', $nom)
-            ->getQuery()
-        ;
-
+        $query = $this->createQueryBuilder('membre')
+            ->where('CONCAT(CONCAT(membre.prenom, \' \'), membre.nom) = :username')
+            ->setParameter('username', $username)
+            ->getQuery();
+        
         try {
             // The Query::getSingleResult() method throws an exception
-            // if there is no record matching the criteria.
-            $user = $q->getSingleResult();
+            // if there is no unique record matching the criteria
+            $user = $query->getSingleResult();
         } catch (NoResultException $e) {
-            throw new UsernameNotFoundException(sprintf('Unable to find an active admin AcmeUserBundle:User object identified by "%s".', $username), null, 0, $e);
+            throw new UsernameNotFoundException(sprintf('Impossible de trouver un membre à partir du surnom "%s".', $username), null, 0, $e);
         }
 
         return $user;
@@ -59,7 +48,7 @@ class MembreRepository extends EntityRepository implements UserProviderInterface
     {
         $class = get_class($user);
         if (!$this->supportsClass($class)) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $class));
+            throw new UnsupportedUserException(sprintf('Les instances de la classe "%s" ne sont pas supportées.', $class));
         }
 
         return $this->find($user->getId());

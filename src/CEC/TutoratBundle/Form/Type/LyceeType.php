@@ -41,6 +41,10 @@ class LyceeType extends AbstractType
                 'label'  => false,
                 'required' => false,
                 'help_inline'    => 'Ce lycée est situé dans une ZEP',
+            ))
+            ->add('vpLycees', null, array(
+                'label'       => 'VP Lycées',
+                'empty_value' => 'Aucun VP Lycée',
             ));
     }
 

@@ -106,6 +106,15 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
             ->setPromotion('2014')
             ->setBuro(false);
             
+        $jean_philippe_de_la_taillardiere = new Membre();
+        $jean_philippe_de_la_taillardiere->setPrenom('Jean-Philippe')
+            ->setNom('De La Taillardière')
+            ->setEmail('jean-philippe.de-la-taillardiere@student.ecp.fr')
+            ->setTelephone('0709080706')
+            ->setMotDePasse($mdp)
+            ->setPromotion('2015')
+            ->setBuro(false);
+            
         $gurvan_hermange = new Membre();
         $gurvan_hermange->setPrenom('Gurvan')
             ->setNom('Hermange')
@@ -125,6 +134,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $manager->persist($ml_charpignon);
         $manager->persist($thomas_beligne);
         $manager->persist($gurvan_hermange);
+        $manager->persist($jean_philippe_de_la_taillardiere);
         $manager->flush();
         
         $this->addReference('pol_maire', $pol_maire);
@@ -136,6 +146,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $this->addReference('ml_charpignon', $ml_charpignon);
         $this->addReference('thomas_beligne', $thomas_beligne);
         $this->addReference('gurvan_hermange', $gurvan_hermange);
+        $this->addReference('jean_philippe_de_la_taillardiere', $jean_philippe_de_la_taillardiere);
     }
     
     /**

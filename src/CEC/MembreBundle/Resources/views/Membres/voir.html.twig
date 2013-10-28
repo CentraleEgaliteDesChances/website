@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th colspan="2" class="titre">
-                    <h3>{{ membre.prenom|capitalize }} {{ membre.nom|capitalize }}</h3>
+                    <h3>{{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}</h3>
                 </th>
             </tr>
             <tr><th colspan="2" class="image">
@@ -28,7 +28,13 @@
             </tr>
             <tr>
                 <td>Téléphone</td>
-                <td>{{ membre.telephone }}</td>
+                <td>
+                    {% if membre.telephone %}
+                        {{ membre.telephone }}
+                    {% else %}
+                        <span class="muted">Aucun numéro</span>
+                    {% endif %}
+                </td>
             </tr>
         </tbody>
     </table>
@@ -45,11 +51,15 @@
                     {% endif %}
                 </td>
             </tr>
-            {% if membre.vpLycee %}
+            {% if membre.lyceesPourVP|length %}
                 <tr>
                     <td>VP Lycée</td>
                     <td>
-                        Responsable du lycée <a href="{{ path('lycee', { 'lycee': membre.vpLycee.id }) }}">{{ membre.vpLycee.nom }}</a>
+                        {% for lycee in membre.lyceesPourVP %}
+                            <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">
+                                {{ lycee.nom }}{% if not loop.last %}, {% endif %}
+                            </a>
+                        {% endfor %}
                     </td>
                 </tr>
             {% endif %}
@@ -75,18 +85,6 @@
             </tr>
         </tbody>
     </table>
-    
-    {% if membre.buro %}
-        <table class="table table-bordered table-striped table-hover">
-            <tbody>
-                <tr>
-                    <td>
-                        {{ membre }} est (ou a été) membre du buro de l'association
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    {% endif %}
 
     {% if app.user == membre %}
         <a href="{{ path('cec_membre_reglages_infos') }}" class="btn btn-block">Modifier mon profil</a>
@@ -128,7 +126,7 @@
     </table>
     
     <table class="table table-bordered table-hover table-striped table-large">
-        {% if membre.secteurs|length %}
+        {% if membre.secteurs|length or membre.buro %}
             <thead><tr><th><h4>Secteurs</h4></th></tr></thead>
             <tbody>
                 {% for secteur in membre.secteurs %}
@@ -138,13 +136,20 @@
                     </td>
                 </tr>
                 {% endfor %}
+                {% if membre.buro %}
+                    <tr>
+                        <td>
+                            Membre du buro de l'association
+                        </td>
+                    </tr>
+                {% endif %}
             </tbody>
         {% else %}
             <thead><tr><th class="muted"><h4>Aucune activité dans un secteur</h4></th></tr></thead>
         {% endif %}
     </table>
     
-    {% if membre.documents %}
+    {% if membre.documents|length > 0 %}
     <table class="table table-bordered table-hover table-striped table-large">
         <thead><tr><th><h4>Activités rédigées</h4></th></tr></thead>
         <tbody>

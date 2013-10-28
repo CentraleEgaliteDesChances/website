@@ -23,4 +23,4 @@ assetic:
     use_controller: true
 
 swiftmailer:
-    delivery_address: j2b.bayle@gmail.com
+    delivery_address: ~
