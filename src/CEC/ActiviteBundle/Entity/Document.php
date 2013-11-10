@@ -10,9 +10,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Un document représente une paire de fichiers enregistrés sur le serveur
- * et associés à une activité. 
+ * et associés à une activité.
  *
- * Il s'agit d'une version du contenu de l'activité, 
+ * Il s'agit d'une version du contenu de l'activité,
  * en deux formats : le format PDF permettant un téléchargement et une compatibilité étendue,
  * et le format original (Microsoft Word ou PowerPoint), permettant l'édition de l'activité si
  * nécessaire(comme par exemple si des corrections sont demandées dans un compte-rendu de l'activité).
@@ -67,7 +67,7 @@ class Document
      * @ORM\GeneratedValue(strategy = "AUTO")
      */
     private $id;
-    
+
     /**
      * Brève description des nouveautés du document.
      * Ce champ permet de conserver un historique des changements des versions d'une activité.
@@ -84,33 +84,33 @@ class Document
      * )
      */
     private $description;
-    
+
     /**
      * Fichier original téléchargé.
      * Cet attribut permet de générer un champ de téléchargement de fichier dans un formulaire
      * lors de la création du document. Il doit correspondre au fichier original, et est donc requis.
      * Il est important de noter que seules les extensions Microsoft Word (.doc et .docx), ainsi que celle
-     * Microsoft PowerPoint (.ppt et .pptx) sont acceptées, et que la taille du fichier ne peut excéder 1 Mo.
+     * Microsoft PowerPoint (.ppt et .pptx) sont acceptées, et que la taille du fichier ne peut excéder 10 Mo.
      *
      * @var UploadedFile
      *
      * @Assert\File(
-     *     maxSize = "1024k",
-     *     maxSizeMessage = "La taille du fichier original ne peut excéder 1 Mo.",
+     *     maxSize = "10240k",
+     *     maxSizeMessage = "La taille du fichier original ne peut excéder 10 Mo.",
      *     mimeTypes = { "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
      *     mimeTypesMessage = "Le fichier original doit être sous format Microsoft Word (.doc ou .docx) ou sous le format Microsoft PowerPoint (.ppt ou .pptx)."
      * )
      * @Assert\NotBlank(message = "Un fichier original est requis !")
      */
     private $fichierOriginal;
-    
+
     /**
      * Fichier PDF téléchargé.
      * Cet attribut permet de générer un champ de téléchargement de fichier dans un formulaire
      * lors de la création du document. Il doit correspondre au fichier PDF, et n'est donc pas requis.
      * En effet, si le service est disponible, on peut convertir le fichier original au format PDF et l'utiliser.
-     * Il est important de noter que seule l'extension .pdf est accepté, et que la 
-     * taille du fichier ne peut excéder 1 Mo.
+     * Il est important de noter que seule l'extension .pdf est accepté, et que la
+     * taille du fichier ne peut excéder 10 Mo.
      *
      * IMPORTANT : dans la version 1.0, la génération automatique de PDF n'est pas disponible.
      *             Le champ fichierPDF est donc requis.
@@ -118,15 +118,15 @@ class Document
      * @var UploadedFile
      *
      * @Assert\File(
-     *     maxSize = "1024k",
-     *     maxSizeMessage = "La taille du fichier PDF ne peut dépasser 1 Mo.",
+     *     maxSize = "10240k",
+     *     maxSizeMessage = "La taille du fichier PDF ne peut dépasser 10 Mo.",
      *     mimeTypes = {"application/pdf", "application/x-pdf"},
      *     mimeTypesMessage = "Le fichier PDF doit être sous format Adobe PDF (.pdf)."
      * )
      * @Assert\NotBlank(message = "Un fichier PDF est requis !")
      */
     private $fichierPDF;
-    
+
     /**
      * Représente le nom du fichier original, avec son extension.
      * Il permet d'accéder par la suite au fichier stocké sur le serveur.
@@ -178,7 +178,7 @@ class Document
      * @Assert\DateTime()
      */
     private $dateModification;
-    
+
     /**
      * Activité associée au document.
      * Le présent document représente donc une version de l'activité (classe Activite)
@@ -190,7 +190,7 @@ class Document
      * @Assert\NotBlank(message = "Le document doit être associé à une activité.")
      */
     private $activite;
-    
+
     /**
      * Membre auteur du document.
      * Il est enregistré lors de l'ajout du document et permet de garder une trace de l'activité du membre.
@@ -201,8 +201,8 @@ class Document
      * @Assert\NotBlank(message = "Le document doit être associé à un auteur.")
      */
     private $auteur;
-    
-    
+
+
     /**
      * Retourne le chemin relatif du fichier PDF.
      * Si aucun fichier PDF n'existe, on renvoie "null".
@@ -213,7 +213,7 @@ class Document
     {
         return $this->getNomFichierPDF() ? $this->getDossierTelechargement() . '/' . $this->getNomFichierPDF() : null;
     }
-    
+
     /**
      * Retourne le chemin absolu du fichier PDF.
      * Si aucun fichier PDF n'existe, on renvoie "null".
@@ -224,7 +224,7 @@ class Document
     {
        return $this->getNomFichierPDF() ? $this->getDossierRacineTelechargement() . '/' . $this->getNomFichierPDF() : null;
     }
-    
+
     /**
      * Retourne le chemin relatif du fichier original.
      *
@@ -234,7 +234,7 @@ class Document
     {
         return $this->getNomFichierOriginal() ? $this->getDossierTelechargement() . '/' . $this->getNomFichierOriginal() : null;
     }
-    
+
     /**
      * Retourne le chemin absolu du fichier original.
      *
@@ -244,7 +244,7 @@ class Document
     {
         return $this->getNomFichierOriginal() ? $this->getDossierRacineTelechargement() . '/' . $this->getNomFichierOriginal() : null;
     }
-    
+
     /**
      * Retourne le chemin relatif du dossier de téléchargement des documents.
      *
@@ -254,7 +254,7 @@ class Document
     {
         return '/uploads/documents';
     }
-    
+
     /**
      * Retourne le chemin absolu du dossier de téléchargement des documents.
      *
@@ -265,7 +265,7 @@ class Document
         $dossierTelechargement = $this->getDossierTelechargement();
         return __DIR__ . '/../../../../web' . $dossierTelechargement;
     }
-    
+
     /**
      * Génère les noms des fichiers original et PDF.
      * Cette méthode génère aléatoirement un nom pour les fichiers original et PDF.
@@ -280,19 +280,19 @@ class Document
         {
             $this->setNomFichierPDF(uniqid() . '.' . $this->fichierPDF->guessExtension());
         }
-        
+
         if (null !== $this->fichierOriginal)
         {
             $this->setNomFichierOriginal(uniqid() . '.' . $this->fichierOriginal->guessExtension());
         }
     }
-    
+
     /**
      * Déplace les fichiers sur le serveur, et génère le fichier PDF si besoin est.
      * Cette méthode est appelée après la persistance et la mise à jour de l'entité.
      *
      * ATTENTION : dans la version 1.0, la génération automatique du fichier PDF n'est pas
-     *             fonctionnelle. 
+     *             fonctionnelle.
      *
      * @ORM\PostPersist
      * @ORM\PostUpdate
@@ -304,7 +304,7 @@ class Document
             $this->fichierOriginal->move($this->getDossierRacineTelechargement(), $this->getNomFichierOriginal());
             unset($this->fichierOriginal);
         }
-        
+
         if ($this->fichierPDF !== null)
         {
             $this->fichierPDF->move($this->getDossierRacineTelechargement(), $this->getNomFichierPDF());
@@ -315,14 +315,14 @@ class Document
             $this->genererFichierPDF();
         }
     }
-    
+
     /**
      * Génère le fichier PDF à partir du fichier original associé à l'entité.
      * Ne fait rien si aucun fichier Word n'existe. Le fichier PDF généré est déplacé sur le serveur
      * suivant l'attribut $nomFichierPDF.
      *
      * Pour la génération, on utilise le site tierce http://www.conv2pdf.com, qui converti sur un serveur
-     * les documents Word en PDF. On télécharge ensuite le résultat. 
+     * les documents Word en PDF. On télécharge ensuite le résultat.
      *
      * @return false
      */
@@ -330,7 +330,7 @@ class Document
     {
         return false;
     }
-    
+
     /**
      * Vérifie l'existence des documents sur le serveur.
      * Cette méthode renvoie "true" si le fichier Original ET le fichier PDF se trouvent sur le serveur.
@@ -342,7 +342,7 @@ class Document
     {
         return is_file($this->getCheminAbsoluPDF()) and is_file($this->getCheminAbsoluOriginal());
     }
-    
+
     /**
      * Supprime la paire de fichiers associée du serveur.
      * Cette méthode est appelée à la suite de la suppression du document dans la base de donnée.
@@ -356,12 +356,12 @@ class Document
         if ($fichier = $this->getCheminAbsoluPDF()) {
             if (is_file($fichier)) unlink($fichier);
         }
-        
+
         if ($fichier = $this->getCheminAbsoluOriginal()) {
             if (is_file($fichier)) unlink($fichier);
         }
     }
-    
+
     /**
      * Description du document.
      * Renvoit la description de l'activité associée et la date du document.
@@ -372,9 +372,9 @@ class Document
     {
         return $this->getActivite() . ' - ' . $this->getDateCreation();
     }
-    
-    
-    
+
+
+
     //
     // Doctrine-generated accessors
     //
@@ -382,13 +382,13 @@ class Document
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-    
+
     /**
      * Set description
      *
@@ -398,20 +398,20 @@ class Document
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
     /**
      * Set fichierOriginal
      *
@@ -421,20 +421,20 @@ class Document
     public function setFichierOriginal(UploadedFile $fichierOriginal)
     {
         $this->fichierOriginal = $fichierOriginal;
-    
+
         return $this;
     }
 
     /**
      * Get fichierOriginal
      *
-     * @return Symfony\Component\HttpFountdation\File\UploadedFile 
+     * @return Symfony\Component\HttpFountdation\File\UploadedFile
      */
     public function getFichierOriginal()
     {
         return $this->fichierOriginal;
     }
-    
+
     /**
      * Set fichierPDF
      *
@@ -444,14 +444,14 @@ class Document
     public function setFichierPDF(UploadedFile $fichierPDF)
     {
         $this->fichierPDF = $fichierPDF;
-    
+
         return $this;
     }
 
     /**
      * Get fichierPDF
      *
-     * @return Symfony\Component\HttpFountdation\File\UploadedFile 
+     * @return Symfony\Component\HttpFountdation\File\UploadedFile
      */
     public function getFichierPDF()
     {
@@ -467,14 +467,14 @@ class Document
     public function setNomFichierPDF($nomFichierPDF)
     {
         $this->nomFichierPDF = $nomFichierPDF;
-    
+
         return $this;
     }
 
     /**
      * Get nomFichierPDF
      *
-     * @return string 
+     * @return string
      */
     public function getNomFichierPDF()
     {
@@ -490,14 +490,14 @@ class Document
     public function setNomFichierOriginal($nomFichierOriginal)
     {
         $this->nomFichierOriginal = $nomFichierOriginal;
-    
+
         return $this;
     }
 
     /**
      * Get nomFichierOriginal
      *
-     * @return string 
+     * @return string
      */
     public function getNomFichierOriginal()
     {
@@ -513,14 +513,14 @@ class Document
     public function setDateCreation($dateCreation)
     {
         $this->dateCreation = $dateCreation;
-    
+
         return $this;
     }
 
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -536,14 +536,14 @@ class Document
     public function setDateModification($dateModification)
     {
         $this->dateModification = $dateModification;
-    
+
         return $this;
     }
 
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
@@ -559,14 +559,14 @@ class Document
     public function setActivite(\CEC\ActiviteBundle\Entity\Activite $activite = null)
     {
         $this->activite = $activite;
-    
+
         return $this;
     }
 
     /**
      * Get activite
      *
-     * @return \CEC\ActiviteBundle\Entity\Activite 
+     * @return \CEC\ActiviteBundle\Entity\Activite
      */
     public function getActivite()
     {
@@ -582,14 +582,14 @@ class Document
     public function setAuteur(\CEC\MembreBundle\Entity\Membre $auteur = null)
     {
         $this->auteur = $auteur;
-    
+
         return $this;
     }
 
     /**
      * Get auteur
      *
-     * @return \CEC\MembreBundle\Entity\Membre 
+     * @return \CEC\MembreBundle\Entity\Membre
      */
     public function getAuteur()
     {
