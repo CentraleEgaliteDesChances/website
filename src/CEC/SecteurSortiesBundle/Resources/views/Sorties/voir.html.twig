@@ -1,0 +1,16 @@
+{% extends 'CECSecteurSortiesBundle:Sorties:base.html.twig' %}
+
+{% block right %}
+
+<h1>Liste des sorties à venir</h1>
+
+<ul>
+    {% for sortie in sorties %}
+    <li>
+        <p>Sortie : {{sortie.nom}} le {{sortie.dateSortie}} de {{sortie.heureDebut}} à {{sortie.heureFin}}.</p>
+        <p>Description : {{sortie.description}}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
