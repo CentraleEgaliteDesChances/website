@@ -19,6 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CEC\SecteurSortiesBundle\Entity\SortieRepository")
  * @UniqueEntity(
  *     fields = "nom",
  *     message = "Une sortie possédant ce nom existe déjà."
@@ -132,7 +133,7 @@ class Sortie
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -148,14 +149,14 @@ class Sortie
     public function setNom($nom)
     {
         $this->nom = $nom;
-    
+
         return $this;
     }
 
     /**
      * Get nom
      *
-     * @return string 
+     * @return string
      */
     public function getNom()
     {
@@ -171,14 +172,14 @@ class Sortie
     public function setDateCreation($dateCreation)
     {
         $this->dateCreation = $dateCreation;
-    
+
         return $this;
     }
 
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -194,14 +195,14 @@ class Sortie
     public function setDateModification($dateModification)
     {
         $this->dateModification = $dateModification;
-    
+
         return $this;
     }
 
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
@@ -217,14 +218,14 @@ class Sortie
     public function setAdresse($adresse)
     {
         $this->adresse = $adresse;
-    
+
         return $this;
     }
 
     /**
      * Get adresse
      *
-     * @return string 
+     * @return string
      */
     public function getAdresse()
     {
@@ -240,14 +241,14 @@ class Sortie
     public function setDateSortie($dateSortie)
     {
         $this->dateSortie = $dateSortie;
-    
+
         return $this;
     }
 
     /**
      * Get dateSortie
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateSortie()
     {
@@ -263,14 +264,14 @@ class Sortie
     public function setHeureDebut($heureDebut)
     {
         $this->heureDebut = $heureDebut;
-    
+
         return $this;
     }
 
     /**
      * Get heureDebut
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getHeureDebut()
     {
@@ -286,14 +287,14 @@ class Sortie
     public function setHeureFin($heureFin)
     {
         $this->heureFin = $heureFin;
-    
+
         return $this;
     }
 
     /**
      * Get heureFin
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getHeureFin()
     {
@@ -309,14 +310,14 @@ class Sortie
     public function setDesciption($desciption)
     {
         $this->desciption = $desciption;
-    
+
         return $this;
     }
 
     /**
      * Get desciption
      *
-     * @return string 
+     * @return string
      */
     public function getDesciption()
     {
