@@ -1,0 +1,11 @@
+{% extends 'CECSecteurSortiesBundle:Sorties:base.html.twig' %}
+
+{% block right %}
+<form class="form" method="post" action="{{ path('editer_sortie') }}">
+    {{ form_widget(form) }}
+
+    <input type="submit" name="sumbit" class="btn btn-primary btn-large" value="Enregistrer" />
+    {{ form_rest(form) }}
+</form>
+
+{% endblock %}

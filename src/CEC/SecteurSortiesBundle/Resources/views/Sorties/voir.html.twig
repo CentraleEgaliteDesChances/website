@@ -7,7 +7,7 @@
 <ul>
     {% for sortie in sorties %}
     <li>
-        <p>Sortie : {{sortie.nom}} le {{sortie.dateSortie}} de {{sortie.heureDebut}} à {{sortie.heureFin}}.</p>
+        <p>Sortie : <strong>{{sortie.nom}}</strong> le {{sortie.dateSortie|date("d/m/Y")}} de {{sortie.heureDebut|date("H:i")}} à {{sortie.heureFin|date("H:i")}}.</p>
         <p>Description : {{sortie.description}}</p>
     </li>
     {% endfor %}

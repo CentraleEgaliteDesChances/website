@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\SecteurSortieBundle\Form\Type;
+namespace CEC\SecteurSortiesBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,7 +48,7 @@ class SortieType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\SecteurSortieBundle\Entity\Sortie',
+            'data_class' => 'CEC\SecteurSortiesBundle\Entity\Sortie',
         ));
     }
 }

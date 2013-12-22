@@ -127,7 +127,7 @@ class Sortie
      *     message = "La description ne peut excéder 255 caractères."
      * )
      */
-    private $desciption;
+    private $description;
 
 
     /**
@@ -302,25 +302,25 @@ class Sortie
     }
 
     /**
-     * Set desciption
+     * Set description
      *
-     * @param string $desciption
+     * @param string $description
      * @return Sortie
      */
-    public function setDesciption($desciption)
+    public function setDescription($description)
     {
-        $this->desciption = $desciption;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get desciption
+     * Get description
      *
      * @return string
      */
-    public function getDesciption()
+    public function getDescription()
     {
-        return $this->desciption;
+        return $this->description;
     }
 }
