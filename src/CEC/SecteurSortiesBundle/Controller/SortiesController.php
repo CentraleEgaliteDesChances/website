@@ -24,6 +24,7 @@ class SortiesController extends Controller
 
         return array(
             'sorties' => $sorties,
+            'now' => $now
         );
     }
 
@@ -47,13 +48,19 @@ class SortiesController extends Controller
      */
     public function voirAnciennesAction()
     {
-        return array();
+        $now = new \DateTime("now");
+
+        $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findPreviousSorties($now);
+
+        return array(
+            'sorties' => $sorties,
+        );
     }
 
     /**
      * Permet d'éditer une sortie
      *
-     * @Route("/sortie/editer", name="editer_sortie")
+     * @Route("/sorties/editer", name="editer_sortie")
      * @Template()
      *
      */
@@ -82,9 +89,20 @@ class SortiesController extends Controller
     /**
      * Supprime une sortie
      *
+     * @param integer $id Id de la sortie à supprimer.
+     * @Route("/sorties/supprimer/{id}", name="supprimer_sortie")
+     * @Template()
      */
     public function supprimerSortieAction($id)
     {
-        return array();
+        $sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
+        if (!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie !');
+
+        $entityManager = $this->getDoctrine()->getEntityManager();
+        $entityManager->remove($sortie);
+        $entityManager->flush();
+
+        $this->get('session')->setFlash('success', 'La sortie a bien été définitivement supprimé.');
+        return $this->redirect($this->generateUrl('sorties'));
     }
 }

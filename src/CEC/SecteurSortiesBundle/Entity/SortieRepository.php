@@ -14,7 +14,7 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 class SortieRepository extends EntityRepository
 {
     /**
-     * Recherche toutes les sorties qui ont eu lieu ou auront lieu après $date.
+     * Recherche toutes les sorties qui ont eu lieu ou auront lieu APRES $date.
      * Si $date = new \DateTime("now"); on retrouve toutes les sorties à venir.
      *
      * @param date $date : date après laquelle on recherche les sorties
@@ -23,7 +23,27 @@ class SortieRepository extends EntityRepository
     public function findFollowingSorties($date)
     {
         $dql = 'SELECT a FROM CECSecteurSortiesBundle:Sortie a
-                WHERE a.dateSortie > :date
+                WHERE a.dateSortie >= :date
+                ORDER BY a.dateSortie';
+
+        $requete = $this->getEntityManager()->createQuery($dql)
+            ->setParameter('date', '%' . $date->format('Y-m-d') . '%');
+
+        return $requete->getResult();
+    }
+
+
+    /**
+     * Recherche toutes les sorties qui ont eu lieu ou auront lieu AVANT $date.
+     * Si $date = new \DateTime("now"); on retrouve toutes les sorties passées.
+     *
+     * @param date $date : date avant laquelle on recherche les sorties
+     * @return array Résultats de la recherche.
+     */
+    public function findPreviousSorties($date)
+    {
+        $dql = 'SELECT a FROM CECSecteurSortiesBundle:Sortie a
+                WHERE a.dateSortie < :date
                 ORDER BY a.dateSortie';
 
         $requete = $this->getEntityManager()->createQuery($dql)
