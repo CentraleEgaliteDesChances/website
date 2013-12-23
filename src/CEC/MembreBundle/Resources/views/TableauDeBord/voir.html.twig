@@ -13,11 +13,11 @@
 {{ parent() }}
 
     <div class="text-centered">
-        
+
         {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
             <img src="{{ asset_url }}" alt="Image du lycée" class="logo"/>
         {% endimage %}
-    
+
         <h4 class="bienvenue">Bienvenue sur le site interne, {{ membre }} !</h4>
         <ul class="liens">
             {% if membre.groupe %}
@@ -45,12 +45,15 @@
             {% endif %}
         </ul>
         <ul class="liens">
+            <li><a href="{{ path('sorties') }}">Les sorties à venir</a></li>
+        </ul>
+        <ul class="liens">
             <li><a href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">Mon profil</a></li>
             <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
             <li><a href="mailto:jean-baptiste.bayle@student.ecp.fr">Aide</a></li>
         </ul>
-        
-        
+
+
 {#
         <div class="alert alert-info">
             <h3>Le site interne est en version 1.0 BÊTA 3</h3>
@@ -68,8 +71,7 @@
             <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
         </div>
 #}
-        
+
     </div>
 
 {% endblock %}
-

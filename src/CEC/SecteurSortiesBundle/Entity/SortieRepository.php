@@ -27,7 +27,7 @@ class SortieRepository extends EntityRepository
                 ORDER BY a.dateSortie';
 
         $requete = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('date', '%' . $date->format('Y-m-d') . '%');
+            ->setParameter('date', $date->format('Y-m-d'));
 
         return $requete->getResult();
     }
@@ -44,10 +44,10 @@ class SortieRepository extends EntityRepository
     {
         $dql = 'SELECT a FROM CECSecteurSortiesBundle:Sortie a
                 WHERE a.dateSortie < :date
-                ORDER BY a.dateSortie';
+                ORDER BY a.dateSortie DESC';
 
         $requete = $this->getEntityManager()->createQuery($dql)
-            ->setParameter('date', '%' . $date->format('Y-m-d') . '%');
+            ->setParameter('date', $date->format('Y-m-d'));
 
         return $requete->getResult();
     }
