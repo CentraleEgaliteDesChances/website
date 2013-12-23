@@ -51,4 +51,21 @@ class SortieRepository extends EntityRepository
 
         return $requete->getResult();
     }
+
+    /**
+     * Récupère les sorties se déroulant entre deux dates spécifiques.
+     *
+     * @param \DateTime $dateDebut : date de début
+     * @param \DateTime $dateFin   : date de fin
+     * @return ArrayCollection
+     */
+    public function findAllBetweenDates(\DateTime $dateDebut, \DateTime $dateFin)
+    {
+        $query = $this->createQueryBuilder('s')
+                      ->where('s.dateSortie BETWEEN :date_debut and :date_fin')
+                      ->setParameter('date_debut', $dateDebut->format('Y-m-d H:i:s'))
+                      ->setParameter('date_fin', $dateFin->format('Y-m-d H:i:s'))
+                      ->getQuery();
+        return $query->getResult();
+    }
 }

@@ -131,6 +131,33 @@ class Sortie
 
 
     /**
+     * Retourne la date de début de la sortie.
+     *
+     * @return \DateTime
+     */
+    public function retreiveDateDebut()
+    {
+        $time = $this->getHeureDebut()->format('H:i:s');
+        $date = $this->getDateSortie()->format('Y-m-d');
+        $dateDebut = new \DateTime($date . ' ' . $time);
+        return $dateDebut;
+    }
+
+    /**
+     * Retourne la date de fin de la sortie.
+     *
+     * @return \DateTime
+     */
+    public function retreiveDateFin()
+    {
+        $time = $this->getHeureFin()->format('H:i:s');
+        $date = $this->getDateSortie()->format('Y-m-d');
+        $dateFin = new \DateTime($date . ' ' . $time);
+        return $dateFin;
+    }
+
+
+    /**
      * Get id
      *
      * @return integer
