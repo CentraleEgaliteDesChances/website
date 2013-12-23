@@ -9,6 +9,8 @@
 <ul>
     {% for sortie in sorties %}
     <li>
+        <a class="btn" style="float:right;" href="{{ path('editer_sortie', {'id':sortie.id}) }}">Modifier</a>
+        <a class="btn btn-danger" style="float:right;" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
         <p>Sortie : <strong>{{sortie.nom}}</strong> le {{sortie.dateSortie|date("d/m/Y")}} de {{sortie.heureDebut|date("H:i")}} à {{sortie.heureFin|date("H:i")}}.</p>
         <p>Description : {{sortie.description}}</p>
     </li>

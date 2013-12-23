@@ -60,11 +60,43 @@ class SortiesController extends Controller
     /**
      * Permet d'éditer une sortie
      *
-     * @Route("/sorties/editer", name="editer_sortie")
+     * @param integer $id Id de la sortie à modifier.
+     * @Route("/sorties/editer/{id}", name="editer_sortie")
      * @Template()
-     *
      */
-    public function editerAction()
+    public function editerAction($id)
+    {
+        $sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
+        if (!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie !');
+
+        $form = $this->createForm(new SortieType(), $sortie);
+        $request = $this->getRequest();
+        if ($request->isMethod("POST"))
+        {
+            $form->bindRequest($request);
+            if ($form->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+
+                $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+                return $this->redirect($this->generateUrl('sorties'));
+            }
+        }
+
+        return array('form' => $form->createView(),
+                     'sortie' => $sortie);
+    }
+
+
+    /**
+     * Permet de créer une sortie
+     *
+     * @Route("/sorties/creer", name="creer_sortie")
+     * @Template()
+     */
+    public function creerAction()
     {
         $sortie = new Sortie();
         $form = $this->createForm(new SortieType(), $sortie);
