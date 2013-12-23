@@ -19,5 +19,7 @@
 </div>
 
 {% if request.attributes.get('_route') == 'sorties' or request.attributes.get('_route') == 'anciennes_sorties' %}
-    <a href="{{ path('creer_sortie') }}" class="btn btn-block">Créer une sortie</a>
+    {% if is_granted('ROLE_SECTEUR_SORTIES') or is_granted('ROLE_BURO') %}
+        <a href="{{ path('creer_sortie') }}" class="btn btn-block">Créer une sortie</a>
+    {% endif %}
 {% endif %}

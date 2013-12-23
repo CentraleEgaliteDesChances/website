@@ -9,8 +9,10 @@
         {% for sortie in sorties %}
         <tr>
             <td>
-                <a class="btn pull-right" href="{{ path('editer_sortie', {'id':sortie.id}) }}">Modifier</a>
-                <a class="btn btn-danger pull-right" style="margin-right: 5px;" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
+                {% if is_granted('ROLE_SECTEUR_SORTIES') or is_granted('ROLE_BURO') %}
+                    <a class="btn pull-right" href="{{ path('editer_sortie', {'id':sortie.id}) }}">Modifier</a>
+                    <a class="btn btn-danger pull-right" style="margin-right: 5px;" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
+                {% endif %}
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{sortie.dateSortie|date("d/m/Y")}}</strong> de <strong>{{sortie.heureDebut|date("H:i")}} à {{sortie.heureFin|date("H:i")}}</strong>.</p>
                 <p>Description : {{sortie.description}}</p>
             </td>

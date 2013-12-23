@@ -58,7 +58,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_SCIENTIFIQUES') 
+                        {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_SCIENTIFIQUES')
                                 or is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES')
                                 or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteurs Activités</li>
@@ -72,7 +72,7 @@
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_SORTIES') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Sorties</li>
-                            <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
+                            <li><a href="{{ path('sorties') }}">Liste des sorties</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_ÉVÉNEMENTS') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Événements</li>
