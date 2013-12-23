@@ -4,13 +4,19 @@
 
 <h1>Liste des sorties passées</h1>
 
-<ul>
-    {% for sortie in sorties %}
-    <li>
-        <p>Sortie : <strong>{{sortie.nom}}</strong> le {{sortie.dateSortie|date("d/m/Y")}} de {{sortie.heureDebut|date("H:i")}} à {{sortie.heureFin|date("H:i")}}.</p>
-        <p>Description : {{sortie.description}}</p>
-    </li>
-    {% endfor %}
-</ul>
+<table class="table table-bordered table-striped table-large">
+    <tbody>
+        {% for sortie in sorties %}
+        <tr>
+            <td>
+                <a class="btn pull-right" href="{{ path('editer_sortie', {'id':sortie.id}) }}">Modifier</a>
+                <a class="btn btn-danger pull-right" style="margin-right: 5px;" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
+                <p><strong>{{sortie.nom}}</strong> le <strong>{{sortie.dateSortie|date("d/m/Y")}}</strong> de <strong>{{sortie.heureDebut|date("H:i")}} à {{sortie.heureFin|date("H:i")}}</strong>.</p>
+                <p>Description : {{sortie.description}}</p>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

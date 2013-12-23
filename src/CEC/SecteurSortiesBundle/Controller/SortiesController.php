@@ -23,8 +23,7 @@ class SortiesController extends Controller
         $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findFollowingSorties($now);
 
         return array(
-            'sorties' => $sorties,
-            'now' => $now
+            'sorties' => $sorties
         );
     }
 
@@ -85,8 +84,10 @@ class SortiesController extends Controller
             }
         }
 
-        return array('form' => $form->createView(),
-                     'sortie' => $sortie);
+        return array(
+            'form' => $form->createView(),
+            'sortie' => $sortie
+        );
     }
 
 
@@ -115,7 +116,9 @@ class SortiesController extends Controller
             }
         }
 
-        return array('form' => $form->createView());
+        return array(
+            'form' => $form->createView()
+        );
     }
 
     /**
