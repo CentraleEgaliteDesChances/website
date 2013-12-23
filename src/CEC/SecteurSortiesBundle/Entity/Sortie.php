@@ -121,10 +121,10 @@ class Sortie
      *
      * @var string
      *
-     * @ORM\Column(name = "description", type = "string", length = 255)
+     * @ORM\Column(name = "description", type = "string", length = 800)
      * @Assert\MaxLength(
-     *     limit = 255,
-     *     message = "La description ne peut excéder 255 caractères."
+     *     limit = 800,
+     *     message = "La description ne peut excéder 800 caractères."
      * )
      */
     private $description;

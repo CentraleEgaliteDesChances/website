@@ -33,10 +33,10 @@ class SortieType extends AbstractType
                     'label' => 'Estimation de l\'heure de fin',
                     'attr' => array('placeholder' => 'Estimation de l\'heure de fin'),
                 ))
-                ->add('description', null, array(
+                ->add('description', 'textarea', array(
                     'label' => 'Description',
                     'attr' => array('rows' => '6', 'placeholder' => 'Description'),
-                    'help_inline' => 'Entrez ici une brève description de la sortie. La description ne peut excéder 255 caractères.',
+                    'help_inline' => 'Entrez ici une brève description de la sortie. La description ne peut excéder 800 caractères.',
                 ));
     }
 

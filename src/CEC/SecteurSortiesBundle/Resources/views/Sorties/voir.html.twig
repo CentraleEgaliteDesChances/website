@@ -13,8 +13,8 @@
                     <a class="btn pull-right" href="{{ path('editer_sortie', {'id':sortie.id}) }}">Modifier</a>
                     <a class="btn btn-danger pull-right" style="margin-right: 5px;" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
                 {% endif %}
-                <p><strong>{{sortie.nom}}</strong> le <strong>{{sortie.dateSortie|date("d/m/Y")}}</strong> de <strong>{{sortie.heureDebut|date("H:i")}} à {{sortie.heureFin|date("H:i")}}</strong>.</p>
-                <p>Description : {{sortie.description}}</p>
+                <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
+                <p>{{sortie.description}}</p>
             </td>
         </tr>
         {% endfor %}
