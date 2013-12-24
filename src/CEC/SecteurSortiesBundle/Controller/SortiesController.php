@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
 use CEC\SecteurSortiesBundle\Form\Type\SortieType;
+use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
+use CEC\SecteurSortiesBundle\Form\Type\SansCRSortieType;
 
 class SortiesController extends Controller
 {
@@ -57,37 +59,73 @@ class SortiesController extends Controller
     }
 
     /**
-     * Permet d'éditer une sortie
+     * Permet d'éditer une sortie ou de rédiger le CR
      *
      * @param integer $id Id de la sortie à modifier.
-     * @Route("/sorties/editer/{id}", name="editer_sortie")
+     * @param string $action Permet de différencier édition de la sortie et rédaction du CR
+     * @Route("/sorties/{action}/{id}", requirements={"action"="editer|cr|editeraveccr", "id"="\d+"}, name="editer_sortie")
      * @Template()
      */
-    public function editerAction($id)
+    public function editerAction($action, $id)
     {
         $sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
         if (!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie !');
 
-        $form = $this->createForm(new SortieType(), $sortie);
+        switch($action):
+            case 'editer':
+                $form = $this->createForm(new SansCRSortieType(), $sortie);
+                break;
+            case 'cr':
+                $form = $this->createForm(new CRSortieType(), $sortie);
+                break;
+            case 'editeraveccr':
+                $form = $this->createForm(new SortieType(), $sortie);
+                break;
+            default:
+                $this->redirect($this->generateUrl('sorties'));
+        endswitch;
+
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
             $form->bindRequest($request);
             if ($form->isValid())
             {
+                if ($action == 'cr')
+                    $sortie->setOkCR(true);
+
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($sortie);
                 $entityManager->flush();
 
-                $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
-                return $this->redirect($this->generateUrl('sorties'));
+                switch($action):
+                    case 'editer':
+                        $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+                        return $this->redirect($this->generateUrl('sorties'));
+                        break;
+                    case 'cr':
+                        $this->get('session')->setFlash('success', "Le CR de la sortie a bien été rédigé.");
+                        return $this->redirect($this->generateUrl('anciennes_sorties'));
+                        break;
+                    case 'editeraveccr':
+                        $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+                        return $this->redirect($this->generateUrl('anciennes_sorties'));
+                        break;
+                    default:
+                        $this->redirect($this->generateUrl('sorties'));
+                endswitch;
             }
         }
 
-        return array(
+        if ($action == 'cr')
+            $template = 'CECSecteurSortiesBundle:Sorties:editerCR.html.twig';
+        else
+            $template = 'CECSecteurSortiesBundle:Sorties:editer.html.twig';
+
+        return $this->render($template, array(
             'form' => $form->createView(),
             'sortie' => $sortie
-        );
+        ));
     }
 
 
@@ -125,7 +163,7 @@ class SortiesController extends Controller
      * Supprime une sortie
      *
      * @param integer $id Id de la sortie à supprimer.
-     * @Route("/sorties/supprimer/{id}", name="supprimer_sortie")
+     * @Route("/sorties/supprimer/{id}", requirements={"id" = "\d+"}, name="supprimer_sortie")
      * @Template()
      */
     public function supprimerSortieAction($id)
@@ -140,4 +178,5 @@ class SortiesController extends Controller
         $this->get('session')->setFlash('success', 'La sortie a bien été définitivement supprimé.');
         return $this->redirect($this->generateUrl('sorties'));
     }
+
 }

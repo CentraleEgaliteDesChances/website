@@ -36,7 +36,24 @@ class SortieType extends AbstractType
                 ->add('description', 'textarea', array(
                     'label' => 'Description',
                     'attr' => array('rows' => '6', 'placeholder' => 'Description'),
-                    'help_inline' => 'Entrez ici une brève description de la sortie. La description ne peut excéder 800 caractères.',
+                    'help_inline' => 'La description ne peut excéder 800 caractères.',
+                ))
+                ->add('nbLyceens', 'integer', array(
+                    'label' => 'Nombre de lycéens participants',
+                    'attr' => array('placeholder' => 'Nombre de lycéens qui ont participés à la sortie'),
+                ))
+                ->add('nbTuteurs', 'integer', array(
+                    'label' => 'Nombre de tuteurs accompagnateurs',
+                    'attr' => array('placeholder' => 'Nombre de tuteurs qui ont accompagné les lycéens lors de la sortie'),
+                ))
+                ->add('commentaire', 'textarea', array(
+                    'label' => 'Commentaire',
+                    'attr' => array('placeholder' => 'Commentaire sur le déroulement de la sortie'),
+                    'help_inline' => 'Le commentaire ne peut excéder 800 caractères.',
+                ))
+                ->add('prix', 'integer', array(
+                    'label' => 'Coût total',
+                    'attr' => array('placeholder' => 'Coût total de la sortie'),
                 ));
     }
 
@@ -49,6 +66,10 @@ class SortieType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CEC\SecteurSortiesBundle\Entity\Sortie',
+            'nbLyceens' => NULL,
+            'nbTuteurs' => NULL,
+            'commentaire' => NULL,
+            'prix' => NULL,
         ));
     }
 }

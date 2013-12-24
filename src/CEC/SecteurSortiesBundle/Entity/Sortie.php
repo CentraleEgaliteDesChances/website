@@ -129,6 +129,55 @@ class Sortie
      */
     private $description;
 
+    /**
+     * Nombre de lycéens ayant finalement participas à la sortie
+     *
+     * @var integer
+     *
+     * @ORM\Column(name = "nbLyceens", type = "integer", nullable=true)
+     */
+    private $nbLyceens;
+
+    /**
+     * Nombre de tuteurs ayant finalement accompagné la sortie
+     *
+     * @var integer
+     *
+     * @ORM\Column(name = "nbTuteurs", type = "integer", nullable=true)
+     */
+    private $nbTuteurs;
+
+    /**
+     * Commentaire sur le déroulement de la sortie
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "commentaire", type = "string", length = 800, nullable=true)
+     * @Assert\MaxLength(
+     *     limit = 800,
+     *     message = "Le commentaire ne peut excéder 800 caractères."
+     * )
+     */
+    private $commentaire;
+
+    /**
+     * Prix total et final de la sortie pour CEC
+     *
+     * @var integer
+     *
+     * @ORM\Column(name = "prix", type = "integer", nullable=true)
+     */
+    private $prix;
+
+    /**
+     * True si le compte rendu a été fait, même partiellement.
+     * Le compte rendu concerne pour l'instant nbLyceens, nbTuteurs, commentaire et prix.
+     *
+     * @var boolean
+     *
+     * @ORM\Column(name = "okCr", type = "integer")
+     */
+    private $okCR;
 
     /**
      * Retourne la date de début de la sortie.
@@ -349,5 +398,120 @@ class Sortie
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set nbLyceens
+     *
+     * @param integer $nbLyceens
+     * @return Sortie
+     */
+    public function setNbLyceens($nbLyceens)
+    {
+        $this->nbLyceens = $nbLyceens;
+
+        return $this;
+    }
+
+    /**
+     * Get nbLyceens
+     *
+     * @return integer
+     */
+    public function getNbLyceens()
+    {
+        return $this->nbLyceens;
+    }
+
+    /**
+     * Set nbTuteurs
+     *
+     * @param integer $nbTuteurs
+     * @return Sortie
+     */
+    public function setNbTuteurs($nbTuteurs)
+    {
+        $this->nbTuteurs = $nbTuteurs;
+
+        return $this;
+    }
+
+    /**
+     * Get nbTuteurs
+     *
+     * @return integer
+     */
+    public function getNbTuteurs()
+    {
+        return $this->nbTuteurs;
+    }
+
+    /**
+     * Set commentaire
+     *
+     * @param string $commentaire
+     * @return Sortie
+     */
+    public function setCommentaire($commentaire)
+    {
+        $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Get commentaire
+     *
+     * @return string
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param integer $prix
+     * @return Sortie
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return integer
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set okCR
+     *
+     * @param integer $okCR
+     * @return Sortie
+     */
+    public function setOkCR($okCR)
+    {
+        $this->okCR = $okCR;
+
+        return $this;
+    }
+
+    /**
+     * Get okCR
+     *
+     * @return integer
+     */
+    public function getOkCR()
+    {
+        return $this->okCR;
     }
 }

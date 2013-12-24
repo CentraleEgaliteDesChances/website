@@ -7,12 +7,22 @@
 
 {{ parent() }}
 
-<form class="form" method="post" action="{{ path('editer_sortie', {'id':sortie.id}) }}">
+{% if sortie.okCR %}
+<form class="form" method="post" action="{{ path('editer_sortie', {'action':'editeraveccr', 'id':sortie.id}) }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Modifier la sortie" class="btn btn-primary pull-right" />
+        <a href="{{ path('anciennes_sorties') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+{% else %}
+<form class="form" method="post" action="{{ path('editer_sortie', {'action':'editer', 'id':sortie.id}) }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
         <input type="submit" value="Modifier la sortie" class="btn btn-primary pull-right" />
         <a href="{{ path('sorties') }}" class="btn pull-right">Annuler</a>
     </div>
 </form>
+{% endif %}
 
 {% endblock %}
