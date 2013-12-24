@@ -18,13 +18,13 @@
                     {% endif %}
                 {% endif %}
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
-                <p>{{sortie.description}}</p>
+                <p style="text-align:justify;">{{sortie.description}}</p>
                 {% if is_granted('ROLE_SECTEUR_SORTIES') or is_granted('ROLE_BURO') %}
                     {% if sortie.okCR %}
                         <ul>
                             <li>{{sortie.nbLyceens}} lycéens présents</li>
                             <li>{{sortie.nbTuteurs}} tuteurs accompagnateurs</li>
-                            <li>{{sortie.commentaire}}</li>
+                            <li style="text-align:justify;">{{sortie.commentaire}}</li>
                             <li>Total payé : {{sortie.prix}} €</li>
                         </ul>
                     {% else %}
