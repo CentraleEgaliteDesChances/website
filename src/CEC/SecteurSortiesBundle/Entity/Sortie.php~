@@ -91,8 +91,6 @@ class Sortie
      * Année scolaire de la sortie
      *
      * @var CEC\MainBundle\Utility\AnneScolaire
-     *
-     * @ORM\Column(name = "anneeScolaire", type = "anneescolaire")
      */
     private $anneeScolaire;
 
@@ -327,29 +325,6 @@ class Sortie
     public function getAdresse()
     {
         return $this->adresse;
-    }
-
-    /**
-     * Set anneeScolaire
-     *
-     * @param \CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire
-     * @return Sortie
-     */
-    public function setAnneeScolaire(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire)
-    {
-        $this->anneeScolaire = $anneeScolaire;
-
-        return $this;
-    }
-
-    /**
-     * Get anneeScolaire
-     *
-     * @return \CEC\MainBundle\AnneeScolaire\AnneeScolaire
-     */
-    public function getAnneeScolaire()
-    {
-        return $this->anneeScolaire;
     }
 
     /**

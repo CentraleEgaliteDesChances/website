@@ -68,4 +68,43 @@ class SortieRepository extends EntityRepository
                       ->getQuery();
         return $query->getResult();
     }
+
+    /**
+     * Retourne le compte des sorties passées l'année scolaire indiquée.
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return integer Compte des sorties effectuées.
+     */
+    public function comptePourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('COUNT(DISTINCT s)')
+            ->where('s.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        return $query->getSingleScalarResult();
+    }
+
+    /**
+     * Retourne le nombre de lycéens qui ont participé à une sortie dans l'année scolaire $anneeScolaire.
+     * On compte deux fois un lycéens qui est venu à deux sorties, c'est donc plutôt le nombre de participations aux sorties.
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return integer Somme du nombre de lycéens venu pour chaque sortie pendant l'année scolaire.
+     */
+    public function compteLyceensSortiePourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->select('DISTINCT s')
+            ->where('s.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        $resultats = $query->getResult();
+
+        $nbLyceens = 0;
+        foreach ($resultats as $sortie) {
+            $nbLyceens += $sortie->getNbLyceens();
+        }
+        return $nbLyceens;
+    }
 }
