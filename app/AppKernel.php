@@ -31,6 +31,7 @@ class AppKernel extends Kernel
             new CEC\TutoratBundle\CECTutoratBundle(),
             new CEC\ActiviteBundle\CECActiviteBundle(),
             new CEC\SecteurFundraisingBundle\CECSecteurFundraisingBundle(),
+            new CEC\SecteurSortiesBundle\CECSecteurSortiesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

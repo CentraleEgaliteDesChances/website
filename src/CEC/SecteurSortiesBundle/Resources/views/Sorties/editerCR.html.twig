@@ -1,0 +1,18 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}Compte rendu de la sortie {{sortie.nom}}{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<form class="form" method="post" action="{{ path('editer_sortie', {'action':'cr', 'id':sortie.id}) }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Enregistrer le CR" class="btn btn-primary pull-right" />
+        <a href="{{ path('anciennes_sorties') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+
+{% endblock %}

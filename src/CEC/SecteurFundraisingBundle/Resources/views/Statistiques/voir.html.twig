@@ -36,7 +36,7 @@
             </tr>
         </tbody>
     </table>
-    
+
     <table class="table table-bordered table-large table-striped table-stats">
         <thead>
             <tr><th colspan="2">Encadrement</th></tr>
@@ -54,7 +54,7 @@
             </tr>
         </tbody>
     </table>
-    
+
     <table class="table table-bordered table-large table-striped table-stats">
         <thead>
             <tr><th colspan="3">Tutorat</th></tr>
@@ -76,7 +76,7 @@
             </tr>
         </tbody>
     </table>
-    
+
     <table class="table table-bordered table-large table-striped table-stats">
         <thead>
             <tr><th colspan="3">Activités</th></tr>
@@ -98,5 +98,23 @@
             </tr>
         </tbody>
     </table>
-    
+
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="2">Sorties</th></tr>
+        </thead>
+        <tbody>
+            <tr class="tr-2">
+                <td>
+                    <div class="stats">{{ nbr_sorties }}</div>
+                    sorties organisées
+                </td>
+                <td>
+                    <div class="stats">{{ nbr_lyceens_sortie }}</div>
+                    lycéens participants
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
 {% endblock narrow_body %}

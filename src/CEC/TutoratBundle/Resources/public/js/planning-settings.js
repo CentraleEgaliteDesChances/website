@@ -3,7 +3,7 @@ $(function () {
 		var d = date.getDate();
 		var m = date.getMonth();
 		var y = date.getFullYear();
-		
+
 		$('#calendar-holder').fullCalendar({
 			header: {
 				left: 'prev,today,next',
@@ -20,14 +20,14 @@ $(function () {
             },
 			eventSources: [
                     {
-                        url: Routing.generate('fullcalendar_loader'), 
+                        url: Routing.generate('fullcalendar_loader'),
 						type: 'POST',
                         error: function() {
                            //alert('There was an error while fetching Google Calendar!');
                         }
                     }
 			],
-			
+
 			// Custom Settings
 			firstDay: 1,
 			weekMode: 'variable',
@@ -51,7 +51,7 @@ $(function () {
 			    week: "'Semaine du' d[ MMMM]{ 'au' d MMMM}"
 			},
 			monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-			monthNamesShort: ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Dev'],
+			monthNamesShort: ['Jan', 'Fev', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Dec'],
 			dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
 			dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
 		});

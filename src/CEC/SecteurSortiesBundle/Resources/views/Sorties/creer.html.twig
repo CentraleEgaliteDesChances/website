@@ -1,0 +1,18 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}Créer une sortie{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<form class="form" method="post" action="{{ path('creer_sortie') }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Créer la sortie" class="btn btn-primary pull-right" />
+        <a href="{{ path('sorties') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+
+{% endblock %}
