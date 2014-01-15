@@ -14,6 +14,7 @@
                     <a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'id':sortie.id, 'action':'editer'}) }}">Modifier</a>
                 {% endif %}
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
+                <p>Adresse : {{sortie.adresse}}</p>
                 <p style="text-align:justify;">{{sortie.description}}</p>
             </td>
         </tr>

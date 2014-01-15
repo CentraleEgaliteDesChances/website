@@ -138,7 +138,7 @@ class SortiesController extends Controller
     public function creerAction()
     {
         $sortie = new Sortie();
-        $form = $this->createForm(new SortieType(), $sortie);
+        $form = $this->createForm(new SansCRSortieType(), $sortie);
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
