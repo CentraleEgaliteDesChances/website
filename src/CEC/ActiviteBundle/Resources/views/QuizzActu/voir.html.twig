@@ -1,0 +1,37 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+
+{% block narrow_title %}Quizz Actu{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+{% if is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES') or is_granted('ROLE_BURO') %}
+<a href="{{ path('quizzActu_creer') }}" class="btn pull-left" style="margin-bottom: 20px;">Créer un quizz actu</a>
+{% endif %}
+
+<table class="table table-bordered table-hover table-striped">
+    {% if quizzActus|length > 0 %}
+        <tbody>
+            {% for quizzActu in quizzActus %}
+            <tr>
+                <td>
+                    Semaine du {{ quizzActu.semaine|date('j') }} au {{ quizzActu.semaine|date_modify("+6 day")|date('j') }} {{ cycle(mois, quizzActu.semaine|date_modify("+6 day")|date('n')) }} {{ quizzActu.semaine|date_modify("+6 day")|date('Y') }}
+                    {% if quizzActu.disponible %}
+                        <a class="btn btn-primary pull-right" href="{{ quizzActu.cheminPDF }}">Télécharger</a>
+                    {% endif %}
+                    <a class="btn pull-right" href="{{ path('quizzActu_editer', { 'id':quizzActu.id }) }}">Modifier</a>
+                    <a class="btn btn-danger pull-right" href="{{ path('quizzActu_supprimer', { 'id':quizzActu.id }) }}">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun quizz actu dans la base de donnée !</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+
+{% endblock %}

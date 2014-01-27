@@ -1,0 +1,18 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+
+
+{% block narrow_title %}Modifier le quizz actu{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<form class="form" method="post" action="{{ path('quizzActu_editer', {'id':quizzActu.id}) }}" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Modifier le quizz actu" class="btn btn-primary pull-right" />
+        <a href="{{ path('quizzActu') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+
+{% endblock %}
