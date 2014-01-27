@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Représente un membre de l'association et donc un utilisateur du site interne.
- * 
+ *
  * Un membre possède un droit d'accès au site interne et peut affectuer des modifications
  * pour tout ce qui est accessible (activités, séances, lycéens, compte-rendus, etc.).
  * Lorsqu'un membre est identifié comme membre du buro, il peut accéder aux fonctions
@@ -20,8 +20,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Un membre est identifié par son identifiant (prénom + nom), qui doit être unique.
  *
  * @author Jean-Baptiste Bayle
- * @version 1.1
- * 
+ * @version 1.2
+ *
  * @ORM\Table()
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="CEC\MembreBundle\Entity\MembreRepository")
@@ -141,7 +141,7 @@ class Membre implements UserInterface, \Serializable
     /**
      * Année de la promotion du membre.
      * Ce champ permet de spécifier la promotion de l'Ecole Centrale du membre, afin de le
-     * retrouver plus rapidement si nécessaire. Il est donc requis, et doit se composer de 
+     * retrouver plus rapidement si nécessaire. Il est donc requis, et doit se composer de
      * l'année d'obtention du diplôme uniquement (p2014 donc 2014).
      *
      * @var integer
@@ -156,7 +156,7 @@ class Membre implements UserInterface, \Serializable
      * )
      */
     private $promotion;
-    
+
     /**
      * Le membre est-il au buro de l'association ?
      * Les membres du buro peuvent accéder aux fonctions avancées (nouvelle année, passations,
@@ -185,7 +185,7 @@ class Membre implements UserInterface, \Serializable
 
     /**
      * Date de dernière modification.
-     * 
+     *
      * @var \DateTime
      *
      * @ORM\Column(name = "dateModification", type = "datetime")
@@ -197,7 +197,7 @@ class Membre implements UserInterface, \Serializable
     /**
      * Lycées pour lesquels le membre est VP Lycée.
      * Ce champ pour rester null si le membre n'est pas VP Lycée.
-     * 
+     *
      * @var CEC\TutoratBundle\Entity\Lycee
      *
      * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Lycee", mappedBy = "vpLycees" )
@@ -208,10 +208,10 @@ class Membre implements UserInterface, \Serializable
      * Groupe de tutorat fréquenté régulièrement par le membre.
      * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
      * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus. 
+     * le choix d'activité et la rédaction de compte-rendus.
      * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
      * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
-     * 
+     *
      * @var CEC\TutoratBundle\Entity\Groupe
      *
      * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "tuteurs" )
@@ -222,10 +222,10 @@ class Membre implements UserInterface, \Serializable
      * Groupe de tutorat fréquenté régulièrement par le membre.
      * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
      * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus. 
+     * le choix d'activité et la rédaction de compte-rendus.
      * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
      * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
-     * 
+     *
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity = "Secteur", inversedBy = "membres" )
@@ -241,13 +241,13 @@ class Membre implements UserInterface, \Serializable
      *
      * Il ne s'agit pas du côté propriétaire. Utilisez les méthodes de Seance pour
      * ajouter un tuteur à une séance.
-     * 
+     *
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "tuteurs" )
      */
     private $seances;
-        
+
     /**
      * Divers documents (versions d'une activite) téléchargés par le membre.
      * Lorsque l'on télécharge une version d'une activité, l'identité de l'auteur est conservée.
@@ -257,12 +257,26 @@ class Membre implements UserInterface, \Serializable
      *
      * Il ne s'agit pas du côté propriétaire. Utilisez les méthodes de Seance pour
      * ajouter un tuteur à une séance.
-     * 
+     *
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity = "CEC\ActiviteBundle\Entity\Document", mappedBy = "auteur", cascade = {"remove"} )
      */
     private $documents;
+
+
+    /**
+     * Les quizz actus téléchargés par le membre.
+     * Lorsque l'on télécharge un quizz actu, l'identité de l'auteur est conservée.
+     *
+     * ATTENTION : la suppression du membre entraîne la suppression des documents associés à l'auteur,
+     *             et ceci pour des raisons de sécurité.
+     *
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity = "CEC\ActiviteBundle\Entity\QuizzActu", mappedBy = "auteur", cascade = {"remove"} )
+     */
+    private $quizzActus;
 
     /**
      * Compte-rendus rédigés par un membre.
@@ -274,13 +288,13 @@ class Membre implements UserInterface, \Serializable
      *
      * Il ne s'agit pas du côté propriétaire. Utilisez les méthodes de Seance pour
      * ajouter un tuteur à une séance.
-     * 
+     *
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity = "CEC\ActiviteBundle\Entity\CompteRendu", mappedBy = "auteur", cascade = {"remove"} )
      */
     private $compteRendus;
-        
+
 
     /**
      * Constructor
@@ -290,13 +304,14 @@ class Membre implements UserInterface, \Serializable
         $this->secteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->quizzActus = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
-        
+
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
         $this->setBuro(false);
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -364,7 +379,7 @@ class Membre implements UserInterface, \Serializable
             $this->id,
         ) = unserialize($serialized);
     }
-    
+
     /**
      * Retourne la description d'un membre.
      * La description est le résultat de la concaténation du prénom et du nom.
@@ -373,11 +388,11 @@ class Membre implements UserInterface, \Serializable
      */
     public function __toString()
     {
-        
+
         return $this->getPrenom() . ' ' . $this->getNom();
     }
-    
-    
+
+
     //
     // Doctrine-generated accessors
     //
@@ -386,7 +401,7 @@ class Membre implements UserInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -402,14 +417,14 @@ class Membre implements UserInterface, \Serializable
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
-    
+
         return $this;
     }
 
     /**
      * Get prenom
      *
-     * @return string 
+     * @return string
      */
     public function getPrenom()
     {
@@ -425,14 +440,14 @@ class Membre implements UserInterface, \Serializable
     public function setNom($nom)
     {
         $this->nom = $nom;
-    
+
         return $this;
     }
 
     /**
      * Get nom
      *
-     * @return string 
+     * @return string
      */
     public function getNom()
     {
@@ -448,14 +463,14 @@ class Membre implements UserInterface, \Serializable
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -471,14 +486,14 @@ class Membre implements UserInterface, \Serializable
     public function setTelephone($telephone)
     {
         $this->telephone = $telephone;
-    
+
         return $this;
     }
 
     /**
      * Get telephone
      *
-     * @return string 
+     * @return string
      */
     public function getTelephone()
     {
@@ -494,14 +509,14 @@ class Membre implements UserInterface, \Serializable
     public function setMotDePasse($motDePasse)
     {
         $this->motDePasse = $motDePasse;
-    
+
         return $this;
     }
 
     /**
      * Get motDePasse
      *
-     * @return string 
+     * @return string
      */
     public function getMotDePasse()
     {
@@ -517,14 +532,14 @@ class Membre implements UserInterface, \Serializable
     public function setPromotion($promotion)
     {
         $this->promotion = $promotion;
-    
+
         return $this;
     }
 
     /**
      * Get promotion
      *
-     * @return integer 
+     * @return integer
      */
     public function getPromotion()
     {
@@ -540,14 +555,14 @@ class Membre implements UserInterface, \Serializable
     public function setBuro($buro)
     {
         $this->buro = $buro;
-    
+
         return $this;
     }
 
     /**
      * Get buro
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getBuro()
     {
@@ -563,14 +578,14 @@ class Membre implements UserInterface, \Serializable
     public function setDateCreation($dateCreation)
     {
         $this->dateCreation = $dateCreation;
-    
+
         return $this;
     }
 
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -586,14 +601,14 @@ class Membre implements UserInterface, \Serializable
     public function setDateModification($dateModification)
     {
         $this->dateModification = $dateModification;
-    
+
         return $this;
     }
 
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
@@ -609,7 +624,7 @@ class Membre implements UserInterface, \Serializable
     public function addLyceesPourVP(\CEC\TutoratBundle\Entity\Lycee $lyceesPourVP)
     {
         $this->lyceesPourVP[] = $lyceesPourVP;
-    
+
         return $this;
     }
 
@@ -626,7 +641,7 @@ class Membre implements UserInterface, \Serializable
     /**
      * Get lyceesPourVP
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLyceesPourVP()
     {
@@ -642,14 +657,14 @@ class Membre implements UserInterface, \Serializable
     public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
     {
         $this->groupe = $groupe;
-    
+
         return $this;
     }
 
     /**
      * Get groupe
      *
-     * @return \CEC\TutoratBundle\Entity\Groupe 
+     * @return \CEC\TutoratBundle\Entity\Groupe
      */
     public function getGroupe()
     {
@@ -665,7 +680,7 @@ class Membre implements UserInterface, \Serializable
     public function addSecteur(\CEC\MembreBundle\Entity\Secteur $secteurs)
     {
         $this->secteurs[] = $secteurs;
-    
+
         return $this;
     }
 
@@ -682,7 +697,7 @@ class Membre implements UserInterface, \Serializable
     /**
      * Get secteurs
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSecteurs()
     {
@@ -698,7 +713,7 @@ class Membre implements UserInterface, \Serializable
     public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances[] = $seances;
-    
+
         return $this;
     }
 
@@ -715,7 +730,7 @@ class Membre implements UserInterface, \Serializable
     /**
      * Get seances
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSeances()
     {
@@ -731,7 +746,7 @@ class Membre implements UserInterface, \Serializable
     public function addDocument(\CEC\ActiviteBundle\Entity\Document $documents)
     {
         $this->documents[] = $documents;
-    
+
         return $this;
     }
 
@@ -748,7 +763,7 @@ class Membre implements UserInterface, \Serializable
     /**
      * Get documents
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getDocuments()
     {
@@ -764,7 +779,7 @@ class Membre implements UserInterface, \Serializable
     public function addCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
     {
         $this->compteRendus[] = $compteRendus;
-    
+
         return $this;
     }
 
@@ -781,10 +796,43 @@ class Membre implements UserInterface, \Serializable
     /**
      * Get compteRendus
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCompteRendus()
     {
         return $this->compteRendus;
+    }
+
+    /**
+     * Add quizzActus
+     *
+     * @param \CEC\ActiviteBundle\Entity\QuizzActu $quizzActus
+     * @return Membre
+     */
+    public function addQuizzActu(\CEC\ActiviteBundle\Entity\QuizzActu $quizzActus)
+    {
+        $this->quizzActus[] = $quizzActus;
+
+        return $this;
+    }
+
+    /**
+     * Remove quizzActus
+     *
+     * @param \CEC\ActiviteBundle\Entity\QuizzActu $quizzActus
+     */
+    public function removeQuizzActu(\CEC\ActiviteBundle\Entity\QuizzActu $quizzActus)
+    {
+        $this->quizzActus->removeElement($quizzActus);
+    }
+
+    /**
+     * Get quizzActus
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getQuizzActus()
+    {
+        return $this->quizzActus;
     }
 }
