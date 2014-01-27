@@ -20,9 +20,11 @@ class QuizzActuController extends Controller
     public function voirAction()
     {
         $quizzActus = $this->getDoctrine()->getRepository('CECActiviteBundle:QuizzActu')->findAll();
+        //$now = new DateTime();
 
         return array(
-            'quizzActus' => $quizzActus
+            'quizzActus' => $quizzActus,
+            //'now' => $now
         );
     }
 

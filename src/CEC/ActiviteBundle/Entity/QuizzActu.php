@@ -60,7 +60,7 @@ class QuizzActu
      *
      * @var string
      *
-     * @ORM\Column(name = "commentaire", type = "text")
+     * @ORM\Column(name = "commentaire", type = "text", nullable = true)
      * @Assert\MaxLength(
      *     limit = 200,
      *     message = "Le commentaire ne peut excéder 200 caractères."

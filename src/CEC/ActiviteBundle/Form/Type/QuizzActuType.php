@@ -16,6 +16,7 @@ class QuizzActuType extends AbstractType
             ))
             ->add('commentaire', null, array(
                 'label' => 'Commentaire',
+                'required' => false,
                 'attr' => array('rows' => '6', 'placeholder' => 'Commentaire'),
                 'help_inline' => 'Entrez ici un commentaire sur le quizz actu si besoin. Ne peut excéder 200 caractères.',
             ))
