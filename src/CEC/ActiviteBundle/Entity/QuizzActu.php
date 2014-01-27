@@ -137,6 +137,17 @@ class QuizzActu
 
 
     /**
+     * Renvoi true si l'attribut semaine correspond à un lundi, false sinon.
+     * Sert à valider le formulaire du quizz actu.
+     *
+     * @Assert\True(message = "Cette date ne correspond pas au premier jour d'une semaine.")
+     */
+    public function isSemaineValid()
+    {
+        return $this->semaine->format('N') == 1;
+    }
+
+    /**
      * Retourne le chemin relatif du fichier PDF.
      * Si aucun fichier PDF n'existe, on renvoie "null".
      *

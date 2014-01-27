@@ -18,7 +18,8 @@
             {% for quizzActu in quizzActus %}
             <tr {% if "now"|date('Ymd') >= quizzActu.semaine|date('Ymd') and "now"|date('Ymd') < quizzActu.semaine|date_modify("+6 day")|date('Ymd') %} class="info" {% endif %} >
                 <td>
-                    Semaine du {{ quizzActu.semaine|date('j') }} au {{ quizzActu.semaine|date_modify("+6 day")|date('j') }} {{ cycle(mois, quizzActu.semaine|date_modify("+6 day")|date('n')) }} {{ quizzActu.semaine|date_modify("+6 day")|date('Y') }}
+                    Semaine du {{ quizzActu.semaine|date('j') }} au {{ quizzActu.semaine|date_modify("+6 day")|date('j') }}
+                    {{ cycle(mois, quizzActu.semaine|date_modify("+6 day")|date('n')) }} {{ quizzActu.semaine|date_modify("+6 day")|date('Y') }}
                     {% if quizzActu.disponible %}
                         <a class="btn btn-primary pull-right" href="{{ quizzActu.cheminPDF }}">Télécharger</a>
                     {% endif %}

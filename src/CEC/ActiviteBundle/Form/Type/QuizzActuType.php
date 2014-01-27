@@ -12,7 +12,7 @@ class QuizzActuType extends AbstractType
     {
         $builder->add('semaine', 'date', array(
                 'label' => 'Semaine du quizz actu',
-                'attr' => array('placeholder' => 'Date du lundi de la semaine du quizz actu'),
+                'help_inline' => 'Date du premier jour de la semaine du quizz actu.',
             ))
             ->add('commentaire', null, array(
                 'label' => 'Commentaire',
