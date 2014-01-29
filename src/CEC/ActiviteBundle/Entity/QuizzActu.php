@@ -255,7 +255,14 @@ class QuizzActu
      */
     public function __toString()
     {
-        return 'Quizz Actu - semaine du ' . $this->getSemaine();
+        $mois = array('janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'décembre');
+
+        $return = 'Semaine du ' . $this->semaine->format('j') . ' au ' . $this->semaine->modify('+6 days')->format('j') . ' ' . $mois[$this->semaine->format('n')-1] . ' ' . $this->semaine->format('Y');
+
+        // Comme modify() modifie l'objet semaine, il faut corriger le décalage crée au cas ou l'objet semaine serai réutilisé
+        $this->semaine->modify('-6 days');
+
+        return $return;
     }
 
 

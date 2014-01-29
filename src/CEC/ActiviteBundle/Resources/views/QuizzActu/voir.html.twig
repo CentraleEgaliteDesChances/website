@@ -1,38 +1,94 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECMainBundle::2-large-columns.html.twig' %}
 {% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
-
-{% block narrow_title %}Quizz Actu{% endblock %}
-
-{% block narrow_body %}
-
+{% block left %}
 {{ parent() }}
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td><h3>Quizz Actu</h3></td>
+        </tr>
+        <tr>
+            <td>
+                {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES') or is_granted('ROLE_BURO') %}
+                    <a href="{{ path('quizzActu_creer') }}" class="btn pull-left" style="margin-bottom: 20px;">Créer un quizz actu</a>
+                {% endif %}
 
-{% if is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES') or is_granted('ROLE_BURO') %}
-<a href="{{ path('quizzActu_creer') }}" class="btn pull-left" style="margin-bottom: 20px;">Créer un quizz actu</a>
-{% endif %}
-
-<table class="table table-bordered table-hover table-striped">
-    {% if quizzActus|length > 0 %}
-        <tbody>
-            {% for quizzActu in quizzActus %}
-            <tr {% if "now"|date('Ymd') >= quizzActu.semaine|date('Ymd') and "now"|date('Ymd') < quizzActu.semaine|date_modify("+6 day")|date('Ymd') %} class="info" {% endif %} >
-                <td>
-                    Semaine du {{ quizzActu.semaine|date('j') }} au {{ quizzActu.semaine|date_modify("+6 day")|date('j') }}
-                    {{ cycle(mois, quizzActu.semaine|date_modify("+6 day")|date('n')) }} {{ quizzActu.semaine|date_modify("+6 day")|date('Y') }}
-                    {% if quizzActu.disponible %}
-                        <a class="btn btn-primary pull-right" href="{{ quizzActu.cheminPDF }}">Télécharger</a>
+                <table class="table table-bordered table-hover table-striped">
+                    {% if quizzActus|length > 0 %}
+                        <tbody>
+                            {% for quizzActu in quizzActus %}
+                                <tr class="{% if "now"|date('Ymd') >= quizzActu.semaine|date('Ymd') and "now"|date('Ymd') < quizzActu.semaine|date_modify("+6 day")|date('Ymd') %} error {% endif %}
+                                {% if quizzActuVu != null and quizzActu.id == quizzActuVu.id %} info {% endif %}">
+                                    <td><a href="{{ path('quizzActu', { 'id':quizzActu.id }) }}">{{ quizzActu }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    {% else %}
+                        <thead><tr><th class="muted"><h4>Aucun quizz actu dans la base de donnée !</h4></th></tr></thead>
                     {% endif %}
-                    <a class="btn pull-right" href="{{ path('quizzActu_editer', { 'id':quizzActu.id }) }}">Modifier</a>
-                    <a class="btn btn-danger pull-right" href="{{ path('quizzActu_supprimer', { 'id':quizzActu.id }) }}">Supprimer</a>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block right %}
+{{ parent() }}
+    <table class="table table-bordered table-striped table-large table-embed">
+        {% if quizzActuVu != null %}
+            <thead>
+                <tr>
+                    <th class="embed-title">
+                        <h4>{{ quizzActuVu }}</h4>
+                        {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES') or is_granted('ROLE_BURO') %}
+                            <a class="btn btn-danger pull-right" href="{{ path('quizzActu_supprimer', { 'id':quizzActuVu.id }) }}">Supprimer</a>
+                            <a class="btn pull-right" href="{{ path('quizzActu_editer', { 'id':quizzActuVu.id }) }}">Modifier</a>
+                        {% endif %}
+                        {% if quizzActuVu.disponible %}
+                            <a class="btn btn-primary pull-right" href="{{ quizzActuVu.cheminPDF }}">Télécharger</a>
+                        {% endif %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if quizzActuVu.commentaire != null %}
+                    <tr>
+                        <td>
+                            <p>{{ quizzActuVu.commentaire }}</p>
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td {% if quizzActuVu.disponible %}class="embed-document"{% endif %}>
+                        {% if quizzActuVu.disponible %}
+                            <object type="application/pdf" data="{{ quizzActuVu.cheminPDF }}?#view=Fit">
+                                <param name="src" value="{{ quizzActuVu.cheminPDF }}?#view=Fit" />
+                                <param name="type" value="application/pdf" />
+                                <param name="zoom" value="75" />
+                                <param name="view" value="Fit" />
+                                <p class="muted" style="margin: 10px;">
+                                    Votre navigateur ne permet pas d'afficher l'aperçu du quizz actu. Pour afficher le document PDF, vous pouvez <a href="{{ quizzActuVu.cheminPDF }}" class="muted">cliquer ici</a>.
+                                </p>
+                            </object>
+                        {% else %}
+                            {{ flash('error', 'Le fichier n\'est plus accessible sur le serveur.') }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="embed-infos">
+                        <small class="muted pull-right">Créé le {{ quizzActuVu.dateCreation|date('d/m/Y') }} par <a href="{{ path('cec_membre_membres_voir', { 'membre' : quizzActuVu.auteur.id }) }}" class="muted">{{ quizzActuVu.auteur }}</a>.</small>
+                    </td>
+                </tr>
+            </tbody>
+        {% else %}
+            <tr>
+                <td style="text-align: center;">
+                    <h4>Il n'y a pas encore de quizz actu cette semaine !</h4>
+                    <br/>
+                    <p>Merci d'utiliser celui de la semaine dernière, ou de spammer le secteur actis culturelles.</p>
                 </td>
             </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun quizz actu dans la base de donnée !</h4></th></tr></thead>
-    {% endif %}
-</table>
-
-
+        {% endif %}
+    </table>
 {% endblock %}

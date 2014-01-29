@@ -14,17 +14,23 @@ class QuizzActuController extends Controller
     /**
      * Affiche la liste des quizz actu
      *
-     * @Route("/quizzActu", name="quizzActu")
+     * @Route("/quizzActu/{id}", name="quizzActu", requirements={"id" = "\d+"}, defaults={"id" = 0})
      * @Template()
      */
-    public function voirAction()
+    public function voirAction($id)
     {
         $quizzActus = $this->getDoctrine()->getRepository('CECActiviteBundle:QuizzActu')->findAll();
-        //$now = new DateTime();
+        if($id != 0){
+            $quizzActu = $this->getDoctrine()->getRepository('CECActiviteBundle:QuizzActu')->find($id);
+        }
+        // si $id vaut 0, alors on affiche la page par défaut, càd avec le quizz actu de la semaine courante. S'il n'y en a pas, $quizzActu vaut null.
+        else{
+            $quizzActu = $this->getDoctrine()->getRepository('CECActiviteBundle:QuizzActu')->findCurrent();
+        }
 
         return array(
             'quizzActus' => $quizzActus,
-            //'now' => $now
+            'quizzActuVu' => $quizzActu,
         );
     }
 
@@ -32,7 +38,7 @@ class QuizzActuController extends Controller
      * Permet d'éditer un quizz actu
      *
      * @param integer $id Id du quizz actu à modifier.
-     * @Route("/quizzActu/{id}", requirements={"id"="\d+"}, name="quizzActu_editer")
+     * @Route("/quizzActu/editer/{id}", requirements={"id"="\d+"}, name="quizzActu_editer")
      * @Template()
      */
     public function editerAction($id)
