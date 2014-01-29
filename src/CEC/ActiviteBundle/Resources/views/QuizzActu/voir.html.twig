@@ -1,6 +1,15 @@
 {% extends 'CECMainBundle::2-large-columns.html.twig' %}
 {% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECActiviteBundle/Resources/public/less/quizzActu.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block left %}
 {{ parent() }}
     <table class="table table-bordered table-striped">
