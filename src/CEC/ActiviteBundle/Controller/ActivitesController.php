@@ -15,8 +15,6 @@ use CEC\ActiviteBundle\Entity\Document;
 use CEC\ActiviteBundle\Utility\NouvelleActivite;
 use CEC\ActiviteBundle\Utility\RechercheActivite;
 
-/* coucou ! */
-
 class ActivitesController extends Controller
 {
     /**
@@ -41,11 +39,11 @@ class ActivitesController extends Controller
             $recherche->setGroupe($groupe);
         }
         $form = $this->createForm(new RechercheActiviteType(), $recherche);
-
+        
         $resultats = array();
         $notes = array();
         $activiteRepository = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite');
-
+        
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
             $form->bindRequest($request);
@@ -55,13 +53,13 @@ class ActivitesController extends Controller
         } else if ($request->isMethod("GET")) {
             $resultats = $activiteRepository->findAll();
         }
-
+                
         // On récupère les notes moyennes pour chaque activité
         foreach ($resultats as $activite) {
             $notes[$activite->getId()] = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')
                 ->getNoteMoyenneGlobalePourActivite($activite);
         }
-
+        
         // On trie les résultat par note moyenne globale
         usort($resultats, function (Activite $activite1, Activite $activite2) {
             global $notes;
@@ -75,7 +73,7 @@ class ActivitesController extends Controller
                 return $notes[$activite1->getId()] < $notes[$activite2->getId()];
             }
         });
-
+                
         return array(
             'form' => $form->createView(),
             'resultats' => $resultats,
@@ -83,8 +81,8 @@ class ActivitesController extends Controller
             'seance_a_venir' => $seanceAVenir,
         );
     }
-
-
+    
+    
     /**
      * Consultation d'une activité et de ses informations.
      * Affiche les données d'une activité (titre, description, type, durée, tags), un aperçu
@@ -102,7 +100,7 @@ class ActivitesController extends Controller
     {
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
-
+        
         // On détermine si une séance est à venir et si l'activité n'est pas déjà ajoutée
         $seanceAVenir = false;
         $dejaChoisie = false;
@@ -112,7 +110,7 @@ class ActivitesController extends Controller
                 $dejaChoisie = in_array($activite, $activites);
             }
         }
-
+        
         // On récupère les notes moyennes de cette activité
         $doctrine = $this->getDoctrine();
         $noteMoyenne['globale'] = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
@@ -123,7 +121,7 @@ class ActivitesController extends Controller
                                                  ->getNoteMoyenneInteractivitePourActivite($activite);
         $noteMoyenne['atteinteObjectifs'] = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
                                                      ->getNoteMoyenneAtteinteObjectifsPourActivite($activite);
-
+                                                     
         // On détermine si une nouvelle version est disponible (dernier document postérieur au dernier compte-rendu)
         $nouvelleVersion = false;
         $dernierCompteRendu = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
@@ -145,7 +143,7 @@ class ActivitesController extends Controller
             'deja_choisie' => $dejaChoisie,
         );
     }
-
+    
     /**
      * Édition d'une activité et de ses informations.
      * Permet à l'utilisateur de :
@@ -161,16 +159,16 @@ class ActivitesController extends Controller
     {
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
-
+        
         $activiteForm = $this->createForm(new ActiviteType(), $activite);
         $documentForm = $this->createForm(new DocumentType(), new Document());
-
+        
         // On classe les versions par date de création
         $versionsTriees = $activite->getVersions()->toArray();
         usort($versionsTriees, function ($version1, $version2) {
             return $version1->getDateCreation() < $version2->getDateCreation();
         });
-
+        
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
         {
@@ -181,7 +179,7 @@ class ActivitesController extends Controller
                 return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
             }
         }
-
+        
         return array(
             'activite' => $activite,
             'activite_form' => $activiteForm->createView(),
@@ -189,7 +187,7 @@ class ActivitesController extends Controller
             'versions_triees' => $versionsTriees,
         );
     }
-
+    
     /**
      * Création d'une activité.
      * Permet à l'utilisateur de remplir les informations d'une nouvelle séance et de télécharger une
@@ -204,14 +202,14 @@ class ActivitesController extends Controller
         $nouvelleActivite = new NouvelleActivite();
         $activite = $nouvelleActivite->getActivite();
         $document = $nouvelleActivite->getDocument();
-
+        
         $document->setDescription(Document::DocumentDescriptionPremiereVersion);
         $document->setActivite($activite);
         $document->setAuteur($this->getUser());
         $activite->addVersion($document);
-
+        
         $form = $this->createForm(new NouvelleActiviteType(), $nouvelleActivite);
-
+        
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
         {
@@ -221,18 +219,18 @@ class ActivitesController extends Controller
                 $entityManager->persist($activite);
                 $entityManager->persist($document);
                 $entityManager->flush();
-
+                
                 $this->get('session')
                     ->setFlash('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
                 return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
             }
         }
-
+        
         return array(
             'form' => $form->createView(),
         );
     }
-
+    
     /**
      * Suppression d'une activité.
      * Supprime définitivement l'activité de la base de donnée, et redirige vers la liste des activités.
@@ -244,17 +242,17 @@ class ActivitesController extends Controller
     {
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
-
+        
         $activiteForm = $this->createForm(new ActiviteType(), $activite);
-
+      
         $entityManager = $this->getDoctrine()->getEntityManager();
         $entityManager->remove($activite);
         $entityManager->flush();
-
+        
         $this->get('session')->getFlashBag()
             ->add('success', 'L\'activité a bien été supprimée, ainsi que tous les documents et compte-rendus associés.');
         return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
-
+        
         return array();
     }
 }
