@@ -12,19 +12,19 @@ class PremierDocumentType extends AbstractType
     {
         $builder->add('fichierOriginal', null, array(
                 'label' => false,
-                'help_inline' => 'La taille du document ne peut excéder 1 Mo, et les formats acceptés sont les formats Microsoft Word et Microsoft PowerPoint (.doc, .docx, .ppt, .pptx).',
+                'help_inline' => 'La taille du document ne peut excéder 10 Mo, et les formats acceptés sont les formats Microsoft Word et Microsoft PowerPoint (.doc, .docx, .ppt, .pptx).',
             ))
             ->add('fichierPDF', null, array(
                     'label' => false,
-                    'help_inline' => 'La taille du document ne peut excéder 1 Mo, et les formats acceptés sont les formats Adobe PDF (.pdf).',
+                    'help_inline' => 'La taille du document ne peut excéder 10 Mo, et les formats acceptés sont les formats Adobe PDF (.pdf).',
             ));
     }
-    
+
     public function getName()
     {
         return 'PremierDocument';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

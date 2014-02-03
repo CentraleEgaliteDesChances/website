@@ -27,7 +27,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @author Jean-Baptiste Bayle
  * @version 1.0
- * 
+ *
  * @ORM\Table()
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="CEC\ActiviteBundle\Entity\ActiviteRepository")
@@ -68,7 +68,7 @@ class Activite
      * Brève description de l'activité.
      * La description est affichée lorsque l'on choisit une activité pour une séance,
      * et permet de cibler rapidement son contenu. Il s'agit d'une chaîne de caractère
-     * permettant de décrire en moins de 200 caractères le contenu de l'activité.
+     * permettant de décrire en moins de 800 caractères le contenu de l'activité.
      * La description est requise pour chaque activité.
      *
      * @var string
@@ -76,8 +76,8 @@ class Activite
      * @ORM\Column(name = "description", type = "text")
      * @Assert\NotBlank(message = "La description de l'activité ne peut être vide.")
      * @Assert\MaxLength(
-     *     limit = 200,
-     *     message = "La description de l'activité ne peut excéder 200 caractères."
+     *     limit = 800,
+     *     message = "La description de l'activité ne peut excéder 800 caractères."
      * )
      */
     private $description;
@@ -86,7 +86,7 @@ class Activite
      * Durée approximative de l'activité.
      * Il s'agit d'une chaîne de caractère de moins de 255 caractères, permettant
      * aux tuteurs choisissant l'activité d'organiser sa séance. On indique la durée
-     * à titre indicatif (ex : "1h30") ; on peut aussi utiliser de courtes indications, 
+     * à titre indicatif (ex : "1h30") ; on peut aussi utiliser de courtes indications,
      * comme "Indéfinie", "Environ ...", "Adaptable", "Variable", etc.
      *
      * @var string
@@ -106,7 +106,7 @@ class Activite
      * Activité Culturelle, Activité Scientifique, Expérience Scientifique et Autre.
      * Cela permet de filtrer très rapidement les activités lors de leur recherche par un tuteur,
      * afin que celles-ci soient compatibles avec la séances ou de cibler la recherche.
-     * 
+     *
      * @var string
      *
      * @ORM\Column(name = "type", type = "string", length = 255)
@@ -130,7 +130,7 @@ class Activite
 
     /**
      * Date de dernière modification.
-     * 
+     *
      * @var \DateTime
      *
      * @ORM\Column(name = "dateModification", type = "datetime")
@@ -138,24 +138,24 @@ class Activite
      * @Assert\DateTime()
      */
     private $dateModification;
-    
+
     /**
      * Tags associés à l'activité.
      * Le système de classement par tag (classe Tag) permet d'accélérer la recherche
      * d'activité tout en permettant une très grande flexibilité.
-     * Les tags peuvent représenter, par exemple, le niveau conseillé (premières, terminales), 
+     * Les tags peuvent représenter, par exemple, le niveau conseillé (premières, terminales),
      * les objectifs pédagogiques ou les notions abordées, ainsi que le niveau de ludicité de l'activité
      * ou tout autre attribut permettant d'aider les tuteurs lors de la recherche d'activité.
      *
      * IMPORTANT : Cette fonctionnalité n'est pas implémentée dans la version 1.0 du site.
      *             Merci de se reporter à la description de la classe Tag pour plus d'infos.
-     * 
+     *
      * @var Tag
      *
      * @ORM\ManyToMany(targetEntity = "Tag", inversedBy = "activites")
      */
     private $tags;
-    
+
     /**
      * Les diverses versions du document associé à l'activité.
      * Cette fonction permet de garder un historique des versions de l'activité, à la suite
@@ -166,13 +166,13 @@ class Activite
      *
      * Il ne s'agit pas du côté propriétaire. Utilisez les méthodes de Document pour
      * ajouter une activité à un document.
-     * 
+     *
      * @var Document
      *
      * @ORM\OneToMany(targetEntity = "Document", mappedBy = "activite", cascade = {"remove"} )
      */
     private $versions;
-    
+
     /**
      * Compte-rendus rédigées concernant cette activité.
      * Les comptes-rendus (classe CompteRendu) sont rédigés à la suite d'une séance de tutorat
@@ -189,7 +189,7 @@ class Activite
      * @ORM\OneToMany(targetEntity = "CompteRendu", mappedBy = "activite", cascade = {"remove"} )
      */
     private $compteRendus;
-    
+
 
     /**
      * Constructor
@@ -201,7 +201,7 @@ class Activite
         $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Retourne la dernière version du document.
      * La méthode renvoit "false" s'il n'y a aucune version disponible, ce qui ne doit
@@ -213,7 +213,7 @@ class Activite
     {
         return $this->getVersions()->last();
     }
-    
+
     /**
      * Description de l'activité.
      * La méthode renvoit le titre de l'activité.
@@ -224,8 +224,8 @@ class Activite
     {
         return $this->getTitre();
     }
-    
-    
+
+
     //
     // Doctrine-generated accessors
     //
@@ -233,7 +233,7 @@ class Activite
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -249,14 +249,14 @@ class Activite
     public function setTitre($titre)
     {
         $this->titre = $titre;
-    
+
         return $this;
     }
 
     /**
      * Get titre
      *
-     * @return string 
+     * @return string
      */
     public function getTitre()
     {
@@ -272,7 +272,7 @@ class Activite
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -295,14 +295,14 @@ class Activite
     public function setDuree($duree)
     {
         $this->duree = $duree;
-    
+
         return $this;
     }
 
     /**
      * Get duree
      *
-     * @return string 
+     * @return string
      */
     public function getDuree()
     {
@@ -318,14 +318,14 @@ class Activite
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
@@ -341,14 +341,14 @@ class Activite
     public function setDateCreation($dateCreation)
     {
         $this->dateCreation = $dateCreation;
-    
+
         return $this;
     }
 
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -364,20 +364,20 @@ class Activite
     public function setDateModification($dateModification)
     {
         $this->dateModification = $dateModification;
-    
+
         return $this;
     }
 
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
         return $this->dateModification;
     }
-    
+
     /**
      * Add tags
      *
@@ -387,7 +387,7 @@ class Activite
     public function addTag(\CEC\ActiviteBundle\Entity\Tag $tags)
     {
         $this->tags[] = $tags;
-    
+
         return $this;
     }
 
@@ -404,7 +404,7 @@ class Activite
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getTags()
     {
@@ -420,7 +420,7 @@ class Activite
     public function addVersion(\CEC\ActiviteBundle\Entity\Document $versions)
     {
         $this->versions[] = $versions;
-    
+
         return $this;
     }
 
@@ -437,7 +437,7 @@ class Activite
     /**
      * Get versions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getVersions()
     {
@@ -453,7 +453,7 @@ class Activite
     public function addCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
     {
         $this->compteRendus[] = $compteRendus;
-    
+
         return $this;
     }
 
@@ -470,7 +470,7 @@ class Activite
     /**
      * Get compteRendus
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCompteRendus()
     {
