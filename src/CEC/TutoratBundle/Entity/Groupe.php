@@ -104,6 +104,7 @@ class Groupe
         {
             if ($description != '') $description .= ' & ';
             $description .= $lycee->getNom();
+            $description .= ' '.$lycee->getVille();
         }
         return $description;
     }
