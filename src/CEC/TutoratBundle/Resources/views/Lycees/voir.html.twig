@@ -13,7 +13,7 @@
     {% if lycee.groupes|length > 0 %}
         <thead><tr><th><h4>Groupes de tutorat</h4></th></tr></thead>
         <tbody>
-            {% for groupe in lycee.groupes %}
+            {% for groupe in groupes %}
             <tr>
                 <td>
                     <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">

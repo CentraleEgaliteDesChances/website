@@ -7,6 +7,7 @@ use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Form\Type\LyceeType;
 use CEC\TutoratBundle\Form\Type\AjouterEnseignantType;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 class LyceesController extends Controller
 {
@@ -20,17 +21,22 @@ class LyceesController extends Controller
         $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
             
-        // On trouve les tuteurs, les lycéens et les séances à venir
+        // On trouve les groupes de tutorat, les tuteurs, les lycéens et les séances à venir
+        $groupes = array();
         $tuteurs = array();
         $lyceens = array();
         $seances = array();
         foreach ($lycee->getGroupes() as $groupe) {
-            $tuteurs = array_merge($tuteurs, $groupe->getTuteurs()->toArray());
-            $lyceens = array_merge($lyceens, $groupe->getLyceens()->toArray());
-            
-            // On rassemble les séances à venir
-            $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
-            $seances = array_merge($seances, $groupeSeances);
+            if ($groupe->getAnneeScolaire() == AnneeScolaire::withDate())
+            {
+                $groupes = array_merge($groupes, array($groupe));
+                $tuteurs = array_merge($tuteurs, $groupe->getTuteurs()->toArray());
+                $lyceens = array_merge($lyceens, $groupe->getLyceens()->toArray());
+                
+                // On rassemble les séances à venir
+                $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
+                $seances = array_merge($seances, $groupeSeances);
+            }
         }
         
         // On trie les tuteurs, les lycéens et les séances par ordre alphabétique et chronologique
@@ -46,6 +52,7 @@ class LyceesController extends Controller
         
         return $this->render('CECTutoratBundle:Lycees:voir.html.twig', array(
             'lycee'        => $lycee,
+            'groupes'      => $groupes,
             'lyceens'      => $lyceens,
             'tuteurs'      => $tuteurs,
             'seances'      => $seances,
