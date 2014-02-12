@@ -11,6 +11,9 @@ use CEC\TutoratBundle\Form\Type\AjouterLyceenType;
 use CEC\TutoratBundle\Form\Type\AjouterTuteurType;
 use CEC\TutoratBundle\Form\Type\SeanceType;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
+
 class GroupesController extends Controller
 {
     /**
@@ -18,7 +21,8 @@ class GroupesController extends Controller
      */
     public function tousAction()
     {
-        $groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findAll();    // tous les Groupes
+        $AnneeScolaire = AnneeScolaire::withDate();
+        $groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findByAnneeScolaire($AnneeScolaire);    // tous les Groupes de l'année scolaire en cours
         return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes));
     }
 
