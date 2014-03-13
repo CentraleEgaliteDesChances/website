@@ -83,11 +83,6 @@
                             <li class="secteur">Secteur Fundraising</li>
                             <li><a href="{{ path('cec_secteurfundraising_statistiques_voir') }}">Statistiques de l'association</a></li>
                         {% endif %}
-                        {% if is_granted('ROLE_BURO') %}
-                            <li class="secteur">Buro</li>
-                            <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
-                            <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
-                        {% endif %}
                     </ul>
                 </li>
                 {% endif %}
@@ -114,6 +109,18 @@
                         <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
                     </ul>
                 </li>
+                {% if is_granted('ROLE_BURO') %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Administration
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
+                        <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
+                    </ul>
+                </li>
+                {% endif %}
             </ul>
             <div class="btn-group pull-right">
                 <a class="btn btn-inverse" href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">
