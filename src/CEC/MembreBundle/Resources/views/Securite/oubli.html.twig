@@ -1,0 +1,27 @@
+{% extends 'MopaBootstrapBundle::base.html.twig' %}
+
+{% block stylesheets %}
+      
+    {% stylesheets
+        '@CECMainBundle/Resources/public/less/bootstrap-override.less'
+        '@CECMembreBundle/Resources/public/less/connexion.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+            <h2>Mot de passe oublié</h2>
+    
+            {{ form_widget(user_name) }}
+            <div class="form-actions">
+                <input type="submit" value="Valider" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
