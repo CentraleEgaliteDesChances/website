@@ -86,7 +86,7 @@ class SecuriteController extends Controller
                 $entityManager->persist($membre);
                 $entityManager->flush();
                 
-                /* Envoyer un message // (quand le développement sera fini)
+                Envoyer un message // (quand le développement sera fini)
                 $email = \Swift_Message::newInstance()
                     ->setSubject("Mot de passe pour le site interne de CEC")
                     ->setFrom(array("notification@cec-ecp.com" => "Notification CEC"))
@@ -99,7 +99,7 @@ class SecuriteController extends Controller
                                 'base_url' => $_SERVER['HTTP_HOST'],
                             )),
                         'text/html');
-                $this->get('mailer')->send($email); */
+                $this->get('mailer')->send($email);
 
                 $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
                 return $this->redirect($this->generateUrl('cec_membre_securite_connexion'));                
