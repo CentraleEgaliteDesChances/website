@@ -95,7 +95,7 @@ class SecuriteController extends Controller
                         'text/html');
                 $this->get('mailer')->send($email); */
 
-                //$this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
+                $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
                 return $this->redirect($this->generateUrl('cec_membre_securite_connexion'));                
             }
         }

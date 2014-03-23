@@ -1,6 +1,8 @@
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
 
 {% block stylesheets %}
+    {{ parent() }}
       
     {% stylesheets
         '@CECMainBundle/Resources/public/less/bootstrap-override.less'
