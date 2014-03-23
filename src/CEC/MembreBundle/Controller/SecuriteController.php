@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Form\FormError;
 
-use CEC\MembreBundle\Form\Type\UserNameMembreType;
+use CEC\MembreBundle\Form\Type\NomPrenomMembreType;
 
 class SecuriteController extends Controller
 {
@@ -43,8 +43,8 @@ class SecuriteController extends Controller
 
     /**
      * Gestion des mots de passes oubliés.
-     * La page appelée contient un formulaire afin de récupérer le userName
-     * du membre concerné.
+     * La page appelée contient un formulaire afin de récupérer
+     * le nom et le prénom du membre concerné.
      * Permet de réinitialiser le mot de passe d'un membre,
      * et de lui envoyer ses identifiants par mail.
      *
@@ -53,28 +53,26 @@ class SecuriteController extends Controller
      */
     public function oubliAction()
     {
-        // On récupère l'utilisateur actuel        
-            
-        $nomUserName = 'UserNameMembre';
-        $userName = $this->get('form.factory')
-            ->createNamedBuilder($nomUserName, new UserNameMembreType())
+        $form = $this->get('form.factory')
+            ->createBuilder(new NomPrenomMembreType())
             ->getForm();
         
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {            
-            if ($request->request->has($nomUserName)) 
+            if ($request->request->has('NomPrenomMembre')) 
             {
-                $userName->bindRequest($request);
-                $data = $userName->getData();
+                $form->bindRequest($request);
+                $data = $form->getData();
 
-                try {
+                try { //En cas d'erreur (notamment membre non trouvé), on retourne au formulaire qui affiche l'erreur
                     $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
                 } catch (\Exception $e) {
-                    $userName->addError(new FormError($e->getMessage()));
-                    return array('form' => $userName->createView());
+                    $form->addError(new FormError($e->getMessage()));
+                    return array('form' => $form->createView());
                 }
 
+                //Création d'un nouveau mot de passe aléatoire
                 $motDePasse = substr(str_shuffle(MD5(microtime())), 0, 10);
 
                 $factory = $this->get('security.encoder_factory');
@@ -86,7 +84,7 @@ class SecuriteController extends Controller
                 $entityManager->persist($membre);
                 $entityManager->flush();
                 
-                Envoyer un message // (quand le développement sera fini)
+                //Envoi du mail
                 $email = \Swift_Message::newInstance()
                     ->setSubject("Mot de passe pour le site interne de CEC")
                     ->setFrom(array("notification@cec-ecp.com" => "Notification CEC"))
@@ -101,13 +99,14 @@ class SecuriteController extends Controller
                         'text/html');
                 $this->get('mailer')->send($email);
 
+                //Retour à la page de connexion
                 $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
                 return $this->redirect($this->generateUrl('cec_membre_securite_connexion'));                
             }
         }
         
         return array(
-            'form'           => $userName->createView()
+            'form'           => $form->createView()
         );
     }
 }
