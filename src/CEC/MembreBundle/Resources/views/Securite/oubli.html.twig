@@ -4,7 +4,7 @@
       
     {% stylesheets
         '@CECMainBundle/Resources/public/less/bootstrap-override.less'
-        '@CECMembreBundle/Resources/public/less/connexion.less'
+        '@CECMembreBundle/Resources/public/less/oubli.less'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
@@ -13,13 +13,17 @@
 {% block body %}
 
     <div class="container">
-        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
-            <h2>Mot de passe oublié</h2>
-    
-            {{ form_widget(user_name) }}
-            <div class="form-actions">
-                <input type="submit" value="Valider" class="btn btn-primary" />
-            </div>
+        <form method="post" action="{{ path('cec_membre_securite_oubli') }}" class="form-oubli" {{ form_enctype(form) }}>
+            <h2>Réinitialisation du mot de passe</h2>
+            
+            {{ form_errors(form) }}
+
+            {{ form_widget(form.nom, {'attr': {'class': 'input-block-level', 'placeholder': 'Nom'}}) }}
+            {{ form_widget(form.prenom, {'attr': {'class': 'input-block-level', 'placeholder': 'Prénom'}}) }}
+
+            {{ form_rest(form) }}
+
+            <button type="submit" class="btn btn-primary btn-block">Réinitialiser</button>
         </form>
     </div>
 

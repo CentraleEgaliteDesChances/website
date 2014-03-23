@@ -101,7 +101,7 @@ class SecuriteController extends Controller
         }
         
         return array(
-            'user_name'           => $userName->createView()
+            'form'           => $userName->createView()
         );
     }
 }
