@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Form\FormError;
 
 use CEC\MembreBundle\Form\Type\UserNameMembreType;
 
@@ -67,7 +68,12 @@ class SecuriteController extends Controller
                 $userName->bindRequest($request);
                 $data = $userName->getData();
 
-                $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']); //$data['prenom'] + ' ' + $data['nom']);
+                try {
+                    $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+                } catch (\Exception $e) {
+                    $userName->addError(new FormError($e->getMessage()));
+                    return array('form' => $userName->createView());
+                }
 
                 $motDePasse = substr(str_shuffle(MD5(microtime())), 0, 10);
 
