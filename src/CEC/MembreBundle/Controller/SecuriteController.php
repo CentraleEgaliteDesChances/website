@@ -7,8 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Form\FormError;
-
-use CEC\MembreBundle\Form\Type\NomPrenomMembreType;
+use CEC\MembreBundle\Entity\Membre;
 
 class SecuriteController extends Controller
 {
@@ -53,16 +52,18 @@ class SecuriteController extends Controller
      */
     public function oubliAction()
     {
-        $form = $this->get('form.factory')
-            ->createBuilder(new NomPrenomMembreType())
+        $form = $this->createFormBuilder()
+            ->add('prenom', 'text')
+            ->add('nom', 'text')
             ->getForm();
         
         $request = $this->getRequest();
+
         if ($request->isMethod("POST"))
         {            
-            if ($request->request->has('NomPrenomMembre')) 
+            $form->bindRequest($request);
+            if ($form->isValid())
             {
-                $form->bindRequest($request);
                 $data = $form->getData();
 
                 try { //En cas d'erreur (notamment membre non trouvé), on retourne au formulaire qui affiche l'erreur
@@ -71,7 +72,6 @@ class SecuriteController extends Controller
                     $form->addError(new FormError($e->getMessage()));
                     return array('form' => $form->createView());
                 }
-
                 //Création d'un nouveau mot de passe aléatoire
                 $motDePasse = substr(str_shuffle(MD5(microtime())), 0, 10);
 
@@ -101,7 +101,7 @@ class SecuriteController extends Controller
 
                 //Retour à la page de connexion
                 $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
-                return $this->redirect($this->generateUrl('cec_membre_securite_connexion'));                
+                return $this->redirect($this->generateUrl('cec_membre_securite_connexion'));
             }
         }
         
