@@ -1,3 +1,4 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
 
 {% block stylesheets %}
@@ -15,6 +16,7 @@
 {% block body %}
 
     <div class="container">
+        {{ session_flash() }}
         <form method="post" action="{{ path('connexion_verifications') }}" class="form-connexion">
             <h2>Connexion requise</h2>
             
@@ -22,10 +24,12 @@
                 <div class="alert alert-error">{{ erreur.message }}</div>
             {% endif %}
     
-            <input type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" placeholder="Nom d'utilisateur" class="input-block-level" {% if not erreur %}autofocus{% endif %} />
+            <input type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" placeholder="Prénom Nom" class="input-block-level" {% if not erreur %}autofocus{% endif %} />
             <input type="password" id="mot_de_passe" name="_password" placeholder="Mot de passe" class="input-block-level" {% if erreur %}autofocus{% endif %} />
-    
-            <button type="submit" class="btn btn-primary btn-large pull-right">Se connecter</button>
+            <div class="footer-controls">
+                <a href="{{ path('cec_membre_securite_oubli') }}" class="btn btn-link btn-small">Mot de passe oublié ?</a>
+                <button type="submit" class="btn btn-primary btn-large">Se connecter</button>
+            </div>
         </form>
     </div>
 

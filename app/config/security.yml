@@ -14,7 +14,7 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-            
+
         intern:
             pattern:    ^/
             form_login:
@@ -27,4 +27,5 @@ security:
 
     access_control:
         - { path: ^/connexion$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connexion/oubli$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
