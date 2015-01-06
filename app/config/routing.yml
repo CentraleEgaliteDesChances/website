@@ -1,7 +1,6 @@
 cec_secteur_sorties:
-    resource: "@CECSecteurSortiesBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: "@CECSecteurSortiesBundle/Resources/config/routing.yml"
+    prefix:   /tuteur
 
 cec_secteur_fundraising:
     resource: "@CECSecteurFundraisingBundle/Controller/"
