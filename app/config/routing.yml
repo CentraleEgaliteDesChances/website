@@ -23,8 +23,7 @@ cec_membre:
     prefix:   /
 
 cec_extern_site:
-    resource: "@CECExternSiteBundle/Controller/"
-    type:     annotation
+    resource: "@CECExternSiteBundle/Resources/config/routing.yml"
     prefix:   /
     
 
