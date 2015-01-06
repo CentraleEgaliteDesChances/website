@@ -1,0 +1,209 @@
+{%extends "CECExternSiteBundle::base.html.twig" %}
+
+{% block title %} {{parent()}} - CEC & Vous {%endblock %}
+{% block stylesheets %}{{parent()}}
+
+		<link href="{{asset('bundles/cecexternsite/css/tabs.css')}}" rel="stylesheet" type="text/css" >
+
+{%endblock%}
+
+{%block javascripts %}
+
+		<script type="text/javascript" src="{{ asset('bundles/cecexternsite/js/jquery.idTabs.min')}}"></script>
+
+{%endblock%}
+
+{% block page %}
+ <section id="imagececetvous" ></section>
+ 
+
+ <section class="titrepage" id="titrececetvous" >
+ </section>
+ 
+
+  <div class="usual"> 
+          <ul class="idTabs"> 
+            <li id="tab1title"><a href="#tab1">Lycéen</a></li> 
+            <li id="tab2title"><a href="#tab2">Parents</a></li> 
+            <li id="tab3title"><a href="#tab3">Entreprises</a></li>
+               <li id="tab4title"><a href="#tab4">Centraliens</a></li> 
+          </ul> 
+           <section class="contenupage" id="contenupage_cecetvous" style="padding:0px;">
+          <div id="tab1">
+          <h3 style="color:#3399cc;">Le tutorat, pourquoi ?</h3>
+
+<p>Les cours que tu suis au lycée sont là pour te préparer au mieux aux études supérieures, alors pourquoi suivre des activités en plus ?</p>
+<p>Le tutorat ne veut pas remplacer tes cours mais t’apporter des compétences supplémentaires qui ne sont pas forcément développées au lycée. Suivant
+ ton lycée et la filière que tu as choisie, tu pourras ainsi participer à des activités culturelles ou scientifiques.</p>
+<p>Les activités culturelles sont l’occasion d’aborder les grands sujets d’actualité à travers des quizz, des débats, des improvisations théâtrales et 
+de nombreux autres formats pendant que les activités scientifiques expliquent des phénomènes de la vie courantes de manière originale avec les outils 
+que tu as pu découvrir en physique ou en mathématiques.</p>
+<p>Dans tous les cas, nous t’encouragerons à travailler en groupe avec les autres lycéens et à participer à l’oral. Les séances sont un échange pendant
+ lequel chacun peut s’exprimer et donner son avis.</p>
+
+
+<h3 style="text-align:right; color:#00cc00; margin-right:15px;">Est-ce pour moi ?</h3>
+
+Évidemment ! La participation au programme est totalement gratuite et ouverte à tous les élèves des classes des lycées partenaires de Centrale. 
+
+
+<h3 style="color:#ff6600;">Comment m’inscrire au programme ?</h3>
+
+Nos activités vous seront présentées par des tuteurs de l’association dès le mois de septembre. Il faudra ensuite vous inscrire auprès de vos professeurs 
+et les plus motivés pourront suivre le programme !
+
+<h3 style="text-align:right; color:#ff66ff; margin-right:15px;">Seulement du tutorat ?</h3>
+
+<p>Bien sûr que non ! Ton inscription au programme t’ouvrira un univers encore plus vaste.</p>
+<p>Tout d’abord, tu assisteras à au moins deux sorties dans l’année. Le Palais de la Découverte, la cité de l’architecture, l’Assemblée Nationale, 
+le Théâtre, l’Opéra, le CEA ou des galeries d’art sont autant de lieux que tes prédécesseurs ont pu découvrir grâce à CEC. </p>
+<p>Ensuite, tu auras la possibilité de postuler à certains projets organisés par CeC (Focus Europe, GML, Stage Théâtre et Centrale prépa). 
+Ces projets ne peuvent accueillir tous les tutorés du programme, mais nous faisons le nécessaire pour envoyer le plus de monde possible, avec des critères 
+les plus justes possibles.
+Et ça marche ! En effet, la plupart des lycéens qui le souhaitaient ont pu partir en voyage avec Focus Europe, et visiter une ville européenne !</p>
+<p>Enfin, nous attachons beaucoup d’importance à l’information sur l’orientation. Nous nous efforcerons de te décrire au mieux les nombreuses portes qui 
+te seront ouvertes après le bac. Tes tuteurs se tiendront en permanence à ta disposition pour répondre à toutes les questions que tu peux te poser sur 
+l’orientation, les études ou la vie professionnelle.</p>
+</div> 
+          <div id="tab2">
+          
+          <h3 style="color:#3399cc;">Pourquoi confier ses enfants à des tuteurs ?</h3>
+
+<p>Une des grandes philosophies de l’association et des Cordées de la Réussite est de ne pas se substituer aux cours que vos enfants suivent au lycée. 
+Nous voulons leur apporter un plus qui les aidera à développer des compétences supplémentaires utiles à leur vie future. </p>
+<p>Ainsi, encourager ses enfants à suivre le programme proposé par CEC leur donne la chance de pouvoir s’épanouir dans la prise de parole en public,
+ d’agrandir leur culture et leur intérêt pour l’actualité ou même d’accroître leur culture scientifique. C’est aussi leur donner droit à une 
+ information fidèle et la plus complète possible sur les cursus post-bac et l’occasion de rencontrer des élèves ingénieurs et d’entrer en contact
+ avec des étudiants de tous les horizons.</p>
+<p>CEC est là pour leur apporter un vrai plus et augmenter leurs chances de faire les bons choix de cursus.</p>
+
+<p>N’hésitez pas à contacter les membres de l’association si vous souhaitez avoir des renseignements plus précis sur notre action.</p>
+
+<h3 style="color:#ff6600;">Contacts :</h3>
+<strong>Clément Hammel, président de CEC :</strong>
+<p>clement.hammel@student.ecp.fr</p>	
+
+	
+<strong>Tristan Pouliquen, vice-président de CEC :</strong>
+	<p>tristan.pouliquen@student.ecp.fr</p>	
+
+<strong>Léo Dumont, secrétaire général de CEC :</strong>
+	<p>leo.dumont@student.ecp.fr</p>	
+	
+<strong>Gabrielle Jourdain, trésorière de CEC :</strong>
+	<p>gabrielle.jourdain@student.ecp.fr</p>
+	
+	</p>
+</div> 
+          <div id="tab3">
+          
+          <h3 style="color:#3399cc;">Pourquoi sommes-nous liés ?</h3>
+
+<p>L’enseignement scolaire est une préparation à la vie professionnelle. Le lycée est une étape importante de cette préparation : des choix d’orientation 
+qui y sont effectués découle directement le métier qui sera enseigné aux futurs membres de la vie active. C’est donc à ce moment que les élèves doivent 
+commencer à être renseignés sur les chemins qu’ils peuvent parcourir durant leur vie professionnelle.</p>
+
+<p>Centrale Égalité des Chances et ses tuteurs effectuent ce travail d’information en présentant aux lycéens les métiers de l’ingénieur et les études pour
+ y parvenir ou en mettant les lycéens en contact avec des étudiants de toutes les filières.</p>
+
+<p>Nous pouvons leur faire part de notre expérience d’étudiant et de notre connaissance des métiers mais nous ne pouvons pas leur transmettre l’expérience
+ d’un métier. Seules les entreprises elles-mêmes peuvent témoigner de cette expérience. C’est pourquoi nos deux contributions peuvent être liées et 
+ complémentaires.</p>
+
+<h3 style="text-align:right; color:#00cc00; margin-right:15px;">Comment mettre ce lien en pratique ?</h3>
+
+Nous souhaitons proposer, en collaboration avec vous, des activités de découverte du monde professionnel aux lycéens. Cela peut passer par plusieurs formats :
+<ul class="listeinterne"><li>L’organisation de visites de vos locaux et la présentation des activités qui s’y déroulent. Ces visites durent idéalement
+ une demi-journée et sont animées par le personnel de l’entreprise ;</li>
+<li>La mise en place d’un système de shadowing : un lycéen suit un professionnel dans son activité quotidienne pendant une demi-journée ou une journée.
+ C’est l’occasion pour l’élève d’entrer en immersion totale dans le milieu professionnel et d’avoir une idée précise du métier qui lui est présenté ;</li>
+<li>L’organisation de conférences d’information sur les différents métiers que votre entreprise propose à ses salariés.</li>
+	</ul>
+
+
+<h3 style="color:#ff6600;">Aller plus loin</h3>
+
+<p>Le partenariat entre notre association et votre entreprise peut évidemment être étendu à d’autres activités. En effet, CEC, en diversifiant son action,
+ ouvre de nouvelles opportunités de projets communs. </p>
+
+<p>Chaque année, une table ronde est organisée pour sensibiliser les nouveaux élèves ingénieurs au thème de l’Égalité des Chances. Certains intervenants 
+sont évidemment issus du monde de l’entreprise, et cette entreprise pourrait être la vôtre. Si vous menez à bien des projets originaux liés à l’Égalité
+ des Chances, c’est l’occasion d’en témoigner et de valoriser vos initiatives.</p>
+
+<p>Centrale Égalité des Chances organise aussi des projets ambitieux comme l’organisation de stages de préparation à la prépa pour les lycéens, de stages
+ linguistiques, d'un stage théâtre ou la réalisation d’une plateforme sociale spécialisée dans l’orientation des élèves. Vos entreprises, concernées par
+ les enjeux liés à ces projets, pourraient elles-aussi tirer profit d’un partenariat avec notre association.</p>
+
+
+<p>Quelque soit votre domaine d’activité, nous sommes convaincus que nous pouvons faire avancer ensemble l’Égalité des Chances en France !</p>
+
+<h3 style="color:#ff66ff;">Contacts :</h3>
+<strong>Rémi Parel, responsable du secteur communication de CEC :</strong>
+<p>remi.parel@student.ecp.fr</p>
+
+<strong>Sonia Ribeiro, responsable du fundraising de CEC :</strong>
+<p>sonia.ribeiro@student.ecp.fr</p>
+
+<strong>CLément Hammel, président de CEC :</strong>
+<p>clement.hammel@student.ecp.fr</div></p>
+          <div id="tab4">
+          
+          <h3 style="color:#3399cc;">CEC, une association centralienne en pleine expansion</h3>
+
+<p>Parce que l’enjeu de l’Égalité des Chances est de plus en plus porté par les élèves des Grandes Écoles, CEC prend une place de toujours plus 
+importante dans la déjà extrêmement riche vie associative centralienne. Avec près de 70 membres actifs cette année, nous nous plaçons parmi les
+ associations les plus importantes de Centrale et comptons continuer à nous développer pour enrichir encore notre action.</p>
+
+<h3 style="text-align:right; color:#00cc00; margin-right:15px;">Pourquoi CEC ?</h3>
+
+<p>Centrale Égalité des Chances t’offre la possibilité de t’investir pour une cause sociétale importante tout en fournissant un travail d’une qualité 
+professionnelle en apprenant toi-aussi énormément sur les autres et sur toi-même.</p>
+
+<p>Le tutorat te permettra de transmettre à ton tour ce que tu as appris ou ce que l’on t’a enseigné pendant ces dernières années et d’en faire profiter
+ 
+ ceux qui, nous l’espérons, feront la même chose dans quelques années. Si tu goûtes au tutorat, tu te rendras d’ailleurs vite compte que tu n’as aucune 
+ envie d’arrêter !</p>
+
+<p>Mais CEC t’offre d’autres opportunités : les 5 secteurs et le pôle projets te proposent d’effectuer un travail de qualité tout en respectant des délais
+ imposés par les impératifs de l’année scolaire. Tu pourras ainsi développer ton esprit créatif, ta rigueur et plonger au plus profond de ta culture ou même
+ l’étendre en créant des activités scientifiques ou culturelles, apprendre à négocier, à planifier et à organiser en gérant les sorties, découvrir ce qu’est
+ l’organisation d’un événement important, contacter des personnalités prestigieuses et de nombreuses entreprises en intégrant le secteur évenement
+ & communication et apprendre à organiser un projet en gérant le pôle projets.</p> 
+<p>Tu l’auras compris, toutes tes compétences peuvent être valorisées dans l’association !</p>
+
+<h3 style=" color:#e00b0b; ">Sans oublier une très bonne ambiance !</h3>
+
+<p> Parce que nous voulons que tu te plaises à CeC, nous faisons tout pour qu'il y ait la meilleure ambiance possible : <br />
+- Organisation d'un Week-end de cohésion (dénommé WEC) qui te permettra de faire connaissance avec tous les membres de l'association, premières et deuxièmes 
+années. <br />
+- Plusieurs bouffes de cohésion (où tu auras peut-être la possibilité de montrer tes talents de cuisinier, on sait jamais...) <br />
+- Les réunions KeK (Kakes, Echanges & Konvivialité) ou tu auras la possibilité de donner toutes tes idées concernant l'association autour d'un repas ! <br />
+- Et plein d'autres choses encore ! 
+
+<h3 style="text-align:right; color:#ff6600; margin-right:15px;">Comment nous rejoindre ?</h3>
+
+<p>Rien de plus simple ! Dès la rentrée de septembre, nous organiserons une réunion d’information, tu pourras participer à une conférence de rentrée sur 
+le thème de l’Égalité des Chances et t’inscrire pour vivre avec nous cette belle aventure.</p>
+
+<h3 style="color:#ff66ff;">Contacts :</h3>
+
+<strong>Clément Hammel, président de CEC :</strong>
+<p>clement.hammel@student.ecp.fr</p>	
+
+	
+<strong>Tristan Pouliquen, vice-président de CEC :</strong>
+	<p>tristan.pouliquen@student.ecp.fr</p>	
+
+<strong>Léo Dumont, secrétaire général de CEC :</strong>
+	<p>leo.dumont@student.ecp.fr</p>	
+	
+<strong>Gabrielle Jourdain, trésorière de CEC :</strong>
+	<p>gabrielle.jourdain@student.ecp.fr</p>
+	
+</div> 
+          </section>
+          
+</div> 
+
+
+{%endblock%}

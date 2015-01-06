@@ -1,0 +1,49 @@
+{% extends "::base.html.twig" %}
+
+{%block stylesheets %}
+{%stylesheets  '@CECExternSiteBundle/Resources/public/css/main.css' %}
+	<link href="main.css" rel="{{asset_url}}" type="text/css" >
+{%endstylesheets%}
+	<!--[if lt IE 9]>
+<script type="text/javascript">alert('Ce site utilise des technologies récentes qui ne sont pas rendues par Internet Explorer < 9. Veuillez utiliser un autre navigateur ou mettre à jour Internet Explorer.');</script>
+<![endif]-->
+		<!--[if IE]>
+		{% javascripts '@CECExternSiteBundle/Resources/public/js/html5-ie.js' %}
+		<script type="text/javascript" src="{{ asset_url}}"></script>
+		{%end javascripts %}
+<![endif]-->  
+{%endblock%}
+
+{%block body %}
+	<section role="main" id="page" >
+<section id="logo" ><a href="{{path('cec_externe_accueil')}}" ></a></section>
+<section id="description" ><div class="barre_haut" ></div><span style="color:#E3001B;">Bienvenue !</span> Nous sommes une association de l'Ecole Centrale 
+Paris et nous proposons à de nombreux lycéens de la région parisienne de les accompagner à travers un système de tutorat. Élèves, parents, administrations, 
+entreprises, centraliens, nous vous invitons à découvrir <span style="color:#E3001B;">Centrale Égalité des Chances.</span><div class="barre_bas" ></div></section>
+<section id="connexion" ><div class="barre_haut" ></div> A compléter par un accès vers les pages de connexion :)<div class="barre_bas" ></div></section>
+ <section id="structure" ><a href="{{path('cec_externe_structure')}}"><div id="structurecontenu" ></div></a></section>
+ <section id="histoire" ><a href="{{path('cec_externe_histoire')}}"><div id="histoirecontenu" ></div></a></section>
+ <section id="actualites" ><a href="{{path('cec_externe_actualites')}}"><div id="actualitescontenu"></div></a>
+ <div id="dernieresactus">
+ 	<div class="actu">
+		
+ 	    
+ 	    <span class="date">26/04/2013</span><span class="newstitle">CeC amène 60 lycéens en voyage à Berlin pour 3 jours. Un très bon week-end culturel 
+		en perspective!</span><br />
+ 	    <span class="date">06/06/2013</span><span class="newstitle">La Journée de clôture marque la fin de la saison de tutorat. Au programme : conférences,
+		activités diverses et variées et visite de labos!</span><br />
+ 	    <span class="date">02/08/2013</span><span class="newstitle">Après dix jours dans la capitale britannique, retour des vingt lycéens de Good Morning 
+		London</span><br />
+ 	</div>
+ </div>
+ </section>
+ <section id="logos"><a href="http://www.facebook.com/pages/Centrale-Egalit%C3%A9-des-Chances/219223591439919" target="_blank" title="Nous voir sur facebook" >
+ <figure id="facebooklogo"></figure></a>
+ 					<a href="mailto:contact@cec-ecp.com" title="Nous contacter"><figure id="maillogo"></figure></a>
+
+ 					</section>
+ <section id="activites"><a href="{{path('cec_externe_activites')}}"><div id="activitescontenu"></div></a></section>
+<section id="etvous"><a href="{{path('cec_externe_cecetvous')}}" id="liencecetvous"></a></section>
+<section id="partenaires"><a href="{{path('cec_externe_partenaires')}}"><div id="partenairescontenu"></div></a></section>
+ </section>
+{%endblock%}

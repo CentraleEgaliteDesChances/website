@@ -1,0 +1,43 @@
+{%extends "CECExternSiteBundle::base.html.twig" %}
+
+{% block title %} {{parent()}} - Les partenaires de CEC{%endblock %}
+
+{% block page %}
+ <section id="imagepartenaires" ></section>
+ 
+
+ <section class="titrepage" id="titrepartenaires" >
+ </section>
+ 
+ <section id="contenupagepartenaires">
+<a href="http://www.ecp.fr/" target="_blank">
+
+		<img src="{{asset('bundles/cecexternsite/images/partenaires/ecp.jpg')}}" style="position:relative; margin-top:20px; border: solid 1px #AAA;">
+
+</a>
+<a href="http://www.cordeesdelareussite.fr/" target="_blank">
+
+		<img src="{{asset('bundles/cecexternsite/images/partenaires/cordees.jpg')}}" style="position:relative; margin-top:20px;  border: solid 1px #AAA;">
+
+</a>
+<a href="http://www.partage-interecoles.com/" target="_blank">
+
+		<img src="{{asset('bundles/cecexternsite/images/partenaires/partage.jpg')}}" style="position:relative; margin-top:20px; border: solid 1px #AAA;">
+
+</a>
+<a href="http://centrale-prepa.fr/" target="_blank">
+
+		<img src="{{asset('bundles/cecexternsite/images/partenaires/centralep.jpg')}}" style="position:relative;  margin-top:20px; border: solid 1px #AAA;">
+
+</a>
+
+<p> <br /> </p>
+<a href="{{path('cec_externe_devenir_partenaire')}}">
+
+		<img src="{{asset('bundles/cecexternsite/images/partenaires/devenir_partenaire.png')}}" alt="Devenir Partenaire" title="Devenir Partenaire" />
+
+</a>
+</section>
+
+
+{%endblock%}

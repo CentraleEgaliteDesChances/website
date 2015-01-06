@@ -1,0 +1,33 @@
+{%extends "CECExternSiteBundle::base.html.twig" %}
+
+{% block title %} {{parent()}} - Devenir Partenaire {%endblock %}
+
+{% block page %}
+ <section id="imagedevenirpartenaire" ></section>
+ 
+
+ <section class="titrepage" id="titredevenirpartenaire" >
+ </section>
+ 
+ <section class="contenupage">
+<p>
+CeC a plein de projets ambitieux à mener. Et pour cela, nous avons besoin de votre aide. <br />
+
+Vous pouvez consulter ici nos plaquettes entreprises : <br />
+- <a href="{{asset('bundles/cecexternsite/plaquettes/PlaquetteCEC.pdf')}}">Plaquette CeC </a><br />
+- <a href="{{asset('plaquettes/PlaquetteCentralePrepa.pdf')}}" >Plaquette Centrale Prépa </a>
+
+<br /> <br />
+Si vous souhaitez nous aider et devenir partenaire de notre association, contactez une des personnes suivantes :
+</p>
+<h3 style="color:#c90000;">Contacts :</h3>
+
+
+<strong>Sonia Ribeiro, responsable du fundraising de CEC :</strong>
+<p>sonia.ribeiro@student.ecp.fr</p>
+
+<strong>Clément Hammel, président de CEC :</strong>
+<p>clement.hammel@student.ecp.fr</p>
+
+</section>
+{%endblock%}
