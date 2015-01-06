@@ -1,0 +1,13 @@
+actions_membres:
+    resource: "@CECMembreBundle/Resources/config/routing/membres.yml"
+    prefix:   /membres
+
+actions_reglages:
+    resource: "@CECMembreBundle/Resources/config/routing/reglages.yml"
+    prefix: /reglages
+
+actions_securite:
+    resource: "@CECMembreBundle/Resources/config/routing/securite.yml"
+    
+actions_tableaudebord:
+    resource: "@CECMembreBundle/Resources/config/routing/tableaudebord.yml"

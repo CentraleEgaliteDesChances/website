@@ -13,8 +13,6 @@ class TableauDeBordController extends Controller
      * Le tableau de bord est la page d'accueil du site interne.
      * Elle consiste en un logo et un message de bienvenue, ainsi qu'une liste
      * de liens contextuels utiles pour accéder rapidement aux fonctions principales.
-     *
-     * @Route("/")
      * @Template()
      */
     public function voirAction()

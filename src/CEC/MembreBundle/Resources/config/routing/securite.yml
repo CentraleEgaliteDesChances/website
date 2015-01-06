@@ -1,0 +1,4 @@
+connexion_oubli:
+    pattern: /connexion/oubli
+    defaults: {_controller: CECMembreBundle:Securite:oubli}
+    

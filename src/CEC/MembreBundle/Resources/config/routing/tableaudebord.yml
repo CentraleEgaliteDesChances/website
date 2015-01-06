@@ -1,0 +1,3 @@
+tableau_de_bord_tuteur:
+    pattern: /tuteur/
+    defaults: {_controller: CECMembreBundle:TableauDeBord:voir}

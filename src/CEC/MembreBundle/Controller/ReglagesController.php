@@ -18,8 +18,6 @@ class ReglagesController extends Controller
      * Cette page permet de modifier les informations personnelles d'un membre (nom, prénom,
      * adresse électronique, numéro de téléphone et promotion). Elle permet aussi de changer le mot de passe.
      *
-     * @Route("/reglages")
-     * @Route("/reglages/infos")
      * @Template()
      */
     public function infosAction()
@@ -74,8 +72,6 @@ class ReglagesController extends Controller
     
     /**
      * Sélection de son groupe de tutorat régulier.
-     *
-     * @Route("/reglages/groupe")
      * @Template()
      */
     public function groupeAction()
@@ -98,9 +94,7 @@ class ReglagesController extends Controller
     
     /**
      * Sélection des secteurs dans lequel le membre s'implique.
-     *
-     * @Route("/reglages/secteurs")
-     * @Template()
+     *@Template()
      */
     public function secteursAction()
     {
