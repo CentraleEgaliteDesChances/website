@@ -20,9 +20,6 @@ class DocumentsController extends Controller
      * @param integer $activite : id de l'activité à laquelle appartient le document à supprimer
      * @param integer $document : id du document à supprimer
      *
-     * @Route("/activites/{activite}/documents/{document}/suppression", 
-     *     requirements = {"activite" = "\d+", "document" = "\d+"}
-     * )
      * @Template()
      */
     public function supprimerAction($activite, $document)
@@ -60,7 +57,6 @@ class DocumentsController extends Controller
      *
      * @param integer $activite : id de l'activité à laquelle on ajoute un nouveau document
      *
-     * @Route("/activites/{activite}/documents/creation", requirements = {"activite" = "\d+"})
      * @Method("POST")
      */
     public function creerAction($activite)

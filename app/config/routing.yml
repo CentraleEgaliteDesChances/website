@@ -8,9 +8,8 @@ cec_secteur_fundraising:
     prefix:   /
 
 cec_activite:
-    resource: "@CECActiviteBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: "@CECActiviteBundle/Resources/config/routing.yml"
+    prefix:   /tuteur
 
 cec_tutorat:
     resource: "@CECTutoratBundle/Resources/config/routing.yml"

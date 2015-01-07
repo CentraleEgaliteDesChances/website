@@ -63,7 +63,7 @@ lycee_ajouter_enseignant:
     defaults: { _controller: CECTutoratBundle:Lycees:ajouterEnseignant }
     requirements:
         lycee: \d+
-        
+
 # Enseignants
 tous_enseignants:
     pattern: /enseignants
@@ -101,7 +101,7 @@ editer_lyceen:
     defaults: { _controller: CECTutoratBundle:Lyceens:editer }
     requirements:
         lyceen: \d+
-   
+
 # Groupes de tutorat
 tous_groupes:
     pattern: /groupes
@@ -143,6 +143,10 @@ groupe_ajouter_tuteur:
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
     requirements:
         groupe: \d+
+groupe_compterendu_arediger:
+    pattern: /groupes/{groupe}/comptes_rendus
+    requirements:
+        groupe: \d+
 
 # Séances de tutorat
 supprimer_seance:
@@ -164,3 +168,15 @@ seance_basculer_tuteur:
     requirements:
         seance: \d+
         tuteur: \d+
+seance_creer_acti:
+    pattern: /seances/{seance}/ajout_activite/{activite}
+    defaults: { _controller: CECActiviteBundle:CompteRendus:creer }
+    requirements:
+        seance: \d+
+        activite: \d+
+seance_supprimer_compterendu:
+    pattern: /seances/{seance}/retrait_activite/{activite}
+    defaults: { _controller: CECActiviteBundle:CompteRendus:supprimer }
+    requirements:
+        seance: \d+
+        activite: \d+
