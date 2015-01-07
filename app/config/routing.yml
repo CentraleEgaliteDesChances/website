@@ -3,9 +3,8 @@ cec_secteur_sorties:
     prefix:   /tuteur
 
 cec_secteur_fundraising:
-    resource: "@CECSecteurFundraisingBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: "@CECSecteurFundraisingBundle/Resources/config/routing.yml"
+    prefix:   /tuteur
 
 cec_activite:
     resource: "@CECActiviteBundle/Resources/config/routing.yml"
@@ -16,13 +15,11 @@ cec_tutorat:
     prefix:   /
 
 cec_membre:
-    resource: "@CECMembreBundle/Controller/"
-    type:     annotation
+    resource: "@CECMembreBundle/Resources/config/routing.yml"
     prefix:   /
 
 cec_extern_site:
-    resource: "@CECExternSiteBundle/Controller/"
-    type:     annotation
+    resource: "@CECExternSiteBundle/Resources/config/routing.yml"
     prefix:   /
     
 

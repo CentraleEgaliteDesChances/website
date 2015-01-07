@@ -19,7 +19,6 @@ class MembresController extends Controller
      * Affiche la liste de tous les membres.
      * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
      *
-     * @Route("/membres")
      * @Template()
      */
     public function tousAction()
@@ -32,9 +31,7 @@ class MembresController extends Controller
      * Affiche le profil d'un membre.
      *
      * @param integer $membre: id du membre, null pour afficher le profil du membre connecté
-     *
-     * @Route("/membres/{membre}", requirements = { "membre" = "\d+" })
-     * @Template()
+     *@Template()
      */
     public function voirAction($membre)
     {
@@ -52,7 +49,6 @@ class MembresController extends Controller
      * le numéro de téléphone, et la promotion du nouveau membre. Un bouton permet
      * d'enregistrer le nouveau membre, et un bouton Annuler permet de revenir à la liste.
      *
-     * @Route("/membres/creation")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -102,7 +98,6 @@ class MembresController extends Controller
      *
      * @param integer $membre Id du membre à supprimer.
      *
-     * @Route("/membres/suppression/{membre}")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -125,7 +120,6 @@ class MembresController extends Controller
      * La page affiche tous les membres bénéficiant du statut de membre du buro, et permet
      * aux membres du buro d'attribuer à d'autres membres ce statut. A utiliser lors des passations.
      *
-     * @Route("/membres/passations")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -158,7 +152,6 @@ class MembresController extends Controller
      *
      * @param CEC\MembreBundle\Entity\Membre $membre Membre à retirer du buro
      *
-     * @Route("/membres/passations/retirer_membre/{membre}")
      * @Template()
      */
     public function supprimerMembreBuroAction(Membre $membre) {
