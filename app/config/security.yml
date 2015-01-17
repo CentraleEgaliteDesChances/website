@@ -23,7 +23,7 @@ security:
         ROLE_SECTEUR_EUROPEN: ROLE_TUTEUR
         ROLE_SECTEUR_SORTIES: ROLE_TUTEUR
         ROLE_BURO: [ROLE_SECTEUR_ACTIS_CULTURELLES, ROLE_SECTEUR_ACTIS_SCIENTIFIQUES, ROLE_SECTEUR_EUROPEN, ROLE_SECTEUR_EVCOM, ROLE_SECTEUR_FOCUS_EUROPE, ROLE_SECTEUR_FUNDRAISING,ROLE_SECTEUR_GEEK, ROLE_SECTEUR_GML, ROLE_SECTEUR_PROJETS, ROLE_SECTEUR_SACLAY, ROLE_SECTEUR_SORTIES, ROLE_SECTEUR_THEATRE, ROLE_SECTUR_PREPA, ROLE_VP_LYCEE, ROLE]
-            
+
         #Rôles des élèves
         ROLE_ELEVE_DELEGUE: ROLE_ELEVE
 
@@ -42,14 +42,15 @@ security:
             security: false
 
         intern:
-            pattern:    ^/(eleve|professeur|tuteur)/
+            pattern:    ^/(eleve|professeur|tuteur|connexion)/
             form_login:
                 check_path: /connexion/verifications
                 login_path: /connexion
             logout:
-                path:   /deconnexion
+                path:   /connexion/deconnexion
                 target: /
             anonymous: ~
+
         public:
             pattern: ^/
             anonymous: true

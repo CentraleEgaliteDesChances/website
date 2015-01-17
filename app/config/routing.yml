@@ -26,11 +26,11 @@ cec_membre:
 # Security routes
 connexion_verifications:
     pattern: /connexion/verifications
+deconnexion:
+    pattern: /connexion/deconnexion
 connexion:
     pattern: /connexion
     defaults: { _controller: CECMembreBundle:Securite:connexion }
-deconnexion:
-    pattern: /deconnexion    
 
 # FOSJsRoutingBundle (needed for adesigns/calendar-bundle)
 fos_js_routing:
