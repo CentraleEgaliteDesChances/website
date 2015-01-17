@@ -6,6 +6,32 @@ security:
     encoders:
         CEC\MembreBundle\Entity\Membre: sha512
 
+    role_hierarchy:
+        #Rôles internes des tuteurs
+        ROLE_VP_LYCEE : ROLE_TUTEUR
+        ROLE_SECTEUR_ACTIS_SCIENTIFIQUES : ROLE_TUTEUR
+        ROLE_SECTEUR_ACTIS_CULTURELLES : ROLE_TUTEUR
+        ROLE_SECTEUR_FUNDRAISING: ROLE_TUTEUR
+        ROLE_SECTEUR_EVCOM: ROLE_TUTEUR
+        ROLE_SECTEUR_PROJETS: ROLE_TUTEUR
+        ROLE_SECTEUR_GML: ROLE_TUTEUR
+        ROLE_SECTUR_PREPA: ROLE_TUTEUR
+        ROLE_SECTEUR_FOCUS_EUROPE: ROLE_TUTEUR
+        ROLE_SECTEUR_THEATRE: ROLE_TUTEUR
+        ROLE_SECTEUR_GEEK: ROLE_TUTEUR
+        ROLE_SECTEUR_SACLAY: ROLE_TUTEUR
+        ROLE_SECTEUR_EUROPEN: ROLE_TUTEUR
+        ROLE_SECTEUR_SORTIES: ROLE_TUTEUR
+        ROLE_BURO: [ROLE_SECTEUR_ACTIS_CULTURELLES, ROLE_SECTEUR_ACTIS_SCIENTIFIQUES, ROLE_SECTEUR_EUROPEN, ROLE_SECTEUR_EVCOM, ROLE_SECTEUR_FOCUS_EUROPE, ROLE_SECTEUR_FUNDRAISING,ROLE_SECTEUR_GEEK, ROLE_SECTEUR_GML, ROLE_SECTEUR_PROJETS, ROLE_SECTEUR_SACLAY, ROLE_SECTEUR_SORTIES, ROLE_SECTEUR_THEATRE, ROLE_SECTUR_PREPA, ROLE_VP_LYCEE, ROLE]
+            
+        #Rôles des élèves
+        ROLE_ELEVE_DELEGUE: ROLE_ELEVE
+
+        #Rôles des professeurs
+        ROLE_PROFESSEUR_REFERENT: ROLE_PROFESSEUR
+
+        ROLE_ADMIN : [ROLE_BURO, ROLE_ELEVE_DELEGUE, ROLE_PROFESSEUR_REFERENT, IS_ALLOWED_TO_SWITCH]
+
     providers:
         membres:
             entity: { class: CECMembreBundle:Membre }
@@ -16,7 +42,7 @@ security:
             security: false
 
         intern:
-            pattern:    ^/
+            pattern:    ^/(eleve|professeur|tuteur)/
             form_login:
                 check_path: /connexion/verifications
                 login_path: /connexion
@@ -24,8 +50,14 @@ security:
                 path:   /deconnexion
                 target: /
             anonymous: ~
+        public:
+            pattern: ^/
+            anonymous: true
 
     access_control:
         - { path: ^/connexion$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/connexion/oubli$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/professeur/, roles: ROLE_PROFESSEUR }
+        - { path: ^/tuteur/, roles: ROLE_TUTEUR}
+        - { path: ^/eleve/, roles: ROLE_ELEVE}
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
