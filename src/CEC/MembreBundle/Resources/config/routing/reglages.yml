@@ -1,0 +1,15 @@
+reglages_accueil:
+    pattern: /
+    defaults: {_controller: CECMembreBundle:Reglages:infos}
+
+reglages_infos:
+    pattern: /infos
+    defaults: {_controller: CECMembreBundle:Reglages:infos}
+
+reglages_groupe:
+    pattern: /groupe
+    defaults: {_controller: CECMembreBundle:Reglages:groupe}
+
+reglages_secteurs:
+    pattern: /secteurs
+    defaults: {_controller: CECMembreBundle:Reglages:secteurs}

@@ -1,18 +1,4 @@
-{% extends "::base.html.twig" %}
-
-{%block stylesheets %}
-{%stylesheets  '@CECExternSiteBundle/Resources/public/css/main.css' %}
-	<link href="main.css" rel="{{asset_url}}" type="text/css" >
-{%endstylesheets%}
-	<!--[if lt IE 9]>
-<script type="text/javascript">alert('Ce site utilise des technologies récentes qui ne sont pas rendues par Internet Explorer < 9. Veuillez utiliser un autre navigateur ou mettre à jour Internet Explorer.');</script>
-<![endif]-->
-		<!--[if IE]>
-		{% javascripts '@CECExternSiteBundle/Resources/public/js/html5-ie.js' %}
-		<script type="text/javascript" src="{{ asset_url}}"></script>
-		{%end javascripts %}
-<![endif]-->  
-{%endblock%}
+{% extends "CECExternSiteBundle::base.html.twig" %}
 
 {%block body %}
 	<section role="main" id="page" >

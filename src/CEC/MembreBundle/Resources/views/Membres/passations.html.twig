@@ -32,9 +32,9 @@
             <tr>
                 <td>
                     {% if membre != app.user %}
-                        <a href="{{ path('cec_membre_membres_supprimermembreburo', { 'membre': membre.id }) }}" class="btn btn-danger btn-mini pull-right">Retirer les privilèges</a>
+                        <a href="{{ path('retirer_buro', { 'membre': membre.id }) }}" class="btn btn-danger btn-mini pull-right">Retirer les privilèges</a>
                     {% endif %}
-                    <a href="{{ path('cec_membre_membres_voir', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">{{ membre }}</a>
+                    <a href="{{ path('voir_membre', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">{{ membre }}</a>
                 </td>
             </tr>
             {% endfor %}

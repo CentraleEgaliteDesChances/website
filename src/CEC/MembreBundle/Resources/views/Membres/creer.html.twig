@@ -7,11 +7,11 @@
 
 {{ parent() }}
 
-<form class="form" method="post" action="{{ path('cec_membre_membres_creer') }}">
+<form class="form" method="post" action="{{ path('creer_membre') }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
         <input type="submit" value="Créer le membre" class="btn btn-primary pull-right" />
-        <a href="{{ path('cec_membre_membres_tous') }}" class="btn pull-right">Annuler</a>
+        <a href="{{ path('creer_membre') }}" class="btn pull-right">Annuler</a>
     </div>
 </form>
 

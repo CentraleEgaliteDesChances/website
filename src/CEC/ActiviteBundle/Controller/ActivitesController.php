@@ -26,7 +26,6 @@ class ActivitesController extends Controller
      * On affiche aussi la séance à venir si elle existe, en indiquant la marche à suivre pour
      * choisir une activité.
      *
-     * @Route("/activites")
      * @Template()
      */
     public function rechercherAction()
@@ -93,7 +92,6 @@ class ActivitesController extends Controller
      *
      * @param $activite : id de l'activité
      *
-     * @Route("/activites/{activite}", requirements = {"activite" = "\d+"})
      * @Template()
      */
     public function voirAction($activite)
@@ -109,7 +107,8 @@ class ActivitesController extends Controller
                 $activites = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->findBySeance($seanceAVenir);
                 $dejaChoisie = in_array($activite, $activites);
             }
-        }
+        } 
+            
         
         // On récupère les notes moyennes de cette activité
         $doctrine = $this->getDoctrine();
@@ -152,7 +151,6 @@ class ActivitesController extends Controller
      *     - téléchargement d'une nouvelle version ;
      *     - propose un bouton pour supprimer l'activité.
      *
-     * @Route("/activites/{activite}/edition", requirements = {"activite" = "\d+"})
      * @Template()
      */
     public function editerAction($activite)
@@ -176,7 +174,7 @@ class ActivitesController extends Controller
             if ($activiteForm->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->flush();
-                return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+                return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
             }
         }
         
@@ -194,7 +192,6 @@ class ActivitesController extends Controller
      * première version de l'activité facilement. Un bouton créer permet d'ajouter le document
      * et l'activité dans la base de donnée, et télécharger les fichiers sur le serveur.
      *
-     * @Route("/activites/creation")
      * @Template()
      */
     public function creerAction()
@@ -222,7 +219,7 @@ class ActivitesController extends Controller
                 
                 $this->get('session')
                     ->setFlash('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
-                return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+                return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
             }
         }
         
@@ -235,7 +232,6 @@ class ActivitesController extends Controller
      * Suppression d'une activité.
      * Supprime définitivement l'activité de la base de donnée, et redirige vers la liste des activités.
      *
-     * @Route("/activites/{activite}/suppression", requirements = {"activite" = "\d+"})
      * @Template()
      */
     public function supprimerAction($activite)
@@ -251,7 +247,7 @@ class ActivitesController extends Controller
         
         $this->get('session')->getFlashBag()
             ->add('success', 'L\'activité a bien été supprimée, ainsi que tous les documents et compte-rendus associés.');
-        return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+        return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
         
         return array();
     }

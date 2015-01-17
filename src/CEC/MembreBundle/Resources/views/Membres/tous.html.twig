@@ -19,9 +19,9 @@
             <tr>
                 <td>
                     {% if is_granted('ROLE_BURO') and membre != app.user %}
-                        <a href="{{ path('cec_membre_membres_supprimer', { 'membre': membre.id }) }}" class="btn btn-mini btn-danger pull-right">Supprimer définitivement</a>
+                        <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" class="btn btn-mini btn-danger pull-right">Supprimer définitivement</a>
                     {% endif %}
-                    <a href="{{ path('cec_membre_membres_voir', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
+                    <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
                         {{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}
                     </a>
                 </td>
@@ -34,7 +34,7 @@
 </table>
 
 {% if is_granted('ROLE_BURO') %}
-<a href="{{ path('cec_membre_membres_creer') }}" class="btn pull-right">Ajouter un membre</a>
+<a href="{{ path('creer_membre') }}" class="btn pull-right">Ajouter un membre</a>
 {% endif %}
 
 {% endblock %}

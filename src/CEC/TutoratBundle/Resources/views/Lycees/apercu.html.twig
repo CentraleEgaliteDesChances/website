@@ -58,7 +58,7 @@
             <td>VP Lycée</td>
             <td>
                 {% for vp in lycee.vpLycees %}
-                    <a href="{{ path('cec_membre_membres_voir', { 'membre': vp.id }) }}">
+                    <a href="{{ path('voir_membre', { 'membre': vp.id }) }}">
                         {{ vp.prenom|ucwords }} {{ vp.nom|ucwords }}{% if not loop.last %}, {% endif %}
                     </a>
                 {% else %}

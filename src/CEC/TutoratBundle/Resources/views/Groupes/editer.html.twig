@@ -51,7 +51,7 @@
                         href="{{ path('groupe_supprimer_tuteur', { 'groupe': groupe.id, 'tuteur': tuteur.id }) }}">
                             &times;
                     </a>
-                    <a href="{{ path('cec_membre_membres_voir', { 'membre': tuteur.id }) }}">
+                    <a href="{{ path('voir_membre', { 'membre': tuteur.id }) }}">
                         <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
                     </a>
                 </td>
@@ -70,7 +70,7 @@
                     {{ form_rest(ajouter_tuteur_form) }}
                     <input type="submit" name="ajouter_tuteur" class="btn btn-primary" value="Ajouter" />
                     {% if is_granted('ROLE_BURO') %}
-                        <a href="{{ path('cec_membre_membres_creer') }}" class="btn pull-right">Nouveau tuteur</a>
+                        <a href="{{ path('creer_membre') }}" class="btn pull-right">Nouveau tuteur</a>
                     {% endif %}
                 </form>
             </td>

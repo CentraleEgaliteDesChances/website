@@ -14,7 +14,7 @@
                 </h3>
             </th></tr>
         </thead>
-        <form class="form" method="post" action="{{ path('cec_activite_activites_rechercher') }}">
+        <form class="form" method="post" action="{{ path('activites_rechercher') }}">
             <tbody>
                 <tr>
                     <td>
@@ -84,7 +84,7 @@
                 {% for activite in resultats %}
                 <tr>
                     <td>
-                        <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
+                        <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
                             {{ type(activite.type, 'pull-right') }}
                             <strong>{{ activite.titre }}</strong><br />
                             <p>

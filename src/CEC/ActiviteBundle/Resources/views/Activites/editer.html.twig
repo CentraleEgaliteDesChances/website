@@ -19,7 +19,7 @@
         <tbody>
             <tr>
                 <td>
-                    <form class="form" method="post" action="{{ path('cec_activite_activites_editer', { 'activite': activite.id }) }}">
+                    <form class="form" method="post" action="{{ path('activites_editer', { 'activite': activite.id }) }}">
                         {{ form_widget(activite_form) }}
                         
                         <input type="submit" name="sumbit" class="btn btn-block btn-primary btn-large" value="Enregistrer les modifications" />
@@ -34,7 +34,7 @@
 {% block right %}
 {{ parent() }}
 
-    <form method="post" action="{{ path('cec_activite_documents_creer', { 'activite' : activite.id }) }}" {{ form_enctype(document_form) }}>
+    <form method="post" action="{{ path('documents_creer', { 'activite' : activite.id }) }}" {{ form_enctype(document_form) }}>
         <table class="table table-bordered table-striped table-large">
             <thead><tr><th colspan="2"><h4>Téléchargement d'une nouvelle version</h4></th></tr></thead>
             <tbody>
@@ -72,7 +72,7 @@
                                 </ul>
                             </div>
                             {% if versions_triees|length > 1 %}
-                                <a href="{{ path('cec_activite_documents_supprimer', { 'activite' : activite.id, 'document' : version.id }) }}" class="btn btn-danger btn-mini">Supprimer la version</a>
+                                <a href="{{ path('documents_supprimer', { 'activite' : activite.id, 'document' : version.id }) }}" class="btn btn-danger btn-mini">Supprimer la version</a>
                             {% endif %}
                         </div>
                         
@@ -83,7 +83,7 @@
                         {% else %}
                             <span class="muted">Aucun historique de version.</span> 
                         {% endif %}
-                        <span class="muted">— <a href="{{ path('cec_membre_membres_voir', { 'membre' : version.auteur.id }) }}" class="muted">{{ version.auteur }}</a></span>
+                        <span class="muted">— <a href="{{ path('voir_membre', { 'membre' : version.auteur.id }) }}" class="muted">{{ version.auteur }}</a></span>
                     </td>
                 </tr>
                 {% endfor %}
@@ -111,7 +111,7 @@
     {% endset %}
     
     {% set footer %}
-        <a href="{{ path('cec_activite_activites_supprimer', {'activite': activite.id}) }}" class="btn btn-primary btn-danger pull-right">Supprimer l'activité</a>
+        <a href="{{ path('activites_supprimer', {'activite': activite.id}) }}" class="btn btn-primary btn-danger pull-right">Supprimer l'activité</a>
         {{ modal.close() }}
     {% endset %}
     

@@ -1,0 +1,29 @@
+voir_tous_membres:
+    pattern: /
+    defaults: {_controller: CECMembreBundle:Membres:tous}
+
+voir_membre:
+    pattern: /{membre}
+    defaults: {_controller: CECMembreBundle:Membres:voir}
+    requirements:
+        membre: \d+
+
+creer_membre:
+    pattern: /creation
+    defaults: {_controller: CECMembreBundle:Membres:creer}
+
+supprimer_membre:
+    pattern: /suppression/{membre}
+    defaults: {_controller: CECMembreBundle:Membres:supprimer}
+    requirements:
+        membre: \d+
+
+passations:
+    pattern: /passations
+    defaults: {_controller: CECMembreBundle:Membres:passations}
+
+retirer_buro:
+    pattern: /passations/retirer_membre/{membre}
+    defaults: {_controller: CECMembreBundle:Membres:supprimerMembreBuro}
+    requirements:
+        membre: \d+

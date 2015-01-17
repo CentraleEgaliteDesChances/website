@@ -16,11 +16,6 @@ class StatistiquesController extends Controller
      * concernent les partenariats et l'encadrement et l'activité de tutorat.
      *
      * @param string $annees Année scolaire sous la forme "2012-2013" à laquelle se rapporte les statistiques.
-     * @Route(
-     *     "/statistiques/{annees}",
-     *     requirements = {"annees" = "^[0-9]{4}\-[0-9]{4}$"},
-     *     defaults = {"annees" = null}
-     * )
      * @Template()
      */
     public function voirAction($annees = null)

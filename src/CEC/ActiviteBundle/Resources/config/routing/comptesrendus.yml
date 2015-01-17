@@ -1,0 +1,28 @@
+compterendus_recents:
+    pattern: /
+    defaults: { _controller: CECActiviteBundle:CompteRendus:recents }
+
+compterendus_ajax_apercu:
+    pattern: /ajax/apercu/{compte_rendu}
+    defaults: { _controller: CECActiviteBundle:CompteRendus:ajaxApercu }
+    requirements: 
+        compte_rendu: \d+
+    options:
+        expose: true
+
+ompterendus_ajax_resultats:
+    pattern: /ajax/resultats/{lecture}/{type}
+    defaults: { _controller: CECActiviteBundle:CompteRendus:ajaxResultats }
+    options:
+        expose: true
+    requirements: 
+        lecture: tous|non-lus
+        type: tous|actiscientifiques|actisculturelles|experiences|autre
+
+compterendus_ajax_basculerlecture:
+    pattern: /ajax/basculer_lecture/{compte_rendu}
+    defaults: { _controller: CECActiviteBundle:CompteRendus:ajaxBasculerLecture }
+    requirements: 
+        compte_rendu: \d+
+    options:
+        expose: true

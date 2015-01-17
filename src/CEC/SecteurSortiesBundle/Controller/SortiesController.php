@@ -15,7 +15,6 @@ class SortiesController extends Controller
     /**
      * Affiche les sorties à venir
      *
-     * @Route("/sorties", name="sorties")
      * @Template()
      */
     public function voirAction()
@@ -44,7 +43,6 @@ class SortiesController extends Controller
     /**
      * Affiche les sorties passées
      *
-     * @Route("/sortiesPassees", name="anciennes_sorties")
      * @Template()
      */
     public function voirAnciennesAction()
@@ -63,7 +61,6 @@ class SortiesController extends Controller
      *
      * @param integer $id Id de la sortie à modifier.
      * @param string $action Permet de différencier édition de la sortie et rédaction du CR
-     * @Route("/sorties/{action}/{id}", requirements={"action"="editer|cr|editeraveccr", "id"="\d+"}, name="editer_sortie")
      * @Template()
      */
     public function editerAction($action, $id)
@@ -132,7 +129,6 @@ class SortiesController extends Controller
     /**
      * Permet de créer une sortie
      *
-     * @Route("/sorties/creer", name="creer_sortie")
      * @Template()
      */
     public function creerAction()
@@ -163,7 +159,6 @@ class SortiesController extends Controller
      * Supprime une sortie
      *
      * @param integer $id Id de la sortie à supprimer.
-     * @Route("/sorties/supprimer/{id}", requirements={"id" = "\d+"}, name="supprimer_sortie")
      * @Template()
      */
     public function supprimerSortieAction($id)

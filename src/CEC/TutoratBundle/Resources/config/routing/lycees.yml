@@ -1,0 +1,41 @@
+tous_lycees:
+    pattern: /
+    defaults: { _controller: CECTutoratBundle:Cordees:toutes }
+
+creer_lycee:
+    pattern: /creation/{cordee}
+    defaults: { _controller: CECTutoratBundle:Lycees:creer, cordee: null }
+    requirements:
+        cordee: \d+
+
+lycee:
+    pattern: /{lycee}
+    defaults: { _controller: CECTutoratBundle:Lycees:voir }
+    requirements:
+        lycee: \d+
+
+editer_lycee:
+    pattern: /{lycee}/edition
+    defaults: { _controller: CECTutoratBundle:Lycees:editer }
+    requirements:
+        lycee: \d+
+
+lycee_supprimer_groupe:
+    pattern: /{lycee}/supprimer_groupe/{groupe}
+    defaults: { _controller: CECTutoratBundle:Lycees:supprimerGroupe }
+    requirements:
+        lycee: \d+
+        groupe: \d+
+
+lycee_supprimer_enseignant:
+    pattern: /{lycee}/supprimer_enseignant/{enseignant}
+    defaults: { _controller: CECTutoratBundle:Lycees:supprimerEnseignant }
+    requirements:
+        lycee: \d+
+        enseignant: \d+
+
+lycee_ajouter_enseignant:
+    pattern: /{lycee}/ajouter_enseignant
+    defaults: { _controller: CECTutoratBundle:Lycees:ajouterEnseignant }
+    requirements:
+        lycee: \d+

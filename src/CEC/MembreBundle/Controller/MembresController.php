@@ -19,7 +19,6 @@ class MembresController extends Controller
      * Affiche la liste de tous les membres.
      * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
      *
-     * @Route("/membres")
      * @Template()
      */
     public function tousAction()
@@ -32,9 +31,7 @@ class MembresController extends Controller
      * Affiche le profil d'un membre.
      *
      * @param integer $membre: id du membre, null pour afficher le profil du membre connecté
-     *
-     * @Route("/membres/{membre}", requirements = { "membre" = "\d+" })
-     * @Template()
+     *@Template()
      */
     public function voirAction($membre)
     {
@@ -52,7 +49,6 @@ class MembresController extends Controller
      * le numéro de téléphone, et la promotion du nouveau membre. Un bouton permet
      * d'enregistrer le nouveau membre, et un bouton Annuler permet de revenir à la liste.
      *
-     * @Route("/membres/creation")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -89,7 +85,7 @@ class MembresController extends Controller
                 $this->get('mailer')->send($email);
                 
                 $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenu, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
-                return $this->redirect($this->generateUrl('cec_membre_membres_creer'));
+                return $this->redirect($this->generateUrl('creer_membre'));
             }
         }
         return array(
@@ -102,7 +98,6 @@ class MembresController extends Controller
      *
      * @param integer $membre Id du membre à supprimer.
      *
-     * @Route("/membres/suppression/{membre}")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -116,7 +111,7 @@ class MembresController extends Controller
         $entityManager->flush();
         
         $this->get('session')->setFlash('success', 'Le membre a bien été définitivement supprimé.');
-        return $this->redirect($this->generateUrl('cec_membre_membres_tous'));
+        return $this->redirect($this->generateUrl('voir_tous_membres'));
     }
     
     
@@ -125,7 +120,6 @@ class MembresController extends Controller
      * La page affiche tous les membres bénéficiant du statut de membre du buro, et permet
      * aux membres du buro d'attribuer à d'autres membres ce statut. A utiliser lors des passations.
      *
-     * @Route("/membres/passations")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -143,7 +137,7 @@ class MembresController extends Controller
                 $nouveauMembreBuro->getMembre()->setBuro(true);
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
-                return $this->redirect($this->generateUrl('cec_membre_membres_passations'));
+                return $this->redirect($this->generateUrl('passations'));
             }
         }
         
@@ -158,7 +152,6 @@ class MembresController extends Controller
      *
      * @param CEC\MembreBundle\Entity\Membre $membre Membre à retirer du buro
      *
-     * @Route("/membres/passations/retirer_membre/{membre}")
      * @Template()
      */
     public function supprimerMembreBuroAction(Membre $membre) {
@@ -168,7 +161,7 @@ class MembresController extends Controller
         $membre->setBuro(false);
         $this->getDoctrine()->getEntityManager()->flush();
         
-        return $this->redirect($this->generateUrl('cec_membre_membres_passations'));
+        return $this->redirect($this->generateUrl('passations'));
     }
     
 }

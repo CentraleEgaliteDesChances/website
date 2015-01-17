@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ExternSiteController extends Controller
 {
 
-    public function indexAction($name)
+    public function indexAction()
     {
         return $this->render('CECExternSiteBundle:Pages:index.html.twig');
     }

@@ -1,0 +1,21 @@
+tous_enseignants:
+    pattern: /
+    defaults: { _controller: CECTutoratBundle:Enseignants:tous }
+
+creer_enseignant:
+    pattern: /creation/{lycee}
+    defaults: { _controller: CECTutoratBundle:Enseignants:creer, lycee: null }
+    requirements:
+        lycee: \d+
+
+enseignant:
+    pattern: /{enseignant}
+    defaults: { _controller: CECTutoratBundle:Enseignants:voir }
+    requirements:
+        cordee: \d+
+
+editer_enseignant:
+    pattern: /{enseignant}/edition
+    defaults: { _controller: CECTutoratBundle:Enseignants:editer }
+    requirements:
+        cordee: \d+

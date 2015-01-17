@@ -16,9 +16,7 @@ class SecuriteController extends Controller
      * Cette page est appelé automatiquement par le composant Security de Symfony.
      * Elle présente un formulaire permettant d'entrer un identifiant (prénom + nom) ainsi
      * qu'un mot de passe ; un bouton connexion lance la procédure d'authentification.
-     *
-     * @Route("/connexion")
-     * @Template()
+     *@Template()
      */
     public function connexionAction()
     {
@@ -47,8 +45,7 @@ class SecuriteController extends Controller
      * Permet de réinitialiser le mot de passe d'un membre,
      * et de lui envoyer ses identifiants par mail.
      *
-     * @Route("/connexion/oubli")
-     * @Template()
+	 * @Template()
      */
     public function oubliAction()
     {
@@ -101,7 +98,7 @@ class SecuriteController extends Controller
 
                 //Retour à la page de connexion
                 $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
-                return $this->redirect($this->generateUrl('cec_membre_securite_connexion'));
+                return $this->redirect($this->generateUrl('connexion'));
             }
         }
         
