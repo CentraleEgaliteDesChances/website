@@ -169,7 +169,7 @@
                 </tr>
                 <tr>
                     <td class="embed-infos">
-                        <small class="muted pull-right">Créé le {{ activite.document.dateCreation|date('d/m/Y') }} par <a href="{{ path('cec_membre_membres_voir', { 'membre' : activite.document.auteur.id }) }}" class="muted">{{ activite.document.auteur }}</a>.</small>
+                        <small class="muted pull-right">Créé le {{ activite.document.dateCreation|date('d/m/Y') }} par <a href="{{ path('voir_membre', { 'membre' : activite.document.auteur.id }) }}" class="muted">{{ activite.document.auteur }}</a>.</small>
                     </td>
                 </tr>
             </tbody>

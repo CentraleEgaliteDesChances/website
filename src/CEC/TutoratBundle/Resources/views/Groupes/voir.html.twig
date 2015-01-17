@@ -35,7 +35,7 @@
             {% for tuteur in tuteurs %}
             <tr>
                 <td>
-                    <a href="{{ path('cec_membre_membres_voir', { 'membre': tuteur.id }) }}">
+                    <a href="{{ path('voir_membre', { 'membre': tuteur.id }) }}">
                         <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
                     </a>
                 </td>

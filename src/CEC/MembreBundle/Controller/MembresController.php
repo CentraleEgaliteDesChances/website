@@ -85,7 +85,7 @@ class MembresController extends Controller
                 $this->get('mailer')->send($email);
                 
                 $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenu, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
-                return $this->redirect($this->generateUrl('cec_membre_membres_creer'));
+                return $this->redirect($this->generateUrl('creer_membre'));
             }
         }
         return array(
@@ -111,7 +111,7 @@ class MembresController extends Controller
         $entityManager->flush();
         
         $this->get('session')->setFlash('success', 'Le membre a bien été définitivement supprimé.');
-        return $this->redirect($this->generateUrl('cec_membre_membres_tous'));
+        return $this->redirect($this->generateUrl('voir_tous_membres'));
     }
     
     
@@ -137,7 +137,7 @@ class MembresController extends Controller
                 $nouveauMembreBuro->getMembre()->setBuro(true);
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
-                return $this->redirect($this->generateUrl('cec_membre_membres_passations'));
+                return $this->redirect($this->generateUrl('passations'));
             }
         }
         
@@ -161,7 +161,7 @@ class MembresController extends Controller
         $membre->setBuro(false);
         $this->getDoctrine()->getEntityManager()->flush();
         
-        return $this->redirect($this->generateUrl('cec_membre_membres_passations'));
+        return $this->redirect($this->generateUrl('passations'));
     }
     
 }

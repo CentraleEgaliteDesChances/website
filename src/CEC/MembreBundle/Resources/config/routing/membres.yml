@@ -17,7 +17,7 @@ supprimer_membre:
     defaults: {_controller: CECMembreBundle:Membres:supprimer}
     requirements:
         membre: \d+
-    
+
 passations:
     pattern: /passations
     defaults: {_controller: CECMembreBundle:Membres:passations}

@@ -27,7 +27,7 @@
             <input type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" placeholder="Prénom Nom" class="input-block-level" {% if not erreur %}autofocus{% endif %} />
             <input type="password" id="mot_de_passe" name="_password" placeholder="Mot de passe" class="input-block-level" {% if erreur %}autofocus{% endif %} />
             <div class="footer-controls">
-                <a href="{{ path('cec_membre_securite_oubli') }}" class="btn btn-link btn-small">Mot de passe oublié ?</a>
+                <a href="{{ path('securite_oubli') }}" class="btn btn-link btn-small">Mot de passe oublié ?</a>
                 <button type="submit" class="btn btn-primary btn-large">Se connecter</button>
             </div>
         </form>

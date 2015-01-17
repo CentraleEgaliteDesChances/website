@@ -1,0 +1,52 @@
+tous_groupes:
+    pattern: /
+    defaults: { _controller: CECTutoratBundle:Groupes:tous }
+
+creer_groupe:
+    pattern: /creation/{lycee}
+    defaults: { _controller: CECTutoratBundle:Groupes:creer, lycee: null }
+    requirements:
+        lycee: \d+
+
+groupe:
+    pattern: /{groupe}
+    defaults: { _controller: CECTutoratBundle:Groupes:voir }
+    requirements:
+        groupe: \d+
+
+editer_groupe:
+    pattern: /{groupe}/edition
+    defaults: { _controller: CECTutoratBundle:Groupes:editer }
+    requirements:
+        groupe: \d+
+
+groupe_supprimer_lyceen:
+    pattern: /{groupe}/supprimer_lyceen/{lyceen}
+    defaults: { _controller: CECTutoratBundle:Groupes:supprimerLyceen }
+    requirements:
+        groupe: \d+
+        lyceen: \d+
+
+groupe_ajouter_lyceen:
+    pattern: /{groupe}/ajouter_lyceen
+    defaults: { _controller: CECTutoratBundle:Groupes:ajouterLyceen }
+    requirements:
+        groupe: \d+
+
+groupe_supprimer_tuteur:
+    pattern: /{groupe}/supprimer_tuteur/{tuteur}
+    defaults: { _controller: CECTutoratBundle:Groupes:supprimerTuteur }
+    requirements:
+        groupe: \d+
+        tuteur: \d+
+
+groupe_ajouter_tuteur:
+    pattern: /{groupe}/ajouter_tuteur
+    defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
+    requirements:
+        groupe: \d+
+
+groupe_compterendu_arediger:
+    pattern: /{groupe}/comptes_rendus
+    requirements:
+        groupe: \d+

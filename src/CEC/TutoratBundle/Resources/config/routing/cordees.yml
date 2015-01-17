@@ -1,0 +1,32 @@
+toutes_cordees:
+    pattern: /
+    defaults: { _controller: CECTutoratBundle:Cordees:toutes }
+
+anciennes_cordees:
+    pattern: /anciennes
+    defaults: { _controller: CECTutoratBundle:Cordees:anciennes }
+
+cordee:
+    pattern:  /{cordee}
+    defaults: { _controller: CECTutoratBundle:Cordees:voir }
+    requirements:
+        cordee: \d+
+
+editer_cordee:
+    pattern: /{cordee}/edition
+    defaults: { _controller: CECTutoratBundle:Cordees:editer }
+    requirements:
+        cordee: \d+
+
+basculer_lycee:
+    pattern: /{cordee}/basculer_lycee/{lycee}
+    defaults: { _controller: CECTutoratBundle:Cordees:basculerLycee }
+    requirements:
+        cordee:    \d+
+        lycee: \d+
+
+desactiver_cordee:
+    pattern: /{cordee}/desactivation
+    defaults: { _controller: CECTutoratBundle:Cordees:desactiver }
+    requirements:
+        cordee: \d+

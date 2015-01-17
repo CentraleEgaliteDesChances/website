@@ -1,3 +1,7 @@
+cec_acceuil_temporaire:
+    pattern: /
+    defaults: {_controller: CECMembreBundle:TableauDeBord:voir}
+
 cec_secteur_sorties:
     resource: "@CECSecteurSortiesBundle/Resources/config/routing.yml"
     prefix:   /tuteur
@@ -18,10 +22,10 @@ cec_membre:
     resource: "@CECMembreBundle/Resources/config/routing.yml"
     prefix:   /
 
-cec_extern_site:
-    resource: "@CECExternSiteBundle/Resources/config/routing.yml"
-    prefix:   /
-    
+#   cec_extern_site:
+#       resource: "@CECExternSiteBundle/Resources/config/routing.yml"
+#       prefix:   /
+
 
 # Security routes
 connexion_verifications:
@@ -39,7 +43,7 @@ fos_js_routing:
 # adesigns/calendar-bundle
 adesigns_calendar:
     resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
-    
+
 # Internal routing configuration to handle ESI
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

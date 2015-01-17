@@ -8,6 +8,6 @@ actions_reglages:
 
 actions_securite:
     resource: "@CECMembreBundle/Resources/config/routing/securite.yml"
-    
+
 actions_tableaudebord:
     resource: "@CECMembreBundle/Resources/config/routing/tableaudebord.yml"

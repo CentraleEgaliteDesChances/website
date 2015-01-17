@@ -98,7 +98,7 @@ class SecuriteController extends Controller
 
                 //Retour à la page de connexion
                 $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
-                return $this->redirect($this->generateUrl('cec_membre_securite_connexion'));
+                return $this->redirect($this->generateUrl('connexion'));
             }
         }
         

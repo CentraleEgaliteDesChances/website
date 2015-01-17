@@ -66,7 +66,7 @@
     {% endif %}
     <tr>
         <td colspan="3" class="auteur">
-            <small>Auteur : <a href="{{ path('cec_membre_membres_voir', { 'membre' : cr.activite.document.auteur.id }) }}">{{ cr.activite.document.auteur }}</a></small>
+            <small>Auteur : <a href="{{ path('voir_membre', { 'membre' : cr.activite.document.auteur.id }) }}">{{ cr.activite.document.auteur }}</a></small>
         </td>
     </tr>
 </tbody>

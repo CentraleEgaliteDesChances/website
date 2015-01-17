@@ -1,9 +1,9 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a href="{{ path('cec_membre_tableaudebord_voir') }}" class="brand">CEC</a>
+            <a href="{{ path('tableau_de_bord_tuteur') }}" class="brand">CEC</a>
             <ul class="nav">
-                <li><a href="{{ path('cec_membre_tableaudebord_voir') }}">Tableau de bord</a></li>
+                <li><a href="{{ path('tableau_de_bord_tuteur') }}">Tableau de bord</a></li>
                 {% if membre.groupe %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -81,7 +81,7 @@
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_FUNDRAISING') or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteur Fundraising</li>
-                            <li><a href="{{ path('cec_secteurfundraising_statistiques_voir') }}">Statistiques de l'association</a></li>
+                            <li><a href="{{ path('statistiques') }}">Statistiques de l'association</a></li>
                         {% endif %}
                     </ul>
                 </li>
@@ -96,7 +96,7 @@
                         <li class="divider"></li>
                         <li><a href="{{ path('tous_lycees') }}">Liste des lycées</a></li>
                         <li><a href="{{ path('tous_lyceens') }}">Liste des lycéens</a></li>
-                        <li><a href="{{ path('cec_membre_membres_tous') }}">Liste des membres</a></li>
+                        <li><a href="{{ path('voir_tous_membres') }}">Liste des membres</a></li>
                         <li><a href="{{ path('tous_enseignants') }}">Liste des enseignants</a></li>
                         <li><a href="{{ path('tous_groupes') }}">Liste des groupes de tutorat</a></li>
                         <li class="divider"></li>
@@ -116,21 +116,21 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('cec_membre_membres_tous') }}">Gestion des membres</a></li>
-                        <li><a href="{{ path('cec_membre_membres_passations') }}">Passation et gestion du buro</a></li>
+                        <li><a href="{{ path('voir_tous_membres') }}">Gestion des membres</a></li>
+                        <li><a href="{{ path('passations') }}">Passation et gestion du buro</a></li>
                     </ul>
                 </li>
                 {% endif %}
             </ul>
             <div class="btn-group pull-right">
-                <a class="btn btn-inverse" href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">
+                <a class="btn btn-inverse" href="{{ path('voir_membre', { 'membre' : membre.id }) }}">
                     {{ membre.username }}
                 </a>
                 <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('cec_membre_reglages_infos') }}">Modifier mon profil</a></li>
-                    <li><a href="{{ path('cec_membre_reglages_groupe') }}">Modifier mon groupe</a></li>
-                    <li><a href="{{ path('cec_membre_reglages_secteurs') }}">Modifier mes secteurs</a></li>
+                    <li><a href="{{ path('reglages_infos') }}">Modifier mon profil</a></li>
+                    <li><a href="{{ path('reglages_groupe') }}">Modifier mon groupe</a></li>
+                    <li><a href="{{ path('reglages_secteurs') }}">Modifier mes secteurs</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
                 </ul>

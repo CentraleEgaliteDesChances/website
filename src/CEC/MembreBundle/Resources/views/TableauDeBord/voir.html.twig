@@ -39,7 +39,7 @@
                 <li><a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">Mon groupe de tutorat</a></li>
             {% else %}
                 <p>Vous n'êtes pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, rédiger les comptes-rendus <br />et choisir les activités, vous devez vous prendre part à un groupe.</p>
-                <a href="{{ path('cec_membre_reglages_groupe') }}" class="btn btn-primary btn-large inscription">
+                <a href="{{ path('reglages_groupe') }}" class="btn btn-primary btn-large inscription">
                     <strong>M'inscrire à un groupe de tutorat</strong>
                 </a>
             {% endif %}
@@ -48,7 +48,7 @@
             <li><a href="{{ path('sorties') }}">Les sorties à venir</a></li>
         </ul>
         <ul class="liens">
-            <li><a href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">Mon profil</a></li>
+            <li><a href="{{ path('voir_membre', { 'membre' : membre.id }) }}">Mon profil</a></li>
             <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
             <li><a href="mailto:jean-baptiste.bayle@student.ecp.fr">Aide</a></li>
         </ul>

@@ -44,7 +44,7 @@ class ReglagesController extends Controller
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
-                    return $this->redirect($this->generateUrl('cec_membre_reglages_infos'));
+                    return $this->redirect($this->generateUrl('reglages_infos'));
                 }
             }
             
@@ -59,7 +59,7 @@ class ReglagesController extends Controller
                     
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
-                    return $this->redirect($this->generateUrl('cec_membre_reglages_infos'));
+                    return $this->redirect($this->generateUrl('reglages_infos'));
                 }
             }
         }
@@ -85,7 +85,7 @@ class ReglagesController extends Controller
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
-                return $this->redirect($this->generateUrl('cec_membre_reglages_groupe'));
+                return $this->redirect($this->generateUrl('reglages_groupe'));
             }
         }
         
@@ -110,7 +110,7 @@ class ReglagesController extends Controller
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
-                return $this->redirect($this->generateUrl('cec_membre_reglages_secteurs'));
+                return $this->redirect($this->generateUrl('reglages_secteurs'));
             }
         }
         
