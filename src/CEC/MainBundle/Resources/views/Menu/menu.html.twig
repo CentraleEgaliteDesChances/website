@@ -25,7 +25,7 @@
                                     {% endif %}
                                 </a></li>
                                 {% if seance_a_venir.compteRendus is empty %}
-                                    <li><a href="{{ path('cec_activite_activites_rechercher') }}">Choisir une activité</a></li>
+                                    <li><a href="{{ path('activites_rechercher') }}">Choisir une activité</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
                             {% endif %}
@@ -43,7 +43,7 @@
                             {% endfor %}
                             {% if membre.groupe and cr_a_rediger is not empty %}
                                 <li class="divider"></li>
-                                <li><a href="{{ path('cec_activite_compterendus_arediger', { 'groupe' : membre.groupe.id }) }}">
+                                <li><a href="{{ path('groupe_compterendu_arediger', { 'groupe' : membre.groupe.id }) }}">
                                     Compte-rendus à rédiger
                                     <span class="badge badge-important" style="margin-left: 10px;">{{ cr_a_rediger|length }}</span>
                                 </a></li>
@@ -62,9 +62,9 @@
                                 or is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES')
                                 or is_granted('ROLE_BURO') %}
                             <li class="secteur">Secteurs Activités</li>
-                            <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
-                            <li><a href="{{ path('cec_activite_compterendus_recents') }}">Consulter les comptes-rendus</a></li>
-                            <li><a href="{{ path('cec_activite_activites_creer') }}">Rédiger une nouvelle activité</a></li>
+                            <li><a href="{{ path('activites_rechercher') }}">Liste des activités</a></li>
+                            <li><a href="{{ path('compterendus_recents') }}">Consulter les comptes-rendus</a></li>
+                            <li><a href="{{ path('activites_creer') }}">Rédiger une nouvelle activité</a></li>
                             <li><a href="{{ path('quizzActu') }}">Liste des quizz actu</a></li>
                         {% endif %}
                         {% if is_granted('ROLE_SECTEUR_PROJETS') or is_granted('ROLE_BURO') %}
@@ -100,8 +100,8 @@
                         <li><a href="{{ path('tous_enseignants') }}">Liste des enseignants</a></li>
                         <li><a href="{{ path('tous_groupes') }}">Liste des groupes de tutorat</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ path('cec_activite_activites_rechercher') }}">Liste des activités</a></li>
-                        <li><a href="{{ path('cec_activite_activites_creer') }}">Rédiger une nouvelle activité</a></li>
+                        <li><a href="{{ path('activites_rechercher') }}">Liste des activités</a></li>
+                        <li><a href="{{ path('activites_creer') }}">Rédiger une nouvelle activité</a></li>
                         <li><a href="{{ path('quizzActu') }}">Liste des quizz actu</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('sorties') }}">Liste des sorties</a></li>

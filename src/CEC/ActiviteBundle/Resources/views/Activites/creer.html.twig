@@ -3,7 +3,7 @@
 {% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 {% block container %}
-    <form method="post" action="{{ path('cec_activite_activites_creer') }}" {{ form_enctype(form) }}>
+    <form method="post" action="{{ path('activites_creer') }}" {{ form_enctype(form) }}>
         {{ parent() }}
     </form>
 {% endblock %}

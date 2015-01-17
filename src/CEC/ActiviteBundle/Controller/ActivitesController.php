@@ -174,7 +174,7 @@ class ActivitesController extends Controller
             if ($activiteForm->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->flush();
-                return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+                return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
             }
         }
         
@@ -219,7 +219,7 @@ class ActivitesController extends Controller
                 
                 $this->get('session')
                     ->setFlash('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
-                return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+                return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
             }
         }
         
@@ -247,7 +247,7 @@ class ActivitesController extends Controller
         
         $this->get('session')->getFlashBag()
             ->add('success', 'L\'activité a bien été supprimée, ainsi que tous les documents et compte-rendus associés.');
-        return $this->redirect($this->generateUrl('cec_activite_activites_voir', array('activite' => $activite->getId())));
+        return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
         
         return array();
     }

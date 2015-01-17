@@ -156,7 +156,7 @@
             {% for document in membre.documents %}
             <tr>
                 <td>
-                    <a href="{{ path('cec_activite_activites_voir', { 'activite': document.activite.id }) }}">
+                    <a href="{{ path('activites_voir', { 'activite': document.activite.id }) }}">
                         <strong>{{ document.activite.titre }}</strong><br />
                         Version du {{ document.dateCreation|date('d/m/Y') }}
                     </a>

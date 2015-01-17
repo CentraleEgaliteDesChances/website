@@ -29,19 +29,19 @@
                 {% set activite = compteRendu.activite %}
                 <tr>
                     <td>
-                        <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
+                        <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
                             {{ type(activite.type, 'pull-right') }}
                             <strong>{{ activite.titre }}</strong><br />
                             <p>{{ activite.description }}</p>
                             <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
-                            <a href="{{ path('cec_activite_compterendus_supprimer', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
+                            <a href="{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
                         </a>
                     </td>
                 </tr>
             {% else %}
                 <tr class="warning">
                     <td>
-                        Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('cec_activite_activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
+                        Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
                     </td>
                 </tr>
             {% endfor %}
@@ -124,7 +124,7 @@
                 {% set activite = compteRendu.activite %}
                 <tr>
                     <td colspan="3">
-                        <a href="{{ path('cec_activite_activites_voir', { 'activite': activite.id }) }}">
+                        <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
                             <strong>{{ activite.titre }}</strong><br />
                             {{ activite.description }}
                         </a>

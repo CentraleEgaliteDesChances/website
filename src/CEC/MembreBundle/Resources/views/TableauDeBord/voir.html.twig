@@ -27,12 +27,12 @@
                         <strong>{{ cycle(jours, seance_a_venir.date|date('N'))|lower }} {{ seance_a_venir.date|date('j') }} {{ cycle(mois, seance_a_venir.date|date('n')) }} à {{ seance_a_venir.retreiveDebut|date('G\\hi') }}</strong>
                     </a></li>
                     {% if seance_a_venir.compteRendus is empty %}
-                        <li><a href="{{ path('cec_activite_activites_rechercher') }}">Choisir une activité</a></li>
+                        <li><a href="{{ path('activites_rechercher') }}">Choisir une activité</a></li>
                     {% endif %}
                 {% endif %}
                 <li><a href="{{ path('toutes_seances') }}">Planning des séances de tutorat</a></li>
                 {% if cr_a_rediger is not empty %}
-                    <li><a href="{{ path('cec_activite_compterendus_arediger', { 'groupe' : membre.groupe.id }) }}">
+                    <li><a href="{{ path('groupe_compterendu_arediger', { 'groupe' : membre.groupe.id }) }}">
                         Compte-rendus à rédiger
                     </a></li>
                 {% endif %}

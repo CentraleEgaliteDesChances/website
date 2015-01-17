@@ -87,7 +87,7 @@
             <tbody>
                 <tr class="warning">
                     <td style="text-align: center;">
-                        <a href="{% if deja_choisie %}{{ path('cec_activite_compterendus_supprimer', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% else %}{{ path('cec_activite_compterendus_creer', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% endif %}" 
+                        <a href="{% if deja_choisie %}{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% else %}{{ path('seance_creer_acti', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% endif %}" 
                                 class="btn btn-warning{{ deja_choisie ? ' active' }}" 
                                 style="display: block; padding: 10px;">
                             <div style="font-size: 140%; margin-bottom: 5px;">
@@ -115,7 +115,7 @@
     {% endif %}
     
     
-    <a href="{{ path('cec_activite_activites_editer', { 'activite' : activite.id }) }}" class="btn btn-block">Éditer l'activité</a>
+    <a href="{{ path('activites_editer', { 'activite' : activite.id }) }}" class="btn btn-block">Éditer l'activité</a>
 {% endblock %}
 
 

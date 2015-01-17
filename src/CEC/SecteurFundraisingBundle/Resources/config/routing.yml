@@ -1,6 +1,5 @@
 statistiques:
     pattern: /statistiques/{annees}
-    defaults: {_controller: CECSecteurFundraising:Statistiques:voir, annees: null}
+    defaults: {_controller: CECSecteurFundraisingBundle:Statistiques:voir, annees: null}
     requirements:
         annees: "^[0-9]{4}\-[0-9]{4}$"
-    
