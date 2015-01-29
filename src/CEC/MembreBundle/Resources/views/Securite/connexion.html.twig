@@ -23,7 +23,12 @@
             {% if erreur %}
                 <div class="alert alert-error">{{ erreur.message }}</div>
             {% endif %}
-    
+			
+			<select name="_type" class="input-block-level">
+				<option value="eleve">Élève</option>
+				<option value="professeur">Professeur</option>
+				<option value="tuteur">Tuteur</option>
+			</select>
             <input type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" placeholder="Prénom Nom" class="input-block-level" {% if not erreur %}autofocus{% endif %} />
             <input type="password" id="mot_de_passe" name="_password" placeholder="Mot de passe" class="input-block-level" {% if erreur %}autofocus{% endif %} />
             <div class="footer-controls">
