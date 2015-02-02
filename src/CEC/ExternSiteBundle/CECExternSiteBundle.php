@@ -7,3 +7,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class CECExternSiteBundle extends Bundle
 {
 }
+#test
