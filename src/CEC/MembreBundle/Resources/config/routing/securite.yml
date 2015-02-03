@@ -1,3 +1,6 @@
 securite_oubli:
     pattern: /connexion/oubli
     defaults: {_controller: CECMembreBundle:Securite:oubli}
+inscription:
+    pattern: /inscription
+    defaults: {_controller: CECMembreBundle:Securite:inscription}
