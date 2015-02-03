@@ -171,6 +171,16 @@ class Membre implements UserInterface, \Serializable
      * )
      */
     private $buro;
+	
+	/** 
+	 * Tableau des roles attribués au membre
+	 *
+	 * @var array
+	 * 
+	 * @ORM\Column(name="roles", type="array")
+	 */
+	 
+	 protected $roles;
 
     /**
      * Date de création.

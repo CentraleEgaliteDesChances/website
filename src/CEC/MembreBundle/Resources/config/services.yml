@@ -1,7 +1,15 @@
 parameters:
-#    cec_membre.example.class: CEC\MembreBundle\Example
+    cec_membre.component.authentication.handler.login_success_handler.class: CEC\MembreBundle\Component\Authentication\Handler\LoginSuccessHandler
+    cec_membre.component.authentication.handler.logout_success_handler.class: CEC\MembreBundle\Component\Authentication\Handler\LogoutSuccessHandler
 
 services:
-#    cec_membre.example:
-#        class: %cec_membre.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cec_membre.component.authentication.handler.login_success_handler:
+        class:  %cec_membre.component.authentication.handler.login_success_handler.class%
+        arguments:  [@service_container, @router, @security.context]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+    cec_membre.component.authentication.handler.logout_success_handler:
+        class:  %cec_membre.component.authentication.handler.logout_success_handler.class%
+        arguments:  [@service_container, @router]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
