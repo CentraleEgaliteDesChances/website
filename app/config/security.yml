@@ -5,6 +5,8 @@ jms_security_extra:
 security:
     encoders:
         CEC\MembreBundle\Entity\Membre: sha512
+        CEC\MembreBundle\Entity\Eleve: sha512
+        CEC\MembreBundle\Entity\Professeur: sha512
 
     role_hierarchy:
         #Rôles internes des tuteurs

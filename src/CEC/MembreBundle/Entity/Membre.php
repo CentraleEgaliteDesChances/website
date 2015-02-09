@@ -25,10 +25,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table()
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="CEC\MembreBundle\Entity\MembreRepository")
- * @UniqueEntity(
- *     fields = {"prenom", "nom"},
- *     message = "Un utilisateur possédant ce prénom et ce nom existe déjà."
- * )
+ * @UniqueEntity(fields="email", message="Email already taken")
  */
 class Membre implements UserInterface, \Serializable
 {

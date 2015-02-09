@@ -5,14 +5,17 @@ namespace CEC\MembreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Professeur
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="CEC\MembreBundle\Entity\ProfesseurRepository")
+ * @UniqueEntity(fields="mail", message="Email already taken")
  */
-class Professeur
+class Professeur implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -27,7 +30,11 @@ class Professeur
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=100)
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
+     * @Assert\MaxLength(
+     *     limit = 100,
+     *     message = "Le prénom ne peut excéder 100 caractères."
+     * )
      */
     private $prenom;
 
@@ -35,45 +42,49 @@ class Professeur
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=100)
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
+     * @Assert\MaxLength(
+     *     limit = 100,
+     *     message = "Le nom de famille ne peut excéder 100 caractères."
+     * )
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=200)
-	 * @Assert\NotBlank()
-	 * @Assert\Email()
+     * @ORM\Column(name="mail", type="string", length=150)
+	 * @Assert\Email(
+     *     message = "L'adresse email n'est pas valide.",
+     *     checkHost = true
+     * )
+     * @Assert\NotBlank(message = "L'adresse email ne peut être vide.")
+     * @Assert\MaxLength(
+     *     limit = 100,
+     *     message = "L'adresse email ne peut excéder 255 caractères."
+     * )
      */
-    private $email;
+    private $mail;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lycee", type="string", length=100)
-	 * @Assert\NotBlank()
+     * @ORM\Column(name="lycee", type="string", length=20)
      */
     private $lycee;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateCreation", type="datetime")
-     */
-    private $dateCreation;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateModification", type="datetime")
-     */
-    private $dateModification;
-
-    /**
      * @var string
      *
-     * @ORM\Column(name="telephone", type="string", length=20)
+     * @ORM\Column(name = "telephone", type = "string", length = 15, nullable = true)
+     * @Assert\Regex(
+     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
+     *     message = "Le numéro de téléphone n'est pas valide."
+     * )
+     * @Assert\MaxLength(
+     *     limit = 15,
+     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * )
      */
     private $telephone;
 
@@ -83,7 +94,109 @@ class Professeur
      * @ORM\Column(name="roles", type="array")
      */
     private $roles;
+	
+	    /**
+     * Mot de passe hashé du membre.
+     * Ce champ contient le mot de passe en clair lors de sa modification par
+     * formulaire, avant d'être hashé et remplaçé dans ce champ. Dans la BDD, seul
+     * le mot de passe hashé est donc enregistré — et comparé lors de l'authentification.
+     *
+     * Le mot de passe, requis, est une chaîne de caractère de longueur comprise entre 5 et 100 caractères.
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "motDePasse", type = "string", length = 100)
+     * @Assert\NotBlank(message = "Merci de spécifier un mot de passe.")
+     * @Assert\Type(
+     *     type = "string",
+     *     message = "Le mot de passe doit être une chaîne de caractères."
+     * )
+     * @Assert\Length(
+     *     min = "5",
+     *     max = "100",
+     *     minMessage = "Le mot de passe doit contenir au moins 5 caractères.",
+     *     maxMessage = "Le mot de passe ne peut excéder 100 caractères."
+     * )
+     */
+    private $motDePasse;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateCreation", type="datetime")
+	 * @Gedmo\Timestampable(on = "create")
+     * @Assert\DateTime()
+     */
+    private $dateCreation;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateModification", type="datetime")
+	 * @Gedmo\Timestampable(on = "update")
+     * @Assert\DateTime()
+     */
+    private $dateModification;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="referent", type="boolean")
+     */
+    private $referent;
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        return $this->getPrenom() . ' ' . $this->getNom();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        return $this->getMotDePasse();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
+    }
 
     /**
      * Get id
@@ -142,26 +255,26 @@ class Professeur
     }
 
     /**
-     * Set email
+     * Set mail
      *
-     * @param string $email
+     * @param string $mail
      * @return Professeur
      */
-    public function setEmail($email)
+    public function setMail($mail)
     {
-        $this->email = $email;
+        $this->mail = $mail;
     
         return $this;
     }
 
     /**
-     * Get email
+     * Get mail
      *
      * @return string 
      */
-    public function getEmail()
+    public function getMail()
     {
-        return $this->email;
+        return $this->mail;
     }
 
     /**
@@ -185,6 +298,52 @@ class Professeur
     public function getLycee()
     {
         return $this->lycee;
+    }
+
+    /**
+     * Set telephone
+     *
+     * @param string $telephone
+     * @return Professeur
+     */
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
+    
+        return $this;
+    }
+
+    /**
+     * Get telephone
+     *
+     * @return string 
+     */
+    public function getTelephone()
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     * @return Professeur
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    
+        return $this;
+    }
+
+    /**
+     * Get roles
+     *
+     * @return array 
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 
     /**
@@ -234,48 +393,48 @@ class Professeur
     }
 
     /**
-     * Set telephone
+     * Set referent
      *
-     * @param string $telephone
+     * @param boolean $referent
      * @return Professeur
      */
-    public function setTelephone($telephone)
+    public function setReferent($referent)
     {
-        $this->telephone = $telephone;
+        $this->referent = $referent;
     
         return $this;
     }
 
     /**
-     * Get telephone
+     * Get referent
+     *
+     * @return boolean 
+     */
+    public function getReferent()
+    {
+        return $this->referent;
+    }
+	
+	/**
+     * Set motDePasse
+     *
+     * @param string $motDePasse
+     * @return Professeur
+     */
+    public function setMotDePasse($motDePasse)
+    {
+        $this->motDePasse = $motDePasse;
+    
+        return $this;
+    }
+
+    /**
+     * Get motDePasse
      *
      * @return string 
      */
-    public function getTelephone()
+    public function getMotDePasse()
     {
-        return $this->telephone;
-    }
-
-    /**
-     * Set roles
-     *
-     * @param array $roles
-     * @return Professeur
-     */
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
-    
-        return $this;
-    }
-
-    /**
-     * Get roles
-     *
-     * @return array 
-     */
-    public function getRoles()
-    {
-        return $this->roles;
+        return $this->motDePasse;
     }
 }

@@ -84,7 +84,7 @@ class MembresController extends Controller
                         'text/html');
                 $this->get('mailer')->send($email);
                 
-                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenu, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
+                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
                 return $this->redirect($this->generateUrl('creer_membre'));
             }
         }

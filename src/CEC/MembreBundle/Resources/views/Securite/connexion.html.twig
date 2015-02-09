@@ -33,10 +33,11 @@
         </form>
     </div>
 	<div class="container">
-		<form method="post" action="{{path('connexion')}}" class="form-connexion">
+		<div class="form-connexion">
 			<h2> Pas encore inscrit ? </h2>
-			<a href="{{path('inscription')}}>"<button class="btn btn-primary btn-large" >S'inscrire</button></a>
-		</form>
+			<a href="{{path('inscriptionProfesseur')}}"><button class="btn btn-primary btn-large" >S'inscrire en tant que professeur</button></a>
+			<a href="{{path('inscriptionEleve')}}"><button class="btn btn-primary btn-large" >S'inscrire en tant que lycéen</button></a>
+		</div>
 	</div>
 
 {% endblock %}

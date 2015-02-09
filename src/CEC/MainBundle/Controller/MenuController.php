@@ -30,4 +30,19 @@ class MenuController extends Controller
             'cr_a_rediger' => $crARediger,
         ));
     }
+	
+	public function menuAnonAction()
+	{
+		return $this->render('CECMainBundle:Menu:menu_anon.html.twig', array());
+	}
+	
+	public function menuProfAction()
+	{
+		return $this->render('CECMainBundle:Menu:menu_prof.html.twig', array());
+	}
+	
+	public function menuEleveAction()
+	{
+		return $this->render('CECMainBundle:Menu:menu_eleve.html.twig', array());
+	}
 }

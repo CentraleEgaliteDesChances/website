@@ -1,6 +1,9 @@
 securite_oubli:
     pattern: /connexion/oubli
     defaults: {_controller: CECMembreBundle:Securite:oubli}
-inscription:
-    pattern: /inscription
-    defaults: {_controller: CECMembreBundle:Securite:inscription}
+inscriptionProfesseur:
+    pattern: /inscription/professeur
+    defaults: {_controller: CECMembreBundle:Securite:inscriptionProfesseur}
+inscriptionEleve:
+    pattern: /inscription/lyceen
+    defaults: {_controller: CECMembreBundle:Securite:inscriptionEleve}
