@@ -2,6 +2,7 @@
  
 namespace CEC\MembreBundle\Component\Authentication\Handler;
  
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -13,7 +14,7 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
 	protected $router;
 	protected $security;
-	public function __construct(Router $router, SecurityContext $security)
+	public function __construct(Container $container, Router $router, SecurityContext $security)
 	{
 		$this->router = $router;
 		$this->security = $security;

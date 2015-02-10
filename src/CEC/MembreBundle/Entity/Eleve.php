@@ -196,6 +196,18 @@ class Eleve implements UserInterface, \Serializable
             $this->id,
         ) = unserialize($serialized);
     }
+	
+	/**
+     * Retourne la description d'un membre.
+     * La description est le résultat de la concaténation du prénom et du nom.
+     *
+     * @return string Description du membre.
+     */
+    public function __toString()
+    {
+
+        return $this->getPrenom() . ' ' . $this->getNom();
+    }
 
     /**
      * Get id

@@ -35,8 +35,15 @@ security:
         ROLE_ADMIN : [ROLE_BURO, ROLE_ELEVE_DELEGUE, ROLE_PROFESSEUR_REFERENT, IS_ALLOWED_TO_SWITCH]
 
     providers:
+        chain_provider:
+            chain: 
+                providers: [membres, eleves, profs]
         membres:
             entity: { class: CECMembreBundle:Membre }
+        eleves:
+            entity: { class: CECMembreBundle:Eleve}
+        profs:
+            entity: { class: CECMembreBundle:Professeur}
 
     firewalls:
         dev:

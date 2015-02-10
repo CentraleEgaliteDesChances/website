@@ -1,3 +1,9 @@
 tableau_de_bord_tuteur:
     pattern: /tuteur/
     defaults: {_controller: CECMembreBundle:TableauDeBord:voir}
+tableau_de_bord_professeur:
+    pattern: /professeur/
+    defaults: {_controller: CECMembreBundle:TableauDeBord:voirProf}
+tableau_de_bord_eleve:
+    pattern: /eleve/
+    defaults: {_controller: CECMembreBundle:TableauDeBord:voirEleve}
