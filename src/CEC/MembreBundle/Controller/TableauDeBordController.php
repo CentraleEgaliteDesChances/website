@@ -49,12 +49,12 @@ class TableauDeBordController extends Controller
 	
 	public function voirProfAction()
     {
-        $membre = $this->getUser();
-        if (!$membre) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+        $prof = $this->getUser();
+        if (!$prof) throw $this->createNotFoundException('Impossible de trouver votre profil !');
 
         
         return array(
-            'membre' => $membre,
+            'prof' => $prof,
         );
     }
 	
@@ -67,12 +67,12 @@ class TableauDeBordController extends Controller
      */
 	public function voirEleveAction()
     {
-        $membre = $this->getUser();
-        if (!$membre) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+        $eleve = $this->getUser();
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver votre profil !');
 
         
         return array(
-            'membre' => $membre,
+            'eleve' => $eleve,
         );
     }
 }

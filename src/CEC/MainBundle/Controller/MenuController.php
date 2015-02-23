@@ -38,11 +38,23 @@ class MenuController extends Controller
 	
 	public function menuProfAction()
 	{
-		return $this->render('CECMainBundle:Menu:menu_prof.html.twig', array());
+        $prof = $this->getUser();
+        if (!$prof) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        
+		return $this->render('CECMainBundle:Menu:menu_prof.html.twig', array(
+			'prof' => $prof,
+		));
 	}
 	
 	public function menuEleveAction()
 	{
-		return $this->render('CECMainBundle:Menu:menu_eleve.html.twig', array());
+		$eleve = $this->getUser();
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        
+		return $this->render('CECMainBundle:Menu:menu_eleve.html.twig', array(
+			'eleve' => $eleve,	
+		));
 	}
 }

@@ -1,0 +1,96 @@
+{% extends 'CECMembreBundle:Membres:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block left %}
+{{ parent() }}
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th colspan="2" class="titre">
+                    <h3>{{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}</h3>
+                </th>
+            </tr>
+            <tr><th colspan="2" class="image">
+                {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
+                    <img src="{{ asset_url }}" alt="Image du lycée"/>
+                {% endimage %}
+            </th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Email</td>
+                <td><a href="mailto:{{ eleve.mail }}">{{ eleve.mail }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table class="table table-bordered table-striped table-hover">
+        <tbody>
+            <tr>
+                <td>Tutorat</td>
+                <td>
+                    {% if eleve.lycee and eleve.classe %}
+                        En tutorat au lycée {{eleve.lycee|lycee}} en classe de {{eleve.classe}}
+                    {% else %}
+                        <span class="muted">Pas de tutorat</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% if eleve.delegue %}
+                <tr>
+                    <td>Délégué</td>
+                    <td>
+                        {{eleve.lycee|lycee}}
+                    </td>
+                </tr>
+            {% endif %}
+
+        </tbody>
+    </table>
+
+    {% if app.user == eleve %}
+        <a href="{{ path('reglages_infos') }}" class="btn btn-block">Modifier mon profil</a>
+    {% endif %}
+    
+{% endblock %}
+
+
+{% block right %}
+{{ parent() }}
+
+    {% if eleve == app.user %}
+        {{ flash('info', "Voici ta page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier tes infos, utilise le bouton en bas à gauche de votre écran.") }}
+    {% endif %}
+	
+	
+{#   A reprendre et compléter !!
+
+
+    <table class="table table-bordered table-hover table-striped table-large">
+        {% if membre.lycee %}
+            <thead><tr><th><h4>Groupe de tutorat</h4></th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">
+                            <strong>
+                                {% for lycee in membre.groupe.lycees %}
+                                    {{ lycee.nom }}
+                                    {% if not loop.last %}& {% endif %}
+                                {% endfor %}
+                                ({{ membre.groupe.niveau|lower }})
+                            </strong>
+                            <span class="muted">- {{ membre.groupe.typeDeTutorat }}</span><br />
+                            Tous les {{ cycle(jours, membre.groupe.debut|date('N'))|lower }}s à {{ membre.groupe.debut|date('G\\hi') }}, {{ membre.groupe.lieu|lower }}.
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucune activité de tutorat</h4></th></tr></thead>
+        {% endif %}
+    </table>
+ #}   
+
+{% endblock %}

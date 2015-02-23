@@ -2,8 +2,10 @@
 
 
 {% block stylesheets %}
-{{ parent() }}
-    {% stylesheets '@CECMembreBundle/Resources/public/less/tableau_de_bord.less' %}
+	{{parent()}}
+    {% stylesheets 
+		'@CECMembreBundle/Resources/public/less/tableau_de_bord.less'
+	%}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
 {% endblock %}
@@ -18,7 +20,7 @@
             <img src="{{ asset_url }}" alt="Logo CEC" class="logo"/>
         {% endimage %}
 
-        <h4 class="bienvenue">Bienvenue sur le site interne, {{ membre }} !</h4>
+        <h4 class="bienvenue">Bienvenue sur le site interne, {{ eleve }} !</h4>
 
         <ul class="liens">
             <li><a href="#">Les sorties à venir</a></li>

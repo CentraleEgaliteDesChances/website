@@ -2,8 +2,21 @@
     <div class="navbar-inner">
         <div class="container">
             <a href="{{ path('cec_externe_accueil') }}" class="brand">CEC</a>
+			<ul class="nav">
+                <li><a href="{{ path('tableau_de_bord_eleve') }}">Tableau de bord</a></li>
 
-      
+			</ul>
         </div>
-    </div>
+		<div class="btn-group pull-right">
+                <a class="btn btn-inverse" href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">
+                    {{ eleve }}
+                </a>
+                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Modifier mon profil</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
+                </ul>
+		</div>
+	</div>
 </div>

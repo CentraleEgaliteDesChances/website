@@ -3,11 +3,23 @@ voir_tous_membres:
     defaults: {_controller: CECMembreBundle:Membres:tous}
 
 voir_membre:
-    pattern: /{membre}
+    pattern: /tuteur/{membre}
     defaults: {_controller: CECMembreBundle:Membres:voir}
     requirements:
         membre: \d+
 
+voir_eleve:
+    pattern: /eleve/{id}
+    defaults: {_controller: CECMembreBundle:Membres:voirEleve}
+    requirements:
+        id: \d+
+
+voir_prof:
+    pattern: /professeur/{id}
+    defaults: {_controller: CECMembreBundle:Membres:voirProf}
+    requirements:
+        id: \d+
+        
 creer_membre:
     pattern: /creation
     defaults: {_controller: CECMembreBundle:Membres:creer}

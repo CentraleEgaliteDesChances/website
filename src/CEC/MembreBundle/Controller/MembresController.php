@@ -42,6 +42,22 @@ class MembresController extends Controller
             'membre'    => $membre,
         );
     }
+	
+	    /**
+     * Affiche le profil d'un élève.
+     *
+     * @param integer $id: id du membre, null pour afficher le profil du membre connecté
+     *@Template()
+     */
+    public function voirEleveAction($id)
+    {
+        $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($id);
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        
+        return array(
+            'eleve'    => $eleve,
+        );
+    }
     
     /**
      * Permet de créer un nouveau membre.
