@@ -42,6 +42,22 @@ class MembresController extends Controller
             'membre'    => $membre,
         );
     }
+	
+	    /**
+     * Affiche le profil d'un élève.
+     *
+     * @param integer $id: id du membre, null pour afficher le profil du membre connecté
+     *@Template()
+     */
+    public function voirEleveAction($id)
+    {
+        $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($id);
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        
+        return array(
+            'eleve'    => $eleve,
+        );
+    }
     
     /**
      * Permet de créer un nouveau membre.
@@ -84,7 +100,7 @@ class MembresController extends Controller
                         'text/html');
                 $this->get('mailer')->send($email);
                 
-                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenu, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
+                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
                 return $this->redirect($this->generateUrl('creer_membre'));
             }
         }

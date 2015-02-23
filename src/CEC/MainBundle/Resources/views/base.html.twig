@@ -11,14 +11,23 @@
         '@CECMainBundle/Resources/public/less/bootstrap-override.less'
         '@CECMainBundle/Resources/public/less/menu.less'
     %}
-    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    <link href="{{ asset_url }}" rel="stylesheet/less" media="screen" />
     {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
     {% block modals %}{% endblock %}
     {% block menu %}
-        {% render 'CECMainBundle:Menu:menu' %}
+		{% if is_granted('ROLE_TUTEUR')%}
+			{% render 'CECMainBundle:Menu:menu' %}
+		{% elseif is_granted('ROLE_ELEVE') %}
+			{%render 'CECMainBundle:Menu:menuEleve' %}
+		{% elseif is_granted('ROLE_PROFESSEUR') %}
+			{% render 'CECMainBundle:Menu:MenuProf' %}
+		{% else %}
+			{%render 'CECMainBundle:Menu:MenuAnon' %}
+		{% endif %}
+		
     {% endblock %}
     
     <div class="container">

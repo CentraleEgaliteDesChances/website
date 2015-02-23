@@ -7,7 +7,18 @@
 Paris et nous proposons à de nombreux lycéens de la région parisienne de les accompagner à travers un système de tutorat. Élèves, parents, administrations, 
 entreprises, centraliens, nous vous invitons à découvrir <span style="color:#E3001B;">Centrale Égalité des Chances.</span><div class="barre_bas" ></div></section>
 
-<section id="connexion" ><div class="barre_haut" ></div><a href="{{path('connexion')}}"><div id="lienconnexion"></div></a><div class="barre_bas" ></div></section>
+<section id="connexion" ><div class="barre_haut" ></div><a href="
+		{% if is_granted('ROLE_TUTEUR')%}
+			{{path('tableau_de_bord_tuteur')}}
+		{% elseif is_granted('ROLE_ELEVE') %}
+			{{path('tableau_de_bord_eleve')}}
+		{% elseif is_granted('ROLE_PROFESSEUR') %}
+			{{path('tableau_de_bord_professeur')}}
+		{% else %}
+			{{path('connexion')}}
+		{% endif %}
+">
+<div id="lienconnexion"></div></a><div class="barre_bas" ></div></section>
  
  <section id="structure" ><a href="{{path('cec_externe_structure')}}"><div id="structurecontenu" ></div></a></section>
  

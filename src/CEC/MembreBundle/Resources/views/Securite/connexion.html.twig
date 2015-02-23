@@ -18,7 +18,7 @@
     <div class="container">
         {{ session_flash() }}
         <form method="post" action="{{ path('connexion_verifications') }}" class="form-connexion">
-            <h2>Connexion requise</h2>
+            <h2>Connexion</h2>
             
             {% if erreur %}
                 <div class="alert alert-error">{{ erreur.message }}</div>
@@ -32,5 +32,12 @@
             </div>
         </form>
     </div>
+	<div class="container">
+		<div class="form-connexion">
+			<h2> Pas encore inscrit ? </h2>
+			<a href="{{path('inscriptionProfesseur')}}"><button class="btn btn-primary btn-large" >S'inscrire en tant que professeur</button></a>
+			<a href="{{path('inscriptionEleve')}}"><button class="btn btn-primary btn-large" >S'inscrire en tant que lycéen</button></a>
+		</div>
+	</div>
 
 {% endblock %}

@@ -1,6 +1,5 @@
 parameters:
     cec_membre.component.authentication.handler.login_success_handler.class: CEC\MembreBundle\Component\Authentication\Handler\LoginSuccessHandler
-    cec_membre.component.authentication.handler.logout_success_handler.class: CEC\MembreBundle\Component\Authentication\Handler\LogoutSuccessHandler
 
 services:
     cec_membre.component.authentication.handler.login_success_handler:
@@ -8,8 +7,7 @@ services:
         arguments:  [@service_container, @router, @security.context]
         tags:
             - { name: 'monolog.logger', channel: 'security' }
-    cec_membre.component.authentication.handler.logout_success_handler:
-        class:  %cec_membre.component.authentication.handler.logout_success_handler.class%
-        arguments:  [@service_container, @router]
+    cec_membre.twig.extension.lycee_extension:
+        class: CEC\MembreBundle\Twig\Extension\LyceeExtension
         tags:
-            - { name: 'monolog.logger', channel: 'security' }
+            - { name: twig.extension}
