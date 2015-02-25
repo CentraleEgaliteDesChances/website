@@ -23,7 +23,7 @@
         "kriswallsmith/assetic": "v1.1.0-alpha4",
         "mopa/bootstrap-bundle": "2.1.x-dev",
         "twitter/bootstrap": "2.2.*",
-        "leafo/lessphp": "v0.3.9",
+        "leafo/lessphp": "0.4.0",
         "heartsentwined/yuicompressor": "2.4.7",
         "stof/doctrine-extensions-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "~1.1",

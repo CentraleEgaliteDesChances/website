@@ -4,9 +4,8 @@
             <a href="{{ path('cec_externe_accueil') }}" class="brand">CEC</a>
 			<ul class="nav">
                 <li><a href="{{ path('tableau_de_bord_eleve') }}">Tableau de bord</a></li>
-
 			</ul>
-        </div>
+        
 		<div class="btn-group pull-right">
                 <a class="btn btn-inverse" href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">
                     {{ eleve }}
@@ -17,6 +16,7 @@
                     <li class="divider"></li>
                     <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
                 </ul>
+		</div>
 		</div>
 	</div>
 </div>
