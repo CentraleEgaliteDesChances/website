@@ -1,0 +1,7 @@
+sorties_professeur:
+    pattern: /sorties
+    defaults: { _controller: CECSecteurSortiesBundle:SortiesProfesseur:voir }
+
+anciennes_sorties_professeur:
+    pattern: /sortiesPassees
+    defaults: { _controller: CECSecteurSortiesBundle:SortiesProfesseur:voirAnciennes }
