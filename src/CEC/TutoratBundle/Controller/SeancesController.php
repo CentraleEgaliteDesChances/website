@@ -172,6 +172,7 @@ class SeancesController extends Controller
         } else {
             $seance->addTuteur($tuteur);
         }
+		
         
         $this->getDoctrine()->getEntityManager()->flush();
         return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));

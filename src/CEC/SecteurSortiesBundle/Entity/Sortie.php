@@ -138,6 +138,17 @@ class Sortie
      * )
      */
     private $description;
+	
+	/**
+	* Lycéens ayant participé à la sortie
+	*
+	* * @ORM\ManyToMany(targetEntity = "CEC\MembreBundle\Entity\Eleve" )
+	* @ORM\JoinTable(name="eleves_sorties",
+    *      joinColumns={@ORM\JoinColumn(name="sortie_id", referencedColumnName="id")},
+    *      inverseJoinColumns={@ORM\JoinColumn(name="eleve_id", referencedColumnName="id")}
+    *      )
+    */
+	private $lyceens = array();
 
     /**
      * Nombre de lycéens ayant finalement participas à la sortie
@@ -444,6 +455,39 @@ class Sortie
         return $this->description;
     }
 
+	/**
+     * Add lycéens
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceen
+     * @return Seance
+     */
+    public function addLyceen(\CEC\MembreBundle\Entity\Eleve $lyceen)
+    {
+        $this->lyceens[] = $lyceen;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lycéens
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceen
+     */
+    public function removeLyceen(\CEC\MembreBundle\Entity\Eleve $lyceen)
+    {
+        $this->lyceens->removeElement($lyceen);
+    }
+
+    /**
+     * Get lycéens
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLyceens()
+    {
+        return $this->lyceens;
+    }
+	
     /**
      * Set nbLyceens
      *

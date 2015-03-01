@@ -19,12 +19,39 @@ class SortiesEleveController extends Controller
      */
     public function voirAction()
     {
-        $now = new \DateTime("now");
+		$now = new \DateTime("now");
 
         $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findFollowingSorties($now);
-
+		
+		$request= $this->getRequest();
+			
+		if ($request->isMethod("POST"))
+        {            
+					
+			$eleve = $this->getUser();
+			$id = $request->get('id');
+			$sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
+			if (!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie !');
+			
+			// On bascule l'état
+			if ($sortie->getLyceens()->contains($eleve))
+			{
+				$sortie->removeLyceen($eleve);
+				$request->getSession()->getFlashBag()->add('notice', 'Désinscription bien effectuée.');
+			} else {
+				$lyceens = $sortie->addLyceen($eleve);
+				if($lyceens==array()){echo "Fail";}
+				$request->getSession()->getFlashBag()->add('notice', 'Inscription bien effectuée.');
+			}
+			
+			$em = $this->getDoctrine()->getEntityManager();
+			$em->persist($sortie);
+			$em->flush();
+			
+		}
+		
         return array(
-            'sorties' => $sorties
+            'sorties' => $sorties,
         );
     }
 

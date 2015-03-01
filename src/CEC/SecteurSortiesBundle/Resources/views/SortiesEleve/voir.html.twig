@@ -1,6 +1,12 @@
 {% extends 'CECSecteurSortiesBundle:SortiesEleve:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 {% block right %}
+	<div class="alert alert-success">
+      {% for message in app.session.flashbag.get('notice') %}
+        {{ message }}
+      {% endfor %}
+	</div>
 
 <h1>Liste des sorties à venir</h1>
 
@@ -12,6 +18,19 @@
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
                 <p>Adresse : {{sortie.adresse}}</p>
                 <p style="text-align:justify;">{{sortie.description}}</p>
+
+					<form method="post" action="{{ path('sorties_eleve') }}" class="form-connexion">
+				
+						<input type="hidden" id="id" name="id" value="{{ sortie.id }}"  />
+						<div class="footer-controls">
+				{% if app.user in sortie.lyceens %}
+							<button type="submit" class="btn btn-primary btn-large">Se désinscrire</button>
+				{% else %}
+							<button type="submit" class="btn btn-primary btn-large">S'inscrire</button>
+				{% endif %}
+						</div>
+					</form>
+				
             </td>
         </tr>
         {% endfor %}
