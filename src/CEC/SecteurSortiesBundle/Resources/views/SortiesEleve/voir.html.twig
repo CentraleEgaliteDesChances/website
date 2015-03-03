@@ -2,11 +2,11 @@
 {% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 {% block right %}
-	<div class="alert alert-success">
       {% for message in app.session.flashbag.get('notice') %}
+	<div class="alert alert-success">
         {{ message }}
-      {% endfor %}
 	</div>
+	      {% endfor %}
 
 <h1>Liste des sorties à venir</h1>
 
@@ -24,9 +24,9 @@
 						<input type="hidden" id="id" name="id" value="{{ sortie.id }}"  />
 						<div class="footer-controls">
 				{% if app.user in sortie.lyceens %}
-							<button type="submit" class="btn btn-primary btn-large">Se désinscrire</button>
+							<button type="submit" class="btn btn-danger btn-mini pull-right">Se désinscrire</button>
 				{% else %}
-							<button type="submit" class="btn btn-primary btn-large">S'inscrire</button>
+							<button type="submit" class="btn btn-success btn-mini pull-right">S'inscrire</button>
 				{% endif %}
 						</div>
 					</form>

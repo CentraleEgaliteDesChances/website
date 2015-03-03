@@ -1,0 +1,114 @@
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active dropdown"><a id="lyceescp" class="dropdown-toggle" aria-controls="cp" data-toggle="dropdown" role="tab" data-target="#">Péguy({{cpb|length +cpp|length}})
+	<b class="caret"></b>
+	</a>
+
+		<ul id="cp" class="dropdown-menu" aria-labelledby="lyceescp" role="menu">
+			<li><a aria-expanded="false" href="#cpb" tabindex="-1" role="tab" id="cpb-tab" data-toggle="tab" aria-controls="cpb">Bobigny ({{cpb|length}})</a></li>
+			<li><a aria-expanded="false" href="#cpp" tabindex="-1" role="tab" id="cpp-tab" data-toggle="tab" aria-controls="cpp">Paris ({{cpp|length}})</a></li>
+		</ul>
+	</li>
+    <li role="presentation" class="dropdown"><a data-target="#" id="lyceesjj" class="dropdown-toggle" aria-controls="jj"  role="tab" data-toggle="dropdown">Jean Jaurès({{jjchat|length+jjmont|length}})
+	<b class="caret"></b>
+	</a>
+	
+		<ul id="jj" class="dropdown-menu" aria-labelledby="lyceesjj" role="menu">
+			<li><a aria-expanded="false" href="#jjchat" tabindex="-1" role="tab" id="jjchat-tab" data-toggle="tab" aria-controls="jjchat">Chatenay ({{jjchat|length}})</a></li>
+			<li><a aria-expanded="false" href="#jjmont" tabindex="-1" role="tab" id="jjmont-tab" data-toggle="tab" aria-controls="jjmont">Montreuil ({{jjmont|length}})</a></li>
+		</ul>
+	</li>
+	
+    <li role="presentation"><a href="#matisse" aria-controls="matisse" role="tab" data-toggle="tab">Matisse({{matisse|length}})</a></li>
+    <li role="presentation"><a href="#montesquieu" aria-controls="montesquieu" role="tab" data-toggle="tab">Montesquieu({{montesquieu|length}})</a></li>
+	<li role="presentation"><a href="#monod" aria-controls="monod" role="tab" data-toggle="tab">Monod({{monod|length}})</a></li>
+	<li role="presentation"><a href="#mounier" aria-controls="mounier" role="tab" data-toggle="tab">Mounier({{mounier|length}})</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="cpb">
+		{% if cpb%}
+			{% for lyceen in cpb%}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/><br/>
+	</div>
+    <div role="tabpanel" class="tab-pane" id="cpp">
+		{% if cpp %}
+			{% for lyceen in cpp %}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/>
+	</div>
+    <div role="tabpanel" class="tab-pane" id="jjchat">
+		{% if jjchat %}
+			{% for lyceen in jjchat %}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/>
+	</div>
+    <div role="tabpanel" class="tab-pane" id="jjmont">
+		{% if jjmont %}
+			{% for lyceen in jjmont %}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="matisse">
+		{% if matisse %}
+			{% for lyceen in matisse %}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="montesquieu">
+		{% if montesquieu %}
+			{% for lyceen in montesquieu %}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="monod">
+		{% if monod %}
+			{% for lyceen in monod %}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/>
+	</div>
+	<div role="tabpanel" class="tab-pane" id="mounier">
+		{% if mounier %}
+			{% for lyceen in mounier %}
+				<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+			{% endfor %}
+		{% else %}
+			Aucun lycéen de ce lycée ne s'est inscrit.
+		{% endif %}
+		<br/><br/>
+	</div>
+  </div>
+
+</div>

@@ -140,6 +140,15 @@ class Sortie
     private $description;
 	
 	/**
+	* Nombre de places disponibles
+	*
+	* @var integer
+	* 
+	* @ORM\Column(name="placeslimitees", type = "integer")
+	*/
+	private $places = 0;
+	
+	/**
 	* Lycéens ayant participé à la sortie
 	*
 	* * @ORM\ManyToMany(targetEntity = "CEC\MembreBundle\Entity\Eleve" )
