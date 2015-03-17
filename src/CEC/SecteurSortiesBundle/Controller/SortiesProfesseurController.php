@@ -55,5 +55,28 @@ class SortiesProfesseurController extends Controller
             'sorties' => $sorties,
         );
     }
+	
+	/**
+	* Affiche la liste des lycéens du lycée du prof référent
+	*
+	* @Template()
+	*/
+	public function lyceensAction(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+	{
+		$user = $this->getUser();
+		$lycee = $user->getLycee();
+		$lyceenstotaux = $sortie->getLyceens();
+		$lyceens = array();
+		
+		foreach($lyceenstotaux as $lyceen)
+		{
+			if (equals($lyceen->getLycee(), $lycee))
+			{
+				$lyceens[] = $lyceen;
+			}
+		}
+		
+		return array('lyceens'=>$lyceens);
+	}
 
 }

@@ -1,0 +1,18 @@
+<p>
+Bonjour,<br/><br/><br/>
+
+Tu viens de t'inscrire à la sortie : <strong>{{sortie.nom}}</strong>.
+
+Pour rappel, cette sortie aura lieu le {{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} 
+{{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }} de {{sortie.heureDebut|date('G\\hi')}} à 
+{{sortie.heureFin|date('G\\hi')}}</strong>.<br/><br/>
+
+Cette sortie se déroulera à l'adresse suivante :<br/>
+{{sortie.adresse}}
+
+Sois bien à l'heure !<br/><br/>
+
+A très bientôt en séance,<br/><br/>
+
+L'équipe CEC
+</p>

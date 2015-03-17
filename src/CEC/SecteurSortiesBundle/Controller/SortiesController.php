@@ -159,6 +159,7 @@ class SortiesController extends Controller
                 switch($action):
                     case 'editer':
                         $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+						$this->get('cec.mailer')->sendSortieModifiee($sortie);
                         return $this->redirect($this->generateUrl('sorties'));
                         break;
                     case 'cr':
@@ -167,6 +168,7 @@ class SortiesController extends Controller
                         break;
                     case 'editeraveccr':
                         $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+						$this->get('cec.mailer')->sendSortieModifiee($sortie);
                         return $this->redirect($this->generateUrl('anciennes_sorties'));
                         break;
                     default:
@@ -207,6 +209,7 @@ class SortiesController extends Controller
                 $entityManager->flush();
 
                 $this->get('session')->setFlash('success', "La sortie a bien été ajoutée.");
+				$this->get('cec.mailer')->sendSortieCreee($sortie);
                 return $this->redirect($this->generateUrl('sorties'));
             }
         }
@@ -231,7 +234,8 @@ class SortiesController extends Controller
         $entityManager->remove($sortie);
         $entityManager->flush();
 
-        $this->get('session')->setFlash('success', 'La sortie a bien été définitivement supprimé.');
+        $this->get('session')->setFlash('success', 'La sortie a bien été définitivement supprimée.');
+		$this->get('cec.mailer')->sendSortieSupprimee($sortie);
         return $this->redirect($this->generateUrl('sorties'));
     }
 

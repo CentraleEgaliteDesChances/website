@@ -1,0 +1,16 @@
+<p>Bonjour,<br/><br/><br/>
+
+La sortie "<strong>{{sortie.nom}}</strong>" à laquelle tu étais inscrit vient d'être supprimée. !<br/><br/>
+
+Pour rappel, elle avait lieu le {{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }}
+ {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }} de {{sortie.heureDebut|date('G\\hi')}}
+ à {{sortie.heureFin|date('G\\hi')}}</strong>.<br/><br/>
+
+Nous nous excusons pour la gêne occasionnée,<br/>
+
+N'hésite pas à consulter régulièrement le site pour voir les nouvelles sorties et t'y inscrire :{{path('sorties_eleve')}}.<br/><br/>
+
+A très bientôt en séance,<br/><br/>
+
+L'équipe CEC
+</p>

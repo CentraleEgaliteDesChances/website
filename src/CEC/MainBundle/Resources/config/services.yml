@@ -1,7 +1,11 @@
 parameters:
+    cec.mailer.class: CEC\MainBundle\Services\Mailer
 
 services:
     cec.twig.cec_extension:    
         class: "CEC\MainBundle\Twig\CECExtension"
         tags:
             - { name: twig.extension }
+    cec.mailer:
+        class: %cec.mailer.class%
+        arguments: [@mailer, @templating, @doctrine]

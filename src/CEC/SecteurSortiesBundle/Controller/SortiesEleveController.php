@@ -29,6 +29,7 @@ class SortiesEleveController extends Controller
         {            
 					
 			$eleve = $this->getUser();
+			$mail = $eleve->getMail();
 			$id = $request->get('id');
 			$sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
 			if (!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie !');
@@ -37,10 +38,13 @@ class SortiesEleveController extends Controller
 			if ($sortie->getLyceens()->contains($eleve))
 			{
 				$sortie->removeLyceen($eleve);
+				$this->get('cec.mailer')->sendLyceenDesinscrit($sortie);
+				$this->get('cec.mailer')->sendDesinscription($sortie, $mail);
 				$request->getSession()->getFlashBag()->add('notice', 'Désinscription bien effectuée.');
 			} else {
 				$lyceens = $sortie->addLyceen($eleve);
 				if($lyceens==array()){echo "Fail";}
+				$this->get('cec.mailer')->sendInscription($sortie, $mail);
 				$request->getSession()->getFlashBag()->add('notice', 'Inscription bien effectuée.');
 			}
 			
