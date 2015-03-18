@@ -51,15 +51,21 @@ class ReglagesController extends Controller
             if ($request->request->has($nomMotDePasse)) {
                 $motDePasse->bindRequest($request);
                 if ($motDePasse->isValid()) {
-                    $factory = $this->get('security.encoder_factory');
-                    $encoder = $factory->getEncoder($membre);
-                    $data = $motDePasse->getData();
-                    $password = $encoder->encodePassword($data['motDePasse'], $membre->getSalt());
-                    $membre->setMotDePasse($password);
-                    
-                    $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
-                    return $this->redirect($this->generateUrl('reglages_infos'));
+					$data = $motDePasse->getData(); 
+					$factory = $this->get('security.encoder_factory');
+					$encoder = $factory->getEncoder($membre);
+					$ancienMotDePasse = $encoder->encodePassword($data['ancienMotDePasse'], $membre->getSalt());
+					
+					if ($ancienMotDePasse == $membre->getMotDePasse()){
+						$password = $encoder->encodePassword($data['motDePasse'], $membre->getSalt());
+						$membre->setMotDePasse($password);
+						
+						$this->getDoctrine()->getEntityManager()->flush();
+						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+					} else {
+						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+					}
+					return $this->redirect($this->generateUrl('reglages_infos'));
                 }
             }
         }

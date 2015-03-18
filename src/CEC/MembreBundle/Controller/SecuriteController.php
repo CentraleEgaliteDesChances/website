@@ -160,7 +160,7 @@ class SecuriteController extends Controller
 			//Enregistrement en BDD
 
 			$encoder = $this->container->get('security.encoder_factory')->getEncoder($inscrit);  
-			$motDePasse = $this->getMotDePasse();
+			$motDePasse = $inscrit->getMotDePasse();
 			$inscrit->setMotDePasse($encoder->encodePassword($motDePasse, $inscrit->getSalt()));
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($inscrit);

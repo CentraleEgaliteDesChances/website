@@ -21,3 +21,8 @@ reglages_infos_eleve:
 reglages_groupe_eleve:
     pattern: /groupe-eleve
     defaults: {_controller: CECMembreBundle:ReglagesEleve:groupe}
+
+reglages_infos_professeur:
+    pattern: /infos-professeur
+    defaults: {_controller: CECMembreBundle:ReglagesProfesseur:infos}
+

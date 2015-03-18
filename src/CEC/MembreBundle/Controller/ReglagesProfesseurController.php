@@ -6,11 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use CEC\MembreBundle\Form\Type\InfosEleveType;
+use CEC\MembreBundle\Form\Type\InfosProfesseurType;
 use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
-use CEC\MembreBundle\Form\Type\GroupeEleveType;
+use CEC\MembreBundle\Form\Type\GroupeProfesseurType;
 
-class ReglagesEleveController extends Controller
+class ReglagesProfesseurController extends Controller
 {
     /**
      * Modification des informations personnelles.
@@ -25,9 +25,9 @@ class ReglagesEleveController extends Controller
         $membre = $this->getUser();
         if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
         
-        $nomInformationsGenerales = 'InfosEleve';
+        $nomInformationsGenerales = 'InfosProfesseur';
         $infomationsGenerales = $this->get('form.factory')
-            ->createNamedBuilder($nomInformationsGenerales, new InfosEleveType(), $membre)
+            ->createNamedBuilder($nomInformationsGenerales, new InfosProfesseurType(), $membre)
             ->getForm();
             
         $nomMotDePasse = 'MotDePasseMembre';
@@ -43,7 +43,7 @@ class ReglagesEleveController extends Controller
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
-                    return $this->redirect($this->generateUrl('reglages_infos_eleve'));
+                    return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }
             }
             
@@ -64,7 +64,7 @@ class ReglagesEleveController extends Controller
 					} else {
 						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
 					}
-					return $this->redirect($this->generateUrl('reglages_infos_eleve'));
+					return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }
             }
         }
@@ -72,29 +72,8 @@ class ReglagesEleveController extends Controller
         return array(
             'informations_generales' => $infomationsGenerales->createView(),
             'mot_de_passe'           => $motDePasse->createView(),
+			'professeur'             => $membre
         );
-    }
-    
-    /**
-     * Sélection de son groupe de tutorat régulier.
-     * @Template()
-     */
-    public function groupeAction()
-    {
-        $membre = $this->getUser();
-        $form = $this->createForm(new GroupeEleveType(), $membre);
-        
-        $request = $this->getRequest();
-        if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
-                return $this->redirect($this->generateUrl('reglages_groupe_eleve'));
-            }
-        }
-        
-        return array('form' => $form->createView());
     }
        
 }
