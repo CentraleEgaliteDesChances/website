@@ -65,7 +65,7 @@ class Mailer
 	{
 		$subject = "Une sortie CEC vient d'être créée !";
 		$to = array();
-		$lyceens = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAll();
+		$lyceens = $this->doctrine->getEntityManager()->getRepository('CECMembreBundle:Eleve')->findAll();
 		foreach($lyceens as $lyceen)
 		{
 			$to[] = $lyceen->getMail();
@@ -136,7 +136,7 @@ class Mailer
 	public function sendDesinscription(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $to)
 	{
 		$subject = "Confirmation de ta désinscription à une sortie CEC";
-		$template = "CECMainBundle:Mails:inscription.html.twig";
+		$template = "CECMainBundle:Mails:desinscription.html.twig";
 		
 		$body = $this->templating->render($template, array('sortie'=>$sortie));
 		

@@ -26,7 +26,7 @@
 				{% if app.user in sortie.lyceens %}
 							<button type="submit" class="btn btn-danger btn-mini pull-right">Se désinscrire</button>
 				{% else %}
-							<button type="submit" class="btn btn-success btn-mini pull-right {% if sortie.places > 0 and sortie.lyceens|length = sortie.places %}disabled{% endif %}">S'inscrire</button>
+							<button type="submit" class="btn btn-success btn-mini pull-right {% if sortie.places > 0 and sortie.lyceens|length == sortie.places %}disabled{% endif %}">S'inscrire</button>
 				{% endif %}
 						</div>
 					</form>

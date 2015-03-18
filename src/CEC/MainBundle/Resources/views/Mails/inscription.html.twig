@@ -1,3 +1,5 @@
+{% set jours = ['lundi', 'mardi', 'merdredi', 'jeudi', 'vendredi', 'samedi','dimanche']%}
+{% set mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre','octobre','novembre','décembre']%}
 <p>
 Bonjour,<br/><br/><br/>
 
@@ -8,7 +10,7 @@ Pour rappel, cette sortie aura lieu le {{ cycle(jours, sortie.dateSortie|date('N
 {{sortie.heureFin|date('G\\hi')}}</strong>.<br/><br/>
 
 Cette sortie se déroulera à l'adresse suivante :<br/>
-{{sortie.adresse}}
+{{sortie.adresse}}<br/><br/>
 
 Sois bien à l'heure !<br/><br/>
 

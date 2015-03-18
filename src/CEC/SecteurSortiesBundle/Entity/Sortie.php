@@ -611,4 +611,17 @@ class Sortie
     {
         return $this->okCR;
     }
+	
+	public function setPlaces($places)
+	{
+		$this->places = $places;
+		
+		return $places;
+	}
+	
+	public function getPlaces()
+	{
+		return $this->places;
+	}
+	
 }
