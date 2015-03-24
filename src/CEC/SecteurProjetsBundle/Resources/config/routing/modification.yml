@@ -1,3 +1,7 @@
 editer_projet:
     pattern: /editer/{slug}
     defaults: { _controller: CECSecteurProjetsBundle:Projets:editer}
+    
+creer_reunion:
+    pattern: /creer/reunion
+    defaults: { _controller: CECSecteurProjetsBundle:Projets:creerReunion}

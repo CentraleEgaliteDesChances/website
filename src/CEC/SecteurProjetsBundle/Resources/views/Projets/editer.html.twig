@@ -1,6 +1,8 @@
 {% extends 'CECSecteurProjetsBundle:Projets:base.html.twig' %}
 
 {% block right %}
+
+{{parent()}}
 <div class="well center-block" style = "padding-left:20px;padding-right:15px;">
 <form class="form form-horizontal" method="post" action="{{ path('editer_projet', {'slug' : app.request.attributes.get('_route_params')['slug']}) }}">
     {{ form_widget(form) }}

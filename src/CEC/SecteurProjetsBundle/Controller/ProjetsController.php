@@ -5,6 +5,8 @@ namespace CEC\SecteurProjetsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\SecteurProjetsBundle\Form\ProjetType;
+use CEC\SecteurProjetsBundle\Form\ReunionType;
+use CEC\SecteurProjetsBundle\Entity\Reunion;
 
 class ProjetsController extends Controller
 {
@@ -15,7 +17,10 @@ class ProjetsController extends Controller
 	*/
     public function voirAction()
     {
-        return array('response' => 0);
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+		if(!$projets) throw $this->createNotFoundException('Aucun projet trouvé !');
+		
+		return array('projets' => $projets);
     }
 	
 	/**
@@ -40,7 +45,7 @@ class ProjetsController extends Controller
 		return array('projet' => $projet);
 	}
 	
-	/*
+	/**
 	* Page d'édition d'un projet
 	*
 	* @Template()
@@ -69,5 +74,34 @@ class ProjetsController extends Controller
 		}
 		
 		return $this->render('CECSecteurProjetsBundle:Projets:editer.html.twig', array('form'=> $form->createView()));
+	}
+	
+	/**
+	* Créer une réunion d'informations pour un projet
+	*
+	* @Template()
+	*/
+	public function creerReunionAction()
+	{
+		$reunion = new Reunion();
+        $form = $this->createForm(new ReunionType(), $reunion);
+        $request = $this->getRequest();
+        if ($request->isMethod("POST"))
+        {
+            $form->bindRequest($request);
+            if ($form->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($reunion);
+                $entityManager->flush();
+
+                $this->get('session')->setFlash('success', "La réunion a bien été ajoutée");
+                return $this->redirect($this->generateUrl('description_projets'));
+            }
+        }
+
+        return array(
+            'form' => $form->createView()
+        );
 	}
 }

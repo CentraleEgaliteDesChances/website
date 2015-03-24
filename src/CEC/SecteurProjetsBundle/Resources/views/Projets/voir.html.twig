@@ -1,49 +1,40 @@
 {% extends 'CECSecteurProjetsBundle:Projets:base.html.twig' %}
 
+
+
 {% block right %}
+
+{{parent()}}
 
 <h1>Pôle Projets de CEC</h1>
 
 <p> 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur orci non luctus cursus. Vestibulum auctor volutpat nisi a pretium. Sed non felis eget ipsum rutrum convallis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras vel nulla ac nibh maximus luctus eu vitae odio. Donec et aliquet enim. Sed congue felis id justo interdum vehicula. Etiam dapibus sem eu ipsum tristique sodales. Sed non interdum tellus, porta pretium arcu. In eget nisl efficitur, posuere arcu sit amet, porta dui. Vestibulum a turpis ultrices, sodales libero id, malesuada leo. Nunc lacinia aliquam maximus. Nulla porta diam sed nulla rutrum, eu pulvinar erat pharetra. Donec luctus efficitur eros nec facilisis. Sed ac ex rutrum, porttitor dui eget, consectetur orci. Ut vel ullamcorper ipsum.
-
+<br/>
 Proin lacinia varius congue. Vestibulum lacinia euismod sapien, iaculis tristique massa condimentum ut. Aenean et pretium ante. Ut vehicula enim ac ultricies facilisis. Phasellus condimentum sapien sit amet mollis vulputate. Ut sed vestibulum eros, eget elementum ante. Vestibulum maximus nulla et porttitor vehicula. Vestibulum erat est, luctus ut tortor id, pretium placerat est. Integer id mauris lacus. In hac habitasse platea dictumst. Nam lacinia imperdiet finibus. Vestibulum libero lorem, pulvinar ac tortor eget, feugiat tempor metus.
-
-Fusce feugiat convallis dui, scelerisque convallis arcu iaculis ac. Nam luctus finibus massa. Aenean imperdiet neque quis tincidunt condimentum. Nunc efficitur dapibus auctor. Praesent vestibulum nunc vitae sem semper, eu efficitur metus elementum. Suspendisse vulputate neque eu aliquet euismod. Nunc dictum metus eu sodales egestas. Suspendisse sagittis mollis erat finibus ultricies. Proin dolor nibh, tristique mollis ligula sed, euismod egestas ligula. Mauris ut enim sed mi molestie placerat. Duis mattis metus laoreet rhoncus finibus. Phasellus sit amet mauris a mauris suscipit vehicula sit amet fringilla nibh. Quisque volutpat, lectus vel mattis iaculis, enim justo condimentum sapien, nec rhoncus risus neque ut quam.
-
-Donec tempus malesuada enim ut cursus. Nam metus ex, faucibus ut risus vitae, cursus faucibus ligula. Morbi dignissim lacus eu ante pretium, quis euismod lorem viverra. Cras porta, turpis eu eleifend venenatis, orci lacus maximus tortor, eu ullamcorper nulla diam sit amet massa. Curabitur imperdiet dui at nulla euismod tempor. Etiam urna lacus, sodales vel pretium at, volutpat vitae justo. Integer scelerisque convallis ipsum eu blandit. Nam bibendum ultrices neque et varius. Cras suscipit ligula quis lacus laoreet varius. Nullam et vestibulum diam. Cras in bibendum nisl. Mauris sit amet condimentum erat. Duis tincidunt dolor et dolor dapibus, a placerat tellus vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dictum mauris nec dui posuere, at commodo magna cursus. Donec tempus mauris leo, vel aliquet mauris venenatis in.
-
-Quisque malesuada consectetur ornare. Pellentesque magna ipsum, accumsan eget dui vitae, placerat porta neque. Vestibulum tempus, turpis eu euismod sollicitudin, ipsum lectus vehicula est, sit amet volutpat sapien tortor quis est. Curabitur ultrices bibendum semper. Nam scelerisque, lacus in aliquam fringilla, nunc mi gravida felis, vel dignissim purus orci nec purus. Aliquam erat volutpat. Ut lacinia, purus in pulvinar ornare, dui ex feugiat felis, vel dignissim turpis velit sit amet est. Nunc massa odio, porttitor vel elit id, facilisis rutrum tortor. 
 
 </p>
 
 <table class="table table-bordered table-striped table-large">
     <tbody>
+	{% for projet in projets%}
         <tr>
             <td>
-                <a href="{{path('description_theatre')}}">Stage Théâtre</a>
+                <a href="{{path('description_projet', {'slug': projet.slug})}}"><strong>{{projet.nom}}</strong></a><br/>
+				<p style="padding-left:15px;">{{projet.descriptionCourte}}</p>
             </td>
+			<td>
+				{% if projet.inscriptionsOuvertes%}
+					<div class="alert alert-success center-block" role="alert">
+						<p><span class="glyphicon glyphicon-ok-circle"></span> Inscriptions ouvertes</p>
+					</div>
+				{% else %}
+					<div class="alert alert-danger center-block" role="alert">
+						<p><span class="glyphicon glyphicon-ban-circle"></span> Inscriptions fermées</p>
+					</div>
+				{% endif %}
         </tr>
-		<tr>
-			<td>
-				<a href="{{path('description_fe')}}"> Focus Europe </a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="{{path('description_cprepa')}}"> Centrale Prépa </a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="{{path('description_gml')}}"> Good Morning London </a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="{{path('description_artcessible')}}"> (Art)cessible </a>
-			</td>
-		</tr>
+	{% endfor %}
     </tbody>
 </table>
 

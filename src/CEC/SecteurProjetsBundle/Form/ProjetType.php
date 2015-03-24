@@ -13,28 +13,23 @@ class ProjetType extends AbstractType
         $builder
             ->add('nom', null, array(
 			'label' => 'Nom du projet',
-			'attr' => array('placeholder' => 'Nom du projet',
-			'class' => 'form-control',)
+			'attr' => array('placeholder' => 'Nom du projet')
 			))
             ->add('description', 'textarea', array(
 			'label' => 'Description publique du projet',
-			'attr' => array('rows' => '6', 'placeholder' => 'Description du projet',
-			'class' => 'form-control',)
+			'attr' => array('rows' => '6', 'placeholder' => 'Description du projet')
 			))
             ->add('description_courte', null, array(
 			'label' => 'Description courte du projet (Max 255 caractères)',
-			'attr' => array('placeholder' => 'Description courte',
-			'class' => 'form-control',)
+			'attr' => array('placeholder' => 'Description courte')
 			))
             ->add('dateDebut', 'datetime', array(
 			'widget'=> 'choice',
-			'label' => 'Date du départ du projet',
-			'attr' => array( 'class' => 'form-control'),
+			'label' => 'Date du départ du projet'
 			))
             ->add('dateFin', 'datetime', array(
 			'widget' => 'choice',
-			'label' => 'Estimation de la date de retour',
-			'attr' => array( 'class' => 'form-control'),
+			'label' => 'Estimation de la date de retour'
 			))
         ;
     }

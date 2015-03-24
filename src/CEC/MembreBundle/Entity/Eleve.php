@@ -143,6 +143,13 @@ class Eleve implements UserInterface, \Serializable
      * @ORM\Column(name="delegue", type="boolean")
      */
     private $delegue;
+	
+	/**
+	* @var \CEC\SecteurProjetsBundle\Entity\Reunion
+	*
+	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", inversedBy="presents")
+	*/
+	private $reunions;
 
 
     /**
@@ -470,5 +477,50 @@ class Eleve implements UserInterface, \Serializable
     public function getMotDePasse()
     {
         return $this->motDePasse;
+    }
+	
+	/**
+     * Set reunions
+     *
+     * @param array $reunions
+     * @return Eleve
+     */
+    public function setReunions($reunions)
+    {
+        $this->motDePasse = $motDePasse;
+    
+        return $this;
+    }
+	
+	/**
+	* Add reunions
+	*
+	* @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
+	* @return Eleve
+	*/
+	public function addReunion( \CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
+	{
+		$this->reunions[] = $reunion;
+		return $this;
+	}
+	
+	/**
+     * Remove reunion
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
+     */
+    public function removeReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
+    {
+        $this->secteurs->removeElement($reunion);
+    }
+
+    /**
+     * Get reunions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReunions()
+    {
+        return $this->reunions;
     }
 }

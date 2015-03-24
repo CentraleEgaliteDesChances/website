@@ -82,7 +82,16 @@ class Projet
 	*
 	* @ORM\Column(name="inscriptions_ouvertes", type="boolean")
 	*/
-	private $inscriptionsouvertes;
+	private $inscriptionsOuvertes;
+	
+	/**
+	* Liste des réunions liées au projet
+	* 
+	* @var \CEC\SecteurProjetsBundle\Entity\Reunion
+	*
+	* @ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", mappedBy="projet")
+	*/
+	private $reunions;
 
 
     /**
@@ -275,6 +284,59 @@ class Projet
      * @return \DateTime 
      */
     public function getDateFin()
+    {
+        return $this->dateFin;
+    }
+	
+	/**
+     * Set inscriptionsOuvertes
+     *
+     * @param boolean $etat
+     * @return Projet
+     */
+    public function setInscriptionsOuvertes($etat)
+    {
+        $this->inscriptionsOuvertes = $inscriptionsOuvertes;
+    
+        return $this;
+    }
+
+    /**
+     * Get inscriptionsOuvertes
+     *
+     * @return boolean
+     */
+    public function getInscriptionsOuvertes()
+    {
+        return $this->inscriptionsOuvertes;
+    }
+	
+	/**
+     * Get reunions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReunions()
+    {
+        return $this->reunions;
+    }
+	
+	/**
+     * Retourne la date de début du projet.
+     *
+     * @return \DateTime
+     */
+    public function retreiveDateDebut()
+    {
+        return $this->dateDebut;
+    }
+
+    /**
+     * Retourne la date de fin du projet.
+     *
+     * @return \DateTime
+     */
+    public function retreiveDateFin()
     {
         return $this->dateFin;
     }

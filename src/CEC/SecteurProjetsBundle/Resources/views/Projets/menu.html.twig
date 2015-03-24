@@ -8,7 +8,7 @@
 				<a href="{{ path('description_projets') }}" >Pôle Projets de CEC</a>
 		</li>	
 		<li	
-			{% if request.attributes.get('_route_params')['slug'] == "stage-theatre" %}
+			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "stage-theatre" %}
 				class="active"
 			{% endif %}
 			>
@@ -16,7 +16,7 @@
 		</li>
 		
 		<li	
-			{% if request.attributes.get('_route_params')['slug'] == "focus-europe" %}
+			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "focus-europe" %}
 				class="active"
 			{% endif %}
 			>
@@ -24,7 +24,7 @@
 		</li>
 		
 		<li	
-			{% if request.attributes.get('_route_params')['slug'] == "centrale-prepa" %}
+			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "centrale-prepa" %}
 				class="active"
 			{% endif %}
 			>
@@ -32,7 +32,7 @@
 		</li>
 		
 		<li	
-			{% if request.attributes.get('_route_params')['slug'] == "good-morning-london" %}
+			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "good-morning-london" %}
 				class="active"
 			{% endif %}
 			>
@@ -40,7 +40,7 @@
 		</li>
 		
 		<li	
-			{% if request.attributes.get('_route_params')['slug'] == "artcessible" %}
+			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "artcessible" %}
 				class="active"
 			{% endif %}
 			>
@@ -54,7 +54,7 @@
 
 	{% if is_granted('ROLE_TUTEUR') %}
 		<ul class="nav nav-pills nav-stacked">
-			<li> Menu de modifications </li>
+			<li> <a href="{{path('creer_reunion')}}"> Nouvelle réunion d'info</a> </li>
 		</ul>
 	{% elseif is_granted('ROLE_ELEVE')%}
 		<ul class="nav nav-pills nav-stacked">
