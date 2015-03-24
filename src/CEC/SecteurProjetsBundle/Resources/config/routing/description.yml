@@ -1,0 +1,10 @@
+description_projets:
+    pattern: /
+    defaults: { _controller: CECSecteurProjetsBundle:Projets:voir}
+
+description_projet:
+    pattern: /{slug}
+    defaults: { _controller: CECSecteurProjetsBundle:Projets:voirProjet}
+    requirements:
+        slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
+

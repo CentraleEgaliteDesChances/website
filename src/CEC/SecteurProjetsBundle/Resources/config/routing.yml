@@ -1,0 +1,7 @@
+descriptions:
+    resource: "@CECSecteurProjetsBundle/Resources/config/routing/description.yml"
+    prefix: /
+    
+modifications:
+    resource: "@CECSecteurProjetsBundle/Resources/config/routing/modification.yml"
+    prefix: /

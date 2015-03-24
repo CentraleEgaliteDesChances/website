@@ -1,0 +1,14 @@
+{% extends 'CECSecteurProjetsBundle:Projets:base.html.twig' %}
+
+{% block right %}
+<div class="well center-block" style = "padding-left:20px;padding-right:15px;">
+<form class="form form-horizontal" method="post" action="{{ path('editer_projet', {'slug' : app.request.attributes.get('_route_params')['slug']}) }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Modifier la description du projet" class="btn btn-primary" />
+        <a href="{{ path('description_projet', {'slug' : app.request.attributes.get('_route_params')['slug']}) }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

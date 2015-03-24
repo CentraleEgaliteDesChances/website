@@ -1,10 +1,14 @@
+cec_secteur_projets:
+    resource: "@CECSecteurProjetsBundle/Resources/config/routing.yml"
+    prefix:   /projets
+
 cec_extern_site:
     resource: "@CECExternSiteBundle/Resources/config/routing.yml"
     prefix:   /
 
 cec_secteur_sorties:
     resource: "@CECSecteurSortiesBundle/Resources/config/routing.yml"
-    prefix:   /tuteur
+    prefix:   /
 
 cec_secteur_fundraising:
     resource: "@CECSecteurFundraisingBundle/Resources/config/routing.yml"

@@ -1,0 +1,43 @@
+{% extends 'CECSecteurProjetsBundle:Projets:base.html.twig' %}
+
+{% block right %}
+
+
+
+<div class="well" style = "padding-left:20px;padding-right:15px;">
+{% if projet.nom == "Focus Europe" and is_granted('ROLE_SECTEUR_FOCUS_EUROPE')%}
+		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+{% elseif projet.nom == "Good Morning London" and is_granted('ROLE_SECTEUR_GML')%}
+		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+{% elseif projet.nom == "Stage Théâtre" and is_granted('ROLE_SECTEUR_THEATRE')%}
+		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+{% elseif projet.nom == "Centrale Prépa" and is_granted('ROLE_SECTEUR_PREPA')%}
+		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+{% elseif projet.nom == "(Art)cessible" and is_granted('ROLE_SECTEUR_ARTCESSIBLE')%}
+		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>	
+{% endif %}
+
+<h1>{{projet.nom}}</h1>
+
+{% set url = 'bundles/cecsecteurprojets/img/'~projet.slug~'.png'%}
+<p><img style="max-height:150px;" class="pull-right" src="{{asset(url)}}" alt="Logo {{projet.nom}}" /></p>
+		
+
+<br/>
+
+<h3>Dates du projet</h3>
+<div style="margin-left:30px;">
+Du <strong>{{ cycle(jours, projet.dateDebut|date('N')) }} {{ projet.dateDebut|date('j') }} 
+{{ cycle(mois, projet.dateDebut|date('n')) }} {{ projet.dateDebut|date('Y') }}</strong> à <strong>{{projet.dateDebut|date('G\\hi')}}</strong>.<br/>
+Au <strong>{{ cycle(jours, projet.dateFin|date('N')) }} {{ projet.dateFin|date('j') }} 
+{{ cycle(mois, projet.dateFin|date('n')) }} {{ projet.dateFin|date('Y') }}</strong> à <strong>{{projet.dateFin|date('G\\hi')}}</strong>.
+</div>
+
+<h3>Description du projet</h3>
+<p style="margin-left:30px;"> 
+<br/>
+{{projet.description}}
+</p>
+</div>
+
+{% endblock %}
