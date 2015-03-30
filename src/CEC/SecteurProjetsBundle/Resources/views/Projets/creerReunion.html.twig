@@ -1,16 +1,11 @@
-{% extends 'CECSecteurProjetsBundle:Projets:base.html.twig' %}
-
-{% block right %}
-{{parent()}}
 
 <div class="well center-block" style = "padding-left:20px;padding-right:15px;">
 <form class="form form-horizontal" method="post" action="{{ path('creer_reunion') }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
         <input type="submit" value="Créer la réunion" class="btn btn-primary" />
-        <a href="{{ path('description_projets') }}" class="btn pull-right">Annuler</a>
+        <a href="{{ path('dliste_reunions') }}" class="btn pull-right">Annuler</a>
     </div>
 </form>
 </div>
 
-{% endblock %}

@@ -3,5 +3,25 @@ editer_projet:
     defaults: { _controller: CECSecteurProjetsBundle:Projets:editer}
     
 creer_reunion:
-    pattern: /creer/reunion
+    pattern: /creer-reunion
     defaults: { _controller: CECSecteurProjetsBundle:Projets:creerReunion}
+
+modifier_reunion:
+    pattern: /editer-reunion/{id}
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:modifierReunion}
+    requirements:
+        id: \d+
+
+supprimer_reunion:
+    pattern: /supprimer-reunion/{id}
+    defaults: {_controller:CECSecteurProjetsBundle:Projets:supprimerReunion}
+    requirements:
+        id: \d+
+
+dossier_inscription:
+    pattern: /dossier-inscription
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:uploadDossier}
+
+ouverture_inscription:
+    pattern: /ouverture-inscriptions
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:inscriptions}

@@ -1,0 +1,56 @@
+{% extends 'CECSecteurProjetsBundle:Projets:base.html.twig' %}
+
+{% block right %}
+{{parent()}}
+
+
+<div class="well" style = "padding-left:20px;padding-right:15px;">
+<h1> Réunions d'informations pour les projets </h1>
+
+<h3> Réunions d'informations existantes</h3>
+
+<table>
+	<tbody>
+	{% for projet in projets %}
+	<tr>
+		<td colspan="6" style="text-align:center;">
+			<strong>{{projet.nom}}</strong>
+		</td>
+	</tr>
+		{% for reunion in reunions %}
+		{% if reunion.projet == projet %}
+		<tr>
+			<td>
+				{{reunion.nom}}
+			</td>
+			<td> 
+				Le <strong>{{ cycle(jours, reunion.date|date('N')) }} {{ reunion.date|date('j') }} 
+				{{ cycle(mois, reunion.date|date('n')) }} {{ reunion.date|date('Y') }}</strong> de <strong>{{reunion.heureDebut|date('G\\hi')}} 
+				à {{reunion.heureFin|date('G\\hi')}}</strong>
+			</td>
+			<td>
+				{{reunion.adresse}}
+			</td>
+			<td>
+				{{reunion.description}}
+			</td>
+			<td>
+				<a href="{{path('modifier_reunion', {'id':reunion.id})}}" class="btn btn-default">Modifier</a>
+			</td>
+			<td>
+				<a href="{{path('supprimer_reunion', {'id':reunion.id})}}" class="btn btn-danger">Supprimer</a>
+			</td>
+		</tr>		
+		{% endif %}
+		{% endfor %} 
+	{% endfor %}
+	</tbody>
+</table>
+
+<h3>Créer une nouvelle réunion d'information</h3>
+
+{% render('CECSecteurProjetsBundle:Projets:creerReunion')%}
+
+</div>
+
+{% endblock %}

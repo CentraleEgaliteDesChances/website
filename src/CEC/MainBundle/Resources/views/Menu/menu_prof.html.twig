@@ -2,6 +2,26 @@
     <div class="navbar-inner">
         <div class="container">
             <a href="{{ path('cec_externe_accueil') }}" class="brand">CEC</a>
+			
+			<ul class="nav">
+                <li><a href="{{ path('tableau_de_bord_professeur') }}">Tableau de bord</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								Sorties et Projets
+								<b class="caret"></b>
+					 </a>
+					<ul class="dropdown-menu">
+						<li class="secteur">Les Projets</li>
+						<li><a href="{{ path('toutes_seances') }}">Planning</a></li>
+						<li><a href="{{ path('description_projets')}}">Pôle Projets</a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'stage-theatre' })}}"> Stage Théâtre </a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'focus-europe'})}}"> Focus Europe </a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'centrale-prepa'})}}"> Centrale Prépa</a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'good-morning-london'})}}"> Good Morning London</a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'artcessible'})}}"> (Art)cessible </a></li>
+					</ul>
+				</li>
+			</ul>
 
       
         </div>

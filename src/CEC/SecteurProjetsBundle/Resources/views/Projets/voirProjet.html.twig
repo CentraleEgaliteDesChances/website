@@ -5,6 +5,15 @@
 
 
 <div class="well" style = "padding-left:20px;padding-right:15px;">
+{% if is_granted('ROLE_TUTEUR') or projet.inscriptionsOuvertes%}	
+	{% if projet.dossier %}
+		<a class="btn btn-success pull-right" style="margin-right:5px;" href="{{asset(projet.dossier.webPath)}}" target="_blank"><span class="glyphicon glyphicon-download"></span>
+		Dossier d'inscription</a>
+	{% else %}
+		<a class="btn btn-danger pull-right disabled" style="margin-right:5px;" href="#">Pas de dossier d'inscription</a>
+	{% endif %}
+{% endif %}
+	
 {% if projet.nom == "Focus Europe" and is_granted('ROLE_SECTEUR_FOCUS_EUROPE')%}
 		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
 {% elseif projet.nom == "Good Morning London" and is_granted('ROLE_SECTEUR_GML')%}
@@ -25,19 +34,70 @@
 
 <br/>
 
-<h3>Dates du projet</h3>
-<div style="margin-left:30px;">
-Du <strong>{{ cycle(jours, projet.dateDebut|date('N')) }} {{ projet.dateDebut|date('j') }} 
-{{ cycle(mois, projet.dateDebut|date('n')) }} {{ projet.dateDebut|date('Y') }}</strong> à <strong>{{projet.dateDebut|date('G\\hi')}}</strong>.<br/>
-Au <strong>{{ cycle(jours, projet.dateFin|date('N')) }} {{ projet.dateFin|date('j') }} 
-{{ cycle(mois, projet.dateFin|date('n')) }} {{ projet.dateFin|date('Y') }}</strong> à <strong>{{projet.dateFin|date('G\\hi')}}</strong>.
-</div>
-
-<h3>Description du projet</h3>
-<p style="margin-left:30px;"> 
-<br/>
-{{projet.description}}
-</p>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h2 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Informations générales
+        </a>
+      </h2>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+		  <h3>Dates et lieu du projet</h3>
+			<div style="margin-left:30px;">
+			Du <strong>{{ cycle(jours, projet.dateDebut|date('N')) }} {{ projet.dateDebut|date('j') }} 
+			{{ cycle(mois, projet.dateDebut|date('n')) }} {{ projet.dateDebut|date('Y') }}</strong> à <strong>{{projet.dateDebut|date('G\\hi')}}</strong>.<br/>
+			Au <strong>{{ cycle(jours, projet.dateFin|date('N')) }} {{ projet.dateFin|date('j') }} 
+			{{ cycle(mois, projet.dateFin|date('n')) }} {{ projet.dateFin|date('Y') }}</strong> à <strong>{{projet.dateFin|date('G\\hi')}}</strong>.<br/>
+			&Agrave; <strong>{{projet.lieu}}</strong>
+			</div>
+		<h3>Contacts principaux</h3>
+			<div style="margin-left:30px;">
+				<table class="table table-bordered table-striped">
+					<tbody>
+						{% if projet.contacts is empty %}
+							<tr>
+								<td>
+									Aucun étudiant n'a été désigné comme contact pour ce projet.
+								</td>
+							</tr>
+						{% else %}
+							{% for contact in projet.contacts%}
+								<tr>
+									<td>
+										<strong>{{contact.prenom}} {{contact.nom}}</strong>
+									</td>
+									<td>
+										<a href="mailto:{{contact.email}}">{{contact.email}}</a>
+									</td>
+								</tr>
+							{% endfor %}
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h2 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Description du projet
+        </a>
+      </h2>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+			<p style="margin-left:30px;"> 
+			<br/>
+			{{projet.description}}
+			</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

@@ -31,6 +31,14 @@ class ProjetType extends AbstractType
 			'widget' => 'choice',
 			'label' => 'Estimation de la date de retour'
 			))
+			->add('lieu', null, array(
+			'label' => 'Lieu où se déroule le projet',
+			'attr' => array('placeholder' => 'Lieu où se déroule le projet')
+			))
+			->add('contacts', null, array(
+			'label' => 'Contacts concernant le projet',
+			'required'=>false,
+			))
         ;
     }
 

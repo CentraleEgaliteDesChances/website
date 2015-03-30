@@ -1,0 +1,19 @@
+{% extends 'CECSecteurProjetsBundle:Projets:base.html.twig' %}
+
+{% block right %}
+
+{{parent()}}
+
+
+<div class="well center-block" style = "padding-left:20px;padding-right:15px;">
+<h1>Mise à jour du dossier d'inscription</h1>
+<form class="form form-horizontal" method="post" action="{{ path('dossier_inscription') }}" {{ form_enctype(form) }}><br/>
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Mettre à jour le dossier d'inscription" class="btn btn-primary" />
+        <a href="{{ path('description_projets') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+</div>
+
+{% endblock %}

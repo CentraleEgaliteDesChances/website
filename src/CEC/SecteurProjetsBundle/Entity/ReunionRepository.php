@@ -28,4 +28,13 @@ class ReunionRepository extends EntityRepository
                       ->getQuery();
         return $query->getResult();
     }
+	
+	public function findAllByDate()
+	{
+		$query = $this->createQueryBuilder('s')
+                      ->where('s.date > :date')
+					  ->setParameter('date', date("Y-m-d H:i:s"))
+                      ->getQuery();
+        return $query->getResult();
+	}
 }

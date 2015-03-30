@@ -89,7 +89,7 @@ class Projet
 	*
 	* @ORM\Column(name="inscriptions_ouvertes", type="boolean")
 	*/
-	private $inscriptionsOuvertes = false;
+	private $inscriptionsOuvertes;
 	
 	/**
 	* Liste des réunions liées au projet
@@ -110,9 +110,9 @@ class Projet
 	/**
 	* @var \Doctrine\Common\Collections\Collection
 	*
-	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Membre", inversedBy="contactProjets")
+	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Membre", mappedBy="contactProjets")
 	*/
-	private $contacts =array();
+	private $contacts;
 
 
     /**
@@ -317,19 +317,7 @@ class Projet
      */
     public function setInscriptionsOuvertes($etat)
     {
-        $this->inscriptionsOuvertes = $etat;
-    
-        return $this;
-    }
-	
-	/**
-     * Set inscriptionsOuvertes
-     *
-     * @return Projet
-     */
-    public function switchInscriptionsOuvertes()
-    {
-        $this->inscriptionsOuvertes = !$this->inscriptionsOuvertes;
+        $this->inscriptionsOuvertes = $inscriptionsOuvertes;
     
         return $this;
     }
@@ -449,36 +437,5 @@ class Projet
     public function getLieu()
     {
         return $this->lieu;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add reunions
-     *
-     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunions
-     * @return Projet
-     */
-    public function addReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunions)
-    {
-        $this->reunions[] = $reunions;
-    
-        return $this;
-    }
-
-    /**
-     * Remove reunions
-     *
-     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunions
-     */
-    public function removeReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunions)
-    {
-        $this->reunions->removeElement($reunions);
     }
 }

@@ -52,9 +52,11 @@
 
 <div class="well">
 
-	{% if is_granted('ROLE_TUTEUR') %}
+	{% if is_granted('ROLE_SECTEUR_PROJETS') %}
 		<ul class="nav nav-pills nav-stacked">
-			<li> <a href="{{path('creer_reunion')}}"> Nouvelle réunion d'info</a> </li>
+			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information</a> </li>
+			<li> <a href="{{path('dossier_inscription')}}">Dossiers d'inscription</a></li>
+			<li> <a href="{{path('ouverture_inscription')}}">Ouvrir les inscriptions</a></li>
 		</ul>
 	{% elseif is_granted('ROLE_ELEVE')%}
 		<ul class="nav nav-pills nav-stacked">
