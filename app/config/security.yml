@@ -64,6 +64,12 @@ security:
                 path:   /connexion/deconnexion
                 target: /
             anonymous: ~
+            remember_me:
+                key: "%secret%"
+                lifetime: 315360000
+                path: ^/(eleve|professeur|tuteur|reglages|membres|connexion)/
+                domain: ~
+                
 
         public:
             pattern: ^/
