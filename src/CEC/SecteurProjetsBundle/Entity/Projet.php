@@ -113,6 +113,13 @@ class Projet
 	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Membre", inversedBy="contactProjets")
 	*/
 	private $contacts =array();
+	
+	/**
+	* @var \Doctrine\Common\Collections\Collection
+	*
+	*@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Album", mappedBy="projet")
+	*/
+	private $albums;
 
 
     /**
@@ -480,5 +487,38 @@ class Projet
     public function removeReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunions)
     {
         $this->reunions->removeElement($reunions);
+    }
+	
+	/**
+     * Add album
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\Album $album
+     * @return Membre
+     */
+    public function addAlbum(\CEC\SecteurProjetsBundle\Entity\Album $album)
+    {
+        $this->albums[] = $album;
+
+        return $this;
+    }
+
+    /**
+     * Remove album
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\Album $album
+     */
+    public function removeAlbum(\CEC\SecteurProjetsBundle\Entity\Album $album)
+    {
+        $this->albums->removeElement($album);
+    }
+
+    /**
+     * Get albums
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAlbums()
+    {
+        return $this->albums;
     }
 }

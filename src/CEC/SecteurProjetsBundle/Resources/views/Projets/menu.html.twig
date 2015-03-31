@@ -57,6 +57,8 @@
 			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information</a> </li>
 			<li> <a href="{{path('dossier_inscription')}}">Dossiers d'inscription</a></li>
 			<li> <a href="{{path('ouverture_inscription')}}">Ouvrir les inscriptions</a></li>
+			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
+			<li> <a href="{{path('ajouter_photos')}}"> Ajouter des photos</a></li>
 		</ul>
 	{% elseif is_granted('ROLE_ELEVE')%}
 		<ul class="nav nav-pills nav-stacked">

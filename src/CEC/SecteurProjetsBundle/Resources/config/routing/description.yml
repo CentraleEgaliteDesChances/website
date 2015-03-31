@@ -11,3 +11,13 @@ description_projet:
 liste_reunions:
     pattern: /reunions
     defaults: {_controller: CECSecteurProjetsBundle:Projets:voirReunion}
+    
+voir_albums:
+    pattern: /albums
+    defaults: { _controller: CECSecteurProjetsBundle:Projets:voirAlbums}
+ 
+voir_photos:
+    pattern: /albums/{id}
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:voirPhotos}
+    requirements:
+        id: \d+

@@ -25,3 +25,7 @@ dossier_inscription:
 ouverture_inscription:
     pattern: /ouverture-inscriptions
     defaults: {_controller: CECSecteurProjetsBundle:Projets:inscriptions}
+    
+ajouter_photos:
+    pattern: /ajouter-photos
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:ajouterPhotos}

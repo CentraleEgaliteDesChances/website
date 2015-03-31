@@ -7,8 +7,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\SecteurProjetsBundle\Form\ProjetType;
 use CEC\SecteurProjetsBundle\Form\ReunionType;
 use CEC\SecteurProjetsBundle\Form\DossierType;
+use CEC\SecteurProjetsBundle\Form\AlbumType;
 use CEC\SecteurProjetsBundle\Entity\Reunion;
 use CEC\SecteurProjetsBundle\Entity\Dossier;
+use CEC\SecteurProjetsBundle\Entity\Album;
 
 class ProjetsController extends Controller
 {
@@ -238,5 +240,65 @@ class ProjetsController extends Controller
 		}
 		
 		return array('projets'=>$projets);
+	}
+	
+	
+	/**
+	* Permet d'ajouter des photos à un projet
+	*
+	*@Template()
+	*/
+	public function ajouterPhotosAction()
+	{
+		$album = new Album();
+		$form = $this->createForm(new AlbumType(), $album);
+		
+		$request = $this->getRequest();
+		if($request->isMethod('POST'))
+		{
+			$form->bindRequest($request);
+			if($form->isValid())
+			{
+				$em = $this->getDoctrine()->getEntityManager();
+				$em->persist($album);
+				$images = $album->getImages();
+				foreach($images as $image)
+				{
+					$image->setAlbum($album);
+					$em->persist($image);
+				}
+				$em->flush();
+				
+				$this->get('session')->setFlash('success', 'L\'album photo a bien été créé !');
+				return $this->redirect($this->generateUrl('voir_albums'));
+			}
+		}
+		
+		return array('form' => $form->createView());
+	}
+	
+	/**
+	* Affiche la liste des albums photos par projets et par année
+	*
+	*@Template()
+	*/
+	public function voirAlbumsAction()
+	{
+		$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+		
+		return array('projets' => $projets);
+	}
+	
+	/**
+	* Affiche le carousel des photos d'un album
+	* @param integer $id Id de l'album
+	*
+	* @Template()
+	*/
+	public function voirPhotosAction($id)
+	{
+		$album = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Album')->find($id);
+		
+		return array('album' => $album);
 	}
 }

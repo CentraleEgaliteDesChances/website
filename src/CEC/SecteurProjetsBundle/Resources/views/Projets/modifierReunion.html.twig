@@ -4,7 +4,7 @@
 {% block right %}
 {{parent()}}
 
-
+<h1>Modifier une réunion d'informations</h1>
 <div class="well" style = "padding-left:20px;padding-right:15px;">
 <form class="form form-horizontal" method="post" action="{{ path('modifier_reunion', {'id': id}) }}">
     {{ form_widget(form) }}
