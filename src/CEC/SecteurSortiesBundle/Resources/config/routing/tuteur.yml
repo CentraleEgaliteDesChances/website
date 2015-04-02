@@ -22,3 +22,8 @@ supprimer_sortie:
     defaults: { _controller: CECSecteurSortiesBundle:Sorties:supprimerSortie }
     requirements: 
         id: \d+
+excel_inscrits:
+    pattern: /excel-inscrits-sortie/{id}
+    defaults: {_controller: CECSecteurSortiesBundle:Sorties:excel}
+    requirements:
+        id: \d+
