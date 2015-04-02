@@ -1,3 +1,5 @@
+
+# Routes d'affichage des projets
 description_projets:
     pattern: /
     defaults: { _controller: CECSecteurProjetsBundle:Projets:voir}
@@ -8,16 +10,18 @@ description_projet:
     requirements:
         slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
 
+# Routes d'affichage des réunions
 liste_reunions:
     pattern: /reunions
-    defaults: {_controller: CECSecteurProjetsBundle:Projets:voirReunion}
-    
+    defaults: {_controller: CECSecteurProjetsBundle:Reunions:voirReunion}
+
+# Routes d'affichage des albums photos
 voir_albums:
     pattern: /albums
-    defaults: { _controller: CECSecteurProjetsBundle:Projets:voirAlbums}
- 
+    defaults: { _controller: CECSecteurProjetsBundle:Albums:voirAlbums}
+
 voir_photos:
     pattern: /albums/{id}
-    defaults: {_controller: CECSecteurProjetsBundle:Projets:voirPhotos}
+    defaults: {_controller: CECSecteurProjetsBundle:Albums:voirPhotos}
     requirements:
         id: \d+

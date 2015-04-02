@@ -285,34 +285,4 @@ class Reunion
         $dateFin = new \DateTime($date . ' ' . $time);
         return $dateFin;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->presents = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add presents
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $presents
-     * @return Reunion
-     */
-    public function addPresent(\CEC\MembreBundle\Entity\Eleve $presents)
-    {
-        $this->presents[] = $presents;
-    
-        return $this;
-    }
-
-    /**
-     * Remove presents
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $presents
-     */
-    public function removePresent(\CEC\MembreBundle\Entity\Eleve $presents)
-    {
-        $this->presents->removeElement($presents);
-    }
 }

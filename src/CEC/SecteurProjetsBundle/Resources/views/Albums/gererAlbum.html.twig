@@ -1,0 +1,49 @@
+{% extends 'CECSecteurProjetsBundle::base.html.twig' %}
+
+
+
+{% block right %}
+
+{{parent()}}
+
+<h1> Modifier l'album {{album.projet.slug}}-{{album.annee}} </h1>
+
+<h2>Supprimer une photo</h2>
+
+<table class="table table-bordered table-striped">
+    <tbody>
+	{% for image in album.images%}
+        <tr>
+			<td>
+				{{image.alt}}
+			</td>
+			<td>
+				<a href="{{path('gerer_album', {'id' : album.id, 'image_id': image.id})}}" class="btn btn-danger">Supprimer </a>
+			</td>
+        </tr>
+	{% endfor %}
+    </tbody>
+</table>
+
+<h2>Ajouter une photo</h2>
+
+<form class="form form-horizontal" method="post" action="{{ path('gerer_album', {'id':album.id}) }}" {{ form_enctype(form) }}><br/>
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Ajouter les photos" class="btn btn-primary" />
+        <a href="{{ path('voir_albums') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+
+{% endblock %}
+
+{% block javascripts %}
+{{parent()}}
+
+{% javascripts 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+				'@CECSecteurProjetsBundle/Resources/public/js/ajoutImage.js'
+				 %}
+	<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endblock %}

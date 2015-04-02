@@ -121,6 +121,13 @@ class Projet
 	*/
 	private $albums;
 
+    /**
+    * @var \Doctrine\Common\Collections\Collection
+    *
+    *@ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", mappedBy="projets")
+    */
+    private $inscrits;
+
 
     /**
      * Get id
@@ -520,5 +527,38 @@ class Projet
     public function getAlbums()
     {
         return $this->albums;
+    }
+
+    /**
+     * Add inscrits
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $inscrits
+     * @return Projet
+     */
+    public function addInscrit(\CEC\MembreBundle\Entity\Eleve $inscrits)
+    {
+        $this->inscrits[] = $inscrits;
+    
+        return $this;
+    }
+
+    /**
+     * Remove inscrits
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $inscrits
+     */
+    public function removeInscrit(\CEC\MembreBundle\Entity\Eleve $inscrits)
+    {
+        $this->inscrits->removeElement($inscrits);
+    }
+
+    /**
+     * Get inscrits
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInscrits()
+    {
+        return $this->inscrits;
     }
 }

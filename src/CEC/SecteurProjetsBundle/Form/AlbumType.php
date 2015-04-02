@@ -14,10 +14,12 @@ class AlbumType extends AbstractType
         $builder
 			->add('projet', null, array(
 			'label' => 'Projet concerné',
-			'property' => 'nom'
+			'property' => 'nom',
+            'disabled' => $options['disabled'],
 			))
 			->add('annee', 'integer' , array(
-			'label' => 'Année de l\'édition du projet'
+			'label' => 'Année de l\'édition du projet',
+            'disabled' => $options['disabled'],
 			))
 			->add('images', 'collection', array(
 			'type' => new ImageType(),
@@ -29,7 +31,8 @@ class AlbumType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\SecteurProjetsBundle\Entity\Album'
+            'data_class' => 'CEC\SecteurProjetsBundle\Entity\Album',
+            'disabled' => false
         ));
     }
 

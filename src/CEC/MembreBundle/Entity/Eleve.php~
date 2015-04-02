@@ -537,37 +537,4 @@ class Eleve implements UserInterface, \Serializable
         $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
-
-    /**
-     * Add projets
-     *
-     * @param \CEC\SecteurProjetsBundle\Entity\Projet $projets
-     * @return Eleve
-     */
-    public function addProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projets)
-    {
-        $this->projets[] = $projets;
-    
-        return $this;
-    }
-
-    /**
-     * Remove projets
-     *
-     * @param \CEC\SecteurProjetsBundle\Entity\Projet $projets
-     */
-    public function removeProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projets)
-    {
-        $this->projets->removeElement($projets);
-    }
-
-    /**
-     * Get projets
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProjets()
-    {
-        return $this->projets;
-    }
 }
