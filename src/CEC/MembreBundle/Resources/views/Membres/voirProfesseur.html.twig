@@ -1,0 +1,66 @@
+{% extends 'CECMembreBundle:Membres:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block left %}
+{{ parent() }}
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th colspan="2" class="titre">
+                    <h3>{{ professeur.prenom|ucwords }} {{ professeur.nom|ucwords }}</h3>
+                </th>
+            </tr>
+            <tr><th colspan="2" class="image">
+                {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
+                    <img src="{{ asset_url }}" alt="Image du lycée"/>
+                {% endimage %}
+            </th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Email</td>
+                <td><a href="mailto:{{ professeur.mail }}">{{ professeur.mail }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table class="table table-bordered table-striped table-hover">
+        <tbody>
+            <tr>
+                <td>Tutorat</td>
+                <td>
+                    {% if professeur.lycee %}
+                        Lycée {{professeur.lycee|lycee}}
+                    {% else %}
+                        <span class="muted">Pas de lycée défini </span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% if professeur.referent %}
+                <tr>
+                    <td>Référent</td>
+                    <td>
+                        {{professeur.lycee|lycee}}
+                    </td>
+                </tr>
+            {% endif %}
+
+        </tbody>
+    </table>
+
+    {% if app.user == professeur %}
+        <a href="{{ path('reglages_infos_professeur') }}" class="btn btn-block">Modifier mon profil</a>
+    {% endif %}
+    
+{% endblock %}
+
+
+{% block right %}
+{{ parent() }}
+
+    {% if professeur == app.user %}
+        {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilise le bouton en bas à gauche de votre écran.") }}
+    {% endif %}
+	
+{% endblock %}

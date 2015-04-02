@@ -43,7 +43,7 @@ class MembresController extends Controller
         );
     }
 	
-	    /**
+	/**
      * Affiche le profil d'un élève.
      *
      * @param integer $id: id du membre, null pour afficher le profil du membre connecté
@@ -56,6 +56,22 @@ class MembresController extends Controller
         
         return array(
             'eleve'    => $eleve,
+        );
+    }
+	
+	/**
+     * Affiche le profil d'un professeur.
+     *
+     * @param integer $id: id du membre, null pour afficher le profil du membre connecté
+     *@Template()
+     */
+    public function voirProfesseurAction($id)
+    {
+        $professeur = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($id);
+        if (!$professeur) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        
+        return array(
+            'professeur'    => $professeur,
         );
     }
     

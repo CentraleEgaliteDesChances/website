@@ -18,13 +18,13 @@
             <img src="{{ asset_url }}" alt="Logo CEC" class="logo"/>
         {% endimage %}
 
-        <h4 class="bienvenue">Bienvenue sur le site interne, {{ membre }} !</h4>
+        <h4 class="bienvenue">Bienvenue sur le site interne, {{ professeur }} !</h4>
 
         <ul class="liens">
             <li><a href="{{path('sorties_professeur')}}">Les sorties à venir</a></li>
         </ul>
         <ul class="liens">
-            <li><a href="#">Mon profil</a></li>
+            <li><a href="{{ path('voir_professeur', { 'id' : professeur.id }) }}">Mon profil</a></li>
             <li><a href="mailto:contact@cec-ecp.com">Aide</a></li>
         </ul>
 

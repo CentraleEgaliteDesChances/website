@@ -6,12 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use CEC\MembreBundle\Form\Type\InfosMembreType;
+use CEC\MembreBundle\Form\Type\InfosEleveType;
 use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
-use CEC\MembreBundle\Form\Type\SecteursMembreType;
-use CEC\MembreBundle\Form\Type\GroupeMembreType;
+use CEC\MembreBundle\Form\Type\GroupeEleveType;
 
-class ReglagesController extends Controller
+class ReglagesEleveController extends Controller
 {
     /**
      * Modification des informations personnelles.
@@ -26,9 +25,9 @@ class ReglagesController extends Controller
         $membre = $this->getUser();
         if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
         
-        $nomInformationsGenerales = 'InfosMembre';
+        $nomInformationsGenerales = 'InfosEleve';
         $infomationsGenerales = $this->get('form.factory')
-            ->createNamedBuilder($nomInformationsGenerales, new InfosMembreType(), $membre)
+            ->createNamedBuilder($nomInformationsGenerales, new InfosEleveType(), $membre)
             ->getForm();
             
         $nomMotDePasse = 'MotDePasseMembre';
@@ -44,7 +43,7 @@ class ReglagesController extends Controller
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
-                    return $this->redirect($this->generateUrl('reglages_infos'));
+                    return $this->redirect($this->generateUrl('reglages_infos_eleve'));
                 }
             }
             
@@ -65,7 +64,7 @@ class ReglagesController extends Controller
 					} else {
 						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
 					}
-					return $this->redirect($this->generateUrl('reglages_infos'));
+					return $this->redirect($this->generateUrl('reglages_infos_eleve'));
                 }
             }
         }
@@ -83,7 +82,7 @@ class ReglagesController extends Controller
     public function groupeAction()
     {
         $membre = $this->getUser();
-        $form = $this->createForm(new GroupeMembreType(), $membre);
+        $form = $this->createForm(new GroupeEleveType(), $membre);
         
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
@@ -91,35 +90,11 @@ class ReglagesController extends Controller
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
-                return $this->redirect($this->generateUrl('reglages_groupe'));
+                return $this->redirect($this->generateUrl('reglages_groupe_eleve'));
             }
         }
         
         return array('form' => $form->createView());
     }
-    
-    /**
-     * Sélection des secteurs dans lequel le membre s'implique.
-     *@Template()
-     */
-    public function secteursAction()
-    {
-        // On récupère l'utilisateur
-        $membre = $this->getUser();
-        if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
-        
-        $form = $this->createForm(new SecteursMembreType(), $membre);
-        
-        $request = $this->getRequest();
-        if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
-                return $this->redirect($this->generateUrl('reglages_secteurs'));
-            }
-        }
-        
-        return array('form' => $form->createView());
-    }
+       
 }

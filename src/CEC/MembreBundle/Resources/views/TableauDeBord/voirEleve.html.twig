@@ -26,7 +26,7 @@
             <li><a href="{{path('sorties_eleve')}}">Les sorties à venir</a></li>
         </ul>
         <ul class="liens">
-            <li><a href="#">Mon profil</a></li>
+            <li><a href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">Mon profil</a></li>
             <li><a href="mailto:contact@cec-ecp.com">Aide</a></li>
         </ul>
 

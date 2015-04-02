@@ -22,6 +22,12 @@
                 <td>Email</td>
                 <td><a href="mailto:{{ eleve.mail }}">{{ eleve.mail }}</a></td>
             </tr>
+			{% if eleve.telephonePublic %}
+			<tr>
+                <td>Téléphone</td>
+                <td>{{ eleve.telephone }}</td>
+            </tr>
+			{% endif %}
         </tbody>
     </table>
     
@@ -31,7 +37,7 @@
                 <td>Tutorat</td>
                 <td>
                     {% if eleve.lycee and eleve.classe %}
-                        En tutorat au lycée {{eleve.lycee|lycee}} en classe de {{eleve.classe}}
+                        Lycée {{eleve.lycee|lycee}} en {{eleve.classe|lycee}}
                     {% else %}
                         <span class="muted">Pas de tutorat</span>
                     {% endif %}
@@ -50,7 +56,7 @@
     </table>
 
     {% if app.user == eleve %}
-        <a href="{{ path('reglages_infos') }}" class="btn btn-block">Modifier mon profil</a>
+        <a href="{{ path('reglages_infos_eleve') }}" class="btn btn-block">Modifier mon profil</a>
     {% endif %}
     
 {% endblock %}
@@ -60,29 +66,27 @@
 {{ parent() }}
 
     {% if eleve == app.user %}
-        {{ flash('info', "Voici ta page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier tes infos, utilise le bouton en bas à gauche de votre écran.") }}
+        {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilise le bouton en bas à gauche de votre écran.") }}
     {% endif %}
 	
-	
-{#   A reprendre et compléter !!
 
 
     <table class="table table-bordered table-hover table-striped table-large">
-        {% if membre.lycee %}
+        {% if eleve.groupe %}
             <thead><tr><th><h4>Groupe de tutorat</h4></th></tr></thead>
             <tbody>
                 <tr>
                     <td>
-                        <a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">
+                        <a href="{{ path('groupe', { 'groupe': eleve.groupe.id }) }}">
                             <strong>
-                                {% for lycee in membre.groupe.lycees %}
+                                {% for lycee in eleve.groupe.lycees %}
                                     {{ lycee.nom }}
                                     {% if not loop.last %}& {% endif %}
                                 {% endfor %}
-                                ({{ membre.groupe.niveau|lower }})
+                                ({{ eleve.classe|lycee }})
                             </strong>
-                            <span class="muted">- {{ membre.groupe.typeDeTutorat }}</span><br />
-                            Tous les {{ cycle(jours, membre.groupe.debut|date('N'))|lower }}s à {{ membre.groupe.debut|date('G\\hi') }}, {{ membre.groupe.lieu|lower }}.
+                            <span class="muted">- {{ eleve.groupe.typeDeTutorat }}</span><br />
+                            Tous les {{ cycle(jours, eleve.groupe.debut|date('N'))|lower }}s à {{ eleve.groupe.debut|date('G\\hi') }}, {{ eleve.groupe.lieu|lower }}.
                         </a>
                     </td>
                 </tr>
@@ -90,7 +94,6 @@
         {% else %}
             <thead><tr><th class="muted"><h4>Aucune activité de tutorat</h4></th></tr></thead>
         {% endif %}
-    </table>
- #}   
+    </table>  
 
 {% endblock %}
