@@ -200,6 +200,18 @@ class Eleve implements UserInterface, \Serializable
      */
     private $seances;
 
+    /**
+	*
+	* Répertorie les sorties auxquelles s'est inscrit le lycéen.
+	* ATTENTION : la suppression du lycéen supprime ses inscriptions.
+	* 
+	* Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de Sorties pour ajouter un lycéen à une sortie.
+	* 
+	* @var \Doctrine\Common\Collections\Collection
+    *
+	*/
+	private $sorties;
+
 
     /**
      * @inheritDoc
@@ -591,5 +603,38 @@ class Eleve implements UserInterface, \Serializable
     public function getMotDePasse()
     {
         return $this->motDePasse;
+    }
+	
+	/**
+     * Add sorties
+     *
+     * @param \CEC\SecteurSortiesBundle\Entity\Sortie $sortie
+     * @return Membre
+     */
+    public function addSortie(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+    {
+        $this->sorties[] = $sortie;
+
+        return $this;
+    }
+
+    /**
+     * Remove sorties
+     *
+     * @param \CEC\SecteurSortiesBundle\Entity\Sortie $sortie
+     */
+    public function removeSortie(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+    {
+        $this->sorties->removeElement($sortie);
+    }
+
+    /**
+     * Get sorties
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSorties()
+    {
+        return $this->sorties;
     }
 }

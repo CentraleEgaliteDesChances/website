@@ -1,0 +1,7 @@
+sorties_eleve:
+    pattern: /sorties
+    defaults: { _controller: CECSecteurSortiesBundle:SortiesEleve:voir }
+
+anciennes_sorties_eleve:
+    pattern: /sortiesPassees
+    defaults: { _controller: CECSecteurSortiesBundle:SortiesEleve:voirAnciennes }

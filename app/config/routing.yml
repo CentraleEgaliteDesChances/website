@@ -4,7 +4,7 @@ cec_extern_site:
 
 cec_secteur_sorties:
     resource: "@CECSecteurSortiesBundle/Resources/config/routing.yml"
-    prefix:   /tuteur
+    prefix:   /
 
 cec_secteur_fundraising:
     resource: "@CECSecteurFundraisingBundle/Resources/config/routing.yml"
