@@ -13,9 +13,9 @@
 	<tbody>
 	{% for projet in projets %}
 	<tr>
-		<td colspan="6" style="text-align:center;">
-			<strong>{{projet.nom}}</strong>
-		</td>
+		<th colspan="7" >
+			{{projet.nom}}
+		</th>
 	</tr>
 		{% for reunion in reunions %}
 		{% if reunion.projet == projet %}
@@ -46,7 +46,7 @@
 			{% elseif is_granted('ROLE_ELEVE') %}
 				<td>
 					{% if app.user in reunion.presents %}
-						<em> Tu es déjà inscrit à cette réunion !</em>
+						<a href="{{path('desinscription_reunion', {'id': reunion.id})}}" class="btn btn-danger">Se désinscrire</a>
 					{% else %}
 						<a href="{{path('inscription_reunion', {'id': reunion.id})}}" class="btn btn-default">S'inscrire</a>
 					{% endif %}
