@@ -15,7 +15,7 @@
                         href="{{ path('groupe_supprimer_lyceen', { 'groupe': groupe.id, 'lyceen': lyceen.id }) }}">
                             &times;
                     </a>
-                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                    <a href="{{ path('voir_eleve', { 'id': lyceen.id }) }}">
                         <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
                     </a>
                 </td>
@@ -33,7 +33,6 @@
                     {{ form_widget(ajouter_lyceen_form.lyceen) }}
                     {{ form_rest(ajouter_lyceen_form) }}
                     <input type="submit" name="ajouter_lyceen" class="btn btn-primary" value="Ajouter" />
-                    <a href="{{ path('creer_lyceen') }}" class="btn pull-right">Nouveau lycéen</a>
                 </form>
             </td>
         </tr>

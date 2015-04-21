@@ -214,7 +214,7 @@ class CordeesController extends Controller
     /**
      * Affiche le menu présentant toutes les cordées
      *
-     * @param Request $request: requête original
+     * @param Request $request: requête originale
      */
     public function menuAction($request)
     {

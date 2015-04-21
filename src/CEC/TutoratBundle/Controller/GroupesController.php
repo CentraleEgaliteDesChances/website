@@ -196,7 +196,7 @@ class GroupesController extends Controller
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
             
-        $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
+        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
         
         $lyceen->setGroupe(null);
@@ -227,7 +227,7 @@ class GroupesController extends Controller
             $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
             return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
         }
-        $lyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:Lyceen')->find($lyceen);
+        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
         
         $lyceen->setGroupe($groupe);

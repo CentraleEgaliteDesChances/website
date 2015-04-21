@@ -364,14 +364,6 @@ class Professeur implements UserInterface, \Serializable
     }
 
     /**
-    * Add role
-    */
-    public function addRole($role)
-    {
-        $this->roles[] = $role;
-    }
-
-    /**
      * Get roles
      *
      * @return array 
@@ -471,51 +463,5 @@ class Professeur implements UserInterface, \Serializable
     public function getMotDePasse()
     {
         return $this->motDePasse;
-    }
-
-    /**
-     * Set telephoneFixe
-     *
-     * @param string $telephoneFixe
-     * @return Professeur
-     */
-    public function setTelephoneFixe($telephoneFixe)
-    {
-        $this->telephoneFixe = $telephoneFixe;
-    
-        return $this;
-    }
-
-    /**
-     * Get telephoneFixe
-     *
-     * @return string 
-     */
-    public function getTelephoneFixe()
-    {
-        return $this->telephoneFixe;
-    }
-
-    /**
-     * Set telephonePortable
-     *
-     * @param string $telephonePortable
-     * @return Professeur
-     */
-    public function setTelephonePortable($telephonePortable)
-    {
-        $this->telephonePortable = $telephonePortable;
-    
-        return $this;
-    }
-
-    /**
-     * Get telephonePortable
-     *
-     * @return string 
-     */
-    public function getTelephonePortable()
-    {
-        return $this->telephonePortable;
     }
 }

@@ -121,30 +121,25 @@ class Eleve implements UserInterface, \Serializable
      private $nomPere;
 
      /**
-     * Numéro de téléphone du membre.
-     * Ce champ n'est pas requis mais permet de pouvoir contacter par téléphone
-     * (fixe ou portable) un tuteur en cas de besoin. La syntaxe du numéro est vérifiée.
-     *
-     * @var string
-     *
-     * @ORM\Column(name = "telephoneParent", type = "string", length = 15, nullable = true)
-     * @Assert\Regex(
-     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
-     *     message = "Le numéro de téléphone n'est pas valide."
-     * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
-     * )
-     */
-    private $telephoneParent;
-
-     /**
      * @var string
      *
      * @ORM\Column(name="nomMere", type="string")
      */
      private $nomMere;
+	 
+	 /**
+     * @var string
+     *
+     * @ORM\Column(name="lycee", type="string", length=20)
+     */
+    private $lycee;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="classe", type="string", length=5)
+     */
+    private $classe;
 
     /**
      * @var \DateTime
@@ -220,7 +215,7 @@ class Eleve implements UserInterface, \Serializable
      *
      * @var CEC\TutoratBundle\Entity\Groupe
      *
-     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "lyceens" )
+     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "tuteurs" )
      */
     private $groupe;
 	
@@ -236,7 +231,7 @@ class Eleve implements UserInterface, \Serializable
      *
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "lyceens" )
+     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "tuteurs" )
      */
     private $seances;
 
@@ -438,6 +433,51 @@ class Eleve implements UserInterface, \Serializable
 		return $this;
 	}
 
+    /**
+     * Set lycee
+     *
+     * @param string $lycee
+     * @return Eleve
+     */
+    public function setLycee($lycee)
+    {
+        $this->lycee = $lycee;
+    
+        return $this;
+    }
+
+    /**
+     * Get lycee
+     *
+     * @return string 
+     */
+    public function getLycee()
+    {
+        return $this->lycee;
+    }
+
+    /**
+     * Set classe
+     *
+     * @param string $classe
+     * @return Eleve
+     */
+    public function setClasse($classe)
+    {
+        $this->classe = $classe;
+    
+        return $this;
+    }
+
+    /**
+     * Get classe
+     *
+     * @return string 
+     */
+    public function getClasse()
+    {
+        return $this->classe;
+    }
 
     /**
      * Set datenaiss
@@ -474,31 +514,6 @@ class Eleve implements UserInterface, \Serializable
     
         return $this;
     }
-
-    /**
-    * Add role
-    */
-    public function addRole($role)
-    {
-        $this->roles[] = $role;
-    }
-
-     /**
-    * Remove role
-    */
-    public function removeRole($role)
-    {
-        if (in_array($role, $this->roles))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
-            }
-        }
-        $this->roles = array_values($this->roles);
-    }
-
 
     /**
      * Get roles
@@ -565,10 +580,6 @@ class Eleve implements UserInterface, \Serializable
     public function setDelegue($delegue)
     {
         $this->delegue = $delegue;
-        if($delegue)
-            $this->addRole("ROLE_ELEVE_DELEGUE");
-        else
-            $this->removeRole("ROLE_ELEVE_DELEGUE");
     
         return $this;
     }
@@ -769,51 +780,5 @@ class Eleve implements UserInterface, \Serializable
     public function getSeances()
     {
         return $this->seances;
-    }
-
-    /**
-     * Set nomPere
-     *
-     * @param string $nomPere
-     * @return Eleve
-     */
-    public function setNomPere($nomPere)
-    {
-        $this->nomPere = $nomPere;
-    
-        return $this;
-    }
-
-    /**
-     * Get nomPere
-     *
-     * @return string 
-     */
-    public function getNomPere()
-    {
-        return $this->nomPere;
-    }
-
-    /**
-     * Set nomMere
-     *
-     * @param string $nomMere
-     * @return Eleve
-     */
-    public function setNomMere($nomMere)
-    {
-        $this->nomMere = $nomMere;
-    
-        return $this;
-    }
-
-    /**
-     * Get nomMere
-     *
-     * @return string 
-     */
-    public function getNomMere()
-    {
-        return $this->nomMere;
     }
 }

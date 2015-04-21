@@ -1,5 +1,5 @@
 voir_tous_membres:
-    pattern: /
+    pattern: /tuteurs
     defaults: {_controller: CECMembreBundle:Membres:tous}
 
 voir_membre:
@@ -14,12 +14,27 @@ voir_eleve:
     requirements:
         id: \d+
 
+tous_eleves:
+    pattern: /eleves
+    defaults: {_controller: CECMembreBundle:Membres:tousEleve}
+
 voir_professeur:
     pattern: /professeur/{id}
     defaults: {_controller: CECMembreBundle:Membres:voirProfesseur}
     requirements:
         id: \d+
-        
+
+voir_lycee:
+    pattern: /{categorie}/lycee/{lycee}
+    defaults: {_controller: CECMembreBundle:Membres:tousLycee}
+    requirements:
+        id: \d+
+        categorie: eleves|tuteurs|professeurs
+
+tous_professeurs:
+    pattern: /professeurs
+    defaults: {_controller: CECMembreBundle:Membres:tousProfesseur}
+
 creer_membre:
     pattern: /creation
     defaults: {_controller: CECMembreBundle:Membres:creer}

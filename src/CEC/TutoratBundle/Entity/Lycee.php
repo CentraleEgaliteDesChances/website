@@ -66,8 +66,10 @@ class Lycee
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="\CEC\MembreBundle\Entity\Professeur", mappedBy="lycee")
      */
-    private $enseignants;
+    private $professeurs;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -335,36 +337,36 @@ class Lycee
     }
 
     /**
-     * Add enseignants
+     * Add professeurs
      *
-     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignants
+     * @param \CEC\MembreBundle\Entity\Professeur $professeurs
      * @return Lycee
      */
-    public function addEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignants)
+    public function addProfesseur(\CEC\MembreBundle\Entity\Professeur $professeurs)
     {
-        $this->enseignants[] = $enseignants;
+        $this->professeurs[] = $professeurs;
     
         return $this;
     }
 
     /**
-     * Remove enseignants
+     * Remove professeurs
      *
-     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignants
+     * @param \CEC\MembreTutoratBundle\Entity\Professeur $professeurs
      */
-    public function removeEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignants)
+    public function removeProfesseur(\CEC\MembreBundle\Entity\Professeur $professeurs)
     {
-        $this->enseignants->removeElement($enseignants);
+        $this->professeurs->removeElement($professeurs);
     }
 
     /**
-     * Get enseignants
+     * Get professeurs
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getEnseignants()
+    public function getProfesseurs()
     {
-        return $this->enseignants;
+        return $this->professeurs;
     }
 
     /**

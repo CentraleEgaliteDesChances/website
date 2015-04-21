@@ -71,13 +71,13 @@ class LyceesController extends Controller
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
         
         // On récupère le proviseur et le référent
-        $enseignants = $lycee->getEnseignants();
+        $enseignants = $lycee->getProfesseurs();
         $proviseur = null;
         $referent = null;
         foreach ($enseignants as $enseignant) {
-            $role = $enseignant->getRole();
-            if (strstr($role, 'Professeur référent')) $referent = $enseignant;
-            if (strstr($role, 'Chef d\'établissement')) $proviseur = $enseignant;
+            $roles = $enseignant->getRoles();
+            if (in_array("ROLE_PROFESSEUR_REFERENT",$roles)) $referent = $enseignant;
+            if (in_array("ROLE_PROVISEUR",$roles)) $proviseur = $enseignant;
         }
             
         // On trouve les tuteurs, les lycéens, les niveaux, les types de tutorat et les prochaines séances
@@ -215,7 +215,7 @@ class LyceesController extends Controller
         $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
             
-        $enseignant = $this->getDoctrine()->getRepository('CECTutoratBundle:Enseignant')->find($enseignant);
+        $enseignant = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($enseignant);
         if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
         
         $enseignant->setLycee(null);
@@ -244,7 +244,7 @@ class LyceesController extends Controller
             $this->get('session')->setFlash('error', 'Merci de spécifier un enseignant à ajouter.');
             return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
         }
-        $enseignant = $this->getDoctrine()->getRepository('CECTutoratBundle:Enseignant')->find($enseignant);
+        $enseignant = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($enseignant);
         if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
         
         $enseignant->setLycee($lycee);

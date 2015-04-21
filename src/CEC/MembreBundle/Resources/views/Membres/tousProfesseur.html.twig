@@ -1,0 +1,47 @@
+{% extends 'CECMainBundle::2-columns.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+
+{% block right %}
+    <div class="row narrow-header">
+                {% block narrow_header %}
+                    <h3 class="narrow-title">
+                        {% block narrow_title %}
+                            Professeurs
+                        {% endblock %}
+                    </h3>
+                {% endblock %}
+     </div>
+     <div class="row narrow-body">{% block narrow_body %}
+
+{{ parent() }}
+
+<table class="table table-bordered table-hover table-striped">
+    {% if professeurs|length > 0 %}
+        <tbody>
+            {% for professeur in professeurs %}
+            <tr>
+                <td>
+                    
+                    <a href="{{ path('voir_professeur', { 'id': professeur.id }) }}" style="margin-top: 1px; display: inline-block;">
+                        {{ professeur.prenom|ucwords }} {{ professeur.nom|ucwords }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun professeur dans la base de donnée !</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+{% endblock %}
+</div>
+
+
+{% endblock %}
+
+{% block left %}
+    {{parent()}}
+    {% render 'CECMembreBundle:Membres:menu' with { 'request': app.request } %}
+{% endblock %}

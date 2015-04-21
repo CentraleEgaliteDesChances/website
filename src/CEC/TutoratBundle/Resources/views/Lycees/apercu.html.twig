@@ -75,13 +75,13 @@
         {% if proviseur is not null %}
             <tr>
                 <td>Proviseur</td>
-                <td><a href="{{ path('enseignant', { 'enseignant': proviseur.id }) }}">{{ proviseur.prenom }} {{ proviseur.nom }}</a></td>
+                <td><a href="{{ path('voir_professeur', { 'id': proviseur.id }) }}">{{ proviseur.prenom }} {{ proviseur.nom }}</a></td>
             </tr>
         {% endif %}
         {% if referent is not null %}
             <tr>
                 <td>Référent</td>
-                <td><a href="{{ path('enseignant', { 'enseignant': referent.id }) }}">{{ referent.prenom }} {{ referent.nom }}</a></td>
+                <td><a href="{{ path('voir_professeur', { 'id': referent.id }) }}">{{ referent.prenom }} {{ referent.nom }}</a></td>
             </tr>
         {% endif %}
     </tbody>

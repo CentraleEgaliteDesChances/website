@@ -35,17 +35,17 @@
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
-    {% if lycee.enseignants|length > 0 %}
+    {% if lycee.professeurs|length > 0 %}
         <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
         <tbody>
-            {% for enseignant in lycee.enseignants %}
+            {% for enseignant in lycee.professeurs %}
             <tr>
                 <td>
                     <a class="close pull-right close-red" 
                         href="{{ path('lycee_supprimer_enseignant', { 'lycee': lycee.id, 'enseignant': enseignant.id }) }}">
                             &times;
                     </a>
-                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
+                    <a href="{{ path('voir_professeur', { 'id': enseignant.id }) }}">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
                         {{ enseignant.role is not empty ? enseignant.role }}
                     </a>
@@ -64,7 +64,6 @@
                     {{ form_widget(ajouter_enseignant_form.enseignant) }}
                     {{ form_rest(ajouter_enseignant_form) }}
                     <input type="submit" name="ajouter_enseignant_button" class="btn btn-primary" value="Ajouter" />
-                    <a href="{{ path('creer_enseignant', { 'lycee': lycee.id }) }}" class="btn pull-right">Nouvel enseignant</a>
                 </form>
             </td>
         </tr>

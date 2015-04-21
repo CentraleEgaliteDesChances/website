@@ -36,8 +36,8 @@
             <tr>
                 <td>Tutorat</td>
                 <td>
-                    {% if eleve.lycee and eleve.classe %}
-                        Lycée {{eleve.lycee|lycee}} en {{eleve.classe|lycee}}
+                    {% if eleve.groupe %}
+                        {{eleve.groupe.description}}
                     {% else %}
                         <span class="muted">Pas de tutorat</span>
                     {% endif %}
@@ -47,7 +47,7 @@
                 <tr>
                     <td>Délégué</td>
                     <td>
-                        {{eleve.lycee|lycee}}
+                        {{eleve.lycee.nom}}
                     </td>
                 </tr>
             {% endif %}
@@ -79,11 +79,7 @@
                     <td>
                         <a href="{{ path('groupe', { 'groupe': eleve.groupe.id }) }}">
                             <strong>
-                                {% for lycee in eleve.groupe.lycees %}
-                                    {{ lycee.nom }}
-                                    {% if not loop.last %}& {% endif %}
-                                {% endfor %}
-                                ({{ eleve.classe|lycee }})
+                                {{eleve.groupe.description}}
                             </strong>
                             <span class="muted">- {{ eleve.groupe.typeDeTutorat }}</span><br />
                             Tous les {{ cycle(jours, eleve.groupe.debut|date('N'))|lower }}s à {{ eleve.groupe.debut|date('G\\hi') }}, {{ eleve.groupe.lieu|lower }}.

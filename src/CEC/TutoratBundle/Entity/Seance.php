@@ -438,10 +438,10 @@ class Seance
     /**
      * Add lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
      * @return Seance
      */
-    public function addLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
+    public function addLyceen(\CEC\MembreBundle\Entity\Eleve $lyceens)
     {
         $this->lyceens[] = $lyceens;
     
@@ -451,9 +451,9 @@ class Seance
     /**
      * Remove lyceens
      *
-     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
      */
-    public function removeLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
+    public function removeLyceen(\CEC\MembreBundle\Entity\Eleve $lyceens)
     {
         $this->lyceens->removeElement($lyceens);
     }

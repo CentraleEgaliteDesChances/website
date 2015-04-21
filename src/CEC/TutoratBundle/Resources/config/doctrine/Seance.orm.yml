@@ -48,6 +48,6 @@ CEC\TutoratBundle\Entity\Seance:
             targetEntity: CEC\MembreBundle\Entity\Membre
             inversedBy: seances
         lyceens:
-            targetEntity: Lyceen
+            targetEntity: CEC\MembreBundle\Entity\Eleve
             inversedBy: seances
     lifecycleCallbacks: {  }

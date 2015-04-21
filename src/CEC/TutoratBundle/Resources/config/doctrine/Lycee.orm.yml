@@ -47,8 +47,8 @@ CEC\TutoratBundle\Entity\Lycee:
             targetEntity: Cordee
             inversedBy: lycees
     oneToMany:
-        enseignants:
-            targetEntity: Enseignant
+        professeurs:
+            targetEntity: CEC\MembreBundle\Entity\Professeur
             mappedBy: lycee
             cascade: ["remove"]
     manyToMany:

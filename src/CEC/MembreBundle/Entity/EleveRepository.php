@@ -58,6 +58,25 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
     {
         return $this->getEntityName() === $class || is_subclass_of($class, $this->getEntityName());
     }
+
     
+    /**
+     * Retourne le compte des lycéens suivis pour l'année scolaire indiqué.
+     * On retourne le nombre lycéens qui sont dans un groupe dont l'année scolaire
+     * correspond à celle passée en argument.
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return integer Compte des lycéens suivis.
+     */
+    public function comptePourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('l')
+            ->select('COUNT(DISTINCT l)')
+            ->join('l.groupe', 'g')
+            ->where('g.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        return $query->getSingleScalarResult();
+    }
 
 }

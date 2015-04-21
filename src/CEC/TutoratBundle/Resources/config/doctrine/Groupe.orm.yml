@@ -41,7 +41,7 @@ CEC\TutoratBundle\Entity\Groupe:
             inversedBy: groupes
     oneToMany:
         lyceens:
-            targetEntity: Lyceen
+            targetEntity: \CEC\MembreBundle\Entity\Eleve
             mappedBy: groupe
         tuteurs:
             targetEntity: CEC\MembreBundle\Entity\Membre

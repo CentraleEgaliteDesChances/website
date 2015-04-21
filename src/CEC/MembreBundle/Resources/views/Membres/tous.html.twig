@@ -1,10 +1,18 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECMainBundle::2-columns.html.twig' %}
 {% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 
-{% block narrow_title %}Membres{% endblock %}
-
-{% block narrow_body %}
+{% block right %}
+    <div class="row narrow-header">
+                {% block narrow_header %}
+                    <h3 class="narrow-title">
+                        {% block narrow_title %}
+                            Membres
+                        {% endblock %}
+                    </h3>
+                {% endblock %}
+     </div>
+     <div class="row narrow-body">{% block narrow_body %}
 
 {{ parent() }}
 
@@ -37,4 +45,12 @@
 <a href="{{ path('creer_membre') }}" class="btn pull-right">Ajouter un membre</a>
 {% endif %}
 
+{% endblock %}
+</div>
+
+{% endblock %}
+
+{% block left %}
+    {{parent()}}
+    {% render 'CECMembreBundle:Membres:menu' with { 'request': app.request } %}
 {% endblock %}

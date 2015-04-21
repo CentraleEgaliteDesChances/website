@@ -16,7 +16,7 @@
             {% for lyceen in lyceens %}
             <tr>
                 <td>
-                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                    <a href="{{ path('voir_eleve', { 'id': lyceen.id }) }}">
                         <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
                     </a>
                 </td>

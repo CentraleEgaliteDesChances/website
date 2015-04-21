@@ -13,7 +13,7 @@ class AjouterEnseignantType extends AbstractType
     {
         $builder->add('enseignant', 'entity', array(
             'label' => false,
-            'class' => 'CECTutoratBundle:Enseignant',
+            'class' => 'CECMembreBundle:Professeur',
             'query_builder' => function (EntityRepository $entityRepository)
             {
                 return $entityRepository->createQueryBuilder('e')
