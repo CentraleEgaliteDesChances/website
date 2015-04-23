@@ -76,6 +76,7 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce groupe de tutorat</h4></th></tr></thead>
     {% endif %}
+    {% if (is_granted('ROLE_VP_LYCEE') and groupe == app.user.groupe) or is_granted('ROLE_BURO') %}
     <tbody>
         <tr>
             <td class="ajout">
@@ -83,6 +84,7 @@
             </td>
         </tr>
     </tbody>
+    {% endif %}
 </table>
 
 {% endblock %}

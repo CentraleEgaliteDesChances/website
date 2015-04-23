@@ -25,6 +25,7 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun groupe de tutorat pour ce lycée</h4></th></tr></thead>
     {% endif %}
+    {% if is_granted('ROLE_BURO') %}
     <tbody>
         <tr>
             <td class="ajout">
@@ -32,6 +33,7 @@
             </td>
         </tr>
     </tbody>
+    {% endif %}
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
@@ -56,18 +58,6 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun enseignant pour ce lycée</h4></th></tr></thead>
     {% endif %}
-    <tbody>
-        <tr>
-            <td class="ajout">
-                <form class="form form-inline" method="post" action="{{ path('lycee_ajouter_enseignant', { 'lycee': lycee.id }) }}">
-                    {{ form_errors(ajouter_enseignant_form) }}
-                    {{ form_widget(ajouter_enseignant_form.enseignant) }}
-                    {{ form_rest(ajouter_enseignant_form) }}
-                    <input type="submit" name="ajouter_enseignant_button" class="btn btn-primary" value="Ajouter" />
-                </form>
-            </td>
-        </tr>
-    </tbody>
 </table>
 
 {% endblock %}

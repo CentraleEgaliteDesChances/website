@@ -91,5 +91,6 @@
         {% endif %}
     </tbody>
 </table>
-
+{% if (is_granted('ROLE_VP_LYCEE') and groupe == app.user.groupe) or is_granted('ROLE_BURO') %}
 <a href="{{ path('editer_groupe', { 'groupe': groupe.id }) }}" class="btn btn-block">Éditer le groupe de tutorat</a>
+{% endif %}

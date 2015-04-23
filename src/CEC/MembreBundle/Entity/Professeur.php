@@ -74,6 +74,13 @@ class Professeur implements UserInterface, \Serializable
     private $lycee;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="role", type="string")
+    */
+    private $role;
+
+    /**
      * @var string
      *
      * @ORM\Column(name = "telephoneFixe", type = "string", length = 15, nullable = true)
@@ -159,6 +166,14 @@ class Professeur implements UserInterface, \Serializable
      * @ORM\Column(name="referent", type="boolean")
      */
     private $referent;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->setRoles(array("ROLE_PROFESSEUR"));
+    }
 
 
     /**
@@ -307,7 +322,7 @@ class Professeur implements UserInterface, \Serializable
     /**
      * Set lycee
      *
-     * @param string $lycee
+     * @param \CEC\TutotatBundle\Entity\Lycee $lycee
      * @return Professeur
      */
     public function setLycee($lycee)
@@ -320,11 +335,45 @@ class Professeur implements UserInterface, \Serializable
     /**
      * Get lycee
      *
-     * @return string 
+     * @return \CEC\TutoratBundle\Entity\Lycee
      */
     public function getLycee()
     {
         return $this->lycee;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     * @return Professeur
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+        switch($role)
+        {
+            case "proviseur":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            case "proviseurAdjoint":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            default:
+            break;
+        }
+    
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string 
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**
@@ -364,11 +413,28 @@ class Professeur implements UserInterface, \Serializable
     }
 
     /**
+    * Remove role
+    */
+    public function removeRole($role)
+    {
+        if (in_array($role, $this->roles))
+        {
+            for($i=0; $i<count($this->roles); $i++)
+            {
+                if ($this->roles[i] == $role)
+                    unset($this->roles[i]);
+            }
+        }
+        $this->roles = array_values($this->roles);
+    }
+
+    /**
     * Add role
     */
     public function addRole($role)
     {
-        $this->roles[] = $role;
+        if (!(in_array($role, $this->roles)))
+            $this->roles[] = $role;
     }
 
     /**
@@ -436,6 +502,11 @@ class Professeur implements UserInterface, \Serializable
     public function setReferent($referent)
     {
         $this->referent = $referent;
+
+        if ($referent)
+            $this->addRole('ROLE_PROFESSEUR_REFERENT');
+        else
+            $this->removeRole('ROLE_PROFESSEUR_REFERENT');
     
         return $this;
     }

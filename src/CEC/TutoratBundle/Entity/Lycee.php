@@ -378,6 +378,7 @@ class Lycee
     public function addVpLycee(\CEC\MembreBundle\Entity\Membre $vpLycees)
     {
         $this->vpLycees[] = $vpLycees;
+        $vpLycees->addRole("ROLE_VP_LYCEE");
     
         return $this;
     }
@@ -390,6 +391,7 @@ class Lycee
     public function removeVpLycee(\CEC\MembreBundle\Entity\Membre $vpLycees)
     {
         $this->vpLycees->removeElement($vpLycees);
+        $this->removeRole("ROLE_VP_LYCEE");
     }
 
     /**

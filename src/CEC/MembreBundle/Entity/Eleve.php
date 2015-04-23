@@ -116,7 +116,7 @@ class Eleve implements UserInterface, \Serializable
      /**
      * @var string
      *
-     * @ORM\Column(name="nomPere", type="string")
+     * @ORM\Column(name="nomPere", type="string", nullable=true)
      */
      private $nomPere;
 
@@ -142,14 +142,14 @@ class Eleve implements UserInterface, \Serializable
      /**
      * @var string
      *
-     * @ORM\Column(name="nomMere", type="string")
+     * @ORM\Column(name="nomMere", type="string", nullable=true)
      */
      private $nomMere;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="datenaiss", type="datetime")
+     * @ORM\Column(name="datenaiss", type="date")
      */
     private $datenaiss;
 
@@ -251,6 +251,15 @@ class Eleve implements UserInterface, \Serializable
     *
 	*/
 	private $sorties;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setRoles(array("ROLE_ELEVE"));
+    }
 
 
     /**
@@ -661,13 +670,7 @@ class Eleve implements UserInterface, \Serializable
     {
         return $this->sorties;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
     
     /**
      * Set adresse

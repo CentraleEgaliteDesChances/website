@@ -13,7 +13,7 @@
 {% endif %}
 
 {% if app.user in seance.groupe.tuteurs and app.user not in seance.tuteurs %}
-{{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquez que vous venez.") }}
+{{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquer que vous venez.") }}
 {% endif %}
 
 {% if seance_a_venir %}
@@ -169,8 +169,9 @@
 {% block left %}
 {{ parent() }}
 
+{% if (is_granted('ROLE_VP_LYCEE') and app.user.groupe == seance.groupe ) or is_granted('ROLE_BURO') %}
 {{ modal.button('Éditer la séance', 'btn btn-block') }}
-
+{% endif %}
 {% endblock %}
 
 

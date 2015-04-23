@@ -109,4 +109,6 @@
     </tbody>
 </table>
 
+{% if lycee in app.user.lyceespourVP or is_granted('ROLE_BURO') %}
 <a href="{{ path('editer_lycee', { 'lycee': lycee.id }) }}" class="btn btn-block">Éditer le lycée</a>
+{% endif %}

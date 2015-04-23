@@ -10,26 +10,25 @@ class InfosEleveType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('prenom', null, array('label' => 'Prénom'))
-            ->add('nom')
+            ->add('nom', null, array('label' => 'Nom de famille'))
+            ->add('groupe', null, array(
+				'label' => 'Groupe de tutorat',
+				'property' => 'description')
             ->add('mail', 'text', array(
 					'label' => 'Adresse email',
 					'attr' => array('placeholder' => 'Adresse Mail'),
 			))
-			->add('lycee', 'choice', array(
-					'label'=>'Lycée de provenance',
-					'choices' => array(	'jjmont'=>'Jean Jaurès Montreuil', 'jjchat' => 'Jean Jaurès Châtenay', 'cpb' => 'Charles Péguy Bobigny', 
-									'cpp'=>'Charles Péguy Paris', 'matisse'=>'Henri Matisse Montreuil', 'mounier'=>'Emmanuel Mounier Chatenay',
-									'monod' => 'Jacques Monod Clamart', 'montesquieu'=>"Montesquieu le Plessis")
-			))
-			->add('classe', 'choice', array(
-					'label'=>'Classe actuelle',
-					'choices'=>array('2nde'=>'Seconde','1e' =>'Première', 'Tale'=>'Terminale')
-			))
+            ->add('adresse', null, array('label' => 'Numéro et nom de la rue'))
+            ->add('codePostal', null, array('label' => 'Code Postal'))
+            ->add('ville', null, array('label' => 'Ville'))
             ->add('telephone', null, array('label' => 'Numéro de téléphone'))
 			->add('telephonePublic', 'checkbox', array(
 					'label'     => 'Afficher publiquement le numéro de téléphone ?',
 					'required'  => false,
-			));
+			))
+			->add('nomPere', null, array('label' => 'Nom du père'))
+			->add('nomMere', null, array('label' => 'Nom de la mère'))
+			->add('telephoneParent', null, array('label' => 'Téléphone du(es) parent(s)'));
     }
     
     public function getName() {
