@@ -45,9 +45,12 @@ class SeancesController extends Controller
         
         // On génère les formulaires de compte-rendu
         $crForms = array();
-        foreach ($seance->getCompteRendus() as $compteRendu) {
-            $compteRendu->setAuteur($this->getUser());
-            $crForms[$compteRendu->getId()] = $this->createForm(new CompteRenduType(), $compteRendu);
+        if($this->getUser() instanceof \CEC\MembreBundle\Entity\Membre)
+        {
+            foreach ($seance->getCompteRendus() as $compteRendu) {
+                $compteRendu->setAuteur($this->getUser());
+                $crForms[$compteRendu->getId()] = $this->createForm(new CompteRenduType(), $compteRendu);
+            }
         }
                 
         // On trie les tuteurs et les lycéens par ordre alphabétique
@@ -173,6 +176,34 @@ class SeancesController extends Controller
             $seance->addTuteur($tuteur);
         }
 		
+        
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
+    }
+
+    /**
+     * Bascule l'état d'un tuteur pour cette séance :
+     * s'il est marqué comme participant, on le retire et vice-versa.
+     *
+     * @param integer $seance: id de la séance de tutorat
+     * @param integer $lyceen: id du tuteur dont l'état doit être basculé
+     */
+    public function basculerEleveAction($seance, $lyceen)
+    {
+        $seance = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->find($seance);
+        if (!$seance) throw $this->createNotFoundException('Impossible de trouver la séance de tutorat !');
+        
+        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lyceen !');
+        
+        // On bascule l'état
+        if ($seance->getLyceens()->contains($lyceen))
+        {
+            $seance->removeLyceen($lyceen);
+        } else {
+            $seance->addLyceen($lyceen);
+        }
+        
         
         $this->getDoctrine()->getEntityManager()->flush();
         return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));

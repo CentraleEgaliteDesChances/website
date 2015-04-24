@@ -204,9 +204,9 @@ class Eleve implements UserInterface, \Serializable
     private $dateModification;
 
     /**
-     * @var boolean
+     * @var \CEC\TutoratBundle\Entity\Lycee
      *
-     * @ORM\Column(name="delegue", type="boolean")
+     * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="delegues")
      */
     private $delegue;
 	
@@ -223,7 +223,13 @@ class Eleve implements UserInterface, \Serializable
      * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "lyceens" )
      */
     private $groupe;
-	
+
+    /**
+    * Lycée de l'élève
+    * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="lyceens")
+    */
+    private $lycee;
+    	
 	/**
      * Séances auxquelles le tuteur a participé.
      * Ce champ liste les séances de tutorat pour lesquelles le membre a indiqué qu'il participait.
@@ -489,7 +495,8 @@ class Eleve implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        $this->roles[] = $role;
+        if(!in_array($role, $this->roles))
+            $this->roles[] = $role;
     }
 
      /**
@@ -501,8 +508,8 @@ class Eleve implements UserInterface, \Serializable
         {
             for($i=0; $i<count($this->roles); $i++)
             {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
+                if ($this->roles[$i] == $role)
+                    unset($this->roles[$i]);
             }
         }
         $this->roles = array_values($this->roles);
@@ -568,13 +575,13 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Set delegue
      *
-     * @param boolean $delegue
+     * @param \CEC\TutoratBundle\Entity\Lycee $delegue
      * @return Eleve
      */
     public function setDelegue($delegue)
     {
         $this->delegue = $delegue;
-        if($delegue)
+        if(!($delegue== null))
             $this->addRole("ROLE_ELEVE_DELEGUE");
         else
             $this->removeRole("ROLE_ELEVE_DELEGUE");
@@ -818,5 +825,51 @@ class Eleve implements UserInterface, \Serializable
     public function getNomMere()
     {
         return $this->nomMere;
+    }
+
+    /**
+     * Set telephoneParent
+     *
+     * @param string $telephoneParent
+     * @return Eleve
+     */
+    public function setTelephoneParent($telephoneParent)
+    {
+        $this->telephoneParent = $telephoneParent;
+    
+        return $this;
+    }
+
+    /**
+     * Get telephoneParent
+     *
+     * @return string 
+     */
+    public function getTelephoneParent()
+    {
+        return $this->telephoneParent;
+    }
+
+    /**
+     * Set lycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     * @return Eleve
+     */
+    public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
+    {
+        $this->lycee = $lycee;
+    
+        return $this;
+    }
+
+    /**
+     * Get lycee
+     *
+     * @return \CEC\TutoratBundle\Entity\Lycee 
+     */
+    public function getLycee()
+    {
+        return $this->lycee;
     }
 }

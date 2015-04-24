@@ -66,6 +66,8 @@ class Lycee
 
     /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="\CEC\MembreBundle\Entity\Professeur", mappedBy="lycee")
      */
     private $professeurs;
 
@@ -76,11 +78,15 @@ class Lycee
 
     /**
     * @var \Doctrine\Common\Collections\Collection
+    *
+    * @ORM\OneToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", mappedBy="delegue", nullable=true)
     */
     private $delegues;
 
     /**
     * @var \Doctrine\Common\Collections\Collection
+    *
+    *@ORM\OneToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", mappedBy="lycee")
     */
     private $lyceens;
     
@@ -99,10 +105,9 @@ class Lycee
      */
     public function __construct()
     {
-        $this->professeurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->enseignants = new \Doctrine\Common\Collections\ArrayCollection();
         $this->vpLycee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->delegues = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -400,6 +405,7 @@ class Lycee
     public function removeVpLycee(\CEC\MembreBundle\Entity\Membre $vpLycees)
     {
         $this->vpLycees->removeElement($vpLycees);
+        $this->removeRole("ROLE_VP_LYCEE");
     }
 
     /**
@@ -466,39 +472,6 @@ class Lycee
     public function getGroupes()
     {
         return $this->groupes;
-    }
-
-    /**
-     * Add delegues
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
-     * @return Lycee
-     */
-    public function addDelegue(\CEC\MembreBundle\Entity\Eleve $lyceens)
-    {
-        $this->delegues[] = $delegues;
-    
-        return $this;
-    }
-
-    /**
-     * Remove delegues
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
-     */
-    public function removeDelegue(\CEC\MembreBundle\Entity\Eleve $lyceens)
-    {
-        $this->delegues->removeElement($lyceens);
-    }
-
-    /**
-     * Get delegues
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDelegues()
-    {
-        return $this->delegues;
     }
     
     /**

@@ -58,7 +58,58 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun enseignant pour ce lycée</h4></th></tr></thead>
     {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('lycee_ajouter_enseignant', { 'lycee': lycee.id }) }}">
+                    {{ form_errors(ajouter_enseignant_form) }}
+                    {{ form_widget(ajouter_enseignant_form.enseignant) }}
+                    {{ form_rest(ajouter_enseignant_form) }}
+                    <input type="submit" name="ajouter_enseignant_button" class="btn btn-primary" value="Ajouter" />
+                </form>
+            </td>
+        </tr>
+
+    </tbody>
 </table>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if lycee.delegues|length > 0 %}
+        <thead><tr><th><h4>Elèves délégués</h4></th></tr></thead>
+        <tbody>
+            {% for delegue in lycee.delegues %}
+            <tr>
+                <td>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('lycee_supprimer_delegue', { 'lycee': lycee.id, 'delegue': delegue.id }) }}">
+                            &times;
+                    </a>
+                    <a href="{{ path('voir_eleve', { 'id': delegue.id }) }}">
+                        <strong>{{ delegue.prenom }} {{ delegue.nom }}</strong><br />
+                        {{ delegue.groupe is not empty ? delegue.groupe.description }}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun délégué pour ce lycée</h4></th></tr></thead>
+    {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('lycee_ajouter_delegue', { 'lycee': lycee.id }) }}">
+                    {{ form_errors(ajouter_delegue_form) }}
+                    {{ form_widget(ajouter_delegue_form.delegue) }}
+                    {{ form_rest(ajouter_delegue_form) }}
+                    <input type="submit" name="ajouter_delegue_button" class="btn btn-primary" value="Ajouter" />
+                </form>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
+
 
 {% endblock %}
 

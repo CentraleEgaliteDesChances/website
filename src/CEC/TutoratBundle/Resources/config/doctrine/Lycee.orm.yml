@@ -51,6 +51,13 @@ CEC\TutoratBundle\Entity\Lycee:
             targetEntity: CEC\MembreBundle\Entity\Professeur
             mappedBy: lycee
             cascade: ["remove"]
+        delegues:
+            targetEntity: CEC\MembreBundle\Entity\Eleve
+            mappedBy: delegue
+            cascade: ["remove"]
+        lyceens:
+            targetEntity: CEC\MembreBundle\Entity\Eleve
+            mappedBy: lycee
     manyToMany:
         groupes:
             targetEntity: Groupe

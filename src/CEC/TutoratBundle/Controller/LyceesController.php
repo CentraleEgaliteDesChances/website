@@ -7,6 +7,7 @@ use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Form\Type\LyceeType;
 use CEC\TutoratBundle\Form\Type\AjouterEnseignantType;
+use CEC\TutoratBundle\Form\Type\AjouterDelegueType;
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 class LyceesController extends Controller
@@ -118,6 +119,7 @@ class LyceesController extends Controller
         // On génère les formulaires
         $lyceeForm = $this->createForm(new LyceeType(), $lycee);
         $ajouterEnseignantForm = $this->createForm(new AjouterEnseignantType());
+        $ajouterDelegueForm = $this->createForm(new AjouterDelegueType($lycee));
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
@@ -125,6 +127,7 @@ class LyceesController extends Controller
             $lyceeForm->bindRequest($request);
             if ($lyceeForm->isValid())
             {
+
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('lycee', array('lycee' => $lycee->getId())));
@@ -135,6 +138,7 @@ class LyceesController extends Controller
             'lycee'                        => $lycee,
             'lycee_form'                   => $lyceeForm->createView(),
             'ajouter_enseignant_form'      => $ajouterEnseignantForm->createView(),
+            'ajouter_delegue_form'         => $ajouterDelegueForm->createView()
         ));
     }
     
@@ -248,6 +252,56 @@ class LyceesController extends Controller
         if (!$enseignant) throw $this->createNotFoundException('Impossible de trouver l\'enseignant !');
         
         $enseignant->setLycee($lycee);
+        $this->getDoctrine()->getEntityManager()->flush();
+        
+        return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+    }
+
+    /**
+     * Supprime un élève délégué d'un lycée.
+     *
+     * @param integer $lycee: id du lycée
+     * @param integer $delegue: id de l'delegue
+     */
+    public function supprimerDelegueAction($lycee, $delegue)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+            
+        $delegue = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($delegue);
+        if (!$delegue) throw $this->createNotFoundException('Impossible de trouver le délégué !');
+        
+        $delegue->setDelegue(null);
+        $this->getDoctrine()->getEntityManager()->flush();
+        return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+    }
+    
+    /**
+     * Ajoute un délégué à un lycée.
+     *
+     * @param integer $lycee: id du lycée
+     * @param integer $delegue: id dudelegue — Variable POST
+     */
+    public function ajouterDelegueAction($lycee)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
+
+        // Récupère le delegue
+        $ajouterDelegueType = new AjouterDelegueType($lycee);
+        $data = $this->getRequest()->get($ajouterDelegueType->getName());
+
+        if (array_key_exists('delegue', $data))
+        {
+            $delegue = $data['delegue'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un délégué à ajouter.');
+            return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
+        }
+        $delegue = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($delegue);
+        if (!$delegue) throw $this->createNotFoundException('Impossible de trouver le délégué !');
+        
+        $delegue->setDelegue($lycee);
         $this->getDoctrine()->getEntityManager()->flush();
         
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));

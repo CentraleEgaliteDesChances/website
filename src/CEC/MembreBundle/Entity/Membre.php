@@ -676,7 +676,8 @@ class Membre implements UserInterface, \Serializable
     public function removeLyceesPourVP(\CEC\TutoratBundle\Entity\Lycee $lyceesPourVP)
     {
         $this->lyceesPourVP->removeElement($lyceesPourVP);
-        $this->removeRole('ROLE_VP_LYCEE');
+        if (count($this->lyceesPourVP)==0)
+            $this->removeRole('ROLE_VP_LYCEE');
     }
 
     /**

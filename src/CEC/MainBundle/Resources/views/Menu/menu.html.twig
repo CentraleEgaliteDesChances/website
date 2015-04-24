@@ -24,7 +24,7 @@
                                         <span class="badge badge-warning" style="margin-left: 10px;">1</span>
                                     {% endif %}
                                 </a></li>
-                                {% if seance_a_venir.compteRendus is empty %}
+                                {% if is_granted('ROLE_VP_LYCEE') %}
                                     <li><a href="{{ path('activites_rechercher') }}">Choisir une activité</a></li>
                                 {% endif %}
                                 <li class="divider"></li>

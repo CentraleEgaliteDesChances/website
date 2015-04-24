@@ -13,7 +13,7 @@ class InfosEleveType extends AbstractType
             ->add('nom', null, array('label' => 'Nom de famille'))
             ->add('groupe', null, array(
 				'label' => 'Groupe de tutorat',
-				'property' => 'description')
+				'property' => 'description'))
             ->add('mail', 'text', array(
 					'label' => 'Adresse email',
 					'attr' => array('placeholder' => 'Adresse Mail'),

@@ -62,7 +62,7 @@
 {% block left %}
 {{ parent() }}
 
-{% if app.request.attributes.get('_route') == 'toutes_cordees' or  app.request.attributes.get('_route') == 'tous_lycees' and is_granted('ROLE_BURO') %}
+{% if (app.request.attributes.get('_route') == 'toutes_cordees' or  app.request.attributes.get('_route') == 'tous_lycees') and is_granted('ROLE_BURO') %}
     {{ modal.button('Ajouter une cordée', 'btn btn-block') }}
 {% endif %}
 
