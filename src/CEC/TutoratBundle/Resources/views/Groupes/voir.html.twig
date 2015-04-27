@@ -9,43 +9,63 @@
 {{ flash('info', 'Bienvenue sur la page de votre groupe de tutorat !') }}
 {% endif %}
 
-<table class="table table-bordered table-hover table-striped table-large">
-    {% if lyceens %}
-        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
-        <tbody>
-            {% for lyceen in lyceens %}
-            <tr>
-                <td>
-                    <a href="{{ path('voir_eleve', { 'id': lyceen.id }) }}">
-                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce groupe de tutorat</h4></th></tr></thead>
-    {% endif %}
-</table>
+<div role="tabpanel">
 
-<table class="table table-bordered table-hover table-condensed table-striped table-large">
-    {% if tuteurs %}
-        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
-        <tbody>
-            {% for tuteur in tuteurs %}
-            <tr>
-                <td>
-                    <a href="{{ path('voir_membre', { 'membre': tuteur.id }) }}">
-                        <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun tuteur pour ce groupe de tutorat</h4></th></tr></thead>
-    {% endif %}
-</table>
+    <ul class="nav nav-tabs" role="tablist">
+        {% for anneeScolaire in anneesScolaires %}
+            <li role="presentation" {% if loop.first %}class="active"{% endif %}><a href="#{{anneeScolaire.afficherAnnees}}" aria-controls="{{anneeScolaire.afficherAnnees}}" role="tab" data-toggle="tab">{{anneeScolaire.AfficherAnnees}}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content" style="border-left: 1px solid #DDD;border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;border-bottom-left-radius:5px;border-bottom-right-radius:5px;padding:10px;margin-top:-20px; margin-bottom:20px;">
+        {% for anneeScolaire in anneesScolaires %}
+            <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="{{anneeScolaire.afficherAnnees}}">
+                <table class="table table-bordered table-hover table-striped table-large">
+                    {% if lyceens %}
+                        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
+                        <tbody>
+                            {% for Groupelyceen in lyceens %}
+                                {% if Groupelyceen.anneeScolaire == anneeScolaire %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('voir_eleve', { 'id': Groupelyceen.lyceen.id }) }}">
+                                                <strong>{{ Groupelyceen.lyceen.prenom }} {{ Groupelyceen.lyceen.nom }}</strong>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    {% else %}
+                        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce groupe de tutorat</h4></th></tr></thead>
+                    {% endif %}
+                </table>
+
+                <table class="table table-bordered table-hover table-condensed table-striped table-large">
+                    {% if tuteurs %}
+                        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
+                        <tbody>
+                            {% for Groupetuteur in tuteurs %}
+                                {% if Groupetuteur.anneeScolaire == anneeScolaire %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('voir_membre', { 'membre': Groupetuteur.tuteur.id }) }}">
+                                                <strong>{{ Groupetuteur.tuteur.prenom }} {{ Groupetuteur.tuteur.nom }}</strong>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    {% else %}
+                        <thead><tr><th class="muted"><h4>Aucun tuteur pour ce groupe de tutorat</h4></th></tr></thead>
+                    {% endif %}
+                </table>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if seances %}

@@ -81,18 +81,32 @@ class ReglagesEleveController extends Controller
      */
     public function groupeAction()
     {
-        $membre = $this->getUser();
+        $lyceen = $this->getUser();
         $form = $this->createForm(new GroupeEleveType(), $membre);
-        
-        $request = $this->getRequest();
-        if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
-                return $this->redirect($this->generateUrl('reglages_groupe_eleve'));
-            }
+
+        $data = $this->getRequest()->get($form->getName());
+        if (array_key_exists('groupe', $data))
+        {
+            $groupe = $data['groupe'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+            return $this->redirect($this->generateUrl('reglages_groupe_eleve'));
         }
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
+
+        $groupeLyceen = new GroupeEleves();
+        $groupeLyceen->setAnneeScolaire(AnneeScolaire::withDate());
+        $groupeLyceen->setLyceen($lyceen);
+        $groupeLyceen->setGroupe($groupe);
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->persist($groupeLyceen);
+        $em->flush();
+
+        $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
+        
         
         return array('form' => $form->createView());
     }

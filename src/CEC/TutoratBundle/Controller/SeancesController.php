@@ -7,6 +7,11 @@ use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Form\Type\SeanceType;
 use CEC\ActiviteBundle\Form\Type\CompteRenduType;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
+use CEC\TutoratBundle\Entity\GroupeEleves;
+use CEC\TutoratBundle\Entity\GroupeTuteurs;
+
 class SeancesController extends Controller
 {
     /**
@@ -32,12 +37,16 @@ class SeancesController extends Controller
         // On détermine si la séance est à venir ou non
         $seanceAVenir = $seance->getGroupe()
             and $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($seance->getGroupe()) == $seance;
+
+        $anneeScolaire = AnneeScolaire::withDate($seance->getDate());
         
         // Rassemble les lycéens et les tuteurs du groupe de tutorat
         if ($seance->getGroupe())
         {
-            $lyceens = !is_null($seance->getGroupe()->getLyceens()) ? $seance->getGroupe()->getLyceens()->toArray() : array();
-            $tuteurs = !is_null($seance->getGroupe()->getTuteurs()) ? $seance->getGroupe()->getTuteurs()->toArray() : array();
+            $lyceens = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findBy(array('groupe' => $seance->getGroupe(),'anneeScolaire' => $anneeScolaire));
+            $lyceens = array_map(function(GroupeEleves $e){ return $e->getLyceen();}, $lyceens);
+            $tuteurs = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findBy(array('groupe' => $seance->getGroupe(),'anneeScolaire' => $anneeScolaire));
+            $tuteurs = array_map(function(GroupeTuteurs $t){ return $t->getTuteur();}, $tuteurs);
         } else {
             $lyceens = array();
             $tuteurs = array();

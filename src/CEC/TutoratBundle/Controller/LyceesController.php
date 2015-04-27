@@ -89,8 +89,8 @@ class LyceesController extends Controller
         $seances = array();
         foreach ($lycee->getGroupes() as $groupe)
         {
-            $tuteurs = array_merge($tuteurs, $groupe->getTuteurs()->toArray());
-            $lyceens = array_merge($lyceens, $groupe->getLyceens()->toArray());
+            $tuteurs = array_merge($tuteurs, $groupe->getTuteursParAnnee()->toArray());
+            $lyceens = array_merge($lyceens, $groupe->getLyceensParAnnee()->toArray());
             if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
             if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
         }
@@ -199,8 +199,14 @@ class LyceesController extends Controller
         // On supprime les références aux séances associées, et on supprime le groupe
         $entityManager = $this->getDoctrine()->getEntityManager();
         foreach ($groupe->getSeances() as $seance) $seance->setGroupe(null);
-        foreach ($groupe->getLyceens() as $lyceen) $lyceen->setGroupe(null);
-        foreach ($groupe->getTuteurs() as $tuteur) $tuteur->setGroupe(null);
+        foreach ($groupe->getLyceensParAnnee() as $GroupeLyceen)
+        {
+            $entityManager->remove($GroupeLyceen);
+        } 
+        foreach ($groupe->getTuteursParAnnee() as $Groupetuteur)
+        {
+            $entityManager->remove($Groupetuteur);
+        }
         $entityManager->remove($groupe);
         
         $entityManager->flush();

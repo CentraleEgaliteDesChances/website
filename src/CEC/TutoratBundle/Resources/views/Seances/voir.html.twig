@@ -12,7 +12,7 @@
 {{ flash('error', 'Attention ! Le groupe de tutorat associé à cette séance a été supprimée et certaines informations ne sont donc plus disponibles. Les statistiques sont en revanche conservées.') }}
 {% endif %}
 
-{% if app.user in seance.groupe.tuteurs and app.user not in seance.tuteurs %}
+{% if app.user in tuteurs and app.user not in seance.tuteurs %}
 {{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquer que vous venez.") }}
 {% endif %}
 
@@ -34,7 +34,7 @@
                             <strong>{{ activite.titre }}</strong><br />
                             <p>{{ activite.description }}</p>
                             <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
-                            {% if is_granted("ROLE_VP_LYCEE") and app.user in seance.groupe.tuteurs %}
+                            {% if is_granted("ROLE_VP_LYCEE") and app.user in tuteurs %}
                             <a href="{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
                             {% endif %}
                         </a>
@@ -42,7 +42,7 @@
                 </tr>
             {% else %}
                 <tr class="warning">
-                    {% if is_granted('ROLE_VP_LYCEE') and app.user in seance.groupe.tuteurs %}
+                    {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
                         <td>
                             Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
                         </td>
@@ -64,7 +64,7 @@
             {% endif %}
         </tbody>
     </table>
-    {% if is_granted('ROLE_VP_LYCEE') and app.user in seance.groupe.tuteurs %}
+    {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
     <p class="center-block"><a href="{{path('activites_rechercher')}}" class="btn btn-primary"> Rechercher une activité</a></p>
     {% endif %}
 {% endif %}
@@ -98,7 +98,7 @@
                         <span class="checkmark">
                             {% if tuteur in seance.tuteurs %}&#10004;{% else %}&#10008;{% endif %}
                         </span>
-                        {% if tuteur == app.user or ((is_granted('ROLE_VP_LYCEE') and app.user in seance.groupe.tuteurs)) %}
+                        {% if tuteur == app.user or ((is_granted('ROLE_VP_LYCEE') and app.user in tuteurs)) %}
                         <a href="{{ path('seance_basculer_tuteur', { 'seance': seance.id, 'tuteur': tuteur.id }) }}">
                             <strong>
                                 {{ tuteur.prenom }} {{ tuteur.nom }} <br/>
@@ -144,7 +144,7 @@
                         <span class="checkmark">
                             {% if lyceen in seance.lyceens %}&#10004;{% else %}&#10008;{% endif %}
                         </span>
-                        {% if is_granted('ROLE_VP_LYCEE') and app.user in seance.groupe.tuteurs %}
+                        {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
                         <a href="{{ path('seance_basculer_lyceen', { 'seance': seance.id, 'lyceen': lyceen.id }) }}">
                             <strong>
                                 {{ lyceen.prenom }} {{ lyceen.nom }}
@@ -165,7 +165,7 @@
     </table>
 {% endif %}
 
-{% if is_granted('ROLE_VP_LYCEE') and app.user in seance.groupe.tuteurs %}
+{% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
     {% for compteRendu in seance.compteRendus %}
         <form method="post" action="{{ path('seance', { 'seance' : seance.id }) }}">
             <table class="table table-bordered table-striped table-large">

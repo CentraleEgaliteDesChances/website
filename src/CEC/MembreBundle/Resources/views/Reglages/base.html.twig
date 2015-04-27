@@ -10,5 +10,5 @@
 {% endblock %}
 
 {% block left %}
-    {% include 'CECMembreBundle:Reglages:menu.html.twig' %}
+    {% include 'CECMembreBundle:Reglages:menu.html.twig' with {'membre' : app.user} %}
 {% endblock %}

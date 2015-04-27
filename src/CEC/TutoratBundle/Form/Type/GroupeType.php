@@ -11,8 +11,10 @@ class GroupeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lycees', null, array(
+        $builder->add('lycees', 'entity', array(
                 'label' => 'Lycées associés (pour sélectionner plusieurs lycées, maintenez la touche Ctr enfoncée)',
+                'class' => 'CEC\TutoratBundle\Entity\Lycee',
+                'multiple' => true,
                 'query_builder' => function (EntityRepository $entityRepository)
                 {
                     return $entityRepository->createQueryBuilder('l')
@@ -20,6 +22,7 @@ class GroupeType extends AbstractType
                         ->andWhere('l.cordee IS NOT NULL')
                         ->orderBy('l.nom', 'ASC');
                 },
+                'empty_value' => false,
             ))
             ->add('niveau')
             ->add('typeDeTutorat', 'choice', array(

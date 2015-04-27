@@ -204,7 +204,7 @@ class Eleve implements UserInterface, \Serializable
     private $dateModification;
 
     /**
-     * @var boolean
+     * @var \CEC\TutoratBundle\Entity\Lycee
      *
      * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="delegues")
      */
@@ -212,17 +212,13 @@ class Eleve implements UserInterface, \Serializable
 	
 	/**
      * Groupe de tutorat fréquenté régulièrement par le membre.
-     * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
-     * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus.
-     * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
-     * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
+     * Ce champ permet de définir le groupe de tutorat de l'élève en fonction de l'année scolaire.
      *
-     * @var CEC\TutoratBundle\Entity\Groupe
+     * @var CEC\TutoratBundle\Entity\GroupeEleves
      *
-     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "lyceens" )
+     * @ORM\OneToMany(targetEntity = "CEC\TutoratBundle\Entity\GroupeEleves", mappedBy = "lyceen" )
      */
-    private $groupe;
+    private $groupeParAnnee;
 
     /**
     * Lycée de l'élève
@@ -495,7 +491,8 @@ class Eleve implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        $this->roles[] = $role;
+        if(!in_array($role, $this->roles))
+            $this->roles[] = $role;
     }
 
      /**
@@ -507,8 +504,8 @@ class Eleve implements UserInterface, \Serializable
         {
             for($i=0; $i<count($this->roles); $i++)
             {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
+                if ($this->roles[$i] == $role)
+                    unset($this->roles[$i]);
             }
         }
         $this->roles = array_values($this->roles);
@@ -574,13 +571,13 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Set delegue
      *
-     * @param boolean $delegue
+     * @param \CEC\TutoratBundle\Entity\Lycee $delegue
      * @return Eleve
      */
     public function setDelegue($delegue)
     {
         $this->delegue = $delegue;
-        if($delegue)
+        if(!($delegue== null))
             $this->addRole("ROLE_ELEVE_DELEGUE");
         else
             $this->removeRole("ROLE_ELEVE_DELEGUE");

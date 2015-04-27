@@ -78,7 +78,7 @@ class Groupe
     /**
     *
     */
-    private $anneeScolaire = 2000;
+    private $anneeScolaire;
 
     /**
      * Constructor
@@ -422,38 +422,5 @@ class Groupe
     public function getLyceensParAnnee()
     {
         return $this->lyceensParAnnee;
-    }
-
-    /**
-     * Add lycees
-     *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
-     * @return Groupe
-     */
-    public function addLycee(\CEC\TutoratBundle\Entity\Lycee $lycees)
-    {
-        $this->lycees[] = $lycees;
-    
-        return $this;
-    }
-
-    /**
-     * Remove lycees
-     *
-     * @param \CEC\TutoratBundle\Entity\Lycee $lycees
-     */
-    public function removeLycee(\CEC\TutoratBundle\Entity\Lycee $lycees)
-    {
-        $this->lycees->removeElement($lycees);
-    }
-
-    /**
-     * Get lycees
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLycees()
-    {
-        return $this->lycees;
     }
 }

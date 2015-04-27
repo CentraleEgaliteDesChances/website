@@ -5,6 +5,10 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Entity\Seance;
+use CEC\MembreBundle\Entity\Eleve;
+use CEC\MembreBundle\Entity\Membre;
+use CEC\TutoratBundle\Entity\GroupeTuteurs;
+use CEC\TutoratBundle\Entity\GroupeEleves;
 
 use CEC\TutoratBundle\Form\Type\GroupeType;
 use CEC\TutoratBundle\Form\Type\AjouterLyceenType;
@@ -21,8 +25,17 @@ class GroupesController extends Controller
      */
     public function tousAction()
     {
-        $AnneeScolaire = AnneeScolaire::withDate();
-        $groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findByAnneeScolaire($AnneeScolaire);    // tous les Groupes de l'année scolaire en cours
+        $anneeScolaire = AnneeScolaire::withDate();
+        $listeGroupes = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire);    // tous les Groupes de l'année scolaire en cours
+        $listeGroupes = array_map(function (GroupeTuteurs $t){ return $t->getGroupe();}, $listeGroupes);
+
+        $groupes = array();
+        foreach($listeGroupes as $groupe)
+        {
+            if(!in_array($groupe, $groupes))
+                $groupes[] = $groupe;
+        }
+
         return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes));
     }
 
@@ -39,23 +52,28 @@ class GroupesController extends Controller
         // On rassemble les séances à venir
         $seances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
         
-        $lyceens = $groupe->getLyceens()->toArray();
-        $tuteurs = $groupe->getTuteurs()->toArray();
-        // On trie les tuteurs et les lycéens par ordre alphabétique
-        usort($tuteurs, function($a, $b) {
-            return strcmp($a->getNom(), $b->getNom());
-        });
-        usort($lyceens, function($a, $b) {
-            return strcmp($a->getNom(), $b->getNom());
+        $lyceens = $groupe->getLyceensParAnnee();
+        $tuteurs = $groupe->getTuteursparAnnee();
+        
+        $anneesScolaires = array();
+        foreach($tuteurs as $gt)
+        {
+            if(!in_array($gt->getAnneeScolaire(), $anneesScolaires))
+                $anneesScolaires[] = $gt->getAnneeScolaire();
+        }
+
+        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+        if ($annee == $autreAnnee) return 0;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? -1 : 1;
         });
         
         // On génère le formulaire de nouvelle séance
         $nouvelleSeance = new Seance();
         $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance);
         $nouvelleSeance->setGroupe($groupe);
-        foreach ($groupe->getTuteurs() as $tuteur) {
-            $tuteur->addSeance($nouvelleSeance);
-            $nouvelleSeance->addTuteur($tuteur);
+        foreach ($tuteurs as $Groupetuteur) {
+            $Groupetuteur->getTuteur()->addSeance($nouvelleSeance);
+            $nouvelleSeance->addTuteur($Groupetuteur->getTuteur());
         }
         
         // Par défaut, on masque le modal
@@ -90,6 +108,7 @@ class GroupesController extends Controller
             'lyceens'      => $lyceens,
             'tuteurs'      => $tuteurs,
             'seances'      => $seances,
+            'anneesScolaires' => $anneesScolaires,
             'nouvelle_seance_form' => $nouvelleSeanceFormView,
             'afficher_modal'       => $afficherModal,
         ));
@@ -105,8 +124,18 @@ class GroupesController extends Controller
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
         
-        $lyceens = $groupe->getLyceens()->toArray();
-        $tuteurs = $groupe->getTuteurs()->toArray();
+        $lyceens = $groupe->getLyceensParAnnee()->toArray();
+        $lyceens = array_filter($lyceens, function(GroupeEleves $e){
+            return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
+        });
+        $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
+
+        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
+        $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
+            return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
+        });
+        $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
+
         // On trie les tuteurs et les lycéens par ordre alphabétique
         usort($tuteurs, function($a, $b) {
             return strcmp($a->getNom(), $b->getNom());
@@ -136,6 +165,7 @@ class GroupesController extends Controller
             'groupe'       => $groupe,
             'lyceens'      => $lyceens,
             'tuteurs'      => $tuteurs,
+            'anneeScolaire' => AnneeScolaire::withDate(),
             'groupe_form'  => $groupeForm->createView(),
             'ajouter_lyceen_form'  => $ajouterLyceenForm->createView(),
             'ajouter_tuteur_form'  => $ajouterTuteurForm->createView(),
@@ -191,17 +221,23 @@ class GroupesController extends Controller
      * @param integer $groupe: id du groupe de tutorat
      * @param integer $lyceen: id du lycéen
      */
-    public function supprimerLyceenAction($groupe, $lyceen)
+    public function supprimerLyceenAction($groupe, $lyceen, $anneeScolaire)
     {
+        $anneeScolaire = AnneeScolaire::withAnnees($anneeScolaire);
+
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
             
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
+
+        $groupeLyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findOneBy(array('groupe' => $groupe, 'lyceen' => $lyceen, 'anneeScolaire' => $anneeScolaire));
         
-        $lyceen->setGroupe(null);
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->remove($groupeLyceen);
         
-        $this->getDoctrine()->getEntityManager()->flush();
+        $em->flush();
         return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
     }
     
@@ -230,8 +266,14 @@ class GroupesController extends Controller
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
         
-        $lyceen->setGroupe($groupe);
-        $this->getDoctrine()->getEntityManager()->flush();
+        $groupeLyceen = new GroupeEleves();
+        $groupeLyceen->setGroupe($groupe);
+        $groupeLyceen->setLyceen($lyceen);
+        $groupeLyceen->setAnneeScolaire(AnneeScolaire::withDate());
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->persist($groupeLyceen);
+        $em->flush();
         
         return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
     }
@@ -242,17 +284,24 @@ class GroupesController extends Controller
      * @param integer $groupe: id du groupe de tutorat
      * @param integer $tuteur: id du tuteur
      */
-    public function supprimerTuteurAction($groupe, $tuteur)
+    public function supprimerTuteurAction($groupe, $tuteur, $anneeScolaire)
     {
+        $anneeScolaire = AnneeScolaire::withAnnees($anneeScolaire);
+
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
             
         $tuteur = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($tuteur);
         if (!$tuteur) throw $this->createNotFoundException('Impossible de trouver le tuteur !');
+
+        $groupeTuteur = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findOneBy(array('groupe' => $groupe, 'tuteur' => $tuteur, 'anneeScolaire' => $anneeScolaire));
         
-        $tuteur->setGroupe(null);
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->remove($groupeTuteur);
         
-        $this->getDoctrine()->getEntityManager()->flush();
+        $em->flush();
+
         return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
     }
     
@@ -281,8 +330,14 @@ class GroupesController extends Controller
         $tuteur = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($tuteur);
         if (!$tuteur) throw $this->createNotFoundException('Impossible de trouver le tuteur !');
         
-        $tuteur->setGroupe($groupe);
-        $this->getDoctrine()->getEntityManager()->flush();
+        $groupeTuteur = new GroupeTuteurs();
+        $groupeTuteur->setGroupe($groupe);
+        $groupeTuteur->setTuteur($tuteur);
+        $groupeTuteur->setAnneeScolaire(AnneeScolaire::withDate());
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->persist($groupeTuteur);
+        $em->flush();
         
         return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
     }

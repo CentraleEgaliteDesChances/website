@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 /**
  * Eleve
  *
@@ -212,17 +214,13 @@ class Eleve implements UserInterface, \Serializable
 	
 	/**
      * Groupe de tutorat fréquenté régulièrement par le membre.
-     * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
-     * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus.
-     * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
-     * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
+     * Ce champ permet de définir le groupe de tutorat de l'élève en fonction de l'année scolaire.
      *
-     * @var CEC\TutoratBundle\Entity\Groupe
+     * @var CEC\TutoratBundle\Entity\GroupeEleves
      *
-     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "lyceens" )
+     * @ORM\OneToMany(targetEntity = "CEC\TutoratBundle\Entity\GroupeEleves", mappedBy = "lyceen",cascade={"persist", "remove"}, orphanRemoval=true )
      */
-    private $groupe;
+    private $groupeParAnnee;
 
     /**
     * Lycée de l'élève
@@ -611,29 +609,6 @@ class Eleve implements UserInterface, \Serializable
     
         return $this;
     }
-	
-	/**
-     * Set groupe
-     *
-     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
-     * @return Membre
-     */
-    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
-    {
-        $this->groupe = $groupe;
-
-        return $this;
-    }
-
-    /**
-     * Get groupe
-     *
-     * @return \CEC\TutoratBundle\Entity\Groupe
-     */
-    public function getGroupe()
-    {
-        return $this->groupe;
-    }
 
     /**
      * Get motDePasse
@@ -871,5 +846,54 @@ class Eleve implements UserInterface, \Serializable
     public function getLycee()
     {
         return $this->lycee;
+    }
+
+    /**
+     * Add groupeParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee
+     * @return Eleve
+     */
+    public function addGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
+    {
+        $this->groupeParAnnee[] = $groupeParAnnee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groupeParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee
+     */
+    public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
+    {
+        $this->groupeParAnnee->removeElement($groupeParAnnee);
+    }
+
+    /**
+     * Get groupeParAnnee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroupeParAnnee()
+    {
+        return $this->groupeParAnnee;
+    }
+
+    public function getGroupe()
+    {
+
+        $e = $this->groupeParAnnee->first();
+        if(!$e) return null;
+
+        do
+        {
+            if($e->getAnneeScolaire() == AnneeScolaire::withDate())
+            {
+                return $e->getGroupe();
+            }
+        }while($e = $this->groupeParAnnee->next());
+        return null;
     }
 }

@@ -67,17 +67,20 @@
 <table class="table table-bordered table-striped table-hover table-collapse">
     <tbody>
         <tr>
+            <td>Année en cours</td>
+            <td>{{anneescolaire}}
+        <tr>
             <td>Lycéens</td>
-            <td>{{ groupe.lyceens|length ?: 'Aucun' }} lycéen{{ groupe.lyceens|length > 1 ? 's' }}</td>
+            <td>{{ lyceens|length ?: 'Aucun' }} lycéen{{ lyceens|length > 1 ? 's' }}</td>
         </tr>
         <tr>
             <td>Tuteurs</td>
-            <td>{{ groupe.tuteurs|length ?: 'Aucun' }} tuteur{{ groupe.tuteurs|length > 1 ? 's' }}</td>
+            <td>{{ tuteurs|length ?: 'Aucun' }} tuteur{{ tuteurs|length > 1 ? 's' }}</td>
         </tr>
-        {% if groupe.tuteurs|length and groupe.lyceens|length %}
+        {% if tuteurs|length and lyceens|length %}
         <tr>
             <td>Encadrement</td>
-            <td>Un tuteur pour {{ ( groupe.lyceens|length / groupe.tuteurs|length )|number_format(0) }} lycéen(s)</td>
+            <td>Un tuteur pour {{ ( lyceens|length / tuteurs|length )|number_format(0) }} lycéen(s)</td>
         </tr>
         {% endif %}
     </tbody>

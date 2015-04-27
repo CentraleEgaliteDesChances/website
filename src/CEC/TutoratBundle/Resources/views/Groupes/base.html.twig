@@ -10,5 +10,5 @@
 {% endblock %}
 
 {% block left %}
-    {% include 'CECTutoratBundle:Groupes:apercu.html.twig' with { 'groupe' : groupe } %}
+    {% include 'CECTutoratBundle:Groupes:apercu.html.twig' with { 'groupe' : groupe, 'lyceens' : lyceens, 'tuteurs' : tuteurs, 'anneescolaire' : anneesScolaires|first } %}
 {% endblock %}

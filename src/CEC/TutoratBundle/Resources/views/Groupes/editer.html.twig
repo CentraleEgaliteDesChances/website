@@ -12,7 +12,7 @@
             <tr>
                 <td>
                     <a class="close pull-right close-red" 
-                        href="{{ path('groupe_supprimer_lyceen', { 'groupe': groupe.id, 'lyceen': lyceen.id }) }}">
+                        href="{{ path('groupe_supprimer_lyceen', { 'groupe': groupe.id, 'anneeScolaire' : anneeScolaire.afficherAnnees, 'lyceen': lyceen.id }) }}">
                             &times;
                     </a>
                     <a href="{{ path('voir_eleve', { 'id': lyceen.id }) }}">
@@ -47,7 +47,7 @@
             <tr>
                 <td>
                     <a class="close pull-right close-red" 
-                        href="{{ path('groupe_supprimer_tuteur', { 'groupe': groupe.id, 'tuteur': tuteur.id }) }}">
+                        href="{{ path('groupe_supprimer_tuteur', { 'groupe': groupe.id, 'anneeScolaire' : anneeScolaire.afficherAnnees, 'tuteur': tuteur.id }) }}">
                             &times;
                     </a>
                     <a href="{{ path('voir_membre', { 'membre': tuteur.id }) }}">
