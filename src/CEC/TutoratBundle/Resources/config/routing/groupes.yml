@@ -50,5 +50,6 @@ groupe_ajouter_tuteur:
 
 groupe_compterendu_arediger:
     pattern: /{groupe}/comptes_rendus
+    defaults: {_controller: CECTutoratBundle:Groupes:compteRendus}
     requirements:
         groupe: \d+

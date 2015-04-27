@@ -3,6 +3,7 @@
 namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\TutoratBundle\Entity\Seance;
 use CEC\MembreBundle\Entity\Eleve;
@@ -340,5 +341,47 @@ class GroupesController extends Controller
         $em->flush();
         
         return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
+    }
+
+    /**
+    *
+    * Affiche la liste des séances pour un groupe pour lesquelles les compte-rendus ne sont pas remplis
+    *
+    * @Template()
+    */
+    public function compteRendusAction($groupe)
+    {
+        $membre = $this->getUser();
+        $groupe = $membre->getGroupe();
+        $crARediger = array();
+        if ($groupe) {
+            $crARediger = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findARedigerByGroupe($groupe);
+        }
+
+        $seances = array();
+        foreach($crARediger as $cr)
+        {
+            if(!in_array($cr->getSeance(), $seances))
+                $seances[] = $cr->getSeance();
+        }
+
+        $lyceens = $groupe->getLyceensParAnnee()->toArray();
+        $lyceens = array_filter($lyceens, function(GroupeEleves $e){
+            return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
+        });
+        $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
+
+        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
+        $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
+            return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
+        });
+        $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
+
+        return array(
+                     'seances' => $seances,
+                     'groupe' => $groupe,
+                     'lyceens' => $lyceens,
+                     'tuteurs' => $tuteurs,
+                     'anneeScolaire' => AnneeScolaire::withDate());
     }
 }
