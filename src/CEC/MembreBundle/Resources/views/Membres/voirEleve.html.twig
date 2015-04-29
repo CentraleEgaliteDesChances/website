@@ -37,7 +37,9 @@
                 <td>Tutorat</td>
                 <td>
                     {% if eleve.groupe %}
-                        {{eleve.groupe.description}}
+                        <a href=" {{ path('groupe', {'groupe' : eleve.groupe.id } ) }}">
+                            {{eleve.groupe.description}}
+                        </a>
                     {% else %}
                         <span class="muted">Pas de tutorat</span>
                     {% endif %}
@@ -47,11 +49,19 @@
                 <tr>
                     <td>Délégué</td>
                     <td>
-                        {{eleve.delegue.nom}}
+                        <a href="{{ path('lycee', {'lycee' : eleve.delegue.id } ) }}">
+                            {{eleve.delegue.nom}}
+                        </a>
                     </td>
                 </tr>
             {% endif %}
 
+            {% if is_granted('ROLE_TUTEUR') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or eleve == app.user %}
+                <tr>
+                    <td> Relevé de présences </td>
+                    <td> <a class="btn btn-small btn-primary label" href="{{ path('absences', {'lyceen' : eleve.id} ) }}"> Relevé </a> </td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 
@@ -66,7 +76,7 @@
 {{ parent() }}
 
     {% if eleve == app.user %}
-        {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilise le bouton en bas à gauche de votre écran.") }}
+        {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilisez le bouton en bas à gauche de votre écran.") }}
     {% endif %}
 	
 

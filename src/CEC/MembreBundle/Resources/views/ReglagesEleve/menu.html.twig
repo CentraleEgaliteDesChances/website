@@ -4,13 +4,13 @@
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_infos_eleve' %}class="active"{% endif %}
             >
-                <a href="{{ path('reglages_infos_eleve') }}">Profil</a>
+                <a href="{{ path('reglages_infos_eleve', {'lyceen' : app.user.id }) }}">Profil</a>
         </li>
         <li class="nav-header">Mon activité</li>
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_groupe_eleve' %}class="active"{% endif %}
             >
-                <a href="{{ path('reglages_groupe_eleve') }}">Groupes de tutorat</a>
+                <a href="{{ path('reglages_groupe_eleve', { 'lyceen' : app.user.id }) }}">Groupes de tutorat</a>
         </li>
 
     </ul>
@@ -21,6 +21,11 @@
 		<li>
 			<a href="{{ path('voir_eleve', { 'id' : app.user.id }) }}">Retour au profil public</a>
 		</li>
+
+        <li>
+            <a href="{{ path('absences', {'lyceen' : app.user.id } ) }} "> Mes présences en tutorat </a>
+        </li>
+
 	</ul>
 </div>
 

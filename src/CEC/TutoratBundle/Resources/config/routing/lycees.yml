@@ -52,3 +52,9 @@ lycee_ajouter_delegue:
     defaults: { _controller: CECTutoratBundle:Lycees:ajouterDelegue }
     requirements:
         lycee: \d+
+
+absences_lycee:
+    pattern: /releve-presences/{lycee}
+    defaults: {_controller: CECTutoratBundle:Seances:absencesLycee}
+    requirements:
+        lycee: \d+

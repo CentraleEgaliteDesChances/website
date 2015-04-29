@@ -3,6 +3,7 @@
 namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Form\Type\SeanceType;
 use CEC\ActiviteBundle\Form\Type\CompteRenduType;
@@ -11,6 +12,8 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
+
+use \DateTime;
 
 class SeancesController extends Controller
 {
@@ -195,7 +198,7 @@ class SeancesController extends Controller
      * s'il est marqué comme participant, on le retire et vice-versa.
      *
      * @param integer $seance: id de la séance de tutorat
-     * @param integer $lyceen: id du tuteur dont l'état doit être basculé
+     * @param integer $lyceen: id du lycéen dont l'état doit être basculé
      */
     public function basculerEleveAction($seance, $lyceen)
     {
@@ -218,4 +221,138 @@ class SeancesController extends Controller
         return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
     }
     
+
+    /**
+    *
+    * Affiche la liste des présences/absences d'un élève par année scolaire
+    * @param integer $lyceen : id du lycéen
+    *
+    * @Template()
+    */
+    public function absencesAction($lyceen)
+    {
+        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lyceen !');
+
+        $data = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findByLyceen($lyceen);
+        if(!$data) throw $this->createNotFoundException('Pas d\'activité de tutorat');
+
+        $anneesScolaires = array();
+        $seancesTotal = array();
+
+        foreach($data as $groupeLyceen)
+        {
+            $date =  $groupeLyceen->getAnneeScolaire();
+            $groupe = $groupeLyceen->getGroupe();
+
+            if(!in_array($date, $anneesScolaires))
+            {
+                $anneesScolaires[] = $date;
+            }
+
+            if(!array_key_exists($date->afficherAnnees(), $seancesTotal))
+            {
+                $seancesTotal[$date->afficherAnnees()]= $groupe->getSeances();
+            }
+
+        }
+
+        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+        if ($annee == $autreAnnee) return 0;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
+        });
+
+        return array(
+                     'eleve' => $lyceen,
+                     'seancesTotal' => $seancesTotal,
+                     'anneesScolaires' => $anneesScolaires);
+
+
+    }
+
+    /**
+    *
+    * Affiche les absences des élèves d'un lycée
+    *
+    * @param integer $lycee : id du lycée cherché
+    *
+    * @Template()
+    */
+    public function absencesLyceeAction($lycee)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycee !');
+
+        $groupes = $lycee->getGroupes();
+        $anneesScolaires = array();
+
+        foreach($groupes as $groupe)
+        {
+            $groupeLyceens = $groupe->getLyceensParAnnee();
+            foreach($groupeLyceens as $groupeLyceen)
+            {
+                $lyceen = $groupeLyceen->getLyceen();
+                if($lyceen->getLycee() == $lycee)
+                {
+                    if(!in_array($groupeLyceen->getAnneeScolaire(), $anneesScolaires))
+                        $anneesScolaires[] = $groupeLyceen->getAnneeScolaire();
+                }
+            }
+        }
+
+        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+        if ($annee == $autreAnnee) return 0;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
+        });
+
+        return array('anneesScolaires' => $anneesScolaires, 'lycee'=>$lycee);
+
+    }
+
+    /**
+    *
+    * Fonction qui renvoie la liste de toutes les séances auxquelles auraient du participer un tutoré
+    *
+    * @param $lyceen : Objet Lyceen du lyceen
+    */
+    public function absencesLyceen($lyceen)
+    {
+        $seancesTotal = array(); //Tableau {key : année scolaire, value : seances de cette année scolaire}
+        $anneesScolaires = array();
+        $date = new DateTime();
+
+        $groupesAnnee = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findByLyceen($lyceen);
+        if (!$groupesAnnee) throw $this->createNotFoundException('Le lycéen n\'a pas encore participé au tutorat');
+
+        foreach($groupesAnnee as $groupeEleve)
+        {
+            $annee = $groupeEleve->getAnneeScolaire();
+            $groupe = $groupeEleve->getGroupe();
+
+            if(!in_array($annee, $anneesScolaires))
+                $anneesScolaires[] = $annee;
+
+            if(!array_key_exists($annee->afficherAnnees(), $seancesTotal))
+            {
+                $seancesTotal[$annee->afficherAnnees()] = $groupe->getSeances()->toArray();
+            }
+            else
+            {
+                foreach($groupe->getSeances() as $seance)
+                {
+                    if(!in_array($seance, $seancesTotal[$annee->afficherAnnees()]))
+                    {
+                        $seancesTotal[$annee->afficherAnnees()][] = $seance;
+                    }
+                }
+            }
+        }
+
+        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+        if ($annee == $autreAnnee) return 0;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
+        });
+
+        return  array('seancesTotal' => $seancesTotal, 'anneesScolaires' => $anneesScolaires);
+    }
 }

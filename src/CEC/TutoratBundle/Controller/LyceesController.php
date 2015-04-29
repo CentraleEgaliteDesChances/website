@@ -10,6 +10,9 @@ use CEC\TutoratBundle\Form\Type\AjouterEnseignantType;
 use CEC\TutoratBundle\Form\Type\AjouterDelegueType;
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
+use CEC\TutoratBundle\Entity\GroupeEleves;
+use CEC\TutoratBundle\Entity\GroupeTuteurs;
+
 class LyceesController extends Controller
 {
     /**
@@ -28,17 +31,28 @@ class LyceesController extends Controller
         $lyceens = array();
         $seances = array();
         foreach ($lycee->getGroupes() as $groupe) {
-            if ($groupe->getAnneeScolaire() == AnneeScolaire::withDate())
+            $resultat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findBy(array('groupe'=>$groupe, 'anneeScolaire'=> AnneeScolaire::withDate()));
+            if ($resultat)
             {
                 $groupes = array_merge($groupes, array($groupe));
-                $tuteurs = array_merge($tuteurs, $groupe->getTuteurs()->toArray());
-                $lyceens = array_merge($lyceens, $groupe->getLyceens()->toArray());
                 
                 // On rassemble les séances à venir
                 $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
                 $seances = array_merge($seances, $groupeSeances);
             }
         }
+
+        $lyceens = $groupe->getLyceensParAnnee()->toArray();
+        $lyceens = array_filter($lyceens, function(GroupeEleves $e){
+            return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
+        });
+        $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
+
+        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
+        $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
+            return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
+        });
+        $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
         
         // On trie les tuteurs, les lycéens et les séances par ordre alphabétique et chronologique
         usort($tuteurs, function($a, $b) {

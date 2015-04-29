@@ -19,10 +19,10 @@ class ReglagesProfesseurController extends Controller
      *
      * @Template()
      */
-    public function infosAction()
+    public function infosAction($professeur)
     {
         // On récupère l'utilisateur actuel
-        $membre = $this->getUser();
+        $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($professeur);
         if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
         
         $nomInformationsGenerales = 'InfosProfesseur';

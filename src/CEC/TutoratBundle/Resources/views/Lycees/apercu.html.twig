@@ -164,6 +164,14 @@
     </tbody>
 </table>
 
-{% if lycee in app.user.lyceespourVP or is_granted('ROLE_BURO') %}
-<a href="{{ path('editer_lycee', { 'lycee': lycee.id }) }}" class="btn btn-block">Éditer le lycée</a>
+{% if is_granted('ROLE_TUTEUR') %}
+    {% if lycee in app.user.lyceespourVP or is_granted('ROLE_BURO') %}
+    <a href="{{ path('absences_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-block"> Relevé de présences du lycée</a>
+    <a href="{{ path('editer_lycee', { 'lycee': lycee.id }) }}" class="btn btn-block">Éditer le lycée</a>
+    {% endif %}
+{% elseif is_granted('ROLE_PROFESSEUR') %}
+    {% if lycee in app.user.lycee and (is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR')) %}
+    <a href="{{ path('absences_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-block"> Relevé de présences du lycée</a>
+    <a href="{{ path('editer_lycee', { 'lycee': lycee.id }) }}" class="btn btn-block">Éditer le lycée</a>
+    {% endif %}
 {% endif %}

@@ -65,7 +65,7 @@ class GroupesController extends Controller
 
         usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
         if ($annee == $autreAnnee) return 0;
-        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? -1 : 1;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
         });
         
         // On génère le formulaire de nouvelle séance

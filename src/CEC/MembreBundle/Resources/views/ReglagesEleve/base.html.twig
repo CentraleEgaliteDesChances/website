@@ -10,5 +10,7 @@
 {% endblock %}
 
 {% block left %}
-    {% include 'CECMembreBundle:ReglagesEleve:menu.html.twig' %}
+	{% if lyceen == app.user %}
+    	{% include 'CECMembreBundle:ReglagesEleve:menu.html.twig'  %}
+    {% endif %}
 {% endblock %}

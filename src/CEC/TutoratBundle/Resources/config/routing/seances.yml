@@ -41,3 +41,9 @@ seance_supprimer_compterendu:
     requirements:
         seance: \d+
         activite: \d+
+
+absences:
+    pattern: /releve-presences/{lyceen}
+    defaults: {_controller: CECTutoratBundle:Seances:absences}
+    requirements:
+        lyceen: \d+
