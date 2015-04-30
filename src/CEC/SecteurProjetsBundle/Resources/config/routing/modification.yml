@@ -3,6 +3,8 @@
 editer_projet:
     pattern: /editer-projet/{slug}
     defaults: { _controller: CECSecteurProjetsBundle:Projets:editer}
+    requirements:
+        slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
 
 
 #Routes d'édition des réunions d'information
@@ -42,6 +44,19 @@ dossier_inscription:
 ouverture_inscription:
     pattern: /ouverture-inscriptions
     defaults: {_controller: CECSecteurProjetsBundle:Projets:inscriptions}
+
+projet_ajouter_lyceen:
+    pattern: /{slug}/ajouter
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:ajouterLyceen}
+    requirements:
+        slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
+
+projet_supprimer_lyceen:
+    pattern: /{slug}/supprimer/{lyceen}
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:supprimerLyceen}
+    requirements:
+        slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
+        id: \d+
 
 
 # Routes d'édition des albums photos

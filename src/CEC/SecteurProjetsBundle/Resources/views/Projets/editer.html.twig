@@ -1,9 +1,17 @@
 {% extends 'CECSecteurProjetsBundle::base.html.twig' %}
 
+{% block stylesheets %}
+	{{ parent()}}
+	{% stylesheets
+        '@CECTutoratBundle/Resources/public/less/groupes.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block right %}
 
 {{parent()}}
-<div class="well center-block" style = "padding-left:20px;padding-right:15px;">
 <form class="form form-horizontal" method="post" action="{{ path('editer_projet', {'slug' : app.request.attributes.get('_route_params')['slug']}) }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
@@ -11,6 +19,40 @@
         <a href="{{ path('description_projet', {'slug' : app.request.attributes.get('_route_params')['slug']}) }}" class="btn pull-right">Annuler</a>
     </div>
 </form>
-</div>
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if lyceens %}
+        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
+        <tbody>
+            {% for lyceen in lyceens %}
+            <tr>
+                <td>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('projet_supprimer_lyceen', { 'slug': projet.slug, 'lyceen': lyceen.id }) }}">
+                            &times;
+                    </a>
+                    <a href="{{ path('voir_eleve', { 'id': lyceen.id }) }}">
+                        <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
+    {% endif %}
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('projet_ajouter_lyceen', { 'slug': projet.slug }) }}">
+                    {{ form_errors(ajouter_lyceen_form) }}
+                    {{ form_widget(ajouter_lyceen_form.lyceen) }}
+                    {{ form_rest(ajouter_lyceen_form) }}
+                    <input type="submit" name="ajouter_lyceen" class="btn btn-primary" value="Ajouter" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 {% endblock %}
