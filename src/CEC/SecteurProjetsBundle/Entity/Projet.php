@@ -112,7 +112,7 @@ class Projet
 	*
 	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Membre", inversedBy="contactProjets")
 	*/
-	private $contacts =array();
+	private $contacts;
 	
 	/**
 	* @var \Doctrine\Common\Collections\Collection
@@ -124,9 +124,9 @@ class Projet
     /**
     * @var \Doctrine\Common\Collections\Collection
     *
-    *@ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", mappedBy="projets")
+    *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="projet")
     */
-    private $inscrits;
+    private $inscritsParAnnee;
 
 
     /**
@@ -470,7 +470,10 @@ class Projet
     public function __construct()
     {
         $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->albums = new \Doctrine\Common\Collections\ArrayCollection();
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->inscritsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
     
     /**
@@ -529,36 +532,38 @@ class Projet
         return $this->albums;
     }
 
+   
+
     /**
-     * Add inscrits
+     * Add inscritsParAnnee
      *
-     * @param \CEC\MembreBundle\Entity\Eleve $inscrits
+     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $inscritsParAnnee
      * @return Projet
      */
-    public function addInscrit(\CEC\MembreBundle\Entity\Eleve $inscrits)
+    public function addInscritsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $inscritsParAnnee)
     {
-        $this->inscrits[] = $inscrits;
+        $this->inscritsParAnnee[] = $inscritsParAnnee;
     
         return $this;
     }
 
     /**
-     * Remove inscrits
+     * Remove inscritsParAnnee
      *
-     * @param \CEC\MembreBundle\Entity\Eleve $inscrits
+     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $inscritsParAnnee
      */
-    public function removeInscrit(\CEC\MembreBundle\Entity\Eleve $inscrits)
+    public function removeInscritsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $inscritsParAnnee)
     {
-        $this->inscrits->removeElement($inscrits);
+        $this->inscritsParAnnee->removeElement($inscritsParAnnee);
     }
 
     /**
-     * Get inscrits
+     * Get inscritsParAnnee
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getInscrits()
+    public function getInscritsParAnnee()
     {
-        return $this->inscrits;
+        return $this->inscritsParAnnee;
     }
 }

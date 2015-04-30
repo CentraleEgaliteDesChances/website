@@ -154,9 +154,9 @@ class Eleve implements UserInterface, \Serializable
     /**
     *@var \Doctrine\Common\Collections\Collection
     *
-    *@ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Projet", inversedBy="inscrits")
+    *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="lyceen")
     */
-    private $projets;
+    private $projetsParAnnee;
 
     /**
      * @inheritDoc

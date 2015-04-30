@@ -154,9 +154,9 @@ class Eleve implements UserInterface, \Serializable
     /**
     *@var \Doctrine\Common\Collections\Collection
     *
-    *@ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Projet", inversedBy="inscrits")
+    *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="lyceen")
     */
-    private $projets;
+    private $projetsParAnnee;
 
     /**
      * @inheritDoc
@@ -535,39 +535,40 @@ class Eleve implements UserInterface, \Serializable
     public function __construct()
     {
         $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
 
     /**
-     * Add projets
+     * Add projetsParAnnee
      *
-     * @param \CEC\SecteurProjetsBundle\Entity\Projet $projets
+     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee
      * @return Eleve
      */
-    public function addProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projets)
+    public function addProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
     {
-        $this->projets[] = $projets;
+        $this->projetsParAnnee[] = $projetsParAnnee;
     
         return $this;
     }
 
     /**
-     * Remove projets
+     * Remove projetsParAnnee
      *
-     * @param \CEC\SecteurProjetsBundle\Entity\Projet $projets
+     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee
      */
-    public function removeProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projets)
+    public function removeProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
     {
-        $this->projets->removeElement($projets);
+        $this->projetsParAnnee->removeElement($projetsParAnnee);
     }
 
     /**
-     * Get projets
+     * Get projetsParAnnee
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProjets()
+    public function getProjetsParAnnee()
     {
-        return $this->projets;
+        return $this->projetsParAnnee;
     }
 }
