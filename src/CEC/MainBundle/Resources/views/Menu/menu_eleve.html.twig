@@ -6,7 +6,7 @@
                 <li><a href="{{ path('tableau_de_bord_eleve') }}">Tableau de bord</a></li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								Sorties et Projets
+								Sorties & Projets
 								<b class="caret"></b>
 					 </a>
 					<ul class="dropdown-menu">
@@ -18,6 +18,8 @@
 						<li><a href="{{ path('description_projet', {'slug': 'centrale-prepa'})}}"> Centrale Prépa</a></li>
 						<li><a href="{{ path('description_projet', {'slug': 'good-morning-london'})}}"> Good Morning London</a></li>
 						<li><a href="{{ path('description_projet', {'slug': 'artcessible'})}}"> (Art)cessible </a></li>
+						<li class="secteur"> Les Sorties</li>
+						<li><a href="{{path('sorties_eleve')}}">Liste des sorties</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -28,7 +30,7 @@
                 </a>
                 <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Modifier mon profil</a></li>
+                    <li><a href="{{ path('reglages_infos_eleve', { 'id' : eleve.id }) }}">Modifier mon profil</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
                 </ul>

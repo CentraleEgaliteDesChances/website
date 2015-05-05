@@ -38,6 +38,15 @@ class LyceeExtension extends \Twig_Extension
 			case "mounier":
 				return "Emmanuel Mounier (Châtenay)";
 				break;
+			case "1e":
+				return "Première";
+				break;
+			case "2nde":
+				return "Seconde";
+				break;
+			case "Tale":
+				return "Terminale";
+				break;
 				}
     }
  

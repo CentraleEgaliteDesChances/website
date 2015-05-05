@@ -26,7 +26,8 @@
 			
             <input type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" placeholder="Prénom Nom" class="input-block-level" {% if not erreur %}autofocus{% endif %} />
             <input type="password" id="mot_de_passe" name="_password" placeholder="Mot de passe" class="input-block-level" {% if erreur %}autofocus{% endif %} />
-            <div class="footer-controls">
+            <label for="remember_me"><input type="checkbox" id="remember_me" name="_remember_me" checked />  Se souvenir de moi</label>
+			<div class="footer-controls">
                 <a href="{{ path('securite_oubli') }}" class="btn btn-link btn-small">Mot de passe oublié ?</a>
                 <button type="submit" class="btn btn-primary btn-large">Se connecter</button>
             </div>

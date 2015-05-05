@@ -1,0 +1,26 @@
+<div class="well">
+    <ul class="nav nav-list">
+        <li class="nav-header">Mes informations</li>
+        <li 
+            {% if app.request.attributes.get('_route') == 'reglages_infos_eleve' %}class="active"{% endif %}
+            >
+                <a href="{{ path('reglages_infos_eleve') }}">Profil</a>
+        </li>
+        <li class="nav-header">Mon activité</li>
+        <li 
+            {% if app.request.attributes.get('_route') == 'reglages_groupe_eleve' %}class="active"{% endif %}
+            >
+                <a href="{{ path('reglages_groupe_eleve') }}">Groupes de tutorat</a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="well">
+	<ul class="nav nav-list">
+		<li>
+			<a href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">Retour au profil public</a>
+		</li>
+	</ul>
+</div>
+

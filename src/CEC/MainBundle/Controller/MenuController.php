@@ -43,7 +43,7 @@ class MenuController extends Controller
 
         
 		return $this->render('CECMainBundle:Menu:menu_prof.html.twig', array(
-			'prof' => $prof,
+			'professeur' => $prof,
 		));
 	}
 	

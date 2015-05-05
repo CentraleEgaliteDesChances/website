@@ -54,7 +54,7 @@ class TableauDeBordController extends Controller
 
         
         return array(
-            'prof' => $prof,
+            'professeur' => $prof,
         );
     }
 	

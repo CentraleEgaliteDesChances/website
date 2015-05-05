@@ -14,9 +14,9 @@ voir_eleve:
     requirements:
         id: \d+
 
-voir_prof:
+voir_professeur:
     pattern: /professeur/{id}
-    defaults: {_controller: CECMembreBundle:Membres:voirProf}
+    defaults: {_controller: CECMembreBundle:Membres:voirProfesseur}
     requirements:
         id: \d+
         

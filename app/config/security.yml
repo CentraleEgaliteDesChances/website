@@ -67,7 +67,11 @@ security:
                 target: /
             anonymous: ~
             switch_user: true
-
+            remember_me:
+                key: "%secret%"
+                lifetime: 315360000
+                path: ^/(eleve|professeur|tuteur|reglages|membres|connexion)/
+                domain: ~
         public:
             pattern: ^/
             anonymous: true
