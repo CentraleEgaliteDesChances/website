@@ -9,7 +9,7 @@
 
 <h3> Réunions d'informations existantes</h3>
 
-<table>
+<table class="table table-bordered table-hover table-large table-striped">
 	<tbody>
 	{% for projet in projets %}
 	<tr>
@@ -54,6 +54,10 @@
 			{% endif %}
 		</tr>		
 		{% endif %}
+		{% else %}
+		<tr>
+			<td class="muted"> Pas de réunions à venir pour ce projet </td>
+		</tr>
 		{% endfor %} 
 	{% endfor %}
 	</tbody>

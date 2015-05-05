@@ -6,8 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use CEC\SecteurProjetsBundle\Entity\ProjetEleve;
+use CEC\SecteurProjetsBundle\Entity\Dossier;
+use CEC\MembreBundle\Entity\Professeur;
+use CEC\MembreBundle\Entity\Eleve;
 
 use CEC\SecteurProjetsBundle\Form\ProjetType;
+use CEC\SecteurProjetsBundle\Form\DossierType;
 use CEC\SecteurProjetsBundle\Form\AjouterLyceenType;
 
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
@@ -111,6 +115,8 @@ class ProjetsController extends Controller
 				$data = $form->getData();
 				$projet = $data->getProjet();
 				$dossier_precedent = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Dossier')->loadDossier($projet);
+
+				// S'il y avait un dossier précédent, on s'en débarasse
 				if($dossier_precedent)
 				{
 					$em->remove($dossier_precedent);
@@ -166,6 +172,63 @@ class ProjetsController extends Controller
 		}
 		
 		return array('projets'=>$projets);
+	}
+
+	/**
+	* Affichage des inscriptions par élève ou par lycée si l'utilisateur est un prof
+	*
+	* @param integer $lyceen : Id du lyceen dont on veut voir les inscriptions (facultatif)
+	*
+	* @Template()
+	*/
+	public function voirInscriptions($lyceen)
+	{
+		if($lyceen == 0)
+			$user = $this->getUser();
+		else
+			$user = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+
+		if($user instanceof Eleve)
+		{
+			// On récupère les projets auquel a participé le lyceen
+			$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:GroupeEleve')->findBy(array('anneeScolaire' => AnneeScolaire::withDate(), 'lyceen' => $user));
+
+			$projets = array_map(function(ProjetEleve $pe){ return $pe->getProjet();}, $projets);
+
+			return array('statut' => 'eleve', 'user' => $user, 'projets' => $projets);
+		}
+		else if($user instanceof Professeur)
+		{
+			$lycee = $user->getLycee();
+
+			$lyceens = $lycee->getLyceens();
+
+			// Tableau associatif qui prend la liste des lycéens participant par projet
+			$projets = array();
+
+			$result = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+
+			foreach($result as $projet)
+			{
+				$projets[$projet->getNom()] = array();
+			}
+
+			foreach($lyceens as $lyceen)
+			{
+				// ON récupère les participations de chaque lyceen aux différents projets
+				$data = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:GroupeEleve')->findBy(array('anneeScolaire' => AnneeScolaire::withDate(), 'lyceen' => $user));
+
+				$data = array_map(function(ProjetEleve $pe){ return $pe->getProjet();}, $data);
+
+				foreach($data as $projet)
+				{
+					$projets[$projet->getNom()][] = $lyceen;
+				}
+			}
+
+
+			return array('statut' => 'prof', 'user' => $user, 'projets' => $projets);
+		}
 	}
 
 

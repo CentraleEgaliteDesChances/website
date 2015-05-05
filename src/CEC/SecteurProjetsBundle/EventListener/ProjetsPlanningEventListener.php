@@ -37,6 +37,7 @@ class ProjetsPlanningEventListener
             $titre = $projet->getNom();
             $event->setTitle('Projet : ' . $titre);
             $event->setBgColor('#00dd00');
+            $event->setUrl($this->router->generate('description_projet', array('slug' => $projet->getSlug())));
 
             $calendarEvent->addEvent($event);
         }

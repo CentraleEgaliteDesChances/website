@@ -66,9 +66,9 @@
 			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information </a> </li>
 			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
 		</ul>
-	{% elseif is_granted('ROLE_PROFESSEUR_REFERENT') %}
+	{% elseif is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROFESSEUR_PROVISEUR') %}
 		<ul class="nav nav-pills nav-stacked">
-			<li> Menu de consultation des inscriptions </li>
+			<li> <a href="{{path('suivi_inscriptions') }}"> Menu de consultation des inscriptions </a> </li>
 		</ul>
 	{% endif %}
 		

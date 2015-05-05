@@ -10,6 +10,10 @@ description_projet:
     requirements:
         slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
 
+suivi_inscriptions:
+    pattern: /suivi-inscriptions/{lyceen}
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:voirInscriptions, lyceen: 0}
+
 # Routes d'affichage des réunions
 liste_reunions:
     pattern: /reunions

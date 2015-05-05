@@ -12,6 +12,9 @@
 {% block right %}
 
 {{parent()}}
+
+<h2> Edition de la description du projet </h2>
+
 <form class="form form-horizontal" method="post" action="{{ path('editer_projet', {'slug' : app.request.attributes.get('_route_params')['slug']}) }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
@@ -19,6 +22,10 @@
         <a href="{{ path('description_projet', {'slug' : app.request.attributes.get('_route_params')['slug']}) }}" class="btn pull-right">Annuler</a>
     </div>
 </form>
+
+</table>
+
+<h2> Lycéens participant au projet </h2>
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if lyceens %}
@@ -41,6 +48,7 @@
     {% else %}
         <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
     {% endif %}
+
     <tbody>
         <tr>
             <td class="ajout">

@@ -37,6 +37,7 @@ class ReunionsPlanningEventListener
             $titre = $reunion->getNom();
             $event->setTitle('Reunion : ' . $titre);
             $event->setBgColor('#0000dd');
+            $event->setUrl($this->router->generate('liste_reunions'));
 
             $calendarEvent->addEvent($event);
         }
