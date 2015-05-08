@@ -65,34 +65,8 @@ class Eleve implements UserInterface, \Serializable
      * )
      */
     private $mail;
-	
-	/**
-     * Numéro de téléphone du membre.
-     * Ce champ n'est pas requis mais permet de pouvoir contacter par téléphone
-     * (fixe ou portable) un tuteur en cas de besoin. La syntaxe du numéro est vérifiée.
-     *
-     * @var string
-     *
-     * @ORM\Column(name = "telephone", type = "string", length = 15, nullable = true)
-     * @Assert\Regex(
-     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
-     *     message = "Le numéro de téléphone n'est pas valide."
-     * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
-     * )
-     */
-    private $telephone;
-	 
-	 /**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="telephonePublic", type="boolean")
-	 */
-	 private $telephonePublic = false;
-	 
-	 /**
+
+    /**
      * @var string
      *
      * @ORM\Column(name="lycee", type="string", length=20)
@@ -176,48 +150,6 @@ class Eleve implements UserInterface, \Serializable
 	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", inversedBy="presents")
 	*/
 	private $reunions;
-
-    /**
-     * Groupe de tutorat fréquenté régulièrement par le membre.
-     * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
-     * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus.
-     * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
-     * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
-     *
-     * @var CEC\TutoratBundle\Entity\Groupe
-     *
-     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "tuteurs" )
-     */
-    private $groupe;
-	
-	/**
-     * Séances auxquelles le tuteur a participé.
-     * Ce champ liste les séances de tutorat pour lesquelles le membre a indiqué qu'il participait.
-     * Ceci sert principalement deux objectifs :
-     *     - élaborer des statistiques avancées sur l'encadrement et le taux d'activité des tuteurs ;
-     *     - faciliter l'organisation des séances en sachant le nombre de tuteurs disponibles.
-     *
-     * Il ne s'agit pas du côté propriétaire. Utilisez les méthodes de Seance pour
-     * ajouter un tuteur à une séance.
-     *
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "tuteurs" )
-     */
-    private $seances;
-
-    /**
-	*
-	* Répertorie les sorties auxquelles s'est inscrit le lycéen.
-	* ATTENTION : la suppression du lycéen supprime ses inscriptions.
-	* 
-	* Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de Sorties pour ajouter un lycéen à une sortie.
-	* 
-	* @var \Doctrine\Common\Collections\Collection
-    *
-	*/
-	private $sorties;
 
     /**
     *@var \Doctrine\Common\Collections\Collection
@@ -368,48 +300,6 @@ class Eleve implements UserInterface, \Serializable
     {
         return $this->mail;
     }
-	
-	/**
-     * Set telephone
-     *
-     * @param string $telephone
-     * @return Membre
-     */
-    public function setTelephone($telephone)
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    /**
-     * Get telephone
-     *
-     * @return string
-     */
-    public function getTelephone()
-    {
-        return $this->telephone;
-    }
-	
-	/**
-	*
-	* Vérifier si le telephone est public
-	* @return boolean*/
-	public function getTelephonePublic()
-	{
-		return $this->telephonePublic;
-	}
-	
-	/**
-	*
-	* Change l'état du téléphone
-	* @return boolean*/
-	public function setTelephonePublic($boolean)
-	{
-		$this->telephonePublic = $boolean;
-		return $this;
-	}
 
     /**
      * Set lycee
@@ -584,29 +474,6 @@ class Eleve implements UserInterface, \Serializable
     
         return $this;
     }
-	
-	/**
-     * Set groupe
-     *
-     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
-     * @return Membre
-     */
-    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
-    {
-        $this->groupe = $groupe;
-
-        return $this;
-    }
-
-    /**
-     * Get groupe
-     *
-     * @return \CEC\TutoratBundle\Entity\Groupe
-     */
-    public function getGroupe()
-    {
-        return $this->groupe;
-    }
 
     /**
      * Get motDePasse
@@ -668,72 +535,6 @@ class Eleve implements UserInterface, \Serializable
     public function __construct()
     {
         $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
-
-    /**
-     * Add projetsParAnnee
-     *
-     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee
-     * @return Eleve
-     */
-    public function addProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
-    {
-        $this->projetsParAnnee[] = $projetsParAnnee;
-    }
-
-    /**
-     * Remove projetsParAnnee
-     *
-     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee
-     */
-    public function removeProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
-    {
-        $this->projetsParAnnee->removeElement($projetsParAnnee);
-    }
-
-    /**
-     * Get projetsParAnnee
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProjetsParAnnee()
-    {
-        return $this->projetsParAnnee;
-    }
-    
-    /**
-     * Add sorties
-     *
-     * @param \CEC\SecteurSortiesBundle\Entity\Sortie $sortie
-     * @return Membre
-     */
-    public function addSortie(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
-    {
-        $this->sorties[] = $sortie;
-
-        return $this;
-    }
-
-    
-    /**
-     * Remove sorties
-     *
-     * @param \CEC\SecteurSortiesBundle\Entity\Sortie $sortie
-     */
-    public function removeSortie(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
-    {
-        $this->sorties->removeElement($sortie);
-    }
-
-    /**
-     * Get sorties
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSorties()
-    {
-        return $this->sorties;
-    }
 }

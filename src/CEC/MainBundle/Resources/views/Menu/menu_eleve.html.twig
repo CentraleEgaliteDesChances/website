@@ -5,15 +5,25 @@
 			<ul class="nav">
                 <li><a href="{{ path('tableau_de_bord_eleve') }}">Tableau de bord</a></li>
 				<li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Mes sorties
-                        <b class="caret"></b>
-                    </a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								Sorties & Projets
+								<b class="caret"></b>
+					 </a>
 					<ul class="dropdown-menu">
-						<li><a href="{{path('sorties_eleve')}}">Planning des sorties</a></li>
+						<li class="secteur">Les Projets</li>
+						<li><a href="{{ path('toutes_seances') }}">Planning</a></li>
+						<li><a href="{{ path('description_projets')}}">Pôle Projets</a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'stage-theatre' })}}"> Stage Théâtre </a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'focus-europe'})}}"> Focus Europe </a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'centrale-prepa'})}}"> Centrale Prépa</a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'good-morning-london'})}}"> Good Morning London</a></li>
+						<li><a href="{{ path('description_projet', {'slug': 'artcessible'})}}"> (Art)cessible </a></li>
+						<li class="secteur"> Les Sorties</li>
+						<li><a href="{{path('sorties_eleve')}}">Liste des sorties</a></li>
 					</ul>
+				</li>
 			</ul>
-        
+			
 		<div class="btn-group pull-right">
                 <a class="btn btn-inverse" href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">
                     {{ eleve }}

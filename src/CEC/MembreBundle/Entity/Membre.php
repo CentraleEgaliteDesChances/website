@@ -254,6 +254,13 @@ class Membre implements UserInterface, \Serializable
      * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "tuteurs" )
      */
     private $seances;
+	
+	/**
+	* @var \Doctrine\Common\Collections\Collection
+	*
+	*@ORM\ManyToMany(targetEntity="CEC\SecteurProjetsBundle\Entity\Projet", mappedBy="contacts")
+	*/
+	private $contactProjets = array();
 
     /**
      * Divers documents (versions d'une activite) téléchargés par le membre.
@@ -775,6 +782,39 @@ class Membre implements UserInterface, \Serializable
     public function getDocuments()
     {
         return $this->documents;
+    }
+	
+	/**
+     * Add contact_projets
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\Projet $projet
+     * @return Membre
+     */
+    public function addContactProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projet)
+    {
+        $this->contactProjets[] = $projet;
+
+        return $this;
+    }
+
+    /**
+     * Remove contact_projets
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\Projet $projet
+     */
+    public function removeContactProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projet)
+    {
+        $this->contactProjets->removeElement($projet);
+    }
+
+    /**
+     * Get contact_projets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContactProjets()
+    {
+        return $this->contactProjets;
     }
 
     /**
