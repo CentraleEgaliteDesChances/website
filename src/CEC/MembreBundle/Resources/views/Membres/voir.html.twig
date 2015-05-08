@@ -126,7 +126,7 @@
     </table>
     
     <table class="table table-bordered table-hover table-striped table-large">
-        {% if membre.secteurs|length or membre.buro %}
+        {% if membre.secteurs|length or is_granted('ROLE_BURO') %}
             <thead><tr><th><h4>Secteurs</h4></th></tr></thead>
             <tbody>
                 {% for secteur in membre.secteurs %}
@@ -136,10 +136,10 @@
                     </td>
                 </tr>
                 {% endfor %}
-                {% if membre.buro %}
+                {% if is_granted('ROLE_BURO') %}
                     <tr>
                         <td>
-                            Membre du buro de l'association
+                            Membre du bureau de l'association
                         </td>
                     </tr>
                 {% endif %}

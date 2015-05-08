@@ -23,11 +23,14 @@ class MenuController extends Controller
         if ($groupe) {
             $crARediger = $doctrine->getRepository('CECActiviteBundle:CompteRendu')->findARedigerByGroupe($groupe);
         }
+
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
         
         return $this->render('CECMainBundle:Menu:menu.html.twig', array(
             'membre' => $membre,
             'seance_a_venir' => $seanceAVenir,
             'cr_a_rediger' => $crARediger,
+            'projets' => $projets,
         ));
     }
 	
@@ -41,9 +44,12 @@ class MenuController extends Controller
         $prof = $this->getUser();
         if (!$prof) throw $this->createNotFoundException('Impossible de trouver votre profil !');
 
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+
         
 		return $this->render('CECMainBundle:Menu:menu_prof.html.twig', array(
 			'professeur' => $prof,
+            'projets' => $projets,
 		));
 	}
 	
@@ -51,6 +57,8 @@ class MenuController extends Controller
 	{
 		$eleve = $this->getUser();
         if (!$eleve) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
 
         $seanceAVenir = false;
         if($groupe = $eleve->getGroupe())
@@ -60,7 +68,8 @@ class MenuController extends Controller
         
 		return $this->render('CECMainBundle:Menu:menu_eleve.html.twig', array(
 			'eleve' => $eleve,
-            'seance_a_venir' => $seanceAVenir	
+            'seance_a_venir' => $seanceAVenir,
+            'projets' => $projets,
 		));
 	}
 }

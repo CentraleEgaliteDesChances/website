@@ -31,12 +31,10 @@
 					<ul class="dropdown-menu">
 						<li class="secteur">Les Projets</li>
 						<li><a href="{{ path('toutes_seances') }}">Planning</a></li>
-						<li><a href="{{ path('description_projets')}}">Pôle Projets</a></li>
-						<li><a href="{{ path('description_projet', {'slug': 'stage-theatre' })}}"> Stage Théâtre </a></li>
-						<li><a href="{{ path('description_projet', {'slug': 'focus-europe'})}}"> Focus Europe </a></li>
-						<li><a href="{{ path('description_projet', {'slug': 'centrale-prepa'})}}"> Centrale Prépa</a></li>
-						<li><a href="{{ path('description_projet', {'slug': 'good-morning-london'})}}"> Good Morning London</a></li>
-						<li><a href="{{ path('description_projet', {'slug': 'artcessible'})}}"> (Art)cessible </a></li>
+                        <li><a href="{{ path('description_projets')}}">Pôle Projets</a></li>
+                        {% for projet in projets %}
+                            <li><a href="{{ path('description_projet', {'slug' : projet.slug } ) }}"> {{projet.nom}}</a></li>
+                        {% endfor %}
 
                         <li class="secteur"> Les Sorties
 					
