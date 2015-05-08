@@ -37,56 +37,22 @@ class SortiesController extends Controller
 	public function lyceensAction(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
 	{
 		$lyceens = $sortie->getLyceens();
-		$cpb = array();
-		$cpp = array();
-		$jjchat = array();
-		$jjmont = array();
-		$matisse = array();
-		$montesquieu = array();
-		$monod = array();
-		$mounier = array();
+		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();
+
+        $attente = array($lyceens);
+
+        // S'il y a des lycéens sur liste d'attente, on ne garde que ceux-là dans le tableau attente
+        if(count($lyceens) > $sortie->getPlaces())
+        {
+            for($i=0, $places = $sortie->getPlaces(); $i<$places; $i++ )
+                array_pop($attente);
+        }
 		
-		foreach($lyceens as $lyceen)
-		{
-			$lycee = $lyceen->getLycee();
-			switch($lycee)
-			{
-				case "cpb":
-					$cpb[] = $lyceen;
-					break;
-				case "cpp":
-					$cpp[] = $lyceen;
-					break;
-				case "jjchat":
-					$jjchat[] = $lyceen;
-					break;
-				case "jjmont":
-					$jjmont[] = $lyceen;
-					break;
-				case "matisse":
-					$matisse[] = $lyceen;
-					break;
-				case "montesquieu":
-					$montesquieu[] = $lyceen;
-					break;
-				case "monod":
-					$monod[] = $lyceen;
-					break;
-				case "mounier":
-					$mounier[] = $lyceen;
-					break;
-			}
-		}
 		
 		return array(
-			'cpb' => $cpb,
-			'cpp' => $cpp,
-			'jjchat' => $jjchat,
-			'jjmont' => $jjmont,
-			'matisse' => $matisse,
-			'montesquieu' => $montesquieu,
-			'monod' => $monod,
-			'mounier' => $mounier,
+			'lyceens' => $lyceens,
+            'attente' => $attente,
+            'lycees' => $lycees
 			);
 	}
 
@@ -255,18 +221,17 @@ class SortiesController extends Controller
 
             $em = $container->get('doctrine')->getManager();
 
-            // The getExportQuery method returns a query that is used to retrieve
-            // all the objects (lines of your csv file) you need. The iterate method
-            // is used to limit the memory consumption
+            // Ecriture des infos de chaque lyceen de la sortie dans un fichier ouvert à la volée dans PHP pour pas surcharger le serveur
+            
             $sortie = $em->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
             $handle = fopen('php://output', 'r+');
 			$lyceens = $sortie->getLyceens();
-			$tab = array(utf8_decode('Prénom'), 'Nom', 'Adresse mail', utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
+			$tab = array(utf8_decode('Prénom'), 'Nom', 'Adresse mail', 'Téléphone', utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
 			fputcsv($handle, $tab, ';');
 
             foreach($lyceens as $lyceen) {
                 
-				$tab = array(utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), '', '', '');
+				$tab = array(utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(),  '', '', '');
                 fputcsv($handle, $tab, ';');
                 
             }

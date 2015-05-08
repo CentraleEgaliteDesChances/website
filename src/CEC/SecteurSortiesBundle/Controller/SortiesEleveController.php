@@ -39,12 +39,11 @@ class SortiesEleveController extends Controller
 			{
 				$sortie->removeLyceen($eleve);
 				$this->get('cec.mailer')->sendLyceenDesinscrit($sortie);
-				$this->get('cec.mailer')->sendDesinscription($sortie, $mail);
+
 				$request->getSession()->getFlashBag()->add('notice', 'Désinscription bien effectuée.');
 			} else {
 				$lyceens = $sortie->addLyceen($eleve);
-				if($lyceens==array()){echo "Fail";}
-				$this->get('cec.mailer')->sendInscription($sortie, $mail);
+
 				$request->getSession()->getFlashBag()->add('notice', 'Inscription bien effectuée.');
 			}
 			
