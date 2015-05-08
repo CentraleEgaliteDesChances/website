@@ -15,7 +15,7 @@
 {% block body %}
 
     <div class="container">
-        <form method="post" action="{{ path('cec_membre_securite_oubli') }}" class="form-oubli" {{ form_enctype(form) }}>
+        <form method="post" action="{{ path('securite_oubli') }}" class="form-oubli" {{ form_enctype(form) }}>
             <h2>Réinitialisation du mot de passe</h2>
             
             {{ form_errors(form) }}

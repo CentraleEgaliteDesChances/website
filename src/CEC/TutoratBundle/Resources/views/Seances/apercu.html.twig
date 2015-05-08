@@ -18,7 +18,7 @@
 
 <table class="table table-bordered table-striped table-centered">
     <tbody>
-        <tr><td class="td-label">rendez-vous</td></tr>
+        <tr><td class="td-label">Rendez-vous</td></tr>
         <tr>
             <td class="td-content">
                 {% if seance.rendezVous %}
@@ -30,7 +30,7 @@
                 {% endif %}
             </td>
         </tr>
-        <tr><td class="td-label">pour la séance</td></tr>
+        <tr><td class="td-label">Pour la séance</td></tr>
         <tr>
             <td class="td-content">
                 de
@@ -52,9 +52,9 @@
                 {% endif %}<br />
                 
                 {% if seance.lieu %}
-                    {{ seance.lieu|lower }}
+                    {{ seance.lieu }}
                 {% elseif seance.groupe is not null %}
-                    {{ seance.groupe.lieu|lower }}
+                    {{ seance.groupe.lieu }}
                 {% else %}
                     {{ self.indisponible() }}
                 {% endif %}

@@ -39,11 +39,6 @@ class Groupe
      * @var \DateTime
      */
     private $fin;
-    
-    /**
-     * @var CEC\MainBundle\Utility\AnneScolaire
-     */
-    private $anneeScolaire;
 
     /**
      * @var string
@@ -63,12 +58,12 @@ class Groupe
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $lyceens;
+    private $lyceensParAnnee;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $tuteurs;
+    private $tuteursParAnnee;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -81,15 +76,19 @@ class Groupe
     private $lycees;
 
     /**
+    *
+    */
+    private $anneeScolaire = 2000;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lyceensParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tuteursParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lycees = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->anneeScolaire = AnneeScolaire::withDate();
     }
     
     /**
@@ -258,29 +257,6 @@ class Groupe
     }
 
     /**
-     * Set anneeScolaire
-     *
-     * @param \CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire
-     * @return Groupe
-     */
-    public function setAnneeScolaire(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire)
-    {
-        $this->anneeScolaire = $anneeScolaire;
-    
-        return $this;
-    }
-
-    /**
-     * Get anneeScolaire
-     *
-     * @return \CEC\MainBundle\AnneeScolaire\AnneeScolaire
-     */
-    public function getAnneeScolaire()
-    {
-        return $this->anneeScolaire;
-    }
-
-    /**
      * Set rendezVous
      *
      * @param string $rendezVous
@@ -350,72 +326,6 @@ class Groupe
     }
 
     /**
-     * Add lyceens
-     *
-     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
-     * @return Groupe
-     */
-    public function addLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
-    {
-        $this->lyceens[] = $lyceens;
-    
-        return $this;
-    }
-
-    /**
-     * Remove lyceens
-     *
-     * @param \CEC\TutoratBundle\Entity\Lyceen $lyceens
-     */
-    public function removeLyceen(\CEC\TutoratBundle\Entity\Lyceen $lyceens)
-    {
-        $this->lyceens->removeElement($lyceens);
-    }
-
-    /**
-     * Get lyceens
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLyceens()
-    {
-        return $this->lyceens;
-    }
-
-    /**
-     * Add tuteurs
-     *
-     * @param \CEC\MembreBundle\Entity\Membre $tuteurs
-     * @return Groupe
-     */
-    public function addTuteur(\CEC\MembreBundle\Entity\Membre $tuteurs)
-    {
-        $this->tuteurs[] = $tuteurs;
-    
-        return $this;
-    }
-
-    /**
-     * Remove tuteurs
-     *
-     * @param \CEC\MembreBundle\Entity\Membre $tuteurs
-     */
-    public function removeTuteur(\CEC\MembreBundle\Entity\Membre $tuteurs)
-    {
-        $this->tuteurs->removeElement($tuteurs);
-    }
-
-    /**
-     * Get tuteurs
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTuteurs()
-    {
-        return $this->tuteurs;
-    }
-
-    /**
      * Add seances
      *
      * @param \CEC\TutoratBundle\Entity\Seance $seances
@@ -446,6 +356,72 @@ class Groupe
     public function getSeances()
     {
         return $this->seances;
+    }
+
+    /**
+     * Add tuteursParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeTuteurs $tuteursParAnnee
+     * @return Groupe
+     */
+    public function addTuteursParAnnee(\CEC\TutoratBundle\Entity\GroupeTuteurs $tuteursParAnnee)
+    {
+        $this->tuteursParAnnee[] = $tuteursParAnnee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tuteursParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeTuteurs $tuteursParAnnee
+     */
+    public function removeTuteursParAnnee(\CEC\TutoratBundle\Entity\GroupeTuteurs $tuteursParAnnee)
+    {
+        $this->tuteursParAnnee->removeElement($tuteursParAnnee);
+    }
+
+    /**
+     * Get tuteursParAnnee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTuteursParAnnee()
+    {
+        return $this->tuteursParAnnee;
+    }
+
+    /**
+     * Add lyceensParAnnee
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceensParAnnee
+     * @return Groupe
+     */
+    public function addLyceensParAnnee(\CEC\MembreBundle\Entity\Eleve $lyceensParAnnee)
+    {
+        $this->lyceensParAnnee[] = $lyceensParAnnee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lyceensParAnnee
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceensParAnnee
+     */
+    public function removeLyceensParAnnee(\CEC\MembreBundle\Entity\Eleve $lyceensParAnnee)
+    {
+        $this->lyceensParAnnee->removeElement($lyceensParAnnee);
+    }
+
+    /**
+     * Get lyceensParAnnee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLyceensParAnnee()
+    {
+        return $this->lyceensParAnnee;
     }
 
     /**

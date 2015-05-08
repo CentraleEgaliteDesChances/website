@@ -1,0 +1,54 @@
+{% extends 'CECMainBundle::base.html.twig' %}
+
+
+{% block stylesheets %}
+	{{parent()}}
+    {% stylesheets 
+		'@CECMembreBundle/Resources/public/less/tableau_de_bord.less'
+	%}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+
+{% block container %}
+{{ parent() }}
+
+    <div class="text-centered">
+
+        {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
+            <img src="{{ asset_url }}" alt="Logo CEC" class="logo"/>
+        {% endimage %}
+
+        <h4 class="bienvenue">Bienvenue sur le site interne, {{ eleve }} !</h4>
+
+        <ul class="liens">
+            <li><a href="{{path('sorties_eleve')}}">Les sorties à venir</a></li>
+        </ul>
+        <ul class="liens">
+            <li><a href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">Mon profil</a></li>
+            <li><a href="mailto:contact@cec-ecp.com">Aide</a></li>
+        </ul>
+
+
+{#
+        <div class="alert alert-info">
+            <h3>Le site interne est en version 1.0 BÊTA 3</h3>
+            <p><strong>Merci de vous pencher de plus près sur ces points qui ont été corrigés :</strong></p>
+            <ul>
+                <li>Permet la modification et l'affichage des VP Lycées</li>
+                <li>Correction d'un bug qui empêchait l'authentification avec un prénom ou un nom composé</li>
+                <li>Correction d'un bug qui obligeait à cocher "Lycée de ZEP"</li>
+                <li>Correction d'un bug Vous avez indiqué ne pas pouvoir venir à cette séance" même si le membre n'appartient pas au groupe de tutorat</li>
+                <li>Masque la liste des activités rédigées par un membre s'il n'y en a aucune</li>
+                <li>Affichage "Aucun numéro" si un membre n'a pas renseigné de numéro de téléphone</li>
+                <li>Déplace l'affichage de l'appartenance au buro dans la liste des secteurs du membre</li>
+                <li>Capitalisation correcte des prénoms et des noms</li>
+            </ul>
+            <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
+        </div>
+#}
+
+    </div>
+
+{% endblock %}

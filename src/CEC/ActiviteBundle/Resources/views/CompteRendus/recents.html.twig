@@ -23,7 +23,7 @@
             $('#apercu-cr-contenu').hide();
             $('#apercu-cr-message').html('Chargement...');
             $('#apercu-cr-message-container').show();
-            $.get(Routing.generate('cec_activite_compterendus_ajaxapercu', { compte_rendu: compteRendu }), function(data) {
+            $.get(Routing.generate('compterendus_ajax_apercu', { compte_rendu: compteRendu }), function(data) {
               $('#apercu-cr-contenu').html(data);
               $('#apercu-cr-contenu').show();
               $('#apercu-cr-message-container').hide();
@@ -44,7 +44,7 @@
             $('#apercu-cr-contenu').hide();
             $('#apercu-cr-message').html('Sélectionnez un compte-rendu');
             $('#apercu-cr-message-container').show();
-            $.get(Routing.generate('cec_activite_compterendus_ajaxresultats', { lecture: lecture, type: type }), function(data) {
+            $.get(Routing.generate('ompterendus_ajax_resultats', { lecture: lecture, type: type }), function(data) {
               $('#resultats-contenu').html(data);
             });
         }
@@ -55,7 +55,7 @@
         
         function basculerLecture(compteRendu) {
             var etaitLu = $('#cr_' + compteRendu + ' .td-non-lu').html() == "";
-            $.get(Routing.generate('cec_activite_compterendus_ajaxbasculerlecture', { compte_rendu: compteRendu }));
+            $.get(Routing.generate('compterendus_ajax_basculerlecture', { compte_rendu: compteRendu }));
             if (etaitLu) {
                 $('#cr_' + compteRendu + ' .td-non-lu').html('•');
             } else {

@@ -1,0 +1,56 @@
+voir_tous_membres:
+    pattern: /tuteurs
+    defaults: {_controller: CECMembreBundle:Membres:tous}
+
+voir_membre:
+    pattern: /tuteur/{membre}
+    defaults: {_controller: CECMembreBundle:Membres:voir}
+    requirements:
+        membre: \d+
+
+voir_eleve:
+    pattern: /eleve/{id}
+    defaults: {_controller: CECMembreBundle:Membres:voirEleve}
+    requirements:
+        id: \d+
+
+tous_eleves:
+    pattern: /eleves
+    defaults: {_controller: CECMembreBundle:Membres:tousEleve}
+
+voir_professeur:
+    pattern: /professeur/{id}
+    defaults: {_controller: CECMembreBundle:Membres:voirProfesseur}
+    requirements:
+        id: \d+
+
+voir_lycee:
+    pattern: /{categorie}/lycee/{lycee}
+    defaults: {_controller: CECMembreBundle:Membres:tousLycee}
+    requirements:
+        id: \d+
+        categorie: eleves|tuteurs|professeurs
+
+tous_professeurs:
+    pattern: /professeurs
+    defaults: {_controller: CECMembreBundle:Membres:tousProfesseur}
+
+creer_membre:
+    pattern: /creation
+    defaults: {_controller: CECMembreBundle:Membres:creer}
+
+supprimer_membre:
+    pattern: /suppression/{membre}
+    defaults: {_controller: CECMembreBundle:Membres:supprimer}
+    requirements:
+        membre: \d+
+
+passations:
+    pattern: /passations
+    defaults: {_controller: CECMembreBundle:Membres:passations}
+
+retirer_buro:
+    pattern: /passations/retirer_membre/{membre}
+    defaults: {_controller: CECMembreBundle:Membres:supprimerMembreBuro}
+    requirements:
+        membre: \d+

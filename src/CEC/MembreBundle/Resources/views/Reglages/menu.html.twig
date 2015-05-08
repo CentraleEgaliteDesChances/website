@@ -2,20 +2,28 @@
     <ul class="nav nav-list">
         <li class="nav-header">Mes informations</li>
         <li 
-            {% if app.request.attributes.get('_route') == 'cec_membre_reglages_infos' %}class="active"{% endif %}
+            {% if app.request.attributes.get('_route') == 'reglages_infos' %}class="active"{% endif %}
             >
-                <a href="{{ path('cec_membre_reglages_infos') }}">Profil</a>
+                <a href="{{ path('reglages_infos') }}">Profil</a>
         </li>
         <li class="nav-header">Mon activité</li>
         <li 
-            {% if app.request.attributes.get('_route') == 'cec_membre_reglages_groupe' %}class="active"{% endif %}
+            {% if app.request.attributes.get('_route') == 'reglages_groupe' %}class="active"{% endif %}
             >
-                <a href="{{ path('cec_membre_reglages_groupe') }}">Groupes de tutorat</a>
+                <a href="{{ path('reglages_groupe') }}">Groupes de tutorat</a>
         </li>
         <li 
-            {% if app.request.attributes.get('_route') == 'cec_membre_reglages_secteurs' %}class="active"{% endif %}
+            {% if app.request.attributes.get('_route') == 'reglages_groupe' %}class="active"{% endif %}
             >
-                <a href="{{ path('cec_membre_reglages_secteurs') }}">Mes secteurs</a>
+                <a href="{{ path('reglages_groupe') }}">Mes secteurs</a>
         </li>
     </ul>
+</div>
+
+<div class="well">
+	<ul class="nav nav-list">
+		<li>
+			<a href="{{ path('voir_membre', { 'membre' : membre.id }) }}">Retour au profil public</a>
+		</li>
+	</ul>
 </div>

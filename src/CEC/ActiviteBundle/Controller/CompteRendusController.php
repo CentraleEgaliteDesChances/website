@@ -20,10 +20,7 @@ class CompteRendusController extends Controller
      *
      * @param CEC\TutoratBundle\Entity\Seance $seance : id de la séance
      * @param CEC\ActiviteBundle\Entity\Activite $activite : id de l'activité à ajouter
-     * @Route(
-     *     "/seances/{seance}/ajout_activite/{activite}",
-     *     requirements = { "seance" : "\d+", "activite" : "\d+" }
-     * )
+     * 
      */
     public function creerAction($seance, $activite)
     {
@@ -56,10 +53,7 @@ class CompteRendusController extends Controller
      *
      * @param CEC\TutoratBundle\Entity\Seance $seance : id de la séance
      * @param CEC\ActiviteBundle\Entity\Activite $activite : id de l'activité à retirer
-     * @Route(
-     *     "/seances/{seance}/retrait_activite/{activite}",
-     *     requirements = { "seance" : "\d+", "activite" : "\d+" }
-     * )
+     * 
      */
     public function supprimerAction($seance, $activite)
     {
@@ -90,7 +84,6 @@ class CompteRendusController extends Controller
      * Si seule un compte-rendu est à rédiger, on redirige immédiatement vers la page de la séance.
      *
      * @param CEC\TutoratBundle\Entity\Groupe $groupe : id du groupe de tutorat
-     * @Route("/groupes/{groupe}/comptes_rendus", requirements = { "groupe" : "\d+" })
      * @Template()
      * )
      */
@@ -116,7 +109,6 @@ class CompteRendusController extends Controller
      * de consulter les nouveau comptes-rendus afin de les utiliser pour améliorer les activités
      * qui ont besoin de corrections ou d'ajout.
      *
-     * @Route("/comptes_rendus")
      * @Template()
      */
     public function recentsAction()
@@ -130,7 +122,6 @@ class CompteRendusController extends Controller
      *
      * @param integer $compte_rendu L'id du compte-rendu dont on souhaite l'aperçu
      *
-     * @Route("/comptes_rendus/ajax/apercu/{compte_rendu}", requirements = {"compte_rendu" = "\d+"}, options = {"expose" = true})
      * @Template()
      */
     public function ajaxApercuAction($compte_rendu)
@@ -148,10 +139,6 @@ class CompteRendusController extends Controller
      * @param string $lecture Doit-on afficher tous les compte-rendus ('tous') ou les non-lus ('non-lus') ?
      * @param string $type Quel type d'activité associée doit-on afficher ?
      *
-     * @Route("/comptes_rendus/ajax/resultats/{lecture}/{type}", options = {"expose" = true}, requirements = {
-     *     "lecture" = "tous|non-lus",
-     *     "type" = "tous|actiscientifiques|actisculturelles|experiences|autre"
-     * })
      * @Template()
      */
     public function ajaxResultatsAction($lecture, $type)
@@ -182,10 +169,7 @@ class CompteRendusController extends Controller
      *
      * @param integer $compte_rendu Id du compte-rendu dont on doit basculer l'état de lecture
      *
-     * @Route("/comptes_rendus/ajax/basculer_lecture/{compte_rendu}", 
-     *     requirements = {"compte_rendu" = "\d+"},
-     *     options = {"expose" = true}
-     * )
+     * 
      */
     public function ajaxBasculerLectureAction($compte_rendu)
     {

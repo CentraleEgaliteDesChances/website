@@ -1,0 +1,65 @@
+<div class="well">
+	<ul class='nav nav-list'>
+		{% if tuteurs %}
+			<li
+				{% if request.attributes.get('_route') == "voir_tous_membres" %}
+					class="active"
+				{% endif %}
+			>
+				<a href="{{path('voir_tous_membres')}}" class="tous_lycees"> Tous les tuteurs </a>
+			</li>
+			{% for cordee in cordees %}
+				<li class="nav-header">{{cordee.nom}}</li>
+				{% for lycee in cordee.lycees %}
+					<li
+						{% if request.attributes.get('lycee') == lycee.id %}
+							class="active"
+						{% endif %}
+					>
+						<a href="{{ path('voir_lycee', {'lycee' : lycee.id, 'categorie' : 'tuteurs'} ) }}"> {{lycee.nom}}
+					</li>
+				{% endfor %}
+			{% endfor %}
+		{% elseif lyceens %}
+			<li
+				{% if request.attributes.get('_route') == "tous_eleves" %}
+					class="active"
+				{% endif %}
+			>
+				<a href="{{path('tous_eleves')}}" class="tous_lycees"> Tous les lycéens </a>
+			</li>
+			{% for cordee in cordees %}
+				<li class="nav-header">{{cordee.nom}}</li>
+				{% for lycee in cordee.lycees %}
+					<li
+						{% if request.attributes.get('lycee') == lycee.id %}
+							class="active"
+						{% endif %}
+					>
+						<a href="{{ path('voir_lycee', {'lycee' : lycee.id, 'categorie' : 'eleves'} ) }}"> {{lycee.nom}}
+					</li>
+				{% endfor %}
+			{% endfor %}
+		{% elseif professeurs %}
+			<li
+				{% if request.attributes.get('_route') == "tous_professeurs" %}
+					class="active"
+				{% endif %}
+			>
+				<a href="{{path('tous_professeurs')}}" class="tous_lycees"> Tous les professeurs </a>
+			</li>
+			{% for cordee in cordees %}
+				<li class="nav-header">{{cordee.nom}}</li>
+				{% for lycee in cordee.lycees %}
+					<li
+						{% if request.attributes.get('lycee') == lycee.id %}
+							class="active"
+						{% endif %}
+					>
+						<a href="{{ path('voir_lycee', {'lycee' : lycee.id, 'categorie' : 'professeurs'} ) }}"> {{lycee.nom}}
+					</li>
+				{% endfor %}
+			{% endfor %}
+		{% endif %}
+	</ul>
+</div>

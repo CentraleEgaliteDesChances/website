@@ -1,7 +1,13 @@
 parameters:
-#    cec_membre.example.class: CEC\MembreBundle\Example
+    cec_membre.component.authentication.handler.login_success_handler.class: CEC\MembreBundle\Component\Authentication\Handler\LoginSuccessHandler
 
 services:
-#    cec_membre.example:
-#        class: %cec_membre.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cec_membre.component.authentication.handler.login_success_handler:
+        class:  %cec_membre.component.authentication.handler.login_success_handler.class%
+        arguments:  [@service_container, @router, @security.context]
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+    cec_membre.twig.extension.lycee_extension:
+        class: CEC\MembreBundle\Twig\Extension\LyceeExtension
+        tags:
+            - { name: twig.extension}

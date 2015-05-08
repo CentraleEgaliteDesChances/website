@@ -1,0 +1,11 @@
+actions_tuteur:
+    resource: "@CECSecteurSortiesBundle/Resources/config/routing/tuteur.yml"
+    prefix: /tuteur
+    
+actions_professeur:
+    resource: "@CECSecteurSortiesBundle/Resources/config/routing/professeur.yml"
+    prefix: /professeur
+    
+actions_eleve:
+    resource: "@CECSecteurSortiesBundle/Resources/config/routing/eleve.yml"
+    prefix: /eleve

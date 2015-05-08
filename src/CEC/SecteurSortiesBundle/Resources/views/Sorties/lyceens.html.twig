@@ -1,0 +1,37 @@
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active dropdown"><a id="lycees" class="dropdown-toggle" aria-controls="cp" data-toggle="dropdown" role="tab" data-target="#"> Choisir le lycée
+	<b class="caret"></b>
+	</a>
+
+		<ul id="cp" class="dropdown-menu" aria-labelledby="lycees" role="menu">
+			{% for key, lycee in lycees %}
+				<li><a aria-expanded="false" href="#cpb" tabindex="-1" role="tab" id="lycee-tab" data-toggle="tab" aria-controls="{{key}}"> {{lycee.nom }} ({{lycee.ville}})</a></li>
+			{% endfor %}
+		</ul>
+	</li>
+    
+</ul>
+
+  <!-- Tab panes -->
+<div class="tab-content">
+  	{% for key, lycee in lycees %}
+	    <div role="tabpanel" class="tab-pane active" id="{{key}}">
+	    	<p style="font-weight:bold;"> {{lycee.nom}} ({{lycee.ville}}) </p>
+			{% for lyceen in lyceens %}
+				{% if lyceen.lycee == lycee %}
+					<p><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a>
+						{% if lyceen in attente %}
+							<span class="label pull-right"> Sur liste d'attente </span>
+						{% endif %}
+					</p>
+				{% endif %}
+			{% endfor %}
+			<br/><br/><br/>
+		</div>
+    {% endfor %}
+</div>
+
+</div>

@@ -13,8 +13,6 @@ class TableauDeBordController extends Controller
      * Le tableau de bord est la page d'accueil du site interne.
      * Elle consiste en un logo et un message de bienvenue, ainsi qu'une liste
      * de liens contextuels utiles pour accéder rapidement aux fonctions principales.
-     *
-     * @Route("/")
      * @Template()
      */
     public function voirAction()
@@ -39,6 +37,42 @@ class TableauDeBordController extends Controller
             'membre' => $membre,
             'seance_a_venir' => $seanceAVenir,
             'cr_a_rediger' => $crARediger,
+        );
+    }
+	/**
+     * Affiche le tableau de bord du professeurs.
+     * Le tableau de bord est la page d'accueil du site interne.
+     * Elle consiste en un logo et un message de bienvenue, ainsi qu'une liste
+     * de liens contextuels utiles pour accéder rapidement aux fonctions principales.
+     * @Template()
+     */
+	
+	public function voirProfAction()
+    {
+        $prof = $this->getUser();
+        if (!$prof) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        
+        return array(
+            'professeur' => $prof,
+        );
+    }
+	
+	/**
+     * Affiche le tableau de bord de l'élève.
+     * Le tableau de bord est la page d'accueil du site interne.
+     * Elle consiste en un logo et un message de bienvenue, ainsi qu'une liste
+     * de liens contextuels utiles pour accéder rapidement aux fonctions principales.
+     * @Template()
+     */
+	public function voirEleveAction()
+    {
+        $eleve = $this->getUser();
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        
+        return array(
+            'eleve' => $eleve,
         );
     }
 }

@@ -1,0 +1,112 @@
+
+
+#tab1title{
+position:absolute;
+left:0px;
+	top:320px;
+}
+
+#tab1title a{
+	background: #38ba05;
+	cursor: pointer;
+}
+
+#tab1title a.selected{
+	color: #38ba05;
+	background-color: white;
+}
+
+#tab2title{
+position:absolute;
+left:153px;
+	top:320px;
+}
+
+#tab2title a{
+	background: #5fa4f1;
+	cursor: pointer;
+}
+
+#tab2title a.selected{
+	color: #5fa4f1;
+		background-color: white;
+}
+
+#tab3title{
+position:absolute;
+left:306px;
+	top:320px;
+}
+
+#tab3title a{
+	background: #ea6e6e;
+	cursor: pointer;
+}
+
+#tab3title a.selected{
+	color: #ea6e6e;
+		background-color: white;
+}
+
+#tab4title{
+position:absolute;
+left:459px;
+	top:320px;
+}
+
+#tab4title a{
+	background: #e9a117;
+	cursor: pointer;
+}
+
+#tab4title a.selected{
+	color: #e9a117;
+		background-color: white;
+}
+
+.usual {
+  width:553px;
+}
+.usual li { list-style:none; float:left; width:133px; line-height: 50px;}
+.usual ul a {
+  display:block;
+  text-decoration:none!important;
+  margin:1px;
+  margin-left:0;
+font-size: 20px;
+font-weight: lighter;
+text-align: center;
+  color:#FFF;
+  background:#444;
+  height:50px;
+font-family: Helvetica;
+}
+.usual ul a:hover {
+  color:#FFF;
+  background:#111;
+  }
+.usual ul a.selected {
+  margin-bottom:0;
+  color:#000;
+
+  cursor:default;
+  }
+.usual div {
+
+  padding:10px 10px 8px 10px;
+  *padding-top:3px;
+  *margin-top:-15px;
+  clear:left;
+  font:13px Helvetica;
+  font-weight: lighter;
+}
+.usual div a { color:#000; font-weight:bold; }
+
+.idTabs{
+
+}
+
+.listeinterne li{
+list-style:disc; float:none; width:auto; line-height: normal;
+margin-bottom: 5px;
+}

@@ -1,0 +1,18 @@
+<div class="well">
+    <ul class="nav nav-list">
+        <li class="nav-header">Mes informations</li>
+        <li 
+            {% if app.request.attributes.get('_route') == 'reglages_infos_professeur' %}class="active"{% endif %}
+            >
+                <a href="{{ path('reglages_infos_professeur') }}">Profil</a>
+        </li>
+    </ul>
+</div>
+
+<div class="well">
+	<ul class="nav nav-list">
+		<li>
+			<a href="{{ path('voir_professeur', { 'id' : professeur.id }) }}">Retour au profil public</a>
+		</li>
+	</ul>
+</div>

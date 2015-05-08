@@ -1,0 +1,20 @@
+CEC\TutoratBundle\Entity\GroupeTuteurs:
+    type: entity
+    table: null
+    repositoryClass: \CEC\TutoratBundle\Entity\GroupeTuteursRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        anneeScolaire:
+            type: anneescolaire
+    manyToOne:
+        groupe:
+            targetEntity: \CEC\TutoratBundle\Entity\Groupe
+            inversedBy: tuteursParAnnee
+        tuteur:
+            targetEntity: \CEC\MembreBundle\Entity\Membre
+            inversedBy: groupeParAnnee
+    lifecycleCallBacks: { }

@@ -1,0 +1,574 @@
+#imagececetvous{
+	position:absolute;
+	width:285px;
+	top:210px;
+	height:620px;
+	left:615px;
+	background-image: url(../images/principale/cecetvous.jpg);
+	border-bottom: 20px solid #EDEDED;
+}
+
+#liencecetvous{
+width: 286px;
+height: 105px;
+display: block;
+}
+
+.date{
+position:relative;
+color:#444;
+font-size: 12px;
+margin-bottom: 20px;
+left:5px;
+}
+
+#imageactualites{
+	position:absolute;
+	width:285px;
+	top:210px;
+	height:620px;
+	left:615px;
+	background-image: url(../images/principale/actualites.jpg);
+	border-bottom: 20px solid #EDEDED;
+}
+
+#imagehistoire{
+	position:absolute;
+	width:285px;
+	top:210px;
+	height:620px;
+	left:615px;
+	background-image: url(../images/principale/histoire.jpg);
+	border-bottom: 20px solid #EDEDED;
+}
+
+
+#contenupagepartenaires{
+	position: absolute;
+	left: 0;
+	width:555px;
+	width:553px;
+	top:320px;
+
+	z-index: -1;
+}
+
+#imagepartenaires{
+	position:absolute;
+	width:285px;
+	top:210px;
+	height:555px;
+	left:615px;
+	background-image: url(../images/principale/partenaires.jpg);
+	border-bottom: 20px solid #EDEDED;
+}
+
+
+
+#imagedevenirpartenaire{
+	position:absolute;
+	width:285px;
+	top:210px;
+	height:555px;
+	left:615px;
+	background-image: url(../images/principale/devenirpartenaire.jpg);
+	border-bottom: 20px solid #EDEDED;
+}
+
+#imageactivites{
+	position:absolute;
+	width:285px;
+	top:210px;
+	height:620px;
+	left:615px;
+	background-image: url(../images/principale/activites.jpg);
+	border-bottom: 20px solid #EDEDED;
+}
+
+#titrepartenaires{
+	background-image: url(../images/titres/partenaires.jpg)
+}
+
+#titredevenirpartenaire{
+	background-image: url(../images/titres/devenir_partenaire.png)
+}
+
+#titreactivites{
+	background-image: url(../images/titres/activites.jpg);
+}
+#titrececetvous{
+	background-image: url(../images/titres/cecetvous.jpg);
+}
+#titreactualites{
+	background-image: url(../images/titres/actualites.jpg);
+}
+#titrehistoire{
+	background-image: url(../images/titres/histoire.jpg);
+}
+
+#contenupage_cecetvous{
+
+position:absolute;
+top:390px;
+width:593px;
+
+}
+
+.contenupage h2{
+text-align: center;
+color: #E3001B;
+font-style: italic;
+padding-bottom: 5px;
+border-bottom: 1px dashed #AAA;
+width:250px;
+margin:auto;
+margin-bottom:15px;
+margin-top:5px;
+font-size: 17px;
+}
+
+#imagestructure{
+	position:absolute;
+	width:285px;
+	top:210px;
+	height:620px;
+	left:615px;
+	background-image: url(../images/principale/structure.jpg);
+	border-bottom: 20px solid #EDEDED;
+}
+
+.contenupage{
+	position: absolute;
+	left: 0;
+	background-color: white;
+	height: 470px;
+	overflow: auto;
+	width:553px;
+	padding: 20px;
+	top:320px;
+	border: solid 1px #AAA;
+	text-indent: 15px;
+	font-size: 14px;
+	text-align: justify;
+	z-index: -1;
+}
+
+#titrestructure{
+	background-image: url(../images/titres/structure.jpg);
+}
+
+.titrepage {
+	position:absolute;
+	left:0;
+	top:210px;
+	width:593px;
+	height:90px;
+}
+
+#menu-contact{
+background-image: url(../images/menu/contact.jpg);
+height: 18px;
+position: relative;
+top:-1px;
+}
+
+#menu-facebook{
+background-image: url(../images/menu/page_facebok.jpg);
+}
+
+#menu-actualites{
+background-image: url(../images/menu/actualites.jpg);
+}
+
+#menu-cecetvous{
+background-image: url(../images/menu/cecetvous.jpg);
+}
+
+#menu-partenaires{
+background-image: url(../images/menu/partenaires.jpg);
+}
+
+#menu-histoire{
+background-image: url(../images/menu/histoire.jpg);
+}
+
+#menu-activites{
+background-image: url(../images/menu/activites.jpg);
+}
+
+#menu-structure{
+background-image: url(../images/menu/structure.jpg);
+}
+
+#menu ul{
+padding: 0;
+margin:0;
+}
+
+.menuwhite{
+background-color: white;
+z-index: 2;
+opacity:0.3;
+width:593px;
+height:22px;
+margin:0;
+padding:0;
+}
+
+.menuwhite:hover{
+opacity: 0;
+}
+
+.menuitem a{
+display:block;
+height:22px;
+}
+
+.menuitem{
+width:593px;
+height:22px;
+list-style: none;
+margin:0;
+padding:0;
+}
+
+.actu:last-child{
+border:none;
+}
+
+.actu{
+padding-bottom: 5px;
+margin-bottom: 7px;
+border-bottom: 1px dashed #BBB;
+}
+
+.newstitle{
+margin-left: 10px;
+}
+
+.date{
+color: #777;
+}
+
+figure{
+margin:0;
+}
+
+#partenairescontenu {
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	opacity:1;
+	transition-duration:1s;
+	-webkit-transition-duration:1s;
+	-o-transition-duration:1s;
+	-moz-transition-duration:1s;
+	transition-property:opacity;
+	-webkit-transition-property:opacity;
+	-o-transition-property:opacity;
+	-moz-transition-property:opacity;
+	background-image:url(../images/partenairesfond.jpg);
+}
+
+#partenairescontenu:hover {
+	opacity:0;
+}
+
+#partenaires{
+background-image:url(../images/partenaires.jpg);
+width:286px;
+height:85px;
+position:absolute;
+left:0;
+top:650px;
+border-bottom: 20px solid #EDEDED;
+}
+
+#etvous:hover{
+border-color: #000;
+}
+
+#etvous{
+background-image:url(../images/cecetvous.jpg);
+width:286px;
+height:105px;
+position:absolute;
+left:614px;
+top:630px;
+border:1px;
+border-color: #AAA;
+border-style: solid;
+transition-duration:1s;
+	-webkit-transition-duration:1s;
+	-o-transition-duration:1s;
+	-moz-transition-duration:1s;
+	transition-property:border-color;
+	-webkit-transition-property:border-color;
+	-o-transition-property:border-color;
+	-moz-transition-property:border-color;
+
+}
+
+
+#activitescontenu {
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	opacity:1;
+	transition-duration:1s;
+	-webkit-transition-duration:1s;
+	-o-transition-duration:1s;
+	-moz-transition-duration:1s;
+	transition-property:opacity;
+	-webkit-transition-property:opacity;
+	-o-transition-property:opacity;
+	-moz-transition-property:opacity;
+	background-image:url(../images/activites.jpg);
+}
+
+#activitescontenu:hover {
+	opacity:0;
+}
+
+#activites{
+	background-image:url(../images/activitesfond.jpg);
+	width:290px;
+	height:365px;
+	position:absolute;
+	top:370px;
+	left:303px;
+}
+
+#maillogo{
+	background-image:url(../images/mail.jpg);
+	width:135px;
+	height:135px;
+	position:absolute;
+	top:500px;
+	left:150px;
+}
+
+#facebooklogo{
+	background-image:url(../images/facebook.jpg);
+	width:135px;
+	height:131px;
+	position:absolute;
+	top:500px;
+	left:0px;
+}
+
+#dernieresactus {
+height: 120px;
+width:370px;
+position: absolute;
+right: 0px;
+padding: 10px;
+font-size: 14px;
+
+}
+
+#actualitescontenu {
+	height:100%;
+	position:absolute;
+	right:0;
+	width:197px;
+	
+	transition-duration:900ms;
+	-webkit-transition-duration:900ms;
+	-o-transition-duration:900ms;
+	-moz-transition-duration:900ms;
+	transition-property:width;
+	-webkit-transition-property:width;
+	-o-transition-property:width;
+	-moz-transition-property:width;
+
+	top:0;
+	left:0;
+	background-image:url(../images/actus.jpg);
+	border-right:1px solid black;
+	z-index: 2;
+}
+
+#actualitescontenu:hover {
+	width:593px;
+}
+
+#structurecontenu {
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	opacity:1;
+	transition-duration:1s;
+	-webkit-transition-duration:1s;
+	-o-transition-duration:1s;
+	-moz-transition-duration:1s;
+	transition-property:opacity;
+	-webkit-transition-property:opacity;
+	-o-transition-property:opacity;
+	-moz-transition-property:opacity;
+	background-image:url(../images/tree.jpg);
+}
+
+#structurecontenu:hover {
+	opacity:0;
+}
+
+#histoirecontenu {
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	opacity:1;
+	transition-duration:1s;
+	-webkit-transition-duration:1s;
+	-o-transition-duration:1s;
+	-moz-transition-duration:1s;
+	transition-property:opacity;
+	-webkit-transition-property:opacity;
+	-o-transition-property:opacity;
+	-moz-transition-property:opacity;
+	background-image:url(../images/book.jpg);
+}
+
+#histoirecontenu:hover {
+	opacity:0;
+}
+
+#histoire {
+	position:absolute;
+	left:768px;
+	width:133px;
+	top:210px;
+	height:400px;
+	background-image:url(../images/bookfond.jpg);
+}
+
+#structure {
+	position:absolute;
+	width:133px;
+	top:210px;
+	height:400px;
+	left:615px;
+	background-image:url(../images/treefond.jpg);
+}
+
+#connexion .bouton {
+}
+
+#connexion input {
+	position:absolute;
+	left:125px;
+}
+
+.barre_haut {
+	height:20px;
+	position:absolute;
+	top:0;
+	left:0;
+	width:20px;
+	background-color:#E3001B;
+}
+
+#actualites {
+	position:absolute;
+	left:0;
+	top:210px;
+	background-color:#FFFFFF;
+	width:593px;
+	height:140px;
+}
+
+.barre_bas {
+	height:20px;
+	position:absolute;
+	bottom:0;
+	right:0;
+	width:20px;
+	background-color:#E3001B;
+}
+
+#description {
+	position:absolute;
+	background-color:#FFFEFF;
+	left:307px;
+	font-size:18px;
+	font-style: italic;
+	text-align: center;
+	width:533px;
+	height:112px;
+	padding:30px;
+	text-indent: 15px;
+}
+
+#menu {
+	position:absolute;
+	background-color:#FFFEFF;
+	left:306px;
+	font-size:18px;
+	font-style: italic;
+	text-align: center;
+	width:593px;
+	height:172px;
+	margin:0;
+	padding:0;
+	text-indent: 15px;
+	border:1px solid #AAA;
+}
+
+
+#connexion {
+	position:absolute;
+	background-color:#FFFEFF;
+	text-align:left;
+	width:226px;
+	height:52px;
+	line-height:1.8em;
+	font-size:11pt;
+	left:0;
+	top:370px;
+	padding:30px;
+}
+
+#lienconnexion
+{
+	background-image: url('../images/connexion.png');
+	width: 100%;
+	height: 100%;
+}
+
+#logo a {
+	display:block;
+	width:226px;
+	height:52px;
+}
+
+#logo {
+	position:absolute;
+	width:286px;
+	height:172px;
+	background-image:url(../images/logo.jpg);
+}
+
+#page {
+	height:100%;
+	position:relative;
+	padding-top:20px;
+	width:900px;
+	margin:auto;
+}
+
+body {
+	margin:inherit;
+	background-color:#EDEDED;
+	font-family:Helvetica;
+	font-weight:lighter;
+	width: 100%;
+}
+

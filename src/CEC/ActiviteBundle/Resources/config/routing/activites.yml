@@ -1,0 +1,38 @@
+activites_rechercher:
+    pattern: /
+    defaults: { _controller: CECActiviteBundle:Activites:rechercher }
+
+activites_voir:
+    pattern: /{activite}
+    defaults: { _controller: CECActiviteBundle:Activites:voir }
+    requirements:
+        activite: \d+
+
+activites_editer:
+    pattern: /{activite}/edition
+    defaults: { _controller: CECActiviteBundle:Activites:editer }
+    requirements:
+        activite: \d+
+
+activites_creer:
+    pattern: /creation
+    defaults: { _controller: CECActiviteBundle:Activites:creer }
+
+activites_supprimer:
+    pattern: /{activite}/suppression
+    defaults: { _controller: CECActiviteBundle:Activites:supprimer }
+    requirements:
+        activite: \d+
+
+documents_supprimer:
+    pattern: /{activite}/documents/{document}/suppression
+    defaults: { _controller: CECActiviteBundle:Documents:supprimer }
+    requirements:
+        activite: \d+
+        document: \d+
+
+documents_creer:
+    pattern: /{activite}/documents/creation
+    defaults: { _controller: CECActiviteBundle:Documents:creer }
+    requirements:
+        activite: \d+

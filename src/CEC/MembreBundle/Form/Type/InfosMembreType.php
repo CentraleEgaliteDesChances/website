@@ -12,7 +12,7 @@ class InfosMembreType extends AbstractType
         $builder->add('prenom', null, array('label' => 'Prénom'))
             ->add('nom')
             ->add('promotion', null, array('grouping' => false))
-            ->add('email')
+			->add('email')
             ->add('telephone', null, array('label' => 'Numéro de téléphone'));
     }
     

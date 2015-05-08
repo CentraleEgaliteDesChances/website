@@ -5,10 +5,50 @@ jms_security_extra:
 security:
     encoders:
         CEC\MembreBundle\Entity\Membre: sha512
+        CEC\MembreBundle\Entity\Eleve: sha512
+        CEC\MembreBundle\Entity\Professeur: sha512
+
+    role_hierarchy:
+        #Rôles internes des tuteurs
+        ROLE_TUTEUR: ROLE_USER
+        ROLE_VP_LYCEE : ROLE_TUTEUR
+        ROLE_SECTEUR_ACTIS_SCIENTIFIQUES : ROLE_TUTEUR
+        ROLE_SECTEUR_ACTIS_CULTURELLES : ROLE_TUTEUR
+        ROLE_SECTEUR_FUNDRAISING: ROLE_TUTEUR
+        ROLE_SECTEUR_EVCOM: ROLE_TUTEUR
+        ROLE_SECTEUR_PROJETS: ROLE_TUTEUR
+        ROLE_SECTEUR_GML: ROLE_SECTEUR_PROJETS
+        ROLE_SECTEUR_PREPA: ROLE_SECTEUR_PROJETS
+        ROLE_SECTEUR_FOCUS_EUROPE: ROLE_SECTEUR_PROJETS
+        ROLE_SECTEUR_THEATRE: ROLE_SECTEUR_PROJETS
+        ROLE_SECTEUR_ARTCESSIBLE: ROLE_SECTEUR_PROJETS
+        ROLE_SECTEUR_GEEK: ROLE_TUTEUR
+        ROLE_SECTEUR_SACLAY: ROLE_TUTEUR
+        ROLE_SECTEUR_EUROPEN: ROLE_TUTEUR
+        ROLE_SECTEUR_SORTIES: ROLE_TUTEUR
+        ROLE_BURO: [ROLE_SECTEUR_ACTIS_CULTURELLES, ROLE_SECTEUR_ACTIS_SCIENTIFIQUES, ROLE_SECTEUR_FUNDRAISING, ROLE_SECTEUR_EVCOM, ROLE_SECTEUR_PROJETS, ROLE_SECTEUR_GML, ROLE_SECTEUR_PREPA, ROLE_SECTEUR_FOCUS_EUROPE, ROLE_SECTEUR_THEATRE, ROLE_SECTEUR_ARTCESSIBLE, ROLE_SECTEUR_GEEK, ROLE_SECTEUR_SACLAY, ROLE_SECTEUR_EUROPEN, ROLE_SECTEUR_SORTIES, ROLE_VP_LYCEE]
+
+        #Rôles des élèves
+        ROLE_ELEVE: ROLE_USER
+        ROLE_ELEVE_DELEGUE: ROLE_ELEVE
+
+        #Rôles des professeurs
+        ROLE_PROFESSEUR: ROLE_USER
+        ROLE_PROFESSEUR_REFERENT: ROLE_PROFESSEUR
+        ROLE_PROVISEUR: ROLE_PROFESSEUR
+
+        ROLE_ADMIN : [ROLE_BURO, ROLE_ELEVE_DELEGUE, ROLE_PROFESSEUR_REFERENT, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
+        chain_provider:
+            chain:
+                providers: [membres,eleves,professeurs]
         membres:
             entity: { class: CECMembreBundle:Membre }
+        eleves:
+            entity: { class: CECMembreBundle:Eleve}
+        professeurs:
+            entity: { class: CECMembreBundle:Professeur}
 
     firewalls:
         dev:
@@ -16,16 +56,32 @@ security:
             security: false
 
         intern:
-            pattern:    ^/
+            pattern:    ^/(eleve|professeur|tuteur|reglages|membres|groupes|cordees|lycees|seances|projets|connexion)/
             form_login:
                 check_path: /connexion/verifications
                 login_path: /connexion
+                use_forward: false
+                success_handler: cec_membre.component.authentication.handler.login_success_handler
+
             logout:
-                path:   /deconnexion
+                path:   /connexion/deconnexion
                 target: /
             anonymous: ~
+            switch_user: true
+            remember_me:
+                key: "%secret%"
+                lifetime: 315360000
+                path: ^/(eleve|professeur|tuteur|reglages|membres|connexion)/
+                domain: ~
+        public:
+            pattern: ^/
+            anonymous: true
 
     access_control:
         - { path: ^/connexion$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/connexion/oubli$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/professeur/, roles: ROLE_PROFESSEUR }
+        - { path: ^/tuteur/, roles: ROLE_TUTEUR}
+        - { path: ^/eleve/, roles: ROLE_ELEVE}
+        - { path: ^/(reglages|membres|projets|seances)/, roles: ROLE_USER}
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY}

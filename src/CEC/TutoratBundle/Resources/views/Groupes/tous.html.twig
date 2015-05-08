@@ -33,6 +33,8 @@
     {% endif %}
 </table>
 
+{% if is_granted('ROLE_BURO') %}
 <a href="{{ path('creer_groupe') }}" class="btn pull-right">Ajouter un groupe de tutorat</a>
+{% endif %}
 
 {% endblock %}

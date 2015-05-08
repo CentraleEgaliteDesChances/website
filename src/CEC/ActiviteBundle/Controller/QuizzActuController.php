@@ -14,7 +14,6 @@ class QuizzActuController extends Controller
     /**
      * Affiche la liste des quizz actu
      *
-     * @Route("/quizzActu/{id}", name="quizzActu", requirements={"id" = "\d+"}, defaults={"id" = 0})
      * @Template()
      */
     public function voirAction($id)
@@ -38,7 +37,6 @@ class QuizzActuController extends Controller
      * Permet d'éditer un quizz actu
      *
      * @param integer $id Id du quizz actu à modifier.
-     * @Route("/quizzActu/editer/{id}", requirements={"id"="\d+"}, name="quizzActu_editer")
      * @Template()
      */
     public function editerAction($id)
@@ -73,7 +71,6 @@ class QuizzActuController extends Controller
     /**
      * Permet de créer un quizz actu
      *
-     * @Route("/quizzActu/creer", name="quizzActu_creer")
      * @Template()
      */
     public function creerAction()
@@ -107,7 +104,6 @@ class QuizzActuController extends Controller
      * Supprime un quizz actu
      *
      * @param integer $id Id de la sortie à supprimer.
-     * @Route("/quizzActu/supprimer/{id}", requirements={"id" = "\d+"}, name="quizzActu_supprimer")
      * @Template()
      */
     public function supprimerAction($id)

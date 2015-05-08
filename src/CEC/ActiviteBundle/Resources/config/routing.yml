@@ -1,0 +1,11 @@
+cec_activite_activites:
+    resource: "@CECActiviteBundle/Resources/config/routing/activites.yml"
+    prefix:   /activites
+
+cec_activite_comptes_rendus:
+    resource: "@CECActiviteBundle/Resources/config/routing/comptesrendus.yml"
+    prefix:   /comptes_rendus
+
+cec_activite_quizz_actu:
+    resource: "@CECActiviteBundle/Resources/config/routing/quizzactu.yml"
+    prefix: /quizzActu

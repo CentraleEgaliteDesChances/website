@@ -1,0 +1,20 @@
+<div class="well">
+    <ul class="nav nav-list">
+        <li
+            {% if request.attributes.get('_route') == 'sorties_eleve' %}
+                class="active"
+            {% endif %}
+            >
+                <a href="{{ path('sorties_eleve') }}" class="sorties">Sorties à venir</a>
+        </li>
+
+        <li
+            {% if request.attributes.get('_route') == 'anciennes_sorties_eleve' %}
+                class="active"
+            {% endif %}
+            >
+                <a href="{{ path('anciennes_sorties_eleve') }}">Sorties passées</a>
+        </li>
+    </ul>
+</div>
+

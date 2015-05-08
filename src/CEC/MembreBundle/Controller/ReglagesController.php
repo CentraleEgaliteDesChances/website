@@ -11,6 +11,10 @@ use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use CEC\MembreBundle\Form\Type\SecteursMembreType;
 use CEC\MembreBundle\Form\Type\GroupeMembreType;
 
+use CEC\TutoratBundle\Entity\GroupeTuteurs;
+use CEC\TutoratBundle\Entity\groupeEleves;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 class ReglagesController extends Controller
 {
     /**
@@ -18,8 +22,6 @@ class ReglagesController extends Controller
      * Cette page permet de modifier les informations personnelles d'un membre (nom, prénom,
      * adresse électronique, numéro de téléphone et promotion). Elle permet aussi de changer le mot de passe.
      *
-     * @Route("/reglages")
-     * @Route("/reglages/infos")
      * @Template()
      */
     public function infosAction()
@@ -46,22 +48,28 @@ class ReglagesController extends Controller
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
-                    return $this->redirect($this->generateUrl('cec_membre_reglages_infos'));
+                    return $this->redirect($this->generateUrl('reglages_infos'));
                 }
             }
             
             if ($request->request->has($nomMotDePasse)) {
                 $motDePasse->bindRequest($request);
                 if ($motDePasse->isValid()) {
-                    $factory = $this->get('security.encoder_factory');
-                    $encoder = $factory->getEncoder($membre);
-                    $data = $motDePasse->getData();
-                    $password = $encoder->encodePassword($data['motDePasse'], $membre->getSalt());
-                    $membre->setMotDePasse($password);
-                    
-                    $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
-                    return $this->redirect($this->generateUrl('cec_membre_reglages_infos'));
+					$data = $motDePasse->getData(); 
+					$factory = $this->get('security.encoder_factory');
+					$encoder = $factory->getEncoder($membre);
+					$ancienMotDePasse = $encoder->encodePassword($data['ancienMotDePasse'], $membre->getSalt());
+					
+					if ($ancienMotDePasse == $membre->getMotDePasse()){
+						$password = $encoder->encodePassword($data['motDePasse'], $membre->getSalt());
+						$membre->setMotDePasse($password);
+						
+						$this->getDoctrine()->getEntityManager()->flush();
+						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+					} else {
+						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+					}
+					return $this->redirect($this->generateUrl('reglages_infos'));
                 }
             }
         }
@@ -74,33 +82,43 @@ class ReglagesController extends Controller
     
     /**
      * Sélection de son groupe de tutorat régulier.
-     *
-     * @Route("/reglages/groupe")
      * @Template()
      */
     public function groupeAction()
     {
         $membre = $this->getUser();
         $form = $this->createForm(new GroupeMembreType(), $membre);
-        
-        $request = $this->getRequest();
-        if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
-                return $this->redirect($this->generateUrl('cec_membre_reglages_groupe'));
-            }
+
+        $data = $this->getRequest()->get($form->getName());
+        if (array_key_exists('groupe', $data))
+        {
+            $groupe = $data['groupe'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+            return $this->redirect($this->generateUrl('reglages_groupe'));
         }
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
+
+        $groupeMembre = new GroupeTuteurs();
+        $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+        $groupeMembre->setTuteur($membre);
+        $groupeMembre->setGroupe($groupe);
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->persist($groupeMembre);
+        $em->flush();
+
+        $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
+        
         
         return array('form' => $form->createView());
     }
     
     /**
      * Sélection des secteurs dans lequel le membre s'implique.
-     *
-     * @Route("/reglages/secteurs")
-     * @Template()
+     *@Template()
      */
     public function secteursAction()
     {
@@ -116,7 +134,7 @@ class ReglagesController extends Controller
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
-                return $this->redirect($this->generateUrl('cec_membre_reglages_secteurs'));
+                return $this->redirect($this->generateUrl('reglages_secteurs'));
             }
         }
         

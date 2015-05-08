@@ -9,6 +9,9 @@ web/css
 web/images
 web/js
 
+composer.phar
+composer.lock
+
 # OS Files
 *.esproj
 .DS_Store

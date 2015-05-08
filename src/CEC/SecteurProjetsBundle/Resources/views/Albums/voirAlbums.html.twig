@@ -1,0 +1,32 @@
+{% extends 'CECSecteurProjetsBundle::base.html.twig' %}
+
+
+
+{% block right %}
+
+{{parent()}}
+
+<h1>Albums photos des projets</h1>
+
+<table class="table table-bordered table-striped table-large">
+    <tbody>
+	{% for projet in projets%}
+        <tr>
+            <th>
+                {{projet.nom}}
+            </th>
+			{% for album in projet.albums %}
+				<td>
+					<a href="{{path('voir_photos', {'id': album.id})}}">{{album.annee}}</a>
+				</td>
+			{% else %}
+				<td> 
+					<em>Pas encore d'albums disponibles</em>
+				</td>
+			{% endfor %}
+        </tr>
+	{% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

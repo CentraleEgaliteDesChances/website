@@ -1,41 +1,40 @@
+cec_secteur_projets:
+    resource: "@CECSecteurProjetsBundle/Resources/config/routing.yml"
+    prefix:   /projets
+
+cec_extern_site:
+    resource: "@CECExternSiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cec_secteur_sorties:
-    resource: "@CECSecteurSortiesBundle/Controller/"
-    type:     annotation
+    resource: "@CECSecteurSortiesBundle/Resources/config/routing.yml"
     prefix:   /
 
 cec_secteur_fundraising:
-    resource: "@CECSecteurFundraisingBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: "@CECSecteurFundraisingBundle/Resources/config/routing.yml"
+    prefix:   /tuteur
 
 cec_activite:
-    resource: "@CECActiviteBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: "@CECActiviteBundle/Resources/config/routing.yml"
+    prefix:   /tuteur
 
 cec_tutorat:
     resource: "@CECTutoratBundle/Resources/config/routing.yml"
     prefix:   /
 
 cec_membre:
-    resource: "@CECMembreBundle/Controller/"
-    type:     annotation
+    resource: "@CECMembreBundle/Resources/config/routing.yml"
     prefix:   /
 
-cec_extern_site:
-    resource: "@CECExternSiteBundle/Controller/"
-    type:     annotation
-    prefix:   /
-    
 
 # Security routes
 connexion_verifications:
     pattern: /connexion/verifications
+deconnexion:
+    pattern: /connexion/deconnexion
 connexion:
     pattern: /connexion
     defaults: { _controller: CECMembreBundle:Securite:connexion }
-deconnexion:
-    pattern: /deconnexion    
 
 # FOSJsRoutingBundle (needed for adesigns/calendar-bundle)
 fos_js_routing:
@@ -44,7 +43,7 @@ fos_js_routing:
 # adesigns/calendar-bundle
 adesigns_calendar:
     resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
-    
+
 # Internal routing configuration to handle ESI
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"

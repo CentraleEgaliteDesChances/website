@@ -5,6 +5,7 @@ namespace CEC\MembreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use CEC\MembreBundle\Utility\NouveauMembreBuro;
@@ -19,7 +20,6 @@ class MembresController extends Controller
      * Affiche la liste de tous les membres.
      * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
      *
-     * @Route("/membres")
      * @Template()
      */
     public function tousAction()
@@ -29,12 +29,25 @@ class MembresController extends Controller
     }
 
     /**
+    * Affiche la liste de tous les tuteurs d'un lycée
+    * @param integer $lycee : id du lycée
+    * @param string $categorie : indique si c'est tuteurs/eleves/professeurs
+    *
+    * @Template()
+    */
+    public function tousLyceeAction($lycee, $categorie)
+    {
+        $lycees = $this->getDoctrine()->getRepository("CECTutoratBundle:Lycee")->find($lycee);
+        if(!$lycees) throw new $this->createNotFoundException("Pas de lycée trouvé");
+
+        return array('lycee' => $lycees, 'categorie'=> $categorie);
+    }
+
+    /**
      * Affiche le profil d'un membre.
      *
      * @param integer $membre: id du membre, null pour afficher le profil du membre connecté
-     *
-     * @Route("/membres/{membre}", requirements = { "membre" = "\d+" })
-     * @Template()
+     *@Template()
      */
     public function voirAction($membre)
     {
@@ -45,6 +58,92 @@ class MembresController extends Controller
             'membre'    => $membre,
         );
     }
+	
+	/**
+     * Affiche le profil d'un élève.
+     *
+     * @param integer $id: id du membre, null pour afficher le profil du membre connecté
+     *@Template()
+     */
+    public function voirEleveAction($id)
+    {
+        $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($id);
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        
+        return array(
+            'eleve'    => $eleve,
+        );
+    }
+
+     /**
+     * Affiche la liste de tous les élèves.
+     * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
+     *
+     * @Template()
+     */
+    public function tousEleveAction()
+    {
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAll();    // tous les Membres
+        return array('eleves' => $membres);
+    }
+	
+	/**
+     * Affiche le profil d'un professeur.
+     *
+     * @param integer $id: id du membre, null pour afficher le profil du membre connecté
+     *@Template()
+     */
+    public function voirProfesseurAction($id)
+    {
+        $professeur = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($id);
+        if (!$professeur) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        
+        return array(
+            'professeur'    => $professeur,
+        );
+    }
+
+     /**
+     * Affiche la liste de tous les professeurs.
+     * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
+     *
+     * @Template()
+     */
+    public function tousProfesseurAction()
+    {
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findAll();    // tous les Membres
+        return array('professeurs' => $membres);
+    }
+
+    /**
+    * Menu des pages d'affichage de tous les membres/eleves/professeurs
+    *
+    * @Template()
+    */
+    public function menuAction($request)
+    {
+        $path = $request->getPathInfo();
+        $tuteurs = False;
+        $lyceens = False;
+        $professeurs = False;
+
+        $cordees = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->findAll();
+
+        if(preg_match("#tuteurs#", $path))
+            $tuteurs = True;
+        else if(preg_match("#eleves#", $path))
+            $lyceens = True;
+        else if(preg_match("#professeurs#", $path))
+            $professeurs = True;
+
+
+        return array(
+            'request' => $request,
+            'cordees' => $cordees,
+            'tuteurs' => $tuteurs,
+            'lyceens' => $lyceens,
+            'professeurs' => $professeurs);
+    }
     
     /**
      * Permet de créer un nouveau membre.
@@ -52,7 +151,6 @@ class MembresController extends Controller
      * le numéro de téléphone, et la promotion du nouveau membre. Un bouton permet
      * d'enregistrer le nouveau membre, et un bouton Annuler permet de revenir à la liste.
      *
-     * @Route("/membres/creation")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -88,8 +186,8 @@ class MembresController extends Controller
                         'text/html');
                 $this->get('mailer')->send($email);
                 
-                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenu, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
-                return $this->redirect($this->generateUrl('cec_membre_membres_creer'));
+                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
+                return $this->redirect($this->generateUrl('creer_membre'));
             }
         }
         return array(
@@ -102,7 +200,6 @@ class MembresController extends Controller
      *
      * @param integer $membre Id du membre à supprimer.
      *
-     * @Route("/membres/suppression/{membre}")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -116,7 +213,7 @@ class MembresController extends Controller
         $entityManager->flush();
         
         $this->get('session')->setFlash('success', 'Le membre a bien été définitivement supprimé.');
-        return $this->redirect($this->generateUrl('cec_membre_membres_tous'));
+        return $this->redirect($this->generateUrl('voir_tous_membres'));
     }
     
     
@@ -125,7 +222,6 @@ class MembresController extends Controller
      * La page affiche tous les membres bénéficiant du statut de membre du buro, et permet
      * aux membres du buro d'attribuer à d'autres membres ce statut. A utiliser lors des passations.
      *
-     * @Route("/membres/passations")
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -143,7 +239,7 @@ class MembresController extends Controller
                 $nouveauMembreBuro->getMembre()->setBuro(true);
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
-                return $this->redirect($this->generateUrl('cec_membre_membres_passations'));
+                return $this->redirect($this->generateUrl('passations'));
             }
         }
         
@@ -158,7 +254,6 @@ class MembresController extends Controller
      *
      * @param CEC\MembreBundle\Entity\Membre $membre Membre à retirer du buro
      *
-     * @Route("/membres/passations/retirer_membre/{membre}")
      * @Template()
      */
     public function supprimerMembreBuroAction(Membre $membre) {
@@ -168,7 +263,7 @@ class MembresController extends Controller
         $membre->setBuro(false);
         $this->getDoctrine()->getEntityManager()->flush();
         
-        return $this->redirect($this->generateUrl('cec_membre_membres_passations'));
+        return $this->redirect($this->generateUrl('passations'));
     }
     
 }

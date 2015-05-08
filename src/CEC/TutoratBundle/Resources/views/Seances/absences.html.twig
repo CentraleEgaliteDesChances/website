@@ -1,0 +1,42 @@
+{% extends 'CECMembreBundle:Membres:voirEleve.html.twig' %}
+
+{% block right %}
+
+	<h2> Tableau récapitulatif des présences en séances de tutorat </h2>
+
+	<table class="table table-bordered table-hover table-striped table-large">
+		{% for anneeScolaire in anneesScolaires%}
+			<thead>
+				<tr>
+					<th> {{anneeScolaire}} </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for seance in seancesTotal[anneeScolaire.afficherAnnees] %}
+					{% if date(seance.date) < date() %}
+						<tr>
+							<td>
+								<a href="{{ path('seance', { 'seance': seance.id }) }}">
+	                        		<strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }}</strong>
+	                        	</a>
+	                        </td>
+	                        {% if seance in eleve.seances %}
+	                        	<td class="success">
+	                        		<span class="checkmark">&#10004;</span>
+	                        	</td>
+	                        {% else %}
+	                        	<td class="error">
+	                        		<span class="checkmark">&#10008;</span>
+	                        	</td>
+	                        {% endif %}
+	                    </tr>
+	                   {% endif %}
+                {% else %}
+                	<tr>
+                		<td colspan="2" class="muted"> Pas de séance effectuée cette année </td>
+                	</tr>
+                {% endfor %}
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

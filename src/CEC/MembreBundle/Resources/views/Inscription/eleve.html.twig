@@ -1,0 +1,27 @@
+{% extends 'CECMainBundle::narrow.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets
+        '@CECMainBundle/Resources/public/less/bootstrap-override.less'
+        '@CECMembreBundle/Resources/public/less/connexion.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block narrow_title %}Nouveau Lycéen{% endblock %}
+
+{% block narrow_body %}
+
+{{ parent() }}
+
+<form class="form" method="post" action="{{ path('inscriptionEleve') }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="S'inscrire" class="btn btn-primary pull-right" />
+        <a href="{{ path('connexion') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+
+{% endblock %}

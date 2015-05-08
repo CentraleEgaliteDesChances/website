@@ -1,0 +1,63 @@
+{% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
+
+{% block right %}
+
+	<h2> Tableau récapitulatif des présences en séances de tutorat </h2>
+
+	<table class="table table-bordered table-hover table-striped table-large">
+		{% for anneeScolaire in anneesScolaires%}
+			<thead>
+				<tr class="text-center">
+					<th > {{anneeScolaire}} </th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for groupe in lycee.groupes %}
+				<tr>
+					<th colspan="{{groupe.seances|length + 1}}" class="text-center">
+						<a href="{{path('groupe', {'groupe' : groupe.id } ) }}"> {{groupe}} </a>
+					</th>
+				</tr>
+				<tr>
+					<th> Lycéens </th>
+				{% for seance in groupe.seances %}
+					<th>
+						<a href="{{ path('seance', {'seance' : seance.id} ) }}">
+							{{ seance.date|date('d\\/m')}}
+						</a>
+					</th>
+				{% endfor %}
+				</tr>
+				{% for groupeLyceen in groupe.lyceensParAnnee %}
+					{% if groupeLyceen.anneeScolaire == anneeScolaire %}
+						<tr>
+							<td>
+								<a href="{{ path('voir_eleve', {'id' : groupeLyceen.lyceen.id } ) }}">
+									{{groupeLyceen.lyceen.prenom}} {{ groupeLyceen.lyceen.nom}}
+								</a>
+							</td>
+							{% for seance in groupe.seances %}
+								{% if seance in groupeLyceen.lyceen.seances%}
+									<td class="success">
+										<span class="checkmark">&#10004;</span>
+									</td>
+								{% else %}
+									<td class="error">
+										<span class="checkmark">&#10008;</span>
+									</td>
+								{% endif %}
+							{% endfor %}
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+			{% else %}
+				<tr>
+					<th class="muted"> Pas de groupe de tutorat actif pour cette année. </th>
+				</tr>
+			</thead>
+			{% endfor %}
+		{% endfor %}
+	</table>
+
+{% endblock %}

@@ -18,7 +18,16 @@
 {% block body %}
     {% block modals %}{% endblock %}
     {% block menu %}
-        {% render 'CECMainBundle:Menu:menu' %}
+		{% if is_granted('ROLE_TUTEUR')%}
+			{% render 'CECMainBundle:Menu:menu' %}
+		{% elseif is_granted('ROLE_ELEVE') %}
+			{%render 'CECMainBundle:Menu:menuEleve' %}
+		{% elseif is_granted('ROLE_PROFESSEUR') %}
+			{% render 'CECMainBundle:Menu:MenuProf' %}
+		{% else %}
+			{%render 'CECMainBundle:Menu:MenuAnon' %}
+		{% endif %}
+		
     {% endblock %}
     
     <div class="container">

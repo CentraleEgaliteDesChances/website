@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 class AjouterTuteurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -17,8 +19,9 @@ class AjouterTuteurType extends AbstractType
             'query_builder' => function (EntityRepository $entityRepository)
             {
                 return $entityRepository->createQueryBuilder('t')
-                    ->where('t.groupe IS NULL')
-                    ->orderBy('t.nom', 'ASC');
+                                        ->where('(SELECT COUNT(gt) FROM CECTutoratBundle:GroupeTuteurs gt WHERE gt.tuteur = t
+                                                                                                                        AND  gt.anneeScolaire = :anneeScolaire) = 0 ')
+                                        ->setParameter('anneeScolaire', AnneeScolaire::withDate());
             },
             'empty_value' => false,
             'attr' => array('class' => 'input-ajouter'),

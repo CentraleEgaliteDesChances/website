@@ -1,0 +1,32 @@
+{% extends 'CECSecteurProjetsBundle::base.html.twig' %}
+
+
+{% block right %}
+
+{{parent()}}
+
+
+<div class="well center-block" style = "padding-left:20px;padding-right:15px;">
+<h1>Ajout de photos pour un projet</h1>
+<form class="form form-horizontal" method="post" action="{{ path('ajouter_photos') }}" {{ form_enctype(form) }}><br/>
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Ajouter les photos" class="btn btn-primary" />
+        <a href="{{ path('voir_albums') }}" class="btn pull-right">Annuler</a>
+    </div>
+</form>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{{parent()}}
+
+{% javascripts 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+				'@CECSecteurProjetsBundle/Resources/public/js/ajoutImage.js'
+				 %}
+	<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% endblock %}

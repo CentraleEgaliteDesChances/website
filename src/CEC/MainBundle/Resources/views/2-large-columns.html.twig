@@ -6,6 +6,6 @@
 {% block container %}
     <div class="row">
         <div class="span5">{% block left %}{% endblock %}</div>
-        <div class="span7">{% block right %}{{ session_flash() }}{% endblock %}</div>
+        <div class="span7"><div class="well">{% block right %}{{ session_flash() }}{% endblock %}</div></div>
     </div>
 {% endblock %}

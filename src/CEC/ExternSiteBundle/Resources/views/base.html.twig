@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{%block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('bundles/cecexternsite/css/main.css') }}" type="text/css" media="all" />
+	<!--[if lt IE 9]>
+<script type="text/javascript">alert('Ce site utilise des technologies récentes qui ne sont pas rendues par Internet Explorer < 9. Veuillez utiliser un autre navigateur ou mettre à jour Internet Explorer.');</script>
+<![endif]-->
+		<!--[if IE]>
+		{% javascripts '@CECExternSiteBundle/Resources/public/js/html5-ie.js' %}
+		<script type="text/javascript" src="{{ asset_url}}"></script>
+		{%endjavascripts %}
+<![endif]-->  
+{%endblock%}
+
+{%block body %}
+	<section role="main" id="page" >
+<section ><a href="{{path('cec_externe_accueil')}}" ><div id="logo"></div></a></section>
+<nav id="menu" >
+<ul>
+	<li class="menuitem"><a id="menu-activites" href="{{path('cec_externe_activites')}}"><div class="menuwhite"></div></a></li>
+	<li class="menuitem"><a id="menu-structure" href="{{path('cec_externe_structure')}}"><div class="menuwhite"></div></a></li>
+	<li class="menuitem"><a id="menu-histoire" href="{{path('cec_externe_histoire')}}"><div class="menuwhite"></div></a></li>
+	<li class="menuitem"><a id="menu-partenaires" href="{{path('cec_externe_partenaires')}}"><div class="menuwhite"></div></a></li>
+	<li class="menuitem"><a id="menu-cecetvous" href="{{path('cec_externe_cecetvous')}}"><div class="menuwhite"></div></a></li>
+	<li class="menuitem"><a id="menu-actualites" href="{{path('cec_externe_actualites')}}"><div class="menuwhite"></div></a></li>
+	<li class="menuitem"><a id="menu-facebook" target="_blank" href="http://www.facebook.com/pages/Centrale-Egalit%C3%A9-des-Chances/219223591439919"><div class="menuwhite"></div></a></li>
+	<li class="menuitem"><a id="menu-contact" href="mailto:contact@cec-ecp.com"><div class="menuwhite"></div></a></li>
+</ul>
+</nav>
+
+{% block page %} {% endblock %}
+
+</section>
+
+{%endblock%}

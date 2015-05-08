@@ -27,19 +27,19 @@
                         <strong>{{ cycle(jours, seance_a_venir.date|date('N'))|lower }} {{ seance_a_venir.date|date('j') }} {{ cycle(mois, seance_a_venir.date|date('n')) }} à {{ seance_a_venir.retreiveDebut|date('G\\hi') }}</strong>
                     </a></li>
                     {% if seance_a_venir.compteRendus is empty %}
-                        <li><a href="{{ path('cec_activite_activites_rechercher') }}">Choisir une activité</a></li>
+                        <li><a href="{{ path('activites_rechercher') }}">Choisir une activité</a></li>
                     {% endif %}
                 {% endif %}
                 <li><a href="{{ path('toutes_seances') }}">Planning des séances de tutorat</a></li>
                 {% if cr_a_rediger is not empty %}
-                    <li><a href="{{ path('cec_activite_compterendus_arediger', { 'groupe' : membre.groupe.id }) }}">
+                    <li><a href="{{ path('groupe_compterendu_arediger', { 'groupe' : membre.groupe.id }) }}">
                         Compte-rendus à rédiger
                     </a></li>
                 {% endif %}
                 <li><a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">Mon groupe de tutorat</a></li>
             {% else %}
                 <p>Vous n'êtes pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, rédiger les comptes-rendus <br />et choisir les activités, vous devez vous prendre part à un groupe.</p>
-                <a href="{{ path('cec_membre_reglages_groupe') }}" class="btn btn-primary btn-large inscription">
+                <a href="{{ path('reglages_groupe') }}" class="btn btn-primary btn-large inscription">
                     <strong>M'inscrire à un groupe de tutorat</strong>
                 </a>
             {% endif %}
@@ -48,7 +48,7 @@
             <li><a href="{{ path('sorties') }}">Les sorties à venir</a></li>
         </ul>
         <ul class="liens">
-            <li><a href="{{ path('cec_membre_membres_voir', { 'membre' : membre.id }) }}">Mon profil</a></li>
+            <li><a href="{{ path('voir_membre', { 'membre' : membre.id }) }}">Mon profil</a></li>
             <li><a href="http://cec-ecp.com/wiki">WikiDesChances</a></li>
             <li><a href="mailto:jean-baptiste.bayle@student.ecp.fr">Aide</a></li>
         </ul>

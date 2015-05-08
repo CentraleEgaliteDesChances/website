@@ -5,6 +5,7 @@ namespace CEC\SecteurSortiesBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
 use CEC\SecteurSortiesBundle\Form\Type\SortieType;
 use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
@@ -15,7 +16,6 @@ class SortiesController extends Controller
     /**
      * Affiche les sorties à venir
      *
-     * @Route("/sorties", name="sorties")
      * @Template()
      */
     public function voirAction()
@@ -28,6 +28,33 @@ class SortiesController extends Controller
             'sorties' => $sorties
         );
     }
+	
+	/**
+	* Affiche les lycéens par onglet dans la liste des sorties
+	*
+	* @Template()
+	*/
+	public function lyceensAction(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+	{
+		$lyceens = $sortie->getLyceens();
+		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();
+
+        $attente = array($lyceens);
+
+        // S'il y a des lycéens sur liste d'attente, on ne garde que ceux-là dans le tableau attente
+        if(count($lyceens) > $sortie->getPlaces())
+        {
+            for($i=0, $places = $sortie->getPlaces(); $i<$places; $i++ )
+                array_pop($attente);
+        }
+		
+		
+		return array(
+			'lyceens' => $lyceens,
+            'attente' => $attente,
+            'lycees' => $lycees
+			);
+	}
 
     /**
      * Affiche le menu des sorties
@@ -44,7 +71,6 @@ class SortiesController extends Controller
     /**
      * Affiche les sorties passées
      *
-     * @Route("/sortiesPassees", name="anciennes_sorties")
      * @Template()
      */
     public function voirAnciennesAction()
@@ -63,7 +89,6 @@ class SortiesController extends Controller
      *
      * @param integer $id Id de la sortie à modifier.
      * @param string $action Permet de différencier édition de la sortie et rédaction du CR
-     * @Route("/sorties/{action}/{id}", requirements={"action"="editer|cr|editeraveccr", "id"="\d+"}, name="editer_sortie")
      * @Template()
      */
     public function editerAction($action, $id)
@@ -101,6 +126,7 @@ class SortiesController extends Controller
                 switch($action):
                     case 'editer':
                         $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+						$this->get('cec.mailer')->sendSortieModifiee($sortie);
                         return $this->redirect($this->generateUrl('sorties'));
                         break;
                     case 'cr':
@@ -109,6 +135,7 @@ class SortiesController extends Controller
                         break;
                     case 'editeraveccr':
                         $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+						$this->get('cec.mailer')->sendSortieModifiee($sortie);
                         return $this->redirect($this->generateUrl('anciennes_sorties'));
                         break;
                     default:
@@ -132,7 +159,6 @@ class SortiesController extends Controller
     /**
      * Permet de créer une sortie
      *
-     * @Route("/sorties/creer", name="creer_sortie")
      * @Template()
      */
     public function creerAction()
@@ -150,6 +176,7 @@ class SortiesController extends Controller
                 $entityManager->flush();
 
                 $this->get('session')->setFlash('success', "La sortie a bien été ajoutée.");
+				$this->get('cec.mailer')->sendSortieCreee($sortie);
                 return $this->redirect($this->generateUrl('sorties'));
             }
         }
@@ -163,7 +190,6 @@ class SortiesController extends Controller
      * Supprime une sortie
      *
      * @param integer $id Id de la sortie à supprimer.
-     * @Route("/sorties/supprimer/{id}", requirements={"id" = "\d+"}, name="supprimer_sortie")
      * @Template()
      */
     public function supprimerSortieAction($id)
@@ -175,8 +201,48 @@ class SortiesController extends Controller
         $entityManager->remove($sortie);
         $entityManager->flush();
 
-        $this->get('session')->setFlash('success', 'La sortie a bien été définitivement supprimé.');
+        $this->get('session')->setFlash('success', 'La sortie a bien été définitivement supprimée.');
+		$this->get('cec.mailer')->sendSortieSupprimee($sortie);
         return $this->redirect($this->generateUrl('sorties'));
+    }
+	
+	
+	/**
+	* Crée l'excel des inscrits à une sortie
+	*
+	* @param integer $id Id de la sortie concernée
+	* @Template()
+	*/
+	public function excelAction($id)
+    {
+        // get the service container to pass to the closure
+        $container = $this->container;
+        $response = new StreamedResponse(function() use($container, $id) {
+
+            $em = $container->get('doctrine')->getManager();
+
+            // Ecriture des infos de chaque lyceen de la sortie dans un fichier ouvert à la volée dans PHP pour pas surcharger le serveur
+            
+            $sortie = $em->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
+            $handle = fopen('php://output', 'r+');
+			$lyceens = $sortie->getLyceens();
+			$tab = array(utf8_decode('Prénom'), 'Nom', 'Adresse mail', 'Téléphone', utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
+			fputcsv($handle, $tab, ';');
+
+            foreach($lyceens as $lyceen) {
+                
+				$tab = array(utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(),  '', '', '');
+                fputcsv($handle, $tab, ';');
+                
+            }
+
+            fclose($handle);
+        });
+
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition','attachment; filename="export_inscrits_sortie'.$id.'.csv"');
+
+        return $response;
     }
 
 }

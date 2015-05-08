@@ -9,14 +9,34 @@
         {% for sortie in sorties %}
         <tr>
             <td>
-                {% if is_granted('ROLE_SECTEUR_SORTIES') or is_granted('ROLE_BURO') %}
+                {% if is_granted('ROLE_SECTEUR_SORTIES') %}
                     <a class="btn btn-danger pull-right" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
                     <a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'id':sortie.id, 'action':'editer'}) }}">Modifier</a>
                 {% endif %}
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
                 <p>Adresse : {{sortie.adresse}}</p>
                 <p style="text-align:justify;">{{sortie.description}}</p>
+				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-default">
+						<div class="panel-heading" role="tab" id="headingOne">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+									Lycéens participant à la sortie ({{sortie.lyceens|length}})
+								</a>
+							</h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+						{% render "CECSecteurSortiesBundle:Sorties:lyceens" with {'sortie' : sortie} %}
+						</div>
+					</div>
+				</div>
+				<a href="{{path('excel_inscrits', {'id': sortie.id})}}" class="btn btn-success pull-right">
+				Excel des inscrits</a>
             </td>
+        </tr>
+        {% else %}
+        <tr>
+        	<td class="muted"> Pas de sorties à venir </td>
         </tr>
         {% endfor %}
     </tbody>
