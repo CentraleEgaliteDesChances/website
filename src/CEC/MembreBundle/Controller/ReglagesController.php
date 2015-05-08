@@ -90,27 +90,30 @@ class ReglagesController extends Controller
         $form = $this->createForm(new GroupeMembreType(), $membre);
 
         $data = $this->getRequest()->get($form->getName());
-        if (array_key_exists('groupe', $data))
+        if($data!= null)
         {
-            $groupe = $data['groupe'];
-        } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
-            return $this->redirect($this->generateUrl('reglages_groupe'));
+            if (array_key_exists('groupe', $data))
+            {
+                $groupe = $data['groupe'];
+            } else {
+                $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+                return $this->redirect($this->generateUrl('reglages_groupe'));
+            }
+            $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+            if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
+
+            $groupeMembre = new GroupeTuteurs();
+            $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+            $groupeMembre->setTuteur($membre);
+            $groupeMembre->setGroupe($groupe);
+
+            $em = $this->getDoctrine()->getEntityManager();
+
+            $em->persist($groupeMembre);
+            $em->flush();
+
+            $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
         }
-        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
-        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
-
-        $groupeMembre = new GroupeTuteurs();
-        $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
-        $groupeMembre->setTuteur($membre);
-        $groupeMembre->setGroupe($groupe);
-
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $em->persist($groupeMembre);
-        $em->flush();
-
-        $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
         
         
         return array('form' => $form->createView());
