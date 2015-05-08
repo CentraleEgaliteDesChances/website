@@ -22,9 +22,9 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 class GroupesController extends Controller
 {
     /**
-     * Affiche la liste des groupes de tutorat
+     * Affiche la liste des groupes de tutorat actifs pour cette année scolaire
      */
-    public function tousAction()
+    public function actifsAction()
     {
         $anneeScolaire = AnneeScolaire::withDate();
         $listeGroupes = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire);    // tous les Groupes de l'année scolaire en cours
@@ -38,6 +38,29 @@ class GroupesController extends Controller
         }
 
         return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes));
+    }
+
+    /**
+    * Affiche la liste des groupes de tutorat inactifs
+    */
+    public function passifsAction()
+    {
+        $anneeScolaire = AnneeScolaire::withDate();
+        $listeGroupes = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire);    // tous les Groupes de l'année scolaire en cours
+        $listeGroupes = array_map(function (GroupeTuteurs $t){ return $t->getGroupe();}, $listeGroupes);
+
+        $groupesActifs = array();
+        foreach($listeGroupes as $groupe)
+        {
+            if(!in_array($groupe, $groupes))
+                $groupesActifs[] = $groupe;
+        }
+
+        $groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findAll();
+
+        $groupes = array_filter($groupes, function(Groupe $g){ return !(in_array($g, $groupesActifs));});
+
+        return $this->render('CECTutoratBundle:Groupes:passifs.html.twig', array('$groupes' => $groupes));
     }
 
     /**

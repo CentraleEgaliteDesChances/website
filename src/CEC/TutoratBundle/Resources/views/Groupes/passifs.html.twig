@@ -13,6 +13,7 @@
             {% for groupe in groupes %}
             <tr>
                 <td>
+                    
                     <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
                         <strong>
                             {% for lycee in groupe.lycees %}
@@ -60,3 +61,5 @@
         </li>
     </ul>
 </div>
+
+{% endblock %}

@@ -81,7 +81,7 @@
                         <li class="secteur">Secteur Sorties</li>
                         <li><a href="{{ path('sorties') }}">Liste des sorties</a></li>
                         <li class="secteur">Secteur Événements</li>
-                            {% if is_granted('ROLE_SECTEUR_ÉVÉNEMENTS') %}
+                            {% if is_granted('ROLE_SECTEUR_EVCOM') %}
                                 <li><a href="#">Créer un évènement </a></li>
                             {% endif %}
                         {% if is_granted('ROLE_SECTEUR_FUNDRAISING')  %}

@@ -1,6 +1,10 @@
 tous_groupes:
-    pattern: /
-    defaults: { _controller: CECTutoratBundle:Groupes:tous }
+    pattern: /actifs
+    defaults: { _controller: CECTutoratBundle:Groupes:actifs }
+
+groupes_passifs:
+    pattern:/passifs
+    defaults: {_controller: CECTutoratBundle:Groupes:passifs }
 
 creer_groupe:
     pattern: /creation/{lycee}

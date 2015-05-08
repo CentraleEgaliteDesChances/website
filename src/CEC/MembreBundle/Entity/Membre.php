@@ -224,12 +224,6 @@ class Membre implements UserInterface, \Serializable
     private $groupeParAnnee;
 
     /**
-     * Groupe de tutorat fréquenté régulièrement par le membre.
-     * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
-     * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus.
-     * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
-     * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
      *
      * @var \Doctrine\Common\Collections\Collection
      *
