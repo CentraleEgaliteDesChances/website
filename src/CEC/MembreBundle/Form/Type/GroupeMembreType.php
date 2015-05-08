@@ -10,9 +10,11 @@ class GroupeMembreType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('groupe', null, array(
-            'label' => false,
-            'empty_value' => 'Aucun groupe',
+        $builder->add('groupe', 'entity', array(
+        'label' => 'Choisir son groupe de tutorat',
+        'class' => 'CECTutoratBundle:Groupe',
+        'empty_value' => false,
+        'attr' => array('class' => 'input-ajouter'),
         ));
     }
     
@@ -23,8 +25,6 @@ class GroupeMembreType extends AbstractType
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'CEC\MembreBundle\Entity\Membre',
-        ));
+    
     }
 }

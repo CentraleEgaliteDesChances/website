@@ -5,7 +5,7 @@
 {% block right %}
 {{ parent() }}
 
-{% if lycee in app.user.groupe.lycees|default('') %}
+{% if lycee in app.user.groupe.lycees|default('') or lycee == app.user.lycee %}
 {{ flash('info', 'Bienvenue sur la page de votre lycée !') }}
 {% endif %}
 
@@ -36,8 +36,20 @@
             {% for lyceen in lyceens %}
             <tr>
                 <td>
-                    <a href="{{ path('lyceen', { 'lyceen': lyceen.id }) }}">
+                    <a href="
+                            {% if ((is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR')) and app.user in lycee.professeurs)
+                               or is_granted('ROLE_TUTEUR')
+                               or (is_granted('ROLE_ELEVE_DELEGUE') and lycee in app.user.groupe.lycees) %}
+                                
+                                    {{ path('voir_eleve', { 'id': lyceen.id }) }}
+                            {% else %}
+                                    #
+                            {% endif %}
+                            ">
                         <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
+                        {% if lycee == lyceen.delegue %}
+                            <span class="label pull-right"> Elève délégué</span>
+                        {% endif %}
                     </a>
                 </td>
             </tr>
@@ -55,8 +67,20 @@
             {% for tuteur in tuteurs %}
             <tr>
                 <td>
-                    <a href="{{ path('voir_membre', { 'membre': tuteur.id }) }}">
+                    <a href="
+                            {% if ((is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR')) and app.user in lycee.professeurs)
+                               or is_granted('ROLE_TUTEUR')
+                               or (is_granted('ROLE_ELEVE_DELEGUE') and lycee in app.user.groupe.lycees) %}
+                                
+                                    {{ path('voir_membre', { 'membre': tuteur.id }) }}
+                            {% else %}
+                                    #
+                            {% endif %}
+                            ">
                         <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
+                        {% if lycee in tuteur.lyceesPourVP %}
+                            <span class="label pull-right">VP Lycée</span>
+                        {% endif %}
                     </a>
                 </td>
             </tr>
@@ -68,15 +92,28 @@
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
-    {% if lycee.enseignants|length > 0 %}
+    {% if lycee.professeurs|length > 0 %}
         <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
         <tbody>
-            {% for enseignant in lycee.enseignants %}
+            {% for enseignant in lycee.professeurs %}
             <tr>
                 <td>
-                    <a href="{{ path('enseignant', { 'enseignant': enseignant.id }) }}">
+                    <a href="
+                            {% if ((is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR')) and app.user in lycee.professeurs)
+                               or is_granted('ROLE_TUTEUR')
+                               or (is_granted('ROLE_ELEVE_DELEGUE') and lycee in app.user.groupe.lycees) %}
+                                
+                                    {{ path('voir_professeur', { 'id': enseignant.id }) }}
+                            {% else %}
+                                    #
+                            {% endif %}
+                            ">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
-                        {{ enseignant.role is not empty ? enseignant.role }}
+                        {% if is_granted("ROLE_PROFESSEUR_REFERENT") %}
+                            <span class="label pull-right">Professeur référent</span>
+                        {% elseif is_granted("ROLE_PROVISEUR") %}
+                            <span class="label pull-right">Proviseur</span>
+                        {% endif %}
                     </a>
                 </td>
             </tr>
@@ -107,7 +144,7 @@
                 <td>
                     <a href="{{ path('seance', { 'seance': seance.id }) }}">
                         <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }} à {{ (seance.debut ?: seance.groupe.debut)|date('G\\hi') }}</strong><br />
-                        Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu)|lower }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous)|lower }})
+                        Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu) }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous) }})
                     </a>
                 </td>
             </tr>

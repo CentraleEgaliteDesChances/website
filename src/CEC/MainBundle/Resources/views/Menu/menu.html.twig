@@ -24,7 +24,7 @@
                                         <span class="badge badge-warning" style="margin-left: 10px;">1</span>
                                     {% endif %}
                                 </a></li>
-                                {% if seance_a_venir.compteRendus is empty %}
+                                {% if is_granted('ROLE_VP_LYCEE') %}
                                     <li><a href="{{ path('activites_rechercher') }}">Choisir une activité</a></li>
                                 {% endif %}
                                 <li class="divider"></li>
@@ -102,9 +102,9 @@
                         <li><a href="{{ path('toutes_seances') }}">Planning des séances</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('tous_lycees') }}">Liste des lycées</a></li>
-                        <li><a href="{{ path('tous_lyceens') }}">Liste des lycéens</a></li>
+                        <li><a href="{{ path('tous_eleves') }}">Liste des lycéens</a></li>
                         <li><a href="{{ path('voir_tous_membres') }}">Liste des membres</a></li>
-                        <li><a href="{{ path('tous_enseignants') }}">Liste des enseignants</a></li>
+                        <li><a href="{{ path('tous_professeurs') }}">Liste des enseignants</a></li>
                         <li><a href="{{ path('tous_groupes') }}">Liste des groupes de tutorat</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ path('activites_rechercher') }}">Liste des activités</a></li>

@@ -39,8 +39,7 @@ class LyceenType extends AbstractType
             ))
             ->add('telephoneParent', null, array(
                 'label' => 'Téléphone des parents',
-            ))
-            ->add('commentaires');
+            ));
     }
     
     public function getName()
@@ -51,7 +50,7 @@ class LyceenType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\TutoratBundle\Entity\Lyceen',
+            'data_class' => 'CEC\MembreBundle\Entity\Eleve',
         ));
     }
 }

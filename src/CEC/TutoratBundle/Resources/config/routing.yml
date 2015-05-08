@@ -6,14 +6,6 @@ cec_tutorat_lycees:
     resource: "@CECTutoratBundle/Resources/config/routing/lycees.yml"
     prefix: /lycees
 
-cec_tutorat_enseignants:
-    resource: "@CECTutoratBundle/Resources/config/routing/enseignant.yml"
-    prefix: /enseignant
-
-cec_tutorat_lyceens:
-    resource: "@CECTutoratBundle/Resources/config/routing/lyceens.yml"
-    prefix: /lyceens
-
 cec_tutorat_groupes:
     resource: "@CECTutoratBundle/Resources/config/routing/groupes.yml"
     prefix: /groupes

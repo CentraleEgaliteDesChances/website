@@ -5,6 +5,7 @@ namespace CEC\MembreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use CEC\MembreBundle\Utility\NouveauMembreBuro;
@@ -25,6 +26,21 @@ class MembresController extends Controller
     {
         $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->findAll();    // tous les Membres
         return array('membres' => $membres);
+    }
+
+    /**
+    * Affiche la liste de tous les tuteurs d'un lycée
+    * @param integer $lycee : id du lycée
+    * @param string $categorie : indique si c'est tuteurs/eleves/professeurs
+    *
+    * @Template()
+    */
+    public function tousLyceeAction($lycee, $categorie)
+    {
+        $lycees = $this->getDoctrine()->getRepository("CECTutoratBundle:Lycee")->find($lycee);
+        if(!$lycees) throw new $this->createNotFoundException("Pas de lycée trouvé");
+
+        return array('lycee' => $lycees, 'categorie'=> $categorie);
     }
 
     /**
@@ -58,6 +74,18 @@ class MembresController extends Controller
             'eleve'    => $eleve,
         );
     }
+
+     /**
+     * Affiche la liste de tous les élèves.
+     * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
+     *
+     * @Template()
+     */
+    public function tousEleveAction()
+    {
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAll();    // tous les Membres
+        return array('eleves' => $membres);
+    }
 	
 	/**
      * Affiche le profil d'un professeur.
@@ -73,6 +101,48 @@ class MembresController extends Controller
         return array(
             'professeur'    => $professeur,
         );
+    }
+
+     /**
+     * Affiche la liste de tous les professeurs.
+     * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
+     *
+     * @Template()
+     */
+    public function tousProfesseurAction()
+    {
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findAll();    // tous les Membres
+        return array('professeurs' => $membres);
+    }
+
+    /**
+    * Menu des pages d'affichage de tous les membres/eleves/professeurs
+    *
+    * @Template()
+    */
+    public function menuAction($request)
+    {
+        $path = $request->getPathInfo();
+        $tuteurs = False;
+        $lyceens = False;
+        $professeurs = False;
+
+        $cordees = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->findAll();
+
+        if(preg_match("#tuteurs#", $path))
+            $tuteurs = True;
+        else if(preg_match("#eleves#", $path))
+            $lyceens = True;
+        else if(preg_match("#professeurs#", $path))
+            $professeurs = True;
+
+
+        return array(
+            'request' => $request,
+            'cordees' => $cordees,
+            'tuteurs' => $tuteurs,
+            'lyceens' => $lyceens,
+            'professeurs' => $professeurs);
     }
     
     /**

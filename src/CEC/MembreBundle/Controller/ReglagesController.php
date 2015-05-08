@@ -11,6 +11,10 @@ use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use CEC\MembreBundle\Form\Type\SecteursMembreType;
 use CEC\MembreBundle\Form\Type\GroupeMembreType;
 
+use CEC\TutoratBundle\Entity\GroupeTuteurs;
+use CEC\TutoratBundle\Entity\groupeEleves;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 class ReglagesController extends Controller
 {
     /**
@@ -84,16 +88,30 @@ class ReglagesController extends Controller
     {
         $membre = $this->getUser();
         $form = $this->createForm(new GroupeMembreType(), $membre);
-        
-        $request = $this->getRequest();
-        if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
-            if ($form->isValid()) {
-                $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
-                return $this->redirect($this->generateUrl('reglages_groupe'));
-            }
+
+        $data = $this->getRequest()->get($form->getName());
+        if (array_key_exists('groupe', $data))
+        {
+            $groupe = $data['groupe'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+            return $this->redirect($this->generateUrl('reglages_groupe'));
         }
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
+
+        $groupeMembre = new GroupeTuteurs();
+        $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+        $groupeMembre->setTuteur($membre);
+        $groupeMembre->setGroupe($groupe);
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->persist($groupeMembre);
+        $em->flush();
+
+        $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
+        
         
         return array('form' => $form->createView());
     }

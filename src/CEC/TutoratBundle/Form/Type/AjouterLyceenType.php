@@ -7,18 +7,21 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityRepository;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 class AjouterLyceenType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('lyceen', 'entity', array(
             'label' => false,
-            'class' => 'CECTutoratBundle:Lyceen',
+            'class' => 'CECMembreBundle:Eleve',
             'query_builder' => function (EntityRepository $entityRepository)
             {
-                return $entityRepository->createQueryBuilder('l')
-                    ->where('l.groupe IS NULL')
-                    ->orderBy('l.nom', 'ASC');
+                return $entityRepository->createQueryBuilder('e')
+                                        ->where('(SELECT COUNT(ge) FROM CECTutoratBundle:GroupeEleves ge WHERE ge.lyceen = e
+                                                                                                                        AND  ge.anneeScolaire = :anneeScolaire) = 0 ')
+                                        ->setParameter('anneeScolaire', AnneeScolaire::withDate());
             },
             'empty_value' => false,
             'attr' => array('class' => 'input-ajouter'),

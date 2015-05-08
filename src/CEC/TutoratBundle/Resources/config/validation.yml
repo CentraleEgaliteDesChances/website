@@ -3,19 +3,6 @@ CEC\TutoratBundle\Entity\Cordee:
         nom:
             - NotBlank: ~
 
-CEC\TutoratBundle\Entity\Enseignant:
-    properties:
-        nom:
-            - NotBlank: ~
-        email:
-            - Email: ~
-        role:
-            - NotBlank: ~
-        telephoneFixe:
-            - Regex: "/^((0[1-5] ?)|\+33 ?[1-5] ?)([0-9]{2} ?){4}$/"
-        telephonePortable:
-            - Regex: "/^((0[67] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/"
-            
 CEC\TutoratBundle\Entity\Groupe:
     properties:
         niveau:
@@ -30,7 +17,7 @@ CEC\TutoratBundle\Entity\Groupe:
             - NotBlank: ~
         anneeScolaire:
             - NotBlank: ~
-            
+
 CEC\TutoratBundle\Entity\Lycee:
     properties:
         nom:
@@ -49,24 +36,8 @@ CEC\TutoratBundle\Entity\Lycee:
             - Regex: "/^((0[1-5] ?)|\+33 ?[1-5] ?)([0-9]{2} ?){4}$/"
         pivot:
             - NotBlank: ~
-        
-CEC\TutoratBundle\Entity\Lyceen:
-    properties:
-        nom:
-            - NotBlank: ~
-        prenom:
-            - NotBlank: ~
-        telephone:
-            - Regex: "/^((0[1-7] ?)|\+33 ?[1-7] ?)([0-9]{2} ?){4}$/"
-        email:
-            - Email: ~
-        codePostal:
-            - Regex: "/^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$/"
-        telephoneParent:
-            - Regex: "/^((0[1-7] ?)|\+33 ?[1-7] ?)([0-9]{2} ?){4}$/"
-            
+
 CEC\TutoratBundle\Entity\Seance:
     properties:
         date:
             - NotBlank: ~ 
- 

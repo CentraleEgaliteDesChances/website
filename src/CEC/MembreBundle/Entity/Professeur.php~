@@ -9,13 +9,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * Eleve
+ * Professeur
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="CEC\MembreBundle\Entity\EleveRepository")
+ * @ORM\Entity(repositoryClass="CEC\MembreBundle\Entity\ProfesseurRepository")
  * @UniqueEntity(fields="mail", message="Email already taken")
  */
-class Eleve implements UserInterface, \Serializable
+class Professeur implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -67,25 +67,48 @@ class Eleve implements UserInterface, \Serializable
     private $mail;
 
     /**
-     * @var string
+     * @var \CEC\TutoratBundle\Entity\Lycee
      *
-     * @ORM\Column(name="lycee", type="string", length=20)
+     * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="professeurs")
      */
     private $lycee;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="classe", type="string", length=5)
-     */
-    private $classe;
+    * @var string
+    *
+    * @ORM\Column(name="role", type="string")
+    */
+    private $role;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="datenaiss", type="datetime")
+     * @ORM\Column(name = "telephoneFixe", type = "string", length = 15, nullable = true)
+     * @Assert\Regex(
+     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
+     *     message = "Le numéro de téléphone n'est pas valide."
+     * )
+     * @Assert\MaxLength(
+     *     limit = 15,
+     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * )
      */
-    private $datenaiss;
+    private $telephoneFixe;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name = "telephonePortable", type = "string", length = 15, nullable = true)
+     * @Assert\Regex(
+     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
+     *     message = "Le numéro de téléphone n'est pas valide."
+     * )
+     * @Assert\MaxLength(
+     *     limit = 15,
+     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * )
+     */
+    private $telephonePortable;
 
     /**
      * @var array
@@ -140,23 +163,10 @@ class Eleve implements UserInterface, \Serializable
     /**
      * @var boolean
      *
-     * @ORM\Column(name="delegue", type="boolean")
+     * @ORM\Column(name="referent", type="boolean")
      */
-    private $delegue;
-	
-	/**
-	* @var \Doctrine\Common\Collections\Collection
-	*
-	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", inversedBy="presents")
-	*/
-	private $reunions;
+    private $referent;
 
-    /**
-    *@var \Doctrine\Common\Collections\Collection
-    *
-    *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="lyceen")
-    */
-    private $projetsParAnnee;
 
     /**
      * @inheritDoc
@@ -236,7 +246,7 @@ class Eleve implements UserInterface, \Serializable
      * Set prenom
      *
      * @param string $prenom
-     * @return Eleve
+     * @return Professeur
      */
     public function setPrenom($prenom)
     {
@@ -259,7 +269,7 @@ class Eleve implements UserInterface, \Serializable
      * Set nom
      *
      * @param string $nom
-     * @return Eleve
+     * @return Professeur
      */
     public function setNom($nom)
     {
@@ -282,7 +292,7 @@ class Eleve implements UserInterface, \Serializable
      * Set mail
      *
      * @param string $mail
-     * @return Eleve
+     * @return Professeur
      */
     public function setMail($mail)
     {
@@ -304,8 +314,8 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Set lycee
      *
-     * @param string $lycee
-     * @return Eleve
+     * @param \CEC\TutotatBundle\Entity\Lycee $lycee
+     * @return Professeur
      */
     public function setLycee($lycee)
     {
@@ -317,7 +327,7 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get lycee
      *
-     * @return string 
+     * @return \CEC\TutoratBundle\Entity\Lycee
      */
     public function getLycee()
     {
@@ -325,62 +335,87 @@ class Eleve implements UserInterface, \Serializable
     }
 
     /**
-     * Set classe
+     * Set role
      *
-     * @param string $classe
-     * @return Eleve
+     * @param string $role
+     * @return Professeur
      */
-    public function setClasse($classe)
+    public function setRole($role)
     {
-        $this->classe = $classe;
+        $this->role = $role;
     
         return $this;
     }
 
     /**
-     * Get classe
+     * Get role
      *
      * @return string 
      */
-    public function getClasse()
+    public function getRole()
     {
-        return $this->classe;
+        return $this->role;
     }
 
     /**
-     * Set datenaiss
+     * Set telephone
      *
-     * @param \DateTime $datenaiss
-     * @return Eleve
+     * @param string $telephone
+     * @return Professeur
      */
-    public function setDatenaiss($datenaiss)
+    public function setTelephone($telephone)
     {
-        $this->datenaiss = $datenaiss;
+        $this->telephone = $telephone;
     
         return $this;
     }
 
     /**
-     * Get datenaiss
+     * Get telephone
      *
-     * @return \DateTime 
+     * @return string 
      */
-    public function getDatenaiss()
+    public function getTelephone()
     {
-        return $this->datenaiss;
+        return $this->telephone;
     }
 
     /**
      * Set roles
      *
      * @param array $roles
-     * @return Eleve
+     * @return Professeur
      */
     public function setRoles($roles)
     {
         $this->roles = $roles;
     
         return $this;
+    }
+
+    /**
+    * Remove role
+    */
+    public function removeRole($role)
+    {
+        if (in_array($role, $this->roles))
+        {
+            for($i=0; $i<count($this->roles); $i++)
+            {
+                if ($this->roles[i] == $role)
+                    unset($this->roles[i]);
+            }
+        }
+        $this->roles = array_values($this->roles);
+    }
+
+    /**
+    * Add role
+    */
+    public function addRole($role)
+    {
+        if (!(in_array($role, $this->roles)))
+            $this->roles[] = $role;
     }
 
     /**
@@ -397,7 +432,7 @@ class Eleve implements UserInterface, \Serializable
      * Set dateCreation
      *
      * @param \DateTime $dateCreation
-     * @return Eleve
+     * @return Professeur
      */
     public function setDateCreation($dateCreation)
     {
@@ -420,7 +455,7 @@ class Eleve implements UserInterface, \Serializable
      * Set dateModification
      *
      * @param \DateTime $dateModification
-     * @return Eleve
+     * @return Professeur
      */
     public function setDateModification($dateModification)
     {
@@ -440,33 +475,38 @@ class Eleve implements UserInterface, \Serializable
     }
 
     /**
-     * Set delegue
+     * Set referent
      *
-     * @param boolean $delegue
-     * @return Eleve
+     * @param boolean $referent
+     * @return Professeur
      */
-    public function setDelegue($delegue)
+    public function setReferent($referent)
     {
-        $this->delegue = $delegue;
+        $this->referent = $referent;
+
+        if ($referent)
+            $this->addRole('ROLE_PROFESSEUR_REFERENT');
+        else
+            $this->removeRole('ROLE_PROFESSEUR_REFERENT');
     
         return $this;
     }
 
     /**
-     * Get delegue
+     * Get referent
      *
      * @return boolean 
      */
-    public function getDelegue()
+    public function getReferent()
     {
-        return $this->delegue;
+        return $this->referent;
     }
 	
-	 /**
+	/**
      * Set motDePasse
      *
      * @param string $motDePasse
-     * @return Eleve
+     * @return Professeur
      */
     public function setMotDePasse($motDePasse)
     {
@@ -484,57 +524,50 @@ class Eleve implements UserInterface, \Serializable
     {
         return $this->motDePasse;
     }
-	
-	/**
-     * Set reunions
+
+    /**
+     * Set telephoneFixe
      *
-     * @param array $reunions
-     * @return Eleve
+     * @param string $telephoneFixe
+     * @return Professeur
      */
-    public function setReunions($reunions)
+    public function setTelephoneFixe($telephoneFixe)
     {
-        $this->motDePasse = $motDePasse;
+        $this->telephoneFixe = $telephoneFixe;
     
         return $this;
     }
-	
-	/**
-	* Add reunions
-	*
-	* @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
-	* @return Eleve
-	*/
-	public function addReunion( \CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
-	{
-		$this->reunions[] = $reunion;
-		return $this;
-	}
-	
-	/**
-     * Remove reunion
+
+    /**
+     * Get telephoneFixe
      *
-     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
+     * @return string 
      */
-    public function removeReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
+    public function getTelephoneFixe()
     {
-        $this->secteurs->removeElement($reunion);
+        return $this->telephoneFixe;
     }
 
     /**
-     * Get reunions
+     * Set telephonePortable
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @param string $telephonePortable
+     * @return Professeur
      */
-    public function getReunions()
+    public function setTelephonePortable($telephonePortable)
     {
-        return $this->reunions;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+        $this->telephonePortable = $telephonePortable;
     
+        return $this;
+    }
+
+    /**
+     * Get telephonePortable
+     *
+     * @return string 
+     */
+    public function getTelephonePortable()
+    {
+        return $this->telephonePortable;
+    }
 }

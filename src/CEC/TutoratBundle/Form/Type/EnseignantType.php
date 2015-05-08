@@ -27,8 +27,7 @@ class EnseignantType extends AbstractType
             ))
             ->add('telephoneFixe', null, array(
                 'label' => 'Téléphone fixe',
-            ))
-            ->add('commentaires');
+            ));
     }
     
     public function getName()
@@ -39,7 +38,7 @@ class EnseignantType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\TutoratBundle\Entity\Enseignant'
+            'data_class' => 'CEC\MembreBundle\Entity\Professeur'
         ));
     }
 }

@@ -20,8 +20,6 @@ CEC\TutoratBundle\Entity\Groupe:
             type: datetime
         fin:
             type: time
-        anneeScolaire:
-            type: anneescolaire
         rendezVous:
             type: string
             length: 255
@@ -40,12 +38,16 @@ CEC\TutoratBundle\Entity\Groupe:
             targetEntity: Lycee
             inversedBy: groupes
     oneToMany:
-        lyceens:
-            targetEntity: Lyceen
+        lyceensParAnnee:
+            targetEntity: CEC\TutoratBundle\Entity\GroupeEleves
             mappedBy: groupe
-        tuteurs:
-            targetEntity: CEC\MembreBundle\Entity\Membre
+            cascade: ["persist", "remove"]
+            orphanRemoval: true
+        tuteursParAnnee:
+            targetEntity: CEC\TutoratBundle\Entity\GroupeTuteurs
             mappedBy: groupe
+            cascade: ["persist", "remove"]
+            orphanRemoval: true
         seances:
             targetEntity: Seance
             mappedBy: groupe

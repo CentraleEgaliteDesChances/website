@@ -67,16 +67,23 @@ class Professeur implements UserInterface, \Serializable
     private $mail;
 
     /**
-     * @var string
+     * @var \CEC\TutoratBundle\Entity\Lycee
      *
-     * @ORM\Column(name="lycee", type="string", length=20)
+     * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="professeurs")
      */
     private $lycee;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="role", type="string")
+    */
+    private $role;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name = "telephone", type = "string", length = 15, nullable = true)
+     * @ORM\Column(name = "telephoneFixe", type = "string", length = 15, nullable = true)
      * @Assert\Regex(
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
@@ -86,7 +93,22 @@ class Professeur implements UserInterface, \Serializable
      *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
-    private $telephone;
+    private $telephoneFixe;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name = "telephonePortable", type = "string", length = 15, nullable = true)
+     * @Assert\Regex(
+     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
+     *     message = "Le numéro de téléphone n'est pas valide."
+     * )
+     * @Assert\MaxLength(
+     *     limit = 15,
+     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * )
+     */
+    private $telephonePortable;
 
     /**
      * @var array
@@ -144,6 +166,14 @@ class Professeur implements UserInterface, \Serializable
      * @ORM\Column(name="referent", type="boolean")
      */
     private $referent;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->setRoles(array("ROLE_PROFESSEUR"));
+    }
 
 
     /**
@@ -292,7 +322,7 @@ class Professeur implements UserInterface, \Serializable
     /**
      * Set lycee
      *
-     * @param string $lycee
+     * @param \CEC\TutotatBundle\Entity\Lycee $lycee
      * @return Professeur
      */
     public function setLycee($lycee)
@@ -305,11 +335,45 @@ class Professeur implements UserInterface, \Serializable
     /**
      * Get lycee
      *
-     * @return string 
+     * @return \CEC\TutoratBundle\Entity\Lycee
      */
     public function getLycee()
     {
         return $this->lycee;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     * @return Professeur
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+        switch($role)
+        {
+            case "proviseur":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            case "proviseurAdjoint":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            default:
+            break;
+        }
+    
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string 
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**
@@ -346,6 +410,31 @@ class Professeur implements UserInterface, \Serializable
         $this->roles = $roles;
     
         return $this;
+    }
+
+    /**
+    * Remove role
+    */
+    public function removeRole($role)
+    {
+        if (in_array($role, $this->roles))
+        {
+            for($i=0; $i<count($this->roles); $i++)
+            {
+                if ($this->roles[i] == $role)
+                    unset($this->roles[i]);
+            }
+        }
+        $this->roles = array_values($this->roles);
+    }
+
+    /**
+    * Add role
+    */
+    public function addRole($role)
+    {
+        if (!(in_array($role, $this->roles)))
+            $this->roles[] = $role;
     }
 
     /**
@@ -413,6 +502,11 @@ class Professeur implements UserInterface, \Serializable
     public function setReferent($referent)
     {
         $this->referent = $referent;
+
+        if ($referent)
+            $this->addRole('ROLE_PROFESSEUR_REFERENT');
+        else
+            $this->removeRole('ROLE_PROFESSEUR_REFERENT');
     
         return $this;
     }
@@ -448,5 +542,51 @@ class Professeur implements UserInterface, \Serializable
     public function getMotDePasse()
     {
         return $this->motDePasse;
+    }
+
+    /**
+     * Set telephoneFixe
+     *
+     * @param string $telephoneFixe
+     * @return Professeur
+     */
+    public function setTelephoneFixe($telephoneFixe)
+    {
+        $this->telephoneFixe = $telephoneFixe;
+    
+        return $this;
+    }
+
+    /**
+     * Get telephoneFixe
+     *
+     * @return string 
+     */
+    public function getTelephoneFixe()
+    {
+        return $this->telephoneFixe;
+    }
+
+    /**
+     * Set telephonePortable
+     *
+     * @param string $telephonePortable
+     * @return Professeur
+     */
+    public function setTelephonePortable($telephonePortable)
+    {
+        $this->telephonePortable = $telephonePortable;
+    
+        return $this;
+    }
+
+    /**
+     * Get telephonePortable
+     *
+     * @return string 
+     */
+    public function getTelephonePortable()
+    {
+        return $this->telephonePortable;
     }
 }

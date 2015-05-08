@@ -21,11 +21,12 @@ editer_groupe:
         groupe: \d+
 
 groupe_supprimer_lyceen:
-    pattern: /{groupe}/supprimer_lyceen/{lyceen}
+    pattern: /{groupe}/{anneeScolaire}/supprimer_lyceen/{lyceen}
     defaults: { _controller: CECTutoratBundle:Groupes:supprimerLyceen }
     requirements:
         groupe: \d+
         lyceen: \d+
+        anneeScolaire: "[0-9]{4}-[0-9]{4}"
 
 groupe_ajouter_lyceen:
     pattern: /{groupe}/ajouter_lyceen
@@ -34,11 +35,12 @@ groupe_ajouter_lyceen:
         groupe: \d+
 
 groupe_supprimer_tuteur:
-    pattern: /{groupe}/supprimer_tuteur/{tuteur}
+    pattern: /{groupe}/{anneeScolaire}/supprimer_tuteur/{tuteur}
     defaults: { _controller: CECTutoratBundle:Groupes:supprimerTuteur }
     requirements:
         groupe: \d+
         tuteur: \d+
+        anneeScolaire: "[0-9]{4}-[0-9]{4}"
 
 groupe_ajouter_tuteur:
     pattern: /{groupe}/ajouter_tuteur
@@ -48,5 +50,6 @@ groupe_ajouter_tuteur:
 
 groupe_compterendu_arediger:
     pattern: /{groupe}/comptes_rendus
+    defaults: {_controller: CECTutoratBundle:Groupes:compteRendus}
     requirements:
         groupe: \d+

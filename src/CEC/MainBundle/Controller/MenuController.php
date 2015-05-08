@@ -52,9 +52,15 @@ class MenuController extends Controller
 		$eleve = $this->getUser();
         if (!$eleve) throw $this->createNotFoundException('Impossible de trouver votre profil !');
 
+        $seanceAVenir = false;
+        if($groupe = $eleve->getGroupe())
+        {
+            $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe);
+        }
         
 		return $this->render('CECMainBundle:Menu:menu_eleve.html.twig', array(
-			'eleve' => $eleve,	
+			'eleve' => $eleve,
+            'seance_a_venir' => $seanceAVenir	
 		));
 	}
 }

@@ -1,0 +1,50 @@
+<?php
+
+namespace CEC\TutoratBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
+/**
+ * GroupeTuteurs
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class GroupeTuteurs
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+    * @var \CEC\MainBundle\Utility\AnneeScolaire
+    */
+    private $anneeScolaire;
+
+    /**
+    * @var \CEC\TutoratBundle\Entity\Groupe
+    */
+    private $groupe;
+
+    /**
+    * @var \Doctrine\Common\Collections\Collection
+    */
+    private $tuteur;
+
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    
+}

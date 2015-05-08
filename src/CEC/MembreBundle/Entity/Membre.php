@@ -9,6 +9,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 /**
  * Représente un membre de l'association et donc un utilisateur du site interne.
  *
@@ -213,17 +215,13 @@ class Membre implements UserInterface, \Serializable
 
     /**
      * Groupe de tutorat fréquenté régulièrement par le membre.
-     * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
-     * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus.
-     * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
-     * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
+     * Ce champ permet de garder en mémoire quels groupes a fréquenté le tuteur suivant les années scolaires
      *
-     * @var CEC\TutoratBundle\Entity\Groupe
+     * @var CEC\TutoratBundle\Entity\GroupeTuteurs
      *
-     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "tuteurs" )
+     * @ORM\OneToMany(targetEntity = "CEC\TutoratBundle\Entity\GroupeTuteurs", mappedBy = "tuteur", cascade={"persist", "remove"}, orphanRemoval=true )
      */
-    private $groupe;
+    private $groupeParAnnee;
 
     /**
      * Groupe de tutorat fréquenté régulièrement par le membre.
@@ -324,6 +322,7 @@ class Membre implements UserInterface, \Serializable
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
         $this->setBuro(false);
+        $this->setRoles(array('ROLE_TUTEUR'));
     }
 
     /**
@@ -357,14 +356,40 @@ class Membre implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        $roles = array('ROLE_USER');
-        if ($this->getBuro()) $roles[] = 'ROLE_BURO';
-        foreach ($this->getSecteurs() as $secteur) {
-            $nomSecteur = str_replace(' ', '_', mb_strtoupper($secteur->getNom(), 'UTF-8'));
-            $roles[] = 'ROLE_' . $nomSecteur;
-        }
+        return $this->roles;
+    }
 
-        return $roles;
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
+     /**
+    * Remove role
+    */
+    public function removeRole($role)
+    {
+        if (in_array($role, $this->roles))
+        {
+            for($i=0; $i<count($this->roles); $i++)
+            {
+                if ($this->roles[i] == $role)
+                    unset($this->roles[i]);
+            }
+        }
+        $this->roles = array_values($this->roles);
+    }
+
+    /**
+    * Add role
+    */
+    public function addRole($role)
+    {
+        if(!(in_array($role, $this->roles)))
+        {
+            $this->roles[] = $role; 
+        }
+           
     }
 
     /**
@@ -570,6 +595,11 @@ class Membre implements UserInterface, \Serializable
     {
         $this->buro = $buro;
 
+        if ($buro) 
+            $this->addRole("ROLE_BURO");
+        else
+            $this->removeRole("ROLE_BURO");
+
         return $this;
     }
 
@@ -638,6 +668,7 @@ class Membre implements UserInterface, \Serializable
     public function addLyceesPourVP(\CEC\TutoratBundle\Entity\Lycee $lyceesPourVP)
     {
         $this->lyceesPourVP[] = $lyceesPourVP;
+        $this->addRole('ROLE_VP_LYCEE');
 
         return $this;
     }
@@ -650,6 +681,8 @@ class Membre implements UserInterface, \Serializable
     public function removeLyceesPourVP(\CEC\TutoratBundle\Entity\Lycee $lyceesPourVP)
     {
         $this->lyceesPourVP->removeElement($lyceesPourVP);
+        if (count($this->lyceesPourVP)==0)
+            $this->removeRole('ROLE_VP_LYCEE');
     }
 
     /**
@@ -663,37 +696,64 @@ class Membre implements UserInterface, \Serializable
     }
 
     /**
-     * Set groupe
-     *
-     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
-     * @return Membre
-     */
-    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
-    {
-        $this->groupe = $groupe;
-
-        return $this;
-    }
-
-    /**
-     * Get groupe
-     *
-     * @return \CEC\TutoratBundle\Entity\Groupe
-     */
-    public function getGroupe()
-    {
-        return $this->groupe;
-    }
-
-    /**
      * Add secteurs
      *
      * @param \CEC\MembreBundle\Entity\Secteur $secteurs
      * @return Membre
      */
-    public function addSecteur(\CEC\MembreBundle\Entity\Secteur $secteurs)
+    public function addSecteur(\CEC\MembreBundle\Entity\Secteur $secteur)
     {
-        $this->secteurs[] = $secteurs;
+        $this->secteurs[] = $secteur;
+        $nom = $secteur->getNom();
+        switch($nom)
+        {
+            case "Secteur Activités Scientifiques":
+                $this->addRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
+                break;
+            case "Secteur Activités Culturelles":
+                $this->addRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
+                break;
+            case "Secteur Fundraising":
+                $this->addRole("ROLE_SECTEUR_FUNDRAISING");
+                break;
+            case "Secteur Evènements":
+                $this->addRole("ROLE_SECTEUR_EVCOM");
+                break;
+            case "Secteur Good Morning London":
+                $this->addRole("ROLE_SECTEUR_GML");
+                $this->addRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Centrale Prépa":
+                $this->addRole("ROLE_SECTEUR_PREPA");
+                $this->addRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Focus Europe":
+                $this->addRole("ROLE_SECTEUR_FOCUS_EUROPE");
+                $this->addRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Stage Théâtre":
+                $this->addRole("ROLE_SECTEUR_THEATRE");
+                $this->addRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur (Art)cessible":
+                $this->addRole("ROLE_SECTEUR_ARTCESSIBLE");
+                $this->addRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Geek":
+                $this->addRole("ROLE_SECTEUR_GEEK");
+                break;
+            case "Secteur Saclay":
+                $this->addRole("ROLE_SECTEUR_SACLAY");
+                break;
+            case "Secteur Europen":
+                $this->addRole("ROLE_SECTEUR_EUROPEN");
+                break;
+            case "Secteur Sorties":
+                $this->addRole("ROLE_SECTEUR_SORTIES");
+                break;
+            default:
+                break;
+        }
 
         return $this;
     }
@@ -706,6 +766,57 @@ class Membre implements UserInterface, \Serializable
     public function removeSecteur(\CEC\MembreBundle\Entity\Secteur $secteurs)
     {
         $this->secteurs->removeElement($secteurs);
+
+        $nom = $secteur->getNom();
+        switch($nom)
+        {
+            case "Secteur Activités Scientifiques":
+                $this->removeRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
+                break;
+            case "Secteur Activités Culturelles":
+                $this->removeRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
+                break;
+            case "Secteur Fundraising":
+                $this->removeRole("ROLE_SECTEUR_FUNDRAISING");
+                break;
+            case "Secteur Evènements":
+                $this->removeRole("ROLE_SECTEUR_EVCOM");
+                break;
+            case "Secteur Good Morning London":
+                $this->removeRole("ROLE_SECTEUR_GML");
+                $this->removeRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Centrale Prépa":
+                $this->removeRole("ROLE_SECTEUR_PREPA");
+                $this->removeRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Focus Europe":
+                $this->removeRole("ROLE_SECTEUR_FOCUS_EUROPE");
+                $this->removeRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Stage Théâtre":
+                $this->removeRole("ROLE_SECTEUR_THEATRE");
+                $this->removeRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur (Art)cessible":
+                $this->removeRole("ROLE_SECTEUR_ARTCESSIBLE");
+                $this->removeRole("ROLE_SECTEUR_PROJETS");
+                break;
+            case "Secteur Geek":
+                $this->removeRole("ROLE_SECTEUR_GEEK");
+                break;
+            case "Secteur Saclay":
+                $this->removeRole("ROLE_SECTEUR_SACLAY");
+                break;
+            case "Secteur Europen":
+                $this->removeRole("ROLE_SECTEUR_EUROPEN");
+                break;
+            case "Secteur Sorties":
+                $this->removeRole("ROLE_SECTEUR_SORTIES");
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -881,5 +992,54 @@ class Membre implements UserInterface, \Serializable
     public function getQuizzActus()
     {
         return $this->quizzActus;
+    }
+
+
+    /**
+     * Add groupeParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeTuteurs $groupeParAnnee
+     * @return Membre
+     */
+    public function addGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeTuteurs $groupeParAnnee)
+    {
+        $this->groupeParAnnee[] = $groupeParAnnee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groupeParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeTuteurs $groupeParAnnee
+     */
+    public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeTuteurs $groupeParAnnee)
+    {
+        $this->groupeParAnnee->removeElement($groupeParAnnee);
+    }
+
+    /**
+     * Get groupeParAnnee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroupeParAnnee()
+    {
+        return $this->groupeParAnnee;
+    }
+
+    public function getGroupe()
+    {
+        $e = $this->groupeParAnnee->first();
+        if(!$e) return null;
+        
+        do
+        {
+            if($e->getAnneeScolaire() == AnneeScolaire::withDate())
+            {
+                return $e->getGroupe();
+            }
+        }while($e = $this->groupeParAnnee->next());
+        return null;
     }
 }

@@ -35,6 +35,7 @@ security:
         #Rôles des professeurs
         ROLE_PROFESSEUR: ROLE_USER
         ROLE_PROFESSEUR_REFERENT: ROLE_PROFESSEUR
+        ROLE_PROVISEUR: ROLE_PROFESSEUR
 
         ROLE_ADMIN : [ROLE_BURO, ROLE_ELEVE_DELEGUE, ROLE_PROFESSEUR_REFERENT, ROLE_ALLOWED_TO_SWITCH]
 
@@ -55,7 +56,7 @@ security:
             security: false
 
         intern:
-            pattern:    ^/(eleve|professeur|tuteur|reglages|membres|projets|seances|connexion)/
+            pattern:    ^/(eleve|professeur|tuteur|reglages|membres|groupes|cordees|lycees|seances|projets|connexion)/
             form_login:
                 check_path: /connexion/verifications
                 login_path: /connexion

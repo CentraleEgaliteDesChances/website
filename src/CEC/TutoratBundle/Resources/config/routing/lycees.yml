@@ -39,3 +39,22 @@ lycee_ajouter_enseignant:
     defaults: { _controller: CECTutoratBundle:Lycees:ajouterEnseignant }
     requirements:
         lycee: \d+
+
+lycee_supprimer_delegue:
+    pattern: /{lycee}/supprimer_delegue/{delegue}
+    defaults: { _controller: CECTutoratBundle:Lycees:supprimerDelegue }
+    requirements:
+        lycee: \d+
+        delegue: \d+
+
+lycee_ajouter_delegue:
+    pattern: /{lycee}/ajouter_delegue
+    defaults: { _controller: CECTutoratBundle:Lycees:ajouterDelegue }
+    requirements:
+        lycee: \d+
+
+absences_lycee:
+    pattern: /releve-presences/{lycee}
+    defaults: {_controller: CECTutoratBundle:Seances:absencesLycee}
+    requirements:
+        lycee: \d+

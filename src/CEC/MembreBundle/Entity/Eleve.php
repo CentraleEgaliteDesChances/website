@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 /**
  * Eleve
  *
@@ -91,25 +93,65 @@ class Eleve implements UserInterface, \Serializable
 	 * @ORM\Column(name="telephonePublic", type="boolean")
 	 */
 	 private $telephonePublic = false;
-	 
-	 /**
+
+     /**
+     * @var string
+     * 
+     * @ORM\COlumn(name="adresse", type="string")
+     */
+     private $adresse;
+
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="code_postal", type="integer")
+     */
+     private $codePostal;
+
+     /**
      * @var string
      *
-     * @ORM\Column(name="lycee", type="string", length=20)
+     * @ORM\Column(name="ville", type="string")
      */
-    private $lycee;
+     private $ville;
 
-    /**
+     /**
      * @var string
      *
-     * @ORM\Column(name="classe", type="string", length=5)
+     * @ORM\Column(name="nomPere", type="string", nullable=true)
      */
-    private $classe;
+     private $nomPere;
+
+     /**
+     * Numéro de téléphone du membre.
+     * Ce champ n'est pas requis mais permet de pouvoir contacter par téléphone
+     * (fixe ou portable) un tuteur en cas de besoin. La syntaxe du numéro est vérifiée.
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "telephoneParent", type = "string", length = 15, nullable = true)
+     * @Assert\Regex(
+     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
+     *     message = "Le numéro de téléphone n'est pas valide."
+     * )
+     * @Assert\MaxLength(
+     *     limit = 15,
+     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * )
+     */
+    private $telephoneParent;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="nomMere", type="string", nullable=true)
+     */
+     private $nomMere;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="datenaiss", type="datetime")
+     * @ORM\Column(name="datenaiss", type="date")
      */
     private $datenaiss;
 
@@ -164,9 +206,9 @@ class Eleve implements UserInterface, \Serializable
     private $dateModification;
 
     /**
-     * @var boolean
+     * @var \CEC\TutoratBundle\Entity\Lycee
      *
-     * @ORM\Column(name="delegue", type="boolean")
+     * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="delegues")
      */
     private $delegue;
 	
@@ -179,18 +221,20 @@ class Eleve implements UserInterface, \Serializable
 
     /**
      * Groupe de tutorat fréquenté régulièrement par le membre.
-     * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
-     * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus.
-     * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
-     * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
+     * Ce champ permet de définir le groupe de tutorat de l'élève en fonction de l'année scolaire.
      *
-     * @var CEC\TutoratBundle\Entity\Groupe
+     * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToOne(targetEntity = "CEC\TutoratBundle\Entity\Groupe", inversedBy = "tuteurs" )
+     * @ORM\OneToMany(targetEntity = "CEC\TutoratBundle\Entity\GroupeEleves", mappedBy = "lyceen",cascade={"persist", "remove"}, orphanRemoval=true )
      */
-    private $groupe;
-	
+    private $groupeParAnnee;
+
+    /**
+    * Lycée de l'élève
+    * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="lyceens")
+    */
+    private $lycee;
+    	
 	/**
      * Séances auxquelles le tuteur a participé.
      * Ce champ liste les séances de tutorat pour lesquelles le membre a indiqué qu'il participait.
@@ -203,7 +247,7 @@ class Eleve implements UserInterface, \Serializable
      *
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "tuteurs" )
+     * @ORM\ManyToMany(targetEntity = "CEC\TutoratBundle\Entity\Seance", mappedBy = "lyceens" )
      */
     private $seances;
 
@@ -225,6 +269,21 @@ class Eleve implements UserInterface, \Serializable
     *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="lyceen")
     */
     private $projetsParAnnee;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sorties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setRoles(array("ROLE_ELEVE"));
+        $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    
 
     /**
      * @inheritDoc
@@ -411,51 +470,6 @@ class Eleve implements UserInterface, \Serializable
 		return $this;
 	}
 
-    /**
-     * Set lycee
-     *
-     * @param string $lycee
-     * @return Eleve
-     */
-    public function setLycee($lycee)
-    {
-        $this->lycee = $lycee;
-    
-        return $this;
-    }
-
-    /**
-     * Get lycee
-     *
-     * @return string 
-     */
-    public function getLycee()
-    {
-        return $this->lycee;
-    }
-
-    /**
-     * Set classe
-     *
-     * @param string $classe
-     * @return Eleve
-     */
-    public function setClasse($classe)
-    {
-        $this->classe = $classe;
-    
-        return $this;
-    }
-
-    /**
-     * Get classe
-     *
-     * @return string 
-     */
-    public function getClasse()
-    {
-        return $this->classe;
-    }
 
     /**
      * Set datenaiss
@@ -492,6 +506,32 @@ class Eleve implements UserInterface, \Serializable
     
         return $this;
     }
+
+    /**
+    * Add role
+    */
+    public function addRole($role)
+    {
+        if(!in_array($role, $this->roles))
+            $this->roles[] = $role;
+    }
+
+     /**
+    * Remove role
+    */
+    public function removeRole($role)
+    {
+        if (in_array($role, $this->roles))
+        {
+            for($i=0; $i<count($this->roles); $i++)
+            {
+                if ($this->roles[$i] == $role)
+                    unset($this->roles[$i]);
+            }
+        }
+        $this->roles = array_values($this->roles);
+    }
+
 
     /**
      * Get roles
@@ -552,12 +592,16 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Set delegue
      *
-     * @param boolean $delegue
+     * @param \CEC\TutoratBundle\Entity\Lycee $delegue
      * @return Eleve
      */
     public function setDelegue($delegue)
     {
         $this->delegue = $delegue;
+        if(!($delegue== null))
+            $this->addRole("ROLE_ELEVE_DELEGUE");
+        else
+            $this->removeRole("ROLE_ELEVE_DELEGUE");
     
         return $this;
     }
@@ -583,29 +627,6 @@ class Eleve implements UserInterface, \Serializable
         $this->motDePasse = $motDePasse;
     
         return $this;
-    }
-	
-	/**
-     * Set groupe
-     *
-     * @param \CEC\TutoratBundle\Entity\Groupe $groupe
-     * @return Membre
-     */
-    public function setGroupe(\CEC\TutoratBundle\Entity\Groupe $groupe = null)
-    {
-        $this->groupe = $groupe;
-
-        return $this;
-    }
-
-    /**
-     * Get groupe
-     *
-     * @return \CEC\TutoratBundle\Entity\Groupe
-     */
-    public function getGroupe()
-    {
-        return $this->groupe;
     }
 
     /**
@@ -662,14 +683,7 @@ class Eleve implements UserInterface, \Serializable
     {
         return $this->reunions;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
     
 
     /**
@@ -735,5 +749,249 @@ class Eleve implements UserInterface, \Serializable
     public function getSorties()
     {
         return $this->sorties;
+    }
+
+    
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     * @return Eleve
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+    
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string 
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * Set codePostal
+     *
+     * @param integer $codePostal
+     * @return Eleve
+     */
+    public function setCodePostal($codePostal)
+    {
+        $this->codePostal = $codePostal;
+    
+        return $this;
+    }
+
+    /**
+     * Get codePostal
+     *
+     * @return integer 
+     */
+    public function getCodePostal()
+    {
+        return $this->codePostal;
+    }
+
+    /**
+     * Set ville
+     *
+     * @param string $ville
+     * @return Eleve
+     */
+    public function setVille($ville)
+    {
+        $this->ville = $ville;
+    
+        return $this;
+    }
+
+    /**
+     * Get ville
+     *
+     * @return string 
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * Add seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     * @return Eleve
+     */
+    public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances[] = $seances;
+    
+        return $this;
+    }
+
+    /**
+     * Remove seances
+     *
+     * @param \CEC\TutoratBundle\Entity\Seance $seances
+     */
+    public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
+    {
+        $this->seances->removeElement($seances);
+    }
+
+    /**
+     * Get seances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeances()
+    {
+        return $this->seances;
+    }
+
+    /**
+     * Set nomPere
+     *
+     * @param string $nomPere
+     * @return Eleve
+     */
+    public function setNomPere($nomPere)
+    {
+        $this->nomPere = $nomPere;
+    
+        return $this;
+    }
+
+    /**
+     * Get nomPere
+     *
+     * @return string 
+     */
+    public function getNomPere()
+    {
+        return $this->nomPere;
+    }
+
+    /**
+     * Set nomMere
+     *
+     * @param string $nomMere
+     * @return Eleve
+     */
+    public function setNomMere($nomMere)
+    {
+        $this->nomMere = $nomMere;
+    
+        return $this;
+    }
+
+    /**
+     * Get nomMere
+     *
+     * @return string 
+     */
+    public function getNomMere()
+    {
+        return $this->nomMere;
+    }
+
+    /**
+     * Set telephoneParent
+     *
+     * @param string $telephoneParent
+     * @return Eleve
+     */
+    public function setTelephoneParent($telephoneParent)
+    {
+        $this->telephoneParent = $telephoneParent;
+    
+        return $this;
+    }
+
+    /**
+     * Get telephoneParent
+     *
+     * @return string 
+     */
+    public function getTelephoneParent()
+    {
+        return $this->telephoneParent;
+    }
+
+    /**
+     * Set lycee
+     *
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
+     * @return Eleve
+     */
+    public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
+    {
+        $this->lycee = $lycee;
+    
+        return $this;
+    }
+
+    /**
+     * Get lycee
+     *
+     * @return \CEC\TutoratBundle\Entity\Lycee 
+     */
+    public function getLycee()
+    {
+        return $this->lycee;
+    }
+
+    /**
+     * Add groupeParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee
+     * @return Eleve
+     */
+    public function addGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
+    {
+        $this->groupeParAnnee[] = $groupeParAnnee;
+    
+        return $this;
+    }
+
+    /**
+     * Remove groupeParAnnee
+     *
+     * @param \CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee
+     */
+    public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
+    {
+        $this->groupeParAnnee->removeElement($groupeParAnnee);
+    }
+
+    /**
+     * Get groupeParAnnee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGroupeParAnnee()
+    {
+        return $this->groupeParAnnee;
+    }
+
+    public function getGroupe()
+    {
+
+        $e = $this->groupeParAnnee->first();
+        if(!$e) return null;
+
+        do
+        {
+            if($e->getAnneeScolaire() == AnneeScolaire::withDate())
+            {
+                return $e->getGroupe();
+            }
+        }while($e = $this->groupeParAnnee->next());
+        return null;
     }
 }

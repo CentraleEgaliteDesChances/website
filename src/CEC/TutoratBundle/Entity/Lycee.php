@@ -67,13 +67,23 @@ class Lycee
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $enseignants;
+    private $professeurs;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $vpLycees;
 
+    /**
+    * @var \Doctrine\Common\Collections\Collection
+    */
+    private $delegues;
+
+    /**
+    * @var \Doctrine\Common\Collections\Collection
+    */
+    private $lyceens;
+    
     /**
      * @var \CEC\TutoratBundle\Entity\Cordee
      */
@@ -89,9 +99,10 @@ class Lycee
      */
     public function __construct()
     {
-        $this->enseignants = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->professeurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->vpLycee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->delegues = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -335,36 +346,36 @@ class Lycee
     }
 
     /**
-     * Add enseignants
+     * Add professeurs
      *
-     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignants
+     * @param \CEC\MembreBundle\Entity\Professeur $professeurs
      * @return Lycee
      */
-    public function addEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignants)
+    public function addProfesseur(\CEC\MembreBundle\Entity\Professeur $professeurs)
     {
-        $this->enseignants[] = $enseignants;
+        $this->professeurs[] = $professeurs;
     
         return $this;
     }
 
     /**
-     * Remove enseignants
+     * Remove professeurs
      *
-     * @param \CEC\TutoratBundle\Entity\Enseignant $enseignants
+     * @param \CEC\MembreTutoratBundle\Entity\Professeur $professeurs
      */
-    public function removeEnseignant(\CEC\TutoratBundle\Entity\Enseignant $enseignants)
+    public function removeProfesseur(\CEC\MembreBundle\Entity\Professeur $professeurs)
     {
-        $this->enseignants->removeElement($enseignants);
+        $this->professeurs->removeElement($professeurs);
     }
 
     /**
-     * Get enseignants
+     * Get professeurs
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getEnseignants()
+    public function getProfesseurs()
     {
-        return $this->enseignants;
+        return $this->professeurs;
     }
 
     /**
@@ -376,6 +387,7 @@ class Lycee
     public function addVpLycee(\CEC\MembreBundle\Entity\Membre $vpLycees)
     {
         $this->vpLycees[] = $vpLycees;
+        $vpLycees->addRole("ROLE_VP_LYCEE");
     
         return $this;
     }
@@ -454,6 +466,39 @@ class Lycee
     public function getGroupes()
     {
         return $this->groupes;
+    }
+
+    /**
+     * Add delegues
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
+     * @return Lycee
+     */
+    public function addDelegue(\CEC\MembreBundle\Entity\Eleve $lyceens)
+    {
+        $this->delegues[] = $delegues;
+    
+        return $this;
+    }
+
+    /**
+     * Remove delegues
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
+     */
+    public function removeDelegue(\CEC\MembreBundle\Entity\Eleve $lyceens)
+    {
+        $this->delegues->removeElement($lyceens);
+    }
+
+    /**
+     * Get delegues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDelegues()
+    {
+        return $this->delegues;
     }
     
     /**

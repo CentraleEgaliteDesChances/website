@@ -15,13 +15,20 @@ class InfosProfesseurType extends AbstractType
 					'label' => 'Adresse email',
 					'attr' => array('placeholder' => 'Adresse Mail'),
 			))
-			->add('lycee', 'choice', array(
+			->add('lycee', null , array(
 					'label'=>'Lycée',
-					'choices' => array(	'jjmont'=>'Jean Jaurès Montreuil', 'jjchat' => 'Jean Jaurès Châtenay', 'cpb' => 'Charles Péguy Bobigny', 
-									'cpp'=>'Charles Péguy Paris', 'matisse'=>'Henri Matisse Montreuil', 'mounier'=>'Emmanuel Mounier Chatenay',
-									'monod' => 'Jacques Monod Clamart', 'montesquieu'=>"Montesquieu le Plessis")
+					'property'=> 'nom'
 			))
-            ->add('telephone', null, array('label' => 'Numéro de téléphone'))
+            ->add('role', 'choice', array(
+                'label' => 'Rôle',
+                'choices' => array(
+                                    'proviseur' => 'Chef d\'établisement',
+                                    'proviseurAdjoint' => 'Proviseur Adjoint',
+                                    'cpe' => 'Conseiller Principal d\'Education',
+                                    'professeur' => 'Enseignant')
+            ))
+            ->add('telephoneFixe', null, array('label' => 'Numéro de téléphone fixe'))
+            ->add('telephonePortable', null, array('label' => 'Numéro de téléphone portable'))
 			;
     }
     

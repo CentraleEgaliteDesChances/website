@@ -21,6 +21,13 @@ seance_basculer_tuteur:
         seance: \d+
         tuteur: \d+
 
+seance_basculer_lyceen:
+    pattern: /{seance}/basculer_lyceen/{lyceen}
+    defaults: { _controller: CECTutoratBundle:Seances:basculerEleve }
+    requirements:
+        seance: \d+
+        lyceen: \d+
+
 seance_creer_acti:
     pattern: /{seance}/ajout_activite/{activite}
     defaults: { _controller: CECActiviteBundle:CompteRendus:creer }
@@ -34,3 +41,9 @@ seance_supprimer_compterendu:
     requirements:
         seance: \d+
         activite: \d+
+
+absences:
+    pattern: /releve-presences/{lyceen}
+    defaults: {_controller: CECTutoratBundle:Seances:absences}
+    requirements:
+        lyceen: \d+

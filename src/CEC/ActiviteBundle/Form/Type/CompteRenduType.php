@@ -11,17 +11,17 @@ class CompteRenduType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('noteContenu', null, array(
-                'label' => 'Contenu du sujet',
+                'label' => 'Contenu du sujet (Note /5)',
                 'help_inline' => 'Le sujet possède-t-il un contenu pédagogique pertinent ?',
                 'attr' => array('class' => 'note-input'),
             ))
             ->add('noteInteractivite', null, array(
-                'label' => 'Interactivité',
-                'help_inline' => 'Le sujet est-il suffisamment interactif et ludique ?',
+                'label' => 'Interactivité (Note /5)',
+                'help_inline' => 'Le sujet est-il suffisamment interactif et ludique ? ',
                 'attr' => array('class' => 'note-input'),
             ))
             ->add('noteAtteinteObjectifs', null, array(
-                'label' => 'Atteinte des objectifs',
+                'label' => 'Atteinte des objectifs (Note /5)',
                 'help_inline' => 'Les objectifs pédagogiques annoncés ont-ils été atteints en fin de la séance ?',
                 'attr' => array('class' => 'note-input'),
             ))
