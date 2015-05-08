@@ -213,10 +213,17 @@ class Eleve implements UserInterface, \Serializable
     private $delegue;
 	
 	/**
+	* @var \Doctrine\Common\Collections\Collection
+	*
+	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", inversedBy="presents")
+	*/
+	private $reunions;
+
+    /**
      * Groupe de tutorat fréquenté régulièrement par le membre.
      * Ce champ permet de définir le groupe de tutorat de l'élève en fonction de l'année scolaire.
      *
-     * @var CEC\TutoratBundle\Entity\GroupeEleves
+     * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity = "CEC\TutoratBundle\Entity\GroupeEleves", mappedBy = "lyceen",cascade={"persist", "remove"}, orphanRemoval=true )
      */
@@ -257,14 +264,26 @@ class Eleve implements UserInterface, \Serializable
 	private $sorties;
 
     /**
+    *@var \Doctrine\Common\Collections\Collection
+    *
+    *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="lyceen")
+    */
+    private $projetsParAnnee;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sorties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(array("ROLE_ELEVE"));
+        $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    
 
     /**
      * @inheritDoc
@@ -621,6 +640,84 @@ class Eleve implements UserInterface, \Serializable
     }
 	
 	/**
+     * Set reunions
+     *
+     * @param array $reunions
+     * @return Eleve
+     */
+    public function setReunions($reunions)
+    {
+        $this->motDePasse = $motDePasse;
+    
+        return $this;
+    }
+	
+	/**
+	* Add reunions
+	*
+	* @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
+	* @return Eleve
+	*/
+	public function addReunion( \CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
+	{
+		$this->reunions[] = $reunion;
+		return $this;
+	}
+	
+	/**
+     * Remove reunion
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
+     */
+    public function removeReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
+    {
+        $this->secteurs->removeElement($reunion);
+    }
+
+    /**
+     * Get reunions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReunions()
+    {
+        return $this->reunions;
+    }
+
+    
+
+    /**
+     * Add projetsParAnnee
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee
+     * @return Eleve
+     */
+    public function addProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
+    {
+        $this->projetsParAnnee[] = $projetsParAnnee;
+    }
+
+    /**
+     * Remove projetsParAnnee
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee
+     */
+    public function removeProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
+    {
+        $this->projetsParAnnee->removeElement($projetsParAnnee);
+    }
+
+    /**
+     * Get projetsParAnnee
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjetsParAnnee()
+    {
+        return $this->projetsParAnnee;
+    }
+    
+    /**
      * Add sorties
      *
      * @param \CEC\SecteurSortiesBundle\Entity\Sortie $sortie
@@ -633,6 +730,7 @@ class Eleve implements UserInterface, \Serializable
         return $this;
     }
 
+    
     /**
      * Remove sorties
      *

@@ -1,0 +1,41 @@
+{% extends 'CECSecteurProjetsBundle::base.html.twig' %}
+
+
+
+{% block right %}
+
+{{parent()}}
+
+<h1>Pôle Projets de CEC</h1>
+
+<p> 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur orci non luctus cursus. Vestibulum auctor volutpat nisi a pretium. Sed non felis eget ipsum rutrum convallis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras vel nulla ac nibh maximus luctus eu vitae odio. Donec et aliquet enim. Sed congue felis id justo interdum vehicula. Etiam dapibus sem eu ipsum tristique sodales. Sed non interdum tellus, porta pretium arcu. In eget nisl efficitur, posuere arcu sit amet, porta dui. Vestibulum a turpis ultrices, sodales libero id, malesuada leo. Nunc lacinia aliquam maximus. Nulla porta diam sed nulla rutrum, eu pulvinar erat pharetra. Donec luctus efficitur eros nec facilisis. Sed ac ex rutrum, porttitor dui eget, consectetur orci. Ut vel ullamcorper ipsum.
+<br/>
+Proin lacinia varius congue. Vestibulum lacinia euismod sapien, iaculis tristique massa condimentum ut. Aenean et pretium ante. Ut vehicula enim ac ultricies facilisis. Phasellus condimentum sapien sit amet mollis vulputate. Ut sed vestibulum eros, eget elementum ante. Vestibulum maximus nulla et porttitor vehicula. Vestibulum erat est, luctus ut tortor id, pretium placerat est. Integer id mauris lacus. In hac habitasse platea dictumst. Nam lacinia imperdiet finibus. Vestibulum libero lorem, pulvinar ac tortor eget, feugiat tempor metus.
+
+</p>
+
+<table class="table table-bordered table-striped table-large">
+    <tbody>
+	{% for projet in projets%}
+        <tr>
+            <td>
+                <a href="{{path('description_projet', {'slug': projet.slug})}}"><strong>{{projet.nom}}</strong></a><br/>
+				<p style="padding-left:15px;">{{projet.descriptionCourte}}</p>
+            </td>
+			<td>
+				{% if projet.inscriptionsOuvertes%}
+					<div class="alert alert-success center-block" role="alert">
+						<p><span class="glyphicon glyphicon-ok-circle"></span> Inscriptions ouvertes</p>
+					</div>
+				{% else %}
+					<div class="alert alert-danger center-block" role="alert">
+						<p><span class="glyphicon glyphicon-ban-circle"></span> Inscriptions fermées</p>
+					</div>
+				{% endif %}
+        </tr>
+	{% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

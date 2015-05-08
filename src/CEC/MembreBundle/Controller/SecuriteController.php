@@ -135,11 +135,8 @@ class SecuriteController extends Controller
 				->add('telephone', 'text', array(
 					'label' => 'Numéro de téléphone',
 				))
-				->add('lycee', 'choice', array(
+				->add('lycee', null, array(
 					'label'=>'Lycée de provenance',
-					'choices' => array(	'jjmont'=>'Jean Jaurès Montreuil', 'jjchat' => 'Jean Jaurès Châtenay', 'cpb' => 'Charles Péguy Bobigny', 
-										'cpp'=>'Charles Péguy Paris', 'matisse'=>'Henri Matisse Montreuil', 'mounier'=>'Emmanuel Mounier Chatenay',
-										'monod' => 'Jacques Monod Clamart', 'montesquieu'=>"Montesquieu le Plessis")
 				))
 
 				->add('motDePasse', 'repeated', array(
@@ -201,15 +198,8 @@ class SecuriteController extends Controller
 					'label' => 'Adresse email',
 					'attr' => array('placeholder' => 'Adresse Mail'),
 				))
-				->add('lycee', 'choice', array(
+				->add('lycee', null, array(
 					'label'=>'Lycée de provenance',
-					'choices' => array(	'jjmont'=>'Jean Jaurès Montreuil', 'jjchat' => 'Jean Jaurès Châtenay', 'cpb' => 'Charles Péguy Bobigny', 
-									'cpp'=>'Charles Péguy Paris', 'matisse'=>'Henri Matisse Montreuil', 'mounier'=>'Emmanuel Mounier Chatenay',
-									'monod' => 'Jacques Monod Clamart', 'montesquieu'=>"Montesquieu le Plessis")
-				))
-				->add('classe', 'choice', array(
-					'label'=>'Classe actuelle',
-					'choices'=>array('2nde'=>'Seconde','1e' =>'Première', 'Tale'=>'Terminale')
 				))
 				->add('datenaiss', null, array(
                 'label' => 'Date de naissance',

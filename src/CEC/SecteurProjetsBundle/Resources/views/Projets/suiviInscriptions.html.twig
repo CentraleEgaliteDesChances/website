@@ -1,0 +1,57 @@
+{% if statut == 'eleve' %}
+
+    {% set eleve == user %}
+
+    {% extends 'CECMembreBundle:voirEleve.html.twig' %}
+
+    {% block right %}
+
+        <h2> Participation aux projets</h2>
+
+        <table clas="table table-large table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    {% if projets %}
+                        <th> {{eleve.prenom}} {{eleve.nom}} participe aux projets suivants </th>
+                    {% else %}
+                        <th class="muted"> {{eleve.prenom}} {{eleve.nom}} ne participe à aucun projet </th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for projet in projets %}
+                    <tr>
+                        <td> <a href"{{path('description_projet', { 'slug' : projet.slug } ) }}"> {{projet.nom}} </a> </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% endblock %}
+
+{% elseif statut = 'prof' %}
+    
+    {% set lycee = user.lycee %}
+
+    {% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
+
+    {% block right %}
+
+        <h2>Participation du lycée aux projets </h2>
+
+        <table clas="table table-large table-hover table-bordered table-striped">
+            {% for nomProjet in projets|keys %}
+                <tr>
+                    <th> {{nomProjet}} </th>
+                </tr>
+                {% for lyceen in projets.nomProjet %}
+                <tr>
+                    <td> <a href="{{ path('voir_eleve', { 'id' : lyceen.id } ) }}"> {{lyceen. prenom}} {{lyceen.nom}} </a> </td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+
+    {% endblock %}
+
+{% endif %}
