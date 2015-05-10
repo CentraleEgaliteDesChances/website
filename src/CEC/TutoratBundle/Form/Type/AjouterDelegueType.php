@@ -35,7 +35,7 @@ class AjouterDelegueType extends AbstractType
     }
 
     public function __construct (\CEC\TutoratBundle\Entity\Lycee $lycee)
-{
-    $this->lycee =$lycee;
-}
+    {
+        $this->lycee =$lycee;
+    }
 }

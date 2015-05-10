@@ -260,6 +260,7 @@ class Eleve implements UserInterface, \Serializable
 	* 
 	* @var \Doctrine\Common\Collections\Collection
     *
+    * @ORM\ManyToMany(targetEntity="\CEC\SecteurSortiesBundle\Entity\Sortie", mappedBy="lyceens")
 	*/
 	private $sorties;
 
@@ -508,6 +509,18 @@ class Eleve implements UserInterface, \Serializable
     }
 
     /**
+    * Update les roles donnés à l'utilisateur
+    */
+    public function updateRoles()
+    {
+        $this->setRoles(array('ROLE_ELEVE'));
+
+        if($this->delegue)
+            $this->addRole('ELEVE_DELEGUE');
+
+        return $this;
+    }
+    /**
     * Add role
     */
     public function addRole($role)
@@ -598,10 +611,6 @@ class Eleve implements UserInterface, \Serializable
     public function setDelegue($delegue)
     {
         $this->delegue = $delegue;
-        if(!($delegue== null))
-            $this->addRole("ROLE_ELEVE_DELEGUE");
-        else
-            $this->removeRole("ROLE_ELEVE_DELEGUE");
     
         return $this;
     }

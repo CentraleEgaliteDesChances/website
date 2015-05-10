@@ -358,6 +358,84 @@ class Membre implements UserInterface, \Serializable
         $this->roles = $roles;
     }
 
+    /**
+    * Fonction qui met à jour la liste des roles du membre. Appelée après chaque insert/update
+    * A appeler dès qu'on modifie des roles dans un controleur.
+    */
+    public function updateRoles()
+    {
+        $this->setRoles(array('ROLE_TUTEUR'));
+
+        // Le rôle buro est supérieur hiérarchique de tous les rôles donc, s'il est attribué, pas la peine de faire le reste.
+        if ($this->buro)
+        {
+            $this->addRole('ROLE_BURO');
+            return true;
+        }
+
+
+        $secteurs = $this->secteurs;
+        foreach($secteurs as $secteur)
+        {
+            $nom = $secteur->getNom();
+            switch($nom)
+            {
+                case "Secteur Activités Scientifiques":
+                    $this->addRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
+                    break;
+                case "Secteur Activités Culturelles":
+                    $this->addRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
+                    break;
+                case "Secteur Fundraising":
+                    $this->addRole("ROLE_SECTEUR_FUNDRAISING");
+                    break;
+                case "Secteur Evènements":
+                    $this->addRole("ROLE_SECTEUR_EVCOM");
+                    break;
+                case "Secteur Good Morning London":
+                    $this->addRole("ROLE_SECTEUR_GML");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Centrale Prépa":
+                    $this->addRole("ROLE_SECTEUR_PREPA");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Focus Europe":
+                    $this->addRole("ROLE_SECTEUR_FOCUS_EUROPE");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Stage Théâtre":
+                    $this->addRole("ROLE_SECTEUR_THEATRE");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur (Art)cessible":
+                    $this->addRole("ROLE_SECTEUR_ARTCESSIBLE");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Geek":
+                    $this->addRole("ROLE_SECTEUR_GEEK");
+                    break;
+                case "Secteur Saclay":
+                    $this->addRole("ROLE_SECTEUR_SACLAY");
+                    break;
+                case "Secteur Europen":
+                    $this->addRole("ROLE_SECTEUR_EUROPEN");
+                    break;
+                case "Secteur Sorties":
+                    $this->addRole("ROLE_SECTEUR_SORTIES");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if(count($this->lyceesPourVP) > 0)
+            $this->addRole('ROLE_VP_LYCEE');
+
+        return true;
+
+    }
+
      /**
     * Remove role
     */
@@ -698,57 +776,7 @@ class Membre implements UserInterface, \Serializable
     public function addSecteur(\CEC\MembreBundle\Entity\Secteur $secteur)
     {
         $this->secteurs[] = $secteur;
-        $nom = $secteur->getNom();
-        switch($nom)
-        {
-            case "Secteur Activités Scientifiques":
-                $this->addRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
-                break;
-            case "Secteur Activités Culturelles":
-                $this->addRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
-                break;
-            case "Secteur Fundraising":
-                $this->addRole("ROLE_SECTEUR_FUNDRAISING");
-                break;
-            case "Secteur Evènements":
-                $this->addRole("ROLE_SECTEUR_EVCOM");
-                break;
-            case "Secteur Good Morning London":
-                $this->addRole("ROLE_SECTEUR_GML");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Centrale Prépa":
-                $this->addRole("ROLE_SECTEUR_PREPA");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Focus Europe":
-                $this->addRole("ROLE_SECTEUR_FOCUS_EUROPE");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Stage Théâtre":
-                $this->addRole("ROLE_SECTEUR_THEATRE");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur (Art)cessible":
-                $this->addRole("ROLE_SECTEUR_ARTCESSIBLE");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Geek":
-                $this->addRole("ROLE_SECTEUR_GEEK");
-                break;
-            case "Secteur Saclay":
-                $this->addRole("ROLE_SECTEUR_SACLAY");
-                break;
-            case "Secteur Europen":
-                $this->addRole("ROLE_SECTEUR_EUROPEN");
-                break;
-            case "Secteur Sorties":
-                $this->addRole("ROLE_SECTEUR_SORTIES");
-                break;
-            default:
-                break;
-        }
-
+        
         return $this;
     }
 
@@ -761,56 +789,7 @@ class Membre implements UserInterface, \Serializable
     {
         $this->secteurs->removeElement($secteurs);
 
-        $nom = $secteur->getNom();
-        switch($nom)
-        {
-            case "Secteur Activités Scientifiques":
-                $this->removeRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
-                break;
-            case "Secteur Activités Culturelles":
-                $this->removeRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
-                break;
-            case "Secteur Fundraising":
-                $this->removeRole("ROLE_SECTEUR_FUNDRAISING");
-                break;
-            case "Secteur Evènements":
-                $this->removeRole("ROLE_SECTEUR_EVCOM");
-                break;
-            case "Secteur Good Morning London":
-                $this->removeRole("ROLE_SECTEUR_GML");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Centrale Prépa":
-                $this->removeRole("ROLE_SECTEUR_PREPA");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Focus Europe":
-                $this->removeRole("ROLE_SECTEUR_FOCUS_EUROPE");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Stage Théâtre":
-                $this->removeRole("ROLE_SECTEUR_THEATRE");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur (Art)cessible":
-                $this->removeRole("ROLE_SECTEUR_ARTCESSIBLE");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Geek":
-                $this->removeRole("ROLE_SECTEUR_GEEK");
-                break;
-            case "Secteur Saclay":
-                $this->removeRole("ROLE_SECTEUR_SACLAY");
-                break;
-            case "Secteur Europen":
-                $this->removeRole("ROLE_SECTEUR_EUROPEN");
-                break;
-            case "Secteur Sorties":
-                $this->removeRole("ROLE_SECTEUR_SORTIES");
-                break;
-            default:
-                break;
-        }
+        return $this;
     }
 
     /**

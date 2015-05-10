@@ -13,7 +13,7 @@
             {% for groupe in groupes %}
             <tr>
                 <td>
-                    
+
                     <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
                         <strong>
                             {% for lycee in groupe.lycees %}
@@ -57,7 +57,7 @@
                 class="active"
             {% endif %}
             >
-                <a href="{{path('groupes_passifs') }}"> Groupes inactifs> </a>
+                <a href="{{path('groupes_passifs') }}"> Groupes inactifs </a>
         </li>
     </ul>
 </div>

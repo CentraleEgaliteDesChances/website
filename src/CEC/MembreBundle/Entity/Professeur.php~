@@ -163,9 +163,17 @@ class Professeur implements UserInterface, \Serializable
     /**
      * @var boolean
      *
-     * @ORM\Column(name="referent", type="boolean")
+     * @ORM\Column(name="referent")
      */
     private $referent;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->setRoles(array("ROLE_PROFESSEUR"));
+    }
 
 
     /**
@@ -343,6 +351,7 @@ class Professeur implements UserInterface, \Serializable
     public function setRole($role)
     {
         $this->role = $role;
+        
     
         return $this;
     }
@@ -393,6 +402,30 @@ class Professeur implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+    * Update les roles attribués au professeur
+    */
+    public function updateRoles()
+    {
+        $this->setRoles(array('ROLE_PROFESSEUR'));
+
+        switch($this->role)
+        {
+            case "proviseur":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            case "proviseurAdjoint":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            default:
+                break;
+        }
+
+        if ($this->referent != null)
+            $this->addRole('ROLE_PROFESSEUR_REFERENT');
+
+        return $this;
+    }
     /**
     * Remove role
     */
@@ -477,17 +510,12 @@ class Professeur implements UserInterface, \Serializable
     /**
      * Set referent
      *
-     * @param boolean $referent
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
      * @return Professeur
      */
-    public function setReferent($referent)
+    public function setReferent($lycee)
     {
-        $this->referent = $referent;
-
-        if ($referent)
-            $this->addRole('ROLE_PROFESSEUR_REFERENT');
-        else
-            $this->removeRole('ROLE_PROFESSEUR_REFERENT');
+        $this->referent = $lycee;
     
         return $this;
     }

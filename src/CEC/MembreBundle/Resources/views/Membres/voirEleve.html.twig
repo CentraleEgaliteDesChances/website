@@ -59,14 +59,18 @@
             {% if is_granted('ROLE_TUTEUR') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or eleve == app.user %}
                 <tr>
                     <td> Relevé de présences </td>
-                    <td> <a class="btn btn-small btn-primary label" href="{{ path('absences', {'lyceen' : eleve.id} ) }}"> Relevé </a> </td>
+                    <td> <a class="btn btn-small btn-primary label" href="{{ path('absences', {'lyceen' : eleve.id} ) }}"> Séances </a> 
+                        <a class="btn btn-small btn-primary label" href="{{ path('participation_sorties', {'lyceen' : eleve.id} ) }}"> Sorties </a>
+                        <a class="btn btn-small btn-primary label" href="{{ path('suivi_inscriptions', {'lyceen' : eleve.id} ) }}"> Projets </a> 
+
+                    </td>
                 </tr>
             {% endif %}
         </tbody>
     </table>
 
     {% if app.user == eleve %}
-        <a href="{{ path('reglages_infos_eleve') }}" class="btn btn-block">Modifier mon profil</a>
+        <a href="{{ path('reglages_infos_eleve', {'lyceen' : eleve.id }) }}" class="btn btn-block">Modifier mon profil</a>
     {% endif %}
     
 {% endblock %}

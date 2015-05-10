@@ -175,64 +175,6 @@ class ProjetsController extends Controller
 	}
 
 	/**
-	* Affichage des inscriptions par élève ou par lycée si l'utilisateur est un prof
-	*
-	* @param integer $lyceen : Id du lyceen dont on veut voir les inscriptions (facultatif)
-	*
-	* @Template()
-	*/
-	public function voirInscriptions($lyceen)
-	{
-		if($lyceen == 0)
-			$user = $this->getUser();
-		else
-			$user = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
-
-		if($user instanceof Eleve)
-		{
-			// On récupère les projets auquel a participé le lyceen
-			$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:GroupeEleve')->findBy(array('anneeScolaire' => AnneeScolaire::withDate(), 'lyceen' => $user));
-
-			$projets = array_map(function(ProjetEleve $pe){ return $pe->getProjet();}, $projets);
-
-			return array('statut' => 'eleve', 'user' => $user, 'projets' => $projets);
-		}
-		else if($user instanceof Professeur)
-		{
-			$lycee = $user->getLycee();
-
-			$lyceens = $lycee->getLyceens();
-
-			// Tableau associatif qui prend la liste des lycéens participant par projet
-			$projets = array();
-
-			$result = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
-
-			foreach($result as $projet)
-			{
-				$projets[$projet->getNom()] = array();
-			}
-
-			foreach($lyceens as $lyceen)
-			{
-				// ON récupère les participations de chaque lyceen aux différents projets
-				$data = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:GroupeEleve')->findBy(array('anneeScolaire' => AnneeScolaire::withDate(), 'lyceen' => $user));
-
-				$data = array_map(function(ProjetEleve $pe){ return $pe->getProjet();}, $data);
-
-				foreach($data as $projet)
-				{
-					$projets[$projet->getNom()][] = $lyceen;
-				}
-			}
-
-
-			return array('statut' => 'prof', 'user' => $user, 'projets' => $projets);
-		}
-	}
-
-
-	/**
      * Retire un lycéen du projet.
      *
      * @param string $slug: slug du projet
@@ -290,7 +232,109 @@ class ProjetsController extends Controller
         return $this->redirect($this->generateUrl('editer_projet', array('slug' => $projet->getSlug())));
     }
 	
+	/**
+    *
+    * Affiche la liste des participations aux projets d'un élève par année scolaire
+    * @param integer $lyceen : id du lycéen
+    *
+    * @Template()
+    */
+    public function participationProjetsAction($lyceen)
+    {
+        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lyceen !');
+
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+        $data = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:ProjetEleve')->findByLyceen($lyceen);
+        
+
+        $anneesScolaires = array();
+        $participationParAnnee = array();
+
+        if($data != null)
+        {
+	        foreach($data as $projetEleve)
+	        {
+	            $date =  $projetEleve->getAnneeScolaire();
+
+	            $projet = $projetEleve->getProjet();
+
+	            if(!in_array($date, $anneesScolaires))
+	            {
+	                $anneesScolaires[] = $date;
+	            }
+
+	            if(!array_key_exists($date->afficherAnnees(), $participationParAnnee))
+	            {
+	                $participationParAnnee[$date->afficherAnnees()]= array($projet);
+	            }
+	            else
+	            {
+	            	$participationParAnnee[$date->afficherAnnees()][] = $projet;
+	            }
+
+	        }
 	
-	
+
+	        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+	        if ($annee == $autreAnnee) return 0;
+	        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
+	        });
+	    }
+
+        return array(
+                     'eleve' => $lyceen,
+                     'projets' => $projets,
+                     'participationParAnnee' => $participationParAnnee,
+                     'anneesScolaires' => $anneesScolaires);
+
+
+    }
+
+    /**
+    *
+    * Affiche les participations aux projets des élèves d'un lycée
+    *
+    * @param integer $lycee : id du lycée cherché
+    *
+    * @Template()
+    */
+    public function participationProjetsLyceeAction($lycee)
+    {
+        $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
+        if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycee !');
+
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+        $lyceens = $lycee->getLyceens();
+        $anneesScolaires = array();
+
+ 		// Tableau triant les participations par lycéen, par année Scolaire, par projet
+        $participations = array();
+
+        foreach($lyceens as $lyceen)
+        {
+        	$participations[$lyceen->getId()] = array();
+            $projetEleves = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:ProjetEleve')->findByLyceen($lyceen);
+
+            foreach($projetEleves as $projetEleve)
+            {
+            	$annee = $projetEleve->getAnneeScolaire();
+            	$projet = $projetEleve->getProjet();
+
+            	if(!in_array($annee, $anneesScolaires))
+            		$anneesScolaires[] = $annee;
+
+            	$participations[$lyceen->getId()][$annee->afficherAnnees()][] = $projet;
+            }
+        }
+
+        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+        if ($annee == $autreAnnee) return 0;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
+        });
+
+        return array('anneesScolaires' => $anneesScolaires, 'participations' => $participations, 'projets' => $projets, 'lycee' => $lycee);
+
+    }
 }
 

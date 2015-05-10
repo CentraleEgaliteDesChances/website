@@ -151,11 +151,7 @@ class Sortie
 	/**
 	* Lycéens ayant participé à la sortie
 	*
-	* * @ORM\ManyToMany(targetEntity = "CEC\MembreBundle\Entity\Eleve" )
-	* @ORM\JoinTable(name="eleves_sorties",
-    *      joinColumns={@ORM\JoinColumn(name="sortie_id", referencedColumnName="id")},
-    *      inverseJoinColumns={@ORM\JoinColumn(name="eleve_id", referencedColumnName="id")}
-    *      )
+	* * @ORM\ManyToMany(targetEntity = "CEC\MembreBundle\Entity\Eleve", inversedBy="sorties" )
     */
 	private $lyceens = array();
 

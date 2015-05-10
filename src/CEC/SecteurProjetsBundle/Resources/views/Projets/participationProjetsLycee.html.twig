@@ -1,0 +1,54 @@
+{% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
+
+{% block right %}
+
+	<h2> Tableau récapitulatif des présences en séances de tutorat </h2>
+
+	<table class="table table-bordered table-hover table-striped">
+		{% for anneeScolaire in anneesScolaires%}
+			<thead>
+				<tr class="text-center">
+					<th colspan="{{projets|length + 1}}"> {{anneeScolaire}} </th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<th> Lycéens </th>
+				{% for projet in projets %}
+					<th>
+						<a href="{{ path('description_projet', {'slug' : projet.slug } ) }}">
+							{{projet.nom}}
+						</a>
+					</th>
+				{% endfor %}
+			</tr>
+			{% for lyceen in lycee.lyceens %}
+			<tr>
+				<td>
+					<a href="{{ path('voir_eleve', {'id' : lyceen.id } ) }}">
+						{{lyceen.prenom}} {{lyceen.nom}}
+					</a>
+				</td>
+				{% for projet in projets %}
+					{% if projet.inscriptionsOuvertes %}
+						{% if anneeScolaire.afficherAnnees in participations[lyceen.id]|keys and projet in participations[lyceen.id][anneeScolaire.afficherAnnees] %}
+							<td class="success">
+								<span class="checkmark">&#10004;</span>
+							</td>
+						{% else %}
+							<td class="error">
+								<span class="checkmark">&#10008;</span>
+							</td>
+						{% endif %}
+					{% else %}
+						<td><span class="checkmark">&#8212;</span>
+						</td>
+					{% endif %}
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			</tbody>
+		{% endfor %}
+	</table>
+
+{% endblock %}

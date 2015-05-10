@@ -1,13 +1,3 @@
-voir_tous_membres:
-    pattern: /tuteurs
-    defaults: {_controller: CECMembreBundle:Membres:tous}
-
-voir_membre:
-    pattern: /tuteur/{membre}
-    defaults: {_controller: CECMembreBundle:Membres:voir}
-    requirements:
-        membre: \d+
-
 voir_eleve:
     pattern: /eleve/{id}
     defaults: {_controller: CECMembreBundle:Membres:voirEleve}
@@ -17,6 +7,10 @@ voir_eleve:
 tous_eleves:
     pattern: /eleves
     defaults: {_controller: CECMembreBundle:Membres:tousEleve}
+
+participation_sorties:
+    pattern: /sortiesRealisees/{lyceen}
+    defaults: {_controller: CECSecteurSortiesBundle:SortiesEleve:participationSorties}
 
 voir_professeur:
     pattern: /professeur/{id}
@@ -34,6 +28,16 @@ voir_lycee:
 tous_professeurs:
     pattern: /professeurs
     defaults: {_controller: CECMembreBundle:Membres:tousProfesseur}
+
+voir_tous_membres:
+    pattern: /tuteurs
+    defaults: {_controller: CECMembreBundle:Membres:tous}
+
+voir_membre:
+    pattern: /tuteur/{membre}
+    defaults: {_controller: CECMembreBundle:Membres:voir}
+    requirements:
+        membre: \d+
 
 creer_membre:
     pattern: /creation

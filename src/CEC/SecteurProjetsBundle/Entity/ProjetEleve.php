@@ -26,7 +26,7 @@ class ProjetEleve
     /**
     * @var AnneeScolaire $anneeScolaire 
     *
-    * @ORM\Column(name="anneeScolaire")
+    * @ORM\Column(name="anneeScolaire", type="anneescolaire")
     */
     private $anneeScolaire;
 
@@ -71,7 +71,7 @@ class ProjetEleve
     /**
      * Get anneeScolaire
      *
-     * @return string 
+     * @return AnneeScolaire
      */
     public function getAnneeScolaire()
     {

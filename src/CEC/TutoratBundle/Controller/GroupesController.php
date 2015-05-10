@@ -37,7 +37,9 @@ class GroupesController extends Controller
                 $groupes[] = $groupe;
         }
 
-        return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes));
+        $request = $this->getRequest();
+
+        return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes, 'request' => $request));
     }
 
     /**
@@ -60,7 +62,9 @@ class GroupesController extends Controller
 
         $groupes = array_filter($groupes, function(Groupe $g){ return !(in_array($g, $groupesActifs));});
 
-        return $this->render('CECTutoratBundle:Groupes:passifs.html.twig', array('$groupes' => $groupes));
+        $request = $this->getRequest();
+
+        return $this->render('CECTutoratBundle:Groupes:passifs.html.twig', array('$groupes' => $groupes, 'request' => $request));
     }
 
     /**

@@ -42,7 +42,12 @@ class ReglagesProfesseurController extends Controller
                 $infomationsGenerales->bindRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
+                    // On met à jour les rôles
+                    $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->refreshUser($membre);
+                    $membre->updateRoles();
+                    $this->getDoctrine()->getEntityManager()->flush();
+
+                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées. Une déconnexion peut être nécessaire pour prendre en compte votre nouveau rôle.');
                     return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }
             }

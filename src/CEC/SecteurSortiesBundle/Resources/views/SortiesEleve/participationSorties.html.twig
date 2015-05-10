@@ -1,0 +1,64 @@
+{% extends 'CECMembreBundle:Membres:voirEleve.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/seances.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% set nbrSorties = 0 %}
+{% for sortiesParAnnee in sortiesTotal %}
+	{% for sortie in sortiesParAnnee %}
+			{% set nbrSorties = nbrSorties +1 %}
+	{% endfor %}
+{% endfor %}
+
+{% block right %}
+
+	<h2> Tableau récapitulatif des présences en sorties culturelles </h2>
+
+	<table class="table table-bordered table-hover table-striped table-large">
+		{% for anneeScolaire in anneesScolaires%}
+			<thead>
+				<tr>
+					<th colspan="{{sortiesTotal[anneeScolaire.afficherAnnees]|length +1 }}"> {{anneeScolaire}} </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for sortie in sortiesTotal[anneeScolaire.afficherAnnees] %}
+					<tr>
+						<td>
+							<a href="
+									{% if is_granted('ROLE_TUTEUR') %}
+										{{path('anciennes_sorties')}}#{{sortie.id}}
+									{% elseif is_granted('ROLE_ELEVE') %}
+										{{path('anciennes_sorties_eleve')}}#{{sortie.id}}
+									{% elseif is_granted('ROLE_PROFESSEUR') %}
+										{{path('anciennes_sorties_professeur')}}#{{sortie.id}}
+									{% endif %}
+							">
+                        		<strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} - {{sortie.nom}}</strong>
+                        	</a>
+                        </td>
+                        {% if sortie in eleve.sorties %}
+                        	<td class="success">
+                        		<span class="checkmark">&#10004;</span>
+                        	</td>
+                        {% else %}
+                        	<td class="error">
+                        		<span class="checkmark">&#10008;</span>
+                        	</td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                	<tr>
+                		<td colspan="2" class="muted"> Pas de sortie effectuée cette année </td>
+                	</tr>
+                {% endfor %}
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

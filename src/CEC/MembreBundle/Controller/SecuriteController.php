@@ -117,7 +117,7 @@ class SecuriteController extends Controller
 			$inscrit->setDateCreation(new \DateTime('now'));
 			$inscrit->setDateModification(new \DateTime('now'));
 			$inscrit->setRoles(array('ROLE_PROFESSEUR'));
-			$inscrit->setReferent(false);
+			$inscrit->setReferent(null);
 
 			$form = $this->createFormBuilder($inscrit)
 				->add('prenom', 'text', array(

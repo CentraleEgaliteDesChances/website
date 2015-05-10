@@ -12,7 +12,7 @@ description_projet:
 
 suivi_inscriptions:
     pattern: /suivi-inscriptions/{lyceen}
-    defaults: {_controller: CECSecteurProjetsBundle:Projets:voirInscriptions, lyceen: 0}
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:participationProjets}
 
 # Routes d'affichage des réunions
 liste_reunions:

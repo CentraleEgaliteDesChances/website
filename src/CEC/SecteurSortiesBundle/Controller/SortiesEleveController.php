@@ -10,6 +10,10 @@ use CEC\SecteurSortiesBundle\Form\Type\SortieType;
 use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
 use CEC\SecteurSortiesBundle\Form\Type\SansCRSortieType;
 
+use CEC\TutoratBundle\Entity\GroupeEleves;
+
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 class SortiesEleveController extends Controller
 {
     /**
@@ -84,6 +88,56 @@ class SortiesEleveController extends Controller
         return array(
             'sorties' => $sorties,
         );
+    }
+
+    /**
+    * Méthode pour retourner la liste des sorties auxquelles a participé le tutoré
+    *
+    * @param integer $lyceen : id du lyceen
+    *
+    * @Template()
+    */
+    public function participationSortiesAction($lyceen)
+    {
+        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
+
+        $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findAll();
+
+        $anneesScolaires = array();
+        $sortiesTotal = array();
+
+        // On trie toutes les sorties par Année Scolaire
+        foreach($sorties as $sortie)
+        {
+            $date = $sortie->getDateSortie();
+            $annee = AnneeScolaire::withDate($date);
+
+            if(!array_key_exists($annee->afficherAnnees(), $sortiesTotal))
+            {
+                $sortiesTotal[$annee->afficherAnnees()]= array($sortie);
+            }
+            else
+            {
+                $sortiesTotal[$annee->afficherAnnees()][] = $sortie;
+            }
+
+        }
+
+        // On ne prend que les années scolaires ou le tutoré était présent
+        $groupesLyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findByLyceen($lyceen);
+        $anneesScolaires = array_map(function(GroupeEleves $ge){ return $ge->getAnneeScolaire();}, $groupesLyceen);
+
+        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+        if ($annee == $autreAnnee) return 0;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
+        });
+
+        return array(
+                     'eleve' => $lyceen,
+                     'sortiesTotal' => $sortiesTotal,
+                     'anneesScolaires' => $anneesScolaires);
+
     }
 
 }

@@ -1,3 +1,3 @@
 {% for lyceen in lyceens %}
-	<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
+	<p style="font-weight:bold;"><a href="{{path('voir_eleve', {'id' : lyceen.id } ) }}">{{lyceen}}</a></p>
 {% endfor %}

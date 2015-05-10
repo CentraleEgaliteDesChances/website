@@ -9,36 +9,27 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% set nbrSeances = 0 %}
-{% for seancesParAnnee in seancesTotal %}
-	{% for seance in seancesParAnnee %}
-		{% if date(seance.date) < date() %}
-			{% set nbrSeances = nbrSeances +1 %}
-		{% endif %}
-	{% endfor %}
-{% endfor %}
-
 {% block right %}
 
-	<h2> Tableau récapitulatif des présences en séances de tutorat </h2>
+	<h2> Tableau récapitulatif de la participation aux projets </h2>
 
 	<table class="table table-bordered table-hover table-striped table-large">
 		{% for anneeScolaire in anneesScolaires%}
 			<thead>
 				<tr>
-					<th colspan="{{seancesTotal[anneeScolaire.afficherAnnees]|length +1}}"> {{anneeScolaire}}  <span class="count"> {{eleve.seances|length}} sur {{nbrSeances}}</th>
+					<th colspan="{{projets|length + 1}}"> {{anneeScolaire}} </th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for seance in seancesTotal[anneeScolaire.afficherAnnees] %}
-					{% if date(seance.date) < date() %}
+				{% for projet in projets %}
+					{% if projet.inscriptionsOuvertes %}
 						<tr>
 							<td>
-								<a href="{{ path('seance', { 'seance': seance.id }) }}">
-	                        		<strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }}</strong>
+								<a href="{{ path('description_projet', { 'slug': projet.slug }) }}">
+	                        		<strong>{{projet.nom}}</strong>
 	                        	</a>
 	                        </td>
-	                        {% if seance in eleve.seances %}
+	                        {% if projet in participationParAnnee[anneeScolaire.afficherAnnees] %}
 	                        	<td class="success">
 	                        		<span class="checkmark">&#10004;</span>
 	                        	</td>
@@ -51,7 +42,7 @@
 	                   {% endif %}
                 {% else %}
                 	<tr>
-                		<td colspan="2" class="muted"> Pas de séance effectuée cette année </td>
+                		<td colspan="2" class="muted"> Pas de projet effectué cette année </td>
                 	</tr>
                 {% endfor %}
             </tbody>

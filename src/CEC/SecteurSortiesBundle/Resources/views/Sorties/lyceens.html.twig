@@ -22,7 +22,7 @@
 	    	<p style="font-weight:bold;"> {{lycee.nom}} ({{lycee.ville}}) </p>
 			{% for lyceen in lyceens %}
 				{% if lyceen.lycee == lycee %}
-					<p><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a>
+					<p><a href="{{path('voir_eleve', {'id' : lyceen.id} ) }}">{{lyceen}}</a>
 						{% if lyceen in attente %}
 							<span class="label pull-right"> Sur liste d'attente </span>
 						{% endif %}

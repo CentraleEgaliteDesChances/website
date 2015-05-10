@@ -8,7 +8,7 @@
     <tbody>
         {% for sortie in sorties %}
         <tr>
-            <td>
+            <td id="{{sortie.id}}">
                 {% if is_granted('ROLE_SECTEUR_SORTIES') %}
                     <a class="btn btn-danger pull-right" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
                     <a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'id':sortie.id, 'action':'editer'}) }}">Modifier</a>

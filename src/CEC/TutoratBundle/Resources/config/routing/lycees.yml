@@ -58,3 +58,11 @@ absences_lycee:
     defaults: {_controller: CECTutoratBundle:Seances:absencesLycee}
     requirements:
         lycee: \d+
+
+participation_sorties_lycee:
+    pattern: /participation-sorties-lycee/{lycee}
+    defaults: {_controller: CECSecteurSortiesBundle:SortiesProfesseur:participationSortiesLycee}
+
+participation_projets_lycee:
+    pattern: /participation-projets-lycee/{lycee}
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:participationProjetsLycee}

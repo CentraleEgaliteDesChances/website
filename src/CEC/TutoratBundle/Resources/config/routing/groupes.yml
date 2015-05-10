@@ -3,7 +3,7 @@ tous_groupes:
     defaults: { _controller: CECTutoratBundle:Groupes:actifs }
 
 groupes_passifs:
-    pattern:/passifs
+    pattern: /passifs
     defaults: {_controller: CECTutoratBundle:Groupes:passifs }
 
 creer_groupe:

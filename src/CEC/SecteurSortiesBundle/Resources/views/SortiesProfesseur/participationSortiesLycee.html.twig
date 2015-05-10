@@ -1,0 +1,57 @@
+{% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
+
+{% block right %}
+
+	<h2> Tableau récapitulatif des présences en sorties </h2>
+
+	<table class="table table-bordered table-hover table-striped table-large">
+		{% for anneeScolaire in anneesScolaires%}
+			<thead>
+				<tr class="text-center">
+					<th colspan="{{sortiesTotal[anneeScolaire.afficherAnnees]|length +1 }}"> {{anneeScolaire}} </th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<th> Lycéens </th>
+				{% for sortie in sortiesTotal[anneeScolaire.afficherAnnees] %}
+				<th>
+					<a href="
+							{% if is_granted('ROLE_TUTEUR') %}
+								{{path('anciennes_sorties')}}#{{sortie.id}}
+							{% elseif is_granted('ROLE_ELEVE') %}
+								{{path('anciennes_sorties_eleve')}}#{{sortie.id}}
+							{% elseif is_granted('ROLE_PROFESSEUR') %}
+								{{path('anciennes_sorties_professeur')}}#{{sortie.id}}
+							{% endif %}
+					">
+							{{ sortie.dateSortie|date('d\\/m')}}
+						</a>
+					</th>
+				{% endfor %}
+			</tr>
+			{% for lyceen in lycee.lyceens %}
+			<tr>
+				<td>
+					<a href="{{ path('voir_eleve', {'id' : lyceen.id } ) }}">
+						{{lyceen.prenom}} {{lyceen.nom}}
+					</a>
+				</td>
+				{% for sortie in sortiesTotal[anneeScolaire.afficherAnnees] %}
+					{% if sortie in lyceen.sorties%}
+						<td class="success">
+							<span class="checkmark">&#10004;</span>
+						</td>
+					{% else %}
+						<td class="error">
+							<span class="checkmark">&#10008;</span>
+						</td>
+					{% endif %}
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			</tbody>
+		{% endfor %}
+	</table>
+
+{% endblock %}

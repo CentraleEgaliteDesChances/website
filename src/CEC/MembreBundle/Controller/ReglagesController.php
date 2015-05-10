@@ -136,7 +136,10 @@ class ReglagesController extends Controller
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
+                $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->refreshUser($membre);
+                $membre->updateRoles();
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour. Une déconnexion est nécessaire pour voir les modifications de vos accès.');
                 return $this->redirect($this->generateUrl('reglages_secteurs'));
             }
         }

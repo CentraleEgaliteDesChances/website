@@ -70,6 +70,11 @@ class Lycee
     private $professeurs;
 
     /**
+    * @var \Doctrine\Common\Collections\Collection
+    */
+    private $referents;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      */
     private $vpLycees;
@@ -510,4 +515,70 @@ class Lycee
         return $this->getNom() . ' (' . $this->getVille() . ')';
     }
     
+
+    /**
+     * Add referents
+     *
+     * @param \CEC\MembreBundle\Entity\Professeur $referents
+     * @return Lycee
+     */
+    public function addReferent(\CEC\MembreBundle\Entity\Professeur $referents)
+    {
+        $this->referents[] = $referents;
+    
+        return $this;
+    }
+
+    /**
+     * Remove referents
+     *
+     * @param \CEC\MembreBundle\Entity\Professeur $referents
+     */
+    public function removeReferent(\CEC\MembreBundle\Entity\Professeur $referents)
+    {
+        $this->referents->removeElement($referents);
+    }
+
+    /**
+     * Get referents
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReferents()
+    {
+        return $this->referents;
+    }
+
+    /**
+     * Add lyceens
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
+     * @return Lycee
+     */
+    public function addLyceen(\CEC\MembreBundle\Entity\Eleve $lyceens)
+    {
+        $this->lyceens[] = $lyceens;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lyceens
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
+     */
+    public function removeLyceen(\CEC\MembreBundle\Entity\Eleve $lyceens)
+    {
+        $this->lyceens->removeElement($lyceens);
+    }
+
+    /**
+     * Get lyceens
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLyceens()
+    {
+        return $this->lyceens;
+    }
 }

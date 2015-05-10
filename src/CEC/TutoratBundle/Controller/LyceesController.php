@@ -84,16 +84,6 @@ class LyceesController extends Controller
     public function apercuAction(Lycee $lycee)
     {
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
-        
-        // On récupère le proviseur et le référent
-        $enseignants = $lycee->getProfesseurs();
-        $proviseur = null;
-        $referent = null;
-        foreach ($enseignants as $enseignant) {
-            $roles = $enseignant->getRoles();
-            if (in_array("ROLE_PROFESSEUR_REFERENT",$roles)) $referent = $enseignant;
-            if (in_array("ROLE_PROVISEUR",$roles)) $proviseur = $enseignant;
-        }
             
         // On trouve les tuteurs, les lycéens, les niveaux, les types de tutorat et les prochaines séances
         $tuteurs = array();
@@ -111,8 +101,6 @@ class LyceesController extends Controller
         
         return $this->render('CECTutoratBundle:Lycees:apercu.html.twig', array(
             'lycee'    => $lycee,
-            'referent' => $referent,
-            'proviseur'=> $proviseur,
             'tuteurs'  => $tuteurs,
             'lyceens'  => $lyceens,
             'niveaux'  => $niveaux,
@@ -131,7 +119,7 @@ class LyceesController extends Controller
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
         
         // On génère les formulaires
-        $lyceeForm = $this->createForm(new LyceeType(), $lycee);
+        $lyceeForm = $this->createForm(new LyceeType($lycee), $lycee);
         $ajouterEnseignantForm = $this->createForm(new AjouterEnseignantType());
         $ajouterDelegueForm = $this->createForm(new AjouterDelegueType($lycee));
         
@@ -141,8 +129,27 @@ class LyceesController extends Controller
             $lyceeForm->bindRequest($request);
             if ($lyceeForm->isValid())
             {
+                $this->getDoctrine()->getEntityManager()->flush();
+
+                // On met à jour les rôles de tous les VP Lycées, des élèves délégués ainsi que des professeurs référents de ce lycée
+                $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee->getId());
+                foreach($lycee->getVpLycees() as $tuteur)
+                {
+                    $tuteur->updateRoles();
+                }
+
+                foreach($lycee->getDelegues() as $lyceen)
+                {
+                    $lyceen->updateRoles();
+                }
+
+                foreach($lycee->getReferents() as $prof)
+                {
+                    $prof->updateRoles();
+                }
 
                 $this->getDoctrine()->getEntityManager()->flush();
+
                 $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('lycee', array('lycee' => $lycee->getId())));
             }
@@ -292,6 +299,7 @@ class LyceesController extends Controller
         if (!$delegue) throw $this->createNotFoundException('Impossible de trouver le délégué !');
         
         $delegue->setDelegue(null);
+        $delegue->updateRoles();
         $this->getDoctrine()->getEntityManager()->flush();
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
     }
@@ -322,6 +330,7 @@ class LyceesController extends Controller
         if (!$delegue) throw $this->createNotFoundException('Impossible de trouver le délégué !');
         
         $delegue->setDelegue($lycee);
+        $delegue->updateRoles();
         $this->getDoctrine()->getEntityManager()->flush();
         
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
