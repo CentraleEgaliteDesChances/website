@@ -58,13 +58,18 @@ class GroupesController extends Controller
                 $groupesActifs[] = $groupe;
         }
 
-        $groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findAll();
+        $groupesTotal = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findAll();
 
-        $groupes = array_filter($groupes, function(Groupe $g){ return !(in_array($g, $groupesActifs));});
+        $groupes = array();
+        foreach($groupesTotal as $groupe)
+        {
+            if(!in_array($groupe, $groupesActifs))
+                $groupes[] = $groupe;
+        }
 
         $request = $this->getRequest();
 
-        return $this->render('CECTutoratBundle:Groupes:passifs.html.twig', array('$groupes' => $groupes, 'request' => $request));
+        return $this->render('CECTutoratBundle:Groupes:passifs.html.twig', array('groupes' => $groupes, 'request' => $request));
     }
 
     /**

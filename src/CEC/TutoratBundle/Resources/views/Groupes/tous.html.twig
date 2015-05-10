@@ -1,11 +1,11 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECMainBundle::2-columns.html.twig' %}
 
 
-{% block narrow_title %}Groupes de tutorat{% endblock %}
-
-{% block narrow_body %}
+{% block right %}
 
 {{ parent() }}
+
+<h2> Groupes de tutorat </h2>
 
 <table class="table table-bordered table-hover table-striped">
     {% if groupes|length > 0 %}
