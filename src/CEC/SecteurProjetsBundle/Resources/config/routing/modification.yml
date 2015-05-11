@@ -6,6 +6,10 @@ editer_projet:
     requirements:
         slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
 
+creer_projet:
+    pattern: /creer-projet
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:creer}
+
 
 #Routes d'édition des réunions d'information
 creer_reunion:

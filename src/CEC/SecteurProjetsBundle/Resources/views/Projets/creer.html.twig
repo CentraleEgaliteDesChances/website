@@ -1,0 +1,20 @@
+{% extends 'CECSecteurProjetsBundle::base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+
+{% block right %}
+
+{{parent()}}
+
+<h2> Création d'un nouveau formulaire </h2>
+
+{{ flash('alert', 'Ne pas oublier de demander au webmaster de modifier le code de la classe Membre et le fichier de hiérarchie des rôles pour prendre en compte ce nouveau projet et le secteur associé') }}
+
+<form class="form form-horizontal" method="post" action="{{ path('creer_projet') }}">
+    {{ form_widget(form) }}
+    <div class="footer-controls">
+        <input type="submit" value="Modifier la description du projet" class="btn btn-primary" />
+    </div>
+</form>
+
+{% endblock %}

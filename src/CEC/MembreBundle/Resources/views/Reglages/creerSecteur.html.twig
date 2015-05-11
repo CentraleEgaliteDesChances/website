@@ -1,0 +1,52 @@
+{% extends 'CECMainBundle::2-columns.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/groupes.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block right %}
+{{ parent() }}
+
+{{ flash('alert', 'Ne pas oublier de demander au webmaster de modifier le code de la classe Membre et le fichier de hiérarchie des rôles pour prendre en compte ce nouveau secteur.') }}
+
+<table class="table table-bordered table-hover table-striped table-large">
+    {% if secteurs %}
+        <thead><tr><th><h4>Secteurs de l'association <span class="count">{{ secteurs|length }}</span></h4></th></tr></thead>
+        <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('creer_secteur') }}">
+                    {{ form_errors(form) }}
+                    {{form_label(form.nom)}} :
+                    {{ form_widget(form.nom) }}
+                    {{ form_rest(form) }}
+                    <input type="submit" name="ajouter_secteur" class="btn btn-primary" value="Créer" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+        <tbody>
+            {% for secteur in secteurs %}
+            <tr>
+                <td>
+                    <a class="close pull-right close-red" 
+                        href="{{ path('supprimer_secteur', { 'secteur': secteur.id }) }}">
+                            &times;
+                    </a>
+                    {{secteur.nom}}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Aucun secteur actif au sein de l'association</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+{% endblock %}

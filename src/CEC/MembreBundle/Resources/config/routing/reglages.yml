@@ -32,3 +32,10 @@ reglages_infos_professeur:
     requirements:
         professeur: \d+
 
+creer_secteur:
+    pattern: /creer-secteur
+    defaults: {_controller: CECMembreBundle:Reglages:creerSecteur}
+
+supprimer_secteur:
+    pattern: /supprimer_secteur
+    defaults: {_controller: CECMembreBundle:Reglages:supprimerSecteur}

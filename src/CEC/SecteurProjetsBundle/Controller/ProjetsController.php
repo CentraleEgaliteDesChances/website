@@ -6,9 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use CEC\SecteurProjetsBundle\Entity\ProjetEleve;
+use CEC\SecteurProjetsBundle\Entity\Projet;
 use CEC\SecteurProjetsBundle\Entity\Dossier;
 use CEC\MembreBundle\Entity\Professeur;
 use CEC\MembreBundle\Entity\Eleve;
+use CEC\MembreBundle\Entity\Secteur;
 
 use CEC\SecteurProjetsBundle\Form\ProjetType;
 use CEC\SecteurProjetsBundle\Form\DossierType;
@@ -94,6 +96,68 @@ class ProjetsController extends Controller
 					 'ajouter_lyceen_form'=>$ajouterLyceenForm->createView(),
 					 'projet' => $projet,
 					 'lyceens' => $lyceens);
+	}
+
+	/**
+	* Permet de créer un nouveau projet
+	*
+	* @Template()
+	*/
+	public function creerAction()
+	{
+		$projet = new Projet();
+		$projetForm = $this->createForm(new ProjetType());
+
+		$request = $this->getRequest();
+		
+		if($request->isMethod('POST'))
+		{
+			$form->bindRequest($request);
+			
+			if($form->isValid())
+			{
+				$em = $this->getDoctrine()->getEntityManager();
+
+				// On crée le slug pour notre projet pour les URLS
+
+				// replace non letter or digits by -
+				$slug = preg_replace('~[^\\pL\d]+~u', '-', $projet->getNom());
+				// trim
+				$slug = trim($slug, '-');
+
+				// transliterate
+				$slug = iconv('utf-8', 'us-ascii//TRANSLIT', $slug);
+
+				// lowercase
+				$slug = strtolower($slug);
+
+				// remove unwanted characters
+				$slug = preg_replace('~[^-\w]+~', '', $slug);
+
+				if (empty($slug))
+				{
+					throw $this->createNotFoundException('Nom du projet incompatible');
+				}
+
+				$projet->setSlug($slug);
+
+				// On crée le secteur associé
+
+				$nomSecteur = 'Secteur '.$projet->getNom();
+				$secteur = new Secteur();
+				$secteur->setNom($nomSecteur);
+
+				// On enregistre le tout en BDD
+				$em->persist($secteur);
+				$em->persist($projet);
+				$em->flush();
+				$this->get('session')->setFlash('success','Le projet a bien été créé !');
+				return $this->redirect($this->generateUrl('description_projet', array('slug' =>$projet->getSlug())));
+			}
+		}
+
+		return array('form' => $projetForm->createView());
+
 	}
 	
 	/**

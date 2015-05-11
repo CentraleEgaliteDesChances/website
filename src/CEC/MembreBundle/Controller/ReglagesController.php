@@ -11,6 +11,8 @@ use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use CEC\MembreBundle\Form\Type\SecteursMembreType;
 use CEC\MembreBundle\Form\Type\GroupeMembreType;
 
+use CEC\MembreBundle\Entity\Secteur;
+
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
 use CEC\TutoratBundle\Entity\groupeEleves;
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
@@ -145,5 +147,69 @@ class ReglagesController extends Controller
         }
         
         return array('form' => $form->createView());
+    }
+
+    /** 
+    * Ajout de secteurs
+    *
+    * @Template()
+    */
+    public function creerSecteurAction()
+    {
+        $secteurs = $this->getDoctrine()->getRepository('CECMembreBundle:Secteur')->findAll();
+
+        $secteur = new Secteur();
+        $form = $this->createFormBuilder($secteur)
+                        ->add('nom', 'text', array('label' => 'Nom du nouveau secteur'))
+                    ->getForm();
+
+        $request = $this->getRequest();
+
+        if($request->isMethod('POST'))
+        {
+            $form->bindRequest($request);
+            if($form->isValid())
+            {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->setFlash('success', 'Le secteur a bien été créé');
+
+                return $this->redirect($this->generateUrl('creer_secteur'));
+            }
+        }
+
+        return array('form' => $form->createView(), 'secteurs' => $secteurs);
+    }
+
+    /**
+    * Suppression de secteur
+    *
+    * @param integer $secteur : id du secteur à supprimer
+    * 
+    * @Template()
+    */
+    public function supprimerSecteurAction($secteur)
+    {
+        $secteur = $this->getDoctrine()->getRepository('CECMembreBundle:Secteur')->find($secteur);
+        if(!$secteur) throw $this->createNotFoundException('Le secteur demandé n\'a pas été trouvé !');
+
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Membres')->findAll();
+
+        // On retire les droits du secteur de chaque membre qui y était
+        foreach($membres as $membre)
+        {
+            if(in_array($secteur, $secteurs))
+            {
+                $membre->removeSecteur($secteur);
+                $membre->updateRoles();
+            }
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->remove($secteur);
+        $em->flush();
+
+        $this->get('session')->setFlash('success', 'Le secteur a bien été supprimé et les droits des membres y appartenant ont été modifiés');
+        return $this->redirect($this->generateUrl('creer_secteur'));
     }
 }

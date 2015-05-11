@@ -237,6 +237,7 @@ class MembresController extends Controller
             $form->bindRequest($request);
             if ($form->isValid()) {
                 $nouveauMembreBuro->getMembre()->setBuro(true);
+                $nouveauMembreBuro->getMembre()->updateRoles();
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
                 return $this->redirect($this->generateUrl('passations'));
@@ -261,6 +262,7 @@ class MembresController extends Controller
         if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil !');
         
         $membre->setBuro(false);
+        $membre->updateRoles();
         $this->getDoctrine()->getEntityManager()->flush();
         
         return $this->redirect($this->generateUrl('passations'));
