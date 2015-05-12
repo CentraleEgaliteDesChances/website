@@ -167,6 +167,7 @@ class Mailer
 
 		$template = "CECMainBundle:Mails.inscrit.html.twig";
 
+		$body = $this->templating->render($template, array('projet' => $projet, 'lyceen' => $lyceen, 'base_url' => $baseUrl));
 
 		$this->sendMessage($to, $subject, $body);
 	}
