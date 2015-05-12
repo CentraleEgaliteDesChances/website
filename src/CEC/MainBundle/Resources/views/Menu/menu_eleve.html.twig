@@ -44,9 +44,9 @@
 								<b class="caret"></b>
 					 </a>
 					<ul class="dropdown-menu">
+                        <li><a href="{{ path('toutes_seances') }}">Planning</a></li>
+                        <li><a href="{{ path('description_projets')}}">Pôle Projets</a></li>
 						<li class="secteur">Les Projets</li>
-						<li><a href="{{ path('toutes_seances') }}">Planning</a></li>
-						<li><a href="{{ path('description_projets')}}">Pôle Projets</a></li>
 						{% for projet in projets %}
                             <li><a href="{{ path('description_projet', {'slug' : projet.slug } ) }}"> {{projet.nom}}</a></li>
                         {% endfor %}
@@ -62,7 +62,7 @@
                 </a>
                 <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('reglages_infos_eleve', { 'lyceen' : eleve.id }) }}">Modifier mon profil</a></li>
+                    <li><a href="{{ path('reglages_infos_eleve') }}">Modifier mon profil</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
                 </ul>

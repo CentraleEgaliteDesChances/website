@@ -4,28 +4,33 @@
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_infos_eleve' %}class="active"{% endif %}
             >
-                <a href="{{ path('reglages_infos_eleve', {'lyceen' : app.user.id }) }}">Profil</a>
+                <a href="{{ path('reglages_infos_eleve') }}">Profil</a>
         </li>
-        <li class="nav-header">Mon activité</li>
+
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_groupe_eleve' %}class="active"{% endif %}
             >
-                <a href="{{ path('reglages_groupe_eleve', { 'lyceen' : app.user.id }) }}">Groupes de tutorat</a>
+                <a href="{{ path('reglages_groupe_eleve') }}">Choisir mon groupe de tutorat</a>
         </li>
 
-    </ul>
-</div>
-
-<div class="well">
-	<ul class="nav nav-list">
-		<li>
-			<a href="{{ path('voir_eleve', { 'id' : app.user.id }) }}">Retour au profil public</a>
-		</li>
+        <li class="nav-header">Mon activité</li>
+        
 
         <li>
             <a href="{{ path('absences', {'lyceen' : app.user.id } ) }} "> Mes présences en tutorat </a>
         </li>
 
-	</ul>
+        <li>
+            <a href="{{path('participation_sorties', { 'lyceen' : app.user.id} ) }}"> Mes participations aux sorties </a>
+        </li>
+
+        <li>
+            <a href="{{ path('suivi_inscriptions', {'lyceen' : app.user.id} ) }}"> Mes participations aux projets </a>
+        </li>
+
+    </ul>
+    <br/>
+			<a href="{{ path('voir_eleve', { 'id' : app.user.id }) }}" class="btn btn-primary" style="margin-left:15px;">Retour au profil public</a>
+
 </div>
 

@@ -26,7 +26,7 @@
 				{% if app.user in sortie.lyceens %}
 							<button type="submit" class="btn btn-danger btn-mini pull-right">Se désinscrire</button>
 				{% else %}
-							<button type="submit" class="btn btn-success btn-mini pull-right {% if sortie.places > 0 and sortie.lyceens|length == sortie.places+10 %}disabled{% endif %}">S'inscrire {% if sortie.lyceens >= sortie.places and sortie.place > 0 %} sur liste d'attente {% endif %}</button>
+							<button type="submit" class="btn btn-success btn-mini pull-right {% if sortie.places > 0 and sortie.lyceens|length == (sortie.places + 10) %}disabled{% endif %}">S'inscrire {% if sortie.lyceens|length >= sortie.places and sortie.places > 0 %} sur liste d'attente {% endif %}</button>
 				{% endif %}
 						</div>
 					</form>

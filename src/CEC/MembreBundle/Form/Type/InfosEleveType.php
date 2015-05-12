@@ -11,13 +11,11 @@ class InfosEleveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('prenom', null, array('label' => 'Prénom'))
             ->add('nom', null, array('label' => 'Nom de famille'))
-            ->add('groupe', null, array(
-				'label' => 'Groupe de tutorat',
-				'property' => 'description'))
             ->add('mail', 'text', array(
 					'label' => 'Adresse email',
 					'attr' => array('placeholder' => 'Adresse Mail'),
 			))
+            ->add('lycee', null, array('label' => 'Lycée de provenance'))
             ->add('adresse', null, array('label' => 'Numéro et nom de la rue'))
             ->add('codePostal', null, array('label' => 'Code Postal'))
             ->add('ville', null, array('label' => 'Ville'))

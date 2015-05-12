@@ -99,7 +99,7 @@
             <tr>
                 <td>
                     <a href="
-                            {% if ((is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR')) and app.user in lycee.professeurs)
+                            {% if (is_granted('ROLE_PROFESSEUR') and app.user in lycee.professeurs)
                                or is_granted('ROLE_TUTEUR')
                                or (is_granted('ROLE_ELEVE_DELEGUE') and lycee in app.user.groupe.lycees) %}
                                 

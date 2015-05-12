@@ -52,25 +52,23 @@
 
 <div class="well">
 
-	{% if is_granted('ROLE_SECTEUR_PROJETS') %}
-		<ul class="nav nav-pills nav-stacked">
+	<ul class="nav nav-pills nav-stacked">
+		{% if is_granted('ROLE_SECTEUR_PROJETS') %}
 			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information</a> </li>
 			<li> <a href="{{path('dossier_inscription')}}">Dossiers d'inscription</a></li>
 			<li> <a href="{{path('ouverture_inscription')}}">Ouvrir les inscriptions</a></li>
 			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
 			<li> <a href="{{path('gerer_albums')}}"> Gérer les albums</a></li>
-		</ul>
-	{% elseif is_granted('ROLE_ELEVE')%}
-		<ul class="nav nav-pills nav-stacked">
+		{% elseif is_granted('ROLE_ELEVE')%}
 			<li> <a href="{{path('suivi_inscriptions')}}">Suivi de tes inscriptions </a> </li>
 			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information </a> </li>
 			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
-		</ul>
-	{% elseif is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROFESSEUR_PROVISEUR') %}
-		<ul class="nav nav-pills nav-stacked">
+		{% elseif is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROFESSEUR_PROVISEUR') %}
 			<li> <a href="{{path('suivi_inscriptions') }}"> Menu de consultation des inscriptions </a> </li>
-		</ul>
-	{% endif %}
+		{% elseif is_granted('ROLE_PROFESSEUR') %}
+			<li><a href="{{path('voir_albums')}}"> Voir les photos des projets </a> </li>
+		{% endif %}
+	</ul>
 		
 </div>
 

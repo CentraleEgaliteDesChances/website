@@ -165,7 +165,7 @@ class Professeur implements UserInterface, \Serializable
      *
      * @ORM\Column(name="referent")
      */
-    private $referent;
+    private $referent = false;
 
     /**
      * Constructor
@@ -173,6 +173,7 @@ class Professeur implements UserInterface, \Serializable
     public function __construct()
     {
         $this->setRoles(array("ROLE_PROFESSEUR"));
+        $this->setReferent(false);
     }
 
 

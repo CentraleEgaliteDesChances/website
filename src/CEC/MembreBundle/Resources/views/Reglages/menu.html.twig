@@ -18,12 +18,9 @@
                 <a href="{{ path('reglages_secteurs') }}">Mes secteurs</a>
         </li>
     </ul>
+
+    <br/>
+
+    <a href="{{ path('voir_membre', { 'membre' : app.user.id }) }}" class="btn btn-primary" style="margin-left:15px;">Retour au profil public</a>
 </div>
 
-<div class="well">
-	<ul class="nav nav-list">
-		<li>
-			<a href="{{ path('voir_membre', { 'membre' : membre.id }) }}">Retour au profil public</a>
-		</li>
-	</ul>
-</div>

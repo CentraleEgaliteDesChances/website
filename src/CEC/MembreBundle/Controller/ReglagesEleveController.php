@@ -10,7 +10,10 @@ use CEC\MembreBundle\Form\Type\InfosEleveType;
 use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use CEC\MembreBundle\Form\Type\GroupeEleveType;
 
+use CEC\TutoratBundle\Entity\GroupeEleves;
+
 use CEC\MainBundle\Utility\Referer;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 
 
@@ -24,33 +27,14 @@ class ReglagesEleveController extends Controller
      *
      * @Template()
      */
-    public function infosAction($lyceen)
+    public function infosAction()
     {
         // On récupère l'utilisateur actuel
-        $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
-        if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
-
-        if($membre != $this->getUser())
-        {
-            $this->get('session')->setFlash('warning', 'Vous n\'avez pas accès à cette page !');
-            $params = $this->getRefererParams();
-            return $this->redirect($this->generateUrl(
-                $params['_route'],
-                [
-                    'slug' => $params['slug']
-                ]
-                ));
-        }
+        $membre = $this->getUser();
         
-        $nomInformationsGenerales = 'InfosEleve';
-        $infomationsGenerales = $this->get('form.factory')
-            ->createNamedBuilder($nomInformationsGenerales, new InfosEleveType(), $membre)
-            ->getForm();
+        $infomationsGenerales = $this->createForm(new InfosEleveType(), $membre);
             
-        $nomMotDePasse = 'MotDePasseMembre';
-        $motDePasse = $this->get('form.factory')
-            ->createNamedBuilder($nomMotDePasse, new MotDePasseMembreType())
-            ->getForm();
+        $motDePasse = $this->createForm(new MotDePasseMembreType());
         
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
@@ -81,7 +65,7 @@ class ReglagesEleveController extends Controller
 					} else {
 						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
 					}
-					return $this->redirect($this->generateUrl('reglages_infos_eleve', array('lyceen'=>$lyceen->getId())));
+					return $this->redirect($this->generateUrl('reglages_infos_eleve'));
                 }
             }
         }
@@ -89,7 +73,7 @@ class ReglagesEleveController extends Controller
         return array(
             'informations_generales' => $infomationsGenerales->createView(),
             'mot_de_passe'           => $motDePasse->createView(),
-            'lyceen'                 => $lyceen
+            'lyceen'                 => $membre
         );
     }
     
@@ -97,24 +81,11 @@ class ReglagesEleveController extends Controller
      * Sélection de son groupe de tutorat régulier.
      * @Template()
      */
-    public function groupeAction($lyceen)
+    public function groupeAction()
     {
-        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
-        if(!$lyceen) throw $this->createNotFoundException('Le lycéen n\'a pas pu être trouvé.');
+        $lyceen = $this->getUser();
 
-        if($lyceen != $this->getUser())
-        {
-            $this->get('session')->setFlash('warning', 'Vous n\'avez pas accès à cette page !');
-            $params = $this->getRefererParams();
-            return $this->redirect($this->generateUrl(
-                $params['_route'],
-                [
-                    'slug' => $params['slug']
-                ]
-                ));
-        }
-
-        $form = $this->createForm(new GroupeEleveType(), $membre);
+        $form = $this->createForm(new GroupeEleveType(), $lyceen);
 
         $data = $this->getRequest()->get($form->getName());
         if($data != null)
@@ -124,8 +95,9 @@ class ReglagesEleveController extends Controller
                 $groupe = $data['groupe'];
             } else {
                 $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
-                return $this->redirect($this->generateUrl('reglages_groupe_eleve', array('lyceen'=>$lyceen->getId())));
+                return $this->redirect($this->generateUrl('reglages_groupe_eleve'));
             }
+
             $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
             if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
 

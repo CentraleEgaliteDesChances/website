@@ -15,19 +15,19 @@ reglages_secteurs:
     defaults: {_controller: CECMembreBundle:Reglages:secteurs}
 
 reglages_infos_eleve:
-    pattern: /infos-eleve/{lyceen}
+    pattern: /infos-eleve
     defaults: {_controller: CECMembreBundle:ReglagesEleve:infos}
     requirements:
         lyceen: \d+
 
 reglages_groupe_eleve:
-    pattern: /groupe-eleve/{lyceen}
+    pattern: /groupe-eleve
     defaults: {_controller: CECMembreBundle:ReglagesEleve:groupe}
     requirements:
         lyceen: \d+
 
 reglages_infos_professeur:
-    pattern: /infos-professeur/{professeur}
+    pattern: /infos-professeur
     defaults: {_controller: CECMembreBundle:ReglagesProfesseur:infos}
     requirements:
         professeur: \d+
