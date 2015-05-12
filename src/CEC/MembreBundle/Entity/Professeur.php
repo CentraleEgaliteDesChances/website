@@ -167,6 +167,13 @@ class Professeur implements UserInterface, \Serializable
      */
     private $referent = false;
 
+    /** 
+    * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
+    *
+    *@ORM\Column(name="checkMail", type="boolean")
+    */
+    private $checkMail;
+
     /**
      * Constructor
      */
@@ -598,5 +605,28 @@ class Professeur implements UserInterface, \Serializable
     public function getTelephonePortable()
     {
         return $this->telephonePortable;
+    }
+
+    /**
+     * Set checkMail
+     *
+     * @param boolean $checkMail
+     * @return Professeur
+     */
+    public function setCheckMail($checkMail)
+    {
+        $this->checkMail = $checkMail;
+    
+        return $this;
+    }
+
+    /**
+     * Get checkMail
+     *
+     * @return boolean 
+     */
+    public function getCheckMail()
+    {
+        return $this->checkMail;
     }
 }

@@ -1,0 +1,19 @@
+{% set jours = ['Invalide', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+{% set mois = ['Invalide', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
+
+<p>
+	Bonjour,<br/><br/>
+
+	Une nouvelle réunion concernant le projet {{reunion.projet}} vient d'être créée. <br/>
+
+	Cette réunion aura lieu le <strong>{{ cycle(jours, reunion.date|date('N')) }} {{ reunion.date|date('j') }} {{ cycle(mois, reunion.date|date('n')) }} de {{reunion.heureDebut|date('G\\hi') }} à {{ reunion.heureFin|date('G\\hi') }}</strong> à l'adresse suivante : <br/><br/>
+
+	{{reunion.adresse}} <br/><br/>
+
+	Pour plus d'informations sur cette réunion, et les autres à venir, rendez-vous sur <a href="http://{{base_url}}/projets/reunions"> la page des réunions </a> sur le site de CEC. <br/><br/>
+
+	Bonne journée,<br/>
+	<span class="pull-right">L'équipe CEC</span>
+</p>
+
+<p class="muted small"> Pour ne plus recevoir ces mails automatiques de CEC, connectez-vous sur <a href="http://{{base_url}}/connexion"> le site interne et décochez la case "Recevoir les mails automatiques" dans vos réglages. </p>

@@ -301,6 +301,13 @@ class Membre implements UserInterface, \Serializable
      */
     private $compteRendus;
 
+    /** 
+    * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
+    *
+    *@ORM\Column(name="checkMail", type="boolean")
+    */
+    private $checkMail;
+
 
     /**
      * Constructor
@@ -1014,5 +1021,28 @@ class Membre implements UserInterface, \Serializable
             }
         }while($e = $this->groupeParAnnee->next());
         return null;
+    }
+
+    /**
+     * Set checkMail
+     *
+     * @param boolean $checkMail
+     * @return Membre
+     */
+    public function setCheckMail($checkMail)
+    {
+        $this->checkMail = $checkMail;
+    
+        return $this;
+    }
+
+    /**
+     * Get checkMail
+     *
+     * @return boolean 
+     */
+    public function getCheckMail()
+    {
+        return $this->checkMail;
     }
 }

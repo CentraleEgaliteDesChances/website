@@ -60,11 +60,11 @@
 			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
 			<li> <a href="{{path('gerer_albums')}}"> Gérer les albums</a></li>
 		{% elseif is_granted('ROLE_ELEVE')%}
-			<li> <a href="{{path('suivi_inscriptions')}}">Suivi de tes inscriptions </a> </li>
+			<li> <a href="{{path('suivi_inscriptions', {'lyceen' : app.user.id } ) }}">Suivi de tes inscriptions </a> </li>
 			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information </a> </li>
 			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
 		{% elseif is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROFESSEUR_PROVISEUR') %}
-			<li> <a href="{{path('suivi_inscriptions') }}"> Menu de consultation des inscriptions </a> </li>
+			<li> <a href="{{path('participation_projets_lycee', {'lycee' : app.user.lycee.id } ) }}"> Menu de consultation des inscriptions </a> </li>
 		{% elseif is_granted('ROLE_PROFESSEUR') %}
 			<li><a href="{{path('voir_albums')}}"> Voir les photos des projets </a> </li>
 		{% endif %}

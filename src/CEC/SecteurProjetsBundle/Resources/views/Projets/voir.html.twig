@@ -33,6 +33,22 @@ Proin lacinia varius congue. Vestibulum lacinia euismod sapien, iaculis tristiqu
 						<p><span class="glyphicon glyphicon-ban-circle"></span> Inscriptions fermées</p>
 					</div>
 				{% endif %}
+			</td>
+			<td>
+				{% if projet.reunions %}
+					{% set reunions_a_venir = 0 %}
+					{% for reunion in projet.reunions %}
+						{% if date(reunion.date) > date() %}
+							{% set reunions_a_venir = reunions_a_venir + 1 %}
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+				{% if reunions_a_venir > 0 %}
+					<a href="{{path('liste_reunions')}}"> {{reunions_a_venir}} réunion{% if reunions_a_venir > 1 %}s{% endif %} à venir </a>
+				{% else %}
+					<span class="muted"> Pas de réunion à venir</span>
+				{% endif %}
+			</td>
         </tr>
 	{% endfor %}
     </tbody>

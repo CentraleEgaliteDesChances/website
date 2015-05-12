@@ -26,7 +26,11 @@ class InfosEleveType extends AbstractType
 			))
 			->add('nomPere', null, array('label' => 'Nom du père'))
 			->add('nomMere', null, array('label' => 'Nom de la mère'))
-			->add('telephoneParent', null, array('label' => 'Téléphone du(es) parent(s)'));
+			->add('telephoneParent', null, array('label' => 'Téléphone du(es) parent(s)'))
+            ->add('checkMail' 'checkbox', array(
+                    'label' => 'Recevoir les mails automatiques de CEC',
+                    'required' => false
+            ));
     }
     
     public function getName() {

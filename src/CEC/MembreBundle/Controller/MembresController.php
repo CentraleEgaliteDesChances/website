@@ -171,20 +171,8 @@ class MembresController extends Controller
                 $entityManager->persist($membre);
                 $entityManager->flush();
                 
-                // Envoyer un message
-                $email = \Swift_Message::newInstance()
-                    ->setSubject("Bienvenue sur le site interne de CEC !")
-                    ->setFrom(array("notification@cec-ecp.com" => "Notification CEC"))
-                    ->setTo(array($membre->getEmail() => $membre->__toString()))
-                    ->setBody(
-                        $this->renderView('CECMembreBundle:Mail:bienvenue.html.twig',
-                            array(
-                                'membre' => $membre,
-                                'mot_de_passe' => $motDePasse,
-                                'base_url' => $_SERVER['HTTP_HOST'],
-                            )),
-                        'text/html');
-                $this->get('mailer')->send($email);
+                // Envoyer un message de confirmation
+                $this->get('cec.mailer')->sendInscription($membre, $motDePasse, $_SERVER['HTTP_HOST']);
                 
                 $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
                 return $this->redirect($this->generateUrl('creer_membre'));
@@ -240,6 +228,7 @@ class MembresController extends Controller
                 $nouveauMembreBuro->getMembre()->updateRoles();
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
+                $this->get('cec.mailer')->sendPassations($membre);
                 return $this->redirect($this->generateUrl('passations'));
             }
         }

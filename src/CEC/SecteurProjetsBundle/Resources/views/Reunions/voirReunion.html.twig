@@ -18,8 +18,8 @@
 		</th>
 	</tr>
 		{% for reunion in reunions %}
-		{% if reunion.projet == projet %}
-		<tr>
+		{% if reunion.projet == projet and date(reunion.date) > date() %}
+		<tr id="{{reunion.id}}">
 			<td>
 				{{reunion.nom}}
 			</td>

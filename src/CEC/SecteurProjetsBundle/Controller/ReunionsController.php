@@ -43,6 +43,9 @@ class ReunionsController extends Controller
                 $entityManager->persist($reunion);
                 $entityManager->flush();
 
+                // On envoie un mail à tous les élèves et profs pour les prévenir
+                $this->get('cec.mailer')->sendNouvelleReunion($reunion, $_SERVER['HTTP_HOST']);
+
                 $this->get('session')->setFlash('success', "La réunion a bien été ajoutée");
                 return $this->redirect($this->generateUrl('liste_reunions'));
             }
@@ -74,6 +77,10 @@ class ReunionsController extends Controller
 				$em->flush();
 				
 				$this->get('session')->setFlash('success', "La réunion a bien été modifiée");
+
+				// On envoie un mail aux tutorés inscrits à la réunion et à tous les professeurs pour les prévenir
+				$this->get('cec.mailer')->sendModifReunion($reunion, $_SERVER['HTTP_HOST']);
+				
                 return $this->redirect($this->generateUrl('liste_reunions'));
 			}
 		}

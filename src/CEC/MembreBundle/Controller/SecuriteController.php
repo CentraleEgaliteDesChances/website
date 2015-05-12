@@ -85,19 +85,7 @@ class SecuriteController extends Controller
                 $entityManager->flush();
                 
                 //Envoi du mail
-                $email = \Swift_Message::newInstance()
-                    ->setSubject("Mot de passe pour le site interne de CEC")
-                    ->setFrom(array("notification@cec-ecp.com" => "Notification CEC"))
-                    ->setTo(array($membre->getEmail() => $membre->__toString()))
-                    ->setBody(
-                        $this->renderView('CECMembreBundle:Mail:oubli.html.twig',
-                            array(
-                                'membre' => $membre,
-                                'mot_de_passe' => $motDePasse,
-                                'base_url' => $_SERVER['HTTP_HOST'],
-                            )),
-                        'text/html');
-                $this->get('mailer')->send($email);
+                $this->get('cec.mailer')->sendOubliMdP($membre, $motDePasse, $_SERVER['HTTP_HOST']);
 
                 //Retour à la page de connexion
                 $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');

@@ -28,8 +28,12 @@ class InfosProfesseurType extends AbstractType
                                     'professeur' => 'Enseignant')
             ))
             ->add('telephoneFixe', null, array('label' => 'Numéro de téléphone fixe'))
-            ->add('telephonePortable', null, array('label' => 'Numéro de téléphone portable'))
-			;
+            ->add('telephonePortable', null, array('label' => 'Numéro de téléphone portable (visible uniquement par les responsables de CEC et vos collègues)'
+            ))
+            ->add('checkMail' 'checkbox', array(
+                    'label' => 'Recevoir les mails automatiques de CEC',
+                    'required' => false
+            ));
     }
     
     public function getName() {

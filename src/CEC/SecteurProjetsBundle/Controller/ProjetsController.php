@@ -221,9 +221,15 @@ class ProjetsController extends Controller
 		{
 			foreach($projets as $projet)
 			{
+				$etat = $projet->getInscriptionsOuvertes();
+
 				$slug = $projet->getSlug();
 				$data[$slug] = ($request->request->get($slug)=="true") ? true : false ;
 				$projet->setInscriptionsOuvertes($data[$slug]);
+
+				// Si les inscriptions viennent d'être ouvertes
+				if($data[$slug] and !$etat)
+					$this->get('cec.mailer')->sendInscriptionsOuvertes($projet, $_SERVER['HTTP_HOST']);
 				
 				$em->persist($projet);
 				$em->flush();
@@ -293,6 +299,9 @@ class ProjetsController extends Controller
         $em->persist($projetLyceen);
         $em->flush();
         
+        // On envoie un mail au lycéen pour le prévenir de son acceptation au projet
+        $this->get('cec.mailer')->sendInscrit($projet, $lyceen, $_SERVER['HTTP_HOST']);
+
         return $this->redirect($this->generateUrl('editer_projet', array('slug' => $projet->getSlug())));
     }
 	

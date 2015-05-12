@@ -1010,27 +1010,4 @@ class Eleve implements UserInterface, \Serializable
         }while($e = $this->groupeParAnnee->next());
         return null;
     }
-
-    /**
-     * Set checkMail
-     *
-     * @param boolean $checkMail
-     * @return Eleve
-     */
-    public function setCheckMail($checkMail)
-    {
-        $this->checkMail = $checkMail;
-    
-        return $this;
-    }
-
-    /**
-     * Get checkMail
-     *
-     * @return boolean 
-     */
-    public function getCheckMail()
-    {
-        return $this->checkMail;
-    }
 }

@@ -13,7 +13,12 @@ class InfosMembreType extends AbstractType
             ->add('nom')
             ->add('promotion', null, array('grouping' => false))
 			->add('email')
-            ->add('telephone', null, array('label' => 'Numéro de téléphone'));
+            ->add('telephone', null, array('label' => 'Numéro de téléphone'
+            ))
+            ->add('checkMail' 'checkbox', array(
+                    'label' => 'Recevoir les mails automatiques de CEC',
+                    'required' => false
+            ));
     }
     
     public function getName() {

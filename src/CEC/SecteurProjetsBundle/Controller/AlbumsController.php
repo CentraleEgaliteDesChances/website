@@ -47,6 +47,10 @@ class AlbumsController extends Controller
 				$em->flush();
 				
 				$this->get('session')->setFlash('success', 'L\'album photo a bien été créé !');
+
+				// Envoi d'un mail à tous les tutorés et tous les profs
+				$this->get('cec.mailer')->sendNouvelAlbum($album, $_SERVER['HTTP_HOST']);
+				
 				return $this->redirect($this->generateUrl('voir_albums'));
 			}
 		}
