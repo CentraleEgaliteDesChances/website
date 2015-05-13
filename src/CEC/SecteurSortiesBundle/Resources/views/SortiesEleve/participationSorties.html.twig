@@ -24,7 +24,7 @@
 		{% for anneeScolaire in anneesScolaires%}
 			<thead>
 				<tr>
-					<th colspan="{{sortiesTotal[anneeScolaire.afficherAnnees]|length +1 }}"> {{anneeScolaire}} </th>
+					<th colspan="{{sortiesTotal[anneeScolaire.afficherAnnees]|length +1 }}"> {{anneeScolaire}} <span class="count"> {{sortiesEffectuees|length}} sur {{nbrSorties}}</span></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,7 +43,7 @@
                         		<strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} - {{sortie.nom}}</strong>
                         	</a>
                         </td>
-                        {% if sortie in eleve.sorties %}
+                        {% if sortie in sortiesEffectuees %}
                         	<td class="success">
                         		<span class="checkmark">&#10004;</span>
                         	</td>

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
+use CEC\SecteurSortiesBundle\Entity\SortieEleve;
 use CEC\SecteurSortiesBundle\Form\Type\SortieType;
 use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
 use CEC\SecteurSortiesBundle\Form\Type\SansCRSortieType;
@@ -69,18 +70,10 @@ class SortiesProfesseurController extends Controller
 	{
 		$user = $this->getUser();
 		$lycee = $user->getLycee();
-		$lyceenstotaux = $sortie->getLyceens();
-		$lyceens = array();
+		$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
+		$lyceensSortie = array_filter(function(SortieEleve $s) use($lycee){ return equals($s->getLyceen()->getLycee(), $lycee);}, $lyceensSortie);
 		
-		foreach($lyceenstotaux as $lyceen)
-		{
-			if (equals($lyceen->getLycee(), $lycee))
-			{
-				$lyceens[] = $lyceen;
-			}
-		}
-		
-		return array('lyceens'=>$lyceens);
+		return array('lyceensSortie'=>$lyceensSortie);
 	}
 
     /**
@@ -118,6 +111,16 @@ class SortiesProfesseurController extends Controller
 
         }
 
+        // On récupère les sorties effectuées par chaque lycéen et on les insère dans un tableau indexé par l'id du lycéen
+        $sortiesEffectuees = array();
+        foreach($lycee->getLyceens() as $l)
+        {
+            $sortiesLyceen = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findByLyceen($l);
+            $sortiesLyceen = array_map(function(SortieEleve $s){return $s->getSortie();}, $sortiesLyceen);
+
+            $sortiesEffectuees[$l->getId()] = $sortiesLyceen;
+        }
+
 
         // On ne prend que les années scolaires ou un tutoré du lycée était présent
         foreach($lycee->getLyceens() as $lyceen)
@@ -137,7 +140,7 @@ class SortiesProfesseurController extends Controller
         return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
         });
 
-        return array('anneesScolaires' => $anneesScolaires, 'lycee'=>$lycee, 'sortiesTotal' => $sortiesTotal);
+        return array('anneesScolaires' => $anneesScolaires, 'lycee'=>$lycee, 'sortiesTotal' => $sortiesTotal, 'sortiesEffectuees' => $sortiesEffectuees);
 
     }
 

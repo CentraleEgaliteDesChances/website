@@ -27,3 +27,10 @@ excel_inscrits:
     defaults: {_controller: CECSecteurSortiesBundle:Sorties:excel}
     requirements:
         id: \d+
+
+sortie_supprimer_lyceen:
+    pattern: /sorties/{sortie}/supprimer/{lyceen}
+    defaults: {_controller: CECSecteurSortiesBundle:Sorties:desinscrire}
+    requirements:
+        sortie: \d+
+        lyceen: \d+

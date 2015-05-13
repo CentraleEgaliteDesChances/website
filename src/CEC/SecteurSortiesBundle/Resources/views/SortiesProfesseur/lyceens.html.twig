@@ -1,3 +1,5 @@
-{% for lyceen in lyceens %}
-	<p style="font-weight:bold;"><a href="{{path('voir_eleve', {'id' : lyceen.id } ) }}">{{lyceen}}</a></p>
+{% for lyceenSortie in lyceensSortie %}
+	<p style="font-weight:bold;"><a href="{{path('voir_eleve', {'id' : lyceenSortie.lyceen.id } ) }}">{{lyceenSortie.lyceen}}</a>
+		{% if lyceenSortie.listeAttente > 0 %} <span class="label pull-right"> {{lyceenSortie.listeAttente}} sur liste d'attente {% endif %}
+	</p>
 {% endfor %}

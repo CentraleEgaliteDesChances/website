@@ -38,7 +38,7 @@
 					</a>
 				</td>
 				{% for sortie in sortiesTotal[anneeScolaire.afficherAnnees] %}
-					{% if sortie in lyceen.sorties%}
+					{% if sortie in sortiesEffectuees[lyceen.id] %}
 						<td class="success">
 							<span class="checkmark">&#10004;</span>
 						</td>

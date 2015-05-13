@@ -20,11 +20,16 @@
   	{% for key, lycee in lycees %}
 	    <div role="tabpanel" class="tab-pane active" id="{{key}}">
 	    	<p style="font-weight:bold;"> {{lycee.nom}} ({{lycee.ville}}) </p>
-			{% for lyceen in lyceens %}
-				{% if lyceen.lycee == lycee %}
-					<p><a href="{{path('voir_eleve', {'id' : lyceen.id} ) }}">{{lyceen}}</a>
-						{% if lyceen in attente %}
-							<span class="label pull-right"> Sur liste d'attente </span>
+			{% for lyceenSortie in lyceensSortie %}
+				{% if lyceenSortie.lyceen.lycee == lycee %}
+					<p>
+						<a class="close pull-right close-red" 
+                        	href="{{ path('sortie_supprimer_lyceen', { 'sortie' : lyceenSortie.sortie.id, 'lyceen': lyceenSortie.lyceen.id }) }}">
+                            &times;
+                   		 </a>
+						<a href="{{path('voir_eleve', {'id' : lyceenSortie.lyceen.id} ) }}">{{lyceenSortie.lyceen}}</a>
+						{% if lyceenSortie.listeAttente > 0 %}
+							<span class="label pull-right">  {{lyceenSortie.listeAttente}} sur liste d'attente </span>
 						{% endif %}
 					</p>
 				{% endif %}

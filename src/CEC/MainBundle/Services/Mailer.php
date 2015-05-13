@@ -110,7 +110,7 @@ class Mailer
 	*/
 	public function sendNouvelAlbum($album, $baseUrl)
 	{
-		$subject = $album->getProjet()->getNom()." : Nouvel album pour l'édition ".$album->getAnnee()." sur le site de CEC !"
+		$subject = $album->getProjet()->getNom()." : Nouvel album pour l'édition ".$album->getAnnee()." sur le site de CEC !";
 		$to = array();
 
 		$eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
@@ -252,8 +252,6 @@ class Mailer
 
 		$to = array();
 
-		$to = array();
-
 		$eleves = $reunion->getPresents();
 		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 
@@ -380,7 +378,7 @@ class Mailer
 	public function sendLyceenDesinscrit(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
 	{
 		$subject = "Un lycéen s'est désinscrit d'une sortie à venir !";
-		$to = "cec.sortie@gmail.com" => "Secteur Sorties CEC";
+		$to = array("cec.sortie@gmail.com" => "Secteur Sorties CEC");
 		$template = "CECMainBundle:Mails:desinscrit.html.twig";
 		
 		$body = $this->templating->render($template, array('sortie'=> $sortie));

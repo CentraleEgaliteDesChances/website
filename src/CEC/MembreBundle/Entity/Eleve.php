@@ -256,11 +256,11 @@ class Eleve implements UserInterface, \Serializable
 	* Répertorie les sorties auxquelles s'est inscrit le lycéen.
 	* ATTENTION : la suppression du lycéen supprime ses inscriptions.
 	* 
-	* Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de Sorties pour ajouter un lycéen à une sortie.
+	* Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de SortieEleve pour ajouter un lycéen à une sortie.
 	* 
 	* @var \Doctrine\Common\Collections\Collection
     *
-    * @ORM\ManyToMany(targetEntity="\CEC\SecteurSortiesBundle\Entity\Sortie", mappedBy="lyceens")
+    * @ORM\OneToMany(targetEntity="\CEC\SecteurSortiesBundle\Entity\SortieEleve", mappedBy="lyceen")
 	*/
 	private $sorties;
 

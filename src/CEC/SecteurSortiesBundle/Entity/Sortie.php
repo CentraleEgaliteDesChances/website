@@ -151,7 +151,7 @@ class Sortie
 	/**
 	* Lycéens ayant participé à la sortie
 	*
-	* * @ORM\ManyToMany(targetEntity = "CEC\MembreBundle\Entity\Eleve", inversedBy="sorties" )
+	* * @ORM\OneToMany(targetEntity = "CEC\SecteurSortiesBundle\Entity\SortieEleve", mappedBy="sortie" )
     */
 	private $lyceens = array();
 
@@ -459,39 +459,6 @@ class Sortie
     {
         return $this->description;
     }
-
-	/**
-     * Add lycéens
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceen
-     * @return Seance
-     */
-    public function addLyceen(\CEC\MembreBundle\Entity\Eleve $lyceen)
-    {
-        $this->lyceens[] = $lyceen;
-    
-        return $this;
-    }
-
-    /**
-     * Remove lycéens
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceen
-     */
-    public function removeLyceen(\CEC\MembreBundle\Entity\Eleve $lyceen)
-    {
-        $this->lyceens->removeElement($lyceen);
-    }
-
-    /**
-     * Get lycéens
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLyceens()
-    {
-        return $this->lyceens;
-    }
 	
     /**
      * Set nbLyceens
@@ -620,4 +587,37 @@ class Sortie
 		return $this->places;
 	}
 	
+
+    /**
+     * Add lyceens
+     *
+     * @param \CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens
+     * @return Sortie
+     */
+    public function addLyceen(\CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens)
+    {
+        $this->lyceens[] = $lyceens;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lyceens
+     *
+     * @param \CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens
+     */
+    public function removeLyceen(\CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens)
+    {
+        $this->lyceens->removeElement($lyceens);
+    }
+
+    /**
+     * Get lyceens
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLyceens()
+    {
+        return $this->lyceens;
+    }
 }

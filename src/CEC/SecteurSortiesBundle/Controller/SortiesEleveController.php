@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
+use CEC\SecteurSortiesBundle\Entity\SortieEleve;
 use CEC\SecteurSortiesBundle\Form\Type\SortieType;
 use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
 use CEC\SecteurSortiesBundle\Form\Type\SansCRSortieType;
@@ -30,28 +31,65 @@ class SortiesEleveController extends Controller
 		$request= $this->getRequest();
 			
 		if ($request->isMethod("POST"))
-        {            
+        {          
+
+            $em = $this->getDoctrine()->getEntityManager();  
 					
 			$eleve = $this->getUser();
 			$mail = $eleve->getMail();
 			$id = $request->get('id');
 			$sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
 			if (!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie !');
+
+            $lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
+            $lyceens = array_map(function(SortieEleve $s) {return $s->getLyceen();}, $lyceensSortie);
 			
 			// On bascule l'état
-			if ($sortie->getLyceens()->contains($eleve))
+			if ($lyceens->contains($eleve))
 			{
-				$sortie->removeLyceen($eleve);
+				
+                // ON supprime l'élément de SortieEleve associé et on met à jour la place sur liste d'attente de tous les autres inscrits à la sortie
+                $sortieEleve = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBy(array('sortie' => $sortie, 'lyceen' => $eleve));
+                $em->remove($sortieEleve);
+                $place = $sortieEleve->getListeAttente();
+
+                foreach($lyceensSortie as $l)
+                {
+                    $rang = $l->getListeAttente();
+                    if($rang > $place)
+                    {
+                        $l->setListeAttente($rang-1);
+                    }
+                }
+
 				$this->get('cec.mailer')->sendLyceenDesinscrit($sortie);
 
 				$request->getSession()->getFlashBag()->add('notice', 'Désinscription bien effectuée.');
+
 			} else {
-				$lyceens = $sortie->addLyceen($eleve);
+                // On crée une nouvelle instance de SortieEleve
+				$sortieEleve = new SortieEleve();
+                $sortieEleve->setSortie($sortie);
+                $sortieEleve->setLyceen($eleve);
+
+                // On calcule la place du lycéen sur liste d'attente
+                $rang = 0;
+
+                if($sortie->getPlaces() !=0 )
+                {
+                    $nbLyceens = count($this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie));
+
+                    $rang = ($nbLyceens - $sortie->getPlaces() > 0) ? $nbLyceens - $sortie->getPlaces() : 0;
+
+                }
+
+                $sortieEleve->setListeAttente($rang);
+
 
 				$request->getSession()->getFlashBag()->add('notice', 'Inscription bien effectuée.');
 			}
 			
-			$em = $this->getDoctrine()->getEntityManager();
+			
 			$em->persist($sortie);
 			$em->flush();
 			
@@ -124,6 +162,10 @@ class SortiesEleveController extends Controller
 
         }
 
+        // On récupère les sorties effectuées par le lycéen
+        $sortiesEffectuees = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findByLyceen($lyceen);
+        $sortiesEffectuees = array_map(function(SortieEleve $s){ return $s->getSortie(); }, $sortiesEffectuees);
+
         // On ne prend que les années scolaires ou le tutoré était présent
         $groupesLyceen = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findByLyceen($lyceen);
         $anneesScolaires = array_map(function(GroupeEleves $ge){ return $ge->getAnneeScolaire();}, $groupesLyceen);
@@ -135,6 +177,7 @@ class SortiesEleveController extends Controller
 
         return array(
                      'eleve' => $lyceen,
+                     'sortiesEffectuees' => $sortiesEffectuees,
                      'sortiesTotal' => $sortiesTotal,
                      'anneesScolaires' => $anneesScolaires);
 

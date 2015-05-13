@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
+use CEC\SecteurSortiesBundle\Entity\SortieEleve;
 use CEC\SecteurSortiesBundle\Form\Type\SortieType;
 use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
 use CEC\SecteurSortiesBundle\Form\Type\SansCRSortieType;
@@ -36,22 +37,14 @@ class SortiesController extends Controller
 	*/
 	public function lyceensAction(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
 	{
-		$lyceens = $sortie->getLyceens();
+		$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
 		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();
 
-        $attente = array($lyceens);
 
-        // S'il y a des lycéens sur liste d'attente, on ne garde que ceux-là dans le tableau attente
-        if(count($lyceens) > $sortie->getPlaces())
-        {
-            for($i=0, $places = $sortie->getPlaces(); $i<$places; $i++ )
-                array_pop($attente);
-        }
 		
 		
 		return array(
-			'lyceens' => $lyceens,
-            'attente' => $attente,
+			'lyceensSortie' => $lyceensSortie,
             'lycees' => $lycees
 			);
 	}
@@ -59,7 +52,7 @@ class SortiesController extends Controller
     /**
      * Affiche le menu des sorties
      *
-     * @param Request $request: requête original
+     * @param Request $request: requête originale
      */
     public function menuAction($request)
     {
@@ -206,6 +199,45 @@ class SortiesController extends Controller
         return $this->redirect($this->generateUrl('sorties'));
     }
 	
+    /**
+    * Désinscrit un lycéen d'une sortie et met à jour la liste d'attente
+    * @param : integer $sortie : id de la sortie concernée
+    * @param : integer $lyceen : id du lycéen concerné
+    *
+    */
+    public function desinscrireAction($sortie, $lyceen)
+    {
+        $doctrine = $this->getDoctrine();
+
+        $sortie = $doctrine->getRepository('CECSecteurSortiesBundle:Sortie')->find($sortie);
+        if(!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie concernée');
+
+        $lyceen = $doctrine->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver ce lyceen');
+
+        $lyceenSortie = $doctrine->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBy(array('sortie' => $sortie, 'lyceen' => $lyceen));
+        if(!$lyceenSortie) throw $this->createNotFoundException('Ce lycéen n\'est pas inscrit à cette sortie');
+
+        $em = $doctrine->getEntityManager();
+
+        $em->remove($lyceenSortie);
+
+        // On met à jour la liste d'attente
+
+        $lyceensSortie = $doctrine->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
+        $place = $lyceenSortie->getListeAttente();
+
+        foreach($lyceensSortie as $l)
+        {
+            $rang = $l->getListeAttente();
+            if($rang > $place)
+            {
+                $l->setListeAttente($rang-1);
+            }
+        }
+        
+        return $this->redirect($this->generateUrl('sorties'));
+    }
 	
 	/**
 	* Crée l'excel des inscrits à une sortie
@@ -225,15 +257,41 @@ class SortiesController extends Controller
             
             $sortie = $em->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
             $handle = fopen('php://output', 'r+');
-			$lyceens = $sortie->getLyceens();
-			$tab = array(utf8_decode('Prénom'), 'Nom', 'Adresse mail', 'Téléphone', utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
+			$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
+			$tab = array('Rang', utf8_decode('Prénom'), 'Nom', 'Adresse mail', utf8_decode('Téléphone'), utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
 			fputcsv($handle, $tab, ';');
 
-            foreach($lyceens as $lyceen) {
+            foreach($lyceensSortie as $lyceenSortie) 
+            {
+                if($lyceenSortie->getListeAttente() == 0)
+                {
+
+                    $lyceen = $lyceenSortie->getLyceen();
                 
-				$tab = array(utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(),  '', '', '');
+				    $tab = array('0', utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(),  '', '', '');
+                    fputcsv($handle, $tab, ';');
+                }                
+            }
+
+            if($sortie->getPlaces() > 0 and count($lyceensSortie) > $sortie->getPlaces())
+            {
+                $tab = array('=','=','=','=','=','=','=','=');
                 fputcsv($handle, $tab, ';');
-                
+                $tab = array('=', '=','=', utf8_decode('Liste d\'attente'), '=', '=', '=','=');
+                fputcsv($handle, $tab, ';');
+                $tab = array('=','=','=','=','=','=','=','=');
+                fputcsv($handle, $tab, ';');
+                $tab = array('Rang', utf8_decode('Prénom'), 'Nom', 'Adresse mail', utf8_decode('Téléphone'), utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
+                fputcsv($handle, $tab, ';');
+
+                foreach($lyceensSortie as $lyceenSortie)
+                {
+                    $lyceen = $lyceenSortie->getLyceen();
+
+                    $tab = array($lyceenSortie->getListeAttente(), utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(),  '', '', '');
+                    fputcsv($handle, $tab, ';');
+                }
+
             }
 
             fclose($handle);

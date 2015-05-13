@@ -3,6 +3,7 @@
 namespace CEC\SecteurProjetsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Projet
@@ -18,6 +19,7 @@ class Projet
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @UniqueEntity(fields="slug", message="Deux projets ne peuvent pas avoir le même slug. Changez le nom du projet.")
      */
     private $id;
 

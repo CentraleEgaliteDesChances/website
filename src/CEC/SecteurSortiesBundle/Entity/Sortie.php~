@@ -91,6 +91,8 @@ class Sortie
      * Année scolaire de la sortie
      *
      * @var CEC\MainBundle\Utility\AnneScolaire
+     *
+     * @ORM\Column(name = "anneeScolaire", type = "anneescolaire")
      */
     private $anneeScolaire;
 
@@ -136,6 +138,22 @@ class Sortie
      * )
      */
     private $description;
+	
+	/**
+	* Nombre de places disponibles
+	*
+	* @var integer
+	* 
+	* @ORM\Column(name="placeslimitees", type = "integer")
+	*/
+	private $places = 0;
+	
+	/**
+	* Lycéens ayant participé à la sortie
+	*
+	* * @ORM\OneToMany(targetEntity = "CEC\SecteurSortiesBundle\Entity\SortieEleve", mappedBy="sortie" )
+    */
+	private $lyceens = array();
 
     /**
      * Nombre de lycéens ayant finalement participas à la sortie
@@ -328,6 +346,29 @@ class Sortie
     }
 
     /**
+     * Set anneeScolaire
+     *
+     * @param \CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire
+     * @return Sortie
+     */
+    public function setAnneeScolaire(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire)
+    {
+        $this->anneeScolaire = $anneeScolaire;
+
+        return $this;
+    }
+
+    /**
+     * Get anneeScolaire
+     *
+     * @return \CEC\MainBundle\AnneeScolaire\AnneeScolaire
+     */
+    public function getAnneeScolaire()
+    {
+        return $this->anneeScolaire;
+    }
+
+    /**
      * Set dateSortie
      *
      * @param \DateTime $dateSortie
@@ -418,7 +459,7 @@ class Sortie
     {
         return $this->description;
     }
-
+	
     /**
      * Set nbLyceens
      *
@@ -533,4 +574,17 @@ class Sortie
     {
         return $this->okCR;
     }
+	
+	public function setPlaces($places)
+	{
+		$this->places = $places;
+		
+		return $places;
+	}
+	
+	public function getPlaces()
+	{
+		return $this->places;
+	}
+	
 }
