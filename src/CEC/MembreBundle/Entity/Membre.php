@@ -306,7 +306,7 @@ class Membre implements UserInterface, \Serializable
     *
     *@ORM\Column(name="checkMail", type="boolean")
     */
-    private $checkMail;
+    private $checkMail = true;
 
 
     /**
@@ -319,6 +319,7 @@ class Membre implements UserInterface, \Serializable
         $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->quizzActus = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
 
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
@@ -448,7 +449,7 @@ class Membre implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->roles))
+        if ($this->roles->contains($role))
         {
             for($i=0; $i<count($this->roles); $i++)
             {
@@ -456,7 +457,7 @@ class Membre implements UserInterface, \Serializable
                     unset($this->roles[i]);
             }
         }
-        $this->roles = array_values($this->roles);
+        return $this->roles;
     }
 
     /**
@@ -464,7 +465,7 @@ class Membre implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!(in_array($role, $this->roles)))
+        if(!$this->roles->contains($role))
         {
             $this->roles[] = $role; 
         }

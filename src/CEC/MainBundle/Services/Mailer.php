@@ -52,9 +52,9 @@ class Mailer
 	*/
 	public function sendInscription($membre, $motDePasse, $baseUrl)
 	{
-		$to = "Bienvenue sur le site interne de CEC !";
-		$subject = array($membre->getEmail() => $membre->__toString());
-		$body = $this->renderView('CECMembreBundle:Mail:bienvenue.html.twig',
+		$subject = "Bienvenue sur le site interne de CEC !";
+		$to = array($membre->getEmail() => $membre->__toString());
+		$body = $this->templating->render('CECMembreBundle:Mail:bienvenue.html.twig',
                             array(
                                 'membre' => $membre,
                                 'mot_de_passe' => $motDePasse,
@@ -70,7 +70,7 @@ class Mailer
 	{
 		$subject = "Mot de passe pour le site interne de CEC";
 		$to = array($membre->getEmail() => $membre->_toString());
-		$body = $this->renderView('CECMainBundle:Mails:oubli.html.twig',
+		$body = $this->templating->render('CECMainBundle:Mails:oubli.html.twig',
                             array(
                                 'membre' => $membre,
                                 'mot_de_passe' => $motDePasse,

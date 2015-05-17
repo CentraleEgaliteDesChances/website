@@ -172,7 +172,7 @@ class Professeur implements UserInterface, \Serializable
     *
     *@ORM\Column(name="checkMail", type="boolean")
     */
-    private $checkMail;
+    private $checkMail = true;
 
     /**
      * Constructor
