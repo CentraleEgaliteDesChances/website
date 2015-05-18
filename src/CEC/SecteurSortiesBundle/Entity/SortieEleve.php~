@@ -32,6 +32,14 @@ class SortieEleve
 
     /**
     *
+    * @var boolean
+    *
+    * @ORM\Column(name="presence", type="boolean")
+    */
+    private $presence=true;
+
+    /**
+    *
     * @ORM\ManyToOne(targetEntity="\CEC\MembreBundle\Entity\Eleve", inversedBy="sorties")
     */
     private $lyceen;
@@ -74,5 +82,51 @@ class SortieEleve
     public function getListeAttente()
     {
         return $this->listeAttente;
+    }
+
+    /**
+     * Set lyceen
+     *
+     * @param \CEC\MembreBundle\Entity\Eleve $lyceen
+     * @return SortieEleve
+     */
+    public function setLyceen(\CEC\MembreBundle\Entity\Eleve $lyceen = null)
+    {
+        $this->lyceen = $lyceen;
+    
+        return $this;
+    }
+
+    /**
+     * Get lyceen
+     *
+     * @return \CEC\MembreBundle\Entity\Eleve 
+     */
+    public function getLyceen()
+    {
+        return $this->lyceen;
+    }
+
+    /**
+     * Set sortie
+     *
+     * @param \CEC\SecteurSortiesBundle\Entity\Sortie $sortie
+     * @return SortieEleve
+     */
+    public function setSortie(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie = null)
+    {
+        $this->sortie = $sortie;
+    
+        return $this;
+    }
+
+    /**
+     * Get sortie
+     *
+     * @return \CEC\SecteurSortiesBundle\Entity\Sortie 
+     */
+    public function getSortie()
+    {
+        return $this->sortie;
     }
 }

@@ -84,6 +84,8 @@ class SortiesEleveController extends Controller
                 }
 
                 $sortieEleve->setListeAttente($rang);
+                if($rang > 0)
+                    $sortieEleve->setPresence(false);
 
 
 				$request->getSession()->getFlashBag()->add('notice', 'Inscription bien effectuée.');

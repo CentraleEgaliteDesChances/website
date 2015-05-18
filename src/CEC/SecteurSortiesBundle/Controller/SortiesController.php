@@ -11,6 +11,7 @@ use CEC\SecteurSortiesBundle\Entity\SortieEleve;
 use CEC\SecteurSortiesBundle\Form\Type\SortieType;
 use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
 use CEC\SecteurSortiesBundle\Form\Type\SansCRSortieType;
+use CEC\SecteurSortiesBundle\Form\Type\AjouterLyceenType;
 
 class SortiesController extends Controller
 {
@@ -95,6 +96,7 @@ class SortiesController extends Controller
                 break;
             case 'cr':
                 $form = $this->createForm(new CRSortieType(), $sortie);
+                $ajouterLyceen = $this->createForm(new AjouterLyceenType($sortie));
                 break;
             case 'editeraveccr':
                 $form = $this->createForm(new SortieType(), $sortie);
@@ -111,6 +113,7 @@ class SortiesController extends Controller
             {
                 if ($action == 'cr')
                     $sortie->setOkCR(true);
+                    $sortie->nbLyceens(count($this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBy(array('sortie'=>$sortie, 'presence'=>true))));
 
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($sortie);
@@ -138,14 +141,88 @@ class SortiesController extends Controller
         }
 
         if ($action == 'cr')
+        {
             $template = 'CECSecteurSortiesBundle:Sorties:editerCR.html.twig';
+            return $this->render($template, array(
+                                                    'form' => $form->createView(),
+                                                    'ajouter_lyceen_form' => $ajouterLyceen->createView(),
+                                                    'sortie' => $sortie
+        ));
+        }
         else
+        {
             $template = 'CECSecteurSortiesBundle:Sorties:editer.html.twig';
 
-        return $this->render($template, array(
-            'form' => $form->createView(),
-            'sortie' => $sortie
-        ));
+            return $this->render($template, array(
+                'form' => $form->createView(),
+                'sortie' => $sortie
+            ));
+        }
+    }
+
+    /**
+    * Méthode permettant de basculer l'état de présence d'un tutoré en sortie
+    * @var integer $sortie : id de la sortie concernée
+    * @var integer $lyceen : id du lyceen concerné
+    *
+    */
+    public function basculerLyceenAction($sortie, $lyceen)
+    {
+        $doctrine = $this->getDoctrine();
+
+        $sortie = $doctrine->getRepository('CECSecteurSortiesBundle:Sortie')->find($sortie);
+        if(!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie demandée.');
+
+        $lyceen = $doctrine->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+        if(!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen demandé');
+
+        $sortieLyceen = $doctrine->getRepository('CECSecteurSortiesBundle:SortieEleve')->findOneBy(array('sortie'=> $sortie, 'lyceen' => $lyceen));
+        if(!$sortieLyceen) throw $this->createNotFoundException('Le lycéen n\'est pas inscrit à cette sortie');
+
+        if($sortieLyceen->getPresence())
+            $sortieLyceen->setPresence(false);
+        else
+            $sortieLyceen->setPresence(true);
+
+        $doctrine->getEntityManager()->flush();
+
+        return $this->redirect($this->generateUrl('editer_sortie', array('action'=>'cr', 'id' => $sortie->getId())));
+    }
+
+    /**
+    * Permet d'ajouter un lycéen à la sortie a posteriori s'il était sur liste d'attente et que l'absent ne s'est pas désinscrit pour libérer la place
+    *
+    * @param integer $sortie: id du sortie de tutorat
+    * @param integer $lyceen: id du lycéen — Variable POST
+    */
+    public function ajouterLyceenAction($sortie)
+    {
+        $sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($sortie);
+        if (!$sortie) throw $this->createNotFoundException('Impossible de trouver le sortie de tutorat !');
+
+        // Récupère le lycéen
+        $ajouterLyceenType = new AjouterLyceenType($sortie);    // Permet de trouver le nom du formulaire — Attention, ne doit pas
+                                                  // se confondre avec le nom de la route, ajouter_lyceen !
+        $data = $this->getRequest()->get($ajouterLyceenType->getName());
+        if (array_key_exists('lyceen', $data))
+        {
+            $lyceen = $data['lyceen'];
+        } else {
+            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
+            return $this->redirect($this->generateUrl('editer_sortie', array('action' => 'cr', 'id' => $sortie->getId())));
+        }
+        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
+        if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
+        
+        $sortieLyceen = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findOneBy(array('sortie'=>$sortie, 'lyceen'=>$lyceen));
+        $sortieLyceen->setListeAttente(0);
+        $sortieLyceen->setPresence(true);
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->persist($sortieLyceen);
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('editer_sortie', array('action' => 'cr', 'id' => $sortie->getId())));
     }
 
 

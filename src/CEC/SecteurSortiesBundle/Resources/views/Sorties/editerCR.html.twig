@@ -1,11 +1,72 @@
 {% extends 'CECMainBundle::narrow.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/seances.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
 
 {% block narrow_title %}Compte rendu de la sortie {{sortie.nom}}{% endblock %}
 
 {% block narrow_body %}
 
 {{ parent() }}
+
+{% set presents = 0 %}
+{% for SortieLyceen in sortie.lyceens %}
+	{% if SortieLyceen.presence %}
+		{% set presents = presents + 1 %}
+	{% endif %}
+{% endfor %}
+
+<table class="table table-bordered table-hover table-striped table-large">
+	<thead>
+		<tr>
+			<th>
+				Lycéens présents à la sortie <span class="count"> {{presents}} sur {{sortie.lyceens|length}}</span>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+        {% for SortieLyceen in sortie.lyceens %}
+        	{% if SortieLyceen.listeAttente == 0 %}
+		        <tr class="{{ SortieLyceen.presence ? 'success' : 'error' }}">
+		            <td>
+		                <span class="checkmark pull-right">
+		                    {% if SortieLyceen.presence %}&#10004;{% else %}&#10008;{% endif %}
+		                </span>
+		                {% if is_granted('ROLE_SECTEUR_SORTIES') %}
+		                <a href="{{ path('sortie_basculer_lyceen', { 'sortie': sortie.id, 'lyceen': SortieLyceen.lyceen.id }) }}">
+		                    <strong>
+		                        {{ SortieLyceen.lyceen.prenom }} {{ SortieLyceen.lyceen.nom }}
+		                    </strong>
+		                </a>
+		                {% else %}
+		                <strong>
+		                    {{SortieLyceen.lyceen.prenom}} {{SortieLyceen.lyceen.nom}}
+		                </strong>
+		                {% endif %}
+		            </td>
+		        </tr>
+		     {% endif %}
+        {% endfor %}
+    </tbody>
+    <tbody>
+        <tr>
+            <td class="ajout">
+                <form class="form form-inline" method="post" action="{{ path('sortie_ajouter_lyceen', { 'sortie': sortie.id }) }}">
+                    {{ form_errors(ajouter_lyceen_form) }}
+                    {{ form_widget(ajouter_lyceen_form.lyceen) }}
+                    {{ form_rest(ajouter_lyceen_form) }}
+                    <input type="submit" name="ajouter_lyceen" class="btn btn-primary" value="Ajouter" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <form class="form" method="post" action="{{ path('editer_sortie', {'action':'cr', 'id':sortie.id}) }}">
     {{ form_widget(form) }}

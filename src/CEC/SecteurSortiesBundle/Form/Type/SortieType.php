@@ -38,10 +38,6 @@ class SortieType extends AbstractType
                     'attr' => array('rows' => '6', 'placeholder' => 'Description'),
                     'help_inline' => 'La description ne peut excéder 800 caractères.',
                 ))
-                ->add('nbLyceens', 'integer', array(
-                    'label' => 'Nombre de lycéens participants',
-                    'attr' => array('placeholder' => 'Nombre de lycéens qui ont participés à la sortie'),
-                ))
                 ->add('nbTuteurs', 'integer', array(
                     'label' => 'Nombre de tuteurs accompagnateurs',
                     'attr' => array('placeholder' => 'Nombre de tuteurs qui ont accompagné les lycéens lors de la sortie'),

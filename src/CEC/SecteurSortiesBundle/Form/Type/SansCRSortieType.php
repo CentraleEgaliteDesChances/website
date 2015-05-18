@@ -12,8 +12,7 @@ class SansCRSortieType extends SortieType
     {
         parent::buildForm($builder, $options);
 
-        $builder->remove('nbLyceens')
-                ->remove('nbTuteurs')
+        $builder->remove('nbTuteurs')
                 ->remove('commentaire')
                 ->remove('prix')
         ;

@@ -34,3 +34,16 @@ sortie_supprimer_lyceen:
     requirements:
         sortie: \d+
         lyceen: \d+
+
+sortie_ajouter_lyceen:
+    pattern: /sorties/{sortie}/ajouter
+    defaults: {_controller: CECSecteurSortiesBundle:Sorties:ajouterLyceen}
+    requirements:
+        sortie: \d+
+
+sortie_basculer_lyceen:
+    pattern: /sorties/{sortie}/basculer/{lyceen}
+    defaults: {_controller: CECSecteurSortiesBundle:Sorties:basculerLyceen}
+    requirements:
+        sortie: \d+
+        lyceen: \d+

@@ -32,6 +32,14 @@ class SortieEleve
 
     /**
     *
+    * @var boolean
+    *
+    * @ORM\Column(name="presence", type="boolean")
+    */
+    private $presence=true;
+
+    /**
+    *
     * @ORM\ManyToOne(targetEntity="\CEC\MembreBundle\Entity\Eleve", inversedBy="sorties")
     */
     private $lyceen;
@@ -120,5 +128,28 @@ class SortieEleve
     public function getSortie()
     {
         return $this->sortie;
+    }
+
+    /**
+     * Set presence
+     *
+     * @param boolean $presence
+     * @return SortieEleve
+     */
+    public function setPresence($presence)
+    {
+        $this->presence = $presence;
+    
+        return $this;
+    }
+
+    /**
+     * Get presence
+     *
+     * @return boolean 
+     */
+    public function getPresence()
+    {
+        return $this->presence;
     }
 }
