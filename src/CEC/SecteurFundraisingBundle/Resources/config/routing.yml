@@ -1,5 +1,23 @@
-statistiques:
-    pattern: /statistiques/{annees}
-    defaults: {_controller: CECSecteurFundraisingBundle:Statistiques:voir, annees: null}
+stats_generales:
+    pattern: /statistiques/general/{annees}
+    defaults: {_controller: CECSecteurFundraisingBundle:Statistiques:statsGeneral, annees: null}
     requirements:
         annees: "^[0-9]{4}\-[0-9]{4}$"
+
+stats_detaillees:
+    pattern: /statistiques/details/{annees}
+    defaults: {_controller: CECSecteurFundraisingBundle:Statistiques:statsDetail, annees: null}
+    requirements:
+        annees: "^[0-9]{4}\-[0-9]{4}$"
+
+suivi_effectif:
+    pattern: /statistiques/suivi-effectif
+    defaults: {_controller: CECSecteurFundraisingBundle:Statistiques:effectif}
+
+suivi_suivi:
+    pattern: /statistiques/suivi-engagement
+    defaults: {_controller: CECSecteurFundraisingBundle:Statistiques:engagement}
+
+suivi_sorties:
+    pattern: /statistiques/participation-sorties
+    defaults: {_controller: CECSecteurFundraisingBundle:Statistiques:sorties}

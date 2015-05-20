@@ -1,0 +1,234 @@
+{% extends 'CECMainBundle::2-columns.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+    {% stylesheets
+        '@CECSecteurFundraisingBundle/Resources/public/less/statistiques.less'
+        '@CECTutoratBundle/Resources/public/less/seances.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block left %}
+    {% render 'CECSecteurFundraisingBundle:Statistiques:menu' with { 'request' : app.request } %}
+{% endblock %}
+
+
+{% block right %}
+{{ parent() }}
+
+<div role="tabpanel">
+
+    <h2> Indicateurs sur l'évolution des effectifs à CEC </h2>
+
+  <!-- Nav tabs -->
+  <ul class="nav-tabs" role="tablist" style="list-style:none;">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Indicateurs généraux</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Indicateurs détaillés</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="home">
+
+
+
+        {# On crée des variables pour retenir les participations de l'année d'avant dans le but de calculer les pourcentages #}
+        {%  set part2nde = 0 %}
+        {%  set part1ere = 0 %}
+        {%  set partTerm = 0 %}
+
+        <table class="table table-bordered table-striped table-stats">
+            <thead>
+                <tr >
+                    <th colspan="9"> Nombre de participations par année </th>
+                </tr>
+                <tr>
+                    <th> Année Scolaire </th>
+                    <th colspan="2"> Secondes </th>
+                    <th colspan="2"> Premières </th>
+                    <th colspan="2"> Terminales </th>
+                    <th colspan="2"> Total </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key,participations in participationsParAnnee%}
+                <tr>
+                    <td> <strong>Année scolaire {{key}}</strong> </td>
+                    <td > 
+                        {% if participations[0] %}
+                            {{participations[0]|length}}
+                        {% else %}
+                            &#8212;
+                        {% endif %}
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[0]|length %}
+                    {% if part2nde == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif part2nde == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - part2nde)/part2nde * 100 %}
+                    {% endif %}
+
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+
+                    {% if pourcentage == 0  or loop.first%}
+                        <td>
+                            &#8212;
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            +{{pourcentage}}%
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            {{pourcentage}}%
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            {{pourcentage}}%
+                        </td>
+                    {% endif %} 
+
+                    <td> 
+                        {% if participations[1] %}
+                            {{participations[1]|length}}
+                        {% else %}
+                            &#8212;
+                        {% endif %}
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[1]|length %}
+                    {% if part1ere == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif part1ere == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - part1ere)/part1ere * 100 %}
+                    {% endif %}
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+
+                    {% if pourcentage == 0 or loop.first %}
+                        <td>
+                            &#8212;
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            +{{pourcentage}}%
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            {{pourcentage}}%
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            {{pourcentage}}%
+                        </td>
+                    {% endif %} 
+
+                    <td> 
+                        {% if participations[2] %}
+                            {{participations[2]|length}}
+                        {% else %}
+                            &#8212;
+                        {% endif %}
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[2]|length %}
+                    {% if partTerm == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif partTerm == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - partTerm)/partTerm * 100 %}
+                    {% endif %}
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+                    {% if pourcentage == 0 or loop.first %}
+                        <td>
+                            &#8212;
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            +{{pourcentage}}%
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            {{pourcentage}}%
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            {{pourcentage}}%
+                        </td>
+                    {% endif %} 
+
+                    <td > 
+                        {% if participations[0] or participations[1] or participations[2] %}
+                            {{participations[0]|length + participations[1]|length + participations[2]|length}}
+                        {% else %}
+                            &#8212;
+                        {% endif %}
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[0]|length + participations[1]|length + participations[2]|length %}
+                    {% set partTotal = part2nde + part1ere + partTerm %}
+                    {% if partTotal == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif partTotal == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - partTotal)/partTotal * 100 %}
+                    {% endif %}
+
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+
+                    {% if pourcentage == 0  or loop.first%}
+                        <td>
+                            &#8212;
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            +{{pourcentage}}%
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            {{pourcentage}}%
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            {{pourcentage}}%
+                        </td>
+                    {% endif %} 
+
+                    {# On change la valeur de part2nde a celle de ce rang pour le rang suivant #}
+                    {% set part2nde = participations[0]|length %}
+
+                    {# On change la valeur de part1ere a celle de ce rang pour le rang suivant #}
+                    {% set part1ere = participations[1]|length %}
+
+                    {# On change la valeur de partTerm a celle de ce rang pour le rang suivant #}
+                    {% set partTerm = participations[2]|length %}
+
+                </tr>
+                {% else %}
+                <tr>
+                    <th colspan="7" class="muted"> Pas de statistiques disponibles </th>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="profile">
+
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}

@@ -4,6 +4,7 @@ namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+use CEC\TutoratBundle\Entity\Seance;
 
 /**
  * Groupe
@@ -359,6 +360,20 @@ class Groupe
     }
 
     /**
+     * Get seances par année
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSeancesAnnee(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $annee)
+    {
+        $seances = $this->seances;
+
+        $seances = array_filter($seances->toArray(), function(Seance $s) use($annee) { return $annee->contientDate($s->getDate());});
+
+        return $seances;
+    }
+
+    /**
      * Add tuteursParAnnee
      *
      * @param \CEC\TutoratBundle\Entity\GroupeTuteurs $tuteursParAnnee
@@ -392,12 +407,26 @@ class Groupe
     }
 
     /**
+    * Retourne les tuteurs de l'année scolaire donnée en argument
+    */
+    public function getTuteursAnnee(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $annee)
+    {
+        $tuteurs = $this->tuteursParAnnee;
+
+        $tuteurs = array_filter($tuteurs->toArray(), function(GroupeTuteurs $g) use($annee) { return ($g->getAnneeScolaire()==$annee);});
+
+        $tuteurs = array_map(function(GroupeTuteurs $g){ return $g->getTuteur();}, $tuteurs);
+
+        return $tuteurs;
+    }
+
+    /**
      * Add lyceensParAnnee
      *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceensParAnnee
+     * @param \CEC\TutoratBundle\Entity\GroupeEleves $lyceensParAnnee
      * @return Groupe
      */
-    public function addLyceensParAnnee(\CEC\MembreBundle\Entity\Eleve $lyceensParAnnee)
+    public function addLyceensParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $lyceensParAnnee)
     {
         $this->lyceensParAnnee[] = $lyceensParAnnee;
     
@@ -407,9 +436,9 @@ class Groupe
     /**
      * Remove lyceensParAnnee
      *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceensParAnnee
+     * @param \CEC\TutoratBundle\Entity\GroupeEleves $lyceensParAnnee
      */
-    public function removeLyceensParAnnee(\CEC\MembreBundle\Entity\Eleve $lyceensParAnnee)
+    public function removeLyceensParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $lyceensParAnnee)
     {
         $this->lyceensParAnnee->removeElement($lyceensParAnnee);
     }
@@ -422,6 +451,20 @@ class Groupe
     public function getLyceensParAnnee()
     {
         return $this->lyceensParAnnee;
+    }
+
+    /**
+    * Retourne les lyceens de l'année scolaire donnée en argument
+    */
+    public function getLyceensAnnee(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $annee)
+    {
+        $lyceens = $this->lyceensParAnnee;
+
+        $lyceens = array_filter($lyceens->toArray(), function(GroupeEleves $g) use($annee) { return ($g->getAnneeScolaire()==$annee);});
+
+        $lyceens = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceens);
+
+        return $lyceens;
     }
 
     /**

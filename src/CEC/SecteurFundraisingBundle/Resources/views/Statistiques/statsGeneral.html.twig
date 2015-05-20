@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECSecteurFundraising:menu' with { 'request' : request } %}
+    {% render 'CECSecteurFundraisingBundle:Statistiques:menu' with { 'request' : app.request } %}
 {% endblock %}
 
 
@@ -121,4 +121,7 @@
         </tbody>
     </table>
 
-{% endblock narrow_body %}
+
+{% endblock %}
+
+

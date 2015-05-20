@@ -15,7 +15,7 @@ class InfosMembreType extends AbstractType
 			->add('email')
             ->add('telephone', null, array('label' => 'Numéro de téléphone'
             ))
-            ->add('checkMail' 'checkbox', array(
+            ->add('checkMail', 'checkbox', array(
                     'label' => 'Recevoir les mails automatiques de CEC',
                     'required' => false
             ));

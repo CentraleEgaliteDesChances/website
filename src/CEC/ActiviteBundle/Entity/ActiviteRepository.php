@@ -87,7 +87,7 @@ class ActiviteRepository extends EntityRepository
     /**
      * Retourne le compte des activités utilisées pendant l'année scolaire indiquée.
      * On retourne le nombre d'activités possédant un compte-rendu attaché à une séance,
-     * elle-même associée à un groupe dont l'année scolaire correspond à celle passée en argument.
+     * elle-même associée à un groupe actif durant l'année scolaire donnée en argument.
      *
      * @param AnneeScolaire $anneeScolaire Année scolaire
      * @return integer Compte des activités utilisées.
@@ -98,8 +98,7 @@ class ActiviteRepository extends EntityRepository
             ->select('COUNT(DISTINCT a)')
             ->join('a.compteRendus', 'cr')
             ->join('cr.seance', 's')
-            ->join('s.groupe', 'g')
-            ->where('g.anneeScolaire = :annee_scolaire')
+            ->where('s IN (SELECT seance FROM CECTutoratBundle:Seance seance JOIN seance.groupe gr JOIN gr.tuteursParAnnee gt WHERE gt.anneeScolaire = :annee_scolaire)')
             ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
             ->getQuery();
         return $query->getSingleScalarResult();
