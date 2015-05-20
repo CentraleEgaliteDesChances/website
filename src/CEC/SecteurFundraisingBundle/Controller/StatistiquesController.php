@@ -13,6 +13,7 @@ use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\Cordee;
 use CEC\ActiviteBundle\Entity\CompteRendu;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
+use CEC\SecteurSortiesBundle\Entity\SortieEleve;
 
 class StatistiquesController extends Controller
 {
@@ -221,11 +222,195 @@ class StatistiquesController extends Controller
 
         }
 
+    // Tableau participations aux sorties
+
+            //Tableau des stats de participation par niveau
+        $statsDetailPart = array();
+
+        $groupesSecondes = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Secondes');
+        $lyceensSecondes = array();
+
+        // On récupère tous les lycéens des groupes sélectionnés
+        foreach($groupesSecondes as $g)
+        {
+            $lyceens = $g->getLyceensParAnnee()->toArray();
+            $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
+            $lyceensSecondes = array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens);
+        }
+
+        $groupesPremieres = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Premières');
+        $lyceensPremieres = array();
+
+        // On récupère tous les lycéens des groupes sélectionnés
+        foreach($groupesPremieres as $g)
+        {
+            $lyceens = $g->getLyceensParAnnee()->toArray();
+            $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
+            $lyceensPremieres = array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens);
+        }
+
+        $groupesTerminales = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Terminales');
+        $lyceensTerminales = array();
+
+        // On récupère tous les lycéens des groupes sélectionnés
+        foreach($groupesTerminales as $g)
+        {
+            $lyceens = $g->getLyceensParAnnee()->toArray();
+            $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
+            $lyceensTerminales = array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens);
+        }
+
+        // Traitement données des lycéens de Seconde
+
+        // Nb de lycéens ayant effectué 0 ou X+ sorties
+        $nb0 = 0;
+        $nb1 = 0;
+        $nb2 = 0;
+        $nb3 = 0;
+        $nb4 = 0;
+        $nb5 = 0;
+
+        foreach($lyceensSecondes as $l)
+        {
+            $sorties = $l->getSorties()->toArray();
+            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
+            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
+            $nbSorties = count($sorties);
+
+            // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
+            // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
+            // pas toujours effectuer le default.
+            switch($nbSorties)
+            {
+                case 0:
+                    $nb0++;
+                    break;
+                case 5:
+                    $nb5++;
+                case 4:
+                    $nb4++;
+                case 3:
+                    $nb3++;
+                case 2:
+                    $nb2++;
+                case 1:
+                    $nb1++;
+                    break;
+                default:
+                    $nb5++;
+                    $nb4++;
+                    $nb3++;
+                    $nb2++;
+                    $nb1++;
+                    break;
+            }
+        }
+
+        $statsDetailPart[] = array('Secondes', $nb0, $nb1, $nb2, $nb3, $nb4, $nb5);
+
+        // Traitement données des lycéens de Première
+
+        // Nb de lycéens ayant effectué 0 ou X+ sorties
+        $nb0 = 0;
+        $nb1 = 0;
+        $nb2 = 0;
+        $nb3 = 0;
+        $nb4 = 0;
+        $nb5 = 0;
+
+        foreach($lyceensPremieres as $l)
+        {
+            $sorties = $l->getSorties()->toArray();
+            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
+            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
+            $nbSorties = count($sorties);
+
+            // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
+            // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
+            // pas toujours effectuer le default.
+            switch($nbSorties)
+            {
+                case 0:
+                    $nb0++;
+                    break;
+                case 5:
+                    $nb5++;
+                case 4:
+                    $nb4++;
+                case 3:
+                    $nb3++;
+                case 2:
+                    $nb2++;
+                case 1:
+                    $nb1++;
+                    break;
+                default:
+                    $nb5++;
+                    $nb4++;
+                    $nb3++;
+                    $nb2++;
+                    $nb1++;
+                    break;
+            }
+        }
+
+        $statsDetailPart[] = array('Premières', $nb0, $nb1, $nb2, $nb3, $nb4, $nb5);
+
+        // Traitement données des lycéens de Terminale
+
+        // Nb de lycéens ayant effectué 0 ou X+ sorties
+        $nb0 = 0;
+        $nb1 = 0;
+        $nb2 = 0;
+        $nb3 = 0;
+        $nb4 = 0;
+        $nb5 = 0;
+
+        foreach($lyceensTerminales as $l)
+        {
+            $sorties = $l->getSorties()->toArray();
+            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
+            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
+            $nbSorties = count($sorties);
+
+            // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
+            // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
+            // pas toujours effectuer le default.
+            switch($nbSorties)
+            {
+                case 0:
+                    $nb0++;
+                    break;
+                case 5:
+                    $nb5++;
+                case 4:
+                    $nb4++;
+                case 3:
+                    $nb3++;
+                case 2:
+                    $nb2++;
+                case 1:
+                    $nb1++;
+                    break;
+                default:
+                    $nb5++;
+                    $nb4++;
+                    $nb3++;
+                    $nb2++;
+                    $nb1++;
+                    break;
+            }
+        }
+
+        $statsDetailPart[] = array('Terminales', $nb0, $nb1, $nb2, $nb3, $nb4, $nb5);
+        
+
         return array(
                         'anneeScolaire' => $anneeScolaire,
                         'statsDetailTutorat' => $statsDetailTutorat,
                         'statsDetailActi' => $statsDetailActi,
                         'statsDetailSorties' => $statsDetailSorties,
+                        'statsDetailPart' => $statsDetailPart,
                     );
     }
 

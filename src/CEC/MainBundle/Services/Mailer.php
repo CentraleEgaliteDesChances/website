@@ -84,13 +84,13 @@ class Mailer
 	/**
 	* Mail signalant à un membre q'on lui a donné les droits BURO
 	*/
-	public function sendPassations($membre)
+	public function sendPassations($membre, $baseUrl)
 	{
 		$to = array($membre->getEmail() => $membre->_toString());
 		$subject = "Nouveaux droits d'administration sur le site de CEC";
 		$template = "CECMainBundle:Mails:passations.html.twig";
 
-		$body = $this->templating->render($template, array('membre' => $membre));
+		$body = $this->templating->render($template, array('membre' => $membre, 'base_url'=> $baseUrl));
 
 		$this->sendMessage($to, $subject, $body);
 	}
@@ -113,8 +113,8 @@ class Mailer
 		$subject = $album->getProjet()->getNom()." : Nouvel album pour l'édition ".$album->getAnnee()." sur le site de CEC !";
 		$to = array();
 
-		$eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$eleves = $this->doctrine->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 		$membres = array_merge($eleves, $professeurs);
 
 		foreach($membres as $m)
@@ -136,11 +136,11 @@ class Mailer
 		$subject = "Les inscriptions pour ".$projet->getNom()." viennent d'être ouvertes !";
 		$to = array();
 
-		$eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$eleves = $this->doctrine->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 
 		// On ne prévient que les professeurs référents.
-		$professeurs = array_filter(function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); }, $professeurs);
+		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
 		$membres = array_merge($eleves, $professeurs);
 
@@ -191,11 +191,11 @@ class Mailer
 
 		$to = array();
 
-		$eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$eleves = $this->doctrine->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 
 		// On ne prévient que les professeurs référents.
-		$professeurs = array_filter(function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); }, $professeurs);
+		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
 		$membres = array_merge($eleves, $professeurs);
 
@@ -221,11 +221,11 @@ class Mailer
 
 		$to = array();
 
-		$eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$eleves = $this->doctrine->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 
 		// On ne prévient que les professeurs référents.
-		$professeurs = array_filter(function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); }, $professeurs);
+		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
 		$membres = array_merge($eleves, $professeurs);
 
@@ -253,10 +253,10 @@ class Mailer
 		$to = array();
 
 		$eleves = $reunion->getPresents();
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 
 		// On ne prévient que les professeurs référents.
-		$professeurs = array_filter(function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); }, $professeurs);
+		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
 		$membres = array_merge($eleves, $professeurs);
 
@@ -284,18 +284,18 @@ class Mailer
 	* Envoie un message à tous les lyceens et aux référents quand une sortie a été modifiée
 	*
 	*/
-	public function sendSortieModifiee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+	public function sendSortieModifiee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
 	{
 		$subject = "Une sortie CEC a été modifiée !";
 		$to = array();
 
-		$lyceens = $this->doctrine->getEntityManager()->getRepository('CECMembreBundle:Eleve')->findByCheckmail(true);
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$lyceens = $this->doctrine->getEntityManager()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 
 		// On ne prévient que les professeurs référents.
-		$professeurs = array_filter(function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); }, $professeurs);
+		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
-		$membres = array_merge($eleves, $professeurs);
+		$membres = array_merge($lyceens, $professeurs);
 
 		foreach($membres as $m)
 		{
@@ -305,7 +305,7 @@ class Mailer
 		$template = "CECMainBundle:Mails:sortieModifiee.html.twig";
 		
 		
-		$body = $this->templating->render($template, array('sortie' => $sortie));
+		$body = $this->templating->render($template, array('sortie' => $sortie, 'base_url'=> $baseUrl));
 		
 		$this->sendMessage($to, $subject, $body);
 		
@@ -315,18 +315,18 @@ class Mailer
 	* Envoie un message à tous les lyceens et aux profs référents quand une sortie a été créée
 	*
 	*/
-	public function sendSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+	public function sendSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
 	{
 		$subject = "Une sortie CEC vient d'être créée !";
 		$to = array();
 
-		$lyceens = $this->doctrine->getEntityManager()->getRepository('CECMembreBundle:Eleve')->findByCheckmail(true);
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$lyceens = $this->doctrine->getEntityManager()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 
 		// On ne prévient que les professeurs référents.
-		$professeurs = array_filter(function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); }, $professeurs);
+		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
-		$membres = array_merge($eleves, $professeurs);
+		$membres = array_merge($lyceens, $professeurs);
 
 		foreach($membres as $m)
 		{
@@ -335,7 +335,7 @@ class Mailer
 
 		$template = "CECMainBundle:Mails:sortieCreee.html.twig";
 		
-		$body = $this->templating->render($template, array('sortie' => $sortie));
+		$body = $this->templating->render($template, array('sortie' => $sortie, 'base_url'=> $baseUrl));
 		
 		$this->sendMessage($to, $subject, $body);
 		
@@ -345,18 +345,18 @@ class Mailer
 	* Envoie un message à tous les lyceens inscrits à une sortie et aux profs référents quand elle a été supprimée
 	*
 	*/
-	public function sendSortieSupprimee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+	public function sendSortieSupprimee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
 	{
 		$subject = "Une sortie CEC a été supprimée !";
 		$to = array();
 		$nom = $sortie->getNom();
 		$lyceens = $sortie->getLyceens();
 
-		$professeurs = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
 		// On ne prévient que les professeurs référents.
-		$professeurs = array_filter(function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); }, $professeurs);
+		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
-		$membres = array_merge($eleves, $professeurs);
+		$membres = array_merge($lyceens, $professeurs);
 
 		foreach($membres as $m)
 		{
@@ -365,7 +365,7 @@ class Mailer
 		
 		$template = "CECMainBundle:Mails:sortieSupprimee.html.twig";
 
-		$body = $this->templating->render($template, array('sortie' => $sortie));
+		$body = $this->templating->render($template, array('sortie' => $sortie, 'base_url'=> $baseUrl));
 		
 		$this->sendMessage($to, $subject, $body);
 		
@@ -375,13 +375,13 @@ class Mailer
 	* Envoie un message à cec.sortie@gmail.com quand un lycéen se désinscrit d'une sortie
 	*
 	*/
-	public function sendLyceenDesinscrit(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
+	public function sendLyceenDesinscrit(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
 	{
 		$subject = "Un lycéen s'est désinscrit d'une sortie à venir !";
 		$to = array("cec.sortie@gmail.com" => "Secteur Sorties CEC");
 		$template = "CECMainBundle:Mails:desinscrit.html.twig";
 		
-		$body = $this->templating->render($template, array('sortie'=> $sortie));
+		$body = $this->templating->render($template, array('sortie'=> $sortie, 'base_url'=> $baseUrl));
 		
 		$this->sendMessage($to, $subject, $body);
 	}

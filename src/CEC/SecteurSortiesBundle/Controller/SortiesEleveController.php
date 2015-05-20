@@ -62,7 +62,7 @@ class SortiesEleveController extends Controller
                     }
                 }
 
-				$this->get('cec.mailer')->sendLyceenDesinscrit($sortie);
+				$this->get('cec.mailer')->sendLyceenDesinscrit($sortie, $_SERVER['HTTP_HOST]']);
 
 				$request->getSession()->getFlashBag()->add('notice', 'Désinscription bien effectuée.');
 

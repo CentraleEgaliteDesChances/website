@@ -33,6 +33,10 @@ class SortieType extends AbstractType
                     'label' => 'Estimation de l\'heure de fin',
                     'attr' => array('placeholder' => 'Estimation de l\'heure de fin'),
                 ))
+                ->add('places', null, array(
+                    'label' => 'Nombre de places offertes (0 si pas de limite)',
+                    'data' => 0
+                ))
                 ->add('description', 'textarea', array(
                     'label' => 'Description',
                     'attr' => array('rows' => '6', 'placeholder' => 'Description'),

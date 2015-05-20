@@ -228,7 +228,7 @@ class MembresController extends Controller
                 $nouveauMembreBuro->getMembre()->updateRoles();
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->setFlash('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
-                $this->get('cec.mailer')->sendPassations($membre);
+                $this->get('cec.mailer')->sendPassations($membre, $_SERVER['HTTP_HOST']);
                 return $this->redirect($this->generateUrl('passations'));
             }
         }
