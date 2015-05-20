@@ -104,14 +104,23 @@ class ReglagesController extends Controller
             $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
             if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
 
-            $groupeMembre = new GroupeTuteurs();
-            $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
-            $groupeMembre->setTuteur($membre);
-            $groupeMembre->setGroupe($groupe);
+            $groupeTuteur = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findOneBy(array('groupe'=>$groupe, 'tuteur'=>$membre, 'anneeScolaire' => AnneeScolaire::withDate()));
+            if(!$groupeTuteur)
+            {
+                $groupeMembre = new GroupeTuteurs();
+                $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+                $groupeMembre->setTuteur($membre);
+                $groupeMembre->setGroupe($groupe);
 
-            $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getEntityManager();
 
-            $em->persist($groupeMembre);
+                $em->persist($groupeMembre);
+            }
+            else
+            {
+                $groupeTuteur->setGroupe($groupe);
+            }
+            
             $em->flush();
 
             $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');

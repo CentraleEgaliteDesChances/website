@@ -101,14 +101,23 @@ class ReglagesEleveController extends Controller
             $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
             if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
 
-            $groupeLyceen = new GroupeEleves();
-            $groupeLyceen->setAnneeScolaire(AnneeScolaire::withDate());
-            $groupeLyceen->setLyceen($lyceen);
-            $groupeLyceen->setGroupe($groupe);
+            $groupeEleve = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findOneBy(array('groupe'=>$groupe, 'lyceen'=>$lyceen, 'anneeScolaire' => AnneeScolaire::withDate()));
+            if(!$groupeEleve)
+            {
+                $groupeMembre = new GroupeEleves();
+                $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+                $groupeMembre->setLyceen($lyceen);
+                $groupeMembre->setGroupe($groupe);
 
-            $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getEntityManager();
 
-            $em->persist($groupeLyceen);
+                $em->persist($groupeMembre);
+            }
+            else
+            {
+                $groupeLyceen->setGroupe($groupe);
+            }
+            
             $em->flush();
 
             $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
