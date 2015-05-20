@@ -439,7 +439,7 @@ class Professeur implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->roles))
+        if (in_array($role, $this->getRoles()))
         {
             for($i=0; $i<count($this->roles); $i++)
             {
@@ -455,7 +455,7 @@ class Professeur implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if (!(in_array($role, $this->roles)))
+        if (!(in_array($role, $this->getRoles())))
             $this->roles[] = $role;
     }
 

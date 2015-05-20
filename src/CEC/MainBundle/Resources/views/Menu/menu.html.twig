@@ -75,9 +75,6 @@
                         {% for projet in projets %}
                             <li><a href="{{ path('description_projet', {'slug' : projet.slug } ) }}"> {{projet.nom}}</a></li>
                         {% endfor %}
-                            {% if is_granted('ROLE_BURO') %}
-                                <li><a href="{{path('creer_projet') }}"> Créer un nouveau projet </a> </li>
-                            {% endif %}
                         <li class="secteur">Secteur Sorties</li>
                         <li><a href="{{ path('sorties') }}">Liste des sorties</a></li>
                         <li class="secteur">Secteur Événements</li>
@@ -123,6 +120,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('voir_tous_membres') }}">Gestion des membres</a></li>
                         <li><a href="{{ path('passations') }}">Passation et gestion du buro</a></li>
+                        <li><a href="{{ path('stats_generales') }}">Statistiques de l'association</a></li>
                         <li><a href="{{path('creer_projet') }}"> Créer un nouveau projet </a> </li>
                         <li><a href="{{path('creer_secteur') }} "> Gérer les secteurs </a> </li>
                     </ul>

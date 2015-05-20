@@ -449,7 +449,7 @@ class Membre implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if ($this->roles->contains($role))
+        if (in_array($role, $this->getRoles()))
         {
             for($i=0; $i<count($this->roles); $i++)
             {
@@ -465,7 +465,7 @@ class Membre implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!$this->roles->contains($role))
+        if(!in_array($role, $this->getRoles()))
         {
             $this->roles[] = $role; 
         }

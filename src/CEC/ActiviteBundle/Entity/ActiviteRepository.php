@@ -103,4 +103,25 @@ class ActiviteRepository extends EntityRepository
             ->getQuery();
         return $query->getSingleScalarResult();
     }
+
+    /**
+     * Retourne les activités utilisées pendant l'année scolaire indiquée.
+     * On retourne les activités possédant un compte-rendu attaché à une séance,
+     * elle-même associée à un groupe actif durant l'année scolaire donnée en argument.
+     *
+     * @param AnneeScolaire $anneeScolaire Année scolaire
+     * @return \Doctrine\Common\Collection\Collections activités utilisées.
+     */
+    public function utiliseesPourAnneeScolaire(AnneeScolaire $anneeScolaire)
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('DISTINCT a')
+            ->join('a.compteRendus', 'cr')
+            ->join('cr.seance', 's')
+            ->where('s IN (SELECT seance FROM CECTutoratBundle:Seance seance JOIN seance.groupe gr JOIN gr.tuteursParAnnee gt WHERE gt.anneeScolaire = :annee_scolaire)')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        return $query->getResult();
+    }
+
 }

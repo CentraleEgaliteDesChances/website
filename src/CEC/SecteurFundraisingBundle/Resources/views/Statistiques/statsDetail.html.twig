@@ -1,18 +1,4 @@
-{% extends 'CECMainBundle::2-columns.html.twig' %}
-
-{% block stylesheets %}
-{{ parent() }}
-    {% stylesheets
-        '@CECSecteurFundraisingBundle/Resources/public/less/statistiques.less'
-    %}
-    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
-    {% endstylesheets %}
-{% endblock %}
-
-{% block left %}
-    {% render 'CECSecteurFundraisingBundle:Statistiques:menu' with { 'request' : app.request } %}
-{% endblock %}
-
+{% extends 'CECSecteurFundraisingBundle:Statistiques:base.html.twig' %}
 
 {% block right %}
 {{ parent() }}
@@ -23,11 +9,11 @@
         <thead>
             <tr><th colspan="5">Tutorat</th></tr>
             <tr> 
-            	<td style="width:33%;"> Groupe </td>
-            	<td> Tuteurs </td>
-            	<td> Lycéens </td>
-            	<td> Séances </td>
-            	<td> Heures de tutorat </td>
+            	<th style="width:33%;"> Groupe </th>
+            	<th> Tuteurs </th>
+            	<th> Lycéens </th>
+            	<th> Séances </th>
+            	<th> Heures de tutorat </th>
             </tr>
 
         </thead>
@@ -61,6 +47,98 @@
             	</tr>
             {% endfor %}
 
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="5">Activités</th></tr>
+            <tr> 
+            	<th style="width:33%;"> Activité </th>
+            	<th> Nombre d'utilisations </th>
+            	<th> Note moyenne Contenu </th>
+            	<th> Note moyenne Interactivité </th>
+            	<th> Note moyenne Atteinte Objectifs </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ligne in statsDetailActi %}
+        	<tr>
+        		<td style="width:33%;">
+        			<strong>{{ligne[0]}}</strong>
+        		</td>
+        		<td>
+        			<div class="statsDetail">{{ligne[1]}}</div>
+        		</td>
+        		<td class="{{ligne[2] > 3 ? 'success' : 'warning'}}">
+        			<div class="statsDetail">{{ligne[2]}}</div>
+        		</td>
+        		<td class="{{ligne[3] > 3 ? 'success' : 'warning'}}">
+        			<div class="statsDetail">{{ligne[3]}}</div>
+        		</td>
+        		<td class="{{ligne[4] > 3 ? 'success' : 'warning'}}">
+        			<div class="statsDetail">{{ligne[4]}}</div>
+        		</td>
+        	</tr>
+        {% else %}
+        	<tr>
+        		<th colspan="7" class="muted"> Pas d'activités utilisées cette année </th>
+        	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% set prixTotal = 0 %}
+{% set presentsTotal = 0 %}
+
+	{{statsDetailSorties|length}}
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="4">Sorties</th></tr>
+            <tr> 
+            	<th style="width:50%;"> Sortie </th>
+            	<th> Présents </th>
+            	<th> Prix </th>
+            	<th> Prix moyen </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ligne in statsDetailSorties %}
+        	<tr>
+        		<td style="width:50%;">
+        			<strong>{{ligne[0]}}</strong>
+        		</td>
+        		<td>
+        			<div class="statsDetail">{{ligne[1]}}</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail">{{ligne[2]}}</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail">{{(ligne[2]/ligne[1])|number_format(1)}}€</div>
+        		</td>
+        	</tr>
+        	{% set prixTotal = prixTotal + ligne[2]%}
+        	{% set presentsTotal = presentsTotal + ligne[1] %}
+        {% else %}
+        	<tr>
+        		<th colspan="7" class="muted"> Pas d'activités utilisées cette année </th>
+        	</tr>
+        {% endfor %}
+        {% if presentsTotal > 0 %}
+        	<tr>
+        		<td style="width:50%"> <strong> Total </strong> </td>
+        		<td> 
+        			<div class="statsDetail">{{presentsTotal}} </div>
+        		</td>
+        		<td> 
+        			<div class="statsDetail">{{prixTotal}}</div>
+        		</td>
+        		<td> 
+        			<div class="statsDetail">{{(prixTotal/presentsTotal)|number_format(1)}}€ </div>
+        		</td>
+        	</tr>
+        {% endif %}
         </tbody>
     </table>
 

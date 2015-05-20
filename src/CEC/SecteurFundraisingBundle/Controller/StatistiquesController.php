@@ -11,6 +11,8 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\Cordee;
+use CEC\ActiviteBundle\Entity\CompteRendu;
+use CEC\SecteurSortiesBundle\Entity\Sortie;
 
 class StatistiquesController extends Controller
 {
@@ -33,15 +35,16 @@ class StatistiquesController extends Controller
         // On récupère toutes les années scolaires passées ou il y a eu une action de tutorat
         foreach($groupeTuteurs as $g)
         {
+            $auj = AnneeScolaire::withDate();
             $annee = $g->getAnneeScolaire();
-            if(!in_array($annee, $anneesScolaires))
+            if(!in_array($annee, $anneesScolaires) and $annee->getAnneeInferieure() <= $auj->getAnneeInferieure())
                 $anneesScolaires[] = $annee;
         }
 
         foreach($groupeLyceens as $g)
         {
             $annee = $g->getAnneeScolaire();
-            if(!in_array($annee, $anneesScolaires))
+            if(!in_array($annee, $anneesScolaires) and $annee->getAnneeInferieure() <= $auj->getAnneeInferieure())
                 $anneesScolaires[] = $annee;
         }
 
@@ -126,10 +129,12 @@ class StatistiquesController extends Controller
     */
     public function statsDetailAction($annees)
     {
-        // On récupère l'année sélectionnée ou celle en cours si aucune n'est choisie
         $anneeScolaire = $annees ? AnneeScolaire::withAnnees($annees) : AnneeScolaire::withDate();
 
         $doctrine = $this->getDoctrine();
+
+    // Tableau tutorat
+        // On récupère l'année sélectionnée ou celle en cours si aucune n'est choisie
 
         $groupes = $doctrine->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire);
         $groupes = array_unique(array_map(function(GroupeTuteurs $g){ return $g->getGroupe();}, $groupes));
@@ -155,9 +160,72 @@ class StatistiquesController extends Controller
             $statsDetailTutorat[] = array($g, $heuresTutorat);
         }
 
+    // Tableau Activités 
+
+        $activites = $doctrine->getRepository('CECActiviteBundle:Activite')->utiliseesPourAnneeScolaire($anneeScolaire);
+
+        // Tableau recensant les stats de chaque activité par ligne
+        $statsDetailActi = array();
+
+        foreach($activites as $a)
+        {
+            $cRs = $doctrine->getRepository('CECActiviteBundle:CompteRendu')->findByActivite($a);
+            $cRs = array_filter($cRs, function(CompteRendu $cR) use($anneeScolaire) { return $anneeScolaire->contientDate($cR->getDateCreation());});
+
+            $nbrUtil = count($cRs);
+            $moyCon = 0;
+            $moyInt = 0;
+            $moyAtt = 0;
+
+            foreach($cRs as $cR)
+            {
+                $moyCon += $cR->getNoteContenu();
+                $moyInt += $cR->getnoteInteractivite();
+                $moyAtt += $cR->getNoteAtteinteObjectifs();
+            }
+
+            $moyCon = number_format($moyCon/$nbrUtil, 1);
+            $moyInt = number_format($moyInt/$nbrUtil, 1);
+            $moyAtt = number_format($moyAtt/$nbrUtil, 1);
+
+            $statsDetailActi[] = array($a, $nbrUtil, $moyCon, $moyInt, $moyAtt);
+        }
+
+        // On trie pour classer les actis par ordre décroissant d'utilisation
+        usort($statsDetailActi, function($ligne1, $ligne2){
+        if($ligne1[1] == $ligne2[1]) return 0;
+        return ($ligne1[1] < $ligne2[1]) ? 1 : -1;
+        });
+
+    // Tableau Sorties
+
+        // Tableau des stats de chaque sortie
+        $statsDetailSorties = array();
+
+        $sorties = $doctrine->getRepository('CECSecteurSortiesBundle:Sortie')->findAll();
+
+        $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return ($anneeScolaire->contientDate($s->getDateSortie()) and $s->getOkCR());});
+
+        foreach($sorties as $s)
+        {
+            $sortieLyceen = $s->getLyceens();
+
+            $nbrPresents = 0;
+            foreach($sortieLyceen as $l)
+            {
+                if($l->getPresence())
+                    $nbrPresents++;
+            }
+
+            $statsDetailSorties[] = array($s, $nbrPresents, $s->getPrix());
+
+        }
+
         return array(
                         'anneeScolaire' => $anneeScolaire,
-                        'statsDetailTutorat' => $statsDetailTutorat
+                        'statsDetailTutorat' => $statsDetailTutorat,
+                        'statsDetailActi' => $statsDetailActi,
+                        'statsDetailSorties' => $statsDetailSorties,
                     );
     }
 
