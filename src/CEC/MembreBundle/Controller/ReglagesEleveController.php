@@ -101,15 +101,16 @@ class ReglagesEleveController extends Controller
             $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
             if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
 
-            $groupeEleve = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findOneBy(array('groupe'=>$groupe, 'lyceen'=>$lyceen, 'anneeScolaire' => AnneeScolaire::withDate()));
+            $groupeEleve = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findOneBy(array('lyceen'=>$lyceen, 'anneeScolaire' => AnneeScolaire::withDate()));
+                
+            $em = $this->getDoctrine()->getEntityManager();
+
             if(!$groupeEleve)
             {
                 $groupeMembre = new GroupeEleves();
                 $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
                 $groupeMembre->setLyceen($lyceen);
                 $groupeMembre->setGroupe($groupe);
-
-                $em = $this->getDoctrine()->getEntityManager();
 
                 $em->persist($groupeMembre);
             }

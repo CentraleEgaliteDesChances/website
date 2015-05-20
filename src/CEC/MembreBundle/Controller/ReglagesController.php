@@ -104,7 +104,10 @@ class ReglagesController extends Controller
             $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
             if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
 
-            $groupeTuteur = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findOneBy(array('groupe'=>$groupe, 'tuteur'=>$membre, 'anneeScolaire' => AnneeScolaire::withDate()));
+            $groupeTuteur = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findOneBy(array('tuteur'=>$membre, 'anneeScolaire' => AnneeScolaire::withDate()));
+
+            $em = $this->getDoctrine()->getEntityManager();
+
             if(!$groupeTuteur)
             {
                 $groupeMembre = new GroupeTuteurs();
@@ -112,18 +115,18 @@ class ReglagesController extends Controller
                 $groupeMembre->setTuteur($membre);
                 $groupeMembre->setGroupe($groupe);
 
-                $em = $this->getDoctrine()->getEntityManager();
-
                 $em->persist($groupeMembre);
+                $this->get('session')->setFlash('success', 'Vous avez bien été affecté au groupe de tutorat.');
             }
             else
             {
                 $groupeTuteur->setGroupe($groupe);
+                $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
             }
-            
+
             $em->flush();
 
-            $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
+            
         }
         
         
