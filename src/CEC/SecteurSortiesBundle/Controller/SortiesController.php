@@ -41,7 +41,7 @@ class SortiesController extends Controller
 		$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
 		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();
 
-        $lycees = array_filter(function(Lycee $l){ return !($l->getPivot(););}, $lycees);
+        $lycees = array_filter(function(Lycee $l){ return !($l->getPivot());}, $lycees);
 		
 		
 		return array(
