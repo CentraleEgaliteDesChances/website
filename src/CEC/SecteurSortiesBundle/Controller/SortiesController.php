@@ -41,7 +41,7 @@ class SortiesController extends Controller
 		$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
 		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();
 
-
+        $lycees = array_filter(function(Lycee $l){ return !($l->getPivot(););}, $lycees);
 		
 		
 		return array(
@@ -335,7 +335,7 @@ class SortiesController extends Controller
             $sortie = $em->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
             $handle = fopen('php://output', 'r+');
 			$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
-			$tab = array('Rang', utf8_decode('Prénom'), 'Nom', 'Adresse mail', utf8_decode('Téléphone'), utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
+			$tab = array('Rang', utf8_decode('Prénom'), 'Nom', 'Adresse mail', utf8_decode('Téléphone'), utf8_decode('Lycée'), utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
 			fputcsv($handle, $tab, ';');
 
             foreach($lyceensSortie as $lyceenSortie) 
@@ -345,27 +345,27 @@ class SortiesController extends Controller
 
                     $lyceen = $lyceenSortie->getLyceen();
                 
-				    $tab = array('0', utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(),  '', '', '');
+				    $tab = array('0', utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(), $lyceen->getLycee(),  '', '', '');
                     fputcsv($handle, $tab, ';');
                 }                
             }
 
             if($sortie->getPlaces() > 0 and count($lyceensSortie) > $sortie->getPlaces())
             {
-                $tab = array('=','=','=','=','=','=','=','=');
+                $tab = array('=','=','=','=','=','=','=','=', '=');
                 fputcsv($handle, $tab, ';');
-                $tab = array('=', '=','=', utf8_decode('Liste d\'attente'), '=', '=', '=','=');
+                $tab = array('=', '=','=', '=', utf8_decode('Liste d\'attente'), '=', '=', '=','=');
                 fputcsv($handle, $tab, ';');
-                $tab = array('=','=','=','=','=','=','=','=');
+                $tab = array('=','=','=','=','=','=','=','=', '=');
                 fputcsv($handle, $tab, ';');
-                $tab = array('Rang', utf8_decode('Prénom'), 'Nom', 'Adresse mail', utf8_decode('Téléphone'), utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
+                $tab = array('Rang', utf8_decode('Prénom'), 'Nom', 'Adresse mail', utf8_decode('Téléphone'), utf8_decode('Lycée'), utf8_decode('validé?'), 'Autorisation de sortie', 'Est venu');
                 fputcsv($handle, $tab, ';');
 
                 foreach($lyceensSortie as $lyceenSortie)
                 {
                     $lyceen = $lyceenSortie->getLyceen();
 
-                    $tab = array($lyceenSortie->getListeAttente(), utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(),  '', '', '');
+                    $tab = array($lyceenSortie->getListeAttente(), utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(), $lyceen->getLycee(),  '', '', '');
                     fputcsv($handle, $tab, ';');
                 }
 
