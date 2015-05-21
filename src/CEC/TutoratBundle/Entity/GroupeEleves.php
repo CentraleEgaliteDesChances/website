@@ -3,22 +3,16 @@
 namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 /**
  * GroupeEleves
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="CEC\TutoratBundle\Entity\GroupeElevesRepository")
  */
 class GroupeEleves
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 

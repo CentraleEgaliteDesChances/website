@@ -10,13 +10,13 @@
 
   <!-- Nav tabs -->
   <ul class="nav-tabs" role="tablist" style="list-style:none;">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Indicateurs généraux</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Indicateurs détaillés</a></li>
+    <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Indicateurs généraux</a></li>
+    <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Indicateurs détaillés</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="home">
+    <div role="tabpanel" class="tab-pane fade in active" id="general">
 
 
 
@@ -39,7 +39,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for key,participations in participationsParAnnee%}
+                {% for key,participations in statsEffectifGeneral %}
                 <tr>
                     <td> <strong>Année scolaire {{key}}</strong> </td>
                     <td > 
@@ -209,7 +209,431 @@
             </tbody>
         </table>
     </div>
-    <div role="tabpanel" class="tab-pane fade" id="profile">
+    <div role="tabpanel" class="tab-pane fade" id="detail">
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée </th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetail %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+
+                            {% for effectif in effectifsLycee %}
+                                <td>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/effectif*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+
+                        {% for effectif in effCordee %}
+                            <td>
+                                <div class="statsDetail">
+                                    {{effectif}}
+                                </div>
+                            </td>
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/effectif*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée (Secondes)</th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetailSecondes %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+
+                            {% for effectif in effectifsLycee %}
+                                <td>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/effectif*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+
+                        {% for effectif in effCordee %}
+                            <td>
+                                <div class="statsDetail">
+                                    {{effectif}}
+                                </div>
+                            </td>
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/effectif*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée (Premières) </th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetailPremieres %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+
+                            {% for effectif in effectifsLycee %}
+                                <td>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/effectif*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+
+                        {% for effectif in effCordee %}
+                            <td>
+                                <div class="statsDetail">
+                                    {{effectif}}
+                                </div>
+                            </td>
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/effectif*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée (Terminales)</th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetailTerminales %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+
+                            {% for effectif in effectifsLycee %}
+                                <td>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/effectif*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+
+                        {% for effectif in effCordee %}
+                            <td>
+                                <div class="statsDetail">
+                                    {{effectif}}
+                                </div>
+                            </td>
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/effectif*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
     </div>
   </div>

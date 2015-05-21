@@ -50,6 +50,10 @@
 				>
 				<a href="{{path('stats_detaillees', {'annees' : anneeScolaire.afficherAnnees } ) }}"> Statistiques détaillées </a>
 			</li>
+		{% else %}
+			<li class="nav-header">
+				Pas d'année passée
+			</li>
 		{% endfor %}
 	</ul>
 </div>

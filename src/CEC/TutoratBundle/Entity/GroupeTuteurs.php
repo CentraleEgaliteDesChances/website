@@ -3,13 +3,11 @@
 namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 /**
  * GroupeTuteurs
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="CEC\TutoratBundle\Entity\GroupeTuteursRepository")
  */
 class GroupeTuteurs
 {

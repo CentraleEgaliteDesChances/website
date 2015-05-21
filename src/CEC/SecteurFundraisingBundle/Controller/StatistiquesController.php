@@ -11,13 +11,31 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\Cordee;
+use CEC\TutoratBundle\Entity\Lycee;
 use CEC\ActiviteBundle\Entity\CompteRendu;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
 use CEC\SecteurSortiesBundle\Entity\SortieEleve;
 
 class StatistiquesController extends Controller
 {
+    /**
+    *
+    * Fonction récupérant les années ayant connu une activité
+    */
+    public function anneesActives()
+    {
+        $anneesTuteurs = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findAll();
+        $anneesTuteurs = array_map(function(GroupeTuteurs $g){return $g->getAnneeScolaire();}, $anneesTuteurs);
 
+        $anneesLyceens = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findAll();
+        $anneesLyceens = array_map(function(GroupeEleves $g){ return $g->getAnneeScolaire();}, $anneesLyceens);
+
+        $anneesScolaires = array_unique(array_merge($anneesTuteurs, $anneesLyceens));
+
+        $anneesScolaires = array_filter($anneesScolaires, function(AnneeScolaire $a){ return (AnneeScolaire::comparer(AnneeScolaire::withDate(), $a) >= 0);});
+
+        return $anneesScolaires;
+    }
 
     /**
     *
@@ -27,27 +45,7 @@ class StatistiquesController extends Controller
     */
     public function menuAction($request)
     {
-        $groupeTuteurs = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findAll();
-
-        $groupeLyceens = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findAll();
-
-        $anneesScolaires = array();
-
-        // On récupère toutes les années scolaires passées ou il y a eu une action de tutorat
-        foreach($groupeTuteurs as $g)
-        {
-            $auj = AnneeScolaire::withDate();
-            $annee = $g->getAnneeScolaire();
-            if(!in_array($annee, $anneesScolaires) and $annee->getAnneeInferieure() <= $auj->getAnneeInferieure())
-                $anneesScolaires[] = $annee;
-        }
-
-        foreach($groupeLyceens as $g)
-        {
-            $annee = $g->getAnneeScolaire();
-            if(!in_array($annee, $anneesScolaires) and $annee->getAnneeInferieure() <= $auj->getAnneeInferieure())
-                $anneesScolaires[] = $annee;
-        }
+        $anneesScolaires = $this->anneesActives();
 
         usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
         if ($annee == $autreAnnee) return 0;
@@ -68,6 +66,7 @@ class StatistiquesController extends Controller
     public function statsGeneralAction($annees)
     {
 
+    // Données de base 
         // On récupère l'année sélectionnée ou celle en cours si aucune n'est choisie
         $anneeScolaire = $annees ? AnneeScolaire::withAnnees($annees) : AnneeScolaire::withDate();
 
@@ -77,31 +76,32 @@ class StatistiquesController extends Controller
         $groupes = $doctrine->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire);
         $groupes = array_map(function(GroupeTuteurs $g){ return $g->getGroupe();}, $groupes);
 
-        // Partenariats
+    // Partenariats
         $nbrCordees = $doctrine->getRepository('CECTutoratBundle:Cordee')->comptePourAnneeScolaire($anneeScolaire);
         $nbrLycees = $doctrine->getRepository('CECTutoratBundle:Lycee')->compte($anneeScolaire);
         $nbrLyceens = count($doctrine->getRepository('CECTutoratBundle:GroupeEleves')->findByAnneeScolaire($anneeScolaire));
 
-        // Encadrement
+    // Encadrement
         $nbrTuteurs = count($doctrine->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire));
         $tauxEncadrement = ($nbrTuteurs <> 0) ? number_format($nbrLyceens / $nbrTuteurs, 1) : '—';
 
-        // Tutorat
+    // Tutorat
         $nbrSeances = $doctrine->getRepository('CECTutoratBundle:Seance')->comptePourAnneeScolaire($anneeScolaire);
         $nbrHeuresTutorat = $doctrine->getRepository('CECTutoratBundle:Seance')
             ->compteHeuresTutoratPourAnneeScolaire($anneeScolaire);
         $heureLyceen = $nbrLyceens * $nbrHeuresTutorat;
 
-        // Activites
+    // Activites
         $nbrActivites = $doctrine->getRepository('CECActiviteBundle:Activite')->compte();
         $nbrActisUtilisees = $doctrine->getRepository('CECActiviteBundle:Activite')
             ->compteUtiliseesPourAnneeScolaire($anneeScolaire);
         $tauxUtilisationActis = ($nbrActivites <> 0) ? $nbrActisUtilisees / $nbrActivites : '—';
 
-        // Sorties
+    // Sorties
         $nbrSorties = $doctrine->getRepository('CECSecteurSortiesBundle:Sortie')->comptePourAnneeScolaire($anneeScolaire);
         $nbrLyceensSortie = $doctrine->getRepository('CECSecteurSortiesBundle:Sortie')->compteLyceensSortiePourAnneeScolaire($anneeScolaire);
 
+    // On renvoie les données
         return array(
             'anneeScolaire'          => $anneeScolaire,
             'nbr_cordees'             => $nbrCordees,
@@ -130,6 +130,7 @@ class StatistiquesController extends Controller
     */
     public function statsDetailAction($annees)
     {
+    // Données de base
         $anneeScolaire = $annees ? AnneeScolaire::withAnnees($annees) : AnneeScolaire::withDate();
 
         $doctrine = $this->getDoctrine();
@@ -142,9 +143,11 @@ class StatistiquesController extends Controller
 
         // Tableau qui contiendra une ligne par groupe avec les stats voulues pour le groupe
         $statsDetailTutorat = array();
+        $presences = 0;
 
         foreach($groupes as $g)
         {
+            $presences = 0;
             $minutesTutorat = 0;
             $seances = $g->getSeances();
             foreach ($seances as $seance)
@@ -153,12 +156,16 @@ class StatistiquesController extends Controller
                 {
                     $duree = $seance->retreiveFin()->diff($seance->retreiveDebut());
                     $minutesTutorat += $duree->h * 60 + $duree->i;
+
+                    $presences += count($seance->getLyceens());
                 }
+
+
             }
 
             $heuresTutorat =floor($minutesTutorat / 60);
 
-            $statsDetailTutorat[] = array($g, $heuresTutorat);
+            $statsDetailTutorat[] = array($g, $heuresTutorat, $presences);
         }
 
     // Tableau Activités 
@@ -224,7 +231,7 @@ class StatistiquesController extends Controller
 
     // Tableau participations aux sorties
 
-            //Tableau des stats de participation par niveau
+        //Tableau des stats de participation par niveau
         $statsDetailPart = array();
 
         $groupesSecondes = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Secondes');
@@ -404,7 +411,7 @@ class StatistiquesController extends Controller
 
         $statsDetailPart[] = array('Terminales', $nb0, $nb1, $nb2, $nb3, $nb4, $nb5);
         
-
+    // On renvoie les données
         return array(
                         'anneeScolaire' => $anneeScolaire,
                         'statsDetailTutorat' => $statsDetailTutorat,
@@ -423,7 +430,7 @@ class StatistiquesController extends Controller
     {
         $doctrine = $this->getDoctrine();
 
-        // Données de l'onglet 'Général'
+    // Données de l'onglet 'Général'
 
         // On récupère l'ensemble des participations au tutorat pour chaque niveau
         $groupesSecondes = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Secondes');
@@ -431,7 +438,7 @@ class StatistiquesController extends Controller
 
         foreach($groupesSecondes as $g)
         {
-            $participationsSecondes = array_merge($g->getLyceensParAnnee()->toArray(), $participationsSeconde);
+            $participationsSecondes = array_merge($g->getLyceensParAnnee()->toArray(), $participationsSecondes);
         }
 
         $groupesPremieres = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Premières');
@@ -451,37 +458,7 @@ class StatistiquesController extends Controller
         }
 
         // On rassemble les années précédant l'année sélectionnée dans le menu et on les trie par ordre croissant.
-        $annees = array();
-
-        foreach($participationsSecondes as $p)
-        {
-            $annee = $p->getAnneeScolaire();
-            $anneeActuelle = AnneeScolaire::withDate();
-            if(!($annee->getAnneeInferieure()>$anneeActuelle->getAnneeInferieure()) and !in_array($annee, $annees))
-            {
-                $annees[] = $annee;
-            }
-        }
-
-        foreach($participationsPremieres as $p)
-        {
-            $annee = $p->getAnneeScolaire();
-            $anneeActuelle = AnneeScolaire::withDate();
-            if(!($annee->getAnneeInferieure()>$anneeActuelle->getAnneeInferieure()) and !in_array($annee, $annees))
-            {
-                $annees[] = $annee;
-            }
-        }
-
-        foreach($participationsTerminales as $p)
-        {
-            $annee = $p->getAnneeScolaire();
-            $anneeActuelle = AnneeScolaire::withDate();
-            if(!($annee->getAnneeInferieure()>$anneeActuelle->getAnneeInferieure()) and !in_array($annee, $annees))
-            {
-                $annees[] = $annee;
-            }
-        }
+        $annees = $this->anneesActives();
 
         usort($annees, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
         if ($annee == $autreAnnee) return 0;
@@ -489,7 +466,7 @@ class StatistiquesController extends Controller
         });
 
         // Tableau recensant les participations par année scolaire : { key anneeScolaire : value array(Secondes,Premières, Terminales)}
-        $participationsParAnnee= array();
+        $statsEffectifGeneral= array();
 
         foreach($annees as $a)
         {
@@ -497,11 +474,209 @@ class StatistiquesController extends Controller
             $partPremAnnee = array_filter($participationsPremieres, function(GroupeEleves $ge) use($a){ return ($ge->getAnneeScolaire() == $a);});
             $partTermAnnee = array_filter($participationsTerminales, function(GroupeEleves $ge) use($a){ return ($ge->getAnneeScolaire() == $a);});
 
-            $participationsParAnnee[$a->afficherAnnees()] = array($partSecAnnee, $partPremAnnee, $partTermAnnee);
+            $statsEffectifGeneral[$a->afficherAnnees()] = array($partSecAnnee, $partPremAnnee, $partTermAnnee);
+        }
+    // Données de l'onglet 'Détail'
+
+        // Données du tableau par Cordée et par lycée
+        $cordees = $doctrine->getRepository('CECTutoratBundle:Cordee')->findAll();
+        $cordees = array_filter($cordees, function(Cordee $c){return $c->isActive();});
+
+        $anneesScolaires = array_reverse($this->anneesActives());
+
+        // Tableaux des stats d'effectif par cordée et par lycée pour les différents niveaux
+        $statsEffectifDetailSecondes = array();
+        $statsEffectifsDetailPremieres = array();
+        $statsEffectifDetailTerminales = array();
+        $statsEffectifDetail = array();
+
+        foreach($cordees as $c)
+        {
+            // Stats des effectifs pour la cordée par lycée
+            $statsEffCordeeSecondes = array();
+            $statsEffCordeePremieres = array();
+            $statsEffCordeeTerminales = array();
+            $statsEffCordee = array();
+
+            $lycees = $c->getLycees()->toArray();
+
+            // On ne garde que les lycées sources
+            $lycees = array_filter($lycees, function(Lycee $l){ return !($l->getPivot());});
+
+            // On récupère tous les groupes liés à ces lycées puis on les trie en sous tableaux par niveau
+            foreach($lycees as $l)
+                {
+                    $lyceens = $l->getLyceens();
+
+                    // Effectif du lycée par année
+                    $effLyceeAnnees = array();
+                    $effLyceeSecondesAnnees = array();
+                    $effLyceePremieresAnnees = array();
+                    $effLyceeTerminalesAnnees = array();
+
+                    foreach($anneesScolaires as $a)
+                    {
+                        // Effectif du lycée pour l'année $a
+                        $effLycee = 0;
+                        $effLyceeSecondes = 0;
+                        $effLyceePremieres = 0;
+                        $effLyceeTerminales = 0;
+
+                        foreach($lyceens as $ly)
+                        {
+                            $groupeLyceen = $doctrine->getRepository('CECTutoratBundle:GroupeEleves')->findOneBy(array('anneeScolaire' => $a, 'lyceen'=>$ly));
+                            if($groupeLyceen)
+                            {
+                                $groupe = $groupeLyceen->getGroupe();
+                                $niveau = $groupe->getNiveau();
+
+                                switch($niveau)
+                                {
+                                    case "Secondes":
+                                        $effLyceeSecondes++;
+                                        break;
+                                    case "Premières":
+                                        $effLyceePremieres++;
+                                        break;
+                                    case "Terminales":
+                                        $effLyceeTerminales++;
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                $effLycee++;
+                            }
+                        }
+
+                        // On rajoute les effectifs pour l'année étudiée
+                        $effLyceeAnnees[$a->afficherAnnees()] = $effLycee;
+                        $effLyceeSecondesAnnees[$a->afficherAnnees()] = $effLyceeSecondes;
+                        $effLyceePremieresAnnees[$a->afficherAnnees()] = $effLyceePremieres;
+                        $effLyceeTerminalesAnnees[$a->afficherAnnees()] = $effLyceeTerminales;
+                    }
+
+                    // On remplit le tableau de chaque cordée avec les infos de chaque lycée 
+                    $arrayTemp = array($l);
+                    $arrayTemp[] = $effLyceeAnnees;
+                    $statsEffCordee[] = $arrayTemp;
+
+                    $arrayTemp = array($l);
+                    $arrayTemp[] = $effLyceeSecondesAnnees;
+                    $statsEffCordeeSecondes[] = $arrayTemp;
+
+                    $arrayTemp = array($l);
+                    $arrayTemp[] = $effLyceePremieresAnnees;
+                    $statsEffCordeePremieres[] = $arrayTemp;
+
+                    $arrayTemp = array($l);
+                    $arrayTemp[] = $effLyceeTerminalesAnnees;
+                    $statsEffCordeeTerminales[] = $arrayTemp;
+
+                }
+
+                // On calcule le tableau des effectifs par année pour la cordéé générale
+                $effectifsCordee = array();
+                $effectifsCordeeSecondes = array();
+                $effectifsCordeePremieres = array();
+                $effectifsCordeeTerminales = array();
+
+                $effLycee = array_map(function($a) { return $a[1];}, $statsEffCordee);
+                $effLyceeSecondes = array_map(function($a) { return $a[1];}, $statsEffCordeeSecondes);
+                $effLyceePremieres = array_map(function($a) { return $a[1];}, $statsEffCordeePremieres);
+                $effLyceeTerminales = array_map(function($a) { return $a[1];}, $statsEffCordeeTerminales);
+                
+                foreach($effLycee as $temp)
+                {
+                    foreach($temp as $a => $eff)
+                    {
+                        if(array_key_exists($a, $effectifsCordee))
+                        {
+                            $effectifsCordee[$a] += $eff;
+                        }
+                        else
+                        {
+                            $effectifsCordee[$a] = $eff;
+                        }
+                    }
+                }
+
+                foreach($effLyceeSecondes as $temp)
+                {
+                    foreach($temp as $a => $eff)
+                    {
+                        if(array_key_exists($a, $effectifsCordeeSecondes))
+                        {
+                            $effectifsCordeeSecondes[$a] += $eff;
+                        }
+                        else
+                        {
+                            $effectifsCordeeSecondes[$a] = $eff;
+                        }
+                    }
+                }
+
+                foreach($effLyceePremieres as $temp)
+                {
+                    foreach($temp as $a => $eff)
+                    {
+                        if(array_key_exists($a, $effectifsCordeePremieres))
+                        {
+                            $effectifsCordeePremieres[$a] += $eff;
+                        }
+                        else
+                        {
+                            $effectifsCordeePremieres[$a] = $eff;
+                        }
+                    }
+                }
+
+                foreach($effLyceeTerminales as $temp)
+                {
+                    foreach($temp as $a => $eff)
+                    {
+                        if(array_key_exists($a, $effectifsCordeeTerminales))
+                        {
+                            $effectifsCordeeTerminales[$a] += $eff;
+                        }
+                        else
+                        {
+                            $effectifsCordeeTerminales[$a] = $eff;
+                        }
+                    }
+                }
+
+                // On remplit le tableau général avec les infos de chaque cordée
+
+                $arrayTemp = array($c);
+                $arrayTemp[] = $statsEffCordee;
+                $arrayTemp[] = $effectifsCordee;
+                $statsEffectifDetail[] = $arrayTemp;
+
+                $arrayTemp = array($c);
+                $arrayTemp[] = $statsEffCordeeSecondes;
+                $arrayTemp[] = $effectifsCordeeSecondes;
+                $statsEffectifDetailSecondes[] = $arrayTemp;
+
+                $arrayTemp = array($c);
+                $arrayTemp[] = $statsEffCordeePremieres;
+                $arrayTemp[] = $effectifsCordeePremieres;
+                $statsEffectifsDetailPremieres[] = $arrayTemp;
+
+                $arrayTemp = array($c);
+                $arrayTemp[] = $statsEffCordeeTerminales;
+                $arrayTemp[] = $effectifsCordeeTerminales;
+                $statsEffectifDetailTerminales[] = $arrayTemp;
         }
 
-
-        return array('participationsParAnnee' => $participationsParAnnee);
+    // On renvoie les données
+        return array('anneesScolaires' => $anneesScolaires,
+                     'statsEffectifGeneral' => $statsEffectifGeneral,
+                     'statsEffectifDetail' => $statsEffectifDetail,
+                     'statsEffectifDetailSecondes' => $statsEffectifDetailSecondes,
+                     'statsEffectifDetailPremieres' => $statsEffectifsDetailPremieres,
+                     'statsEffectifDetailTerminales' => $statsEffectifDetailTerminales
+                     );
     }
 
     /**

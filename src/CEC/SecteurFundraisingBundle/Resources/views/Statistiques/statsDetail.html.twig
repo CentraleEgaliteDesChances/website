@@ -9,22 +9,28 @@
 {% set lyceensTotal = 0 %}
 {% set seancesTotal = 0 %}
 {% set heuresTotal = 0 %}
+{% set presencesTotal = 0 %}
 
-	<table class="table table-bordered table-large table-striped table-stats">
+	<table class="table table-bordered table-striped table-stats">
         <thead>
-            <tr><th colspan="5">Tutorat</th></tr>
-            <tr> 
+            <tr><th colspan="7">Tutorat</th></tr>
+            <tr style="font-size:0.8em;"> 
             	<th style="width:33%;"> Groupe </th>
             	<th> Tuteurs </th>
             	<th> Lycéens </th>
+                <th> Lycéens / Tuteurs </th>
             	<th> Séances </th>
             	<th> Heures de tutorat </th>
+                <th> Taux de présence </th>
             </tr>
 
         </thead>
         <tbody>
             {% for ligne in statsDetailTutorat %}
             	{% set groupe = ligne[0] %}
+                {% set nbrTuteurs = groupe.getTuteursAnnee(anneeScolaire)|length %}
+                {% set nbrLyceens = groupe.getLyceensAnnee(anneeScolaire)|length %}
+                {% set nbrSeances = groupe.getSeancesAnnee(anneeScolaire)|length %}
             	<tr >
             		<td style="width:33%;">
             			<strong>
@@ -34,22 +40,52 @@
             			</strong>
             		</td>
             		<td >
-            			<div class="statsDetail">{{groupe.getTuteursAnnee(anneeScolaire)|length}}</div>
+            			<div class="statsDetail">{{nbrTuteurs}}</div>
             		</td>
             		<td>
-            			<div class="statsDetail">{{groupe.getLyceensAnnee(anneeScolaire)|length}}</div>
+            			<div class="statsDetail">{{nbrLyceens}}</div>
             		</td>
+                    <td>
+                        <div class="statsDetail">
+                            {% if nbrTuteurs > 0 %}
+                                {{(nbrLyceens / nbrTuteurs)|round(1)}}
+                            {% else %}
+                                &#8212;
+                            {% endif %}
             		<td>
-            			<div class="statsDetail">{{groupe.getSeancesAnnee(anneeScolaire)|length}}</div>
+            			<div class="statsDetail">{{nbrSeances}}</div>
             		</td>
             		<td>
             			<div class="statsDetail">{{ ligne[1]}}</div>
             		</td>
+                        {% if nbrLyceens > 0 %}
+                                            {% set taux = (ligne[2]/(nbrLyceens * nbrSeances ) * 100) %}%
+                        {% else %}
+                                            {% set taux = -1 %}
+                        {% endif %}
+                    <td class="
+                        {% if taux < 0 %}
+
+                        {% elseif taux > 50 %}
+                            success
+                        {% else %}
+                            error
+                        {% endif %}
+                    ">
+                        <div class="statsDetail">
+                            {% if taux < 0 %}
+                                &#8212;
+                            {% else %}
+                                {{taux|round(1)}}%
+                            {% endif %}
+                        </div>
+                    </td>
             	</tr>
-            	{% set tuteursTotal = tuteursTotal + groupe.getTuteursAnnee(anneeScolaire)|length %}
-				{% set lyceensTotal = lyceensTotal + groupe.getLyceensAnnee(anneeScolaire)|length %}
-				{% set seancesTotal = seancesTotal + groupe.getSeancesAnnee(anneeScolaire)|length %}
-				{% set heuresTotal = heuresTotal + ligne[1]  %}		
+            	{% set tuteursTotal = tuteursTotal + nbrTuteurs %}
+				{% set lyceensTotal = lyceensTotal + nbrLyceens %}
+				{% set seancesTotal = seancesTotal + nbrSeances %}
+				{% set heuresTotal = heuresTotal + ligne[1]  %}	
+                {% set presencesTotal = presencesTotal + ligne[2] %}	
             {% else %}
             	<tr>
             		<th colspan="5" class="muted"> Pas de groupe actif cette année </th>
@@ -65,12 +101,19 @@
         		<td>
         			<div class="statsDetail"> {{lyceensTotal}} </div>
         		</td>
+                <td>
+                    <div class="statsDetail"> {{ (lyceensTotal / tuteursTotal)|round(1) }}
         		<td>
         			<div class="statsDetail"> {{seancesTotal}}</div>
         		</td>
         		<td>
         			<div class="statsDetail"> {{heuresTotal}} </div>
         		</td>
+                <td>
+                        <div class="statsDetail">
+                            {{(presencesTotal/(lyceensTotal*seancesTotal)*100)|round(1)}}%
+                        </div>
+                    </td>
         	</tr>
         </tfoot>
     </table>
@@ -80,7 +123,7 @@
 {% set moyITotal = 0 %}
 {% set moyATotal = 0 %}
 
-    <table class="table table-bordered table-large table-striped table-stats">
+    <table class="table table-bordered table-striped table-stats">
         <thead>
             <tr><th colspan="5">Activités</th></tr>
             <tr> 
@@ -100,13 +143,13 @@
         		<td>
         			<div class="statsDetail">{{ligne[1]}}</div>
         		</td>
-        		<td class="{{ligne[2] > 3 ? 'success' : 'warning'}}">
+        		<td class="{{ligne[2] > 3 ? 'success' : 'error'}}">
         			<div class="statsDetail">{{ligne[2]}}</div>
         		</td>
-        		<td class="{{ligne[3] > 3 ? 'success' : 'warning'}}">
+        		<td class="{{ligne[3] > 3 ? 'success' : 'error'}}">
         			<div class="statsDetail">{{ligne[3]}}</div>
         		</td>
-        		<td class="{{ligne[4] > 3 ? 'success' : 'warning'}}">
+        		<td class="{{ligne[4] > 3 ? 'success' : 'error'}}">
         			<div class="statsDetail">{{ligne[4]}}</div>
         		</td>
         	</tr>
@@ -162,7 +205,7 @@
 {% set presentsTotal = 0 %}
 
 	
-    <table class="table table-bordered table-large table-striped table-stats">
+    <table class="table table-bordered table-striped table-stats">
         <thead>
             <tr><th colspan="4">Sorties</th></tr>
             <tr> 
@@ -228,7 +271,7 @@
 {% set part4 = 0 %}
 {% set part5 = 0 %}
 
-    <table class="table table-bordered table-large table-striped table-stats">
+    <table class="table table-bordered table-striped table-stats">
         <thead>
             <tr><th colspan="7">Participations aux sorties</th></tr>
             <tr> 

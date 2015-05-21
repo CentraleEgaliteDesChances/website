@@ -14,7 +14,6 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
  */
 class GroupeTuteursRepository extends EntityRepository
 {
-
 	/**
 	* Fonction renvoyant le nombre de tuteurs actifs en tutorat pour une année scolaire donnée
 	*
@@ -28,4 +27,5 @@ class GroupeTuteursRepository extends EntityRepository
             ->getQuery();
         return $query->getSingleScalarResult();
 	}
+
 }
