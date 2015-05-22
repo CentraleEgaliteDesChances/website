@@ -474,7 +474,11 @@ class StatistiquesController extends Controller
             $partPremAnnee = array_filter($participationsPremieres, function(GroupeEleves $ge) use($a){ return ($ge->getAnneeScolaire() == $a);});
             $partTermAnnee = array_filter($participationsTerminales, function(GroupeEleves $ge) use($a){ return ($ge->getAnneeScolaire() == $a);});
 
-            $statsEffectifGeneral[$a->afficherAnnees()] = array($partSecAnnee, $partPremAnnee, $partTermAnnee);
+            $effSecAnnee = count($partSecAnnee);
+            $effPreAnnee = count($partPremAnnee);
+            $effTerAnnee = count($partTermAnnee);
+
+            $statsEffectifGeneral[$a->afficherAnnees()] = array($effSecAnnee, $effPreAnnee, $effTerAnnee, $effSecAnnee+$effPreAnnee+$effTerAnnee);
         }
     // Données de l'onglet 'Détail'
 
