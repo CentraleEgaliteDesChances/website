@@ -66,12 +66,28 @@ class SecuriteController extends Controller
             {
                 $data = $form->getData();
 
-                try { //En cas d'erreur (notamment membre non trouvé), on retourne au formulaire qui affiche l'erreur
-                    $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
-                } catch (\Exception $e) {
-                    $form->addError(new FormError($e->getMessage()));
-                    return array('form' => $form->createView());
+                // On checke chaque base de données au fur et a mesure
+                try
+                {
+                	$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+                }catch(\Exception $e)
+                {
+                	try
+                	{
+                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+                	}catch(\Exception $e)
+                	{
+                		try
+                		{
+                			$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+                		}catch( \Exception $e)
+                		{
+                			$form->addError(new FormError($e->getMessage()));
+	                    		return array('form' => $form->createView());
+                		}
+                	}
                 }
+
                 //Création d'un nouveau mot de passe aléatoire
                 $motDePasse = substr(str_shuffle(MD5(microtime())), 0, 10);
 

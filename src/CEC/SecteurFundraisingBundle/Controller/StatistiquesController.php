@@ -12,6 +12,7 @@ use CEC\TutoratBundle\Entity\GroupeTuteurs;
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\Cordee;
 use CEC\TutoratBundle\Entity\Lycee;
+use CEC\TutoratBundle\Entity\Groupe;
 use CEC\ActiviteBundle\Entity\CompteRendu;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
 use CEC\SecteurSortiesBundle\Entity\SortieEleve;
@@ -690,6 +691,187 @@ class StatistiquesController extends Controller
     */
     public function engagementAction()
     {
+        $doctrine = $this->getDoctrine();
+        $annees = $this->anneesActives();
+
+        usort($annees, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
+        if ($annee == $autreAnnee) return 0;
+        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? -1 : 1;
+        });
+
+
+    // Données de l'onglet Général
+
+        // Tableau qui contient les stats de suivi de ceux qui sont la cette année et qui étaient la l'année dernière
+            $statsEngagementGeneral1 = array();
+
+            foreach($annees as $a)
+            {
+                $anneePrecedente = new AnneeScolaire($a->getAnneeInferieure()-1);
+
+                $donneesPrec = $doctrine->getRepository('CECTutoratBundle:GroupeEleves')->findByAnneeScolaire($anneePrecedente);
+                $donneesAct = $doctrine->getRepository('CECTutoratBundle:GroupeEleves')->findByAnneeScolaire($a);
+
+                $lyceensPrec = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $donneesPrec);
+
+                //On récupère les lycéens par niveau
+                $lyceensPrecSec = array_filter($donneesPrec, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Secondes");});
+                $lyceensPrecSec = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensPrecSec);
+
+
+                $lyceensPrecPrem = array_filter($donneesPrec, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Premières");});
+                $lyceensPrecPrem = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensPrecPrem);
+
+                $lyceensActPrem = array_filter($donneesAct, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Premières");});
+                $lyceensActPrem = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensActPrem);
+
+                $lyceensPrecTerm = array_filter($donneesPrec, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Terminales");});
+                $lyceensPrecTerm = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensPrecTerm);
+
+                $lyceensActTerm = array_filter($donneesAct, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Terminales");});
+                $lyceensActTerm = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensActTerm);
+
+
+                // Variables pour compter ceux qui étaient l'année précédente qui pouvaient rester et qui sont restés cette année
+                $effPrec = count($lyceensPrec)-count($lyceensPrecTerm);
+                $effAct = 0;
+
+                $effPrecSec = count($lyceensPrecSec);
+
+                $effPrecPrem = count($lyceensPrecPrem);
+                $effActPrem = 0;
+
+                $effActTerm = 0;
+
+                foreach($lyceensActPrem as $l)
+                {
+                    if(in_array($l, $lyceensPrecSec))
+                    {
+                        $effActPrem++;
+                        $effAct++;
+                    }
+                }
+
+                foreach($lyceensActTerm as $l)
+                {
+                    if(in_array($l, $lyceensPrecPrem))
+                    {
+                        $effActTerm++;
+                        $effAct++;
+                    }
+                }
+
+                $statsEngagementGeneral1[$a->afficherAnnees()] = array($effPrec, $effAct, $effPrecSec, $effActPrem, $effPrecPrem, $effActTerm);
+            }
+
+        // On regarde maintenant les nouveaux tutorés qui auraient pu être à CEC l'année dernière
+            $statsEngagementGeneral2 = array();
+
+            foreach($annees as $a)
+            {
+                $anneePrecedente = new AnneeScolaire($a->getAnneeInferieure()-1);
+
+                $donneesPrec = $doctrine->getRepository('CECTutoratBundle:GroupeEleves')->findByAnneeScolaire($anneePrecedente);
+                $donneesAct = $doctrine->getRepository('CECTutoratBundle:GroupeEleves')->findByAnneeScolaire($a);
+
+                // Il faut faire le tri pour différencier les nouveaux premières & terminales de lycées sans groupe de secondes de ceux qui auraient
+                // effectivement pu etre à CEC l'année dernière
+                $groupes = $doctrine->getRepository('CECTutoratBundle:Groupe')->findAll();
+                $groupesInteressants = array_filter($groupes, function(Groupe $g){ return !($g->getNiveau() == "Secondes");});
+                for($i = 0; $i<count($groupesInteressants); $i++)
+                {
+                    $lycees = $groupesInteressants[$i]->getLycees();
+                    foreach($lycees as $lycee)
+                        // Si le lycée n'a pas de groupes de Seconde, on retire aussi le groupe de Première
+                        $groupesDuLycee = $lycee->getGroupes();
+                        $boolgroupeSeconde = false;
+                        foreach($groupesDuLycee as $g)
+                        {
+
+                            if($g->getNiveau() == "Secondes")
+                            {
+                                $boolgroupeSeconde = true;
+                            }
+                        }
+
+                        if(!$boolgroupeSeconde)
+                        {
+                            unset($groupesInteressants[$i]);
+                            break 2;
+                        }
+                }
+
+                $lyceensAct = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $donneesAct);
+                $effTotal = count($lyceensAct);
+
+                //On récupère les lycéens par niveau
+                $lyceensPrecSec = array_filter($donneesPrec, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Secondes");});
+                $lyceensPrecSec = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensPrecSec);
+
+
+                $lyceensPrecPrem = array_filter($donneesPrec, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Premières");});
+                $lyceensPrecPrem = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensPrecPrem);
+
+                $lyceensActPrem = array_filter($donneesAct, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Premières");});
+                $effTotalPrem = count($lyceensActPrem);
+                // On ne garde maintenant que les lycéens des groupes intéressants
+                $lyceensActPrem = array_filter($lyceensActPrem, function(GroupeEleves $g) use($groupesInteressants){return in_array($g->getGroupe(), $groupesInteressants);});
+                $lyceensActPrem = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensActPrem);
+
+                $lyceensPrecTerm = array_filter($donneesPrec, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Terminales");});
+                $lyceensPrecTerm = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensPrecTerm);
+
+                $lyceensActTerm = array_filter($donneesAct, function(GroupeEleves $g){return ($g->getGroupe()->getNiveau() == "Terminales");});
+                $effTotalTerm = count($lyceensActTerm);
+                // On ne garde maintenant que les lycéens des groupes intéressants.
+                $lyceensActTerm = array_filter($lyceensActTerm, function(GroupeEleves $g)use($groupesInteressants){return in_array($g->getGroupe(), $groupesInteressants);});
+                $lyceensActTerm = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $lyceensActTerm);
+
+
+                // Variables pour compter ceux qui viennent d'arriver et qui auraient pu être la l'année dernière
+                $effArrives = 0 ; 
+
+                $effArrivesPrem = 0; 
+
+                $effArrivesTerm = 0; 
+
+                foreach($lyceensActPrem as $l)
+                {
+                    if(!(in_array($l, $lyceensPrecSec)))
+                    {
+                        $effArrivesPrem++;
+                        $effArrives++;
+                    }
+                }
+
+                foreach($lyceensActTerm as $l)
+                {
+                    if(!(in_array($l, $lyceensPrecPrem)))
+                    {
+                        $effArrives++;
+                        $effArrives++;
+                    }
+                }
+
+                $statsEngagementGeneral2[$a->afficherAnnees()] = array($effTotal, $effArrives, $effTotalPrem, $effArrivesPrem, $effTotalTerm, $effArrivesTerm);
+            }
+
+        // On regarde quels lycéens parmi ceux qui le pouvaient ont fait deux années de suite à CEC
+
+    // On retourne les données
+        // On retire la première année vu qu'il y a pas d'années précédentes pour faire les stats
+        $annees = array_pop($annees);
+
+        if(count($annees) == 1)
+        {
+            $annees = array($annees);
+        }
+
+        return array('anneesScolaires' => $annees,
+                     'statsEngagementGeneral1' => $statsEngagementGeneral1,
+                     'statsEngagementGeneral2' => $statsEngagementGeneral2,
+                     'statsEngagementGeneral3' => $statsEngagementGeneral3,
+                     );
 
     }
 

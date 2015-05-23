@@ -91,7 +91,7 @@ class Membre implements UserInterface, \Serializable
      *     message = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
-    private $email;
+    private $mail;
 
     /**
      * Numéro de téléphone du membre.
@@ -579,9 +579,9 @@ class Membre implements UserInterface, \Serializable
      * @param string $email
      * @return Membre
      */
-    public function setEmail($email)
+    public function setMail($email)
     {
-        $this->email = $email;
+        $this->mail = $email;
 
         return $this;
     }
@@ -591,7 +591,7 @@ class Membre implements UserInterface, \Serializable
      *
      * @return string
      */
-    public function getEmail()
+    public function getMail()
     {
         return $this->email;
     }

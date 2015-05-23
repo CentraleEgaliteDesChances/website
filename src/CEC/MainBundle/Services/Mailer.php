@@ -53,7 +53,7 @@ class Mailer
 	public function sendInscription($membre, $motDePasse, $baseUrl)
 	{
 		$subject = "Bienvenue sur le site interne de CEC !";
-		$to = array($membre->getEmail() => $membre->__toString());
+		$to = array($membre->getMail() => $membre->__toString());
 		$body = $this->templating->render('CECMembreBundle:Mail:bienvenue.html.twig',
                             array(
                                 'membre' => $membre,
@@ -69,7 +69,7 @@ class Mailer
 	public function sendOubliMdP($membre, $motDePasse, $baseUrl)
 	{
 		$subject = "Mot de passe pour le site interne de CEC";
-		$to = array($membre->getEmail() => $membre->_toString());
+		$to = array($membre->getMail() => $membre->__toString());
 		$body = $this->templating->render('CECMainBundle:Mails:oubli.html.twig',
                             array(
                                 'membre' => $membre,
@@ -86,7 +86,7 @@ class Mailer
 	*/
 	public function sendPassations($membre, $baseUrl)
 	{
-		$to = array($membre->getEmail() => $membre->_toString());
+		$to = array($membre->getMail() => $membre->__toString());
 		$subject = "Nouveaux droits d'administration sur le site de CEC";
 		$template = "CECMainBundle:Mails:passations.html.twig";
 

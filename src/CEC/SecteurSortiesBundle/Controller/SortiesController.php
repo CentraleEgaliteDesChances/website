@@ -13,6 +13,8 @@ use CEC\SecteurSortiesBundle\Form\Type\CRSortieType;
 use CEC\SecteurSortiesBundle\Form\Type\SansCRSortieType;
 use CEC\SecteurSortiesBundle\Form\Type\AjouterLyceenType;
 
+use CEC\TutoratBundle\Entity\Lycee;
+
 class SortiesController extends Controller
 {
     /**
@@ -41,7 +43,7 @@ class SortiesController extends Controller
 		$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
 		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();
 
-        $lycees = array_filter(function(Lycee $l){ return !($l->getPivot());}, $lycees);
+        $lycees = array_filter($lycees, function(Lycee $l){ return !($l->getPivot());});
 		
 		
 		return array(
