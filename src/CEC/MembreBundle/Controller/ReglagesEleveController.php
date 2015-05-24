@@ -32,9 +32,15 @@ class ReglagesEleveController extends Controller
         // On récupère l'utilisateur actuel
         $membre = $this->getUser();
         
-        $infomationsGenerales = $this->createForm(new InfosEleveType(), $membre);
+        $nomInformationsGenerales = 'InfosEleve';
+        $infomationsGenerales = $this->get('form.factory')
+            ->createNamedBuilder($nomInformationsGenerales, new InfosEleveType(), $membre)
+            ->getForm();
             
-        $motDePasse = $this->createForm(new MotDePasseMembreType());
+        $nomMotDePasse = 'MotDePasseMembre';
+        $motDePasse = $this->get('form.factory')
+            ->createNamedBuilder($nomMotDePasse, new MotDePasseMembreType())
+            ->getForm();
         
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
