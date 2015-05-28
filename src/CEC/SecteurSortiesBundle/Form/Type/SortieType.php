@@ -20,6 +20,7 @@ class SortieType extends AbstractType
                 ))
                 ->add('dateSortie', 'date', array(
                     'widget' => 'choice',
+                    'view_timezone' => 'Europe/Paris',
                     'label' => 'Date de la sortie',
                     'attr' => array('placeholder' => 'Date de la sortie'),
                 ))

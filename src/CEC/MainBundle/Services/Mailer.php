@@ -3,6 +3,10 @@ namespace CEC\MainBundle\Services;
 
 use Symfony\Component\Templating\EngineInterface;
 
+use CEC\MembreBundle\Entity\Professeur;
+use CEC\MembreBundle\Entity\Eleve;
+use CEC\MembreBundle\Entity\Membre;
+
 class Mailer
 {
 	protected $mailer;
