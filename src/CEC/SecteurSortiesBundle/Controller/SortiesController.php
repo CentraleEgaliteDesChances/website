@@ -352,7 +352,7 @@ class SortiesController extends Controller
 
                     $lyceen = $lyceenSortie->getLyceen();
                 
-				    $tab = array('0', utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(), $lyceen->getLycee(),  '', '', '');
+				    $tab = array('0', utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), utf8_decode($lyceen->getMail()), $lyceen->getTelephone(), utf8_decode($lyceen->getLycee()),  '', '', '');
                     fputcsv($handle, $tab, ';');
                 }                
             }
@@ -372,7 +372,7 @@ class SortiesController extends Controller
                 {
                     $lyceen = $lyceenSortie->getLyceen();
 
-                    $tab = array($lyceenSortie->getListeAttente(), utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), $lyceen->getMail(), $lyceen->getTelephone(), $lyceen->getLycee(),  '', '', '');
+                    $tab = array($lyceenSortie->getListeAttente(), utf8_decode($lyceen->getPrenom()), utf8_decode($lyceen->getNom()), utf8_decode($lyceen->getMail()), $lyceen->getTelephone(), utf8_decode($lyceen->getLycee()),  '', '', '');
                     fputcsv($handle, $tab, ';');
                 }
 

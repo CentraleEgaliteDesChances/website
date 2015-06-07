@@ -867,6 +867,8 @@ class StatistiquesController extends Controller
             $annees = array($annees);
         }
 
+        $statsEngagementGeneral3 = array();
+
         return array('anneesScolaires' => $annees,
                      'statsEngagementGeneral1' => $statsEngagementGeneral1,
                      'statsEngagementGeneral2' => $statsEngagementGeneral2,

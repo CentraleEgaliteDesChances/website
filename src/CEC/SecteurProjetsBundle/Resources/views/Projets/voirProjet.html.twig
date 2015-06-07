@@ -3,8 +3,6 @@
 {% block right %}
 {{parent()}}
 
-
-<div class="well" style = "padding-left:20px;padding-right:15px;">
 {% if is_granted('ROLE_TUTEUR') or projet.inscriptionsOuvertes%}	
 	{% if projet.dossier %}
 		<a class="btn btn-success pull-right" style="margin-right:5px;" href="{{asset(projet.dossier.webPath)}}" target="_blank"><span class="glyphicon glyphicon-download"></span>
@@ -70,7 +68,7 @@
 										<strong>{{contact.prenom}} {{contact.nom}}</strong>
 									</td>
 									<td>
-										<a href="mailto:{{contact.email}}">{{contact.email}}</a>
+										<a href="mailto:{{contact.mail}}">{{contact.mail}}</a>
 									</td>
 								</tr>
 							{% endfor %}
@@ -98,6 +96,5 @@
       </div>
     </div>
   </div>
-</div>
 
 {% endblock %}

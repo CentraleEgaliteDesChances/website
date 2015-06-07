@@ -45,11 +45,12 @@ class SortiesEleveController extends Controller
             $lyceens = array_map(function(SortieEleve $s) {return $s->getLyceen();}, $lyceensSortie);
 			
 			// On bascule l'état
-			if ($lyceens->contains($eleve))
+			if (in_array($eleve, $lyceens))
 			{
 				
                 // ON supprime l'élément de SortieEleve associé et on met à jour la place sur liste d'attente de tous les autres inscrits à la sortie
-                $sortieEleve = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBy(array('sortie' => $sortie, 'lyceen' => $eleve));
+                $sortieEleve = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findOneBy(array('sortie' => $sortie, 'lyceen' => $eleve));
+                $sortieEleve->getSortie()->removeLyceen($sortieEleve);
                 $em->remove($sortieEleve);
                 $place = $sortieEleve->getListeAttente();
 
@@ -62,7 +63,7 @@ class SortiesEleveController extends Controller
                     }
                 }
 
-				$this->get('cec.mailer')->sendLyceenDesinscrit($sortie, $_SERVER['HTTP_HOST]']);
+				$this->get('cec.mailer')->sendLyceenDesinscrit($sortie, $_SERVER['HTTP_HOST']);
 
 				$request->getSession()->getFlashBag()->add('notice', 'Désinscription bien effectuée.');
 
@@ -71,6 +72,8 @@ class SortiesEleveController extends Controller
 				$sortieEleve = new SortieEleve();
                 $sortieEleve->setSortie($sortie);
                 $sortieEleve->setLyceen($eleve);
+
+                $sortie->addLyceen($sortieEleve);
 
                 // On calcule la place du lycéen sur liste d'attente
                 $rang = 0;
@@ -87,7 +90,7 @@ class SortiesEleveController extends Controller
                 if($rang > 0)
                     $sortieEleve->setPresence(false);
 
-
+                $em->persist($sortieEleve);
 				$request->getSession()->getFlashBag()->add('notice', 'Inscription bien effectuée.');
 			}
 			

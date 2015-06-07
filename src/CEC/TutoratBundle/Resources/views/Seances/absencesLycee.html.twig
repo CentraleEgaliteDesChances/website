@@ -4,17 +4,28 @@
 
 	<h2> Tableau récapitulatif des présences en séances de tutorat </h2>
 
+{# On calcule le nombre de colonnes max pour appliquer le bon colspan au tableau #}
+{% set colMax = 0 %}
+{% for anneeScolaire in anneesScolaires %}
+	{% for groupe in lycee.groupes %}
+		{% if groupe.seances|length > colMax %}
+			{% set colMax = groupe.seances|length %}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+{% set colMax = colMax + 1 %}
+
 	<table class="table table-bordered table-hover table-striped table-large">
 		{% for anneeScolaire in anneesScolaires%}
 			<thead>
-				<tr class="text-center">
-					<th > {{anneeScolaire}} </th>
+				<tr >
+					<th colspan="{{colMax}}"><span class="text-center"> {{anneeScolaire}} </span></th>
 				</tr>
 			</thead>
 			<tbody>
 			{% for groupe in lycee.groupes %}
 				<tr>
-					<th colspan="{{groupe.seances|length + 1}}" class="text-center">
+					<th colspan="{{colMax}}" class="text-center">
 						<a href="{{path('groupe', {'groupe' : groupe.id } ) }}"> {{groupe}} </a>
 					</th>
 				</tr>
@@ -27,6 +38,9 @@
 						</a>
 					</th>
 				{% endfor %}
+				{% if groupe.seances|length + 1 != colMax %}
+					<td colspan="{{colMax - groupe.seances|length - 1}}" class="muted"> Pas d'autres séances </td>
+				{% endif %}
 				</tr>
 				{% for groupeLyceen in groupe.lyceensParAnnee %}
 					{% if groupeLyceen.anneeScolaire == anneeScolaire %}

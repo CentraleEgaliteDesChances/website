@@ -63,9 +63,11 @@
 	</tbody>
 </table>
 
-<h3>Créer une nouvelle réunion d'information</h3>
+{% if is_granted('ROLE_SECTEUR_PROJETS') %}
+	<h3>Créer une nouvelle réunion d'information</h3>
 
-{% render('CECSecteurProjetsBundle:Reunions:creerReunion')%}
+	{% render('CECSecteurProjetsBundle:Reunions:creerReunion')%}
+{% endif %}
 
 </div>
 

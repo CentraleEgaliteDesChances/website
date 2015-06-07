@@ -581,7 +581,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function setMail($email)
     {
-        $this->mail = $email;
+        $this->mail = $mail;
 
         return $this;
     }
@@ -593,7 +593,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getMail()
     {
-        return $this->email;
+        return $this->mail;
     }
 
     /**
