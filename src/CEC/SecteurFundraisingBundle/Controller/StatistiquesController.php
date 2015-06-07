@@ -555,6 +555,7 @@ class StatistiquesController extends Controller
                         }
 
                         // On rajoute les effectifs pour l'année étudiée
+                        /* @var $a \CEC\MainBundle\AnneeScolaire\AnneeScolaire */
                         $effLyceeAnnees[$a->afficherAnnees()] = $effLycee;
                         $effLyceeSecondesAnnees[$a->afficherAnnees()] = $effLyceeSecondes;
                         $effLyceePremieresAnnees[$a->afficherAnnees()] = $effLyceePremieres;
