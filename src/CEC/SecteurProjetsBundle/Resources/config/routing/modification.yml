@@ -1,62 +1,62 @@
 
 # Routes d'édition des projets
 editer_projet:
-    pattern: /editer-projet/{slug}
+    path: /editer-projet/{slug}
     defaults: { _controller: CECSecteurProjetsBundle:Projets:editer}
     requirements:
         slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
 
 creer_projet:
-    pattern: /creer-projet
+    path: /creer-projet
     defaults: {_controller: CECSecteurProjetsBundle:Projets:creer}
 
 
 #Routes d'édition des réunions d'information
 creer_reunion:
-    pattern: /creer-reunion
+    path: /creer-reunion
     defaults: { _controller: CECSecteurProjetsBundle:Reunions:creerReunion}
 
 modifier_reunion:
-    pattern: /editer-reunion/{id}
+    path: /editer-reunion/{id}
     defaults: {_controller: CECSecteurProjetsBundle:Reunions:modifierReunion}
     requirements:
         id: \d+
 
 supprimer_reunion:
-    pattern: /supprimer-reunion/{id}
+    path: /supprimer-reunion/{id}
     defaults: {_controller:CECSecteurProjetsBundle:Reunions:supprimerReunion}
     requirements:
         id: \d+
 
 inscription_reunion:
-    pattern: /inscription-reunion/{id}
+    path: /inscription-reunion/{id}
     defaults: {_controller: CECSecteurProjetsBundle:Reunions:inscriptionReunion}
     requirements:
         id: \d+
 
 desinscription_reunion:
-    pattern: /desinscription-reunion/{id}
+    path: /desinscription-reunion/{id}
     defaults: {_controller: CECSecteurProjetsBundle:Reunions:desinscriptionReunion}
     requirements:
         id: \d+
 
 # Routes de gestion des inscriptions
 dossier_inscription:
-    pattern: /dossier-inscription
+    path: /dossier-inscription
     defaults: {_controller: CECSecteurProjetsBundle:Projets:uploadDossier}
 
 ouverture_inscription:
-    pattern: /ouverture-inscriptions
+    path: /ouverture-inscriptions
     defaults: {_controller: CECSecteurProjetsBundle:Projets:inscriptions}
 
 projet_ajouter_lyceen:
-    pattern: /{slug}/ajouter
+    path: /{slug}/ajouter
     defaults: {_controller: CECSecteurProjetsBundle:Projets:ajouterLyceen}
     requirements:
         slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
 
 projet_supprimer_lyceen:
-    pattern: /{slug}/supprimer/{lyceen}
+    path: /{slug}/supprimer/{lyceen}
     defaults: {_controller: CECSecteurProjetsBundle:Projets:supprimerLyceen}
     requirements:
         slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
@@ -65,15 +65,15 @@ projet_supprimer_lyceen:
 
 # Routes d'édition des albums photos
 ajouter_photos:
-    pattern: /ajouter-photos/{id}
+    path: /ajouter-photos/{id}
     defaults: {_controller: CECSecteurProjetsBundle:Albums:ajouterPhotos, id: 0}
 
 gerer_albums:
-    pattern: /editer-albums
+    path: /editer-albums
     defaults: {_controller: CECSecteurProjetsBundle:Albums:gererAlbums}
 
 gerer_album:
-    pattern: /editer-albums/{id}
+    path: /editer-albums/{id}
     defaults: {_controller: CECSecteurProjetsBundle:Albums:gererAlbum, image_id: 0}
     requirements:
         id: \d+

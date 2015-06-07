@@ -1,48 +1,48 @@
 sorties:
-    pattern: /sorties
+    path: /sorties
     defaults: { _controller: CECSecteurSortiesBundle:Sorties:voir }
 
 anciennes_sorties:
-    pattern: /sortiesPassees
+    path: /sortiesPassees
     defaults: { _controller: CECSecteurSortiesBundle:Sorties:voirAnciennes }
     
 editer_sortie:
-    pattern: /sorties/{action}/{id}
+    path: /sorties/{action}/{id}
     defaults: { _controller: CECSecteurSortiesBundle:Sorties:editer }
     requirements: 
         action: editer|cr|editeraveccr
         id: \d+
 
 creer_sortie:
-    pattern: /sorties/creer
+    path: /sorties/creer
     defaults: { _controller: CECSecteurSortiesBundle:Sorties:creer }
 
 supprimer_sortie:
-    pattern: /sorties/supprimer/{id}
+    path: /sorties/supprimer/{id}
     defaults: { _controller: CECSecteurSortiesBundle:Sorties:supprimerSortie }
     requirements: 
         id: \d+
 excel_inscrits:
-    pattern: /excel-inscrits-sortie/{id}
+    path: /excel-inscrits-sortie/{id}
     defaults: {_controller: CECSecteurSortiesBundle:Sorties:excel}
     requirements:
         id: \d+
 
 sortie_supprimer_lyceen:
-    pattern: /sorties/{sortie}/supprimer/{lyceen}
+    path: /sorties/{sortie}/supprimer/{lyceen}
     defaults: {_controller: CECSecteurSortiesBundle:Sorties:desinscrire}
     requirements:
         sortie: \d+
         lyceen: \d+
 
 sortie_ajouter_lyceen:
-    pattern: /sorties/{sortie}/ajouter
+    path: /sorties/{sortie}/ajouter
     defaults: {_controller: CECSecteurSortiesBundle:Sorties:ajouterLyceen}
     requirements:
         sortie: \d+
 
 sortie_basculer_lyceen:
-    pattern: /sorties/{sortie}/basculer/{lyceen}
+    path: /sorties/{sortie}/basculer/{lyceen}
     defaults: {_controller: CECSecteurSortiesBundle:Sorties:basculerLyceen}
     requirements:
         sortie: \d+

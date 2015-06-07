@@ -1,60 +1,60 @@
 voir_eleve:
-    pattern: /eleve/{id}
+    path: /eleve/{id}
     defaults: {_controller: CECMembreBundle:Membres:voirEleve}
     requirements:
         id: \d+
 
 tous_eleves:
-    pattern: /eleves
+    path: /eleves
     defaults: {_controller: CECMembreBundle:Membres:tousEleve}
 
 participation_sorties:
-    pattern: /sortiesRealisees/{lyceen}
+    path: /sortiesRealisees/{lyceen}
     defaults: {_controller: CECSecteurSortiesBundle:SortiesEleve:participationSorties}
 
 voir_professeur:
-    pattern: /professeur/{id}
+    path: /professeur/{id}
     defaults: {_controller: CECMembreBundle:Membres:voirProfesseur}
     requirements:
         id: \d+
 
 voir_lycee:
-    pattern: /{categorie}/lycee/{lycee}
+    path: /{categorie}/lycee/{lycee}
     defaults: {_controller: CECMembreBundle:Membres:tousLycee}
     requirements:
         id: \d+
         categorie: eleves|tuteurs|professeurs
 
 tous_professeurs:
-    pattern: /professeurs
+    path: /professeurs
     defaults: {_controller: CECMembreBundle:Membres:tousProfesseur}
 
 voir_tous_membres:
-    pattern: /tuteurs
+    path: /tuteurs
     defaults: {_controller: CECMembreBundle:Membres:tous}
 
 voir_membre:
-    pattern: /tuteur/{membre}
+    path: /tuteur/{membre}
     defaults: {_controller: CECMembreBundle:Membres:voir}
     requirements:
         membre: \d+
 
 creer_membre:
-    pattern: /creation
+    path: /creation
     defaults: {_controller: CECMembreBundle:Membres:creer}
 
 supprimer_membre:
-    pattern: /suppression/{membre}
+    path: /suppression/{membre}
     defaults: {_controller: CECMembreBundle:Membres:supprimer}
     requirements:
         membre: \d+
 
 passations:
-    pattern: /passations
+    path: /passations
     defaults: {_controller: CECMembreBundle:Membres:passations}
 
 retirer_buro:
-    pattern: /passations/retirer_membre/{membre}
+    path: /passations/retirer_membre/{membre}
     defaults: {_controller: CECMembreBundle:Membres:supprimerMembreBuro}
     requirements:
         membre: \d+
