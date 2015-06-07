@@ -48,9 +48,9 @@ class Secteur
      *
      * @ORM\Column(name = "nom", type = "string", length = 100)
      * @Assert\NotBlank(message = "Le nom du secteur ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom du secteur ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom du secteur ne peut excéder 100 caractères."
      * )
      */
     private $nom;

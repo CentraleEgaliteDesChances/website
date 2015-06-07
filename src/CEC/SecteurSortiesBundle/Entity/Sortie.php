@@ -45,9 +45,9 @@ class Sortie
      *
      * @ORM\Column(name = "nom", type = "string", length = 100)
      * @Assert\NotBlank(message = "Le nom de la sortie ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom de la sortie ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom de la sortie ne peut excéder 100 caractères."
      * )
      */
     private $nom;
@@ -80,9 +80,9 @@ class Sortie
      * @var string
      *
      * @ORM\Column(name = "adresse", type = "string", length = 100)
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "L'adresse ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "L'adresse ne peut excéder 100 caractères."
      * )
      */
     private $adresse;
@@ -132,9 +132,9 @@ class Sortie
      * @var string
      *
      * @ORM\Column(name = "description", type = "string", length = 800)
-     * @Assert\MaxLength(
-     *     limit = 800,
-     *     message = "La description ne peut excéder 800 caractères."
+     * @Assert\Length(
+     *     max = 800,
+     *     maxMessage = "La description ne peut excéder 800 caractères."
      * )
      */
     private $description;
@@ -179,9 +179,9 @@ class Sortie
      * @var string
      *
      * @ORM\Column(name = "commentaire", type = "string", length = 800, nullable=true)
-     * @Assert\MaxLength(
-     *     limit = 800,
-     *     message = "Le commentaire ne peut excéder 800 caractères."
+     * @Assert\Length(
+     *     max = 800,
+     *     maxMessage = "Le commentaire ne peut excéder 800 caractères."
      * )
      */
     private $commentaire;

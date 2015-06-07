@@ -31,9 +31,9 @@ class Professeur implements UserInterface, \Serializable
      *
      * @ORM\Column(name="prenom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le prénom ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le prénom ne peut excéder 100 caractères."
      * )
      */
     private $prenom;
@@ -43,9 +43,9 @@ class Professeur implements UserInterface, \Serializable
      *
      * @ORM\Column(name="nom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom de famille ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom de famille ne peut excéder 100 caractères."
      * )
      */
     private $nom;
@@ -59,9 +59,9 @@ class Professeur implements UserInterface, \Serializable
      *     checkHost = true
      * )
      * @Assert\NotBlank(message = "L'adresse email ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "L'adresse email ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
     private $mail;
@@ -88,9 +88,9 @@ class Professeur implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephoneFixe;
@@ -103,9 +103,9 @@ class Professeur implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephonePortable;
