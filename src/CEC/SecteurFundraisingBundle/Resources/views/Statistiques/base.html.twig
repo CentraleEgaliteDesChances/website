@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECSecteurFundraisingBundle:Statistiques:menu' with { 'request' : app.request } %}
+    {{ render(controller('CECSecteurFundraisingBundle:Statistiques:menu', { 'request' : app.request })) }}
 {% endblock %}
 
 

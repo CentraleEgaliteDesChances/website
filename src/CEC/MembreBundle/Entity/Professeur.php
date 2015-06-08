@@ -163,7 +163,7 @@ class Professeur implements UserInterface, \Serializable
     /**
      * @var boolean
      *
-     * @ORM\Column(name="referent")
+     * @ORM\ManyToOne(targetEntity="CEC\TutoratBundle\Entity\Lycee", inversedBy="referents")
      */
     private $referent = false;
 

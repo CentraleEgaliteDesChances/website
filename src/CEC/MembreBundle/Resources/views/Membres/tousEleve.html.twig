@@ -42,5 +42,5 @@
 
 {% block left %}
     {{parent()}}
-    {% render 'CECMembreBundle:Membres:menu' with { 'request': app.request} %}
+    {{ render(controller('CECMembreBundle:Membres:menu', { 'request': app.request})) }}
 {% endblock %}

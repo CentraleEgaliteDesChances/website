@@ -52,7 +52,7 @@ class Image
 	/**
 	* @var \CEC\SecteurProjetsBundle\Entity\Album
 	*
-	* @ORM\ManyToOne(targetEntity="CEC\SecteurProjetsBundle\Entity\Album", inversedBy="photos")
+	* @ORM\ManyToOne(targetEntity="CEC\SecteurProjetsBundle\Entity\Album", inversedBy="images")
 	*/
 	private $album;
 

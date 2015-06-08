@@ -23,7 +23,7 @@
 							</h4>
 						</div>
 						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-						{% render "CECSecteurSortiesBundle:SortiesProfesseur:lyceens" with {'sortie' : sortie} %}
+						{{ render(controller("CECSecteurSortiesBundle:SortiesProfesseur:lyceens", {'sortie' : sortie})) }}
 						</div>
 					</div>
 				</div>

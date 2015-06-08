@@ -5,8 +5,8 @@
 
 {% block container %}
     <div class="row">
-        <div class="span3"> {% block left %}{% endblock %} </div>
-        <div class="span6 offset4"><div class="well">  
+        <div class="col-md-3"> {% block left %}{% endblock %} </div>
+        <div class="col-md-6 col-md-offset-4"><div class="well">  
             <h3 class="narrow-title">{% block narrow_title %}{% endblock %}</h3>
             {% block narrow_body %}{{ session_flash() }}{% endblock %}
             </div>

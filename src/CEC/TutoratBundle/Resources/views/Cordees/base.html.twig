@@ -10,5 +10,5 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECTutoratBundle:Cordees:menu' with { 'request': app.request } %}
+    {{ render(controller('CECTutoratBundle:Cordees:menu', { 'request': app.request })) }}
 {% endblock %}

@@ -10,5 +10,5 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECTutoratBundle:Lycees:apercu' with { 'lycee' : lycee } %}
+    {{ render(controller('CECTutoratBundle:Lycees:apercu', { 'lycee' : lycee })) }}
 {% endblock %}
