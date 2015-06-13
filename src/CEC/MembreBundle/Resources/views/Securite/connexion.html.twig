@@ -15,30 +15,36 @@
 
 {% block body %}
 
-    <div class="container">
-        {{ session_flash() }}
-        <form method="post" action="{{ path('connexion_verifications') }}" class="form-connexion">
-            <h2>Connexion</h2>
-            
-            {% if erreur %}
-                <div class="alert alert-error">{{ erreur.message }}</div>
-            {% endif %}
-			
-            <input type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" placeholder="Prénom Nom" class="input-block-level" {% if not erreur %}autofocus{% endif %} />
-            <input type="password" id="mot_de_passe" name="_password" placeholder="Mot de passe" class="input-block-level" {% if erreur %}autofocus{% endif %} />
-            <label for="remember_me"><input type="checkbox" id="remember_me" name="_remember_me" checked />  Se souvenir de moi</label>
-			<div class="footer-controls">
-                <a href="{{ path('securite_oubli') }}" class="btn btn-link btn-small">Mot de passe oublié ?</a>
-                <button type="submit" class="btn btn-primary btn-large">Se connecter</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                {{ session_flash() }}
+                <form method="post" action="{{ path('connexion_verifications') }}" class="form-connexion">
+                    <h2>Connexion</h2>
+                    
+                    {% if erreur %}
+                        <div class="alert alert-error">{{ erreur.message }}</div>
+                    {% endif %}
+        			<div class="form-group">
+                        <input class="form-control" type="text" id="utilisateur" name="_username" value="{{ dernier_utilisateur }}" placeholder="Prénom Nom" class="input-block-level" {% if not erreur %}autofocus{% endif %} />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" id="mot_de_passe" name="_password" placeholder="Mot de passe" class="input-block-level" {% if erreur %}autofocus{% endif %} />
+                    </div>
+                    <div class="checkbox">
+                        <label for="remember_me"><input type="checkbox" id="remember_me" name="_remember_me" checked />  Se souvenir de moi</label>
+                    </div>
+        			<div class="footer-controls">
+                        <button type="submit" class="btn btn-block btn-primary">Se connecter</button>
+                        <a href="{{ path('securite_oubli') }}" class="btn btn-default btn-block btn-link btn-sm text-center">Mot de passe oublié ?</a>
+                    </div>
+                    <br/>
+                    <h2> Inscription</h2>
+                    <a href="{{path('inscriptionProfesseur')}}"><button class="btn btn-primary btn-block" >S'inscrire en tant que professeur</button></a>
+                    <a href="{{path('inscriptionEleve')}}"><button class="btn btn-primary btn-block" >S'inscrire en tant que lycéen</button></a>
+        		</form>
             </div>
-        </form>
-    </div>
-	<div class="container">
-		<div class="form-connexion">
-			<h2> Pas encore inscrit ? </h2>
-			<a href="{{path('inscriptionProfesseur')}}"><button class="btn btn-primary btn-large" >S'inscrire en tant que professeur</button></a>
-			<a href="{{path('inscriptionEleve')}}"><button class="btn btn-primary btn-large" >S'inscrire en tant que lycéen</button></a>
-		</div>
+        </div>
 	</div>
 
 {% endblock %}

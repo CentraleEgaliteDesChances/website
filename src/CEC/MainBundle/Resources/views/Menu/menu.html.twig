@@ -140,11 +140,11 @@
                 {% endif %}
             </ul>
 
-            <div class="btn-group pull-right" style="margin-top:8px;">
-                <button class="btn btn-default navbar-button" href="{{ path('voir_membre', { 'membre' : membre.id }) }}">
+            <div class="btn-group pull-right">
+                <a class="btn btn-default navbar-btn" href="{{ path('voir_membre', { 'membre' : membre.id }) }}">
                     {{ membre }}
-                </button>
-                <button class="btn btn-default navbar-button dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><span class="caret"></span></button>
+                </a>
+                <a class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
                         <li><a href="{{ path('reglages_infos') }}">Modifier mon profil</a></li>
                         <li><a href="{{ path('reglages_groupe') }}">Modifier mon groupe</a></li>

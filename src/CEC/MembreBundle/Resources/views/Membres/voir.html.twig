@@ -11,7 +11,7 @@
                     <h3>{{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}</h3>
                 </th>
             </tr>
-            <tr><th colspan="2" class="image">
+            <tr><th colspan="2" class="image text-center">
                 {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
                     <img src="{{ asset_url }}" alt="Image du lycée"/>
                 {% endimage %}
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Email</td>
-                <td><a href="mailto:{{ membre.email }}">{{ membre.email }}</a></td>
+                <td><a href="mailto:{{ membre.mail }}">{{ membre.mail }}</a></td>
             </tr>
             <tr>
                 <td>Téléphone</td>
@@ -87,7 +87,7 @@
     </table>
 
     {% if app.user == membre %}
-        <a href="{{ path('reglages_infos') }}" class="btn btn-block">Modifier mon profil</a>
+        <a href="{{ path('reglages_infos') }}" class="btn btn-default btn-block">Modifier mon profil</a>
     {% endif %}
     
 {% endblock %}

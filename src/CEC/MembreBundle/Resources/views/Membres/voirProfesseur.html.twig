@@ -76,7 +76,7 @@
     </table>
 
     {% if app.user == professeur %}
-        <a href="{{ path('reglages_infos_professeur', {'professeur' : professeur.id} ) }}" class="btn btn-block">Modifier mon profil</a>
+        <a href="{{ path('reglages_infos_professeur', {'professeur' : professeur.id} ) }}" class="btn btn-default btn-block">Modifier mon profil</a>
     {% endif %}
     
 {% endblock %}

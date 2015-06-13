@@ -67,10 +67,10 @@
 			</ul>
 			
     		<div class="btn-group pull-right">
-                    <button class="btn btn-default navbar-button" href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">
+                    <a class="btn btn-default navbar-btn" href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">
                         {{ eleve }}
-                    </button>
-                    <button class="btn btn-default navbar-button dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></button>
+                    </a>
+                    <a class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('reglages_infos_eleve') }}">Modifier mon profil</a></li>
                         <li><a href="{{ path('reglages_groupe_eleve') }}"> Modifier mon groupe </a></li>

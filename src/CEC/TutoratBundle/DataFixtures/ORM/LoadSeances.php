@@ -8,6 +8,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Entity\Groupe;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 
 class LoadSeances extends AbstractFixture implements DependentFixtureInterface
 {
@@ -16,33 +18,20 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        // Tableau contenant tous les groupes de test
-        $groupes = $this->tableauDesNomsGroupes();
-        
-        // On crée les dates de base
-        $anneePrecedante = new \DateTime(
-            $this->getReference('tropajuste_comessa_secondes_old')
-                 ->getAnneeScolaire()
-                 ->getAnneeInferieure()
-            . '-10-01'
-        );
-        
-        $anneeActuelle = new \DateTime(
-            $this->getReference('tropajuste_comessa_secondes')
-                 ->getAnneeScolaire()
-                 ->getAnneeInferieure()
-            . '-10-01'
-        );
+        //Par defaut elles commencent toutes le premier janvier
+        $annee = date('Y');
+        $dateBase = new \DateTime($annee.'-01-01');
         
         // On crée le tableau contenant toutes les séances
         $seances = array();
+        $groupes = $this->tableauDesNomsGroupes();
         foreach ($groupes as $nomGroupe) {
             $groupe = $this->getReference($nomGroupe);
-            $dateOrigine = (substr($nomGroupe, strlen($nomGroupe) - 3) == 'old') ? $anneePrecedante : $anneeActuelle;
+            $dateOrigine = $dateBase;
             $decalageOrigine = rand(1, 20);
             $dateOrigine->add(\DateInterval::createFromDateString($decalageOrigine . ' days'));
             $seances[$nomGroupe] = $this->seancesPourGroupe(
-                $this->getReference('tropajuste_comessa_secondes_old'),
+                $groupe,
                 $dateOrigine,
                 rand(13, 20)
             );
@@ -81,15 +70,15 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
      * @param Groupe $groupe: groupe de tutorat
      * @param \DateTime $origineDate: origine des dates (pour la première séance)
      * @param int $nombre: nombre de séance à créer
-     * @param int $intervallesEnJour: intervalle entre les séances, en jours (14 par défaut)
+     * @param int $intervallesEnJours: intervalle entre les séances, en jours (14 par défaut)
      * @return array Tableau des séances crées.
      */
-    public function seancesPourGroupe(Groupe $groupe, \DateTime $origineDate, $nombre = 12, $intervalleEnJour = 14)
+    public function seancesPourGroupe(Groupe $groupe, \DateTime $origineDate, $nombre = 12, $intervalleEnJours = 14)
     {
         $seances = array();
         for ($i = 0; $i < $nombre; $i++) {
             $date = clone $origineDate;
-            $date->add(\DateInterval::createFromDateString($intervalleEnJour * $i . ' days'));
+            $date->add(\DateInterval::createFromDateString($intervalleEnJours * $i . ' days'));
             $seances[$i] = $this->nouvelleSeance($groupe, $date);
         }
         return $seances;
@@ -103,19 +92,9 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
     public function tableauDesNomsGroupes()
     {
         return array(
-            'tropajuste_comessa_secondes_old',
-            'tropajuste_premieres_old',
-            'comessa_premieres_old',
-            'tropajuste_comessa_terminales_old',
             'tropajuste_comessa_secondes',
             'tropajuste_premieres',
             'comessa_premieres',
-            'lavy_paleuparadhi_premieres_old',
-            'lavy_paleuparadhi_terminales_old',
-            'maphore_premieres_old',
-            'maphore_terminales_old',
-            'palhom_kipranlamaire_secondes_old',
-            'palhom_kipranlamaire_premieres_terminales_old',
             'lavy_paleuparadhi_premieres',
             'lavy_paleuparadhi_terminales',
             'maphore_premieres',

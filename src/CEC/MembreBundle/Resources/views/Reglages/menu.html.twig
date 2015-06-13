@@ -1,12 +1,12 @@
 <div class="well">
-    <ul class="nav nav-list">
-        <li class="nav-header">Mes informations</li>
+    <ul class="nav nav-pills nav-stacked">
+        <li class="secteur">Mes informations</li>
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_infos' %}class="active"{% endif %}
             >
                 <a href="{{ path('reglages_infos') }}">Profil</a>
         </li>
-        <li class="nav-header">Mon activité</li>
+        <li class="secteur">Mon activité</li>
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_groupe' %}class="active"{% endif %}
             >

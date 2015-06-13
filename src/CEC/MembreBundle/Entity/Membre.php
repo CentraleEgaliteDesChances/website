@@ -364,6 +364,8 @@ class Membre implements UserInterface, \Serializable
     public function setRoles($roles)
     {
         $this->roles = $roles;
+
+        return $this;
     }
 
     /**
@@ -378,7 +380,7 @@ class Membre implements UserInterface, \Serializable
         if ($this->buro)
         {
             $this->addRole('ROLE_BURO');
-            return true;
+            return $this;
         }
 
 
@@ -440,7 +442,7 @@ class Membre implements UserInterface, \Serializable
         if(count($this->lyceesPourVP) > 0)
             $this->addRole('ROLE_VP_LYCEE');
 
-        return true;
+        return $this;
 
     }
 
@@ -449,7 +451,7 @@ class Membre implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->getRoles()))
+        if (in_array($role, array($this->roles)))
         {
             for($i=0; $i<count($this->roles); $i++)
             {
@@ -457,7 +459,7 @@ class Membre implements UserInterface, \Serializable
                     unset($this->roles[i]);
             }
         }
-        return $this->roles;
+        return $this;
     }
 
     /**
@@ -465,10 +467,12 @@ class Membre implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!in_array($role, $this->getRoles()))
+        if(!in_array($role, array($this->roles)))
         {
             $this->roles[] = $role; 
         }
+
+        return $this;
            
     }
 
@@ -579,7 +583,7 @@ class Membre implements UserInterface, \Serializable
      * @param string $email
      * @return Membre
      */
-    public function setMail($email)
+    public function setMail($mail)
     {
         $this->mail = $mail;
 
@@ -763,6 +767,8 @@ class Membre implements UserInterface, \Serializable
         $this->lyceesPourVP->removeElement($lyceesPourVP);
         if (count($this->lyceesPourVP)==0)
             $this->removeRole('ROLE_VP_LYCEE');
+
+        return $this;
     }
 
     /**
@@ -831,6 +837,8 @@ class Membre implements UserInterface, \Serializable
     public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances->removeElement($seances);
+
+        return $this;
     }
 
     /**
@@ -864,6 +872,8 @@ class Membre implements UserInterface, \Serializable
     public function removeDocument(\CEC\ActiviteBundle\Entity\Document $documents)
     {
         $this->documents->removeElement($documents);
+
+        return $this;
     }
 
     /**
@@ -897,6 +907,8 @@ class Membre implements UserInterface, \Serializable
     public function removeContactProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projet)
     {
         $this->contactProjets->removeElement($projet);
+
+        return $this;
     }
 
     /**
@@ -930,6 +942,8 @@ class Membre implements UserInterface, \Serializable
     public function removeCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
     {
         $this->compteRendus->removeElement($compteRendus);
+
+        return $this;
     }
 
     /**

@@ -532,8 +532,10 @@ class Eleve implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!in_array($role, $this->getRoles()))
+        if(!in_array($role, $this->roles->toArray()))
             $this->roles[] = $role;
+
+        return $this;
     }
 
      /**
@@ -541,7 +543,7 @@ class Eleve implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->getRoles()))
+        if (in_array($role, $this->roles->toArray()))
         {
             for($i=0; $i<count($this->roles); $i++)
             {
@@ -564,19 +566,6 @@ class Eleve implements UserInterface, \Serializable
     }
 
     /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Eleve
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    
-        return $this;
-    }
-
-    /**
      * Get dateCreation
      *
      * @return \DateTime 
@@ -584,19 +573,6 @@ class Eleve implements UserInterface, \Serializable
     public function getDateCreation()
     {
         return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Eleve
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-    
-        return $this;
     }
 
     /**
@@ -625,23 +601,23 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get delegue
      *
-     * @return boolean 
+     * @return \CEC\TutoratBundle\Entity\Lycee 
      */
     public function getDelegue()
     {
         return $this->delegue;
     }
-	
-	 /**
+
+    /**
      * Set motDePasse
      *
      * @param string $motDePasse
-     * @return Eleve
+     * @return Membre
      */
     public function setMotDePasse($motDePasse)
     {
         $this->motDePasse = $motDePasse;
-    
+
         return $this;
     }
 
@@ -858,6 +834,8 @@ class Eleve implements UserInterface, \Serializable
     public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances->removeElement($seances);
+
+        return $this;
     }
 
     /**
@@ -983,6 +961,8 @@ class Eleve implements UserInterface, \Serializable
     public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
     {
         $this->groupeParAnnee->removeElement($groupeParAnnee);
+
+        return $this;
     }
 
     /**

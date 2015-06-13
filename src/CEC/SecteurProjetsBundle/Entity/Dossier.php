@@ -37,13 +37,6 @@ class Dossier
      */
     private $path;
 	
-	/**
-	* @var \CEC\SecteurProjetsBundle\Entity\Projet
-	*
-	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Projet", mappedBy="dossier")
-	* @ORM\JoinColumn(name="projet_id", referencedColumnName="id")
-	*/
-	private $projet;
 	
 	/**
      * @Assert\File(maxSize="10000000")

@@ -161,11 +161,11 @@ class Professeur implements UserInterface, \Serializable
     private $dateModification;
 
     /**
-     * @var boolean
+     * @var \CEC\TutoratBundle\Entity\Lycee
      *
      * @ORM\ManyToOne(targetEntity="CEC\TutoratBundle\Entity\Lycee", inversedBy="referents")
      */
-    private $referent = false;
+    private $referent;
 
     /** 
     * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
@@ -439,7 +439,7 @@ class Professeur implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->getRoles()))
+        if (in_array($role, $this->roles->toArray()))
         {
             for($i=0; $i<count($this->roles); $i++)
             {
@@ -448,6 +448,8 @@ class Professeur implements UserInterface, \Serializable
             }
         }
         $this->roles = array_values($this->roles);
+
+        return $this;
     }
 
     /**
@@ -455,7 +457,7 @@ class Professeur implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if (!(in_array($role, $this->getRoles())))
+        if (!(in_array($role, $this->roles->toArray())))
             $this->roles[] = $role;
     }
 
@@ -469,18 +471,6 @@ class Professeur implements UserInterface, \Serializable
         return $this->roles;
     }
 
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Professeur
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    
-        return $this;
-    }
 
     /**
      * Get dateCreation
@@ -490,19 +480,6 @@ class Professeur implements UserInterface, \Serializable
     public function getDateCreation()
     {
         return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Professeur
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-    
-        return $this;
     }
 
     /**
@@ -537,17 +514,17 @@ class Professeur implements UserInterface, \Serializable
     {
         return $this->referent;
     }
-	
-	/**
+
+    /**
      * Set motDePasse
      *
      * @param string $motDePasse
-     * @return Professeur
+     * @return Membre
      */
     public function setMotDePasse($motDePasse)
     {
         $this->motDePasse = $motDePasse;
-    
+
         return $this;
     }
 

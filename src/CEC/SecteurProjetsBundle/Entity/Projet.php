@@ -3,7 +3,9 @@
 namespace CEC\SecteurProjetsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Projet
@@ -56,6 +58,8 @@ class Projet
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime")
+     * @Gedmo\Timestampable(on = "create")
+     * @Assert\DateTime()
      */
     private $dateCreation;
 
@@ -63,6 +67,8 @@ class Projet
      * @var \DateTime
      *
      * @ORM\Column(name="dateModification", type="datetime")
+     * @Gedmo\Timestampable(on = "create")
+     * @Assert\DateTime()
      */
     private $dateModification;
 
@@ -106,7 +112,7 @@ class Projet
 	/**
 	* @var \CEC\SecteurProjetsBundle\Entity\Dossier
 	*
-	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Dossier", inversedBy="projet")
+	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Dossier", inversedBy="projet", cascade={"remove"}, orphanRemoval=true)
 	*/
 	private $dossier;
 	
