@@ -140,7 +140,7 @@ class QuizzActu
      * Renvoi true si l'attribut semaine correspond à un lundi, false sinon.
      * Sert à valider le formulaire du quizz actu.
      *
-     * @Assert\isTrue(message = "Cette date ne correspond pas au premier jour d'une semaine.")
+     * @Assert\True(message = "Cette date ne correspond pas au premier jour d'une semaine.")
      */
     public function isSemaineValid()
     {
