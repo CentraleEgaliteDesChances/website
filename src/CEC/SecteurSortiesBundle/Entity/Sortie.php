@@ -579,7 +579,7 @@ class Sortie
 	{
 		$this->places = $places;
 		
-		return $places;
+		return $this;
 	}
 	
 	public function getPlaces()
