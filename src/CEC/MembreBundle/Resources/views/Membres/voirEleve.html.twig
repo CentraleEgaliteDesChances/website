@@ -22,17 +22,36 @@
                 <td>Email</td>
                 <td><a href="mailto:{{ eleve.mail }}">{{ eleve.mail }}</a></td>
             </tr>
-			{% if eleve.telephonePublic %}
+			{% if eleve.telephonePublic or is_granted('ROLE_VP_LYCEE') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') %}
 			<tr>
                 <td>Téléphone</td>
                 <td>{{ eleve.telephone }}</td>
             </tr>
 			{% endif %}
+            {% if is_granted('ROLE_BURO') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') %}
+            <tr>
+                <td> Adresse </td>
+                <td>
+                    <adress>
+                        {{eleve.adresse}}<br/>
+                        {{eleve.codePostal}} - {{eleve.ville|capitalize}}
+                    </adress>
+                </td>
+            </tr>
+            {% endif %}
         </tbody>
     </table>
     
     <table class="table table-bordered table-striped table-hover">
         <tbody>
+            <tr>
+                <td> Lycée </td>
+                <td>
+                    <a href="{{ path('lycee', {'lycee' : eleve.lycee.id } ) }}">
+                        {{eleve.lycee.nom}}
+                    </a>
+                </td>
+            </tr>
             <tr>
                 <td>Tutorat</td>
                 <td>
@@ -45,6 +64,7 @@
                     {% endif %}
                 </td>
             </tr>
+            
             {% if eleve.delegue %}
                 <tr>
                     <td>Délégué</td>
@@ -59,8 +79,8 @@
             {% if is_granted('ROLE_TUTEUR') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or eleve == app.user %}
                 <tr>
                     <td> Relevé de présences </td>
-                    <td> <a class="label label-default" href="{{ path('absences', {'lyceen' : eleve.id} ) }}"> Séances </a> 
-                        <a class="label label-default" href="{{ path('participation_sorties', {'lyceen' : eleve.id} ) }}"> Sorties </a>
+                    <td> <a class="label label-default" href="{{ path('absences', {'lyceen' : eleve.id} ) }}" style="margin-right:10px;"> Séances </a> 
+                        <a class="label label-default" href="{{ path('participation_sorties', {'lyceen' : eleve.id} ) }}"  style="margin-right:10px;"> Sorties </a>
                         <a class="label label-default" href="{{ path('suivi_inscriptions', {'lyceen' : eleve.id} ) }}"> Projets </a> 
 
                     </td>
@@ -86,20 +106,22 @@
 
 
     <table class="table table-bordered table-hover table-striped table-large">
-        {% if eleve.groupe %}
-            <thead><tr><th><h4>Groupe de tutorat</h4></th></tr></thead>
+        {% if tutorat %}
+            <thead><tr><th><h4>Groupe de tutorat (par année scolaire)</h4></th></tr></thead>
             <tbody>
-                <tr>
-                    <td>
-                        <a href="{{ path('groupe', { 'groupe': eleve.groupe.id }) }}">
-                            <strong>
-                                {{eleve.groupe.description}}
-                            </strong>
-                            <span class="muted">- {{ eleve.groupe.typeDeTutorat }}</span><br />
-                            Tous les {{ cycle(jours, eleve.groupe.debut|date('N'))|lower }}s à {{ eleve.groupe.debut|date('G\\hi') }}, {{ eleve.groupe.lieu|lower }}.
-                        </a>
-                    </td>
-                </tr>
+                {% for groupe in tutorat %}
+                    <tr>
+                        <td><strong> {{groupe.anneeScolaire}} </strong> -
+                            <a href="{{ path('groupe', { 'groupe': groupe.groupe.id }) }}">
+                                <strong>
+                                    {{groupe.groupe.description}}
+                                </strong>
+                                <span class="muted">- {{ groupe.groupe.typeDeTutorat }}</span><br />
+                                Tous les {{ cycle(jours, groupe.groupe.debut|date('N'))|lower }}s à {{ groupe.groupe.debut|date('G\\hi') }}, {{ groupe.groupe.lieu|lower }}.
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         {% else %}
             <thead><tr><th class="muted"><h4>Aucune activité de tutorat</h4></th></tr></thead>

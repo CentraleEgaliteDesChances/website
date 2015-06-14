@@ -14,7 +14,7 @@
                 {% endfor %}
                 ({{ cr.seance.groupe.niveau }})
             </a></p>
-            <button class="btn btn-mini" onclick="basculerLecture({{ cr.id }})">Marquer comme non-lu</button>
+            <button class="btn btn-default btn-mini" onclick="basculerLecture({{ cr.id }})">Marquer comme non-lu</button>
         </th>
     </tr>
 </thead>
@@ -22,7 +22,7 @@
     <tr>
         <td colspan="3">
             <a href="{{ path('activites_voir', { 'activite': cr.activite.id }) }}">
-                <strong>Le compte-rendu se rapport à l'activité : </strong>{{ cr.activite.titre }}<br />
+                <strong>Le compte-rendu se rapporte à l'activité : </strong>{{ cr.activite.titre }}<br />
                 <small>{{ cr.activite.description }}</small>
             </a>
         </td>

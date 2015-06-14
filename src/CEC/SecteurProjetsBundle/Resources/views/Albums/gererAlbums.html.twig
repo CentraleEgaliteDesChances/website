@@ -15,6 +15,13 @@
 
 <h3> Quel album voulez-vous modifier ? </h3>
 
+{% set maxAlbum = 0 %}
+{% for projet in projets %}
+	{% if projet.albums|length > maxAlbum %}
+		{% set maxAlbum = projet.albums|length %}
+	{% endif %}
+{% endfor %}
+
 <table class="table table-bordered table-striped table-large">
     <tbody>
 	{% for projet in projets%}
@@ -23,7 +30,11 @@
                 {{projet.nom}}
             </th>
 			{% for album in projet.albums %}
-				<td>
+				<td
+				{% if loop.last %}
+					colspan="{{maxAlbum - projet.albums|length + 1}}"
+				{% endif %}
+				>
 					<a href="{{path('gerer_album', {'id': album.id})}}">{{album.annee}}</a>
 				</td>
 			{% else %}

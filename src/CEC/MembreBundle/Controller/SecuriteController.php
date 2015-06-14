@@ -104,7 +104,7 @@ class SecuriteController extends Controller
                 $this->get('cec.mailer')->sendOubliMdP($membre, $motDePasse, $_SERVER['HTTP_HOST']);
 
                 //Retour à la page de connexion
-                $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
+                $this->get('session')->getFlashBag()->add('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
                 return $this->redirect($this->generateUrl('connexion'));
             }
         }

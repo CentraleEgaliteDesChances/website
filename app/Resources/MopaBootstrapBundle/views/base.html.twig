@@ -6,9 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block titre %}Centrale Egalité des Chances{% endblock %}</title>
         
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {% stylesheets
+            '@MopaBootstrapBundle/Resources/bootstrap/less/bootstrap.less'%}
+            <link rel="stylesheet" href="{{asset_url}}" />
+        {% endstylesheets %}
+        {#<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">#}
+        
+        {% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        
+
     </head>
     
     <body data-spy="scroll">

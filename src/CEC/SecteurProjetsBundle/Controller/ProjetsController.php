@@ -42,7 +42,8 @@ class ProjetsController extends Controller
 	*/
 	public function menuAction($request)
 	{
-		return array('request'=>$request);
+		$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+		return array('request'=>$request, 'projets' =>$projets);
 	}
 	
 	/**
@@ -87,7 +88,7 @@ class ProjetsController extends Controller
 				$em = $this->getDoctrine()->getEntityManager();
 				$em->persist($projet);
 				$em->flush();
-				$this->get('session')->setFlash('success','Le projet a bien été modifié !');
+				$this->get('session')->getFlashBag()->add('success','Le projet a bien été modifié !');
 				return $this->redirect($this->generateUrl('description_projet', array('slug' =>$slug)));
 			}
 		}
@@ -151,7 +152,7 @@ class ProjetsController extends Controller
 				$em->persist($secteur);
 				$em->persist($projet);
 				$em->flush();
-				$this->get('session')->setFlash('success','Le projet a bien été créé !');
+				$this->get('session')->getFlashBag()->add('success','Le projet a bien été créé !');
 				return $this->redirect($this->generateUrl('description_projet', array('slug' =>$projet->getSlug())));
 			}
 		}
@@ -194,7 +195,7 @@ class ProjetsController extends Controller
 				$em->flush();
 				
 				
-				$this->get('session')->setFlash('success', 'Le dossier a bien été mis à jour');
+				$this->get('session')->getFlashBag()->add('success', 'Le dossier a bien été mis à jour');
 				return $this->redirect($this->generateUrl('description_projets'));
 				
 			}
@@ -236,7 +237,7 @@ class ProjetsController extends Controller
 				
 			}
 			
-			$this->get('session')->setFlash('success', 'L\'ouverture des inscriptions a bien été mise à jour. ');
+			$this->get('session')->getFlashBag()->add('success', 'L\'ouverture des inscriptions a bien été mise à jour. ');
 			return $this->redirect($this->generateUrl('description_projets'));
 			
 		}
@@ -285,7 +286,7 @@ class ProjetsController extends Controller
         {
             $lyceen = $data['lyceen'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un lycéen à ajouter.');
             return $this->redirect($this->generateUrl('editer_projet', array('projet' => $projet->getSlug())));
         }
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);

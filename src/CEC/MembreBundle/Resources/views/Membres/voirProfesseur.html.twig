@@ -63,15 +63,12 @@
                     {% endif %}
                 </td>
             </tr>
-            {% if professeur.referent %}
-                <tr>
-                    <td>Référent</td>
-                    <td>
-                        Oui
-                    </td>
-                </tr>
-            {% endif %}
-
+            <tr>
+                <td>Rôle</td>
+                <td>
+                    {{professeur.role}}
+                </td>
+            </tr>
         </tbody>
     </table>
 

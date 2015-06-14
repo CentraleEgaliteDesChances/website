@@ -46,7 +46,7 @@ class ReglagesProfesseurController extends Controller
                     $membre->updateRoles();
                     $this->getDoctrine()->getEntityManager()->flush();
 
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées. Une déconnexion peut être nécessaire pour prendre en compte votre nouveau rôle.');
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées. Une déconnexion peut être nécessaire pour prendre en compte votre nouveau rôle.');
                     return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }
             }
@@ -64,9 +64,9 @@ class ReglagesProfesseurController extends Controller
 						$membre->setMotDePasse($password);
 						
 						$this->getDoctrine()->getEntityManager()->flush();
-						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+						$this->get('session')->getFlashBag()->add('success', 'Le mot de passe a bien été modifié.');
 					} else {
-						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+						$this->get('session')->getFlashBag()->add('danger', 'Mauvais mot de passe'); 
 					}
 					return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }

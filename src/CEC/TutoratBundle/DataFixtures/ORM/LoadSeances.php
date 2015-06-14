@@ -46,7 +46,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['tropajuste_comessa_secondes_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence  > 1)
             {
                 $seance->addLyceen($this->getReference('nesrine_abada'));
             }
@@ -60,7 +60,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('mateo_sachet'));
                 }
@@ -91,7 +91,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['tropajuste_comessa_terminales_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('ines_chiandotto'));
             }
@@ -105,7 +105,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('arnaud_milome'));
                 }
@@ -117,7 +117,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['lavy_paleuparadhi_premieres_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('titouan_de_souza'));
             }
@@ -131,7 +131,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('yanis_felix'));
                 }
@@ -143,7 +143,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['lavy_paleuparadhi_terminales_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('leo_decoodt'));
             }
@@ -157,7 +157,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('louis_geoffroy'));
                 }
@@ -186,7 +186,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['maphore_premieres_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('lauren_doucet'));
             }
@@ -200,7 +200,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('noemie_grapindor'));
                 }
@@ -212,7 +212,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['maphore_terminales_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('maia_melina'));
             }
@@ -226,7 +226,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('emma_gausson'));
                 }
@@ -256,7 +256,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['tropajuste_premieres_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('claire_alves'));
             }
@@ -270,7 +270,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('nelson_melo'));
                 }
@@ -281,7 +281,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['comessa_premieres_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('aude_ambrosini'));
             }
@@ -295,7 +295,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('anna_michel'));
                 }
@@ -328,7 +328,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['palhom_kipranlamaire_secondes_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('mateo_sachet'));
             }
@@ -342,7 +342,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('lucile_gasparini'));
                 }
@@ -354,7 +354,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['palhom_kipranlamaire_premieres_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('nelson_melo'));
             }
@@ -368,7 +368,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('mehdi_ferdoss'));
                 }
@@ -380,7 +380,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         foreach($seances['palhom_kipranlamaire_terminales_old'] as $seance)
         {
             $presence = rand(0,9);
-            if($presence <2)
+            if($presence > 1)
             {
                 $seance->addLyceen($this->getReference('anna_michel'));
             }
@@ -394,13 +394,13 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
             if($seance->getDate() < (new \DateTime()))
             {
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('karim_el_fezzazi'));
                 }
 
                 $presence = rand(0,9);
-                if($presence <2)
+                if($presence > 1)
                 {
                     $seance->addLyceen($this->getReference('arno_dubois'));
                 }

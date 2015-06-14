@@ -150,10 +150,10 @@
 
 {% if is_granted('ROLE_TUTEUR') %}
     {% if lycee in app.user.lyceespourVP or is_granted('ROLE_BURO') %}
-    <a href="{{ path('absences_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-block"> Relevé de présences du lycée</a>
-    <a href="{{ path('participation_sorties_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-block"> Participation aux sorties du lycée</a>
-    <a href="{{ path('participation_projets_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-block"> Participation aux projets du lycée</a>
-    <a href="{{ path('editer_lycee', { 'lycee': lycee.id }) }}" class="btn btn-block">Éditer le lycée</a>
+    <a href="{{ path('absences_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-default btn-block"> Relevé de présences du lycée</a>
+    <a href="{{ path('participation_sorties_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-default btn-block"> Participation aux sorties du lycée</a>
+    <a href="{{ path('participation_projets_lycee', { 'lycee' : lycee.id }) }}" class="btn btn-default btn-block"> Participation aux projets du lycée</a>
+    <a href="{{ path('editer_lycee', { 'lycee': lycee.id }) }}" class="btn btn-default btn-block">Éditer le lycée</a>
     {% endif %}
 {% elseif is_granted('ROLE_PROFESSEUR') %}
     {% if lycee in app.user.lycee and (is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR')) %}

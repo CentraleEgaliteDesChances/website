@@ -49,7 +49,7 @@ class ReglagesEleveController extends Controller
                 $infomationsGenerales->bindRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
                     return $this->redirect($this->generateUrl('reglages_infos_eleve'));
                 }
             }
@@ -67,9 +67,9 @@ class ReglagesEleveController extends Controller
 						$membre->setMotDePasse($password);
 						
 						$this->getDoctrine()->getEntityManager()->flush();
-						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+						$this->get('session')->getFlashBag()->add('success', 'Le mot de passe a bien été modifié.');
 					} else {
-						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+						$this->get('session')->getFlashBag()->add('danger', 'Mauvais mot de passe'); 
 					}
 					return $this->redirect($this->generateUrl('reglages_infos_eleve'));
                 }
@@ -100,7 +100,7 @@ class ReglagesEleveController extends Controller
             {
                 $groupe = $data['groupe'];
             } else {
-                $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+                $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
                 return $this->redirect($this->generateUrl('reglages_groupe_eleve'));
             }
 
@@ -127,7 +127,7 @@ class ReglagesEleveController extends Controller
             
             $em->flush();
 
-            $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
+            $this->get('session')->getFlashBag()->add('success', 'Votre groupe de tutorat a bien été modifié.');
         }
         
         

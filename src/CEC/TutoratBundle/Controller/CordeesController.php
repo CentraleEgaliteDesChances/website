@@ -62,7 +62,7 @@ class CordeesController extends Controller
                 $em->persist($nouvelleCordee);
                 $em->flush();
                 
-                $this->get('session')->setFlash(
+                $this->get('session')->getFlashBag()->add(
                     'success', 
                     'La cordée a bien été créée, mais elle ne contient encore aucun lycée. Vous pouvez maintenant ajouter à la cordée des lycées sources et pivots pour l\'année en cours.'
                 );
@@ -135,7 +135,7 @@ class CordeesController extends Controller
             $nomForm->bindRequest($this->getRequest());
             if ($nomForm->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Le nom de la cordée a bien été mise à jour.');
+                $this->get('session')->getFlashBag()->add('success', 'Le nom de la cordée a bien été mise à jour.');
                 return $this->redirect($this->generateUrl('editer_cordee', array('cordee' => $cordee->getId())));
             }
         }
@@ -190,7 +190,7 @@ class CordeesController extends Controller
         foreach ($cordee->getLycees() as $lycee) $lycee->setCordee(null);
         $this->getDoctrine()->getEntityManager()->flush();
         
-        $this->get('session')->setFlash('success', 'La cordée a bien été désactivée.');
+        $this->get('session')->getFlashBag()->add('success', 'La cordée a bien été désactivée.');
         return $this->redirect($this->generateUrl('toutes_cordees'));
     }
     

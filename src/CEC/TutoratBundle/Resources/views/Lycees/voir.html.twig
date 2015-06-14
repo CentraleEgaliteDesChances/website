@@ -5,7 +5,11 @@
 {% block right %}
 {{ parent() }}
 
-{% if lycee in app.user.groupe.lycees|default('') or lycee == app.user.lycee %}
+{% if is_granted('ROLE_TUTEUR') and lycee in app.user.groupe.lycees|default('') %}
+{{ flash('info', 'Bienvenue sur la page de votre lycée !') }}
+{% endif %}
+
+{% if (is_granted('ROLE_ELEVE') or is_granted('ROLE_REFERENT')) and lycee == app.user.lycee %}
 {{ flash('info', 'Bienvenue sur la page de votre lycée !') }}
 {% endif %}
 

@@ -218,7 +218,7 @@ class ActivitesController extends Controller
                 $entityManager->flush();
                 
                 $this->get('session')
-                    ->setFlash('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
+                    ->getFlashBag()->add('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
                 return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
             }
         }

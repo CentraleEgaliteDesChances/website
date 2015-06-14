@@ -150,7 +150,7 @@ class LyceesController extends Controller
 
                 $this->getDoctrine()->getEntityManager()->flush();
 
-                $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées.');
+                $this->get('session')->getFlashBag()->add('success', 'Les informations du lycée ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('lycee', array('lycee' => $lycee->getId())));
             }
         }
@@ -194,7 +194,7 @@ class LyceesController extends Controller
                 $entityManager->persist($lycee);
                 $entityManager->flush();
                 
-                $this->get('session')->setFlash('success', 'Le lycée a bien été créé. Vous pouvez désormais ajouter des groupes de tutorat et des contacts — rubrique Enseignants.');
+                $this->get('session')->getFlashBag()->add('success', 'Le lycée a bien été créé. Vous pouvez désormais ajouter des groupes de tutorat et des contacts — rubrique Enseignants.');
                 return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
             }
         }
@@ -231,7 +231,7 @@ class LyceesController extends Controller
         $entityManager->remove($groupe);
         
         $entityManager->flush();
-        $this->get('session')->setFlash('alert', 'Le groupe de tutorat a bien été supprimé. Les séances, lycéens et tuteurs associés ont donc été retirés de ce groupe de tutorat avant sa suppression ; les statistiques associées — présences, nombre d\'heures de tutorat, nombre de tuteurs, activités utilisées — ont par conséquent été conservées.');
+        $this->get('session')->getFlashBag()->add('alert', 'Le groupe de tutorat a bien été supprimé. Les séances, lycéens et tuteurs associés ont donc été retirés de ce groupe de tutorat avant sa suppression ; les statistiques associées — présences, nombre d\'heures de tutorat, nombre de tuteurs, activités utilisées — ont par conséquent été conservées.');
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
     }
     
@@ -272,7 +272,7 @@ class LyceesController extends Controller
         {
             $enseignant = $data['enseignant'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un enseignant à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un enseignant à ajouter.');
             return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
         }
         $enseignant = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($enseignant);
@@ -323,7 +323,7 @@ class LyceesController extends Controller
         {
             $delegue = $data['delegue'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un délégué à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un délégué à ajouter.');
             return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
         }
         $delegue = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($delegue);

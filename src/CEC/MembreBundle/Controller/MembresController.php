@@ -13,6 +13,11 @@ use CEC\MembreBundle\Form\Type\NouveauMembreBuroType;
 use CEC\MembreBundle\Form\Type\MembreType;
 use CEC\MembreBundle\Entity\Membre;
 
+use CEC\TutoratBundle\Entity\GroupeEleves;
+use CEC\TutoratBundle\Entity\GroupeTuteurs;
+
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 
 class MembresController extends Controller
 {
@@ -40,7 +45,7 @@ class MembresController extends Controller
         $lycees = $this->getDoctrine()->getRepository("CECTutoratBundle:Lycee")->find($lycee);
         if(!$lycees) throw new $this->createNotFoundException("Pas de lycée trouvé");
 
-        return array('lycee' => $lycees, 'categorie'=> $categorie);
+        return array('lycee' => $lycees, 'categorie'=> $categorie, 'anneeScolaire'=> AnneeScolaire::withDate());
     }
 
     /**
@@ -53,9 +58,16 @@ class MembresController extends Controller
     {
         $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($membre);
         if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil !');
+
+        $tutorat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findByTuteur($membre);
+
+        usort($tutorat, function(GroupeTuteurs $g1, GroupeTuteurs $g2) {
+        if ($g1->getAnneeScolaire() == $g2->getAnneeScolaire()) return 0;
+        return ($g1->getAnneeScolaire()->getAnneeInferieure() < $g2->getAnneeScolaire()->getAnneeInferieure()) ? 1 : -1;
+        });
         
         return array(
-            'membre'    => $membre,
+            'membre'    => $membre, 'tutorat' => $tutorat
         );
     }
 	
@@ -69,9 +81,16 @@ class MembresController extends Controller
     {
         $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($id);
         if (!$eleve) throw $this->createNotFoundException('Impossible de trouver le profil !');
+
+        $tutorat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findByLyceen($eleve);
+
+        usort($tutorat, function(GroupeEleves $g1, GroupeEleves $g2) {
+        if ($g1->getAnneeScolaire() == $g2->getAnneeScolaire()) return 0;
+        return ($g1->getAnneeScolaire()->getAnneeInferieure() < $g2->getAnneeScolaire()->getAnneeInferieure()) ? 1 : -1;
+        });
         
         return array(
-            'eleve'    => $eleve,
+            'eleve'    => $eleve, 'tutorat' => $tutorat
         );
     }
 
@@ -174,7 +193,7 @@ class MembresController extends Controller
                 // Envoyer un message de confirmation
                 $this->get('cec.mailer')->sendInscription($membre, $motDePasse, $_SERVER['HTTP_HOST']);
                 
-                $this->get('session')->setFlash('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
+                $this->get('session')->getFlashBag()->add('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
                 return $this->redirect($this->generateUrl('creer_membre'));
             }
         }
@@ -200,7 +219,7 @@ class MembresController extends Controller
         $entityManager->remove($membre);
         $entityManager->flush();
         
-        $this->get('session')->setFlash('success', 'Le membre a bien été définitivement supprimé.');
+        $this->get('session')->getFlashBag()->add('success', 'Le membre a bien été définitivement supprimé.');
         return $this->redirect($this->generateUrl('voir_tous_membres'));
     }
     
@@ -227,7 +246,7 @@ class MembresController extends Controller
                 $nouveauMembreBuro->getMembre()->setBuro(true);
                 $nouveauMembreBuro->getMembre()->updateRoles();
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
+                $this->get('session')->getFlashBag()->add('success', $nouveauMembreBuro->getMembre() . " bénéficie désormais des privilèges du buro de l'association !");
                 $this->get('cec.mailer')->sendPassations($membre, $_SERVER['HTTP_HOST']);
                 return $this->redirect($this->generateUrl('passations'));
             }

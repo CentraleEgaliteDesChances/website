@@ -123,16 +123,16 @@ class SortiesController extends Controller
                 
                 switch($action):
                     case 'editer':
-                        $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+                        $this->get('session')->getFlashBag()->add('success', "La sortie a bien été modifiée.");
 						$this->get('cec.mailer')->sendSortieModifiee($sortie, $_SERVER['HTTP_HOST']);
                         return $this->redirect($this->generateUrl('sorties'));
                         break;
                     case 'cr':
-                        $this->get('session')->setFlash('success', "Le CR de la sortie a bien été rédigé.");
+                        $this->get('session')->getFlashBag()->add('success', "Le CR de la sortie a bien été rédigé.");
                         return $this->redirect($this->generateUrl('anciennes_sorties'));
                         break;
                     case 'editeraveccr':
-                        $this->get('session')->setFlash('success', "La sortie a bien été modifiée.");
+                        $this->get('session')->getFlashBag()->add('success', "La sortie a bien été modifiée.");
 						$this->get('cec.mailer')->sendSortieModifiee($sortie, $_SERVER['HTTP_HOST']);
                         return $this->redirect($this->generateUrl('anciennes_sorties'));
                         break;
@@ -212,7 +212,7 @@ class SortiesController extends Controller
         {
             $lyceen = $data['lyceen'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un lycéen à ajouter.');
             return $this->redirect($this->generateUrl('editer_sortie', array('action' => 'cr', 'id' => $sortie->getId())));
         }
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
@@ -248,7 +248,7 @@ class SortiesController extends Controller
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($sortie);
 
-                $this->get('session')->setFlash('success', "La sortie a bien été ajoutée.");
+                $this->get('session')->getFlashBag()->add('success', "La sortie a bien été ajoutée.");
                 $this->get('cec.mailer')->sendSortieCreee($sortie, $_SERVER['HTTP_HOST']);
                 
                 $entityManager->flush();
@@ -276,7 +276,7 @@ class SortiesController extends Controller
 
         $entityManager = $this->getDoctrine()->getEntityManager();
         $entityManager->remove($sortie);
-        $this->get('session')->setFlash('success', 'La sortie a bien été définitivement supprimée.');
+        $this->get('session')->getFlashBag()->add('success', 'La sortie a bien été définitivement supprimée.');
         $this->get('cec.mailer')->sendSortieSupprimee($sortie, $_SERVER['HTTP_HOST']);
         $entityManager->flush();
 

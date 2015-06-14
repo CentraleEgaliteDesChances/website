@@ -121,7 +121,7 @@ class GroupesController extends Controller
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($nouvelleSeance);
                 $entityManager->flush();
-                $this->get('session')->setFlash('success', 'La séance de tutorat a bien été ajoutée.');
+                $this->get('session')->getFlashBag()->add('success', 'La séance de tutorat a bien été ajoutée.');
                 return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
             } else {
                 $afficherModal = true;
@@ -189,7 +189,7 @@ class GroupesController extends Controller
             if ($groupeForm->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations du groupe de tutorat ont bien été enregistrées.');
+                $this->get('session')->getFlashBag()->add('success', 'Les informations du groupe de tutorat ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
             }
         }
@@ -239,7 +239,7 @@ class GroupesController extends Controller
                 $entityManager->persist($groupe);
                 $entityManager->flush();
                 
-                $this->get('session')->setFlash('success', 'Le groupe de tutorat a bien été créé. Vous pouvez désormais ajouter des séances, des lycéens et des tuteurs à ce groupe.');
+                $this->get('session')->getFlashBag()->add('success', 'Le groupe de tutorat a bien été créé. Vous pouvez désormais ajouter des séances, des lycéens et des tuteurs à ce groupe.');
                 return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
             }
         }
@@ -293,7 +293,7 @@ class GroupesController extends Controller
         {
             $lyceen = $data['lyceen'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un lycéen à ajouter.');
             return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
         }
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
@@ -357,7 +357,7 @@ class GroupesController extends Controller
         {
             $tuteur = $data['tuteur'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un tuteur à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un tuteur à ajouter.');
             return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
         }
         $tuteur = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($tuteur);

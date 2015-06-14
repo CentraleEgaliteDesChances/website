@@ -82,7 +82,7 @@ class SeancesController extends Controller
             if ($form->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations de la séance ont bien été modifiées.');
+                $this->get('session')->getFlashBag()->add('success', 'Les informations de la séance ont bien été modifiées.');
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
                 $afficherModal = true;
@@ -101,10 +101,10 @@ class SeancesController extends Controller
             $crForm->bindRequest($request);
             if ($crForm->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
+                $this->get('session')->getFlashBag()->add('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
-                $this->get('session')->setFlash('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
+                $this->get('session')->getFlashBag()->add('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
             }
         }
         
@@ -161,7 +161,7 @@ class SeancesController extends Controller
         $entityManager->remove($seance);
         $entityManager->flush();
         
-        $this->get('session')->setFlash('success', 'La séance de tutorat a bien été supprimée.');
+        $this->get('session')->getFlashBag()->add('success', 'La séance de tutorat a bien été supprimée.');
         return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
     }
     

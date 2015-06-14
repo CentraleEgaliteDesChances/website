@@ -49,7 +49,7 @@ class ReglagesController extends Controller
                 $infomationsGenerales->bindRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
                     return $this->redirect($this->generateUrl('reglages_infos'));
                 }
             }
@@ -67,9 +67,9 @@ class ReglagesController extends Controller
 						$membre->setMotDePasse($password);
 						
 						$this->getDoctrine()->getEntityManager()->flush();
-						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+						$this->get('session')->getFlashBag()->add('success', 'Le mot de passe a bien été modifié.');
 					} else {
-						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+						$this->get('session')->getFlashBag()->add('danger', 'Mauvais mot de passe'); 
 					}
 					return $this->redirect($this->generateUrl('reglages_infos'));
                 }
@@ -98,7 +98,7 @@ class ReglagesController extends Controller
             {
                 $groupe = $data['groupe'];
             } else {
-                $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+                $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
                 return $this->redirect($this->generateUrl('reglages_groupe'));
             }
             $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
@@ -116,12 +116,12 @@ class ReglagesController extends Controller
                 $groupeMembre->setGroupe($groupe);
 
                 $em->persist($groupeMembre);
-                $this->get('session')->setFlash('success', 'Vous avez bien été affecté au groupe de tutorat.');
+                $this->get('session')->getFlashBag()->add('success', 'Vous avez bien été affecté au groupe de tutorat.');
             }
             else
             {
                 $groupeTuteur->setGroupe($groupe);
-                $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
+                $this->get('session')->getFlashBag()->add('success', 'Votre groupe de tutorat a bien été modifié.');
             }
 
             $em->flush();
@@ -153,7 +153,7 @@ class ReglagesController extends Controller
                 $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->refreshUser($membre);
                 $membre->updateRoles();
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour. Une déconnexion est nécessaire pour voir les modifications de vos accès.');
+                $this->get('session')->getFlashBag()->add('success', 'Vos secteurs ont bien été mis à jour. Une déconnexion est nécessaire pour voir les modifications de vos accès.');
                 return $this->redirect($this->generateUrl('reglages_secteurs'));
             }
         }
@@ -183,7 +183,7 @@ class ReglagesController extends Controller
             if($form->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Le secteur a bien été créé');
+                $this->get('session')->getFlashBag()->add('success', 'Le secteur a bien été créé');
 
                 return $this->redirect($this->generateUrl('creer_secteur'));
             }
@@ -221,7 +221,7 @@ class ReglagesController extends Controller
         $em->remove($secteur);
         $em->flush();
 
-        $this->get('session')->setFlash('success', 'Le secteur a bien été supprimé et les droits des membres y appartenant ont été modifiés');
+        $this->get('session')->getFlashBag()->add('success', 'Le secteur a bien été supprimé et les droits des membres y appartenant ont été modifiés');
         return $this->redirect($this->generateUrl('creer_secteur'));
     }
 }

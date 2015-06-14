@@ -30,7 +30,6 @@
                         <li><a href="{{ path('activites_rechercher') }}">Choisir une activité</a></li>
                     {% endif %}
                 {% endif %}
-                <li><a href="{{ path('toutes_seances') }}">Planning des séances de tutorat</a></li>
                 {% if cr_a_rediger is not empty %}
                     <li><a href="{{ path('groupe_compterendu_arediger', { 'groupe' : membre.groupe.id }) }}">
                         Compte-rendus à rédiger
@@ -38,7 +37,7 @@
                 {% endif %}
                 <li><a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">Mon groupe de tutorat</a></li>
             {% else %}
-                <p>Vous n'êtes pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, rédiger les comptes-rendus <br />et choisir les activités, vous devez vous prendre part à un groupe.</p>
+                <p>Vous n'êtes pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, rédiger les comptes-rendus <br />et choisir les activités, vous devez prendre part à un groupe.</p>
                 <a href="{{ path('reglages_groupe') }}" class="btn btn-primary btn-large inscription">
                     <strong>M'inscrire à un groupe de tutorat</strong>
                 </a>
@@ -46,6 +45,9 @@
         </ul>
         <ul class="liens">
             <li><a href="{{ path('sorties') }}">Les sorties à venir</a></li>
+        </ul>
+        <ul class="liens">
+            <li><a href="{{path('description_projets')}}"> Pôle Projets</a></li>
         </ul>
         <ul class="liens">
             <li><a href="{{ path('voir_membre', { 'membre' : membre.id }) }}">Mon profil</a></li>
