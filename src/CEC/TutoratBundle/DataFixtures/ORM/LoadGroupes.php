@@ -117,9 +117,18 @@ class LoadGroupes extends AbstractFixture implements DependentFixtureInterface
             ->setFin(new \DateTime('12:00:00'))
             ->setRendezVous('rendez-vous sur le parking');
             
-        $palhom_kipranlamaire_premieres_terminales = new Groupe();
-        $palhom_kipranlamaire_premieres_terminales->addLycee($this->getReference('palhom_kipranlamaire'))
-            ->setNiveau('Premières et Terminales')
+        $palhom_kipranlamaire_premieres = new Groupe();
+        $palhom_kipranlamaire_premieres->addLycee($this->getReference('palhom_kipranlamaire'))
+            ->setNiveau('Premières')
+            ->setTypeDeTutorat('Tutorat Culturel et Scientifique')
+            ->setLieu('Dans le lycée')
+            ->setDebut(new \DateTime('2013-10-19 9:00:00'))
+            ->setFin(new \DateTime('12:00:00'))
+            ->setRendezVous('rendez-vous sur le parking');
+
+        $palhom_kipranlamaire_terminales = new Groupe();
+        $palhom_kipranlamaire_terminales->addLycee($this->getReference('palhom_kipranlamaire'))
+            ->setNiveau('Terminales')
             ->setTypeDeTutorat('Tutorat Culturel et Scientifique')
             ->setLieu('Dans le lycée')
             ->setDebut(new \DateTime('2013-10-19 9:00:00'))
@@ -131,12 +140,14 @@ class LoadGroupes extends AbstractFixture implements DependentFixtureInterface
         $groupes['tropajuste_comessa_secondes'] = $tropajuste_comessa_secondes;
         $groupes['tropajuste_premieres'] = $tropajuste_premieres;
         $groupes['comessa_premieres'] = $comessa_premieres;
+        $groupes['tropajuste_comessa_terminales'] = $tropajuste_comessa_terminales;
         $groupes['lavy_paleuparadhi_premieres'] = $lavy_paleuparadhi_premieres;
         $groupes['lavy_paleuparadhi_terminales'] = $lavy_paleuparadhi_terminales;
         $groupes['maphore_premieres'] = $maphore_premieres;
         $groupes['maphore_terminales'] = $maphore_terminales;
         $groupes['palhom_kipranlamaire_secondes'] = $palhom_kipranlamaire_secondes;
-        $groupes['palhom_kipranlamaire_premieres_terminales'] = $palhom_kipranlamaire_premieres_terminales;
+        $groupes['palhom_kipranlamaire_premieres'] = $palhom_kipranlamaire_premieres;
+        $groupes['palhom_kipranlamaire_terminales'] = $palhom_kipranlamaire_terminales;
         
         // On persiste tous les groupes et on ajoute les références
         foreach ($groupes as $nomGroupe => $groupe) {

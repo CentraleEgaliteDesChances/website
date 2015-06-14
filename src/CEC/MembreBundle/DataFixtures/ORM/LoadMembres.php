@@ -158,6 +158,18 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
             ->setCheckMail(false)
             ->updateRoles();
 
+        $gabrielle_jourdain = new Membre();
+        $gabrielle_jourdain->setPrenom('Gabrielle')
+            ->setNom('Jourdain')
+            ->setMail('gabrielle.jourdain@student.ecp.fr')
+            ->setTelephone('0638396593')
+            ->setMotDePasse($mdp)
+            ->setPromotion('2016')
+            ->addSecteur($this->getReference('secteur_activites_culturelles'))
+            ->setBuro(true)
+            ->setCheckMail(false)
+            ->updateRoles();
+
         $manager->persist($pol_maire);
         $manager->persist($helene_sicsic);
         $manager->persist($jb_bayle);
@@ -169,6 +181,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $manager->persist($gurvan_hermange);
         $manager->persist($jean_philippe_de_la_taillardiere);
         $manager->persist($tristan_pouliquen);
+        $manager->persist($gabrielle_jourdain);
         $manager->flush();
         
         $this->addReference('pol_maire', $pol_maire);
@@ -182,6 +195,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $this->addReference('gurvan_hermange', $gurvan_hermange);
         $this->addReference('jean_philippe_de_la_taillardiere', $jean_philippe_de_la_taillardiere);
         $this->addReference('tristan_pouliquen', $tristan_pouliquen);
+        $this->addReference('gabrielle_jourdain', $gabrielle_jourdain);
     }
     
     /**
