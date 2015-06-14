@@ -1,5 +1,7 @@
-Site interne et externe de Centrale Égalité des Chances
+Site interne et externe de Centrale Égalité des Chances ![Travis badge](https://travis-ci.org/CentraleEgaliteDesChances/website.svg?branch=Update-versions-bundles)
 =======================================================
+
+
 
 Site web de Centrale Égalité des Chances, association étudiante de l'école Centrale Paris
 proposant aux étudiants d'animer des séances de tutorat culturelles et scientifiques de
