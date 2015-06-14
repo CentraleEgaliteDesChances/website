@@ -40,7 +40,8 @@ class LoadProjets extends AbstractFixture implements DependentFixtureInterface, 
             ->setDateFin(new \DateTime($annee.'-03-06'))
             ->setLieu('Centrale Paris')
             ->setInscriptionsOuvertes(true)
-            ->addContact($this->getReference('tristan_pouliquen'));
+            ->addContact($this->getReference('tristan_pouliquen'))
+            ->setDossier($this->getReference('dossier1'));
 
         $focus = new Projet();
         $focus->setNom('Focus Europe')
@@ -52,7 +53,8 @@ class LoadProjets extends AbstractFixture implements DependentFixtureInterface, 
             ->setDateFin(new \DateTime($annee.'-04-24'))
             ->setLieu('Madrid, Espagne')
             ->setInscriptionsOuvertes(false)
-            ->addContact($this->getReference('gurvan_hermange'));
+            ->addContact($this->getReference('gurvan_hermange'))
+            ->setDossier($this->getReference('dossier2'));
 
         $gml = new Projet();
         $gml->setNom('Good Morning London')
@@ -80,13 +82,15 @@ class LoadProjets extends AbstractFixture implements DependentFixtureInterface, 
 
     }
 
+    
     /**
     * {@inheritDoc()}
     */
     public function getDependencies()
     {
         return array(
-            'CEC\MembreBundle\DataFixtures\ORM\LoadMembres'
+            'CEC\MembreBundle\DataFixtures\ORM\LoadMembres',
+            'CEC\SecteurProjetsBundle\DataFixtures\ORM\LoadDossiers',
             );
     }
 }

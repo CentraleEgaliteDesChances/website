@@ -112,7 +112,7 @@ class Projet
 	/**
 	* @var \CEC\SecteurProjetsBundle\Entity\Dossier
 	*
-	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Dossier", inversedBy="projet", cascade={"remove"}, orphanRemoval=true)
+	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Dossier", cascade={"remove"}, orphanRemoval=true)
 	*/
 	private $dossier;
 	
@@ -413,7 +413,7 @@ class Projet
 	* @var \CEC\SecteurProjetsBundle\Entity\Dossier
 	* @return \CEC\SecteurProjetsBundle\Entity\Projet
 	*/
-	public function setDossier()
+	public function setDossier($dossier)
 	{
 		$this->dossier = $dossier;
 		return $this;
