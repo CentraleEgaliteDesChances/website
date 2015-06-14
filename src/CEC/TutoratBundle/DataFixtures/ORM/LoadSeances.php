@@ -27,6 +27,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         * sur l'année à partir du mois d'octobre en se basant sur les infos du groupe pour
         * le jour de séance.
         * On le fait pour l'année scolaire en cours et celle passée.
+        * On simule aussi la présence ou non des tutorés en tutorat avec une probabilité de 20% d'absence
         */
 
         // Séances de tropajuste_comessa_secondes
@@ -41,6 +42,32 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
 
         $seances['tropajuste_comessa_secondes_old'] = $this->seancesPourGroupe($groupe, $premiere_seance_P, rand(10,15));
         $seances['tropajuste_comessa_secondes'] = $this->seancesPourGroupe($groupe, $premiere_seance, rand(10,15));
+
+        foreach($seances['tropajuste_comessa_secondes_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('nesrine_abada'));
+            }
+
+            $seance->addTuteur($this->getReference('pol_maire'));
+        }
+
+        foreach($seances['tropajuste_comessa_secondes'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('mateo_sachet'));
+                }
+
+                $seance->addTuteur($this->getReference('pol_maire'));
+            }
+        }
 
         // Séances de tropajuste_comessa_terminales, lavy_paleuparadhi_premieres|terminales
         $groupe1 = $this->getReference('tropajuste_comessa_terminales');
@@ -61,6 +88,83 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         $seances['lavy_paleuparadhi_terminales_old'] = $this->seancesPourGroupe($groupe3, $premiere_seance_P, rand(10,15));
         $seances['lavy_paleuparadhi_terminales'] = $this->seancesPourGroupe($groupe3, $premiere_seance, rand(10,15));
 
+        foreach($seances['tropajuste_comessa_terminales_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('ines_chiandotto'));
+            }
+
+            $seance->addTuteur($this->getReference('jb_bayle'));
+        }
+
+        foreach($seances['tropajuste_comessa_terminales'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('arnaud_milome'));
+                }
+
+                $seance->addTuteur($this->getReference('jb_bayle'));
+            }
+        }
+
+        foreach($seances['lavy_paleuparadhi_premieres_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('titouan_de_souza'));
+            }
+
+            $seance->addTuteur($this->getReference('eloise_vailland'));
+        }
+
+        foreach($seances['lavy_paleuparadhi_premieres'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('yanis_felix'));
+                }
+
+                $seance->addTuteur($this->getReference('eloise_vailland'));
+            }
+        }
+
+        foreach($seances['lavy_paleuparadhi_terminales_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('leo_decoodt'));
+            }
+
+            $seance->addTuteur($this->getReference('charles_giachetti'));
+        }
+
+        foreach($seances['lavy_paleuparadhi_terminales'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('louis_geoffroy'));
+                }
+
+                $seance->addTuteur($this->getReference('charles_giachetti'));
+            }
+        }
         // Séances de maphore_premieres|terminales
 
         $groupe1 = $this->getReference('maphore_premieres');
@@ -79,6 +183,59 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         $seances['maphore_terminales_old'] = $this->seancesPourGroupe($groupe2, $premiere_seance_P, rand(10,15));
         $seances['maphore_terminales'] = $this->seancesPourGroupe($groupe2, $premiere_seance, rand(10,15));
 
+        foreach($seances['maphore_premieres_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('lauren_doucet'));
+            }
+
+            $seance->addTuteur($this->getReference('paul_chauchat'));
+        }
+
+        foreach($seances['maphore_premieres'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('noemie_grapindor'));
+                }
+
+                $seance->addTuteur($this->getReference('paul_chauchat'));
+            }
+        }
+
+        foreach($seances['maphore_terminales_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('maia_melina'));
+            }
+
+            $seance->addTuteur($this->getReference('ml_charpignon'));
+        }
+
+        foreach($seances['maphore_terminales'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('emma_gausson'));
+                }
+
+                $seance->addTuteur($this->getReference('ml_charpignon'));
+            }
+        }
+
+
         // Séances de tropajuste_premieres et comessa_premieres
         $groupe1 = $this->getReference('tropajuste_premieres');
         $groupe2 = $this->getReference('comessa_premieres');
@@ -95,6 +252,59 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         $seances['tropajuste_premieres'] = $this->seancesPourGroupe($groupe1, $premiere_seance, rand(10,15));
         $seances['comessa_premieres_old'] = $this->seancesPourGroupe($groupe2, $premiere_seance_P, rand(10,15));
         $seances['comessa_premieres'] = $this->seancesPourGroupe($groupe2, $premiere_seance, rand(10,15));
+
+        foreach($seances['tropajuste_premieres_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('claire_alves'));
+            }
+
+            $seance->addTuteur($this->getReference('helene_sicsic'));
+        }
+
+        foreach($seances['tropajuste_premieres'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('nelson_melo'));
+                }
+
+                $seance->addTuteur($this->getReference('helene_sicsic'));
+            }
+        }
+        foreach($seances['comessa_premieres_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('aude_ambrosini'));
+            }
+
+            $seance->addTuteur($this->getReference('gabrielle_jourdain'));
+        }
+
+        foreach($seances['comessa_premieres'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('anna_michel'));
+                }
+
+                $seance->addTuteur($this->getReference('gabrielle_jourdain'));
+            }
+        }
+
+
 
         // Séances de palhom_kipranlamaire
         $groupe1 = $this->getReference('palhom_kipranlamaire_secondes');
@@ -115,13 +325,99 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
         $seances['palhom_kipranlamaire_terminales_old'] = $this->seancesPourGroupe($groupe3, $premiere_seance_P, rand(10,15));
         $seances['palhom_kipranlamaire_terminales'] = $this->seancesPourGroupe($groupe3, $premiere_seance, rand(10,15));
 
+        foreach($seances['palhom_kipranlamaire_secondes_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('mateo_sachet'));
+            }
+
+            $seance->addTuteur($this->getReference('thomas_beligne'));
+        }
+
+        foreach($seances['palhom_kipranlamaire_secondes'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('lucile_gasparini'));
+                }
+
+                $seance->addTuteur($this->getReference('thomas_beligne'));
+            }
+        }
+
+        foreach($seances['palhom_kipranlamaire_premieres_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('nelson_melo'));
+            }
+
+            $seance->addTuteur($this->getReference('gurvan_hermange'));
+        }
+
+        foreach($seances['palhom_kipranlamaire_premieres'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('mehdi_ferdoss'));
+                }
+
+                $seance->addTuteur($this->getReference('gurvan_hermange'));
+            }
+        }
+
+        foreach($seances['palhom_kipranlamaire_terminales_old'] as $seance)
+        {
+            $presence = rand(0,9);
+            if($presence <2)
+            {
+                $seance->addLyceen($this->getReference('anna_michel'));
+            }
+
+            $seance->addTuteur($this->getReference('jean_philippe_de_la_taillardiere'));
+        }
+
+        foreach($seances['palhom_kipranlamaire_terminales'] as $seance)
+        {
+            // On ne remplit les présences que si la séance a eu lieu
+            if($seance->getDate() < (new \DateTime()))
+            {
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('karim_el_fezzazi'));
+                }
+
+                $presence = rand(0,9);
+                if($presence <2)
+                {
+                    $seance->addLyceen($this->getReference('arno_dubois'));
+                }
+
+                $seance->addTuteur($this->getReference('jean_philippe_de_la_taillardiere'));
+
+                $presence = rand(0,3);
+                if($presence > 0)
+                    $seance->addTuteur($this->getReference('tristan_pouliquen'));
+            }
+        }
         
 
-        // On persiste le tout et on crée les références
+        // On persiste le tout
         foreach ($seances as $nomGroupe => $seancesDuGroupe) {
             foreach ($seancesDuGroupe as $nomSeance => $seance) {
                 $manager->persist($seance);
-                $this->addReference($nomGroupe.'_'.$nomSeance, $seance);
             }
         }
         $manager->flush();
@@ -191,6 +487,8 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
     public function getDependencies() {
         return array(
             'CEC\TutoratBundle\DataFixtures\ORM\LoadGroupes',
+            'CEC\MembreBundle\DataFixtures\ORM\LoadMembres',
+            'CEC\MembreBundle\DataFixtures\ORM\LoadEleves'
         );
     }
 }

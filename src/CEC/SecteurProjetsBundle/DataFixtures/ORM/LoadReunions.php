@@ -65,14 +65,57 @@ class LoadReunions extends AbstractFixture implements DependentFixtureInterface,
             ->setAdresse('Centrale')
             ->setDescription('Cette réunion présentera le stage théâtre en détail.')
             ->setProjet($this->getReference('theatre'));
+
+            // Réunion qui a lieu le lendemain du test pour pouvoir tester les inscriptions
+
+        $lendemain = date('Y-m-d');
+        $lendemain = new \DateTime($lendemain);
+        $lendemain->add(new \DateInterval('P1D'));
+
         $reunion5 = new Reunion();
         $reunion5->setNom("Réunion d'information pour présenter GML")
-            ->setDate(new \DateTime($anneeA.'-04-23'))
-            ->setHeureDebut(new \DateTime($anneeA.'-04-23T18:15:00'))
-            ->setHeureFin(new \DateTime($anneeA.'-04-23T19:45:00'))
+            ->setDate($lendemain)
+            ->setHeureDebut($lendemain->add(new \DateInterval('PT18H15M')))
+            ->setHeureFin($lendemain->add(new \DateInterval('PT19H45M')))
             ->setAdresse("Centrale")
             ->setDescription("Réunion pour parler du voyage à Londres")
             ->setProjet($this->getReference('gml'));
+
+        // Ajout de présents aux réunions
+        $reunion1->addPresent($this->getReference('nesrine_abada'))
+            ->addPresent($this->getReference('nelson_melo'))
+            ->addPresent($this->getReference('lauren_doucet'))
+            ->addPresent($this->getReference('ines_chiandotto'))
+            ->addPresent($this->getReference('yanis_felix'))
+            ->addPresent($this->getReference('titouan_de_souza'))
+            ->addPresent($this->getReference('claire_alves'));
+        $reunion2->addPresent($this->getReference('aude_ambrosini'))
+            ->addPresent($this->getReference('ines_chiandotto'))
+            ->addPresent($this->getReference('mateo_sachet'))
+            ->addPresent($this->getReference('emma_gausson'));
+        $reunion3->addPresent($this->getReference('anna_michel'))
+            ->addPresent($this->getReference('aude_ambrosini'))
+            ->addPresent($this->getReference('arnaud_milome'))
+            ->addPresent($this->getReference('ines_chiandotto'))
+            ->addPresent($this->getReference('lauren_doucet'));
+        $reunion4->addPresent($this->getReference('mehdi_ferdoss'))
+            ->addPresent($this->getReference('arno_dubois'))
+            ->addPresent($this->getReference('claire_alves'))
+            ->addPresent($this->getReference('titouan_de_souza'))
+            ->addPresent($this->getReference('mateo_sachet'));
+        $reunion5->addPresent($this->getReference('mateo_sachet'))
+            ->addPresent($this->getReference(('yanis_felix')))
+            ->addPresent($this->getReference('ines_chiandotto'))
+            ->addPresent($this->getReference('noemie_grapindor'))
+            ->addPresent($this->getReference('emma_gausson'));
+
+        $manager->persist($reunion1);
+        $manager->persist($reunion2);
+        $manager->persist($reunion3);
+        $manager->persist($reunion4);
+        $manager->persist($reunion5);
+
+        $manager->flush();
 
     }
 
@@ -82,7 +125,8 @@ class LoadReunions extends AbstractFixture implements DependentFixtureInterface,
     public function getDependencies()
     {
         return array(
-            'CEC\SecteurProjetsBundle\DataFixtures\ORM\LoadProjets'
+            'CEC\SecteurProjetsBundle\DataFixtures\ORM\LoadProjets',
+            'CEC\MembreBundle\DataFixtures\ORM\LoadEleves'
             );
     }
 }

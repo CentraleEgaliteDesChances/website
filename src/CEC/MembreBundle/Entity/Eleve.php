@@ -215,7 +215,7 @@ class Eleve implements UserInterface, \Serializable
 	/**
 	* @var \Doctrine\Common\Collections\Collection
 	*
-	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", inversedBy="presents")
+	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", mappedBy="presents")
 	*/
 	private $reunions;
 

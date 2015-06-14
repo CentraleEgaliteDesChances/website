@@ -210,7 +210,6 @@ class LoadProjetEleves extends AbstractFixture implements DependentFixtureInterf
             foreach($inscrit as $key => $value)
             {
                 $manager->persist($value);
-                $this->addReference('inscrit_'.$key, $value);
             }
 
             $manager->flush();

@@ -149,7 +149,10 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($lyceen);
         $mdp = $encoder->encodePassword('debug', $lyceen->getSalt());
 
-        $delegue = ($delegue == 0) ? $this->getReference($lycee) : null;
+        if($delegue == 0)
+            $lyceeDelegue = $this->getReference($lycee);
+        else
+            $lyceeDelegue = null;
 
         $lyceen->setPrenom($prenom)
                ->setNom($nom)
@@ -166,7 +169,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
                ->setMotDePasse($mdp)
                ->setCheckMail(false)
                ->setLycee($this->getReference($lycee))
-               ->setDelegue($delegue);
+               ->setDelegue($lyceeDelegue);
         return $lyceen;
     }
 

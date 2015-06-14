@@ -108,14 +108,17 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
      * @return Professeur Nouveau professeur
      */
     public function nouveauProfesseur($prenom, $nom,
-                $telephone = null, $portable = null, $email = null, $lycee = null, $role = null, $referent = null, $referent = null)
+                $telephone = null, $portable = null, $email = null, $lycee = null, $role = null, $referent = null)
     {
 
         $professeur = new Professeur();
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($professeur);
         $mdp = $encoder->encodePassword('debug', $professeur->getSalt());
 
-        $referent = ($referent == 0) ? $this->getReference($lycee) : null;
+        if($referent == 0)
+            $lyceeReferent = $this->getReference($lycee);
+        else
+            $lyceeReferent = null;
 
         $professeur->setPrenom($prenom)
                ->setNom($nom)
@@ -124,7 +127,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
                ->setMail($email)
                ->setLycee($this->getReference($lycee))
                ->setRole($role)
-               ->setReferent($referent)
+               ->setReferent($lyceeReferent)
                ->setMotDePasse($mdp)
                ->setCheckMail(false);
         return $professeur;

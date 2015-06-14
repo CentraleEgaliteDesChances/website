@@ -186,6 +186,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         
         $this->addReference('pol_maire', $pol_maire);
         $this->addReference('helene_sicsic', $helene_sicsic);
+        $this->addReference('gabrielle_jourdain', $gabrielle_jourdain);
         $this->addReference('jb_bayle', $jb_bayle);
         $this->addReference('eloise_vailland', $eloise_vailland);
         $this->addReference('charles_giachetti', $charles_giachetti);
@@ -195,7 +196,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $this->addReference('gurvan_hermange', $gurvan_hermange);
         $this->addReference('jean_philippe_de_la_taillardiere', $jean_philippe_de_la_taillardiere);
         $this->addReference('tristan_pouliquen', $tristan_pouliquen);
-        $this->addReference('gabrielle_jourdain', $gabrielle_jourdain);
+        
     }
     
     /**

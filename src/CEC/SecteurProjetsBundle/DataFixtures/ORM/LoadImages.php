@@ -144,8 +144,16 @@ class LoadImages extends AbstractFixture implements DependentFixtureInterface, C
             ->setAlbum($this->getReference('album4'));
         
         
-        
+        $manager->persist($image1);
+        $manager->persist($image2);
+        $manager->persist($image3);
+        $manager->persist($image4);
+        $manager->persist($image5);
+        $manager->persist($image6);
+        $manager->persist($image7);
+        $manager->persist($image8);
 
+        $manager->flush();
 
 
     }
