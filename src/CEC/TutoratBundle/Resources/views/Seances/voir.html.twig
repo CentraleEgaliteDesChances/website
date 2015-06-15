@@ -20,7 +20,7 @@
     <table class="table table-bordered table-striped table-large">
         <thead><tr><th>
             {% if seance.compteRendus is empty %}
-                <span class="badge badge-warning pull-right">1</span>
+                <span class="glyphicon glyphicon-alert pull-right"></span>
             {% endif %}
             <h4>Informations sur la séance</h4>
         </th></tr></thead>
@@ -225,7 +225,7 @@
 {{ parent() }}
 
 {% if (is_granted('ROLE_VP_LYCEE') and app.user.groupe == seance.groupe ) or is_granted('ROLE_BURO') %}
-{{ modal.button('Éditer la séance', 'btn btn-block') }}
+{{ modal.button('Éditer la séance', 'btn btn-default btn-block') }}
 {% endif %}
 {% endblock %}
 

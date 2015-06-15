@@ -1,90 +1,92 @@
-<table class="table table-bordered table-striped table-hover table-collapse">
-    <thead>
-        <tr><th colspan="2" class="titre">
-            <h3>
-                <span style="font-weight: normal; font-size: 90%;">Groupe de tutorat</span><br />
-                {% for lycee in groupe.lycees %}
-                    {{ lycee.nom }}
-                    {% if not loop.last %}& {% endif %}
-                {% endfor %}<br />
-                {{ groupe.niveau }}
-            </h3>
-        </th></tr>
-        <tr><th colspan="2" class="image">
-            {% image '@CECTutoratBundle/Resources/public/img/groupe.jpg' %}
-                <img src="{{ asset_url }}" alt="Image du groupe"/>
-            {% endimage %}
-        </th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Lycées</td>
-            <td>
-                {% for lycee in groupe.lycees %}
-                    <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">{{ lycee.nom }}</a>
-                    {% if not loop.last %}<br />{% endif %}
-                {% endfor %}
-            </td>
-        </tr>
-        <tr>
-            <td>Niveau</td>
-            <td>
-                {{ groupe.niveau }}
-            </td>
-        </tr>
-        <tr>
-            <td>Type</td>
-            <td>{{ groupe.typeDeTutorat }}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="well" style="padding-left:15px;">
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <thead>
+            <tr><th colspan="2" class="titre">
+                <h3>
+                    <span style="font-weight: normal; font-size: 90%;">Groupe de tutorat</span><br />
+                    {% for lycee in groupe.lycees %}
+                        {{ lycee.nom }}
+                        {% if not loop.last %}& {% endif %}
+                    {% endfor %}<br />
+                    {{ groupe.niveau }}
+                </h3>
+            </th></tr>
+            <tr><th colspan="2" class="image">
+                {% image '@CECTutoratBundle/Resources/public/img/groupe.jpg' %}
+                    <img src="{{ asset_url }}" alt="Image du groupe"/>
+                {% endimage %}
+            </th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Lycées</td>
+                <td>
+                    {% for lycee in groupe.lycees %}
+                        <a href="{{ path('lycee', { 'lycee': lycee.id }) }}">{{ lycee.nom }}</a>
+                        {% if not loop.last %}<br />{% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>Niveau</td>
+                <td>
+                    {{ groupe.niveau }}
+                </td>
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td>{{ groupe.typeDeTutorat }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-<table class="table table-bordered table-striped table-hover table-collapse">
-    <tbody>
-        <tr>
-            <td>Lieu</td>
-            <td>{{ groupe.lieu }}</td>
-        </tr>
-        <tr>
-            <td>Début</td>
-            <td>
-                Le {{ cycle(jours, groupe.debut|date('N'))|lower }} à {{ groupe.debut|date('G\\hi') }}
-            </td>
-        </tr>
-        <tr>
-            <td>Fin</td>
-            <td>
-                À {{ groupe.fin|date('G\\hi') }}
-            </td>
-        </tr>
-        <tr>
-            <td>Rendez-vous</td>
-            <td>{{ groupe.rendezVous }}</td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <tbody>
+            <tr>
+                <td>Lieu</td>
+                <td>{{ groupe.lieu }}</td>
+            </tr>
+            <tr>
+                <td>Début</td>
+                <td>
+                    Le {{ cycle(jours, groupe.debut|date('N'))|lower }} à {{ groupe.debut|date('G\\hi') }}
+                </td>
+            </tr>
+            <tr>
+                <td>Fin</td>
+                <td>
+                    À {{ groupe.fin|date('G\\hi') }}
+                </td>
+            </tr>
+            <tr>
+                <td>Rendez-vous</td>
+                <td>{{ groupe.rendezVous }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-<table class="table table-bordered table-striped table-hover table-collapse">
-    <tbody>
-        <tr>
-            <td>Année en cours</td>
-            <td>{{anneescolaire}}
-        <tr>
-            <td>Lycéens</td>
-            <td>{{ lyceens|length ?: 'Aucun' }} lycéen{{ lyceens|length > 1 ? 's' }}</td>
-        </tr>
-        <tr>
-            <td>Tuteurs</td>
-            <td>{{ tuteurs|length ?: 'Aucun' }} tuteur{{ tuteurs|length > 1 ? 's' }}</td>
-        </tr>
-        {% if tuteurs|length and lyceens|length %}
-        <tr>
-            <td>Encadrement</td>
-            <td>Un tuteur pour {{ ( lyceens|length / tuteurs|length )|number_format(0) }} lycéen(s)</td>
-        </tr>
-        {% endif %}
-    </tbody>
-</table>
-{% if (is_granted('ROLE_VP_LYCEE') and groupe == app.user.groupe) or is_granted('ROLE_BURO') %}
-<a href="{{ path('editer_groupe', { 'groupe': groupe.id }) }}" class="btn btn-block">Éditer le groupe de tutorat</a>
-{% endif %}
+    <table class="table table-bordered table-striped table-hover table-collapse">
+        <tbody>
+            <tr>
+                <td>Année en cours</td>
+                <td>{{anneescolaire}}
+            <tr>
+                <td>Lycéens </td>
+                <td>{{ groupe.lyceensAnnee(anneescolaire)|length ?: 'Aucun' }} lycéen{{ groupe.lyceensAnnee(anneescolaire)|length > 1 ? 's' }}</td>
+            </tr>
+            <tr>
+                <td>Tuteurs </td>
+                <td>{{ groupe.tuteursAnnee(anneescolaire)|length ?: 'Aucun' }} tuteur{{ groupe.tuteursAnnee(anneescolaire)|length > 1 ? 's' }}</td>
+            </tr>
+            {% if groupe.tuteursAnnee(anneescolaire)|length and groupe.lyceensAnnee(anneescolaire)|length %}
+            <tr>
+                <td>Encadrement</td>
+                <td>Un tuteur pour {{ ( groupe.lyceensAnnee(anneescolaire)|length / groupe.tuteursAnnee(anneescolaire)|length )|number_format(0) }} lycéen(s)</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% if (is_granted('ROLE_VP_LYCEE') and groupe == app.user.groupe) or is_granted('ROLE_BURO') %}
+    <a href="{{ path('editer_groupe', { 'groupe': groupe.id }) }}" class="btn btn-default btn-block">Éditer le groupe de tutorat</a>
+    {% endif %}
+</div>

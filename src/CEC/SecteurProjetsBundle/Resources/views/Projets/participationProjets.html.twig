@@ -22,24 +22,22 @@
 			</thead>
 			<tbody>
 				{% for projet in projets %}
-					{% if projet.inscriptionsOuvertes %}
-						<tr>
-							<td>
-								<a href="{{ path('description_projet', { 'slug': projet.slug }) }}">
-	                        		<strong>{{projet.nom}}</strong>
-	                        	</a>
-	                        </td>
-	                        {% if projet in participationParAnnee[anneeScolaire.afficherAnnees] %}
-	                        	<td class="success">
-	                        		<span class="checkmark">&#10004;</span>
-	                        	</td>
-	                        {% else %}
-	                        	<td class="error">
-	                        		<span class="checkmark">&#10008;</span>
-	                        	</td>
-	                        {% endif %}
-	                    </tr>
-	                   {% endif %}
+					<tr>
+						<td>
+							<a href="{{ path('description_projet', { 'slug': projet.slug }) }}">
+                        		<strong>{{projet.nom}}</strong>
+                        	</a>
+                        </td>
+                        {% if projet in participationParAnnee[anneeScolaire.afficherAnnees] %}
+                        	<td class="success">
+                        		<span class="checkmark">&#10004;</span>
+                        	</td>
+                        {% else %}
+                        	<td>
+                        		<span class="checkmark">&#10008;</span>
+                        	</td>
+                        {% endif %}
+                    </tr>
                 {% else %}
                 	<tr>
                 		<td colspan="2" class="muted"> Pas de projet effectué cette année </td>

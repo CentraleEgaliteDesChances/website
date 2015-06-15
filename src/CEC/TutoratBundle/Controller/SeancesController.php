@@ -69,8 +69,17 @@ class SeancesController extends Controller
         usort($tuteurs, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
         usort($lyceens, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
         
+        // On remplace les placeholders par défaut de SéanceType par les données du groupe
+        $options = array();
+        if($seance->getGroupe())
+        {
+            $options['lieu'] = $seance->getGroupe()->getLieu();
+            $options['rendezVous'] = $seance->getGroupe()->getRendezVous();
+            $options['debut'] = $seance->getGroupe()->getDebut()->format('H:i');
+            $options['fin'] = $seance->getGroupe()->getFin()->format('H:i');
+        }
         // On génère le formulaire d'édition de la séance
-        $form = $this->createForm(new SeanceType(), $seance);
+        $form = $this->createForm(new SeanceType(), $seance, $options);
         
         // Par défaut, on masque le modal
         $afficherModal = false;
@@ -108,17 +117,6 @@ class SeancesController extends Controller
             }
         }
         
-        // On change les placeholders pour correspondre aux infos du groupe de tutorat
-        $formView = $form->createView();
-        if ($seance->getGroupe())
-        {
-            $groupe = $seance->getGroupe();
-            $formView->getChild('lieu')->setAttribute('placeholder', $groupe->getLieu());
-            $formView->getChild('rendezVous')->setAttribute('placeholder', $groupe->getRendezVous());
-            $formView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
-            $formView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
-        }
-        
         // On génère les vues de formulaires pour les CR
         $crFormViews = array();
         foreach ($crForms as $compteRenduId => $form) $crFormViews[$compteRenduId] = $form->createView();
@@ -130,7 +128,7 @@ class SeancesController extends Controller
             'seance'         => $seance,
             'lyceens'        => $lyceens,
             'tuteurs'        => $tuteurs,
-            'form'           => $formView,
+            'form'           => $form->createView(),
             'afficher_modal' => $afficherModal,
             'seance_a_venir' => $seanceAVenir,
             'cr_forms'       => $crFormViews,

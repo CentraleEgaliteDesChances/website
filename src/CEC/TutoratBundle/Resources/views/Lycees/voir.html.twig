@@ -97,7 +97,7 @@
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if lycee.professeurs|length > 0 %}
-        <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
+        <thead><tr><th><h4>Equipe pédagogique <span class="count">{{ lycee.professeurs|length }}</span></h4></th></tr></thead>
         <tbody>
             {% for enseignant in lycee.professeurs %}
             <tr>
@@ -114,9 +114,9 @@
                             ">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
                         {% if is_granted("ROLE_PROFESSEUR_REFERENT") %}
-                            <span class="label pull-right">Professeur référent</span>
+                            <span class="label labek-default pull-right">Professeur référent</span>
                         {% elseif is_granted("ROLE_PROVISEUR") %}
-                            <span class="label pull-right">Proviseur</span>
+                            <span class="label label-default pull-right">Proviseur</span>
                         {% endif %}
                     </a>
                 </td>
@@ -129,19 +129,19 @@
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
+    <thead>
+        <tr>
+            <th>
+                <h4>
+                    Prochaines séances de tutorat
+                    <a href="{{ path('toutes_seances') }}" class="btn btn-default btn-small pull-right">
+                        Planning des séances
+                    </a>
+                </h4>
+            </th>
+        </tr>
+    </thead>
     {% if seances %}
-        <thead>
-            <tr>
-                <th>
-                    <h4>
-                        Prochaines séances de tutorat
-                        <a href="{{ path('toutes_seances') }}" class="btn btn-small pull-right">
-                            Planning des séances
-                        </a>
-                    </h4>
-                </th>
-            </tr>
-        </thead>
         <tbody>
             {% for seance in seances %}
             <tr>
@@ -155,7 +155,7 @@
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></thead>
+        <tbody><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></tbody>
     {% endif %}
 </table>
 

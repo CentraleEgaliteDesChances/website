@@ -2,7 +2,7 @@
 
 {% block right %}
 
-	<h2> Tableau récapitulatif des présences en sorties </h2>
+	<h2> Tableau récapitulatif des présences en sorties du lycée {{lycee.nom|trim('Lycée')}} </h2>
 
 	<table class="table table-bordered table-hover table-striped table-large">
 		{% for anneeScolaire in anneesScolaires%}

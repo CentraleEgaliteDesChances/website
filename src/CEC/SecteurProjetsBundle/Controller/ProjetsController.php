@@ -16,6 +16,8 @@ use CEC\SecteurProjetsBundle\Form\ProjetType;
 use CEC\SecteurProjetsBundle\Form\DossierType;
 use CEC\SecteurProjetsBundle\Form\AjouterLyceenType;
 
+use CEC\TutoratBundle\Entity\GroupeEleves;
+
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 
@@ -398,7 +400,14 @@ class ProjetsController extends Controller
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycee !');
 
         $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
-        $lyceens = $lycee->getLyceens();
+        $groupes = $lycee->getGroupes();
+        $lyceens = array();
+
+        foreach($groupes as $groupe)
+        {
+        	$lyceens = array_merge($lyceens, array_unique(array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $groupe->getLyceensParAnnee()->toArray())));
+        }
+
         $anneesScolaires = array();
 
  		// Tableau triant les participations par lycéen, par année Scolaire, par projet
@@ -426,7 +435,7 @@ class ProjetsController extends Controller
         return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
         });
 
-        return array('anneesScolaires' => $anneesScolaires, 'participations' => $participations, 'projets' => $projets, 'lycee' => $lycee);
+        return array('anneesScolaires' => $anneesScolaires, 'participations' => $participations, 'projets' => $projets, 'lyceens' => $lyceens, 'lycee' => $lycee);
 
     }
 }

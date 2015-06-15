@@ -2,44 +2,58 @@
 
 {% block right %}
 
-	<h2> Tableau récapitulatif des présences en séances de tutorat </h2>
+	<h2> Tableau récapitulatif des présences en séances de tutorat du lycée {{lycee.nom|trim('Lycée')}}</h2>
 
 {# On calcule le nombre de colonnes max pour appliquer le bon colspan au tableau #}
 {% set colMax = 0 %}
 {% for anneeScolaire in anneesScolaires %}
 	{% for groupe in lycee.groupes %}
-		{% if groupe.seances|length > colMax %}
-			{% set colMax = groupe.seances|length %}
+		{% set seancesAnnee = 0 %}
+		{% for seance in groupe.seances %}
+			{% if anneeScolaire.contientDate(seance.date) %}
+				{% set seancesAnnee = seancesAnnee + 1 %}
+			{% endif %}
+		{% endfor %}
+		{% if seancesAnnee > colMax %}
+			{% set colMax = seancesAnnee %}
 		{% endif %}
 	{% endfor %}
 {% endfor %}
-{% set colMax = colMax + 1 %}
 
-	<table class="table table-bordered table-hover table-striped table-large">
+	<table class="table table-bordered table-hover table-striped">
 		{% for anneeScolaire in anneesScolaires%}
 			<thead>
 				<tr >
-					<th colspan="{{colMax}}"><span class="text-center"> {{anneeScolaire}} </span></th>
+					<th colspan="{{colMax+1}}"><span class="text-center"> {{anneeScolaire}} </span></th>
 				</tr>
 			</thead>
 			<tbody>
 			{% for groupe in lycee.groupes %}
 				<tr>
-					<th colspan="{{colMax}}" class="text-center">
+					<th colspan="{{colMax+1}}" class="text-center">
 						<a href="{{path('groupe', {'groupe' : groupe.id } ) }}"> {{groupe}} </a>
 					</th>
 				</tr>
 				<tr>
 					<th> Lycéens </th>
 				{% for seance in groupe.seances %}
-					<th>
-						<a href="{{ path('seance', {'seance' : seance.id} ) }}">
-							{{ seance.date|date('d\\/m')}}
-						</a>
-					</th>
+					{% if anneeScolaire.contientDate(seance.date) %}
+						<th>
+							<a href="{{ path('seance', {'seance' : seance.id} ) }}" style="font-size:0.9em">
+								{{ seance.date|date('d')}}<br/>
+								{{moisCourts[seance.date|date('n')]}}
+							</a>
+						</th>
+					{% endif %}
 				{% endfor %}
-				{% if groupe.seances|length + 1 != colMax %}
-					<td colspan="{{colMax - groupe.seances|length - 1}}" class="muted"> Pas d'autres séances </td>
+				{% set seancesAnnee = 0 %}
+				{% for seance in groupe.seances %}
+					{% if anneeScolaire.contientDate(seance.date) %}
+						{% set seancesAnnee = seancesAnnee + 1 %}
+					{% endif %}
+				{% endfor %}
+				{% if seancesAnnee != colMax %}
+					<td colspan="{{colMax - seancesAnnee }}" class="muted"> Pas d'autres séances </td>
 				{% endif %}
 				</tr>
 				{% for groupeLyceen in groupe.lyceensParAnnee %}
@@ -51,14 +65,16 @@
 								</a>
 							</td>
 							{% for seance in groupe.seances %}
-								{% if seance in groupeLyceen.lyceen.seances%}
-									<td class="success">
-										<span class="checkmark">&#10004;</span>
-									</td>
-								{% else %}
-									<td class="error">
-										<span class="checkmark">&#10008;</span>
-									</td>
+								{% if anneeScolaire.contientDate(seance.date) %}
+									{% if seance in groupeLyceen.lyceen.seances%}
+										<td class="success">
+											<span class="checkmark">&#10004;</span>
+										</td>
+									{% else %}
+										<td class="error">
+											<span class="checkmark">&#10008;</span>
+										</td>
+									{% endif %}
 								{% endif %}
 							{% endfor %}
 						</tr>

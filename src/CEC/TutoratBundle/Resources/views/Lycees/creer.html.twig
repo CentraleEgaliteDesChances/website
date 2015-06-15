@@ -1,18 +1,19 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECTutoratBundle:Cordees:base.html.twig' %}
 
 
-{% block narrow_title %}Nouveau lycée{% endblock %}
-
-{% block narrow_body %}
+{% block right %}
 
 {{ parent() }}
+
+<h2> Créer un nouveau lycée </h2>
 
 <form class="form" method="post" action="{{ path('creer_lycee') }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
         <input type="submit" value="Créer le lycée" class="btn btn-primary pull-right" />
-        <a href="{{ path('tous_lycees') }}" class="btn pull-right">Annuler</a>
+        <a href="{{ path('tous_lycees') }}" class="btn btn-default pull-right">Annuler</a>
     </div>
 </form>
+<br/>
 
 {% endblock %}

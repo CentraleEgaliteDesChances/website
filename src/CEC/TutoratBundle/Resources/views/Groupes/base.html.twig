@@ -11,8 +11,8 @@
 
 {% block left %}
 	{% if anneesScolaires is defined %}
-    	{% include 'CECTutoratBundle:Groupes:apercu.html.twig' with { 'groupe' : groupe, 'lyceens' : lyceens, 'tuteurs' : tuteurs, 'anneescolaire' :  anneesScolaires|first } %}
+    	{% include 'CECTutoratBundle:Groupes:apercu.html.twig' with { 'groupe' : groupe, 'anneescolaire' :  anneesScolaires|first } %}
     {% else %}
-    	{% include 'CECTutoratBundle:Groupes:apercu.html.twig' with { 'groupe' : groupe, 'lyceens' : lyceens, 'tuteurs' : tuteurs, 'anneescolaire' :  anneeScolaire } %}
+    	{% include 'CECTutoratBundle:Groupes:apercu.html.twig' with { 'groupe' : groupe,  'anneescolaire' :  anneeScolaire } %}
     {% endif %}
 {% endblock %}

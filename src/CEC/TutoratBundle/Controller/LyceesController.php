@@ -39,20 +39,14 @@ class LyceesController extends Controller
                 // On rassemble les séances à venir
                 $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
                 $seances = array_merge($seances, $groupeSeances);
+
+                $lyceens = array_merge($lyceens, $groupe->getLyceensAnnee(AnneeScolaire::withDate()));
+
+                $tuteurs = array_merge($tuteurs, $groupe->getTuteursAnnee(AnneeScolaire::withDate()));
             }
         }
 
-        $lyceens = $groupe->getLyceensParAnnee()->toArray();
-        $lyceens = array_filter($lyceens, function(GroupeEleves $e){
-            return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
-        });
-        $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
-
-        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
-        $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
-            return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
-        });
-        $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
+        
         
         // On trie les tuteurs, les lycéens et les séances par ordre alphabétique et chronologique
         usort($tuteurs, function($a, $b) {
@@ -93,10 +87,14 @@ class LyceesController extends Controller
         $seances = array();
         foreach ($lycee->getGroupes() as $groupe)
         {
-            $tuteurs = array_merge($tuteurs, $groupe->getTuteursParAnnee()->toArray());
-            $lyceens = array_merge($lyceens, $groupe->getLyceensParAnnee()->toArray());
-            if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
-            if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
+            // Si le groupe a une activité de tutorat cette année
+            if($resultat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findBy(array('groupe'=>$groupe, 'anneeScolaire'=> AnneeScolaire::withDate())))
+            {
+                $tuteurs = array_merge($tuteurs, $groupe->getTuteursAnnee(AnneeScolaire::withDate()));
+                $lyceens = array_merge($lyceens, $groupe->getLyceensAnnee(AnneeScolaire::withDate()));
+                if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
+                if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
+            }
         }
         
         return $this->render('CECTutoratBundle:Lycees:apercu.html.twig', array(
@@ -182,7 +180,7 @@ class LyceesController extends Controller
         }
         
         // Génère le formulaire
-        $form = $this->createForm(new LyceeType(), $lycee);
+        $form = $this->createForm(new LyceeType($lycee));
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
