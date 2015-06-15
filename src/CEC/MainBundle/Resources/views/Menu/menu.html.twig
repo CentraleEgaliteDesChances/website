@@ -22,10 +22,10 @@
                         <a data-target="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Mon tutorat
                             {% if seance_a_venir and seance_a_venir.compteRendus is empty %}
-                                <span class="badge badge-warning" style="margin-left: 5px;">1</span>
+                                <span class="badge" style="margin-left: 5px;">1</span>
                             {% endif %}
-                            {% if cr_a_rediger is not empty %}
-                                <span class="badge badge-important"{{ not seance_a_venir or seance_a_venir.compteRendus is not empty ? ' style="margin-left: 5px;"' }}>{{ cr_a_rediger|length }}</span>
+                            {% if cr_a_rediger != 0 %}
+                                <span class="badge"{{ not seance_a_venir or seance_a_venir.compteRendus is not empty ? ' style="margin-left: 5px;"' }}>{{ cr_a_rediger }}</span>
                             {% endif %}
                             <b class="caret"></b>
                         </a>
@@ -54,11 +54,11 @@
                                     </a>
                                 </li>
                             {% endfor %}
-                            {% if membre.groupe and cr_a_rediger is not empty %}
+                            {% if membre.groupe and cr_a_rediger != 0 %}
                                 <li class="divider"></li>
                                 <li><a href="{{ path('groupe_compterendu_arediger', { 'groupe' : membre.groupe.id }) }}">
                                     Compte-rendus à rédiger
-                                    <span class="badge badge-important" style="margin-left: 10px;">{{ cr_a_rediger|length }}</span>
+                                    <span class="badge" style="margin-left: 10px;">{{ cr_a_rediger }}</span>
                                 </a></li>
                             {% endif %}
                         </ul>
