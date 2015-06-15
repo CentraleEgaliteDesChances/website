@@ -27,9 +27,10 @@ class SortiesController extends Controller
         $now = new \DateTime("now");
 
         $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findFollowingSorties($now);
+        $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findByPivot(false);
 
         return array(
-            'sorties' => $sorties
+            'sorties' => $sorties, 'lycees' => $lycees
         );
     }
 	
@@ -41,9 +42,7 @@ class SortiesController extends Controller
 	public function lyceensAction(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie)
 	{
 		$lyceensSortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findBySortie($sortie);
-		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findAll();
-
-        $lycees = array_filter($lycees, function(Lycee $l){ return !($l->getPivot());});
+		$lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findByPivot(false);
 		
 		
 		return array(
@@ -74,9 +73,10 @@ class SortiesController extends Controller
         $now = new \DateTime("now");
 
         $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findPreviousSorties($now);
+        $lycees = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findByPivot(false);
 
         return array(
-            'sorties' => $sorties,
+            'sorties' => $sorties, 'lycees' => $lycees
         );
     }
 

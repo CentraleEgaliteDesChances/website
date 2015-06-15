@@ -19,7 +19,7 @@
                 <li><a href="{{ path('toutes_seances') }}">Planning de l'association</a></li>
                 {% if membre.groupe %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <a data-target="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Mon tutorat
                             {% if seance_a_venir and seance_a_venir.compteRendus is empty %}
                                 <span class="badge badge-warning" style="margin-left: 5px;">1</span>

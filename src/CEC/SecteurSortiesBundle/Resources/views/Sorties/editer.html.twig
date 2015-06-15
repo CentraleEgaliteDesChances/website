@@ -1,11 +1,11 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECSecteurSortiesBundle:Sorties:base.html.twig' %}
 
 
-{% block narrow_title %}Modifier la sortie {{sortie.nom}}{% endblock %}
-
-{% block narrow_body %}
+{% block right %}
 
 {{ parent() }}
+
+<h2> Modifier la sortie {{sortie.nom}} </h2>
 
 {% if sortie.okCR %}
 <form class="form" method="post" action="{{ path('editer_sortie', {'action':'editeraveccr', 'id':sortie.id}) }}">
@@ -20,9 +20,10 @@
     {{ form_widget(form) }}
     <div class="footer-controls">
         <input type="submit" value="Modifier la sortie" class="btn btn-primary pull-right" />
-        <a href="{{ path('sorties') }}" class="btn pull-right">Annuler</a>
+        <a href="{{ path('sorties') }}" class="btn btn-default pull-right">Annuler</a>
     </div>
 </form>
+<br/>
 {% endif %}
 
 {% endblock %}
