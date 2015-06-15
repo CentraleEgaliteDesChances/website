@@ -110,7 +110,7 @@ class SortiesController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 if ($action == 'cr')
@@ -242,7 +242,7 @@ class SortiesController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();

@@ -45,7 +45,7 @@ class ActivitesController extends Controller
         
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $resultats = $activiteRepository->findWithRechercheActivite($recherche);
             }
@@ -170,7 +170,7 @@ class ActivitesController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
         {
-            $activiteForm->bindRequest($request);
+            $activiteForm->handleRequest($request);
             if ($activiteForm->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->flush();
@@ -210,7 +210,7 @@ class ActivitesController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($activite);

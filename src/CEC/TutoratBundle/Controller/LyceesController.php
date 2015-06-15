@@ -126,7 +126,7 @@ class LyceesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $lyceeForm->bindRequest($request);
+            $lyceeForm->handleRequest($request);
             if ($lyceeForm->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
@@ -187,7 +187,7 @@ class LyceesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();

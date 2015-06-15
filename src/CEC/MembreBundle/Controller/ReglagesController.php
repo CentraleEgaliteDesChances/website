@@ -46,7 +46,7 @@ class ReglagesController extends Controller
         if ($request->isMethod("POST"))
         {
             if ($request->request->has($nomInformationsGenerales)) {
-                $infomationsGenerales->bindRequest($request);
+                $infomationsGenerales->handleRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
                     $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
@@ -55,7 +55,7 @@ class ReglagesController extends Controller
             }
             
             if ($request->request->has($nomMotDePasse)) {
-                $motDePasse->bindRequest($request);
+                $motDePasse->handleRequest($request);
                 if ($motDePasse->isValid()) {
 					$data = $motDePasse->getData(); 
 					$factory = $this->get('security.encoder_factory');
@@ -147,7 +147,7 @@ class ReglagesController extends Controller
         
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->refreshUser($membre);
@@ -179,7 +179,7 @@ class ReglagesController extends Controller
 
         if($request->isMethod('POST'))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if($form->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();

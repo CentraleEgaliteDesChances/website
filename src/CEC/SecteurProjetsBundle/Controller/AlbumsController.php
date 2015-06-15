@@ -33,7 +33,7 @@ class AlbumsController extends Controller
 		$request = $this->getRequest();
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			if($form->isValid())
 			{
 				$em = $this->getDoctrine()->getEntityManager();
@@ -121,12 +121,12 @@ class AlbumsController extends Controller
 		$infosalbum = new Album();
 		$infosalbum->setProjet($album->getProjet());
 		$infosalbum->setAnnee($album->getAnnee());
-		$form = $this->createForm(new AlbumType(), $infosalbum, array('disabled'=>true));
+		$form = $this->createForm(new AlbumType(), $infosalbum, array('read_only'=>true));
 		
 		$request = $this->getRequest();
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			if($form->isValid())
 			{
 				$em = $this->getDoctrine()->getEntityManager();

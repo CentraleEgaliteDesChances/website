@@ -78,7 +78,7 @@ class SeancesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' and $request->request->has('editer_seance'))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
@@ -98,7 +98,7 @@ class SeancesController extends Controller
             if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu a éditer !');
             
             $crForm = $crForms[$compteRenduId];
-            $crForm->bindRequest($request);
+            $crForm->handleRequest($request);
             if ($crForm->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->getFlashBag()->add('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');

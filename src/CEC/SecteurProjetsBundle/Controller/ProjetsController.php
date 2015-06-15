@@ -81,7 +81,7 @@ class ProjetsController extends Controller
 		
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			
 			if($form->isValid())
 			{
@@ -113,7 +113,7 @@ class ProjetsController extends Controller
 		
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			
 			if($form->isValid())
 			{
@@ -169,27 +169,46 @@ class ProjetsController extends Controller
 	public function uploadDossierAction()
 	{
 		$dossier = new Dossier();
-		$form = $this->createForm(new DossierType(), $dossier);
-		$request = $this->getRequest();
-		if ($request->isMethod('POST'))
-		{
-			$form->bindRequest($request);
-			if($form->isValid())
-			{
-				$em = $this->getDoctrine()->getEntityManager();
-				$data = $form->getData();
-				$projet = $data->getProjet();
-				$dossier_precedent = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Dossier')->loadDossier($projet);
+
+		$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+		$em = $this->getDoctrine()->getEntityManager();
+		$defaultData = array('message' => 'Type your message here');
+	    $form = $this->createFormBuilder($defaultData)
+	        ->add('projet', 'entity', array(
+	        	'class' => 'CEC\SecteurProjetsBundle\Entity\Projet',
+	        	'property' => 'nom',
+	        	'label' => 'Projet concerné',
+	        	'label_attr' => array('class' => 'col-md-3 control-label')
+	        	))
+	        ->add('dossier', 'file', array(
+	        	'label' => 'Fichier PDF du dossier',
+	        	'label_attr' => array('class' => 'col-md-3 control-label')))
+	        ->getForm();
+
+	    $request = $this->getRequest();
+	    if($request->isMethod('POST'))
+	    {
+		    $form->handleRequest($request);
+
+		    if ($form->isValid()) 
+		    {
+	        
+	        	$data = $form->getData();
+				$projet = $data['projet'];
+				$dossier_precedent = $projet->getDossier();
 
 				// S'il y avait un dossier précédent, on s'en débarasse
 				if($dossier_precedent)
 				{
+					$projet->setDossier(null);
 					$em->remove($dossier_precedent);
 					$em->flush();
 				}
 				$nom_projet = $projet->getNom();
+				$dossier->setFile($data['dossier']);
 				$dossier->setNom("Dossier d'inscription ".$nom_projet);
 				$projet->setDossier($dossier);
+
 				$em->persist($projet);
 				$em->persist($dossier);
 				$em->flush();
@@ -197,11 +216,11 @@ class ProjetsController extends Controller
 				
 				$this->get('session')->getFlashBag()->add('success', 'Le dossier a bien été mis à jour');
 				return $this->redirect($this->generateUrl('description_projets'));
-				
+
 			}
 		}
-		
-		return array( 'form' => $form->createView());
+
+		return array('form' => $form->createView(), 'projets' => $projets);
 	}
 	
 	/**

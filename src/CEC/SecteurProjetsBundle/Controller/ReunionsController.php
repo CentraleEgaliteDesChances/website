@@ -36,7 +36,7 @@ class ReunionsController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
@@ -70,7 +70,7 @@ class ReunionsController extends Controller
 		
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			if($form->isValid())
 			{
 				$em = $this->getDoctrine()->getEntityManager();

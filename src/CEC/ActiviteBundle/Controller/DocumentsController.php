@@ -73,7 +73,7 @@ class DocumentsController extends Controller
       
         // Hydrate le document avec les informations du formulaires
         $request = $this->getRequest();
-        $documentForm->bindRequest($request);
+        $documentForm->handleRequest($request);
         
         if ($documentForm->isValid())
         {

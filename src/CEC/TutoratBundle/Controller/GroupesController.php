@@ -115,7 +115,7 @@ class GroupesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' )
         {
-            $nouvelleSeanceForm->bindRequest($request);
+            $nouvelleSeanceForm->handleRequest($request);
             if ($nouvelleSeanceForm->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
@@ -185,7 +185,7 @@ class GroupesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' && $request->request->has('groupe'))
         {
-            $groupeForm->bindRequest($request);
+            $groupeForm->handleRequest($request);
             if ($groupeForm->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
@@ -232,7 +232,7 @@ class GroupesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();

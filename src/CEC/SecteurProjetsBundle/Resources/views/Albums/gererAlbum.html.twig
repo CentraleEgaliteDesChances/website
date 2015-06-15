@@ -28,7 +28,16 @@
 <h2>Ajouter une photo</h2>
 
 <form class="form form-horizontal" method="post" action="{{ path('gerer_album', {'id':album.id}) }}" {{ form_enctype(form) }}><br/>
-    {{ form_widget(form) }}
+	<div class="form-group">
+		{{form_label(form.projet)}}
+		{{form_widget(form.projet, {'attr' : {'class' : 'col-md-4 form-control'}})}}
+	</div>
+	<div class="form-group">
+		{{form_label(form.annee)}}
+		{{form_widget(form.annee, {'attr' : {'class' : 'col-md-4 form-control'}})}}
+	</div>
+
+		{{form_rest(form)}}
     <div class="footer-controls">
         <input type="submit" value="Ajouter les photos" class="btn btn-primary" />
         <a href="{{ path('voir_albums') }}" class="btn btn-default pull-right">Annuler</a>
@@ -41,7 +50,8 @@
 {{parent()}}
 
 {% javascripts 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
-				'@CECSecteurProjetsBundle/Resources/public/js/ajoutImage.js'
+			   '@CECSecteurProjetsBundle/Resources/public/js/ajoutImage.js'
+				
 				 %}
 	<script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}

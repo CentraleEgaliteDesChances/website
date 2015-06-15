@@ -56,7 +56,7 @@ class CordeesController extends Controller
         $form = $this->createForm(new NomCordeeType(), $nouvelleCordee);
         
         if ($this->getRequest()->getMethod() == 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form->handleRequest($this->getRequest());
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($nouvelleCordee);
@@ -132,7 +132,7 @@ class CordeesController extends Controller
             
         if ($this->getRequest()->isMethod('POST'))
         {
-            $nomForm->bindRequest($this->getRequest());
+            $nomForm->handleRequest($this->getRequest());
             if ($nomForm->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->getFlashBag()->add('success', 'Le nom de la cordée a bien été mise à jour.');

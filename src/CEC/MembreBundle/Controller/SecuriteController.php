@@ -61,7 +61,7 @@ class SecuriteController extends Controller
 
         if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $data = $form->getData();
@@ -163,7 +163,7 @@ class SecuriteController extends Controller
 			
 		if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 			if ($form->isValid())
 			{
 			//Enregistrement en BDD
@@ -245,7 +245,7 @@ class SecuriteController extends Controller
 		
         if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 		
 			if ($form->isValid())
 			{

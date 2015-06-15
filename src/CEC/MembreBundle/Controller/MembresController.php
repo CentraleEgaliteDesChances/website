@@ -184,7 +184,7 @@ class MembresController extends Controller
         
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($membre);
@@ -241,7 +241,7 @@ class MembresController extends Controller
         
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $nouveauMembreBuro->getMembre()->setBuro(true);
                 $nouveauMembreBuro->getMembre()->updateRoles();

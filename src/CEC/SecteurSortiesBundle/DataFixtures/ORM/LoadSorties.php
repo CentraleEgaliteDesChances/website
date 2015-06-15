@@ -149,7 +149,7 @@ class LoadSorties extends AbstractFixture
             ->setAnneeScolaire($anneeScolaireA)
             ->setDateSortie($lendemain)
             ->setHeureDebut($lendemain->add(new \DateInterval('PT15H30M')))
-            ->setHeureFin($lendemain->add(new \DateInterval('PT18H')))
+            ->setHeureFin($lendemain->add(new \DateInterval('PT2H30M')))
             ->setDescription("Lancement du documentaire NX sur la prépa")
             ->setPlaces(3);
             // Sortie au sur-lendemain du test pour toujours avoir une sortie libre à laquelle s'inscrire
@@ -164,7 +164,7 @@ class LoadSorties extends AbstractFixture
             ->setAnneeScolaire($anneeScolaireA)
             ->setDateSortie($surlendemain)
             ->setHeureDebut($surlendemain->add(new \DateInterval('PT9H30M')))
-            ->setHeureFin($surlendemain->add(new \DateInterval('PT17H')))
+            ->setHeureFin($surlendemain->add(new \DateInterval('PT7H30M')))
             ->setDescription("Journée de clôture de l'année avec différents ateliers");
 
         $manager->persist($sortie1);

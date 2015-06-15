@@ -111,6 +111,11 @@ class Album
      */
     public function setImages($images)
     {
+        foreach($images as $image)
+        {
+            $image->setAlbum($this);
+        }
+        
         $this->images = $images;
     
         return $this;

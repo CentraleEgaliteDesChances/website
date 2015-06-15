@@ -76,7 +76,7 @@ class LoadReunions extends AbstractFixture implements DependentFixtureInterface,
         $reunion5->setNom("Réunion d'information pour présenter GML")
             ->setDate($lendemain)
             ->setHeureDebut($lendemain->add(new \DateInterval('PT18H15M')))
-            ->setHeureFin($lendemain->add(new \DateInterval('PT19H45M')))
+            ->setHeureFin($lendemain->add(new \DateInterval('PT1H30M')))
             ->setAdresse("Centrale")
             ->setDescription("Réunion pour parler du voyage à Londres")
             ->setProjet($this->getReference('gml'));
