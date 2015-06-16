@@ -223,10 +223,10 @@ class Secteur
     /**
      * Get membres
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getMembres()
     {
-        return $this->membres;
+        return $this->membres->toArray();
     }
 }

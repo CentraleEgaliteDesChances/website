@@ -165,7 +165,7 @@ class Professeur implements UserInterface, \Serializable
      *
      * @ORM\Column(name="referent")
      */
-    private $referent = false;
+    private $referent;
 
     /** 
     * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
@@ -179,6 +179,7 @@ class Professeur implements UserInterface, \Serializable
      */
     public function __construct()
     {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(array("ROLE_PROFESSEUR"));
         $this->setReferent(false);
     }
@@ -405,7 +406,11 @@ class Professeur implements UserInterface, \Serializable
      */
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+        $this->roles->clear();
+        foreach($roles as $role)
+        {
+            $this->roles->add($role);
+        }
     
         return $this;
     }
@@ -439,15 +444,7 @@ class Professeur implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->getRoles()))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
-            }
-        }
-        $this->roles = array_values($this->roles);
+        $this->roles->removeElement($role);
     }
 
     /**
@@ -455,8 +452,8 @@ class Professeur implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if (!(in_array($role, $this->getRoles())))
-            $this->roles[] = $role;
+        if (!$this->roles->contains($role))
+            $this->roles->add($role);
     }
 
     /**
@@ -466,7 +463,7 @@ class Professeur implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
     /**

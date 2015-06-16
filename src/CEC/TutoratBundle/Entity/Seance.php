@@ -76,7 +76,7 @@ class Seance
     {
         $this->tuteurs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->activites = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -410,7 +410,7 @@ class Seance
      */
     public function addTuteur(\CEC\MembreBundle\Entity\Membre $tuteurs)
     {
-        $this->tuteurs[] = $tuteurs;
+        $this->tuteurs->add($tuteurs);
     
         return $this;
     }
@@ -428,11 +428,11 @@ class Seance
     /**
      * Get tuteurs
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array
      */
     public function getTuteurs()
     {
-        return $this->tuteurs;
+        return $this->tuteurs->toArray();
     }
 
     /**
@@ -443,7 +443,7 @@ class Seance
      */
     public function addLyceen(\CEC\MembreBundle\Entity\Eleve $lyceens)
     {
-        $this->lyceens[] = $lyceens;
+        $this->lyceens->add($lyceens);
     
         return $this;
     }
@@ -461,11 +461,11 @@ class Seance
     /**
      * Get lyceens
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getLyceens()
     {
-        return $this->lyceens;
+        return $this->lyceens->toArray();
     }
 
     /**
@@ -476,7 +476,7 @@ class Seance
      */
     public function addCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
     {
-        $this->compteRendus[] = $compteRendus;
+        $this->compteRendus->add($compteRendus);
     
         return $this;
     }
@@ -494,10 +494,10 @@ class Seance
     /**
      * Get compteRendus
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getCompteRendus()
     {
-        return $this->compteRendus;
+        return $this->compteRendus->toArray();
     }
 }

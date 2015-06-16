@@ -42,13 +42,13 @@ class LyceesController extends Controller
             }
         }
 
-        $lyceens = $groupe->getLyceensParAnnee()->toArray();
+        $lyceens = $groupe->getLyceensParAnnee();
         $lyceens = array_filter($lyceens, function(GroupeEleves $e){
             return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
         });
         $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
 
-        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
+        $tuteurs = $groupe->getTuteursparAnnee();
         $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
             return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
         });
@@ -93,8 +93,8 @@ class LyceesController extends Controller
         $seances = array();
         foreach ($lycee->getGroupes() as $groupe)
         {
-            $tuteurs = array_merge($tuteurs, $groupe->getTuteursParAnnee()->toArray());
-            $lyceens = array_merge($lyceens, $groupe->getLyceensParAnnee()->toArray());
+            $tuteurs = array_merge($tuteurs, $groupe->getTuteursParAnnee());
+            $lyceens = array_merge($lyceens, $groupe->getLyceensParAnnee());
             if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
             if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
         }

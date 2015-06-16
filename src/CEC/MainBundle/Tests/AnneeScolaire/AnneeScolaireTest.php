@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\MainBundle\Tests\Utility;
+namespace CEC\MainBundle\Tests\AnneeScolaire;
 
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 

@@ -67,7 +67,7 @@ class ProjetsController extends Controller
 		$projet = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->loadProjet($slug);
 		if (!$projet) throw $this->createNotFoundException('Impossible de trouver ce projet');
 
-		$lyceens = $projet->getInscritsParAnnee()->toArray();
+		$lyceens = $projet->getInscritsParAnnee();
         $lyceens = array_filter($lyceens, function(ProjetEleve $e){
             return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
         });

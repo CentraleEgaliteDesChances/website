@@ -157,13 +157,13 @@ class GroupesController extends Controller
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
         
-        $lyceens = $groupe->getLyceensParAnnee()->toArray();
+        $lyceens = $groupe->getLyceensParAnnee();
         $lyceens = array_filter($lyceens, function(GroupeEleves $e){
             return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
         });
         $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
 
-        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
+        $tuteurs = $groupe->getTuteursparAnnee();
         $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
             return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
         });
@@ -397,13 +397,13 @@ class GroupesController extends Controller
                 $seances[] = $cr->getSeance();
         }
 
-        $lyceens = $groupe->getLyceensParAnnee()->toArray();
+        $lyceens = $groupe->getLyceensParAnnee();
         $lyceens = array_filter($lyceens, function(GroupeEleves $e){
             return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
         });
         $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
 
-        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
+        $tuteurs = $groupe->getTuteursparAnnee();
         $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
             return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
         });

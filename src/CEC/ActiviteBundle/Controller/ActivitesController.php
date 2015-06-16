@@ -162,7 +162,7 @@ class ActivitesController extends Controller
         $documentForm = $this->createForm(new DocumentType(), new Document());
         
         // On classe les versions par date de création
-        $versionsTriees = $activite->getVersions()->toArray();
+        $versionsTriees = $activite->getVersions();
         usort($versionsTriees, function ($version1, $version2) {
             return $version1->getDateCreation() < $version2->getDateCreation();
         });

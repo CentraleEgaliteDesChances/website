@@ -252,7 +252,7 @@ class Membre implements UserInterface, \Serializable
 	*
 	*@ORM\ManyToMany(targetEntity="CEC\SecteurProjetsBundle\Entity\Projet", mappedBy="contacts")
 	*/
-	private $contactProjets = array();
+	private $contactProjets;
 
     /**
      * Divers documents (versions d'une activite) téléchargés par le membre.
@@ -320,6 +320,9 @@ class Membre implements UserInterface, \Serializable
         $this->quizzActus = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contactProjets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lyceesPourVP = new \Doctrine\Common\Collections\ArrayCollection();
 
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
@@ -358,12 +361,18 @@ class Membre implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+        $this->roles->clear();
+        foreach($roles as $role)
+        {
+            $this->roles->add($role);
+        }
+
+        return $this;
     }
 
     /**
@@ -449,15 +458,7 @@ class Membre implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->getRoles()))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
-            }
-        }
-        return $this->roles;
+        $this->roles->removeElement($role);
     }
 
     /**
@@ -465,10 +466,8 @@ class Membre implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!in_array($role, $this->getRoles()))
-        {
-            $this->roles[] = $role; 
-        }
+        if(!$this->roles->contains($role))
+            $this->roles->add($role);
            
     }
 
@@ -579,7 +578,7 @@ class Membre implements UserInterface, \Serializable
      * @param string $email
      * @return Membre
      */
-    public function setMail($email)
+    public function setMail($mail)
     {
         $this->mail = $mail;
 
@@ -772,7 +771,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getLyceesPourVP()
     {
-        return $this->lyceesPourVP;
+        return $this->lyceesPourVP->toArray();
     }
 
     /**
@@ -807,7 +806,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getSecteurs()
     {
-        return $this->secteurs;
+        return $this->secteurs->toArray();
     }
 
     /**
@@ -840,7 +839,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getSeances()
     {
-        return $this->seances;
+        return $this->seances->toArray();
     }
 
     /**
@@ -873,7 +872,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getDocuments()
     {
-        return $this->documents;
+        return $this->documents->toArray();
     }
 	
 	/**
@@ -906,7 +905,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getContactProjets()
     {
-        return $this->contactProjets;
+        return $this->contactProjets->toArray();
     }
 
     /**
@@ -939,7 +938,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getCompteRendus()
     {
-        return $this->compteRendus;
+        return $this->compteRendus->toArray();
     }
 
     /**
@@ -972,7 +971,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getQuizzActus()
     {
-        return $this->quizzActus;
+        return $this->quizzActus->toArray();
     }
 
 
@@ -1006,7 +1005,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getGroupeParAnnee()
     {
-        return $this->groupeParAnnee;
+        return $this->groupeParAnnee->toArray();
     }
 
     public function getGroupe()
