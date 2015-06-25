@@ -6,46 +6,16 @@
 			{% endif %}
 			>
 				<a href="{{ path('description_projets') }}" >Pôle Projets de CEC</a>
-		</li>	
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "stage-theatre" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'stage-theatre'})}}" > Stage Théâtre </a>
 		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "focus-europe" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'focus-europe'})}}" > Focus Europe </a>
-		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "centrale-prepa" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'centrale-prepa'})}}" > Centrale Prépa </a>
-		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "good-morning-london" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'good-morning-london'})}}" > Good Morning London </a>
-		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "artcessible" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'artcessible'})}}" > (Art)cessible </a>
-		</li>
+		{% for projet in projets %}	
+			<li	
+				{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == projet.slug %}
+					class="active"
+				{% endif %}
+				>
+					<a href="{{path('description_projet', {'slug': projet.slug })}}" > {{projet.nom}} </a>
+			</li>
+		{% endfor %}
 
 	</ul>
 </div>

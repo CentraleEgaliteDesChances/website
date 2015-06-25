@@ -3,13 +3,16 @@
 namespace CEC\SecteurProjetsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Projet
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="CEC\SecteurProjetsBundle\Entity\ProjetRepository")
+ * @UniqueEntity(fields="slug", message="Deux projets ne peuvent pas avoir le même slug. Changez le nom du projet.")
  */
 class Projet
 {
@@ -19,7 +22,7 @@ class Projet
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @UniqueEntity(fields="slug", message="Deux projets ne peuvent pas avoir le même slug. Changez le nom du projet.")
+     * 
      */
     private $id;
 
@@ -55,6 +58,8 @@ class Projet
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime")
+     * @Gedmo\Timestampable(on = "create")
+     * @Assert\DateTime()
      */
     private $dateCreation;
 
@@ -62,6 +67,8 @@ class Projet
      * @var \DateTime
      *
      * @ORM\Column(name="dateModification", type="datetime")
+     * @Gedmo\Timestampable(on = "create")
+     * @Assert\DateTime()
      */
     private $dateModification;
 
@@ -105,7 +112,7 @@ class Projet
 	/**
 	* @var \CEC\SecteurProjetsBundle\Entity\Dossier
 	*
-	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Dossier", inversedBy="projet")
+	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Dossier", cascade={"remove"}, orphanRemoval=true)
 	*/
 	private $dossier;
 	
@@ -406,7 +413,7 @@ class Projet
 	* @var \CEC\SecteurProjetsBundle\Entity\Dossier
 	* @return \CEC\SecteurProjetsBundle\Entity\Projet
 	*/
-	public function setDossier()
+	public function setDossier($dossier)
 	{
 		$this->dossier = $dossier;
 		return $this;

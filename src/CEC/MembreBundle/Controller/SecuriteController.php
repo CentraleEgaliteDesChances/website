@@ -53,6 +53,10 @@ class SecuriteController extends Controller
     public function oubliAction()
     {
         $form = $this->createFormBuilder()
+        	->add('categorie', 'choice', array(
+        		'label' => 'Statut :',
+        		'choices' => array('tuteur' => 'Tuteur', 'lyceen' => 'Lycéen', 'prof' => 'Enseignant')
+        		))
             ->add('prenom', 'text')
             ->add('nom', 'text')
             ->getForm();
@@ -61,31 +65,33 @@ class SecuriteController extends Controller
 
         if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $data = $form->getData();
 
-                // On checke chaque base de données au fur et a mesure
+                // On checke chaque base de données suivant la catégorie
                 try
                 {
-                	$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
-                }catch(\Exception $e)
+	                switch($data['categorie'])
+	                {
+	                	case 'tuteur':
+	                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+	                		break;
+	                	case 'lyceen':
+	                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+	                		break;
+	                	case 'professeur':
+	                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+	                		break;
+	                	default:
+	                	break;
+	                }	
+				}catch( \Exception $e)
                 {
-                	try
-                	{
-                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
-                	}catch(\Exception $e)
-                	{
-                		try
-                		{
-                			$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
-                		}catch( \Exception $e)
-                		{
-                			$form->addError(new FormError($e->getMessage()));
-	                    		return array('form' => $form->createView());
-                		}
-                	}
+        			$form->addError(new FormError($e->getMessage()));
+                	return array('form' => $form->createView());
+
                 }
 
                 //Création d'un nouveau mot de passe aléatoire
@@ -104,7 +110,7 @@ class SecuriteController extends Controller
                 $this->get('cec.mailer')->sendOubliMdP($membre, $motDePasse, $_SERVER['HTTP_HOST']);
 
                 //Retour à la page de connexion
-                $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
+                $this->get('session')->getFlashBag()->add('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
                 return $this->redirect($this->generateUrl('connexion'));
             }
         }
@@ -118,10 +124,6 @@ class SecuriteController extends Controller
 	{
 			//Creation of the form to register a new teacher
 			$inscrit = new Professeur();
-			$inscrit->setDateCreation(new \DateTime('now'));
-			$inscrit->setDateModification(new \DateTime('now'));
-			$inscrit->setRoles(array('ROLE_PROFESSEUR'));
-			$inscrit->setReferent(false);
 
 			$form = $this->createFormBuilder($inscrit)
 				->add('prenom', 'text', array(
@@ -163,7 +165,7 @@ class SecuriteController extends Controller
 			
 		if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 			if ($form->isValid())
 			{
 			//Enregistrement en BDD
@@ -192,10 +194,6 @@ class SecuriteController extends Controller
 			//Creation of form to register a new high-school student
 			
 			$eleve = new Eleve();
-			$eleve->setDateCreation(new \DateTime('now'));
-			$eleve->setDateModification(new \DateTime('now'));
-			$eleve->setRoles(array('ROLE_ELEVE'));
-			$eleve->setDelegue(null);
 
 			$form = $this->createFormBuilder($eleve)
 				->add('prenom', 'text', array(
@@ -245,7 +243,7 @@ class SecuriteController extends Controller
 		
         if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 		
 			if ($form->isValid())
 			{

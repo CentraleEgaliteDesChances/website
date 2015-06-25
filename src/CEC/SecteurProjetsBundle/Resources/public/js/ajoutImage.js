@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
 
-    var $container = $('#AlbumType_images_control_group');
+    var $container = $('#AlbumType_images');
 
     var $addLink = $('<a href="#" id="add_image" class="btn btn-default" style="margin-left:20px;">Ajouter une image</a>');
 	
@@ -10,10 +10,8 @@ $(document).ready(function() {
 
     var index = $container.find(':input').length;
     
-	if(index < 15)
-	{
 		$container.append($addLink);
-	}
+	
 	
     // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
 
@@ -72,6 +70,10 @@ $(document).ready(function() {
       // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
 
       index++;
+      if(index == 15)
+      {
+        $container.remove($addLink);
+      }
 
     }
 

@@ -63,20 +63,17 @@
                     {% endif %}
                 </td>
             </tr>
-            {% if professeur.referent %}
-                <tr>
-                    <td>Référent</td>
-                    <td>
-                        Oui
-                    </td>
-                </tr>
-            {% endif %}
-
+            <tr>
+                <td>Rôle</td>
+                <td>
+                    {{professeur.role}}
+                </td>
+            </tr>
         </tbody>
     </table>
 
     {% if app.user == professeur %}
-        <a href="{{ path('reglages_infos_professeur', {'professeur' : professeur.id} ) }}" class="btn btn-block">Modifier mon profil</a>
+        <a href="{{ path('reglages_infos_professeur', {'professeur' : professeur.id} ) }}" class="btn btn-default btn-block">Modifier mon profil</a>
     {% endif %}
     
 {% endblock %}

@@ -6,7 +6,14 @@
 
 {{parent()}}
 
-<h1>Albums photos des projets</h1>
+<h2>Albums photos des projets</h2>
+
+{% set maxAlbum = 0 %}
+{% for projet in projets %}
+	{% if projet.albums|length > maxAlbum %}
+		{% set maxAlbum = projet.albums|length %}
+	{% endif %}
+{% endfor %}
 
 <table class="table table-bordered table-striped table-large">
     <tbody>
@@ -16,7 +23,11 @@
                 {{projet.nom}}
             </th>
 			{% for album in projet.albums %}
-				<td>
+				<td
+				{% if loop.last%}
+					colspan="{{maxAlbum - projet.albums|length + 1}}"
+				{% endif %}
+				>
 					<a href="{{path('voir_photos', {'id': album.id})}}">{{album.annee}}</a>
 				</td>
 			{% else %}

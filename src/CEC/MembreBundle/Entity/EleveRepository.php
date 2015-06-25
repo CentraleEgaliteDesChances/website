@@ -32,7 +32,7 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
             // if there is no unique record matching the criteria
             $user = $query->getSingleResult();
         } catch (NoResultException $e) {
-            throw new UsernameNotFoundException(sprintf('Impossible de trouver un lycéen à partir du surnom "%s".', $username), null, 0, $e);
+            throw new UsernameNotFoundException(sprintf('Impossible de trouver un lycéen à partir du surnom "%s".', $username), 0, $e);
         }
 
         return $user;

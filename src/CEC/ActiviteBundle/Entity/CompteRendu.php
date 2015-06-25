@@ -146,9 +146,9 @@ class CompteRendu
      * @var string
      *
      * @ORM\Column(name = "commentaires", type = "text", nullable = true)
-     * @Assert\MaxLength(
-     *     limit = 1000,
-     *     message = "Vos commentaires ne peuvent excéder 1000 caractères."
+     * @Assert\Length(
+     *     max = 1000,
+     *     maxMessage = "Vos commentaires ne peuvent excéder 1000 caractères."
      * )
      */
     private $commentaires;

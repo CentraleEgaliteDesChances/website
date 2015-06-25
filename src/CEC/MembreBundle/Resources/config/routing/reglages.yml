@@ -1,41 +1,41 @@
 reglages_accueil:
-    pattern: /
+    path: /
     defaults: {_controller: CECMembreBundle:Reglages:infos}
 
 reglages_infos:
-    pattern: /infos
+    path: /infos
     defaults: {_controller: CECMembreBundle:Reglages:infos}
 
 reglages_groupe:
-    pattern: /groupe
+    path: /groupe
     defaults: {_controller: CECMembreBundle:Reglages:groupe}
 
 reglages_secteurs:
-    pattern: /secteurs
+    path: /secteurs
     defaults: {_controller: CECMembreBundle:Reglages:secteurs}
 
 reglages_infos_eleve:
-    pattern: /infos-eleve
+    path: /infos-eleve
     defaults: {_controller: CECMembreBundle:ReglagesEleve:infos}
     requirements:
         lyceen: \d+
 
 reglages_groupe_eleve:
-    pattern: /groupe-eleve
+    path: /groupe-eleve
     defaults: {_controller: CECMembreBundle:ReglagesEleve:groupe}
     requirements:
         lyceen: \d+
 
 reglages_infos_professeur:
-    pattern: /infos-professeur
+    path: /infos-professeur
     defaults: {_controller: CECMembreBundle:ReglagesProfesseur:infos}
     requirements:
         professeur: \d+
 
 creer_secteur:
-    pattern: /creer-secteur
+    path: /creer-secteur
     defaults: {_controller: CECMembreBundle:Reglages:creerSecteur}
 
 supprimer_secteur:
-    pattern: /supprimer_secteur
+    path: /supprimer_secteur
     defaults: {_controller: CECMembreBundle:Reglages:supprimerSecteur}

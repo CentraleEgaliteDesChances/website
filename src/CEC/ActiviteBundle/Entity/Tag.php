@@ -60,9 +60,9 @@ class Tag
      *
      * @ORM\Column(name = "contenu", type = "string", length = 50)
      * @Assert\NotBlank(message = "Le contenu d'un tag ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 50,
-     *     message = "Le tag ne peut excéder 50 caractères."
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le tag ne peut excéder 50 caractères."
      * )
      */
     private $contenu;

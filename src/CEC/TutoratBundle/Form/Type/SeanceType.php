@@ -20,7 +20,7 @@ class SeanceType extends AbstractType
             ->add('debut', null, array(
                 'label' => 'Horaires de la séance',
                 'widget' => 'single_text',
-                'attr' => array('placeholder' => 'HH:MM'),
+                'attr' => array('placeholder' => $options['debut']),
                 'widget_addon' => array(
                     'type' => 'prepend',
                     'text' => 'de'
@@ -29,7 +29,7 @@ class SeanceType extends AbstractType
             ->add('fin', null, array(
                 'label' => false,
                 'widget' => 'single_text',
-                'attr' => array('placeholder' => 'HH:MM'),
+                'attr' => array('placeholder' => $options['fin']),
                 'widget_addon' => array(
                     'type' => 'prepend',
                     'text' => 'à'
@@ -37,11 +37,11 @@ class SeanceType extends AbstractType
             ))
             ->add('lieu', null, array(
                 'label' => 'Lieu de la séance de tutorat',
-                'attr' => array('placeholder' => 'A Centrale ou dans le lycée'),
+                'attr' => array('placeholder' => $options['lieu']),
             ))
             ->add('rendezVous', null, array(
                 'label' => 'Lieu de rendez-vous pour partir en séance',
-                'attr' => array('placeholder' => 'Rendez-vous...'),
+                'attr' => array('placeholder' => $options['rendezVous']),
             ));
     }
     
@@ -54,6 +54,10 @@ class SeanceType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CEC\TutoratBundle\Entity\Seance',
+            'lieu' => 'A Centrale ou dans le lycée',
+            'rendezVous' => 'Rendez vous...',
+            'debut' => 'HH:MM',
+            'fin' => 'HH:MM'
         ));
     }
 }

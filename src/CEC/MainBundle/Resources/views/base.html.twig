@@ -4,6 +4,7 @@
 {% extends 'MopaBootstrapBundle::base.html.twig' %}
 {% set jours = ['Invalide', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
 {% set mois = ['Invalide', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
+{% set moisCourts = ['Invalide', 'Jan', 'Fév', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'] %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -19,18 +20,18 @@
     {% block modals %}{% endblock %}
     {% block menu %}
 		{% if is_granted('ROLE_TUTEUR')%}
-			{% render 'CECMainBundle:Menu:menu' %}
+			{{ render(controller('CECMainBundle:Menu:menu')) }}
 		{% elseif is_granted('ROLE_ELEVE') %}
-			{%render 'CECMainBundle:Menu:menuEleve' %}
+			{{render(controller('CECMainBundle:Menu:menuEleve')) }}
 		{% elseif is_granted('ROLE_PROFESSEUR') %}
-			{% render 'CECMainBundle:Menu:MenuProf' %}
+			{{ render(controller('CECMainBundle:Menu:MenuProf')) }}
 		{% else %}
-			{%render 'CECMainBundle:Menu:MenuAnon' %}
+			{{render(controller('CECMainBundle:Menu:MenuAnon')) }}
 		{% endif %}
 		
     {% endblock %}
     
-    <div class="container">
+    <div class="container-fluid">
         {% block container %}
             {{ session_flash() }}
         {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'MopaBootstrapBundle::base.html.twig' %}
+{% extends 'CECMainBundle::base.html.twig' %}
 {% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
 
 {% block stylesheets %}
@@ -19,9 +19,11 @@
             <h2>Réinitialisation du mot de passe</h2>
             
             {{ form_errors(form) }}
-
-            {{ form_widget(form.nom, {'attr': {'class': 'input-block-level', 'placeholder': 'Nom'}}) }}
+            {{form_label(form.categorie)}}
+            {{form_widget(form.categorie, {'attr' : {'class' : 'input-block-level'}} ) }}<br/>
             {{ form_widget(form.prenom, {'attr': {'class': 'input-block-level', 'placeholder': 'Prénom'}}) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'input-block-level', 'placeholder': 'Nom'}}) }}
+            
 
             {{ form_rest(form) }}
 

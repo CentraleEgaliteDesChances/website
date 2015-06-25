@@ -23,7 +23,7 @@
 							</h4>
 						</div>
 						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-						{% render "CECSecteurSortiesBundle:SortiesProfesseur:lyceens" with {'sortie' : sortie} %}
+						{% include "CECSecteurSortiesBundle:SortiesProfesseur:lyceens.html.twig" with {'lyceensSortie' : sortie.lyceens, 'lycee' : app.user.lycee} %}
 						</div>
 					</div>
 				</div>

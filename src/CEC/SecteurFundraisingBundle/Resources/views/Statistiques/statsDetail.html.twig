@@ -10,7 +10,7 @@
 {% set seancesTotal = 0 %}
 {% set heuresTotal = 0 %}
 {% set presencesTotal = 0 %}
-
+{% set presencesPossibles = 0 %}
 	<table class="table table-bordered table-striped table-stats">
         <thead>
             <tr><th colspan="7">Tutorat</th></tr>
@@ -59,14 +59,14 @@
             			<div class="statsDetail">{{ ligne[1]}}</div>
             		</td>
                         {% if nbrLyceens > 0 %}
-                                            {% set taux = (ligne[2]/(nbrLyceens * nbrSeances ) * 100) %}%
+                                            {% set taux = (ligne[2]/(nbrLyceens * nbrSeances ) * 100) %}
                         {% else %}
                                             {% set taux = -1 %}
                         {% endif %}
                     <td class="
                         {% if taux < 0 %}
 
-                        {% elseif taux > 50 %}
+                        {% elseif taux > 60 %}
                             success
                         {% else %}
                             error
@@ -85,7 +85,8 @@
 				{% set lyceensTotal = lyceensTotal + nbrLyceens %}
 				{% set seancesTotal = seancesTotal + nbrSeances %}
 				{% set heuresTotal = heuresTotal + ligne[1]  %}	
-                {% set presencesTotal = presencesTotal + ligne[2] %}	
+                {% set presencesTotal = presencesTotal + ligne[2] %}
+                {% set presencesPossibles = presencesPossibles + (nbrLyceens * nbrSeances) %}	
             {% else %}
             	<tr>
             		<th colspan="5" class="muted"> Pas de groupe actif cette année </th>
@@ -109,9 +110,22 @@
         		<td>
         			<div class="statsDetail"> {{heuresTotal}} </div>
         		</td>
-                <td>
+                {% if lyceensTotal > 0 %}
+                    {% set tauxTotal = presencesTotal / presencesPossibles * 100 %}
+                {% else %}
+                    {% set tauxTotal = -1 %}
+                {% endif %}
+                <td class="
+                        {% if tauxTotal < 0 %}
+
+                        {% elseif tauxTotal > 60 %}
+                            success
+                        {% else %}
+                            error
+                        {% endif %}
+                    ">
                         <div class="statsDetail">
-                            {{(presencesTotal/(lyceensTotal*seancesTotal)*100)|round(1)}}%
+                            {{tauxTotal|round(1)}}%
                         </div>
                     </td>
         	</tr>

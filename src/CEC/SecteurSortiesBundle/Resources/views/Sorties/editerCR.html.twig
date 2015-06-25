@@ -1,4 +1,4 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECSecteurSortiesBundle:Sorties:base.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -9,11 +9,11 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block narrow_title %}Compte rendu de la sortie {{sortie.nom}}{% endblock %}
-
-{% block narrow_body %}
+{% block right %}
 
 {{ parent() }}
+
+<h2> Compte-rendu de la sortie {{sortie.nom}} </h2>
 
 {% set presents = 0 %}
 {% for SortieLyceen in sortie.lyceens %}
@@ -72,8 +72,9 @@
     {{ form_widget(form) }}
     <div class="footer-controls">
         <input type="submit" value="Enregistrer le CR" class="btn btn-primary pull-right" />
-        <a href="{{ path('anciennes_sorties') }}" class="btn pull-right">Annuler</a>
+        <a href="{{ path('anciennes_sorties') }}" class="btn btn-default pull-right">Annuler</a>
     </div>
 </form>
+<br/>
 
 {% endblock %}

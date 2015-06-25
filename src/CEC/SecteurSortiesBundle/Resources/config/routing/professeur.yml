@@ -1,7 +1,7 @@
 sorties_professeur:
-    pattern: /sorties
+    path: /sorties
     defaults: { _controller: CECSecteurSortiesBundle:SortiesProfesseur:voir }
 
 anciennes_sorties_professeur:
-    pattern: /sortiesPassees
+    path: /sortiesPassees
     defaults: { _controller: CECSecteurSortiesBundle:SortiesProfesseur:voirAnciennes }

@@ -38,7 +38,7 @@ class ReglagesProfesseurController extends Controller
         if ($request->isMethod("POST"))
         {
             if ($request->request->has($nomInformationsGenerales)) {
-                $infomationsGenerales->bindRequest($request);
+                $infomationsGenerales->handleRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
                     // On met à jour les rôles
@@ -46,13 +46,13 @@ class ReglagesProfesseurController extends Controller
                     $membre->updateRoles();
                     $this->getDoctrine()->getEntityManager()->flush();
 
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées. Une déconnexion peut être nécessaire pour prendre en compte votre nouveau rôle.');
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées. Une déconnexion peut être nécessaire pour prendre en compte votre nouveau rôle.');
                     return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }
             }
             
             if ($request->request->has($nomMotDePasse)) {
-                $motDePasse->bindRequest($request);
+                $motDePasse->handleRequest($request);
                 if ($motDePasse->isValid()) {
 					$data = $motDePasse->getData(); 
 					$factory = $this->get('security.encoder_factory');
@@ -64,9 +64,9 @@ class ReglagesProfesseurController extends Controller
 						$membre->setMotDePasse($password);
 						
 						$this->getDoctrine()->getEntityManager()->flush();
-						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+						$this->get('session')->getFlashBag()->add('success', 'Le mot de passe a bien été modifié.');
 					} else {
-						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+						$this->get('session')->getFlashBag()->add('danger', 'Mauvais mot de passe'); 
 					}
 					return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }

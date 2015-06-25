@@ -11,7 +11,7 @@
                     <h3>{{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}</h3>
                 </th>
             </tr>
-            <tr><th colspan="2" class="image">
+            <tr><th colspan="2" class="image text-center">
                 {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
                     <img src="{{ asset_url }}" alt="Image du lycée"/>
                 {% endimage %}
@@ -24,7 +24,7 @@
             </tr>
             <tr>
                 <td>Email</td>
-                <td><a href="mailto:{{ membre.email }}">{{ membre.email }}</a></td>
+                <td><a href="mailto:{{ membre.mail }}">{{ membre.mail }}</a></td>
             </tr>
             <tr>
                 <td>Téléphone</td>
@@ -87,7 +87,7 @@
     </table>
 
     {% if app.user == membre %}
-        <a href="{{ path('reglages_infos') }}" class="btn btn-block">Modifier mon profil</a>
+        <a href="{{ path('reglages_infos') }}" class="btn btn-default btn-block">Modifier mon profil</a>
     {% endif %}
     
 {% endblock %}
@@ -101,48 +101,47 @@
     {% endif %}
     
     <table class="table table-bordered table-hover table-striped table-large">
-        {% if membre.groupe %}
-            <thead><tr><th><h4>Groupe de tutorat</h4></th></tr></thead>
+        {% if tutorat %}
+            <thead><tr><th><h4>Groupe de tutorat (par année scolaire)</h4></th></tr></thead>
             <tbody>
-                <tr>
-                    <td>
-                        <a href="{{ path('groupe', { 'groupe': membre.groupe.id }) }}">
-                            <strong>
-                                {% for lycee in membre.groupe.lycees %}
-                                    {{ lycee.nom }}
-                                    {% if not loop.last %}& {% endif %}
-                                {% endfor %}
-                                ({{ membre.groupe.niveau|lower }})
-                            </strong>
-                            <span class="muted">- {{ membre.groupe.typeDeTutorat }}</span><br />
-                            Tous les {{ cycle(jours, membre.groupe.debut|date('N'))|lower }}s à {{ membre.groupe.debut|date('G\\hi') }}, {{ membre.groupe.lieu|lower }}.
-                        </a>
-                    </td>
-                </tr>
+                {% for groupe in tutorat %}
+                    <tr>
+                        <td><strong> {{groupe.anneeScolaire}} </strong> -
+                            <a href="{{ path('groupe', { 'groupe': groupe.groupe.id }) }}">
+                                <strong>
+                                    {{groupe.groupe.description}}
+                                </strong>
+                                <span class="muted">- {{ groupe.groupe.typeDeTutorat }}</span><br />
+                                Tous les {{ cycle(jours, groupe.groupe.debut|date('N'))|lower }}s à {{ groupe.groupe.debut|date('G\\hi') }}, {{ groupe.groupe.lieu|lower }}.
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         {% else %}
             <thead><tr><th class="muted"><h4>Aucune activité de tutorat</h4></th></tr></thead>
         {% endif %}
-    </table>
+    </table>  
     
     <table class="table table-bordered table-hover table-striped table-large">
         {% if membre.secteurs|length or is_granted('ROLE_BURO') %}
             <thead><tr><th><h4>Secteurs</h4></th></tr></thead>
             <tbody>
-                {% for secteur in membre.secteurs %}
-                <tr>
-                    <td>
-                        <a href="#">{{ secteur.nom }}</a>
-                    </td>
-                </tr>
-                {% endfor %}
                 {% if is_granted('ROLE_BURO') %}
                     <tr>
                         <td>
-                            Membre du bureau de l'association
+                            <strong>Membre du bureau de l'association</strong>
                         </td>
                     </tr>
                 {% endif %}
+                {% for secteur in membre.secteurs %}
+                <tr>
+                    <td>
+                        {{ secteur.nom }}
+                    </td>
+                </tr>
+                {% endfor %}
+                
             </tbody>
         {% else %}
             <thead><tr><th class="muted"><h4>Aucune activité dans un secteur</h4></th></tr></thead>

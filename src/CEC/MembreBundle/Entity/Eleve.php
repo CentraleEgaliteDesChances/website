@@ -33,9 +33,9 @@ class Eleve implements UserInterface, \Serializable
      *
      * @ORM\Column(name="prenom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le prénom ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le prénom ne peut excéder 100 caractères."
      * )
      */
     private $prenom;
@@ -45,9 +45,9 @@ class Eleve implements UserInterface, \Serializable
      *
      * @ORM\Column(name="nom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom de famille ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom de famille ne peut excéder 100 caractères."
      * )
      */
     private $nom;
@@ -61,9 +61,9 @@ class Eleve implements UserInterface, \Serializable
      *     checkHost = true
      * )
      * @Assert\NotBlank(message = "L'adresse email ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "L'adresse email ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
     private $mail;
@@ -80,9 +80,9 @@ class Eleve implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephone;
@@ -134,9 +134,9 @@ class Eleve implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephoneParent;
@@ -215,7 +215,7 @@ class Eleve implements UserInterface, \Serializable
 	/**
 	* @var \Doctrine\Common\Collections\Collection
 	*
-	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", inversedBy="presents")
+	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", mappedBy="presents")
 	*/
 	private $reunions;
 
@@ -532,8 +532,10 @@ class Eleve implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!in_array($role, $this->getRoles()))
+        if(!in_array($role, $this->roles->toArray()))
             $this->roles[] = $role;
+
+        return $this;
     }
 
      /**
@@ -541,7 +543,7 @@ class Eleve implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->getRoles()))
+        if (in_array($role, $this->roles->toArray()))
         {
             for($i=0; $i<count($this->roles); $i++)
             {
@@ -564,19 +566,6 @@ class Eleve implements UserInterface, \Serializable
     }
 
     /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Eleve
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    
-        return $this;
-    }
-
-    /**
      * Get dateCreation
      *
      * @return \DateTime 
@@ -584,19 +573,6 @@ class Eleve implements UserInterface, \Serializable
     public function getDateCreation()
     {
         return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Eleve
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-    
-        return $this;
     }
 
     /**
@@ -625,23 +601,23 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get delegue
      *
-     * @return boolean 
+     * @return \CEC\TutoratBundle\Entity\Lycee 
      */
     public function getDelegue()
     {
         return $this->delegue;
     }
-	
-	 /**
+
+    /**
      * Set motDePasse
      *
      * @param string $motDePasse
-     * @return Eleve
+     * @return Membre
      */
     public function setMotDePasse($motDePasse)
     {
         $this->motDePasse = $motDePasse;
-    
+
         return $this;
     }
 
@@ -858,6 +834,8 @@ class Eleve implements UserInterface, \Serializable
     public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances->removeElement($seances);
+
+        return $this;
     }
 
     /**
@@ -983,6 +961,8 @@ class Eleve implements UserInterface, \Serializable
     public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
     {
         $this->groupeParAnnee->removeElement($groupeParAnnee);
+
+        return $this;
     }
 
     /**

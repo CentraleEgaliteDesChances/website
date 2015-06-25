@@ -1,18 +1,34 @@
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a href="{{ path('cec_externe_accueil') }}" class="brand">CEC</a>
-            <ul class="nav">
+<div class="navbar navbar-default navbar-fixed-top ">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{path('cec_externe_accueil')}}" style="padding-top:0; padding-bottom:0;">
+            <img alt"Logo CEC" src="{{asset('bundles/cecmain/images/logorond.png')}}" style="max-height:50px;"/>
+
+          </a>
+
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="navbar-nav nav">
                 <li><a href="{{ path('tableau_de_bord_tuteur') }}">Tableau de bord</a></li>
+                <li><a href="{{ path('toutes_seances') }}">Planning de l'association</a></li>
                 {% if membre.groupe %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a data-target="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Mon tutorat
                             {% if seance_a_venir and seance_a_venir.compteRendus is empty %}
-                                <span class="badge badge-warning" style="margin-left: 5px;">1</span>
+                                <span class="badge" style="margin-left: 5px;">1</span>
                             {% endif %}
-                            {% if cr_a_rediger is not empty %}
-                                <span class="badge badge-important"{{ not seance_a_venir or seance_a_venir.compteRendus is not empty ? ' style="margin-left: 5px;"' }}>{{ cr_a_rediger|length }}</span>
+                            {% if cr_a_rediger != 0 %}
+                                <span class="badge"{{ not seance_a_venir or seance_a_venir.compteRendus is not empty ? ' style="margin-left: 5px;"' }}>{{ cr_a_rediger }}</span>
                             {% endif %}
                             <b class="caret"></b>
                         </a>
@@ -41,11 +57,11 @@
                                     </a>
                                 </li>
                             {% endfor %}
-                            {% if membre.groupe and cr_a_rediger is not empty %}
+                            {% if membre.groupe and cr_a_rediger != 0 %}
                                 <li class="divider"></li>
                                 <li><a href="{{ path('groupe_compterendu_arediger', { 'groupe' : membre.groupe.id }) }}">
                                     Compte-rendus à rédiger
-                                    <span class="badge badge-important" style="margin-left: 10px;">{{ cr_a_rediger|length }}</span>
+                                    <span class="badge" style="margin-left: 10px;">{{ cr_a_rediger }}</span>
                                 </a></li>
                             {% endif %}
                         </ul>
@@ -53,13 +69,11 @@
                 {% endif %}
                 {% if membre.secteurs is not empty or is_granted('ROLE_BURO') %}
                     <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Mes secteurs
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="secteur"> Planning de l'association </li>
-                        <li><a href="{{ path('toutes_seances') }}">Planning</a></li>
                         <li class="secteur">Secteurs Activités</li>
                         <li><a href="{{ path('activites_rechercher') }}">Liste des activités</a></li>
                             {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_SCIENTIFIQUES')
@@ -89,13 +103,11 @@
                 </li>
                 {% endif %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Données
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('toutes_seances') }}">Planning de l'association</a></li>
-                        <li class="divider"></li>
                         <li><a href="{{ path('tous_lycees') }}">Liste des lycées</a></li>
                         <li><a href="{{ path('tous_eleves') }}">Liste des lycéens</a></li>
                         <li><a href="{{ path('voir_tous_membres') }}">Liste des membres</a></li>
@@ -113,7 +125,7 @@
                 </li>
                 {% if is_granted('ROLE_BURO') %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Administration
                         <b class="caret"></b>
                     </a>
@@ -127,19 +139,20 @@
                 </li>
                 {% endif %}
             </ul>
+
             <div class="btn-group pull-right">
-                <a class="btn btn-inverse" href="{{ path('voir_membre', { 'membre' : membre.id }) }}">
-                    {{ membre.username }}
+                <a class="btn btn-default navbar-btn" href="{{ path('voir_membre', { 'membre' : membre.id }) }}">
+                    {{ membre }}
                 </a>
-                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                <a class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('reglages_infos') }}">Modifier mon profil</a></li>
-                    <li><a href="{{ path('reglages_groupe') }}">Modifier mon groupe</a></li>
-                    <li><a href="{{ path('reglages_secteurs') }}">Modifier mes secteurs</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
-                </ul>
-            </div>
+                        <li><a href="{{ path('reglages_infos') }}">Modifier mon profil</a></li>
+                        <li><a href="{{ path('reglages_groupe') }}">Modifier mon groupe</a></li>
+                        <li><a href="{{ path('reglages_secteurs') }}">Modifier mes secteurs</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
+                    </ul>
+             </div>
         </div>
     </div>
 </div>

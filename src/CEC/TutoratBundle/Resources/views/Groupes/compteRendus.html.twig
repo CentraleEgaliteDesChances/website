@@ -7,15 +7,15 @@
 
 
 <table class="table table-bordered table-hover table-striped table-large">
+    <thead>
+        <tr>
+            <th>
+                <h4>
+                    Liste des séances aux compte-rendus incomplets
+            </th>
+        </tr>
+    </thead>
     {% if seances %}
-        <thead>
-            <tr>
-                <th>
-                    <h4>
-                        Liste des séances aux compte-rendus incomplets
-                </th>
-            </tr>
-        </thead>
         <tbody>
             {% for seance in seances %}
             <tr>
@@ -29,9 +29,33 @@
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucune CR de séance incomplet</h4></th></tr></thead>
+        <tbody><tr><th class="muted"><h4>Aucun CR de séance incomplet</h4></th></tr></tbody>
     {% endif %}
 </table>
+
+{% if seancesSansActi %}
+    <table class="table table-bordered table-hover table-striped table-large">
+        <thead>
+            <tr>
+                <th>
+                    <h4> Liste des séances pour lesquelles aucune activité n'a été choisie </h4>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for seance in seancesSansActi %}
+                <tr>
+                    <td>
+                        <a href="{{ path('seance', { 'seance': seance.id }) }}">
+                            <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }} à {{ (seance.debut ?: seance.groupe.debut)|date('G\\hi') }}</strong><br />
+                            Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu) }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous|trim('rendez-vous')) }})
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody> 
+    </table>
+{% endif %}               
 
 {% endblock %}
 

@@ -11,11 +11,12 @@
             <td id="{{sortie.id}}">
                 {% if is_granted('ROLE_SECTEUR_SORTIES') %}
                     <a class="btn btn-danger pull-right" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
-                    <a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'id':sortie.id, 'action':'editer'}) }}">Modifier</a>
+                    <a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'id':sortie.id, 'action':'editer'}) }}">Modifier</a>
                 {% endif %}
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
                 <p>Adresse : {{sortie.adresse}}</p>
                 <p style="text-align:justify;">{{sortie.description}}</p>
+                <br/>
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					<div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="headingOne">
@@ -26,7 +27,9 @@
 							</h4>
 						</div>
 						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-						{% render "CECSecteurSortiesBundle:Sorties:lyceens" with {'sortie' : sortie} %}
+                            <div class="panel-body">
+                                {% include "CECSecteurSortiesBundle:Sorties:lyceens.html.twig" with {'lyceensSortie' : sortie.lyceens, 'lycees' : lycees} %}
+                            </div>
 						</div>
 					</div>
 				</div>

@@ -13,24 +13,20 @@
 {% endif %}
 	
 {% if projet.nom == "Focus Europe" and is_granted('ROLE_SECTEUR_FOCUS_EUROPE')%}
-		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+		<a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
 {% elseif projet.nom == "Good Morning London" and is_granted('ROLE_SECTEUR_GML')%}
-		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+		<a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
 {% elseif projet.nom == "Stage Théâtre" and is_granted('ROLE_SECTEUR_THEATRE')%}
-		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+		<a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
 {% elseif projet.nom == "Centrale Prépa" and is_granted('ROLE_SECTEUR_PREPA')%}
-		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
+		<a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>
 {% elseif projet.nom == "(Art)cessible" and is_granted('ROLE_SECTEUR_ARTCESSIBLE')%}
-		<a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>	
+		<a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_projet', {'slug' : projet.slug}) }}">Modifier</a>	
 {% endif %}
 
-<h1>{{projet.nom}}</h1>
-
 {% set url = 'bundles/cecsecteurprojets/img/'~projet.slug~'.png'%}
-<p><img style="max-height:150px;" class="pull-right" src="{{asset(url)}}" alt="Logo {{projet.nom}}" /></p>
-		
-
-<br/>
+<p style="height:140px;"><img style="max-height:150px;"  class="pull-left" src="{{asset(url)}}" alt="Logo {{projet.nom}}" /> </p>
+<h2 class="text-center"> {{projet.nom}} </h2>
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-default">

@@ -4,17 +4,18 @@
 {{ parent() }}
 
     <div class="section">
-        <div class="section-title">Informations générales</div>
+        <div class="section-title text-center"><h2>Informations générales</h2></div>
         <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
             {{ form_widget(informations_generales) }}
             <div class="form-actions">
                 <input type="submit" value="Enregistrer" class="btn btn-primary" />
             </div>
         </form>
+        <br/>
     </div>
     
     <div class="section">
-        <div class="section-title">Changer de mot de passe</div>
+        <div class="section-title text-center"><h2>Changer de mot de passe</h2></div>
         <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
             {{ form_widget(mot_de_passe) }}
             <div class="form-actions">

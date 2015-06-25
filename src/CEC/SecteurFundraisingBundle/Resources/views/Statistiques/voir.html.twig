@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECSecteurFundraising:menu' with { 'request' : request } %}
+    {{ render(controller('CECSecteurFundraising:menu', { 'request' : request })) }}
 {% endblock %}
 
 
@@ -121,4 +121,4 @@
         </tbody>
     </table>
 
-{% endblock narrow_body %}
+{% endblock right %}

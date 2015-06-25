@@ -69,7 +69,7 @@
                     {{ form_rest(ajouter_tuteur_form) }}
                     <input type="submit" name="ajouter_tuteur" class="btn btn-primary" value="Ajouter" />
                     {% if is_granted('ROLE_BURO') %}
-                        <a href="{{ path('creer_membre') }}" class="btn pull-right">Nouveau tuteur</a>
+                        <a href="{{ path('creer_membre') }}" class="btn btn-default pull-right">Nouveau tuteur</a>
                     {% endif %}
                 </form>
             </td>

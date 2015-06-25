@@ -49,22 +49,25 @@ class LyceeType extends AbstractType
                 'label'       => 'VP Lycées',
                 'empty_value' => 'Aucun VP Lycée',
                 'empty_data' => null,
-            ))
-            ->add('referents','entity', array(
-                'label' => 'Référents',
-                'empty_value'=>'Aucun professeur référent',
-                'empty_data' => null,
-                'multiple' => true,
-                'required'=>false,
-                'class' => 'CECMembreBundle:Professeur',
-                'query_builder' => function (EntityRepository $entityRepository) use($lycee)
-                {
-                    return $entityRepository->createQueryBuilder('p')
-                                            ->where('p.lycee = :lycee')
-                                                ->setParameter('lycee', $lycee)
-                                            ->orderBy('p.nom', 'ASC');
-                },
             ));
+            if($lycee->getNom() != "")
+            {
+                $builder->add('referents','entity', array(
+                    'label' => 'Référents',
+                    'empty_value'=>'Aucun professeur référent',
+                    'empty_data' => null,
+                    'multiple' => true,
+                    'required'=>false,
+                    'class' => 'CECMembreBundle:Professeur',
+                    'query_builder' => function (EntityRepository $entityRepository) use($lycee)
+                    {
+                        return $entityRepository->createQueryBuilder('p')
+                                                ->where('p.lycee = :lycee')
+                                                    ->setParameter('lycee', $lycee)
+                                                ->orderBy('p.nom', 'ASC');
+                    },
+                ));
+            }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -43,7 +43,7 @@ class Album
 	/**
 	*@var \Doctrine\Common\Collections\Collection
 	*
-	*@ORM\OneToMany(targetEntity="CEC\SecteurProjetsBundle\Entity\Image", mappedBy="album", cascade={"persist", "remove"})
+	*@ORM\OneToMany(targetEntity="CEC\SecteurProjetsBundle\Entity\Image", mappedBy="album", cascade={"persist", "remove"}, orphanRemoval=true)
 	*/
 	private $images;
 	
@@ -111,6 +111,11 @@ class Album
      */
     public function setImages($images)
     {
+        foreach($images as $image)
+        {
+            $image->setAlbum($this);
+        }
+        
         $this->images = $images;
     
         return $this;

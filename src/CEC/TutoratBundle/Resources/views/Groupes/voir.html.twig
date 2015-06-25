@@ -13,16 +13,17 @@
 
     <ul class="nav nav-tabs" role="tablist">
         {% for anneeScolaire in anneesScolaires %}
-            <li role="presentation" {% if loop.first %}class="active"{% endif %}><a href="#{{anneeScolaire.afficherAnnees}}" aria-controls="{{anneeScolaire.afficherAnnees}}" role="tab" data-toggle="tab">{{anneeScolaire.AfficherAnnees}}</a></li>
+            <li role="presentation" {% if loop.first %}class="active"{% endif %}><a data-target="#{{anneeScolaire.afficherAnnees}}" aria-controls="{{anneeScolaire.afficherAnnees}}" role="tab" data-toggle="tab">{{anneeScolaire.AfficherAnnees}}</a></li>
         {% endfor %}
     </ul>
 
-    <div class="tab-content" style="border-left: 1px solid #DDD;border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;border-bottom-left-radius:5px;border-bottom-right-radius:5px;padding:10px;margin-top:-20px; margin-bottom:20px;">
+    <div class="tab-content" {#style="border-left: 1px solid #DDD;border-right: 1px solid #DDD;border-bottom: 1px solid #DDD;border-bottom-left-radius:5px;border-bottom-right-radius:5px;padding:10px;margin-top:-20px; margin-bottom:20px;"#}>
         {% for anneeScolaire in anneesScolaires %}
-            <div role="tabpanel" class="tab-pane {% if loop.first %}active{% endif %}" id="{{anneeScolaire.afficherAnnees}}">
+            <div role="tabpanel" class="tab-pane fade {% if loop.first %}in active{% endif %}" id="{{anneeScolaire.afficherAnnees}}">
                 <table class="table table-bordered table-hover table-striped table-large">
-                    {% if lyceens %}
-                        <thead><tr><th><h4>Lycéens <span class="count">{{ lyceens|length }}</span></h4></th></tr></thead>
+                    {% if groupe.lyceensParAnnee %}
+                        {% set lyceens = groupe.lyceensParAnnee %}
+                        <thead><tr><th><h4>Lycéens <span class="count">{{ groupe.lyceensAnnee(anneeScolaire)|length }}</span></h4></th></tr></thead>
                         <tbody>
                             {% for Groupelyceen in lyceens %}
                                 {% if Groupelyceen.anneeScolaire == anneeScolaire %}
@@ -42,8 +43,9 @@
                 </table>
 
                 <table class="table table-bordered table-hover table-condensed table-striped table-large">
-                    {% if tuteurs %}
-                        <thead><tr><th><h4>Tuteurs<span class="count">{{ tuteurs|length }}</span></h4></th></tr></thead>
+                    {% if groupe.tuteursParAnnee %}
+                        {% set tuteurs = groupe.tuteursParAnnee %}
+                        <thead><tr><th><h4>Tuteurs<span class="count">{{ groupe.tuteursAnnee(anneeScolaire)|length }}</span></h4></th></tr></thead>
                         <tbody>
                             {% for Groupetuteur in tuteurs %}
                                 {% if Groupetuteur.anneeScolaire == anneeScolaire %}
@@ -68,19 +70,19 @@
 
 
 <table class="table table-bordered table-hover table-striped table-large">
+    <thead>
+        <tr>
+            <th>
+                <h4>
+                    Prochaines séances de tutorat
+                    <a href="{{ path('toutes_seances', { 'groupe': groupe.id }) }}" class="btn btn-default btn-small pull-right">
+                        Planning des séances
+                    </a>
+                </h4>
+            </th>
+        </tr>
+    </thead>
     {% if seances %}
-        <thead>
-            <tr>
-                <th>
-                    <h4>
-                        Prochaines séances de tutorat
-                        <a href="{{ path('toutes_seances', { 'groupe': groupe.id }) }}" class="btn btn-small pull-right">
-                            Planning des séances
-                        </a>
-                    </h4>
-                </th>
-            </tr>
-        </thead>
         <tbody>
             {% for seance in seances %}
             <tr>
@@ -94,13 +96,13 @@
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce groupe de tutorat</h4></th></tr></thead>
+        <tbody><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce groupe de tutorat</h4></th></tr></tbody>
     {% endif %}
     {% if (is_granted('ROLE_VP_LYCEE') and groupe == app.user.groupe) or is_granted('ROLE_BURO') %}
     <tbody>
         <tr>
             <td class="ajout">
-                {{ modal.button('Créer une séance de tutorat', 'btn btn-block') }}
+                {{ modal.button('Créer une séance de tutorat', 'btn btn-default btn-block') }}
             </td>
         </tr>
     </tbody>

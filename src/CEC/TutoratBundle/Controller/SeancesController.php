@@ -69,8 +69,17 @@ class SeancesController extends Controller
         usort($tuteurs, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
         usort($lyceens, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
         
+        // On remplace les placeholders par défaut de SéanceType par les données du groupe
+        $options = array();
+        if($seance->getGroupe())
+        {
+            $options['lieu'] = $seance->getGroupe()->getLieu();
+            $options['rendezVous'] = $seance->getGroupe()->getRendezVous();
+            $options['debut'] = $seance->getGroupe()->getDebut()->format('H:i');
+            $options['fin'] = $seance->getGroupe()->getFin()->format('H:i');
+        }
         // On génère le formulaire d'édition de la séance
-        $form = $this->createForm(new SeanceType(), $seance);
+        $form = $this->createForm(new SeanceType(), $seance, $options);
         
         // Par défaut, on masque le modal
         $afficherModal = false;
@@ -78,11 +87,11 @@ class SeancesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' and $request->request->has('editer_seance'))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations de la séance ont bien été modifiées.');
+                $this->get('session')->getFlashBag()->add('success', 'Les informations de la séance ont bien été modifiées.');
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
                 $afficherModal = true;
@@ -98,25 +107,14 @@ class SeancesController extends Controller
             if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu a éditer !');
             
             $crForm = $crForms[$compteRenduId];
-            $crForm->bindRequest($request);
+            $crForm->handleRequest($request);
             if ($crForm->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
+                $this->get('session')->getFlashBag()->add('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
-                $this->get('session')->setFlash('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
+                $this->get('session')->getFlashBag()->add('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
             }
-        }
-        
-        // On change les placeholders pour correspondre aux infos du groupe de tutorat
-        $formView = $form->createView();
-        if ($seance->getGroupe())
-        {
-            $groupe = $seance->getGroupe();
-            $formView->getChild('lieu')->setAttribute('placeholder', $groupe->getLieu());
-            $formView->getChild('rendezVous')->setAttribute('placeholder', $groupe->getRendezVous());
-            $formView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
-            $formView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
         }
         
         // On génère les vues de formulaires pour les CR
@@ -130,7 +128,7 @@ class SeancesController extends Controller
             'seance'         => $seance,
             'lyceens'        => $lyceens,
             'tuteurs'        => $tuteurs,
-            'form'           => $formView,
+            'form'           => $form->createView(),
             'afficher_modal' => $afficherModal,
             'seance_a_venir' => $seanceAVenir,
             'cr_forms'       => $crFormViews,
@@ -161,7 +159,7 @@ class SeancesController extends Controller
         $entityManager->remove($seance);
         $entityManager->flush();
         
-        $this->get('session')->setFlash('success', 'La séance de tutorat a bien été supprimée.');
+        $this->get('session')->getFlashBag()->add('success', 'La séance de tutorat a bien été supprimée.');
         return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
     }
     

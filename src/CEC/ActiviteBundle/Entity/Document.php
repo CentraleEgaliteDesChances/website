@@ -78,9 +78,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name = "description", type = "string", length = 255, nullable = true)
-     * @Assert\MaxLength(
-     *     limit = 255,
-     *     message = "La description du document ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "La description du document ne peut excéder 255 caractères."
      * )
      */
     private $description;
@@ -135,9 +135,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name = "nomFichierOriginal", type = "string", length = 50)
-     * @Assert\MaxLength(
-     *     limit = 50,
-     *     message = "Le nom du fichier original ne peut excéder 50 caractères."
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom du fichier original ne peut excéder 50 caractères."
      * )
      */
     private $nomFichierOriginal;
@@ -150,9 +150,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name = "nomFichierPDF", type = "string", length = 50)
-     * @Assert\MaxLength(
-     *     limit = 50,
-     *     message = "Le nom du fichier PDF ne peut excéder 50 caractères."
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom du fichier PDF ne peut excéder 50 caractères."
      * )
      */
     private $nomFichierPDF;

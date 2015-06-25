@@ -36,7 +36,7 @@ class ReunionsController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
@@ -46,7 +46,7 @@ class ReunionsController extends Controller
                 // On envoie un mail à tous les élèves et profs pour les prévenir
                 $this->get('cec.mailer')->sendNouvelleReunion($reunion, $_SERVER['HTTP_HOST']);
 
-                $this->get('session')->setFlash('success', "La réunion a bien été ajoutée");
+                $this->get('session')->getFlashBag()->add('success', "La réunion a bien été ajoutée");
                 return $this->redirect($this->generateUrl('liste_reunions'));
             }
         }
@@ -70,13 +70,13 @@ class ReunionsController extends Controller
 		
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			if($form->isValid())
 			{
 				$em = $this->getDoctrine()->getEntityManager();
 				$em->flush();
 				
-				$this->get('session')->setFlash('success', "La réunion a bien été modifiée");
+				$this->get('session')->getFlashBag()->add('success', "La réunion a bien été modifiée");
 
 				// On envoie un mail aux tutorés inscrits à la réunion et à tous les professeurs pour les prévenir
 				$this->get('cec.mailer')->sendModifReunion($reunion, $_SERVER['HTTP_HOST']);
@@ -101,7 +101,7 @@ class ReunionsController extends Controller
 		$em->remove($reunion);
 		$em->flush();
 		
-		$this->get('session')->setFlash('success', "La réunion a bien été supprimée");
+		$this->get('session')->getFlashBag()->add('success', "La réunion a bien été supprimée");
         return $this->redirect($this->generateUrl('liste_reunions'));
 	}
 
@@ -120,7 +120,7 @@ class ReunionsController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		$em->flush();
 
-		$this->get('session')->setFlash('success', 'Ton inscription à la réunion a bien été prise en compte !');
+		$this->get('session')->getFlashBag()->add('success', 'Ton inscription à la réunion a bien été prise en compte !');
 		return $this->redirect($this->generateUrl('liste_reunions'));
 	}
 
@@ -139,7 +139,7 @@ class ReunionsController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		$em->flush();
 
-		$this->get('session')->setFlash('success', 'Ta désinscription à la réunion a bien été prise en compte !');
+		$this->get('session')->getFlashBag()->add('success', 'Ta désinscription à la réunion a bien été prise en compte !');
 		return $this->redirect($this->generateUrl('liste_reunions'));
 	}
 }
