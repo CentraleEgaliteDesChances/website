@@ -15,9 +15,9 @@
 
 {% block container %}
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-3 col-md-offset-3">
                 {{ session_flash() }}
-                <form method="post" action="{{ path('connexion_verifications') }}" class="form-connexion">
+                <form method="post" action="{{ path('connexion_verifications') }}" class="form-connexion" style="display:inline-block;">
                     <h2>Connexion</h2>
                     
                     {% if erreur %}
@@ -36,11 +36,17 @@
                         <button type="submit" class="btn btn-block btn-primary">Se connecter</button>
                         <a href="{{ path('securite_oubli') }}" class="btn btn-default btn-block btn-link btn-sm text-center">Mot de passe oublié ?</a>
                     </div>
-                    <br/>
-                    <h2> Inscription</h2>
-                    <a href="{{path('inscriptionProfesseur')}}"><button class="btn btn-primary btn-block" >S'inscrire en tant que professeur</button></a>
-                    <a href="{{path('inscriptionEleve')}}"><button class="btn btn-primary btn-block" >S'inscrire en tant que lycéen</button></a>
         		</form>
+            </div>
+            <div class="col-md-3">
+                <form class="form-connexion">
+                    <h2> Inscription</h2>
+
+                    <div class="footer-controls">
+                        <a href="{{path('inscriptionProfesseur')}}" class="btn btn-primary btn-block" >S'inscrire en tant que professeur</a>
+                        <a href="{{path('inscriptionEleve')}}" class="btn btn-primary btn-block" >S'inscrire en tant que lycéen</a>
+                    </div>
+                </form>
             </div>
         </div>
 

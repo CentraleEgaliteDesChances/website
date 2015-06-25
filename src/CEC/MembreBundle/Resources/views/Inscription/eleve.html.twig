@@ -1,4 +1,4 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECMainBundle::base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
     
@@ -10,19 +10,23 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block narrow_title %}Nouveau Lycéen{% endblock %}
+{% block container %}
 
-{% block narrow_body %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 well">
+        {{ parent() }}
 
-{{ parent() }}
+        <h2> Inscription d'un nouveau lycéen </h2>
 
-<form class="form" method="post" action="{{ path('inscriptionEleve') }}">
-    {{ form_widget(form) }}
-    <div class="footer-controls">
-        <input type="submit" value="S'inscrire" class="btn btn-primary pull-right" />
-        <a href="{{ path('connexion') }}" class="btn btn-default pull-right">Annuler</a>
+        <form class="form-connexion" method="post" action="{{ path('inscriptionEleve') }}">
+            {{ form_widget(form) }}
+            <div class="footer-controls">
+                <input type="submit" value="S'inscrire" class="btn btn-primary pull-right" />
+                <a href="{{ path('connexion') }}" class="btn btn-default pull-right">Annuler</a>
+            </div>
+            <br/><br/>
+        </form>
     </div>
-    <br/><br/>
-</form>
+</div>
 
 {% endblock %}
