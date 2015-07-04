@@ -552,7 +552,7 @@ class Projet
      */
     public function addInscritsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $inscritsParAnnee)
     {
-        $this->inscritsParAnnee->add($inscritsParAnnee)
+        $this->inscritsParAnnee->add($inscritsParAnnee);
     
         return $this;
     }
