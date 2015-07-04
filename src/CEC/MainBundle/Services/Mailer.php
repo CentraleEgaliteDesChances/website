@@ -353,7 +353,6 @@ class Mailer
 	{
 		$subject = "Une sortie CEC a été supprimée !";
 		$to = array();
-		$nom = $sortie->getNom();
 		$lyceens = $sortie->getLyceens();
 
 		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);

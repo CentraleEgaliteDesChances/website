@@ -77,11 +77,6 @@ class Groupe
     private $lycees;
 
     /**
-    *
-    */
-    private $anneeScolaire = 2000;
-
-    /**
      * Constructor
      */
     public function __construct()

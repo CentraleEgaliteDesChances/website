@@ -47,8 +47,6 @@ class DocumentsController extends Controller
         $this->get('session')->getFlashBag()
             ->add('success', 'La version ainsi que les fichiers associés ont bien été supprimés.');
         return $this->redirect($this->generateUrl('cec_activite_activites_editer', array('activite' => $activite->getId())));
-        
-        return array();
     }
     
     /**

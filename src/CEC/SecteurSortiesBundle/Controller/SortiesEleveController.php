@@ -36,7 +36,6 @@ class SortiesEleveController extends Controller
             $em = $this->getDoctrine()->getEntityManager();  
 					
 			$eleve = $this->getUser();
-			$mail = $eleve->getMail();
 			$id = $request->get('id');
 			$sortie = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->find($id);
 			if (!$sortie) throw $this->createNotFoundException('Impossible de trouver la sortie !');

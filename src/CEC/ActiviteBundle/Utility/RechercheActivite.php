@@ -109,8 +109,8 @@ class RechercheActivite
      * Le groupe doit être non nul dès que l'option $filtrerActivitesRealisees est choisie.
      */
     public function isGroupeValid(ExecutionContext $context) {
-        if ($this->getFiltrerActivitesRealisees() and 
-                ( $this->getGroupe() == NULL or $this->getGroupe() == '' or is_null($this->getGroupe()) )
+        if ($this->getFiltrerActivitesRealisees() &&
+                ( $this->getGroupe() == NULL || $this->getGroupe() == '' || is_null($this->getGroupe()) )
             ) {
             // On ajout une violation de contrainte
             $context->addViolation('Vous devez appartenir à un groupe pour filtrer les activités déjà réalisées dans votre groupe !');

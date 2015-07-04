@@ -35,21 +35,21 @@ class CompteRendu
      * La durée estimée est sous-estimée.
      * @var integer
      */
-    const CompteRenduDureeAnnonceeTropCourte = -1;
+    const COMPTE_RENDU_DUREE_ANNONCEE_TROP_COURTE = -1;
     
     /**
      * Durée annoncée adaptée.
      * La durée estimée est proche de la réalité
      * @var integer
      */
-    const CompteRenduDureeAdaptee = 0;
+    const COMPTE_RENDU_DUREE_ADAPTEE = 0;
     
     /**
      * Durée annoncée trop longue.
      * La durée estimée est sur-estimée.
      * @var integer
      */
-    const CompteRenduDureeAnnonceeTropLongue = 1;
+    const COMPTE_RENDU_DUREE_ANNONCEE_TROP_LONGUE = 1;
 
     /**
      * @var integer
@@ -245,8 +245,8 @@ class CompteRendu
      */
     public function getNoteGlobale()
     {
-        if ($this->getNoteContenu() and 
-            $this->getNoteInteractivite() and 
+        if ($this->getNoteContenu() && 
+            $this->getNoteInteractivite() && 
             $this->getNoteAtteinteObjectifs())
         {
             return ($this->getNoteContenu() + $this->getNoteInteractivite() + $this->getNoteAtteinteObjectifs()) / 3;
@@ -265,7 +265,7 @@ class CompteRendu
      */
     public function isRedige()
     {
-        return (((bool) $this->getNoteGlobale()) and (count($this->seance->getLyceens()) !=0));
+        return (((bool) $this->getNoteGlobale()) && (count($this->seance->getLyceens()) !=0));
     }
     
     /**

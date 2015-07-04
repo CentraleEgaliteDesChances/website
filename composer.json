@@ -1,6 +1,6 @@
 {
-    "name": "Tristan/project",
-    "license": "proprietary",
+    "name": "Site internet de Centrale Egalité des Chances",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {

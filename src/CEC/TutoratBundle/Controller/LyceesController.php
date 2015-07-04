@@ -5,6 +5,7 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Form\Type\LyceeType;
 use CEC\TutoratBundle\Form\Type\AjouterEnseignantType;
 use CEC\TutoratBundle\Form\Type\AjouterDelegueType;
@@ -12,6 +13,9 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
+
+use CEC\MembreBundle\Entity\Eleve;
+use CEC\MembreBundle\Entity\Membre;
 
 class LyceesController extends Controller
 {
@@ -49,13 +53,13 @@ class LyceesController extends Controller
         
         
         // On trie les tuteurs, les lycéens et les séances par ordre alphabétique et chronologique
-        usort($tuteurs, function($a, $b) {
+        usort($tuteurs, function(Membre $a, Membre $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
-        usort($lyceens, function($a, $b) {
+        usort($lyceens, function(Eleve $a, Eleve $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
-        usort($seances, function($a, $b) {
+        usort($seances, function(Seance $a, Seance $b) {
             return $a->getDate() > $b->getDate();
         });
         
@@ -84,7 +88,6 @@ class LyceesController extends Controller
         $lyceens = array();
         $types = array();
         $niveaux = array();
-        $seances = array();
         foreach ($lycee->getGroupes() as $groupe)
         {
             // Si le groupe a une activité de tutorat cette année
@@ -172,7 +175,7 @@ class LyceesController extends Controller
         $lycee = new Lycee();
         
         // Sélectionne le lycée associé s'il est spécifié
-        if ($cordee != null)
+        if ($cordee !== null)
         {
             $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->find($cordee);
             if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la Cordée de la Réussite !');

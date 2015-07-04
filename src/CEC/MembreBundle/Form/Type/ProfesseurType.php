@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\MembreBundle\Form;
+namespace CEC\MembreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
