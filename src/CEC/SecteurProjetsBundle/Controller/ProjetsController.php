@@ -12,9 +12,9 @@ use CEC\MembreBundle\Entity\Professeur;
 use CEC\MembreBundle\Entity\Eleve;
 use CEC\MembreBundle\Entity\Secteur;
 
-use CEC\SecteurProjetsBundle\Form\ProjetType;
-use CEC\SecteurProjetsBundle\Form\DossierType;
-use CEC\SecteurProjetsBundle\Form\AjouterLyceenType;
+use CEC\SecteurProjetsBundle\Form\Type\ProjetType;
+use CEC\SecteurProjetsBundle\Form\Type\DossierType;
+use CEC\SecteurProjetsBundle\Form\Type\AjouterLyceenType;
 
 use CEC\TutoratBundle\Entity\GroupeEleves;
 
@@ -236,7 +236,6 @@ class ProjetsController extends Controller
 		$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
 		$request = $this->getRequest();
 		$data = array();
-		$message ='';
 		
 		
 		if($request->isMethod('POST'))
@@ -254,9 +253,10 @@ class ProjetsController extends Controller
 					$this->get('cec.mailer')->sendInscriptionsOuvertes($projet, $_SERVER['HTTP_HOST']);
 				
 				$em->persist($projet);
-				$em->flush();
 				
 			}
+
+			$em->flush();
 			
 			$this->get('session')->getFlashBag()->add('success', 'L\'ouverture des inscriptions a bien été mise à jour. ');
 			return $this->redirect($this->generateUrl('description_projets'));

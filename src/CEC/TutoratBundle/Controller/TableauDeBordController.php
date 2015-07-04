@@ -4,6 +4,8 @@ namespace CEC\TutoratBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use CEC\TutoratBundle\Entity\Seance;
+
 
 class TableauDeBordController extends Controller
 {
@@ -27,7 +29,7 @@ class TableauDeBordController extends Controller
         if ($seances)
         {
             // On redirige vers la page de la prochaine séance
-            usort($seances, function($a, $b) {
+            usort($seances, function(Seance $a, Seance $b) {
                 return $a->getDate() > $b->getDate();
             });
             $seance = $seances[0];

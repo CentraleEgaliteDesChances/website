@@ -164,10 +164,10 @@ class GroupesController extends Controller
         $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
 
         // On trie les tuteurs et les lycéens par ordre alphabétique
-        usort($tuteurs, function($a, $b) {
+        usort($tuteurs, function(Membre $a, Membre $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
-        usort($lyceens, function($a, $b) {
+        usort($lyceens, function(Eleve $a, Eleve $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
         
@@ -210,7 +210,7 @@ class GroupesController extends Controller
         $groupe = new Groupe();
         
         // Sélectionne le lycée associé s'il est spécifié
-        if ($lycee != null)
+        if ($lycee !== null)
         {
             $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
             if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');

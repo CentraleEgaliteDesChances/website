@@ -4,10 +4,10 @@ namespace CEC\SecteurProjetsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use CEC\SecteurProjetsBundle\Form\ProjetType;
-use CEC\SecteurProjetsBundle\Form\ReunionType;
-use CEC\SecteurProjetsBundle\Form\DossierType;
-use CEC\SecteurProjetsBundle\Form\AlbumType;
+use CEC\SecteurProjetsBundle\Form\Type\ProjetType;
+use CEC\SecteurProjetsBundle\Form\Type\ReunionType;
+use CEC\SecteurProjetsBundle\Form\Type\DossierType;
+use CEC\SecteurProjetsBundle\Form\Type\AlbumType;
 use CEC\SecteurProjetsBundle\Entity\Reunion;
 use CEC\SecteurProjetsBundle\Entity\Dossier;
 use CEC\SecteurProjetsBundle\Entity\Album;

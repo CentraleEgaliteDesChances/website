@@ -57,7 +57,7 @@ class Document
      * Description pour la première version d'une activité.
      * @var string
      */
-    const DocumentDescriptionPremiereVersion = "Première version de l'activité";
+    const DOCUMENT_DESCRIPTION_PREMIERE_VERSION = "Première version de l'activité";
 
     /**
      * @var integer
@@ -340,7 +340,7 @@ class Document
      */
     public function getDisponible()
     {
-        return is_file($this->getCheminAbsoluPDF()) and is_file($this->getCheminAbsoluOriginal());
+        return is_file($this->getCheminAbsoluPDF()) && is_file($this->getCheminAbsoluOriginal());
     }
 
     /**

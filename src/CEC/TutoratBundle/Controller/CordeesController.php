@@ -120,7 +120,7 @@ class CordeesController extends Controller
         
         // On trie les lycées à afficher par ordre alphabétique
         $lycees = array_merge($lyceesCordee->toArray(), $lyceesInactifs);
-        usort($lycees, function($a, $b) {
+        usort($lycees, function(Lycee $a, Lycee $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
     

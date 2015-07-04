@@ -13,6 +13,9 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
 
+use CEC\MembreBundle\Entity\Membre;
+use CEC\MembreBundle\Entity\Eleve;
+
 use \DateTime;
 
 class SeancesController extends Controller
@@ -39,7 +42,7 @@ class SeancesController extends Controller
         
         // On détermine si la séance est à venir ou non
         $seanceAVenir = $seance->getGroupe()
-            and $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($seance->getGroupe()) == $seance;
+            && $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($seance->getGroupe()) == $seance;
 
         $anneeScolaire = AnneeScolaire::withDate($seance->getDate());
         
@@ -66,8 +69,8 @@ class SeancesController extends Controller
         }
                 
         // On trie les tuteurs et les lycéens par ordre alphabétique
-        usort($tuteurs, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
-        usort($lyceens, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
+        usort($tuteurs, function(Membre $a, Membre $b) { return strcmp($a->getNom(), $b->getNom()); });
+        usort($lyceens, function(Eleve $a, Eleve $b) { return strcmp($a->getNom(), $b->getNom()); });
         
         // On remplace les placeholders par défaut de SéanceType par les données du groupe
         $options = array();
@@ -85,7 +88,7 @@ class SeancesController extends Controller
         $afficherModal = false;
         
         $request = $this->getRequest();
-        if ($request->getMethod() == 'POST' and $request->request->has('editer_seance'))
+        if ($request->getMethod() == 'POST' && $request->request->has('editer_seance'))
         {
             $form->handleRequest($request);
             if ($form->isValid())
@@ -97,7 +100,7 @@ class SeancesController extends Controller
                 $afficherModal = true;
             }
         }
-        if ($request->getMethod() == 'POST' and $request->request->has('editer_cr'))
+        if ($request->getMethod() == 'POST' && $request->request->has('editer_cr'))
         {
             $compteRenduId = $request->request->get('cr_id');
             $compteRendu = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findOneBy(array(
