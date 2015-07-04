@@ -334,12 +334,7 @@ class StatistiquesController extends Controller
         foreach($lyceensPremieres as $l)
         {
             $sorties = $l->getSorties();
-<<<<<<< HEAD
-            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
-            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
-            $nbSorties = count($sorties);
 
-=======
             $nbSorties = 0;
             foreach($sorties as $s)
             {
@@ -347,7 +342,7 @@ class StatistiquesController extends Controller
                 if($anneeScolaire->contientDate($sortie->getDateSortie()))
                     $nbSorties++;
             }
->>>>>>> Extern-site
+
             // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
             // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
             // pas toujours effectuer le default.
@@ -392,11 +387,7 @@ class StatistiquesController extends Controller
         foreach($lyceensTerminales as $l)
         {
             $sorties = $l->getSorties();
-<<<<<<< HEAD
-            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
-            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
-            $nbSorties = count($sorties);
-=======
+
             $nbSorties = 0;
             foreach($sorties as $s)
             {
@@ -404,7 +395,7 @@ class StatistiquesController extends Controller
                 if($anneeScolaire->contientDate($sortie->getDateSortie()))
                     $nbSorties++;
             }
->>>>>>> Extern-site
+
 
             // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
             // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour

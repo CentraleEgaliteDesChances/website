@@ -484,13 +484,8 @@ class Lycee
      */
     public function addDelegue(\CEC\MembreBundle\Entity\Eleve $delegue)
     {
-<<<<<<< HEAD
         $this->delegues->add($delegue);
 
-=======
-        $this->delegues[] = $delegue;
-    
->>>>>>> Extern-site
         return $this;
     }
 
