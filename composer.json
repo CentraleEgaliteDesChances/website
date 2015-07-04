@@ -27,15 +27,15 @@
         "jms/security-extra-bundle": "^1.5",
         "jms/di-extra-bundle": "^1.5",
         "kriswallsmith/assetic": "^1.2",
-        "mopa/bootstrap-bundle": "^2.3",
-        "twbs/bootstrap": "^3.3",
         "leafo/lessphp": "^0.5.0",
         "heartsentwined/yuicompressor": "^2.4",
         "stof/doctrine-extensions-bundle": "^1.1",
         "friendsofsymfony/jsrouting-bundle": "^1.5",
         "adesigns/calendar-bundle": "^1.1",
         "sami/sami": "^3.0",
-        "oyejorge/less.php": "v1.7.0.4"
+        "oyejorge/less.php": "v1.7.0.4",
+        "mopa/bootstrap-bundle": "^2.3",
+        "twbs/bootstrap": "^3.3"
     },
     "require-dev": {
     },
