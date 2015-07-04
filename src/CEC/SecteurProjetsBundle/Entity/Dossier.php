@@ -37,13 +37,6 @@ class Dossier
      */
     private $path;
 	
-	/**
-	* @var \CEC\SecteurProjetsBundle\Entity\Projet
-	*
-	* @ORM\OneToOne(targetEntity="\CEC\SecteurProjetsBundle\Entity\Projet", mappedBy="dossier")
-	* @ORM\JoinColumn(name="projet_id", referencedColumnName="id")
-	*/
-	private $projet;
 	
 	/**
      * @Assert\File(maxSize="10000000")
@@ -70,7 +63,7 @@ class Dossier
     {
         // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
         // le document/image dans la vue.
-        return 'uploads/documents';
+        return 'uploads/dossiers';
     }
 	
 	/**

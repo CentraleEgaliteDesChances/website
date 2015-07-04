@@ -41,5 +41,5 @@
 </div>
 
 {% if request.attributes.get('_route') == 'cordee'  and is_granted('ROLE_BURO') %}
-    <a href="{{ path('editer_cordee', { 'cordee': request.attributes.get('cordee') }) }}" class="btn btn-block">Éditer la cordée</a>
+    <a href="{{ path('editer_cordee', { 'cordee': request.attributes.get('cordee') }) }}" class="btn btn-default btn-block">Éditer la cordée</a>
 {% endif %}

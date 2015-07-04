@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\SecteurProjetsBundle\Form;
+namespace CEC\SecteurProjetsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -48,5 +48,3 @@ class AjouterLyceenType extends AbstractType
 
 
 }
-
-

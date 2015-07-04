@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\SecteurProjetsBundle\Form;
+namespace CEC\SecteurProjetsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,12 +14,14 @@ class AlbumType extends AbstractType
         $builder
 			->add('projet', null, array(
 			'label' => 'Projet concerné',
+            'label_attr' =>array('class' => 'col-md-3 control-label'),
 			'property' => 'nom',
-            'disabled' => $options['disabled'],
+            'read_only' => $options['read_only'],
 			))
 			->add('annee', 'integer' , array(
 			'label' => 'Année de l\'édition du projet',
-            'disabled' => $options['disabled'],
+            'label_attr' =>array('class' => 'col-md-3 control-label'),
+            'read_only' => $options['read_only'],
 			))
 			->add('images', 'collection', array(
 			'type' => new ImageType(),
@@ -32,7 +34,7 @@ class AlbumType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'CEC\SecteurProjetsBundle\Entity\Album',
-            'disabled' => false
+            'read_only' => false
         ));
     }
 

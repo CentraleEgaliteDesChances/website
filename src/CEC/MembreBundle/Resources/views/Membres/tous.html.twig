@@ -11,7 +11,9 @@
 
 
 {% if is_granted('ROLE_BURO') %}
-{{ flash('alert', 'Attention ! La suppression d\'un membre est définitive et entraîne aussi la suppression de toutes les activités dont il est l\'auteur.') }}
+<div class="alert alert-warning">
+    {{ flash('alert', 'Attention ! La suppression d\'un membre est définitive et entraîne aussi la suppression de toutes les activités dont il est l\'auteur.') }}
+</div>
 {% endif %}
 
 <table class="table table-bordered table-hover table-striped">
@@ -21,7 +23,7 @@
             <tr>
                 <td>
                     {% if is_granted('ROLE_BURO') and membre != app.user %}
-                        <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" class="btn btn-mini btn-danger pull-right">Supprimer définitivement</a>
+                        <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" class="btn btn-xs btn-danger pull-right" ole="button">Supprimer définitivement</a>
                     {% endif %}
                     <a href="{{ path('voir_membre', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
                         {{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}
@@ -36,12 +38,14 @@
 </table>
 
 {% if is_granted('ROLE_BURO') %}
-<a href="{{ path('creer_membre') }}" class="btn pull-right">Ajouter un membre</a>
+<a href="{{ path('creer_membre') }}" class="btn btn-default pull-right" role="button">Ajouter un membre</a>
 {% endif %}
+
+<br/>
 
 {% endblock %}
 
 {% block left %}
     {{parent()}}
-    {% render 'CECMembreBundle:Membres:menu' with { 'request': app.request } %}
+    {{ render(controller('CECMembreBundle:Membres:menu', { 'request': app.request })) }}
 {% endblock %}

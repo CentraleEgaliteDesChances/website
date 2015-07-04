@@ -1,31 +1,31 @@
 
 # Routes d'affichage des projets
 description_projets:
-    pattern: /
+    path: /
     defaults: { _controller: CECSecteurProjetsBundle:Projets:voir}
 
 description_projet:
-    pattern: /{slug}
+    path: /{slug}
     defaults: { _controller: CECSecteurProjetsBundle:Projets:voirProjet}
     requirements:
         slug: focus-europe|good-morning-london|centrale-prepa|stage-theatre|artcessible
 
 suivi_inscriptions:
-    pattern: /suivi-inscriptions/{lyceen}
+    path: /suivi-inscriptions/{lyceen}
     defaults: {_controller: CECSecteurProjetsBundle:Projets:participationProjets}
 
 # Routes d'affichage des réunions
 liste_reunions:
-    pattern: /reunions
+    path: /reunions
     defaults: {_controller: CECSecteurProjetsBundle:Reunions:voirReunion}
 
 # Routes d'affichage des albums photos
 voir_albums:
-    pattern: /albums
+    path: /albums
     defaults: { _controller: CECSecteurProjetsBundle:Albums:voirAlbums}
 
 voir_photos:
-    pattern: /albums/{id}
+    path: /albums/{id}
     defaults: {_controller: CECSecteurProjetsBundle:Albums:voirPhotos}
     requirements:
         id: \d+

@@ -4,8 +4,7 @@
 {% block right %}
 
 {{parent()}}
-<div class="well" style = "padding-left:20px;padding-right:15px;">
-	<h1>{{album.projet.nom}} - Edition {{album.annee}}</h1>
+	<h2>{{album.projet.nom}} - Edition {{album.annee}}</h2>
 
 	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 	  <!-- Indicators -->
@@ -38,7 +37,6 @@
 		<span class="sr-only">Next</span>
 	  </a>
 	</div>
-	
+	<br/>
 	<a href="{{path('voir_albums')}}" class="btn btn-default">Retourner à la liste des albums</a>
-</div>
 {% endblock %}

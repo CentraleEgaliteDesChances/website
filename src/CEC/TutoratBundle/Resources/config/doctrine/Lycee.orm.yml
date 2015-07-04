@@ -54,7 +54,7 @@ CEC\TutoratBundle\Entity\Lycee:
             nullable: true
         referents:
             targetEntity: CEC\MembreBundle\Entity\Professeur
-            mappedBy: lycee
+            mappedBy: referent
             cascade: ["remove"]
             nullable: true
         delegues:

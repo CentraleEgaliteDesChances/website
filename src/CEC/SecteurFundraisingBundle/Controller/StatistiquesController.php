@@ -153,7 +153,7 @@ class StatistiquesController extends Controller
             $seances = $g->getSeances();
             foreach ($seances as $seance)
             {
-                if($anneeScolaire->contientDate($seance->getDate()))
+                if($anneeScolaire->contientDate($seance->getDate()) and $seance->getDate()<(new \DateTime()))
                 {
                     $duree = $seance->retreiveFin()->diff($seance->retreiveDebut());
                     $minutesTutorat += $duree->h * 60 + $duree->i;
@@ -243,7 +243,7 @@ class StatistiquesController extends Controller
         {
             $lyceens = $g->getLyceensParAnnee();
             $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
-            $lyceensSecondes = array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens);
+            $lyceensSecondes = array_merge($lyceensSecondes, array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens));
         }
 
         $groupesPremieres = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Premières');
@@ -254,7 +254,7 @@ class StatistiquesController extends Controller
         {
             $lyceens = $g->getLyceensParAnnee();
             $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
-            $lyceensPremieres = array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens);
+            $lyceensPremieres = array_merge($lyceensPremieres, array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens));
         }
 
         $groupesTerminales = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Terminales');
@@ -265,7 +265,7 @@ class StatistiquesController extends Controller
         {
             $lyceens = $g->getLyceensParAnnee();
             $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
-            $lyceensTerminales = array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens);
+            $lyceensTerminales = array_merge($lyceensTerminales, array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens));
         }
 
         // Traitement données des lycéens de Seconde
@@ -281,9 +281,14 @@ class StatistiquesController extends Controller
         foreach($lyceensSecondes as $l)
         {
             $sorties = $l->getSorties();
-            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
-            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
-            $nbSorties = count($sorties);
+
+            $nbSorties = 0;
+            foreach($sorties as $s)
+            {
+                $sortie = $s->getSortie();
+                if($anneeScolaire->contientDate($sortie->getDateSortie()))
+                    $nbSorties++;
+            }
 
             // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
             // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
@@ -329,10 +334,20 @@ class StatistiquesController extends Controller
         foreach($lyceensPremieres as $l)
         {
             $sorties = $l->getSorties();
+<<<<<<< HEAD
             $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
             $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
             $nbSorties = count($sorties);
 
+=======
+            $nbSorties = 0;
+            foreach($sorties as $s)
+            {
+                $sortie = $s->getSortie();
+                if($anneeScolaire->contientDate($sortie->getDateSortie()))
+                    $nbSorties++;
+            }
+>>>>>>> Extern-site
             // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
             // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
             // pas toujours effectuer le default.
@@ -377,9 +392,19 @@ class StatistiquesController extends Controller
         foreach($lyceensTerminales as $l)
         {
             $sorties = $l->getSorties();
+<<<<<<< HEAD
             $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
             $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
             $nbSorties = count($sorties);
+=======
+            $nbSorties = 0;
+            foreach($sorties as $s)
+            {
+                $sortie = $s->getSortie();
+                if($anneeScolaire->contientDate($sortie->getDateSortie()))
+                    $nbSorties++;
+            }
+>>>>>>> Extern-site
 
             // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
             // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
@@ -778,28 +803,44 @@ class StatistiquesController extends Controller
                 // Il faut faire le tri pour différencier les nouveaux premières & terminales de lycées sans groupe de secondes de ceux qui auraient
                 // effectivement pu etre à CEC l'année dernière
                 $groupes = $doctrine->getRepository('CECTutoratBundle:Groupe')->findAll();
-                $groupesInteressants = array_filter($groupes, function(Groupe $g){ return !($g->getNiveau() == "Secondes");});
-                for($i = 0; $i<count($groupesInteressants); $i++)
+                $groupesInteressants = array();
+                $lyceesSources = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->findByPivot (false);
+
+                foreach($lyceesSources as $lycee)
                 {
-                    $lycees = $groupesInteressants[$i]->getLycees();
-                    foreach($lycees as $lycee)
-                        // Si le lycée n'a pas de groupes de Seconde, on retire aussi le groupe de Première
-                        $groupesDuLycee = $lycee->getGroupes();
-                        $boolgroupeSeconde = false;
-                        foreach($groupesDuLycee as $g)
+                    // On trie par niveau et on met tous les groupes sauf celui de plus bas niveau
+                    $groupesDuLycee = $lycee->getGroupes();
+                    $niveaux = array();
+                    foreach($groupesDuLycee as $g)
+                    {
+                        switch($g->getNiveau())
                         {
-
-                            if($g->getNiveau() == "Secondes")
-                            {
-                                $boolgroupeSeconde = true;
-                            }
+                            case "Secondes":
+                                $niveaux['Secondes'] = $g;
+                                break;
+                            case "Premières":
+                                $niveaux['Premières'] = $g;
+                                break;
+                            case "Terminales":
+                                $niveaux['Terminales'] = $g;
+                                break;
+                            default:
+                                break;
                         }
+                    }
 
-                        if(!$boolgroupeSeconde)
-                        {
-                            unset($groupesInteressants[$i]);
-                            break 2;
-                        }
+                    switch(array_keys($niveaux))
+                    {
+                        case array('Secondes', 'Premières', 'Terminales'):
+                            $groupesInteressants[] = $niveaux['Premières'];
+                            $groupesInteressants[] = $niveaux['Terminales'];
+                            break;
+                        case array('Premières, Terminales'):
+                            $groupesInteressants[] = $niveaux['Terminales'];
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 $lyceensAct = array_map(function(GroupeEleves $g){ return $g->getLyceen();}, $donneesAct);

@@ -12,9 +12,11 @@ use CEC\MembreBundle\Entity\Professeur;
 use CEC\MembreBundle\Entity\Eleve;
 use CEC\MembreBundle\Entity\Secteur;
 
-use CEC\SecteurProjetsBundle\Form\ProjetType;
-use CEC\SecteurProjetsBundle\Form\DossierType;
-use CEC\SecteurProjetsBundle\Form\AjouterLyceenType;
+use CEC\SecteurProjetsBundle\Form\Type\ProjetType;
+use CEC\SecteurProjetsBundle\Form\Type\DossierType;
+use CEC\SecteurProjetsBundle\Form\Type\AjouterLyceenType;
+
+use CEC\TutoratBundle\Entity\GroupeEleves;
 
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
@@ -42,7 +44,8 @@ class ProjetsController extends Controller
 	*/
 	public function menuAction($request)
 	{
-		return array('request'=>$request);
+		$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+		return array('request'=>$request, 'projets' =>$projets);
 	}
 	
 	/**
@@ -80,14 +83,14 @@ class ProjetsController extends Controller
 		
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			
 			if($form->isValid())
 			{
 				$em = $this->getDoctrine()->getEntityManager();
 				$em->persist($projet);
 				$em->flush();
-				$this->get('session')->setFlash('success','Le projet a bien été modifié !');
+				$this->get('session')->getFlashBag()->add('success','Le projet a bien été modifié !');
 				return $this->redirect($this->generateUrl('description_projet', array('slug' =>$slug)));
 			}
 		}
@@ -112,7 +115,7 @@ class ProjetsController extends Controller
 		
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			
 			if($form->isValid())
 			{
@@ -151,7 +154,7 @@ class ProjetsController extends Controller
 				$em->persist($secteur);
 				$em->persist($projet);
 				$em->flush();
-				$this->get('session')->setFlash('success','Le projet a bien été créé !');
+				$this->get('session')->getFlashBag()->add('success','Le projet a bien été créé !');
 				return $this->redirect($this->generateUrl('description_projet', array('slug' =>$projet->getSlug())));
 			}
 		}
@@ -168,39 +171,58 @@ class ProjetsController extends Controller
 	public function uploadDossierAction()
 	{
 		$dossier = new Dossier();
-		$form = $this->createForm(new DossierType(), $dossier);
-		$request = $this->getRequest();
-		if ($request->isMethod('POST'))
-		{
-			$form->bindRequest($request);
-			if($form->isValid())
-			{
-				$em = $this->getDoctrine()->getEntityManager();
-				$data = $form->getData();
-				$projet = $data->getProjet();
-				$dossier_precedent = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Dossier')->loadDossier($projet);
+
+		$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+		$em = $this->getDoctrine()->getEntityManager();
+		$defaultData = array('message' => 'Type your message here');
+	    $form = $this->createFormBuilder($defaultData)
+	        ->add('projet', 'entity', array(
+	        	'class' => 'CEC\SecteurProjetsBundle\Entity\Projet',
+	        	'property' => 'nom',
+	        	'label' => 'Projet concerné',
+	        	'label_attr' => array('class' => 'col-md-3 control-label')
+	        	))
+	        ->add('dossier', 'file', array(
+	        	'label' => 'Fichier PDF du dossier',
+	        	'label_attr' => array('class' => 'col-md-3 control-label')))
+	        ->getForm();
+
+	    $request = $this->getRequest();
+	    if($request->isMethod('POST'))
+	    {
+		    $form->handleRequest($request);
+
+		    if ($form->isValid()) 
+		    {
+	        
+	        	$data = $form->getData();
+				$projet = $data['projet'];
+				$dossier_precedent = $projet->getDossier();
 
 				// S'il y avait un dossier précédent, on s'en débarasse
 				if($dossier_precedent)
 				{
+					$projet->setDossier(null);
 					$em->remove($dossier_precedent);
 					$em->flush();
 				}
 				$nom_projet = $projet->getNom();
+				$dossier->setFile($data['dossier']);
 				$dossier->setNom("Dossier d'inscription ".$nom_projet);
 				$projet->setDossier($dossier);
+
 				$em->persist($projet);
 				$em->persist($dossier);
 				$em->flush();
 				
 				
-				$this->get('session')->setFlash('success', 'Le dossier a bien été mis à jour');
+				$this->get('session')->getFlashBag()->add('success', 'Le dossier a bien été mis à jour');
 				return $this->redirect($this->generateUrl('description_projets'));
-				
+
 			}
 		}
-		
-		return array( 'form' => $form->createView());
+
+		return array('form' => $form->createView(), 'projets' => $projets);
 	}
 	
 	/**
@@ -214,7 +236,6 @@ class ProjetsController extends Controller
 		$projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
 		$request = $this->getRequest();
 		$data = array();
-		$message ='';
 		
 		
 		if($request->isMethod('POST'))
@@ -232,11 +253,12 @@ class ProjetsController extends Controller
 					$this->get('cec.mailer')->sendInscriptionsOuvertes($projet, $_SERVER['HTTP_HOST']);
 				
 				$em->persist($projet);
-				$em->flush();
 				
 			}
+
+			$em->flush();
 			
-			$this->get('session')->setFlash('success', 'L\'ouverture des inscriptions a bien été mise à jour. ');
+			$this->get('session')->getFlashBag()->add('success', 'L\'ouverture des inscriptions a bien été mise à jour. ');
 			return $this->redirect($this->generateUrl('description_projets'));
 			
 		}
@@ -285,7 +307,7 @@ class ProjetsController extends Controller
         {
             $lyceen = $data['lyceen'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un lycéen à ajouter.');
             return $this->redirect($this->generateUrl('editer_projet', array('projet' => $projet->getSlug())));
         }
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
@@ -378,7 +400,14 @@ class ProjetsController extends Controller
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycee !');
 
         $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
-        $lyceens = $lycee->getLyceens();
+        $groupes = $lycee->getGroupes();
+        $lyceens = array();
+
+        foreach($groupes as $groupe)
+        {
+        	$lyceens = array_merge($lyceens, array_unique(array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $groupe->getLyceensParAnnee()->toArray())));
+        }
+
         $anneesScolaires = array();
 
  		// Tableau triant les participations par lycéen, par année Scolaire, par projet
@@ -406,7 +435,7 @@ class ProjetsController extends Controller
         return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
         });
 
-        return array('anneesScolaires' => $anneesScolaires, 'participations' => $participations, 'projets' => $projets, 'lycee' => $lycee);
+        return array('anneesScolaires' => $anneesScolaires, 'participations' => $participations, 'projets' => $projets, 'lyceens' => $lyceens, 'lycee' => $lycee);
 
     }
 }

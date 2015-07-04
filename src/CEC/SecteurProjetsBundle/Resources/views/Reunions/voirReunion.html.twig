@@ -1,11 +1,22 @@
 {% extends 'CECSecteurProjetsBundle::base.html.twig' %}
 
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+        $('[data-toggle="popover"]').popover();   
+
+        });
+
+    </script>
+{% endblock %}
+
 {% block right %}
 {{parent()}}
 
-
-<div class="well" style = "padding-left:20px;padding-right:15px;">
-<h1> Réunions d'informations pour les projets </h1>
+<h2> Réunions d'informations pour les projets </h2>
 
 <h3> Réunions d'informations existantes</h3>
 
@@ -36,7 +47,16 @@
 			</td>
 			{% if is_granted('ROLE_SECTEUR_PROJETS') %}
 				<td>
-					{{reunion.presents|length}} inscrits
+					{{reunion.presents|length}} inscrits 
+					{% if reunion.presents|length > 0 %}
+							<button tabindex ="0" role="button" class="btn btn-link pull-right" data-toggle="popover" data-placement="bottom" data-html="true" title="Liste des présents à la réunion" data-content="
+								<ul style='list-style-type:none;'>
+									{% for lyceen in reunion.presents %}
+										<li> {{lyceen}} </li>
+									{% endfor %}
+								</ul>
+							"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true" aria-label="Plus de détails"></span></button>
+					{% endif %}
 				<td>
 					<a href="{{path('modifier_reunion', {'id':reunion.id})}}" class="btn btn-default">Modifier</a>
 				</td>
@@ -62,13 +82,13 @@
 	{% endfor %}
 	</tbody>
 </table>
-
+<br/>
 {% if is_granted('ROLE_SECTEUR_PROJETS') %}
 	<h3>Créer une nouvelle réunion d'information</h3>
 
-	{% render('CECSecteurProjetsBundle:Reunions:creerReunion')%}
+	{{ render(controller('CECSecteurProjetsBundle:Reunions:creerReunion'))}}
 {% endif %}
 
-</div>
+
 
 {% endblock %}

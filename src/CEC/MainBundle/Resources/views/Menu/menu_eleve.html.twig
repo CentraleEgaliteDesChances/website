@@ -1,12 +1,26 @@
-<div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-        <div class="container">
-            <a href="{{ path('cec_externe_accueil') }}" class="brand">CEC</a>
-			<ul class="nav">
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{path('cec_externe_accueil')}}" style="padding-top:0; padding-bottom:0;">
+            <img alt"Logo CEC" src="{{asset('bundles/cecmain/images/logorond.png')}}" style="max-height:50px;"/>
+
+          </a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="navbar-nav nav">
                 <li><a href="{{ path('tableau_de_bord_eleve') }}">Tableau de bord</a></li>
+                <li><a href="{{ path('toutes_seances') }}">Planning de CEC</a></li>
                 {% if eleve.groupe %}
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             Mon tutorat
                             {% if seance_a_venir %}
                                  <span class="badge badge-warning" style="margin-left: 5px;">1</span>
@@ -30,21 +44,15 @@
                                     Mon lycée {{eleve.lycee.nom|trim('Lycée') }}
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ path('toutes_seances') }}">
-                                    Planning des séances
-                                </a>
-                            </li>
                         </ul>
                     </li>
                 {% endif %}
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 								Sorties & Projets
 								<b class="caret"></b>
 					 </a>
 					<ul class="dropdown-menu">
-                        <li><a href="{{ path('toutes_seances') }}">Planning</a></li>
                         <li><a href="{{ path('description_projets')}}">Pôle Projets</a></li>
 						<li class="secteur">Les Projets</li>
 						{% for projet in projets %}
@@ -56,18 +64,18 @@
 				</li>
 			</ul>
 			
-		<div class="btn-group pull-right">
-                <a class="btn btn-inverse" href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">
-                    {{ eleve }}
-                </a>
-                <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ path('reglages_infos_eleve') }}">Modifier mon profil</a></li>
-                    <li><a href="{{ path('reglages_groupe_eleve') }}"> Modifier mon groupe </a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
-                </ul>
-		</div>
+    		<div class="btn-group pull-right">
+                    <a class="btn btn-default navbar-btn" href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">
+                        {{ eleve }}
+                    </a>
+                    <a class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('reglages_infos_eleve') }}">Modifier mon profil</a></li>
+                        <li><a href="{{ path('reglages_groupe_eleve') }}"> Modifier mon groupe </a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ path('deconnexion') }}">Se déconnecter</a></li>
+                    </ul>
+    		</div>
 		</div>
 	</div>
 </div>

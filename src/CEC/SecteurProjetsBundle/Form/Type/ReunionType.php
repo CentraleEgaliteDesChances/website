@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\SecteurProjetsBundle\Form;
+namespace CEC\SecteurProjetsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,9 +34,11 @@ class ReunionType extends AbstractType
 			'label' => 'Courte description de la réunion (255 caractères max)'
 			))
 			->add('projet', null, array(
+			'data_class' => 'CEC\SecteurProjetsBundle\Entity\Projet',
 			'expanded' => true,
 			'label' => 'Projet concerné',
-			'property' => 'nom'
+			'property' => 'nom',
+			'required' => true
 			))
 
         ;

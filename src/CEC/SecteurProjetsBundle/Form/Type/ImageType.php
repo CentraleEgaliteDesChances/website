@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\SecteurProjetsBundle\Form;
+namespace CEC\SecteurProjetsBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,13 +12,18 @@ class ImageType extends AbstractType
     {
         $builder->add('file', null, array(
             'label' => 'Photo à uploader',
+            'label_attr' =>array('class' => 'col-md-3 control-label'),
             'help_inline' => 'La taille de la photo ne peut pas excéder 10 Mo (formats JPEG ou PNG)',
             ))
 			->add('alt', null, array(
-			'label' => 'Nom de l\'image'
+			'label' => 'Nom de l\'image',
+            'label_attr' =>array('class' => 'col-md-3 control-label'),
+            'attr' => array('class' => 'form-control col-md-4')
 			))
 			->add('legende', null, array(
-			'label'=>'Legende de l\'image'
+			'label'=>'Legende de l\'image',
+            'label_attr' =>array('class' => 'col-md-3 control-label'),
+            'attr' => array('class' => 'form-control col-md-4')
 			))
 			;
     }

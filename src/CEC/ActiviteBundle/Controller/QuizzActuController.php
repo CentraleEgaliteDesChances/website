@@ -49,14 +49,14 @@ class QuizzActuController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($quizzActu);
                 $entityManager->flush();
 
-                $this->get('session')->setFlash('success', "Le quizz actu a bien été modifiée.");
+                $this->get('session')->getFlashBag()->add('success', "Le quizz actu a bien été modifiée.");
                 return $this->redirect($this->generateUrl('quizzActu'));
             }
         }
@@ -83,14 +83,14 @@ class QuizzActuController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($quizzActu);
                 $entityManager->flush();
 
-                $this->get('session')->setFlash('success', "Le quizz actu a bien été crée.");
+                $this->get('session')->getFlashBag()->add('success', "Le quizz actu a bien été crée.");
                 return $this->redirect($this->generateUrl('quizzActu'));
             }
         }
@@ -115,7 +115,7 @@ class QuizzActuController extends Controller
         $entityManager->remove($quizzActu);
         $entityManager->flush();
 
-        $this->get('session')->setFlash('success', 'Le quizz actu a bien été définitivement supprimé.');
+        $this->get('session')->getFlashBag()->add('success', 'Le quizz actu a bien été définitivement supprimé.');
         return $this->redirect($this->generateUrl('quizzActu'));
     }
 

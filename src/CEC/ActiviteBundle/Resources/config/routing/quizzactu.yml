@@ -1,21 +1,21 @@
 quizzActu:
-    pattern: /{id}
+    path: /{id}
     defaults: { _controller: CECActiviteBundle:QuizzActu:voir, id: 0 }
     requirements:
         id: \d+
 
 quizzActu_editer:
-    pattern: /editer/{id}
+    path: /editer/{id}
     defaults: { _controller: CECActiviteBundle:QuizzActu:editer }
     requirements:
         id: \d+
 
 quizzActu_creer:
-    pattern: /creer
+    path: /creer
     defaults: { _controller: CECActiviteBundle:QuizzActu:creer }
 
 quizzActu_supprimer:
-    pattern: /supprimer/{id}
+    path: /supprimer/{id}
     defaults: { _controller: CECActiviteBundle:QuizzActu:supprimer }
     requirements:
         id: \d+

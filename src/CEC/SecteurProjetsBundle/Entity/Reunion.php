@@ -66,7 +66,7 @@ class Reunion
 	/**
 	* @var \CEC\MembreBundle\Entity\Eleve
 	*
-	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", mappedBy="reunions")
+	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", inversedBy="reunions")
 	*/
 	private $presents;
 	

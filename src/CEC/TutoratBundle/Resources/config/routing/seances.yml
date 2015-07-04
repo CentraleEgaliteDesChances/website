@@ -1,49 +1,49 @@
 supprimer_seance:
-    pattern: /{seance}/suppression
+    path: /{seance}/suppression
     defaults: { _controller: CECTutoratBundle:Seances:supprimer }
     requirements:
         seance: \d+
 
 seance:
-    pattern: /{seance}
+    path: /{seance}
     defaults: { _controller: CECTutoratBundle:Seances:voir }
     requirements:
         seance: \d+
 
 toutes_seances:
-    pattern: /planning
+    path: /planning
     defaults: { _controller: CECTutoratBundle:Seances:toutes }
 
 seance_basculer_tuteur:
-    pattern: /{seance}/basculer_tuteur/{tuteur}
+    path: /{seance}/basculer_tuteur/{tuteur}
     defaults: { _controller: CECTutoratBundle:Seances:basculerTuteur }
     requirements:
         seance: \d+
         tuteur: \d+
 
 seance_basculer_lyceen:
-    pattern: /{seance}/basculer_lyceen/{lyceen}
+    path: /{seance}/basculer_lyceen/{lyceen}
     defaults: { _controller: CECTutoratBundle:Seances:basculerEleve }
     requirements:
         seance: \d+
         lyceen: \d+
 
 seance_creer_acti:
-    pattern: /{seance}/ajout_activite/{activite}
+    path: /{seance}/ajout_activite/{activite}
     defaults: { _controller: CECActiviteBundle:CompteRendus:creer }
     requirements:
         seance: \d+
         activite: \d+
 
 seance_supprimer_compterendu:
-    pattern: /{seance}/retrait_activite/{activite}
+    path: /{seance}/retrait_activite/{activite}
     defaults: { _controller: CECActiviteBundle:CompteRendus:supprimer }
     requirements:
         seance: \d+
         activite: \d+
 
 absences:
-    pattern: /releve-presences/{lyceen}
+    path: /releve-presences/{lyceen}
     defaults: {_controller: CECTutoratBundle:Seances:absences}
     requirements:
         lyceen: \d+

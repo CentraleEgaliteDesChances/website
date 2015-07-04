@@ -61,9 +61,9 @@ class QuizzActu
      * @var string
      *
      * @ORM\Column(name = "commentaire", type = "text", nullable = true)
-     * @Assert\MaxLength(
-     *     limit = 200,
-     *     message = "Le commentaire ne peut excéder 200 caractères."
+     * @Assert\Length(
+     *     max = 200,
+     *     maxMessage = "Le commentaire ne peut excéder 200 caractères."
      * )
      */
     private $commentaire;
@@ -95,9 +95,9 @@ class QuizzActu
      * @var string
      *
      * @ORM\Column(name = "nomFichierPDF", type = "string", length = 50)
-     * @Assert\MaxLength(
-     *     limit = 50,
-     *     message = "Le nom du fichier PDF ne peut excéder 50 caractères."
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom du fichier PDF ne peut excéder 50 caractères."
      * )
      */
     private $nomFichierPDF;

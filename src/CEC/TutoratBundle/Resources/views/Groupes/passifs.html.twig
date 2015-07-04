@@ -30,14 +30,14 @@
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucun groupe de tutorat dans la base de donnée</h4></th></tr></thead>
+        <thead><tr><th class="muted"><h4>Tous les groupes de tutorat sont actifs</h4></th></tr></thead>
     {% endif %}
 </table>
 
 {% if is_granted('ROLE_BURO') %}
-<a href="{{ path('creer_groupe') }}" class="btn pull-right">Ajouter un groupe de tutorat</a>
+<a href="{{ path('creer_groupe') }}" class="btn btn-default pull-right">Ajouter un groupe de tutorat</a>
 {% endif %}
-
+<br/>
 {% endblock %}
 
 {% block left %}

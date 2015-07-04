@@ -21,7 +21,7 @@
     <h2> Indicateurs sur l'évolution des effectifs à CEC </h2>
 
   <!-- Nav tabs -->
-  <ul class="nav-tabs" role="tablist" style="list-style:none;">
+  <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Indicateurs généraux</a></li>
     <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Indicateurs détaillés</a></li>
   </ul>
@@ -81,19 +81,19 @@
                     {% elseif pourcentage > 0 %}
                         <td class="success">
                             <div class="statsDetail">
-                                +{{pourcentage}}%
+                                +{{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% elseif pourcentage < -15 %}
                         <td class="error">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% else %}
                         <td class="warning">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% endif %} 
@@ -124,19 +124,19 @@
                     {% elseif pourcentage > 0 %}
                         <td class="success">
                             <div class="statsDetail">
-                                +{{pourcentage}}%
+                                +{{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% elseif pourcentage < -15 %}
                         <td class="error">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% else %}
                         <td class="warning">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% endif %} 
@@ -166,19 +166,19 @@
                     {% elseif pourcentage > 0 %}
                         <td class="success">
                             <div class="statsDetail">
-                                +{{pourcentage}}%
+                                +{{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% elseif pourcentage < -15 %}
                         <td class="error">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% else %}
                         <td class="warning">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% endif %} 
@@ -211,19 +211,19 @@
                     {% elseif pourcentage > 0 %}
                         <td class="success">
                             <div class="statsDetail">
-                                +{{pourcentage}}%
+                                +{{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% elseif pourcentage < -15 %}
                         <td class="error">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% else %}
                         <td class="warning">
                             <div class="statsDetail">
-                                {{pourcentage}}%
+                                {{pourcentage|round(1)}}%
                             </div>
                         </td>
                     {% endif %} 

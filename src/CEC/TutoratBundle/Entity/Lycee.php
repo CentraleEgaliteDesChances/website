@@ -110,7 +110,6 @@ class Lycee
         $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
         $this->delegues = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -485,19 +484,24 @@ class Lycee
      */
     public function addDelegue(\CEC\MembreBundle\Entity\Eleve $delegue)
     {
+<<<<<<< HEAD
         $this->delegues->add($delegue);
 
+=======
+        $this->delegues[] = $delegue;
+    
+>>>>>>> Extern-site
         return $this;
     }
 
     /**
      * Remove delegues
      *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceens
+     * @param \CEC\MembreBundle\Entity\Eleve $delegue
      */
-    public function removeDelegue(\CEC\MembreBundle\Entity\Eleve $lyceens)
+    public function removeDelegue(\CEC\MembreBundle\Entity\Eleve $delegue)
     {
-        $this->delegues->removeElement($lyceens);
+        $this->delegues->removeElement($delegue);
     }
 
     /**
