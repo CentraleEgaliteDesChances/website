@@ -213,6 +213,7 @@ class Sortie
     {
         $this->okCR = 0;
         $this->anneeScolaire = AnneeScolaire::withDate();
+        $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -596,7 +597,7 @@ class Sortie
      */
     public function addLyceen(\CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens)
     {
-        $this->lyceens[] = $lyceens;
+        $this->lyceens->add($lyceens);
     
         return $this;
     }
@@ -618,6 +619,6 @@ class Sortie
      */
     public function getLyceens()
     {
-        return $this->lyceens;
+        return $this->lyceens->toArray();
     }
 }

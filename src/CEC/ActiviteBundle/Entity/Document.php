@@ -317,21 +317,6 @@ class Document
     }
 
     /**
-     * Génère le fichier PDF à partir du fichier original associé à l'entité.
-     * Ne fait rien si aucun fichier Word n'existe. Le fichier PDF généré est déplacé sur le serveur
-     * suivant l'attribut $nomFichierPDF.
-     *
-     * Pour la génération, on utilise le site tierce http://www.conv2pdf.com, qui converti sur un serveur
-     * les documents Word en PDF. On télécharge ensuite le résultat.
-     *
-     * @return false
-     */
-    public function genererFichierPDF()
-    {
-        return false;
-    }
-
-    /**
      * Vérifie l'existence des documents sur le serveur.
      * Cette méthode renvoie "true" si le fichier Original ET le fichier PDF se trouvent sur le serveur.
      * Dans le cas contraire, on renvoie "false".

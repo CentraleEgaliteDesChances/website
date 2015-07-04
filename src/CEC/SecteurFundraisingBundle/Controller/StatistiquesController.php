@@ -241,7 +241,7 @@ class StatistiquesController extends Controller
         // On récupère tous les lycéens des groupes sélectionnés
         foreach($groupesSecondes as $g)
         {
-            $lyceens = $g->getLyceensParAnnee()->toArray();
+            $lyceens = $g->getLyceensParAnnee();
             $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
             $lyceensSecondes = array_merge($lyceensSecondes, array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens));
         }
@@ -252,7 +252,7 @@ class StatistiquesController extends Controller
         // On récupère tous les lycéens des groupes sélectionnés
         foreach($groupesPremieres as $g)
         {
-            $lyceens = $g->getLyceensParAnnee()->toArray();
+            $lyceens = $g->getLyceensParAnnee();
             $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
             $lyceensPremieres = array_merge($lyceensPremieres, array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens));
         }
@@ -263,7 +263,7 @@ class StatistiquesController extends Controller
         // On récupère tous les lycéens des groupes sélectionnés
         foreach($groupesTerminales as $g)
         {
-            $lyceens = $g->getLyceensParAnnee()->toArray();
+            $lyceens = $g->getLyceensParAnnee();
             $lyceens = array_filter($lyceens, function(GroupeEleves $ge) use($anneeScolaire) { return ($ge->getAnneeScolaire() == $anneeScolaire);});
             $lyceensTerminales = array_merge($lyceensTerminales, array_map(function(GroupeEleves $ge){ return $ge->getLyceen();}, $lyceens));
         }
@@ -281,6 +281,7 @@ class StatistiquesController extends Controller
         foreach($lyceensSecondes as $l)
         {
             $sorties = $l->getSorties();
+
             $nbSorties = 0;
             foreach($sorties as $s)
             {
@@ -333,6 +334,12 @@ class StatistiquesController extends Controller
         foreach($lyceensPremieres as $l)
         {
             $sorties = $l->getSorties();
+<<<<<<< HEAD
+            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
+            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
+            $nbSorties = count($sorties);
+
+=======
             $nbSorties = 0;
             foreach($sorties as $s)
             {
@@ -340,6 +347,7 @@ class StatistiquesController extends Controller
                 if($anneeScolaire->contientDate($sortie->getDateSortie()))
                     $nbSorties++;
             }
+>>>>>>> Extern-site
             // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
             // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
             // pas toujours effectuer le default.
@@ -384,6 +392,11 @@ class StatistiquesController extends Controller
         foreach($lyceensTerminales as $l)
         {
             $sorties = $l->getSorties();
+<<<<<<< HEAD
+            $sorties = array_map(function(SortieEleve $se){return $se->getSortie();}, $sorties);
+            $sorties = array_filter($sorties, function(Sortie $s) use($anneeScolaire) { return $anneeScolaire->contientDate($s->getDateSortie());});
+            $nbSorties = count($sorties);
+=======
             $nbSorties = 0;
             foreach($sorties as $s)
             {
@@ -391,6 +404,7 @@ class StatistiquesController extends Controller
                 if($anneeScolaire->contientDate($sortie->getDateSortie()))
                     $nbSorties++;
             }
+>>>>>>> Extern-site
 
             // On ne met un break que dans case 0 et les cases suivants dans l'ordre décroissant comme ca si $nbSorties correspond à un cas,
             // les incrémentations suivantes sont quand meme exécutées et on met correctement à jour toutes les valeurs. break dans case 1 pour
@@ -450,7 +464,7 @@ class StatistiquesController extends Controller
 
         foreach($groupesSecondes as $g)
         {
-            $participationsSecondes = array_merge($g->getLyceensParAnnee()->toArray(), $participationsSecondes);
+            $participationsSecondes = array_merge($g->getLyceensParAnnee(), $participationsSecondes);
         }
 
         $groupesPremieres = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Premières');
@@ -458,7 +472,7 @@ class StatistiquesController extends Controller
 
         foreach($groupesPremieres as $g)
         {
-            $participationsPremieres = array_merge($g->getLyceensParAnnee()->toArray(), $participationsPremieres);
+            $participationsPremieres = array_merge($g->getLyceensParAnnee(), $participationsPremieres);
         }
 
         $groupesTerminales = $doctrine->getRepository('CECTutoratBundle:Groupe')->findByNiveau('Terminales');
@@ -466,7 +480,7 @@ class StatistiquesController extends Controller
 
         foreach($groupesTerminales as $g)
         {
-            $participationsTerminales = array_merge($g->getLyceensParAnnee()->toArray(), $participationsTerminales);
+            $participationsTerminales = array_merge($g->getLyceensParAnnee(), $participationsTerminales);
         }
 
         // On rassemble les années précédant l'année sélectionnée dans le menu et on les trie par ordre croissant.
@@ -514,7 +528,7 @@ class StatistiquesController extends Controller
             $statsEffCordeeTerminales = array();
             $statsEffCordee = array();
 
-            $lycees = $c->getLycees()->toArray();
+            $lycees = $c->getLycees();
 
             // On ne garde que les lycées sources
             $lycees = array_filter($lycees, function(Lycee $l){ return !($l->getPivot());});

@@ -253,7 +253,7 @@ class SeancesController extends Controller
 
             if(!array_key_exists($date->afficherAnnees(), $seancesTotal))
             {
-                $seancesTotal[$date->afficherAnnees()]= $groupe->getSeances()->toArray();
+                $seancesTotal[$date->afficherAnnees()]= $groupe->getSeances();
                 $seancesTotal[$date->afficherAnnees()] = array_filter($seancesTotal[$date->afficherAnnees()], function(Seance $s) use($date)
                     {
                         return $date->contientDate($s->getDate());

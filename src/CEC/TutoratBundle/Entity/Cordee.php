@@ -129,7 +129,7 @@ class Cordee
      */
     public function addLycee(\CEC\TutoratBundle\Entity\Lycee $lycees)
     {
-        $this->lycees[] = $lycees;
+        $this->lycees->add($lycees);
     
         return $this;
     }
@@ -147,11 +147,11 @@ class Cordee
     /**
      * Get lycees
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array
      */
     public function getLycees()
     {
-        return $this->lycees;
+        return $this->lycees->toArray();
     }
     
     /**

@@ -367,15 +367,6 @@ class Projet
         return $this->inscriptionsOuvertes;
     }
 	
-	/**
-     * Get reunions
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getReunions()
-    {
-        return $this->reunions;
-    }
 	
 	/**
      * Retourne la date de début du projet.
@@ -427,7 +418,7 @@ class Projet
      */
     public function addContact(\CEC\MembreBundle\Entity\Membre $membre)
     {
-        $this->contacts[] = $membre;
+        $this->contacts->add($membre);
 
         return $this;
     }
@@ -445,11 +436,11 @@ class Projet
     /**
      * Get contacts
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getContacts()
     {
-        return $this->contacts;
+        return $this->contacts->toArray();
     }
 	
 	/**
@@ -493,7 +484,7 @@ class Projet
      */
     public function addReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunions)
     {
-        $this->reunions[] = $reunions;
+        $this->reunions->add($reunion);
     
         return $this;
     }
@@ -507,6 +498,16 @@ class Projet
     {
         $this->reunions->removeElement($reunions);
     }
+
+    /**
+     * Get reunions
+     *
+     * @return array
+     */
+    public function getReunions()
+    {
+        return $this->reunions->toArray();
+    }
 	
 	/**
      * Add album
@@ -516,7 +517,7 @@ class Projet
      */
     public function addAlbum(\CEC\SecteurProjetsBundle\Entity\Album $album)
     {
-        $this->albums[] = $album;
+        $this->albums->add($album);
 
         return $this;
     }
@@ -534,11 +535,11 @@ class Projet
     /**
      * Get albums
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getAlbums()
     {
-        return $this->albums;
+        return $this->albums->toArray();
     }
 
    
@@ -551,7 +552,7 @@ class Projet
      */
     public function addInscritsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $inscritsParAnnee)
     {
-        $this->inscritsParAnnee[] = $inscritsParAnnee;
+        $this->inscritsParAnnee->add($inscritsParAnnee)
     
         return $this;
     }
@@ -573,6 +574,6 @@ class Projet
      */
     public function getInscritsParAnnee()
     {
-        return $this->inscritsParAnnee;
+        return $this->inscritsParAnnee->toArray();
     }
 }

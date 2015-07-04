@@ -18,7 +18,6 @@ class CordeesController extends Controller
      */
     public function filterLyceesSources($lycees)
     {
-        if (!is_array($lycees)) $lycees = $lycees->toArray();
         $sources = array_filter($lycees, function(Lycee $lycee) {
             return !$lycee->getPivot();
         });
@@ -34,7 +33,6 @@ class CordeesController extends Controller
      */
     public function filterLyceesPivots($lycees)
     {
-        if (!is_array($lycees)) $lycees = $lycees->toArray();
         $pivots = array_filter($lycees, function(Lycee $lycee) {
             return $lycee->getPivot();
         });
@@ -119,8 +117,9 @@ class CordeesController extends Controller
         });
         
         // On trie les lycées à afficher par ordre alphabétique
-        $lycees = array_merge($lyceesCordee->toArray(), $lyceesInactifs);
-        usort($lycees, function(Lycee $a, Lycee $b) {
+        $lycees = array_merge($lyceesCordee, $lyceesInactifs);
+        usort($lycees, function($a, $b) {
+
             return strcmp($a->getNom(), $b->getNom());
         });
     

@@ -179,6 +179,7 @@ class Professeur implements UserInterface, \Serializable
      */
     public function __construct()
     {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(array("ROLE_PROFESSEUR"));
         $this->setReferent(false);
     }
@@ -405,7 +406,11 @@ class Professeur implements UserInterface, \Serializable
      */
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+        $this->roles->clear();
+        foreach($roles as $role)
+        {
+            $this->roles->add($role);
+        }
     
         return $this;
     }
@@ -439,17 +444,9 @@ class Professeur implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->roles->toArray()))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
-            }
-        }
-        $this->roles = array_values($this->roles);
 
-        return $this;
+        $this->roles->removeElement($role);
+
     }
 
     /**
@@ -457,8 +454,12 @@ class Professeur implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if (!(in_array($role, $this->roles->toArray())))
-            $this->roles[] = $role;
+
+        if (!$this->roles->contains($role))
+            $this->roles->add($role);
+
+        return $this;
+
     }
 
     /**
@@ -468,7 +469,7 @@ class Professeur implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
 

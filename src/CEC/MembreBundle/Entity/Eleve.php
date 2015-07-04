@@ -286,6 +286,7 @@ class Eleve implements UserInterface, \Serializable
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sorties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(array("ROLE_ELEVE"));
         $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
@@ -510,7 +511,12 @@ class Eleve implements UserInterface, \Serializable
      */
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+
+        $this->roles->clear();
+        foreach($roles as $role)
+        {
+            $this->roles->add($role);
+        }
     
         return $this;
     }
@@ -523,7 +529,7 @@ class Eleve implements UserInterface, \Serializable
         $this->setRoles(array('ROLE_ELEVE'));
 
         if($this->delegue)
-            $this->addRole('ELEVE_DELEGUE');
+            $this->addRole('ROLE_ELEVE_DELEGUE');
 
         return $this;
     }
@@ -532,8 +538,9 @@ class Eleve implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!in_array($role, $this->roles->toArray()))
-            $this->roles[] = $role;
+
+        if(!$this->roles->contains($role))
+            $this->roles->add($role);
 
         return $this;
     }
@@ -543,15 +550,9 @@ class Eleve implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->roles->toArray()))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[$i] == $role)
-                    unset($this->roles[$i]);
-            }
-        }
-        $this->roles = array_values($this->roles);
+
+        $this->roles->removeElement($role);
+
     }
 
 
@@ -562,7 +563,7 @@ class Eleve implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
     /**
@@ -669,11 +670,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get reunions
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getReunions()
     {
-        return $this->reunions;
+        return $this->reunions->toArray();
     }
 
     
@@ -687,6 +688,8 @@ class Eleve implements UserInterface, \Serializable
     public function addProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
     {
         $this->projetsParAnnee[] = $projetsParAnnee;
+
+        return $this;
     }
 
     /**
@@ -702,11 +705,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get projetsParAnnee
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getProjetsParAnnee()
     {
-        return $this->projetsParAnnee;
+        return $this->projetsParAnnee->toArray();
     }
     
     /**
@@ -736,11 +739,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get sorties
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getSorties()
     {
-        return $this->sorties;
+        return $this->sorties->toArray();
     }
 
     
@@ -841,11 +844,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get seances
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getSeances()
     {
-        return $this->seances;
+        return $this->seances->toArray();
     }
 
     /**
@@ -968,11 +971,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get groupeParAnnee
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getGroupeParAnnee()
     {
-        return $this->groupeParAnnee;
+        return $this->groupeParAnnee->toArray();
     }
 
     public function getGroupe()

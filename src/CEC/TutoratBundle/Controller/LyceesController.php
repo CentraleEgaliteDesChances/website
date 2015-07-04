@@ -49,8 +49,6 @@ class LyceesController extends Controller
                 $tuteurs = array_merge($tuteurs, $groupe->getTuteursAnnee(AnneeScolaire::withDate()));
             }
         }
-
-        
         
         // On trie les tuteurs, les lycéens et les séances par ordre alphabétique et chronologique
         usort($tuteurs, function(Membre $a, Membre $b) {
@@ -90,6 +88,12 @@ class LyceesController extends Controller
         $niveaux = array();
         foreach ($lycee->getGroupes() as $groupe)
         {
+<<<<<<< HEAD
+            $tuteurs = array_merge($tuteurs, $groupe->getTuteursParAnnee());
+            $lyceens = array_merge($lyceens, $groupe->getLyceensParAnnee());
+            if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
+            if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
+=======
             // Si le groupe a une activité de tutorat cette année
             if($resultat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findBy(array('groupe'=>$groupe, 'anneeScolaire'=> AnneeScolaire::withDate())))
             {
@@ -98,6 +102,7 @@ class LyceesController extends Controller
                 if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
                 if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
             }
+>>>>>>> Extern-site
         }
         
         return $this->render('CECTutoratBundle:Lycees:apercu.html.twig', array(
