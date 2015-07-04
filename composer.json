@@ -1,53 +1,78 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "name": "Site internet de Centrale Egalité des Chances",
+    "license": "MIT",
+    "type": "project",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-4": {
+            "": "src/",
+            "SymfonyStandard\\": "app/"
+        }
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.1.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/doctrine-bundle": "1.0.*",
-        "doctrine/data-fixtures" : "*",
-        "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "twig/extensions": "1.0.*@dev",
-        "symfony/assetic-bundle": "2.1.2",
-        "symfony/swiftmailer-bundle": "2.1.*",
-        "symfony/monolog-bundle": "2.1.*",
-        "sensio/distribution-bundle": "2.1.*",
-        "sensio/framework-extra-bundle": "2.1.*",
-        "sensio/generator-bundle": "2.1.*",
-        "jms/security-extra-bundle": "1.2.*",
-        "jms/di-extra-bundle": "1.1.*",
-        "kriswallsmith/assetic": "v1.1.0-alpha4",
-        "mopa/bootstrap-bundle": "2.1.x-dev",
-        "twitter/bootstrap": "2.2.*",
-        "leafo/lessphp": "v0.3.9",
-        "heartsentwined/yuicompressor": "2.4.7",
-        "stof/doctrine-extensions-bundle": "dev-master",
-        "friendsofsymfony/jsrouting-bundle": "~1.1",
-        "adesigns/calendar-bundle": "dev-master",
-        "sami/sami": "*"
+        "symfony/symfony": "~2.7@beta",
+        "doctrine/orm": "~2.2,>=2.2.3,<2.5",
+        "doctrine/dbal": "<2.5",
+        "doctrine/doctrine-bundle": "~1.4",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~3.0,>=3.0.12",
+        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "incenteev/composer-parameter-handler": "~2.0",
+        "doctrine/data-fixtures": "^1.1",
+        "doctrine/doctrine-fixtures-bundle": "^2.2",
+        "twig/extensions": "^1.2",
+        "sensio/generator-bundle": "^2.5",
+        "jms/security-extra-bundle": "^1.5",
+        "jms/di-extra-bundle": "^1.5",
+        "kriswallsmith/assetic": "^1.2",
+        "leafo/lessphp": "^0.5.0",
+        "heartsentwined/yuicompressor": "^2.4",
+        "stof/doctrine-extensions-bundle": "^1.1",
+        "friendsofsymfony/jsrouting-bundle": "^1.5",
+        "adesigns/calendar-bundle": "^1.1",
+        "sami/sami": "^3.0",
+        "oyejorge/less.php": "v1.7.0.4",
+        "mopa/bootstrap-bundle": "^2.3",
+        "twbs/bootstrap": "^3.3"
+    },
+    "require-dev": {
     },
     "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
         "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
             "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
         ],
         "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
             "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrap"
         ]
     },
+    "config": {
+        "bin-dir": "bin"
+    },
     "extra": {
         "symfony-app-dir": "app",
-        "symfony-web-dir": "web"
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        }
     }
 }
