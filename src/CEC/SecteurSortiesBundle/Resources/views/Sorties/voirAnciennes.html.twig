@@ -2,19 +2,21 @@
 
 {% block right %}
 
+    {{parent()}}
+
 <h1>Liste des sorties passées</h1>
 
 <table class="table table-bordered table-striped table-large">
     <tbody>
         {% for sortie in sorties %}
         <tr>
-            <td>
+            <td id="{{sortie.id}}">
                 {% if is_granted('ROLE_SECTEUR_SORTIES') %}
                     <a class="btn btn-danger pull-right" href="{{ path('supprimer_sortie', {'id':sortie.id}) }}">Supprimer</a>
                     {% if sortie.okCR %}
-                        <a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'action':'editeraveccr', 'id':sortie.id}) }}">Modifier</a>
+                        <a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'action':'editeraveccr', 'id':sortie.id}) }}">Modifier</a>
                     {% else %}
-                        <a class="btn pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'action':'editer', 'id':sortie.id}) }}">Modifier</a>
+                        <a class="btn btn-default pull-right" style="margin-right: 5px;" href="{{ path('editer_sortie', {'action':'editer', 'id':sortie.id}) }}">Modifier</a>
                     {% endif %}
                 {% endif %}
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
@@ -28,10 +30,9 @@
                             <li style="text-align:justify;">{{sortie.commentaire}}</li>
                             <li>Total payé : {{sortie.prix}} €</li>
                         </ul>
-                    {% else %}
-                        <a class="btn btn-success" href="{{path("editer_sortie", {'action':'cr', 'id':sortie.id})}}">Remplir le CR</a>
                     {% endif %}
                 {% endif %}
+                <br/>
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					<div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="headingOne">
@@ -42,10 +43,15 @@
 							</h4>
 						</div>
 						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-						{% render "CECSecteurSortiesBundle:Sorties:lyceens" with {'sortie' : sortie} %}
+						{% include "CECSecteurSortiesBundle:Sorties:lyceens.html.twig" with {'lyceensSortie' : sortie.lyceens, 'lycees' : lycees} %}
 						</div>
 					</div>
 				</div>
+                {% if is_granted('ROLE_SECTEUR_SORTIES') %}
+                    {% if not sortie.okCR %}
+                        <a class="btn btn-success pull-right" href="{{path("editer_sortie", {'action':'cr', 'id':sortie.id})}}">Remplir le CR</a>
+                    {% endif %}
+                {% endif %}
             </td>
         </tr>
         {% else %}

@@ -1,37 +1,50 @@
 <div role="tabpanel">
 
   <!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active dropdown"><a id="lycees" class="dropdown-toggle" aria-controls="cp" data-toggle="dropdown" role="tab" data-target="#"> Choisir le lycée
-	<b class="caret"></b>
-	</a>
+	<ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active dropdown"><a id="choix-lycees" class="dropdown-toggle" aria-controls="lycees" data-toggle="dropdown" role="tab" data-target="#"> Choisir le lycée
+		<b class="caret"></b>
+		</a>
 
-		<ul id="cp" class="dropdown-menu" aria-labelledby="lycees" role="menu">
-			{% for key, lycee in lycees %}
-				<li><a aria-expanded="false" href="#cpb" tabindex="-1" role="tab" id="lycee-tab" data-toggle="tab" aria-controls="{{key}}"> {{lycee.nom }} ({{lycee.ville}})</a></li>
-			{% endfor %}
-		</ul>
-	</li>
-    
-</ul>
+			<ul id="lycees" class="dropdown-menu" aria-labelledby="choix-lycees" role="menu">
+				{% for key, lycee in lycees %}
+					<li><a aria-expanded="false" tabindex="-1" role="tab" id="lycee-tab" data-toggle="tab" data-target="#{{key}}" aria-controls="{{key}}"> {{lycee.nom }} ({{lycee.ville}})</a></li>
+				{% endfor %}
+			</ul>
+		</li>
+	    
+	</ul>
 
   <!-- Tab panes -->
-<div class="tab-content">
-  	{% for key, lycee in lycees %}
-	    <div role="tabpanel" class="tab-pane active" id="{{key}}">
-	    	<p style="font-weight:bold;"> {{lycee.nom}} ({{lycee.ville}}) </p>
-			{% for lyceen in lyceens %}
-				{% if lyceen.lycee == lycee %}
-					<p><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a>
-						{% if lyceen in attente %}
-							<span class="label pull-right"> Sur liste d'attente </span>
-						{% endif %}
-					</p>
-				{% endif %}
-			{% endfor %}
-			<br/><br/><br/>
-		</div>
-    {% endfor %}
-</div>
+	<div class="tab-content">
+	  	{% for key, lycee in lycees %}
+		    <div role="tabpanel" class="tab-pane fade {% if loop.first %} in active {% endif %}" id="{{key}}">
+		    	<p style="font-weight:bold;"><br/> {{lycee.nom}} ({{lycee.ville}}) </p>
+		    	<table class="table">
+				{% for lyceenSortie in lyceensSortie %}
+					{% if lyceenSortie.lyceen.lycee == lycee %}
+						<tr>
+							<td>
+								<a class="close close-red" 
+	                        		href="{{ path('sortie_supprimer_lyceen', { 'sortie' : lyceenSortie.sortie.id, 'lyceen': lyceenSortie.lyceen.id }) }}">
+	                            	&times;
+	                   		 	</a>
+	                   		 </td>
+	                   		 <td>
+								<a href="{{path('voir_eleve', {'id' : lyceenSortie.lyceen.id} ) }}">{{lyceenSortie.lyceen}}</a>
+							</td>
+							<td>
+								{% if lyceenSortie.listeAttente > 0 %}
+									<span class="label label-default">  {{lyceenSortie.listeAttente}} sur liste d'attente </span>
+								{% endif %}
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+				</table>
+				<br/><br/><br/>
+			</div>
+	    {% endfor %}
+	</div>
 
 </div>

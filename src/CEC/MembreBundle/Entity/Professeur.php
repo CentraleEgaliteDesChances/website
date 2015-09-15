@@ -31,9 +31,9 @@ class Professeur implements UserInterface, \Serializable
      *
      * @ORM\Column(name="prenom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le prénom ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le prénom ne peut excéder 100 caractères."
      * )
      */
     private $prenom;
@@ -43,9 +43,9 @@ class Professeur implements UserInterface, \Serializable
      *
      * @ORM\Column(name="nom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom de famille ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom de famille ne peut excéder 100 caractères."
      * )
      */
     private $nom;
@@ -59,9 +59,9 @@ class Professeur implements UserInterface, \Serializable
      *     checkHost = true
      * )
      * @Assert\NotBlank(message = "L'adresse email ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "L'adresse email ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
     private $mail;
@@ -88,9 +88,9 @@ class Professeur implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephoneFixe;
@@ -103,9 +103,9 @@ class Professeur implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephonePortable;
@@ -161,18 +161,27 @@ class Professeur implements UserInterface, \Serializable
     private $dateModification;
 
     /**
-     * @var boolean
+     * @var \CEC\TutoratBundle\Entity\Lycee
      *
-     * @ORM\Column(name="referent", type="boolean")
+     * @ORM\ManyToOne(targetEntity="CEC\TutoratBundle\Entity\Lycee", inversedBy="referents")
      */
     private $referent;
+
+    /** 
+    * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
+    *
+    *@ORM\Column(name="checkMail", type="boolean")
+    */
+    private $checkMail = true;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(array("ROLE_PROFESSEUR"));
+        $this->setReferent(false);
     }
 
 
@@ -351,17 +360,7 @@ class Professeur implements UserInterface, \Serializable
     public function setRole($role)
     {
         $this->role = $role;
-        switch($role)
-        {
-            case "proviseur":
-                $this->addRole("ROLE_PROVISEUR");
-                break;
-            case "proviseurAdjoint":
-                $this->addRole("ROLE_PROVISEUR");
-                break;
-            default:
-            break;
-        }
+        
     
         return $this;
     }
@@ -407,25 +406,47 @@ class Professeur implements UserInterface, \Serializable
      */
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+        $this->roles->clear();
+        foreach($roles as $role)
+        {
+            $this->roles->add($role);
+        }
     
         return $this;
     }
 
     /**
+    * Update les roles attribués au professeur
+    */
+    public function updateRoles()
+    {
+        $this->setRoles(array('ROLE_PROFESSEUR'));
+
+        switch($this->role)
+        {
+            case "proviseur":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            case "proviseurAdjoint":
+                $this->addRole("ROLE_PROVISEUR");
+                break;
+            default:
+                break;
+        }
+
+        if ($this->referent != null)
+            $this->addRole('ROLE_PROFESSEUR_REFERENT');
+
+        return $this;
+    }
+    /**
     * Remove role
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->roles))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
-            }
-        }
-        $this->roles = array_values($this->roles);
+
+        $this->roles->removeElement($role);
+
     }
 
     /**
@@ -433,8 +454,12 @@ class Professeur implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if (!(in_array($role, $this->roles)))
-            $this->roles[] = $role;
+
+        if (!$this->roles->contains($role))
+            $this->roles->add($role);
+
+        return $this;
+
     }
 
     /**
@@ -444,21 +469,9 @@ class Professeur implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Professeur
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    
-        return $this;
-    }
 
     /**
      * Get dateCreation
@@ -468,19 +481,6 @@ class Professeur implements UserInterface, \Serializable
     public function getDateCreation()
     {
         return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Professeur
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-    
-        return $this;
     }
 
     /**
@@ -496,17 +496,12 @@ class Professeur implements UserInterface, \Serializable
     /**
      * Set referent
      *
-     * @param boolean $referent
+     * @param \CEC\TutoratBundle\Entity\Lycee $lycee
      * @return Professeur
      */
-    public function setReferent($referent)
+    public function setReferent($lycee)
     {
-        $this->referent = $referent;
-
-        if ($referent)
-            $this->addRole('ROLE_PROFESSEUR_REFERENT');
-        else
-            $this->removeRole('ROLE_PROFESSEUR_REFERENT');
+        $this->referent = $lycee;
     
         return $this;
     }
@@ -520,17 +515,17 @@ class Professeur implements UserInterface, \Serializable
     {
         return $this->referent;
     }
-	
-	/**
+
+    /**
      * Set motDePasse
      *
      * @param string $motDePasse
-     * @return Professeur
+     * @return Membre
      */
     public function setMotDePasse($motDePasse)
     {
         $this->motDePasse = $motDePasse;
-    
+
         return $this;
     }
 
@@ -588,5 +583,28 @@ class Professeur implements UserInterface, \Serializable
     public function getTelephonePortable()
     {
         return $this->telephonePortable;
+    }
+
+    /**
+     * Set checkMail
+     *
+     * @param boolean $checkMail
+     * @return Professeur
+     */
+    public function setCheckMail($checkMail)
+    {
+        $this->checkMail = $checkMail;
+    
+        return $this;
+    }
+
+    /**
+     * Get checkMail
+     *
+     * @return boolean 
+     */
+    public function getCheckMail()
+    {
+        return $this->checkMail;
     }
 }

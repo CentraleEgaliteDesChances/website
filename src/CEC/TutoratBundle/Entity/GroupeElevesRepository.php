@@ -5,7 +5,6 @@ namespace CEC\TutoratBundle\Entity;
 use Doctrine\ORM\EntityRepository;
 
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
-use CEC\TutoratBundle\Entity\Groupe;
 
 /**
  * GroupeElevesRepository
@@ -15,5 +14,17 @@ use CEC\TutoratBundle\Entity\Groupe;
  */
 class GroupeElevesRepository extends EntityRepository
 {
-
+	/**
+	* Fonction renvoyant le nombre de tutorés actifs en tutorat pour une année scolaire donnée
+	*
+	*/
+	public function comptePourAnneeScolaire(\CEC\MainBundle\AnneeScolaire\AnneeScolaire $anneeScolaire)
+	{
+		$query = $this->createQueryBuilder('ge')
+            ->select('COUNT(DISTINCT ge)')
+            ->where('ge.anneeScolaire = :annee_scolaire')
+            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->getQuery();
+        return $query->getSingleScalarResult();
+	}
 }

@@ -22,9 +22,9 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 class GroupesController extends Controller
 {
     /**
-     * Affiche la liste des groupes de tutorat
+     * Affiche la liste des groupes de tutorat actifs pour cette année scolaire
      */
-    public function tousAction()
+    public function actifsAction()
     {
         $anneeScolaire = AnneeScolaire::withDate();
         $listeGroupes = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire);    // tous les Groupes de l'année scolaire en cours
@@ -37,7 +37,33 @@ class GroupesController extends Controller
                 $groupes[] = $groupe;
         }
 
-        return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes));
+        $request = $this->getRequest();
+
+        return $this->render('CECTutoratBundle:Groupes:tous.html.twig', array('groupes' => $groupes, 'request' => $request));
+    }
+
+    /**
+    * Affiche la liste des groupes de tutorat inactifs
+    */
+    public function passifsAction()
+    {
+        $anneeScolaire = AnneeScolaire::withDate();
+        $listeGroupes = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findByAnneeScolaire($anneeScolaire);    // tous les Groupes de l'année scolaire en cours
+        $groupesActifs = array_unique(array_map(function (GroupeTuteurs $t){ return $t->getGroupe();}, $listeGroupes));
+
+
+        $groupesTotal = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findAll();
+
+        $groupes = array();
+        foreach($groupesTotal as $groupe)
+        {
+            if(!in_array($groupe, $groupesActifs))
+                $groupes[] = $groupe;
+        }
+
+        $request = $this->getRequest();
+
+        return $this->render('CECTutoratBundle:Groupes:passifs.html.twig', array('groupes' => $groupes, 'request' => $request));
     }
 
     /**
@@ -52,9 +78,9 @@ class GroupesController extends Controller
             
         // On rassemble les séances à venir
         $seances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
-        
-        $lyceens = $groupe->getLyceensParAnnee();
+
         $tuteurs = $groupe->getTuteursparAnnee();
+
         
         $anneesScolaires = array();
         foreach($tuteurs as $gt)
@@ -69,8 +95,16 @@ class GroupesController extends Controller
         });
         
         // On génère le formulaire de nouvelle séance
+
+        // Tableau pour les placeholders (on met les infos du groupe)
+        $options = array(
+            'lieu' => $groupe->getLieu(),
+            'rendezVous' => $groupe->getRendezVous(),
+            'debut' => $groupe->getDebut()->format('H:i'),
+            'fin' => $groupe->getFin()->format('H:i'));
+
         $nouvelleSeance = new Seance();
-        $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance);
+        $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance, $options);
         $nouvelleSeance->setGroupe($groupe);
         foreach ($tuteurs as $Groupetuteur) {
             $Groupetuteur->getTuteur()->addSeance($nouvelleSeance);
@@ -83,34 +117,26 @@ class GroupesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' )
         {
-            $nouvelleSeanceForm->bindRequest($request);
+            $nouvelleSeanceForm->handleRequest($request);
             if ($nouvelleSeanceForm->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($nouvelleSeance);
                 $entityManager->flush();
-                $this->get('session')->setFlash('success', 'La séance de tutorat a bien été ajoutée.');
+                $this->get('session')->getFlashBag()->add('success', 'La séance de tutorat a bien été ajoutée.');
                 return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
             } else {
                 $afficherModal = true;
             }
         }
         
-        // On change les placeholders du formulaire de création de séance
-        // pour correspondre aux infos du groupe de tutorat.
-        $nouvelleSeanceFormView = $nouvelleSeanceForm->createView();
-        $nouvelleSeanceFormView->getChild('lieu')->setAttribute('placeholder', $groupe->getLieu());
-        $nouvelleSeanceFormView->getChild('rendezVous')->setAttribute('placeholder', $groupe->getRendezVous());
-        $nouvelleSeanceFormView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
-        $nouvelleSeanceFormView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
+        
         
         return $this->render('CECTutoratBundle:Groupes:voir.html.twig', array(
             'groupe'       => $groupe,
-            'lyceens'      => $lyceens,
-            'tuteurs'      => $tuteurs,
             'seances'      => $seances,
             'anneesScolaires' => $anneesScolaires,
-            'nouvelle_seance_form' => $nouvelleSeanceFormView,
+            'nouvelle_seance_form' => $nouvelleSeanceForm->createView(),
             'afficher_modal'       => $afficherModal,
         ));
     }
@@ -125,23 +151,23 @@ class GroupesController extends Controller
         $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
         if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
         
-        $lyceens = $groupe->getLyceensParAnnee()->toArray();
+        $lyceens = $groupe->getLyceensParAnnee();
         $lyceens = array_filter($lyceens, function(GroupeEleves $e){
             return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
         });
         $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
 
-        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
+        $tuteurs = $groupe->getTuteursparAnnee();
         $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
             return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
         });
         $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
 
         // On trie les tuteurs et les lycéens par ordre alphabétique
-        usort($tuteurs, function($a, $b) {
+        usort($tuteurs, function(Membre $a, Membre $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
-        usort($lyceens, function($a, $b) {
+        usort($lyceens, function(Eleve $a, Eleve $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
         
@@ -153,11 +179,11 @@ class GroupesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST' && $request->request->has('groupe'))
         {
-            $groupeForm->bindRequest($request);
+            $groupeForm->handleRequest($request);
             if ($groupeForm->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations du groupe de tutorat ont bien été enregistrées.');
+                $this->get('session')->getFlashBag()->add('success', 'Les informations du groupe de tutorat ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
             }
         }
@@ -184,7 +210,7 @@ class GroupesController extends Controller
         $groupe = new Groupe();
         
         // Sélectionne le lycée associé s'il est spécifié
-        if ($lycee != null)
+        if ($lycee !== null)
         {
             $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee);
             if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
@@ -200,14 +226,14 @@ class GroupesController extends Controller
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($groupe);
                 $entityManager->flush();
                 
-                $this->get('session')->setFlash('success', 'Le groupe de tutorat a bien été créé. Vous pouvez désormais ajouter des séances, des lycéens et des tuteurs à ce groupe.');
+                $this->get('session')->getFlashBag()->add('success', 'Le groupe de tutorat a bien été créé. Vous pouvez désormais ajouter des séances, des lycéens et des tuteurs à ce groupe.');
                 return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
             }
         }
@@ -261,7 +287,7 @@ class GroupesController extends Controller
         {
             $lyceen = $data['lyceen'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un lycéen à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un lycéen à ajouter.');
             return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
         }
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
@@ -325,7 +351,7 @@ class GroupesController extends Controller
         {
             $tuteur = $data['tuteur'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un tuteur à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un tuteur à ajouter.');
             return $this->redirect($this->generateUrl('editer_groupe', array('groupe' => $groupe->getId())));
         }
         $tuteur = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($tuteur);
@@ -353,10 +379,15 @@ class GroupesController extends Controller
     {
         $membre = $this->getUser();
         $groupe = $membre->getGroupe();
+
+        $anneeScolaire = AnneeScolaire::withDate();
+
         $crARediger = array();
         if ($groupe) {
             $crARediger = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findARedigerByGroupe($groupe);
         }
+
+        $seancesGroupe = $groupe->getSeances();
 
         $seances = array();
         foreach($crARediger as $cr)
@@ -365,23 +396,19 @@ class GroupesController extends Controller
                 $seances[] = $cr->getSeance();
         }
 
-        $lyceens = $groupe->getLyceensParAnnee()->toArray();
-        $lyceens = array_filter($lyceens, function(GroupeEleves $e){
-            return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
-        });
-        $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
+        // On insère les séances où aucune acti n'a été planifiée !
+        $seancesSansActi = array();
+        foreach($seancesGroupe as $seance)
+        {
+            if(count($seance->getCompteRendus()) == 0 and $anneeScolaire->contientDate($seance->getDate()))
+                $seancesSansActi[] = $seance;
+        }
 
-        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
-        $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
-            return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
-        });
-        $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
 
         return array(
                      'seances' => $seances,
+                     'seancesSansActi' => $seancesSansActi,
                      'groupe' => $groupe,
-                     'lyceens' => $lyceens,
-                     'tuteurs' => $tuteurs,
-                     'anneeScolaire' => AnneeScolaire::withDate());
+                     'anneeScolaire' => $anneeScolaire);
     }
 }

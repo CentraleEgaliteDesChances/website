@@ -11,6 +11,8 @@ use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use CEC\MembreBundle\Form\Type\SecteursMembreType;
 use CEC\MembreBundle\Form\Type\GroupeMembreType;
 
+use CEC\MembreBundle\Entity\Secteur;
+
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
 use CEC\TutoratBundle\Entity\groupeEleves;
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
@@ -44,16 +46,16 @@ class ReglagesController extends Controller
         if ($request->isMethod("POST"))
         {
             if ($request->request->has($nomInformationsGenerales)) {
-                $infomationsGenerales->bindRequest($request);
+                $infomationsGenerales->handleRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
                     return $this->redirect($this->generateUrl('reglages_infos'));
                 }
             }
             
             if ($request->request->has($nomMotDePasse)) {
-                $motDePasse->bindRequest($request);
+                $motDePasse->handleRequest($request);
                 if ($motDePasse->isValid()) {
 					$data = $motDePasse->getData(); 
 					$factory = $this->get('security.encoder_factory');
@@ -65,9 +67,9 @@ class ReglagesController extends Controller
 						$membre->setMotDePasse($password);
 						
 						$this->getDoctrine()->getEntityManager()->flush();
-						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+						$this->get('session')->getFlashBag()->add('success', 'Le mot de passe a bien été modifié.');
 					} else {
-						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+						$this->get('session')->getFlashBag()->add('danger', 'Mauvais mot de passe'); 
 					}
 					return $this->redirect($this->generateUrl('reglages_infos'));
                 }
@@ -90,27 +92,42 @@ class ReglagesController extends Controller
         $form = $this->createForm(new GroupeMembreType(), $membre);
 
         $data = $this->getRequest()->get($form->getName());
-        if (array_key_exists('groupe', $data))
+        if($data!= null)
         {
-            $groupe = $data['groupe'];
-        } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
-            return $this->redirect($this->generateUrl('reglages_groupe'));
+            if (array_key_exists('groupe', $data))
+            {
+                $groupe = $data['groupe'];
+            } else {
+                $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+                return $this->redirect($this->generateUrl('reglages_groupe'));
+            }
+            $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+            if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
+
+            $groupeTuteur = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findOneBy(array('tuteur'=>$membre, 'anneeScolaire' => AnneeScolaire::withDate()));
+
+            $em = $this->getDoctrine()->getEntityManager();
+
+            if(!$groupeTuteur)
+            {
+                $groupeMembre = new GroupeTuteurs();
+                $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+                $groupeMembre->setTuteur($membre);
+                $groupeMembre->setGroupe($groupe);
+
+                $em->persist($groupeMembre);
+                $this->get('session')->getFlashBag()->add('success', 'Vous avez bien été affecté au groupe de tutorat.');
+            }
+            else
+            {
+                $groupeTuteur->setGroupe($groupe);
+                $this->get('session')->getFlashBag()->add('success', 'Votre groupe de tutorat a bien été modifié.');
+            }
+
+            $em->flush();
+
+            
         }
-        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
-        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
-
-        $groupeMembre = new GroupeTuteurs();
-        $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
-        $groupeMembre->setTuteur($membre);
-        $groupeMembre->setGroupe($groupe);
-
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $em->persist($groupeMembre);
-        $em->flush();
-
-        $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
         
         
         return array('form' => $form->createView());
@@ -130,14 +147,81 @@ class ReglagesController extends Controller
         
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Vos secteurs ont bien été mis à jour.');
+                $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->refreshUser($membre);
+                $membre->updateRoles();
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Vos secteurs ont bien été mis à jour. Une déconnexion est nécessaire pour voir les modifications de vos accès.');
                 return $this->redirect($this->generateUrl('reglages_secteurs'));
             }
         }
         
         return array('form' => $form->createView());
+    }
+
+    /** 
+    * Ajout de secteurs
+    *
+    * @Template()
+    */
+    public function creerSecteurAction()
+    {
+        $secteurs = $this->getDoctrine()->getRepository('CECMembreBundle:Secteur')->findAll();
+
+        $secteur = new Secteur();
+        $form = $this->createFormBuilder($secteur)
+                        ->add('nom', 'text', array('label' => 'Nom du nouveau secteur'))
+                    ->getForm();
+
+        $request = $this->getRequest();
+
+        if($request->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+            if($form->isValid())
+            {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Le secteur a bien été créé');
+
+                return $this->redirect($this->generateUrl('creer_secteur'));
+            }
+        }
+
+        return array('form' => $form->createView(), 'secteurs' => $secteurs);
+    }
+
+    /**
+    * Suppression de secteur
+    *
+    * @param integer $secteur : id du secteur à supprimer
+    * 
+    * @Template()
+    */
+    public function supprimerSecteurAction($secteur)
+    {
+        $secteur = $this->getDoctrine()->getRepository('CECMembreBundle:Secteur')->find($secteur);
+        if(!$secteur) throw $this->createNotFoundException('Le secteur demandé n\'a pas été trouvé !');
+
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Membres')->findAll();
+
+        // On retire les droits du secteur de chaque membre qui y était
+        foreach($membres as $membre)
+        {
+            if(in_array($secteur, $secteurs))
+            {
+                $membre->removeSecteur($secteur);
+                $membre->updateRoles();
+            }
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $em->remove($secteur);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Le secteur a bien été supprimé et les droits des membres y appartenant ont été modifiés');
+        return $this->redirect($this->generateUrl('creer_secteur'));
     }
 }

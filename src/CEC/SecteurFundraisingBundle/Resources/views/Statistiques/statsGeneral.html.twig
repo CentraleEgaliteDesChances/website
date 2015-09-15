@@ -1,0 +1,114 @@
+{% extends 'CECSecteurFundraisingBundle:Statistiques:base.html.twig' %}
+
+
+{% block right %}
+{{ parent() }}
+
+<h2> Statistiques de l'année {{anneeScolaire.afficherAnnees}} </h2>
+
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="3">Partenariats</th></tr>
+        </thead>
+        <tbody>
+            <tr class="tr-3">
+                <td>
+                    <div class="stats">{{ nbr_cordees }}</div>
+                    cordées actives
+                </td>
+                <td>
+                    <div class="stats">{{ nbr_lycees }}</div>
+                    lycées partenaires
+                </td>
+                <td>
+                    <div class="stats">{{ nbr_lyceens }}</div>
+                    lycéens suivis
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="2">Encadrement</th></tr>
+        </thead>
+        <tbody>
+            <tr class="tr-2">
+                <td>
+                    <div class="stats">{{ nbr_tuteurs }}</div>
+                    tuteurs actifs
+                </td>
+                <td>
+                    <div class="stats">{{ taux_encadrement }}</div>
+                    lycéens pour un tuteur
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="3">Tutorat</th></tr>
+        </thead>
+        <tbody>
+            <tr class="tr-3">
+                <td>
+                    <div class="stats">{{ nbr_seances }}</div>
+                    séances données
+                </td>
+                <td>
+                    <div class="stats">{{ nbr_heures_tutorat }}h</div>
+                    dispensées
+                </td>
+                <td>
+                    <div class="stats">{{ heure_lyceen }}</div>
+                    heure x lycéen
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="3">Activités</th></tr>
+        </thead>
+        <tbody>
+            <tr class="tr-3">
+                <td>
+                    <div class="stats">{{ nbr_activites }}</div>
+                    activités disponibles
+                </td>
+                <td>
+                    <div class="stats">{{ nbr_actis_utilisees }}</div>
+                    activités utilisées
+                </td>
+                <td>
+                    <div class="stats">{{ taux_utilisation_actis|number_format(2) * 100 }}%</div>
+                    taux d'utilisation
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-bordered table-large table-striped table-stats">
+        <thead>
+            <tr><th colspan="2">Sorties</th></tr>
+        </thead>
+        <tbody>
+            <tr class="tr-2">
+                <td>
+                    <div class="stats">{{ nbr_sorties }}</div>
+                    sorties organisées
+                </td>
+                <td>
+                    <div class="stats">{{ nbr_lyceens_sortie }}</div>
+                    lycéens participants
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}
+
+

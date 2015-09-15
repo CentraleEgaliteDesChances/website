@@ -4,6 +4,8 @@ namespace CEC\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 class MenuController extends Controller
 {
     public function menuAction()
@@ -19,15 +21,29 @@ class MenuController extends Controller
         }
         
         // On cherche si des compte-rendus sont à rédiger
-        $crARediger = array();
+        $crARediger = 0;
         if ($groupe) {
-            $crARediger = $doctrine->getRepository('CECActiviteBundle:CompteRendu')->findARedigerByGroupe($groupe);
+            $crARediger = count($doctrine->getRepository('CECActiviteBundle:CompteRendu')->findARedigerByGroupe($groupe));
+
+            foreach($groupe->getSeances() as $seance)
+            {
+                $anneeScolaire = AnneeScolaire::withDate();
+                if($anneeScolaire->contientDate($seance->getDate()) and count($seance->getCompteRendus()) == 0)
+                {
+                    $crARediger++;
+                }
+            }
         }
+
+
+
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
         
         return $this->render('CECMainBundle:Menu:menu.html.twig', array(
             'membre' => $membre,
             'seance_a_venir' => $seanceAVenir,
             'cr_a_rediger' => $crARediger,
+            'projets' => $projets,
         ));
     }
 	
@@ -41,9 +57,12 @@ class MenuController extends Controller
         $prof = $this->getUser();
         if (!$prof) throw $this->createNotFoundException('Impossible de trouver votre profil !');
 
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+
         
 		return $this->render('CECMainBundle:Menu:menu_prof.html.twig', array(
 			'professeur' => $prof,
+            'projets' => $projets,
 		));
 	}
 	
@@ -51,6 +70,8 @@ class MenuController extends Controller
 	{
 		$eleve = $this->getUser();
         if (!$eleve) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
 
         $seanceAVenir = false;
         if($groupe = $eleve->getGroupe())
@@ -60,7 +81,8 @@ class MenuController extends Controller
         
 		return $this->render('CECMainBundle:Menu:menu_eleve.html.twig', array(
 			'eleve' => $eleve,
-            'seance_a_venir' => $seanceAVenir	
+            'seance_a_venir' => $seanceAVenir,
+            'projets' => $projets,
 		));
 	}
 }

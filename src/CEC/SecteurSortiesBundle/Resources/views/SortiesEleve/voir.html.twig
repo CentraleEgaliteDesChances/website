@@ -14,19 +14,36 @@
     <tbody>
         {% for sortie in sorties %}
         <tr>
-            <td>
+            <td id="{{sortie.id}}">
+            	<span class="label pull-right"> 
+            		{% if sortie.places > 0 %}
+            			{% if sortie.places - sortie.lyceens|length > 0 %}
+            				{{ sortie.places - sortie.lyceens|length}} places restantes
+            			{% else %}
+            				Liste d'attente
+            			{% endif %}
+            		{% else %}
+            			Sortie ouverte à tous
+            		{% endif %}
+            	</span>
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
                 <p>Adresse : {{sortie.adresse}}</p>
-                <p style="text-align:justify;">{{sortie.description}}</p>
+                <p style="text-align:justify;" >{{sortie.description}}</p>
 
 					<form method="post" action="{{ path('sorties_eleve') }}" class="form-connexion">
 				
 						<input type="hidden" id="id" name="id" value="{{ sortie.id }}"  />
 						<div class="footer-controls">
-				{% if app.user in sortie.lyceens %}
+                {# On récupère la liste des lycéens présents à la sortie a partir de sortie.lyceens qui contient des 
+                instance de SortieEleve #}
+                {% set lyceens = [] %}
+                {% for sortieEleve in sortie.lyceens %}
+                    {% set lyceens = lyceens|merge([sortieEleve.lyceen]) %}
+                {% endfor %}
+				{% if app.user in lyceens %}
 							<button type="submit" class="btn btn-danger btn-mini pull-right">Se désinscrire</button>
 				{% else %}
-							<button type="submit" class="btn btn-success btn-mini pull-right {% if sortie.places > 0 and sortie.lyceens|length == sortie.places+10 %}disabled{% endif %}">S'inscrire {% if sortie.lyceens >= sortie.places and sortie.place > 0 %} sur liste d'attente {% endif %}</button>
+							<button type="submit" class="btn btn-success btn-mini pull-right {% if sortie.places > 0 and sortie.lyceens|length == (sortie.places + 10) %}disabled{% endif %}">S'inscrire {% if sortie.lyceens|length >= sortie.places and sortie.places > 0 %} sur liste d'attente {% endif %}</button>
 				{% endif %}
 						</div>
 					</form>

@@ -24,7 +24,10 @@ class GroupeType extends AbstractType
                 },
                 'empty_value' => false,
             ))
-            ->add('niveau')
+            ->add('niveau', 'choice', array(
+                    'label' => 'Niveau du groupe',
+                    'choices' => array('Secondes' => 'Secondes', 'Premières' => 'Premières', 'Terminales' => 'Terminales')
+            ))
             ->add('typeDeTutorat', 'choice', array(
                 'label' => 'Type de tutorat',
                 'choices' => array(

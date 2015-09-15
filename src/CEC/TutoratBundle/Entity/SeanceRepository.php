@@ -88,8 +88,11 @@ class SeanceRepository extends EntityRepository
         $query = $this->createQueryBuilder('s')
             ->select('COUNT(DISTINCT s)')
             ->join('s.groupe', 'g')
-            ->where('g.anneeScolaire = :annee_scolaire')
-            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->join('g.tuteursParAnnee', 'gt')
+            ->where('gt.anneeScolaire = :annee_scolaire')
+                ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->andWhere('s.date < :now')
+                ->setParameter('now', new \DateTime())
             ->getQuery();
         return $query->getSingleScalarResult();
     }
@@ -107,8 +110,11 @@ class SeanceRepository extends EntityRepository
         $query = $this->createQueryBuilder('s')
             ->select('DISTINCT s')
             ->join('s.groupe', 'g')
-            ->where('g.anneeScolaire = :annee_scolaire')
-            ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->join('g.tuteursParAnnee', 'gt')
+            ->where('gt.anneeScolaire = :annee_scolaire')
+                ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
+            ->andWhere('s.date < :now')
+                ->setParameter('now', new \DateTime())
             ->getQuery();
         $resultats = $query->getResult();
         

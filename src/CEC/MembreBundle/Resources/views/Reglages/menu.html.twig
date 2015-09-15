@@ -1,29 +1,26 @@
 <div class="well">
-    <ul class="nav nav-list">
-        <li class="nav-header">Mes informations</li>
+    <ul class="nav nav-pills nav-stacked">
+        <li class="secteur">Mes informations</li>
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_infos' %}class="active"{% endif %}
             >
                 <a href="{{ path('reglages_infos') }}">Profil</a>
         </li>
-        <li class="nav-header">Mon activité</li>
+        <li class="secteur">Mon activité</li>
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_groupe' %}class="active"{% endif %}
             >
                 <a href="{{ path('reglages_groupe') }}">Groupes de tutorat</a>
         </li>
         <li 
-            {% if app.request.attributes.get('_route') == 'reglages_groupe' %}class="active"{% endif %}
+            {% if app.request.attributes.get('_route') == 'reglages_secteurs' %}class="active"{% endif %}
             >
-                <a href="{{ path('reglages_groupe') }}">Mes secteurs</a>
+                <a href="{{ path('reglages_secteurs') }}">Mes secteurs</a>
         </li>
     </ul>
+
+    <br/>
+
+    <a href="{{ path('voir_membre', { 'membre' : app.user.id }) }}" class="btn btn-primary" style="margin-left:15px;">Retour au profil public</a>
 </div>
 
-<div class="well">
-	<ul class="nav nav-list">
-		<li>
-			<a href="{{ path('voir_membre', { 'membre' : membre.id }) }}">Retour au profil public</a>
-		</li>
-	</ul>
-</div>

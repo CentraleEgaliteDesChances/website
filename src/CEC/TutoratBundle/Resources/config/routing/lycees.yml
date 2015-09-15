@@ -1,60 +1,68 @@
 tous_lycees:
-    pattern: /
+    path: /
     defaults: { _controller: CECTutoratBundle:Cordees:toutes }
 
 creer_lycee:
-    pattern: /creation/{cordee}
+    path: /creation/{cordee}
     defaults: { _controller: CECTutoratBundle:Lycees:creer, cordee: null }
     requirements:
         cordee: \d+
 
 lycee:
-    pattern: /{lycee}
+    path: /{lycee}
     defaults: { _controller: CECTutoratBundle:Lycees:voir }
     requirements:
         lycee: \d+
 
 editer_lycee:
-    pattern: /{lycee}/edition
+    path: /{lycee}/edition
     defaults: { _controller: CECTutoratBundle:Lycees:editer }
     requirements:
         lycee: \d+
 
 lycee_supprimer_groupe:
-    pattern: /{lycee}/supprimer_groupe/{groupe}
+    path: /{lycee}/supprimer_groupe/{groupe}
     defaults: { _controller: CECTutoratBundle:Lycees:supprimerGroupe }
     requirements:
         lycee: \d+
         groupe: \d+
 
 lycee_supprimer_enseignant:
-    pattern: /{lycee}/supprimer_enseignant/{enseignant}
+    path: /{lycee}/supprimer_enseignant/{enseignant}
     defaults: { _controller: CECTutoratBundle:Lycees:supprimerEnseignant }
     requirements:
         lycee: \d+
         enseignant: \d+
 
 lycee_ajouter_enseignant:
-    pattern: /{lycee}/ajouter_enseignant
+    path: /{lycee}/ajouter_enseignant
     defaults: { _controller: CECTutoratBundle:Lycees:ajouterEnseignant }
     requirements:
         lycee: \d+
 
 lycee_supprimer_delegue:
-    pattern: /{lycee}/supprimer_delegue/{delegue}
+    path: /{lycee}/supprimer_delegue/{delegue}
     defaults: { _controller: CECTutoratBundle:Lycees:supprimerDelegue }
     requirements:
         lycee: \d+
         delegue: \d+
 
 lycee_ajouter_delegue:
-    pattern: /{lycee}/ajouter_delegue
+    path: /{lycee}/ajouter_delegue
     defaults: { _controller: CECTutoratBundle:Lycees:ajouterDelegue }
     requirements:
         lycee: \d+
 
 absences_lycee:
-    pattern: /releve-presences/{lycee}
+    path: /releve-presences/{lycee}
     defaults: {_controller: CECTutoratBundle:Seances:absencesLycee}
     requirements:
         lycee: \d+
+
+participation_sorties_lycee:
+    path: /participation-sorties-lycee/{lycee}
+    defaults: {_controller: CECSecteurSortiesBundle:SortiesProfesseur:participationSortiesLycee}
+
+participation_projets_lycee:
+    path: /participation-projets-lycee/{lycee}
+    defaults: {_controller: CECSecteurProjetsBundle:Projets:participationProjetsLycee}

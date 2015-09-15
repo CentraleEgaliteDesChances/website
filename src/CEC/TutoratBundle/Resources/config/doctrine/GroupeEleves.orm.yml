@@ -1,7 +1,7 @@
 CEC\TutoratBundle\Entity\GroupeEleves:
     type: entity
     table: null
-    repositoryClass: \CEC\TutoratBundle\Entity\GroupeElevesRepository
+    repositoryClass: CEC\TutoratBundle\Entity\GroupeElevesRepository
     fields:
         id:
             type: integer
@@ -17,4 +17,4 @@ CEC\TutoratBundle\Entity\GroupeEleves:
         lyceen:
             targetEntity: \CEC\MembreBundle\Entity\Eleve
             inversedBy: groupeParAnnee
-    lifecycleCallBacks: { }
+    lifecycleCallbacks: {  }

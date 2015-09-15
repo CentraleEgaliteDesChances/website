@@ -1,0 +1,21 @@
+{% extends 'CECMainBundle::2-columns.html.twig' %}
+
+{% block stylesheets %}
+{{ parent() }}
+    {% stylesheets
+        '@CECSecteurFundraisingBundle/Resources/public/less/statistiques.less'
+        '@CECTutoratBundle/Resources/public/less/seances.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block left %}
+    {{ render(controller('CECSecteurFundraisingBundle:Statistiques:menu', { 'request' : app.request })) }}
+{% endblock %}
+
+
+{% block right %}
+{{ parent() }}
+
+{% endblock %}

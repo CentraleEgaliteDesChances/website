@@ -10,5 +10,5 @@
 {% endblock %}
 
 {% block left %}
-    {% render 'CECSecteurSortiesBundle:SortiesProfesseur:menu' with { 'request': app.request } %}
+    {{ render(controller('CECSecteurSortiesBundle:SortiesProfesseur:menu', { 'request': app.request })) }}
 {% endblock %}

@@ -34,7 +34,7 @@ class ActivitesController extends Controller
         $recherche = new RechercheActivite();
         $seanceAVenir = null;
         if ($groupe = $this->getUser()->getGroupe()
-                and $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
+                && $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
             $recherche->setGroupe($groupe);
         }
         $form = $this->createForm(new RechercheActiviteType(), $recherche);
@@ -45,7 +45,7 @@ class ActivitesController extends Controller
         
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $resultats = $activiteRepository->findWithRechercheActivite($recherche);
             }
@@ -60,8 +60,7 @@ class ActivitesController extends Controller
         }
         
         // On trie les résultat par note moyenne globale
-        usort($resultats, function (Activite $activite1, Activite $activite2) {
-            global $notes;
+        usort($resultats, function (Activite $activite1, Activite $activite2)use($notes) {
             $note1 = $notes[$activite1->getId()];
             $note2 = $notes[$activite2->getId()];
             if (is_null($note1)) {
@@ -125,7 +124,7 @@ class ActivitesController extends Controller
         $nouvelleVersion = false;
         $dernierCompteRendu = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
                                        ->getDernierPourActivite($activite);
-        if (!$dernierCompteRendu or !$dernierCompteRendu->isRedige()) {
+        if (!$dernierCompteRendu || !$dernierCompteRendu->isRedige()) {
             $nouvelleVersion = true;
         } else {
             $document = $activite->getDocument();
@@ -162,15 +161,17 @@ class ActivitesController extends Controller
         $documentForm = $this->createForm(new DocumentType(), new Document());
         
         // On classe les versions par date de création
+
         $versionsTriees = $activite->getVersions()->toArray();
-        usort($versionsTriees, function ($version1, $version2) {
+        usort($versionsTriees, function (Document $version1, Document $version2) {
+
             return $version1->getDateCreation() < $version2->getDateCreation();
         });
         
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
         {
-            $activiteForm->bindRequest($request);
+            $activiteForm->handleRequest($request);
             if ($activiteForm->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->flush();
@@ -210,7 +211,7 @@ class ActivitesController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod('POST'))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($activite);
@@ -218,7 +219,7 @@ class ActivitesController extends Controller
                 $entityManager->flush();
                 
                 $this->get('session')
-                    ->setFlash('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
+                    ->getFlashBag()->add('success', 'L\'activité a bien été créé et la première version a été téléchargée sur le serveur.');
                 return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
             }
         }
@@ -248,7 +249,5 @@ class ActivitesController extends Controller
         $this->get('session')->getFlashBag()
             ->add('success', 'L\'activité a bien été supprimée, ainsi que tous les documents et compte-rendus associés.');
         return $this->redirect($this->generateUrl('activites_voir', array('activite' => $activite->getId())));
-        
-        return array();
     }
 }

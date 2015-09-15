@@ -1,0 +1,65 @@
+{% extends 'CECMainBundle::2-columns.html.twig' %}
+
+
+{% block right %}
+
+{{ parent() }}
+
+<h2> Groupes de tutorat inactifs </h2>
+
+<table class="table table-bordered table-hover table-striped">
+    {% if groupes|length > 0 %}
+        <tbody>
+            {% for groupe in groupes %}
+            <tr>
+                <td>
+
+                    <a href="{{ path('groupe', { 'groupe': groupe.id }) }}">
+                        <strong>
+                            {% for lycee in groupe.lycees %}
+                                {{ lycee.nom }}
+                                {% if not loop.last %}& {% endif %}
+                            {% endfor %}
+                            ({{ groupe.niveau }})
+                        </strong>
+                        <span class="muted"> - {{ groupe.typeDeTutorat }}</span><br />
+                        Tous les {{ cycle(jours, groupe.debut|date('N'))|lower }}s à {{ groupe.debut|date('G\\hi') }}, {{ groupe.lieu|lower }}.
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead><tr><th class="muted"><h4>Tous les groupes de tutorat sont actifs</h4></th></tr></thead>
+    {% endif %}
+</table>
+
+{% if is_granted('ROLE_BURO') %}
+<a href="{{ path('creer_groupe') }}" class="btn btn-default pull-right">Ajouter un groupe de tutorat</a>
+{% endif %}
+<br/>
+{% endblock %}
+
+{% block left %}
+
+    <div class="well">
+    <ul class="nav nav-list">
+        <li
+            {% if request.attributes.get('_route') == 'tous_groupes'%}
+                class="active"
+            {% endif %}
+            >
+                <a href="{{ path('tous_groupes') }}" class="tous_lycees">Groupes actifs cette année</a>
+        </li>
+        
+        <li
+            {% if request.attributes.get('_route') == 'groupes_passifs'%}
+                class="active"
+            {% endif %}
+            >
+                <a href="{{path('groupes_passifs') }}"> Groupes inactifs </a>
+        </li>
+    </ul>
+</div>
+
+{% endblock %}

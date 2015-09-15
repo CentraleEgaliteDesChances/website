@@ -4,8 +4,8 @@
 {% block right %}
 {{parent()}}
 
-<h1>Modifier une réunion d'informations</h1>
-<div class="well" style = "padding-left:20px;padding-right:15px;">
+<h2>Modifier une réunion d'informations</h2>
+
 <form class="form form-horizontal" method="post" action="{{ path('modifier_reunion', {'id': id}) }}">
     {{ form_widget(form) }}
     <div class="footer-controls">
@@ -13,7 +13,7 @@
         <a href="{{ path('liste_reunions') }}" class="btn pull-right">Annuler</a>
     </div>
 </form>
-</div>
+
 
 {% endblock %}
 

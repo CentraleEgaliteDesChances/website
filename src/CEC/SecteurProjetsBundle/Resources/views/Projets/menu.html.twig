@@ -6,71 +6,39 @@
 			{% endif %}
 			>
 				<a href="{{ path('description_projets') }}" >Pôle Projets de CEC</a>
-		</li>	
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "stage-theatre" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'stage-theatre'})}}" > Stage Théâtre </a>
 		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "focus-europe" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'focus-europe'})}}" > Focus Europe </a>
-		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "centrale-prepa" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'centrale-prepa'})}}" > Centrale Prépa </a>
-		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "good-morning-london" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'good-morning-london'})}}" > Good Morning London </a>
-		</li>
-		
-		<li	
-			{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == "artcessible" %}
-				class="active"
-			{% endif %}
-			>
-				<a href="{{path('description_projet', {'slug': 'artcessible'})}}" > (Art)cessible </a>
-		</li>
+		{% for projet in projets %}	
+			<li	
+				{% if request.attributes.get('_route_params')['slug'] is defined and request.attributes.get('_route_params')['slug'] == projet.slug %}
+					class="active"
+				{% endif %}
+				>
+					<a href="{{path('description_projet', {'slug': projet.slug })}}" > {{projet.nom}} </a>
+			</li>
+		{% endfor %}
 
 	</ul>
 </div>
 
 <div class="well">
 
-	{% if is_granted('ROLE_SECTEUR_PROJETS') %}
-		<ul class="nav nav-pills nav-stacked">
+	<ul class="nav nav-pills nav-stacked">
+		{% if is_granted('ROLE_SECTEUR_PROJETS') %}
 			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information</a> </li>
 			<li> <a href="{{path('dossier_inscription')}}">Dossiers d'inscription</a></li>
 			<li> <a href="{{path('ouverture_inscription')}}">Ouvrir les inscriptions</a></li>
 			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
 			<li> <a href="{{path('gerer_albums')}}"> Gérer les albums</a></li>
-		</ul>
-	{% elseif is_granted('ROLE_ELEVE')%}
-		<ul class="nav nav-pills nav-stacked">
-			<li> <a href="{{path('suivi_inscriptions')}}">Suivi de tes inscriptions </a> </li>
+		{% elseif is_granted('ROLE_ELEVE')%}
+			<li> <a href="{{path('suivi_inscriptions', {'lyceen' : app.user.id } ) }}">Suivi de tes inscriptions </a> </li>
 			<li> <a href="{{path('liste_reunions')}}"> Réunions d'information </a> </li>
 			<li> <a href="{{path('voir_albums')}}">Photos des voyages</a></li>
-		</ul>
-	{% elseif is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROFESSEUR_PROVISEUR') %}
-		<ul class="nav nav-pills nav-stacked">
-			<li> <a href="{{path('suivi_inscriptions') }}"> Menu de consultation des inscriptions </a> </li>
-		</ul>
-	{% endif %}
+		{% elseif is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROFESSEUR_PROVISEUR') %}
+			<li> <a href="{{path('participation_projets_lycee', {'lycee' : app.user.lycee.id } ) }}"> Menu de consultation des inscriptions </a> </li>
+		{% elseif is_granted('ROLE_PROFESSEUR') %}
+			<li><a href="{{path('voir_albums')}}"> Voir les photos des projets </a> </li>
+		{% endif %}
+	</ul>
 		
 </div>
 

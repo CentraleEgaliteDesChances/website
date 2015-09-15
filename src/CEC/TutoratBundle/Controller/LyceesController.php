@@ -5,6 +5,7 @@ namespace CEC\TutoratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CEC\TutoratBundle\Entity\Lycee;
 use CEC\TutoratBundle\Entity\Groupe;
+use CEC\TutoratBundle\Entity\Seance;
 use CEC\TutoratBundle\Form\Type\LyceeType;
 use CEC\TutoratBundle\Form\Type\AjouterEnseignantType;
 use CEC\TutoratBundle\Form\Type\AjouterDelegueType;
@@ -12,6 +13,9 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
+
+use CEC\MembreBundle\Entity\Eleve;
+use CEC\MembreBundle\Entity\Membre;
 
 class LyceesController extends Controller
 {
@@ -39,29 +43,21 @@ class LyceesController extends Controller
                 // On rassemble les séances à venir
                 $groupeSeances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
                 $seances = array_merge($seances, $groupeSeances);
+
+                $lyceens = array_merge($lyceens, $groupe->getLyceensAnnee(AnneeScolaire::withDate()));
+
+                $tuteurs = array_merge($tuteurs, $groupe->getTuteursAnnee(AnneeScolaire::withDate()));
             }
         }
-
-        $lyceens = $groupe->getLyceensParAnnee()->toArray();
-        $lyceens = array_filter($lyceens, function(GroupeEleves $e){
-            return ($e->getAnneeScolaire() == AnneeScolaire::withDate());
-        });
-        $lyceens = array_map(function(GroupeEleves $e){return $e->getLyceen();}, $lyceens);
-
-        $tuteurs = $groupe->getTuteursparAnnee()->toArray();
-        $tuteurs = array_filter($tuteurs, function(GroupeTuteurs $t){
-            return ($t->getAnneeScolaire() == AnneeScolaire::withDate());
-        });
-        $tuteurs = array_map(function(GroupeTuteurs $t){return $t->getTuteur();}, $tuteurs);
         
         // On trie les tuteurs, les lycéens et les séances par ordre alphabétique et chronologique
-        usort($tuteurs, function($a, $b) {
+        usort($tuteurs, function(Membre $a, Membre $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
-        usort($lyceens, function($a, $b) {
+        usort($lyceens, function(Eleve $a, Eleve $b) {
             return strcmp($a->getNom(), $b->getNom());
         });
-        usort($seances, function($a, $b) {
+        usort($seances, function(Seance $a, Seance $b) {
             return $a->getDate() > $b->getDate();
         });
         
@@ -84,35 +80,28 @@ class LyceesController extends Controller
     public function apercuAction(Lycee $lycee)
     {
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
-        
-        // On récupère le proviseur et le référent
-        $enseignants = $lycee->getProfesseurs();
-        $proviseur = null;
-        $referent = null;
-        foreach ($enseignants as $enseignant) {
-            $roles = $enseignant->getRoles();
-            if (in_array("ROLE_PROFESSEUR_REFERENT",$roles)) $referent = $enseignant;
-            if (in_array("ROLE_PROVISEUR",$roles)) $proviseur = $enseignant;
-        }
             
         // On trouve les tuteurs, les lycéens, les niveaux, les types de tutorat et les prochaines séances
         $tuteurs = array();
         $lyceens = array();
         $types = array();
         $niveaux = array();
-        $seances = array();
         foreach ($lycee->getGroupes() as $groupe)
         {
-            $tuteurs = array_merge($tuteurs, $groupe->getTuteursParAnnee()->toArray());
-            $lyceens = array_merge($lyceens, $groupe->getLyceensParAnnee()->toArray());
-            if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
-            if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
+
+            // Si le groupe a une activité de tutorat cette année
+            if($resultat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findBy(array('groupe'=>$groupe, 'anneeScolaire'=> AnneeScolaire::withDate())))
+            {
+                $tuteurs = array_merge($tuteurs, $groupe->getTuteursAnnee(AnneeScolaire::withDate()));
+                $lyceens = array_merge($lyceens, $groupe->getLyceensAnnee(AnneeScolaire::withDate()));
+                if (!in_array($groupe->getTypeDeTutorat(), $types)) $types[] = $groupe->getTypeDeTutorat();
+                if (!in_array($groupe->getNiveau(), $niveaux)) $niveaux[] = $groupe->getNiveau();
+            }
+
         }
         
         return $this->render('CECTutoratBundle:Lycees:apercu.html.twig', array(
             'lycee'    => $lycee,
-            'referent' => $referent,
-            'proviseur'=> $proviseur,
             'tuteurs'  => $tuteurs,
             'lyceens'  => $lyceens,
             'niveaux'  => $niveaux,
@@ -131,19 +120,38 @@ class LyceesController extends Controller
         if (!$lycee) throw $this->createNotFoundException('Impossible de trouver le lycée !');
         
         // On génère les formulaires
-        $lyceeForm = $this->createForm(new LyceeType(), $lycee);
+        $lyceeForm = $this->createForm(new LyceeType($lycee), $lycee);
         $ajouterEnseignantForm = $this->createForm(new AjouterEnseignantType());
         $ajouterDelegueForm = $this->createForm(new AjouterDelegueType($lycee));
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $lyceeForm->bindRequest($request);
+            $lyceeForm->handleRequest($request);
             if ($lyceeForm->isValid())
             {
+                $this->getDoctrine()->getEntityManager()->flush();
+
+                // On met à jour les rôles de tous les VP Lycées, des élèves délégués ainsi que des professeurs référents de ce lycée
+                $lycee = $this->getDoctrine()->getRepository('CECTutoratBundle:Lycee')->find($lycee->getId());
+                foreach($lycee->getVpLycees() as $tuteur)
+                {
+                    $tuteur->updateRoles();
+                }
+
+                foreach($lycee->getDelegues() as $lyceen)
+                {
+                    $lyceen->updateRoles();
+                }
+
+                foreach($lycee->getReferents() as $prof)
+                {
+                    $prof->updateRoles();
+                }
 
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations du lycée ont bien été enregistrées.');
+
+                $this->get('session')->getFlashBag()->add('success', 'Les informations du lycée ont bien été enregistrées.');
                 return $this->redirect($this->generateUrl('lycee', array('lycee' => $lycee->getId())));
             }
         }
@@ -167,7 +175,7 @@ class LyceesController extends Controller
         $lycee = new Lycee();
         
         // Sélectionne le lycée associé s'il est spécifié
-        if ($cordee != null)
+        if ($cordee !== null)
         {
             $cordee = $this->getDoctrine()->getRepository('CECTutoratBundle:Cordee')->find($cordee);
             if (!$cordee) throw $this->createNotFoundException('Impossible de trouver la Cordée de la Réussite !');
@@ -175,19 +183,19 @@ class LyceesController extends Controller
         }
         
         // Génère le formulaire
-        $form = $this->createForm(new LyceeType(), $lycee);
+        $form = $this->createForm(new LyceeType($lycee));
         
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST')
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($lycee);
                 $entityManager->flush();
                 
-                $this->get('session')->setFlash('success', 'Le lycée a bien été créé. Vous pouvez désormais ajouter des groupes de tutorat et des contacts — rubrique Enseignants.');
+                $this->get('session')->getFlashBag()->add('success', 'Le lycée a bien été créé. Vous pouvez désormais ajouter des groupes de tutorat et des contacts — rubrique Enseignants.');
                 return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
             }
         }
@@ -224,7 +232,7 @@ class LyceesController extends Controller
         $entityManager->remove($groupe);
         
         $entityManager->flush();
-        $this->get('session')->setFlash('alert', 'Le groupe de tutorat a bien été supprimé. Les séances, lycéens et tuteurs associés ont donc été retirés de ce groupe de tutorat avant sa suppression ; les statistiques associées — présences, nombre d\'heures de tutorat, nombre de tuteurs, activités utilisées — ont par conséquent été conservées.');
+        $this->get('session')->getFlashBag()->add('alert', 'Le groupe de tutorat a bien été supprimé. Les séances, lycéens et tuteurs associés ont donc été retirés de ce groupe de tutorat avant sa suppression ; les statistiques associées — présences, nombre d\'heures de tutorat, nombre de tuteurs, activités utilisées — ont par conséquent été conservées.');
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
     }
     
@@ -265,7 +273,7 @@ class LyceesController extends Controller
         {
             $enseignant = $data['enseignant'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un enseignant à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un enseignant à ajouter.');
             return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
         }
         $enseignant = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($enseignant);
@@ -292,6 +300,7 @@ class LyceesController extends Controller
         if (!$delegue) throw $this->createNotFoundException('Impossible de trouver le délégué !');
         
         $delegue->setDelegue(null);
+        $delegue->updateRoles();
         $this->getDoctrine()->getEntityManager()->flush();
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
     }
@@ -315,13 +324,14 @@ class LyceesController extends Controller
         {
             $delegue = $data['delegue'];
         } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un délégué à ajouter.');
+            $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un délégué à ajouter.');
             return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));
         }
         $delegue = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($delegue);
         if (!$delegue) throw $this->createNotFoundException('Impossible de trouver le délégué !');
         
         $delegue->setDelegue($lycee);
+        $delegue->updateRoles();
         $this->getDoctrine()->getEntityManager()->flush();
         
         return $this->redirect($this->generateUrl('editer_lycee', array('lycee' => $lycee->getId())));

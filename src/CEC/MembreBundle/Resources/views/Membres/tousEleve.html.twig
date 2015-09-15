@@ -2,20 +2,11 @@
 {% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
 
 {% block right %}
-    <div class="row narrow-header">
-                {% block narrow_header %}
-                    <h3 class="narrow-title">
-                        {% block narrow_title %}
-                            Eleves
-                        {% endblock %}
-                    </h3>
-                {% endblock %}
-     </div>
-     <div class="row narrow-body">{% block narrow_body %}
+    <h2> Liste des élèves</h2>
 
 {{ parent() }}
 
-<table class="table table-bordered table-hover table-striped">
+<table class="table table-hover table-bordered table-striped">
     {% if eleves|length > 0 %}
         <tbody>
             {% for eleve in eleves %}
@@ -34,13 +25,10 @@
     {% endif %}
 </table>
 
-{% endblock %}
-
-</div>
 
 {% endblock %}
 
 {% block left %}
     {{parent()}}
-    {% render 'CECMembreBundle:Membres:menu' with { 'request': app.request} %}
+    {{ render(controller('CECMembreBundle:Membres:menu', { 'request': app.request})) }}
 {% endblock %}

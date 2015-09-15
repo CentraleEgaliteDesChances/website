@@ -19,11 +19,10 @@ class ReglagesProfesseurController extends Controller
      *
      * @Template()
      */
-    public function infosAction($professeur)
+    public function infosAction()
     {
         // On récupère l'utilisateur actuel
-        $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($professeur);
-        if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
+        $membre = $this->getUser();
         
         $nomInformationsGenerales = 'InfosProfesseur';
         $infomationsGenerales = $this->get('form.factory')
@@ -39,16 +38,21 @@ class ReglagesProfesseurController extends Controller
         if ($request->isMethod("POST"))
         {
             if ($request->request->has($nomInformationsGenerales)) {
-                $infomationsGenerales->bindRequest($request);
+                $infomationsGenerales->handleRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
+                    // On met à jour les rôles
+                    $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->refreshUser($membre);
+                    $membre->updateRoles();
+                    $this->getDoctrine()->getEntityManager()->flush();
+
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées. Une déconnexion peut être nécessaire pour prendre en compte votre nouveau rôle.');
                     return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }
             }
             
             if ($request->request->has($nomMotDePasse)) {
-                $motDePasse->bindRequest($request);
+                $motDePasse->handleRequest($request);
                 if ($motDePasse->isValid()) {
 					$data = $motDePasse->getData(); 
 					$factory = $this->get('security.encoder_factory');
@@ -60,9 +64,9 @@ class ReglagesProfesseurController extends Controller
 						$membre->setMotDePasse($password);
 						
 						$this->getDoctrine()->getEntityManager()->flush();
-						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+						$this->get('session')->getFlashBag()->add('success', 'Le mot de passe a bien été modifié.');
 					} else {
-						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+						$this->get('session')->getFlashBag()->add('danger', 'Mauvais mot de passe'); 
 					}
 					return $this->redirect($this->generateUrl('reglages_infos_professeur'));
                 }

@@ -3,110 +3,110 @@
 
 
 {% block right %}
-    <div class="row narrow-header">
-                {% block narrow_header %}
-                    <h3 class="narrow-title">
-                        {% block narrow_title %}
-                            {{lycee.nom}}
-                        {% endblock %}
-                    </h3>
-                {% endblock %}
-     </div>
-     <div class="row narrow-body">{% block narrow_body %}
+   <h2> {{ lycee.nom }} </h2>
 
 {{ parent() }}
 
 <table class="table table-bordered table-hover table-striped">
-    <tbody>
     {% if categorie == 'professeurs' %}
-        <tr>
-            <th> Chefs d'établissement </th>
-        </tr>
-        {% for professeur in lycee.professeurs %}
-            {% if is_granted("ROLE_PROVISEUR") %}
-                <tr>
-                    <td>
-                        <a href="{{ path('voir_professeur', {'id' : professeur.id}) }}">
-                            {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
-                        </a>
-                    </td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-        <tr>
-            <th> Référents </th>
-        </tr>
-        {% for professeur in lycee.professeurs %}
-            {% if is_granted("ROLE_PROFESSEUR_REFERENT") %}
-                <tr>
-                    <td>
-                        <a href="{{ path('voir_professeur', {'id' : professeur.id}) }}">
-                            {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
-                        </a>
-                    </td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-        <tr>
-            <th> Enseignants </th>
-        </tr>
-        {% for professeur in lycee.professeurs %}
-            {% if not is_granted("ROLE_PROVISEUR") and not is_granted("ROLE_PROFESSEUR_REFERENT") %}
-                <tr>
-                    <td>
-                        <a href="{{ path('voir_professeur', {'id' : professeur.id}) }}">
-                            {{ professeur.prenom|ucwords }} {{ professeur.nom|ucwords }}
-                        </a>
-                    </td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-        {% for groupe in lycee.groupes %}
+        <thead>
             <tr>
-                <th>
-                    <a href="{{ path('groupe', { 'groupe' : groupe.id }) }}"> {{groupe.description}}</a>
-                </th>
+                <th class="text-center"> Equipe encadrante du {{lycee.nom}}</th>
             </tr>
-            {% if categorie == 'tuteurs' %}
-                {% for tuteur in groupe.tuteurs %}
+        </thead>
+        <tbody>
+            <tr>
+                <th> Chefs d'établissement </th>
+            </tr>
+            {% for professeur in lycee.professeurs %}
+                {% if is_granted("ROLE_PROVISEUR") %}
                     <tr>
                         <td>
-                            <a href="{{ path('voir_membre', { 'membre': tuteur.id }) }}" style="margin-top: 1px; display: inline-block;">
-                                {{ tuteur.prenom|ucwords }} {{ tuteur.nom|ucwords }}
-                             </a>
-                             {% if is_granted("ROLE_VP_LYCEE") %}
-                                <span class="label pull-right"> VP Lycée </span>
-                            {% endif %}
+                            <a href="{{ path('voir_professeur', {'id' : professeur.id}) }}">
+                                {{ professeur.prenom|ucwords }} {{ professeur.nom|ucwords }}
+                            </a>
                         </td>
                     </tr>
-                {% endfor %}
-            {% endif %}
-            {% if categorie == 'eleves' %}
-                {% for eleve in groupe.lyceens %}
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <th> Référents </th>
+            </tr>
+            {% for professeur in lycee.professeurs %}
+                {% if is_granted("ROLE_PROFESSEUR_REFERENT") %}
                     <tr>
                         <td>
-                            <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
-                                {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
-                             </a>
-                             {% if is_granted("ROLE_ELEVE_DELEGUE") %}
-                                <span class="label pull-right"> Délégué </span>
-                            {% endif %}
+                            <a href="{{ path('voir_professeur', {'id' : professeur.id}) }}">
+                                {{ professeur.prenom|ucwords }} {{ professeur.nom|ucwords }}
+                            </a>
                         </td>
                     </tr>
-                {% endfor %}
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <th> Enseignants </th>
+            </tr>
+            {% for professeur in lycee.professeurs %}
+                {% if not is_granted("ROLE_PROVISEUR") and not is_granted("ROLE_PROFESSEUR_REFERENT") %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('voir_professeur', {'id' : professeur.id}) }}">
+                                {{ professeur.prenom|ucwords }} {{ professeur.nom|ucwords }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    {% else %}
+        <thead>
+            <tr>
+                <th class="text-center"> {{categorie == "tuteurs" ? "Tuteurs" : "Lycéens"}} du lycée cette année </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for groupe in lycee.groupes %}
+                <tr>
+                    <th>
+                        <a href="{{ path('groupe', { 'groupe' : groupe.id }) }}"> {{groupe.description}}</a>
+                    </th>
+                </tr>
+                {% if categorie == 'tuteurs' %}
+                    {% for tuteur in groupe.tuteursAnnee(anneeScolaire) %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('voir_membre', { 'membre': tuteur.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    {{ tuteur.prenom|ucwords }} {{ tuteur.nom|ucwords }}
+                                 </a>
+                                 {% if is_granted("ROLE_VP_LYCEE") %}
+                                    <span class="label pull-right"> VP Lycée </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if categorie == 'eleves' %}
+                    {% for eleve in groupe.lyceensAnnee(anneeScolaire) %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
+                                 </a>
+                                 {% if is_granted("ROLE_ELEVE_DELEGUE") %}
+                                    <span class="label pull-right"> Délégué </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
     </tbody>
+    {% endif %}
 </table>
-
-{% endblock %}
-</div>
 
 {% endblock %}
 
 {% block left %}
     {{parent()}}
-    {% render 'CECMembreBundle:Membres:menu' with { 'request': app.request } %}
+    {{ render(controller('CECMembreBundle:Membres:menu' ,{ 'request': app.request })) }}
 {% endblock %}

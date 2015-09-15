@@ -71,7 +71,7 @@ security:
             remember_me:
                 key: "%secret%"
                 lifetime: 315360000
-                path: ^/(eleve|professeur|tuteur|reglages|membres|connexion)/
+                path: /
                 domain: ~
         public:
             pattern: ^/
@@ -80,6 +80,7 @@ security:
     access_control:
         - { path: ^/connexion$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/connexion/oubli$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/inscription/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/professeur/, roles: ROLE_PROFESSEUR }
         - { path: ^/tuteur/, roles: ROLE_TUTEUR}
         - { path: ^/eleve/, roles: ROLE_ELEVE}

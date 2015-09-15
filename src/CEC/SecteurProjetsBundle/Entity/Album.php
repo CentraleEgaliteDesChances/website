@@ -43,7 +43,7 @@ class Album
 	/**
 	*@var \Doctrine\Common\Collections\Collection
 	*
-	*@ORM\OneToMany(targetEntity="CEC\SecteurProjetsBundle\Entity\Image", mappedBy="album", cascade={"persist", "remove"})
+	*@ORM\OneToMany(targetEntity="CEC\SecteurProjetsBundle\Entity\Image", mappedBy="album", cascade={"persist", "remove"}, orphanRemoval=true)
 	*/
 	private $images;
 	
@@ -111,7 +111,15 @@ class Album
      */
     public function setImages($images)
     {
-        $this->images = $images;
+        $this->images->clear();
+        foreach($images as $image)
+        {
+            $this->images->add($image);
+        }
+        foreach($images as $image)
+        {
+            $image->setAlbum($this);
+        }
     
         return $this;
     }
@@ -123,27 +131,28 @@ class Album
      */
     public function getImages()
     {
-        return $this->images;
+        return $this->images->toArray();
     }
 	
 	/**
 	* Add image
-	*@var \CEC\SecteurProjetsBundle\Entity\Image
-	*@return Album
+	* @var \CEC\SecteurProjetsBundle\Entity\Image
+	* @return Album
 	*/
 	public function addImage(\CEC\SecteurProjetsBundle\Entity\Image $image)
 	{
-		$this->images[] = $image;
+		$this->images->add($image);
 		return $this;
 	}
 	
 	/**
 	* Remove image
 	* @var \CEC\SecteurProjetsBundle\Entity\Image
-	* @return Album*/
+	* @return Album
+    */
 	public function removeImage(\CEC\SecteurProjetsBundle\Entity\Image $image)
 	{
-		$this->images-removeElement($image);
+		$this->images->removeElement($image);
 		return $this;
 	}
 }

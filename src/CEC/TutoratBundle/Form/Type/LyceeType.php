@@ -5,11 +5,14 @@ namespace CEC\TutoratBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityRepository;
 
 class LyceeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $lycee = $this->lycee;
+
         $builder
             ->add('nom')
             ->add('pivot', 'choice', array(
@@ -45,7 +48,26 @@ class LyceeType extends AbstractType
             ->add('vpLycees', null, array(
                 'label'       => 'VP Lycées',
                 'empty_value' => 'Aucun VP Lycée',
+                'empty_data' => null,
             ));
+            if($lycee->getNom() != "")
+            {
+                $builder->add('referents','entity', array(
+                    'label' => 'Référents',
+                    'empty_value'=>'Aucun professeur référent',
+                    'empty_data' => null,
+                    'multiple' => true,
+                    'required'=>false,
+                    'class' => 'CECMembreBundle:Professeur',
+                    'query_builder' => function (EntityRepository $entityRepository) use($lycee)
+                    {
+                        return $entityRepository->createQueryBuilder('p')
+                                                ->where('p.lycee = :lycee')
+                                                    ->setParameter('lycee', $lycee)
+                                                ->orderBy('p.nom', 'ASC');
+                    },
+                ));
+            }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -58,5 +80,10 @@ class LyceeType extends AbstractType
     public function getName()
     {
         return 'lycee';
+    }
+
+    public function __construct (\CEC\TutoratBundle\Entity\Lycee $lycee)
+    {
+        $this->lycee =$lycee;
     }
 }

@@ -4,11 +4,12 @@
     {{ parent() }}
     {% stylesheets
         '@CECTutoratBundle/Resources/public/less/cordees.less'
+        '@CECTutoratBundle/Resources/public/less/groupes.less'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
 {% endblock %}
 
 {% block left %}
-    {% render 'CECSecteurSortiesBundle:Sorties:menu' with { 'request': app.request } %}
+    {{ render(controller('CECSecteurSortiesBundle:Sorties:menu', { 'request': app.request })) }}
 {% endblock %}

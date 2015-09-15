@@ -70,9 +70,16 @@ class TableauDeBordController extends Controller
         $eleve = $this->getUser();
         if (!$eleve) throw $this->createNotFoundException('Impossible de trouver votre profil !');
 
+        $seanceAVenir = false;
+        $doctrine = $this->getDoctrine();
+        if ($groupe = $eleve->getGroupe()) {
+            $seanceAVenir = $doctrine->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe);
+        }
+
         
         return array(
             'eleve' => $eleve,
+            'seance_a_venir' => $seanceAVenir
         );
     }
 }

@@ -103,7 +103,7 @@ class SortieRepository extends EntityRepository
 
         $nbLyceens = 0;
         foreach ($resultats as $sortie) {
-            $nbLyceens += $sortie->getNbLyceens();
+            $nbLyceens += count($sortie->getLyceens());
         }
         return $nbLyceens;
     }

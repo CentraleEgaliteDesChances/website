@@ -1,0 +1,406 @@
+{% extends 'CECSecteurFundraisingBundle:Statistiques:base.html.twig' %}
+
+{% block right %}
+{{ parent() }}
+
+	<h2> Statistiques détaillées de l'année scolaire {{anneeScolaire.afficherAnnees}} </h2>
+
+{% set tuteursTotal = 0 %}
+{% set lyceensTotal = 0 %}
+{% set seancesTotal = 0 %}
+{% set heuresTotal = 0 %}
+{% set presencesTotal = 0 %}
+{% set presencesPossibles = 0 %}
+	<table class="table table-bordered table-striped table-stats">
+        <thead>
+            <tr><th colspan="7">Tutorat</th></tr>
+            <tr style="font-size:0.8em;"> 
+            	<th style="width:33%;"> Groupe </th>
+            	<th> Tuteurs </th>
+            	<th> Lycéens </th>
+                <th> Lycéens / Tuteurs </th>
+            	<th> Séances </th>
+            	<th> Heures de tutorat </th>
+                <th> Taux de présence </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {% for ligne in statsDetailTutorat %}
+            	{% set groupe = ligne[0] %}
+                {% set nbrTuteurs = groupe.getTuteursAnnee(anneeScolaire)|length %}
+                {% set nbrLyceens = groupe.getLyceensAnnee(anneeScolaire)|length %}
+                {% set nbrSeances = groupe.getSeancesAnnee(anneeScolaire)|length %}
+            	<tr >
+            		<td style="width:33%;">
+            			<strong>
+            				<a href="{{path('groupe', {'groupe' : groupe.id } ) }}">
+            					{{groupe.description}}
+            				</a>
+            			</strong>
+            		</td>
+            		<td >
+            			<div class="statsDetail">{{nbrTuteurs}}</div>
+            		</td>
+            		<td>
+            			<div class="statsDetail">{{nbrLyceens}}</div>
+            		</td>
+                    <td>
+                        <div class="statsDetail">
+                            {% if nbrTuteurs > 0 %}
+                                {{(nbrLyceens / nbrTuteurs)|round(1)}}
+                            {% else %}
+                                &#8212;
+                            {% endif %}
+            		<td>
+            			<div class="statsDetail">{{nbrSeances}}</div>
+            		</td>
+            		<td>
+            			<div class="statsDetail">{{ ligne[1]}}</div>
+            		</td>
+                        {% if nbrLyceens > 0 %}
+                                            {% set taux = (ligne[2]/(nbrLyceens * nbrSeances ) * 100) %}
+                        {% else %}
+                                            {% set taux = -1 %}
+                        {% endif %}
+                    <td class="
+                        {% if taux < 0 %}
+
+                        {% elseif taux > 60 %}
+                            success
+                        {% else %}
+                            error
+                        {% endif %}
+                    ">
+                        <div class="statsDetail">
+                            {% if taux < 0 %}
+                                &#8212;
+                            {% else %}
+                                {{taux|round(1)}}%
+                            {% endif %}
+                        </div>
+                    </td>
+            	</tr>
+            	{% set tuteursTotal = tuteursTotal + nbrTuteurs %}
+				{% set lyceensTotal = lyceensTotal + nbrLyceens %}
+				{% set seancesTotal = seancesTotal + nbrSeances %}
+				{% set heuresTotal = heuresTotal + ligne[1]  %}	
+                {% set presencesTotal = presencesTotal + ligne[2] %}
+                {% set presencesPossibles = presencesPossibles + (nbrLyceens * nbrSeances) %}	
+            {% else %}
+            	<tr>
+            		<th colspan="5" class="muted"> Pas de groupe actif cette année </th>
+            	</tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+        	<tr>
+        		<td style="width:33%;"> Total </td>
+        		<td>
+        			<div class="statsDetail"> {{tuteursTotal}}</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail"> {{lyceensTotal}} </div>
+        		</td>
+                <td>
+                    <div class="statsDetail"> {{ (lyceensTotal / tuteursTotal)|round(1) }}
+        		<td>
+        			<div class="statsDetail"> {{seancesTotal}}</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail"> {{heuresTotal}} </div>
+        		</td>
+                {% if lyceensTotal > 0 %}
+                    {% set tauxTotal = presencesTotal / presencesPossibles * 100 %}
+                {% else %}
+                    {% set tauxTotal = -1 %}
+                {% endif %}
+                <td class="
+                        {% if tauxTotal < 0 %}
+
+                        {% elseif tauxTotal > 60 %}
+                            success
+                        {% else %}
+                            error
+                        {% endif %}
+                    ">
+                        <div class="statsDetail">
+                            {{tauxTotal|round(1)}}%
+                        </div>
+                    </td>
+        	</tr>
+        </tfoot>
+    </table>
+
+{% set actisTotal = 0 %}
+{% set moyCTotal = 0 %}
+{% set moyITotal = 0 %}
+{% set moyATotal = 0 %}
+
+    <table class="table table-bordered table-striped table-stats">
+        <thead>
+            <tr><th colspan="5">Activités</th></tr>
+            <tr> 
+            	<th style="width:33%;"> Activité </th>
+            	<th> Nombre d'utilisations </th>
+            	<th> Note moyenne Contenu </th>
+            	<th> Note moyenne Interactivité </th>
+            	<th> Note moyenne Atteinte Objectifs </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ligne in statsDetailActi %}
+        	<tr>
+        		<td style="width:33%;">
+        			<strong>{{ligne[0]}}</strong>
+        		</td>
+        		<td>
+        			<div class="statsDetail">{{ligne[1]}}</div>
+        		</td>
+        		<td class="{{ligne[2] > 3 ? 'success' : 'error'}}">
+        			<div class="statsDetail">{{ligne[2]}}</div>
+        		</td>
+        		<td class="{{ligne[3] > 3 ? 'success' : 'error'}}">
+        			<div class="statsDetail">{{ligne[3]}}</div>
+        		</td>
+        		<td class="{{ligne[4] > 3 ? 'success' : 'error'}}">
+        			<div class="statsDetail">{{ligne[4]}}</div>
+        		</td>
+        	</tr>
+
+        	{% set actisTotal = actisTotal + ligne[1] %}
+			{% set moyCTotal = moyCTotal + ligne[2]*ligne[1] %}
+			{% set moyITotal = moyITotal + ligne[3]*ligne[1] %}
+			{% set moyATotal = moyATotal + ligne[4]*ligne[1] %}
+        {% else %}
+        	<tr>
+        		<th colspan="7" class="muted"> Pas d'activités utilisées cette année </th>
+        	</tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        	<tr>
+        		<td style="width:33%;"> Total </td>
+        		<td>
+        			<div class="statsDetail"> {{actisTotal}} </div>
+        		</td>
+        		<td>
+        			<div class="statsDetail">
+        				{% if actisTotal > 0 %}
+        					{{moyCTotal/actisTotal|number_format(1)}}
+        				{% else %}
+        					&#8212;
+        				{% endif %}
+        			</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail">
+        				{% if actisTotal > 0 %}
+        					{{moyITotal/actisTotal|number_format(1)}}
+        				{% else %}
+        					&#8212;
+        				{% endif %}
+        			</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail">
+        				{% if actisTotal > 0 %}
+        					{{moyATotal/actisTotal|number_format(1)}}
+        				{% else %}
+        					&#8212;
+        				{% endif %}
+        			</div>
+        		</td>
+        	</tr>
+        </tfoot>
+    </table>
+
+{% set prixTotal = 0 %}
+{% set presentsTotal = 0 %}
+
+	
+    <table class="table table-bordered table-striped table-stats">
+        <thead>
+            <tr><th colspan="4">Sorties</th></tr>
+            <tr> 
+            	<th style="width:50%;"> Sortie </th>
+            	<th> Présents </th>
+            	<th> Prix </th>
+            	<th> Prix moyen </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ligne in statsDetailSorties %}
+        	<tr>
+        		<td style="width:50%;">
+        			<strong>{{ligne[0].nom}}</strong>
+        		</td>
+        		<td>
+        			<div class="statsDetail">{{ligne[1]}}</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail">{{ligne[2]}}</div>
+        		</td>
+        		<td>
+        			<div class="statsDetail">
+        				{% if ligne[1] > 0 %}
+        					{{(ligne[2]/ligne[1])|number_format(1)}}€
+        				{% else %}
+        					&#8212;
+        				{% endif %}
+        			</div>
+        		</td>
+        	</tr>
+        	{% set prixTotal = prixTotal + ligne[2]%}
+        	{% set presentsTotal = presentsTotal + ligne[1] %}
+        {% else %}
+        	<tr>
+        		<th colspan="7" class="muted"> Pas d'activités utilisées cette année </th>
+        	</tr>
+        {% endfor %}
+        
+        </tbody>
+        <tfoot>
+        	{% if presentsTotal > 0 %}
+        	<tr>
+        		<td style="width:50%"> <strong> Total </strong> </td>
+        		<td> 
+        			<div class="statsDetail">{{presentsTotal}} </div>
+        		</td>
+        		<td> 
+        			<div class="statsDetail">{{prixTotal}}</div>
+        		</td>
+        		<td> 
+        			<div class="statsDetail">{{(prixTotal/presentsTotal)|number_format(1)}}€ </div>
+        		</td>
+        	</tr>
+        	{% endif %}
+    	</tfoot>
+    </table>
+
+{% set part0 = 0 %}
+{% set part1 = 0 %}
+{% set part2 = 0 %}
+{% set part3 = 0 %}
+{% set part4 = 0 %}
+{% set part5 = 0 %}
+
+    <table class="table table-bordered table-striped table-stats">
+        <thead>
+            <tr><th colspan="7">Participations aux sorties</th></tr>
+            <tr> 
+            	<th style="width:33%;"> Niveau </th>
+            	<th> 0 </th>
+            	<th> 1+ </th>
+            	<th> 2+ </th>
+            	<th> 3+ </th>
+            	<th> 4+ </th>
+            	<th> 5+ </th>
+            </tr>
+        </thead>
+        <tbody>
+        	{% for ligne in statsDetailPart %}
+        		<tr>
+        			<td style="width:33%;">
+        				<strong> {{ligne[0]}} </strong>
+        			</td>
+        			{% for case in ligne %}
+        				{% if not loop.first %}
+		        			<td>
+		        				<div class="statsDetail">
+		        					{{case}}
+		        				</div>
+		        			</td>
+		        		{% endif %}
+		        	{% endfor %}
+		        </tr>
+
+		        {# On met à jour les participations globales pour les pourcentages totaux #}
+
+				{% set part0 = part0 + ligne[1] %}
+				{% set part1 = part1 + ligne[2] %}
+				{% set part2 = part2 + ligne[3] %}
+				{% set part3 = part3 + ligne[4] %}
+				{% set part4 = part4 + ligne[5] %}
+				{% set part5 = part5 + ligne[6] %}
+
+        	{% else %}
+        		<tr>
+        			<th colspan="7" class="muted"> Pas de participations aux sorties </th>
+        		</tr>
+        	{% endfor %}
+
+        </tbody>
+        <tfoot>
+        	<tr>
+        			<td style="width:33%"><strong> Total</strong> </td>
+        			<td>
+        				<div class="statsDetail">
+        					{{part0}}
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{part1}}
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{part2}}
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{part3}}
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{part4}}
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{part5}}
+        				</div>
+        			</td>
+        		<tr>
+        			<td style="width:33%;"> <strong>Pourcentage</strong> </td>
+        			<td>
+        				<div class="statsDetail">
+        					{{(part0/(part0+part1)*100)|round(1)}}%
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{(part1/(part0+part1)*100)|round(1)}}%
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{(part2/(part0+part1)*100)|round(1)}}%
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{(part3/(part0+part1)*100)|round(1)}}%
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{(part4/(part0+part1)*100)|round(1)}}%
+        				</div>
+        			</td>
+        			<td>
+        				<div class="statsDetail">
+        					{{(part5/(part0+part1)*100)|round(1)}}%
+        				</div>
+        			</td>
+        		</tr>
+        	</tfoot>
+    </table>
+
+
+
+
+{% endblock %}

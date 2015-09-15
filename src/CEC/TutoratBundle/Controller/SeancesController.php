@@ -13,6 +13,9 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
 
+use CEC\MembreBundle\Entity\Membre;
+use CEC\MembreBundle\Entity\Eleve;
+
 use \DateTime;
 
 class SeancesController extends Controller
@@ -39,7 +42,7 @@ class SeancesController extends Controller
         
         // On détermine si la séance est à venir ou non
         $seanceAVenir = $seance->getGroupe()
-            and $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($seance->getGroupe()) == $seance;
+            && $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($seance->getGroupe()) == $seance;
 
         $anneeScolaire = AnneeScolaire::withDate($seance->getDate());
         
@@ -66,29 +69,38 @@ class SeancesController extends Controller
         }
                 
         // On trie les tuteurs et les lycéens par ordre alphabétique
-        usort($tuteurs, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
-        usort($lyceens, function($a, $b) { return strcmp($a->getNom(), $b->getNom()); });
+        usort($tuteurs, function(Membre $a, Membre $b) { return strcmp($a->getNom(), $b->getNom()); });
+        usort($lyceens, function(Eleve $a, Eleve $b) { return strcmp($a->getNom(), $b->getNom()); });
         
+        // On remplace les placeholders par défaut de SéanceType par les données du groupe
+        $options = array();
+        if($seance->getGroupe())
+        {
+            $options['lieu'] = $seance->getGroupe()->getLieu();
+            $options['rendezVous'] = $seance->getGroupe()->getRendezVous();
+            $options['debut'] = $seance->getGroupe()->getDebut()->format('H:i');
+            $options['fin'] = $seance->getGroupe()->getFin()->format('H:i');
+        }
         // On génère le formulaire d'édition de la séance
-        $form = $this->createForm(new SeanceType(), $seance);
+        $form = $this->createForm(new SeanceType(), $seance, $options);
         
         // Par défaut, on masque le modal
         $afficherModal = false;
         
         $request = $this->getRequest();
-        if ($request->getMethod() == 'POST' and $request->request->has('editer_seance'))
+        if ($request->getMethod() == 'POST' && $request->request->has('editer_seance'))
         {
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Les informations de la séance ont bien été modifiées.');
+                $this->get('session')->getFlashBag()->add('success', 'Les informations de la séance ont bien été modifiées.');
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
                 $afficherModal = true;
             }
         }
-        if ($request->getMethod() == 'POST' and $request->request->has('editer_cr'))
+        if ($request->getMethod() == 'POST' && $request->request->has('editer_cr'))
         {
             $compteRenduId = $request->request->get('cr_id');
             $compteRendu = $this->getDoctrine()->getRepository('CECActiviteBundle:CompteRendu')->findOneBy(array(
@@ -98,25 +110,14 @@ class SeancesController extends Controller
             if (!$compteRendu) throw $this->createNotFoundException('Impossible de trouver le compte-rendu a éditer !');
             
             $crForm = $crForms[$compteRenduId];
-            $crForm->bindRequest($request);
+            $crForm->handleRequest($request);
             if ($crForm->isValid()) {
                 $this->getDoctrine()->getEntityManager()->flush();
-                $this->get('session')->setFlash('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
+                $this->get('session')->getFlashBag()->add('success', 'Le compte-rendu de séance portant sur l\'activité "' . $compteRendu->getActivite()->getTitre() . '" a bien été envoyé.');
                 return $this->redirect($this->generateUrl('seance', array('seance' => $seance->getId())));
             } else {
-                $this->get('session')->setFlash('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
+                $this->get('session')->getFlashBag()->add('error', 'Une erreur s\'est glissée dans le compte-rendu ; merci de vous y reporter pour plus d\'informations.');
             }
-        }
-        
-        // On change les placeholders pour correspondre aux infos du groupe de tutorat
-        $formView = $form->createView();
-        if ($seance->getGroupe())
-        {
-            $groupe = $seance->getGroupe();
-            $formView->getChild('lieu')->setAttribute('placeholder', $groupe->getLieu());
-            $formView->getChild('rendezVous')->setAttribute('placeholder', $groupe->getRendezVous());
-            $formView->getChild('debut')->setAttribute('placeholder', $groupe->getDebut()->format('H:i'));
-            $formView->getChild('fin')->setAttribute('placeholder', $groupe->getFin()->format('H:i'));
         }
         
         // On génère les vues de formulaires pour les CR
@@ -130,7 +131,7 @@ class SeancesController extends Controller
             'seance'         => $seance,
             'lyceens'        => $lyceens,
             'tuteurs'        => $tuteurs,
-            'form'           => $formView,
+            'form'           => $form->createView(),
             'afficher_modal' => $afficherModal,
             'seance_a_venir' => $seanceAVenir,
             'cr_forms'       => $crFormViews,
@@ -161,7 +162,7 @@ class SeancesController extends Controller
         $entityManager->remove($seance);
         $entityManager->flush();
         
-        $this->get('session')->setFlash('success', 'La séance de tutorat a bien été supprimée.');
+        $this->get('session')->getFlashBag()->add('success', 'La séance de tutorat a bien été supprimée.');
         return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
     }
     
@@ -253,6 +254,11 @@ class SeancesController extends Controller
             if(!array_key_exists($date->afficherAnnees(), $seancesTotal))
             {
                 $seancesTotal[$date->afficherAnnees()]= $groupe->getSeances();
+                $seancesTotal[$date->afficherAnnees()] = array_filter($seancesTotal[$date->afficherAnnees()], function(Seance $s) use($date)
+                    {
+                        return $date->contientDate($s->getDate());
+                    }
+                );
             }
 
         }
@@ -309,50 +315,4 @@ class SeancesController extends Controller
 
     }
 
-    /**
-    *
-    * Fonction qui renvoie la liste de toutes les séances auxquelles auraient du participer un tutoré
-    *
-    * @param $lyceen : Objet Lyceen du lyceen
-    */
-    public function absencesLyceen($lyceen)
-    {
-        $seancesTotal = array(); //Tableau {key : année scolaire, value : seances de cette année scolaire}
-        $anneesScolaires = array();
-        $date = new DateTime();
-
-        $groupesAnnee = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findByLyceen($lyceen);
-        if (!$groupesAnnee) throw $this->createNotFoundException('Le lycéen n\'a pas encore participé au tutorat');
-
-        foreach($groupesAnnee as $groupeEleve)
-        {
-            $annee = $groupeEleve->getAnneeScolaire();
-            $groupe = $groupeEleve->getGroupe();
-
-            if(!in_array($annee, $anneesScolaires))
-                $anneesScolaires[] = $annee;
-
-            if(!array_key_exists($annee->afficherAnnees(), $seancesTotal))
-            {
-                $seancesTotal[$annee->afficherAnnees()] = $groupe->getSeances()->toArray();
-            }
-            else
-            {
-                foreach($groupe->getSeances() as $seance)
-                {
-                    if(!in_array($seance, $seancesTotal[$annee->afficherAnnees()]))
-                    {
-                        $seancesTotal[$annee->afficherAnnees()][] = $seance;
-                    }
-                }
-            }
-        }
-
-        usort($anneesScolaires, function(AnneeScolaire $annee, AnneeScolaire $autreAnnee) {
-        if ($annee == $autreAnnee) return 0;
-        return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
-        });
-
-        return  array('seancesTotal' => $seancesTotal, 'anneesScolaires' => $anneesScolaires);
-    }
 }

@@ -1,0 +1,59 @@
+<div class="well">
+	<ul class="nav nav-pills nav-stacked">
+		<li class="nav-header">
+			Indicateurs de suivi
+		</li>
+
+		<li style="padding-left:10px;"
+			{% if request.get('_route') == 'suivi_effectif' %}
+				class="active"
+			{% endif %}
+			>
+			<a href="{{path('suivi_effectif' ) }}" > Effectif de l'association </a>
+		</li>
+
+		<li style="padding-left:10px;"
+			{% if request.get('_route') == 'suivi_suivi' %}
+				class="active"
+			{% endif %}
+			>
+			<a href="{{path('suivi_suivi' ) }}" > Engagement des lycéens </a>
+		</li>
+
+		<li style="padding-left:10px;"
+			{% if request.get('_route') == 'suivi_sorties' %}
+				class="active"
+			{% endif %}
+			>
+			<a href="{{path('suivi_sorties' ) }}" > Participation aux sorties </a>
+		</li>
+
+
+		{% for anneeScolaire in anneesScolaires %}
+			<li class="nav-header">
+				{{anneeScolaire}}
+			</li>
+			<li style="padding-left:10px;"
+				{% if request.get('_route') == 'stats_generales' and request.get('annees') == anneeScolaire.afficherAnnees %}
+					class="active"
+				{% endif %}
+				{% if loop.first and request.get('_route') == 'stats_generales' and request.get('annees') == null %}
+					class="active"
+				{% endif %}
+				>
+				<a href="{{path('stats_generales', {'annees' : anneeScolaire.afficherAnnees } ) }}" > Statistiques générales </a>
+			</li>
+			<li style="padding-left:10px;"
+				{% if request.get('_route') == 'stats_detaillees' and request.get('annees') == anneeScolaire.afficherAnnees %}
+					class="active"
+				{% endif %}
+				>
+				<a href="{{path('stats_detaillees', {'annees' : anneeScolaire.afficherAnnees } ) }}"> Statistiques détaillées </a>
+			</li>
+		{% else %}
+			<li class="nav-header">
+				Pas d'année passée
+			</li>
+		{% endfor %}
+	</ul>
+</div>

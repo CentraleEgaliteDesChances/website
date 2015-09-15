@@ -16,7 +16,13 @@ class LoadDocuments extends AbstractFixture implements DependentFixtureInterface
     {
         // On supprime les fichiers de toutes les activités
         $cheminDossierDocuments = __DIR__ . '/../../../../../web/uploads/documents';
-        $dossier = opendir($cheminDossierDocuments);
+        try{
+            $dossier = opendir($cheminDossierDocuments);
+        }catch(\Exception $e)
+        {
+            mkdir(__DIR__ . '/../../../../../web/uploads/documents', 0777, true);
+            $dossier = opendir($cheminDossierDocuments);
+        }
         while ($fichier = readdir($dossier)) {
             if ($fichier != '.' && $fichier != '..') unlink($cheminDossierDocuments . '/' . $fichier);
         }

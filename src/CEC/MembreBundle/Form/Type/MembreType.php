@@ -15,7 +15,7 @@ class MembreType extends AbstractType
                 'attr' => array('autofocus' => '1'),
             ))
             ->add('nom')
-            ->add('email', null, array(
+            ->add('mail', null, array(
                 'label' => 'Adresse email',
             ))
             ->add('telephone', null, array(

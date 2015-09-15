@@ -57,9 +57,9 @@ class Activite
      *
      * @ORM\Column(name = "titre", type = "string", length = 100)
      * @Assert\NotBlank(message = "Le titre de l'activité ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le titre de l'activité ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le titre de l'activité ne peut excéder 100 caractères."
      * )
      */
     private $titre;
@@ -75,9 +75,9 @@ class Activite
      *
      * @ORM\Column(name = "description", type = "text")
      * @Assert\NotBlank(message = "La description de l'activité ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 800,
-     *     message = "La description de l'activité ne peut excéder 800 caractères."
+     * @Assert\Length(
+     *     max = 800,
+     *     maxMessage = "La description de l'activité ne peut excéder 800 caractères."
      * )
      */
     private $description;
@@ -93,9 +93,9 @@ class Activite
      *
      * @ORM\Column(name = "duree", type = "string", length = 255)
      * @Assert\NotBlank(message = "Merci d'indiquer, à titre indicatif, une durée approximative pour l'activité")
-     * @Assert\MaxLength(
-     *     limit = 255,
-     *     message = "L'indication de durée ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "L'indication de durée ne peut excéder 255 caractères."
      * )
      */
     private $duree;
@@ -200,6 +200,7 @@ class Activite
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->versions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -404,11 +405,11 @@ class Activite
     /**
      * Get tags
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getTags()
     {
-        return $this->tags;
+        return $this->tags->toArray();
     }
 
     /**
@@ -437,11 +438,11 @@ class Activite
     /**
      * Get versions
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getVersions()
     {
-        return $this->versions;
+        return $this->versions->toArray();
     }
 
     /**
@@ -470,10 +471,10 @@ class Activite
     /**
      * Get compteRendus
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getCompteRendus()
     {
-        return $this->compteRendus;
+        return $this->compteRendus->toArray();
     }
 }

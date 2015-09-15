@@ -4,6 +4,8 @@ namespace CEC\TutoratBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 /**
  * LyceeRepository
  *
@@ -18,11 +20,15 @@ class LyceeRepository extends EntityRepository
      *
      * @return integer Compte des lycées actifs.
      */
-    public function compte()
+    public function compte(AnneeScolaire $anneeScolaire)
     {
         $query = $this->createQueryBuilder('l')
             ->select('COUNT(DISTINCT l)')
             ->join('l.cordee', 'c')
+            ->join('l.groupes', 'g')
+            ->join('g.tuteursParAnnee', 'gt')
+            ->where('gt.anneeScolaire = :anneeScolaire')
+                ->setParameter('anneeScolaire', $anneeScolaire->getAnneeInferieure())
             ->getQuery();
         return $query->getSingleScalarResult();
     }

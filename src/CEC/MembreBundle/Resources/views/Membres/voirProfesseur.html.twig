@@ -22,35 +22,58 @@
                 <td>Email</td>
                 <td><a href="mailto:{{ professeur.mail }}">{{ professeur.mail }}</a></td>
             </tr>
+            {% if app.user == professeur 
+               or (is_granted('ROLE_TUTEUR'))
+               or (is_granted('ROLE_ELEVE_DELEGUE') and lycee in app.user.groupe.lycee )
+               or is_granted('ROLE_PROFESSEUR') %}
+            <tr>
+                <td> Téléphone fixe </td>
+                {% if professeur.telephoneFixe %}
+                    <td> {{ professeur.telephoneFixe }}</td>
+                {% else %}
+                    <td class="muted"> Pas de téléphone renseigné </td>
+                {% endif %}
+            </tr>
+            {% endif %}
+            {% if app.user == professeur 
+               or (is_granted('ROLE_VP_LYCEE') or is_granted('ROLE_SECTEUR_PROJETS') or is_granted('ROLE_SECTEUR_SORTIES'))
+               or (is_granted('ROLE_ELEVE_DELEGUE') and lycee in app.user.groupe.lycee )
+               or (is_granted('ROLE_PROFESSEUR') and professeur.lycee == app.user.lycee) %}
+            <tr>
+                <td> Téléphone portable </td>
+                {% if professeur.telephonePortable %}
+                    <td> {{professeur.telephonePortable}} </td>
+                {% else %}
+                    <td class="muted"> Pas de téléphone renseigné </td>
+                {% endif %}
+            </tr>
+            {% endif %}
         </tbody>
     </table>
     
     <table class="table table-bordered table-striped table-hover">
         <tbody>
             <tr>
-                <td>Tutorat</td>
+                <td>Lycée de provenance</td>
                 <td>
                     {% if professeur.lycee %}
-                        Lycée {{professeur.lycee|lycee}}
+                        <a href="{{path('lycee', {'lycee' : professeur.lycee.id } ) }}">{{professeur.lycee.nom}}</a>
                     {% else %}
                         <span class="muted">Pas de lycée défini </span>
                     {% endif %}
                 </td>
             </tr>
-            {% if professeur.referent %}
-                <tr>
-                    <td>Référent</td>
-                    <td>
-                        {{professeur.lycee|lycee}}
-                    </td>
-                </tr>
-            {% endif %}
-
+            <tr>
+                <td>Rôle</td>
+                <td>
+                    {{professeur.role}}
+                </td>
+            </tr>
         </tbody>
     </table>
 
     {% if app.user == professeur %}
-        <a href="{{ path('reglages_infos_professeur') }}" class="btn btn-block">Modifier mon profil</a>
+        <a href="{{ path('reglages_infos_professeur', {'professeur' : professeur.id} ) }}" class="btn btn-default btn-block">Modifier mon profil</a>
     {% endif %}
     
 {% endblock %}
@@ -60,7 +83,9 @@
 {{ parent() }}
 
     {% if professeur == app.user %}
-        {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilise le bouton en bas à gauche de votre écran.") }}
+        {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilisez le bouton en bas à gauche de votre écran.") }}
     {% endif %}
+
+
 	
 {% endblock %}

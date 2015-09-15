@@ -1,0 +1,14 @@
+<html>
+    
+    <body>
+        <p><strong>Bonjour, {{ membre.prenom }} !</strong></p>
+        <p>Suite à ta demande de réinitialisation, voici tes identifiants à utiliser sur <a href="http://{{ base_url }}">{{ base_url }}</a> : </p>
+        <p style="text-align: center;"><strong>
+            {{ membre }}<br />
+            {{ mot_de_passe }}
+        </strong></p>
+        <p>N'oublie pas de <strong>modifier le mot de passe</strong> en <a href="http://{{ base_url }}/reglages">cliquant ici</a>. 
+        
+        <p class="pull-right">L'équipe de développement du site de CeC</p>
+    </body>
+</html>

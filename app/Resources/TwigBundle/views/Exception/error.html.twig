@@ -15,15 +15,15 @@
     </head>
     
     <body>
-        <div class="container alert">
+        <div class="container-fluid bg-warning">
             <div class="row">
-                <div class="span10 offset1">
+                <div class="col-md-10 col-md-offset-1">
                     {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
                         <img src="{{ asset_url }}" alt="Logo CEC" class="img-logo" />
                     {% endimage %}
                     <h1>Une erreur est survenue !</h1>
                     <h3>Erreur {{ status_code }} — {{ status_text }}</h3>
-                    <p>Le serveur de l'association a renvoyé une erreur. Merci d'envoyer un email à <a href="mailto:jean-baptiste.bayle@student.ecp.fr">jean-baptiste.bayle@student.ecp.fr</a> en décrivant le problème, de manière à ce que nous trouvions une solution le plus rapidement possible.</p>
+                    <p>Le serveur de l'association a renvoyé une erreur. Merci d'envoyer un email au <a href="mailto:cec.geek@my.ecp.fr">Secteur Webmaster de CEC</a> en décrivant le problème, de manière à ce que nous trouvions une solution le plus rapidement possible.</p>
                     <p>Toutes nos excuses pour les désagréments causés.</p>
                 </div>
             </div>

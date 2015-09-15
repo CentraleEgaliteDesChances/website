@@ -45,9 +45,9 @@ class Sortie
      *
      * @ORM\Column(name = "nom", type = "string", length = 100)
      * @Assert\NotBlank(message = "Le nom de la sortie ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom de la sortie ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom de la sortie ne peut excéder 100 caractères."
      * )
      */
     private $nom;
@@ -80,9 +80,9 @@ class Sortie
      * @var string
      *
      * @ORM\Column(name = "adresse", type = "string", length = 100)
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "L'adresse ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "L'adresse ne peut excéder 100 caractères."
      * )
      */
     private $adresse;
@@ -132,9 +132,9 @@ class Sortie
      * @var string
      *
      * @ORM\Column(name = "description", type = "string", length = 800)
-     * @Assert\MaxLength(
-     *     limit = 800,
-     *     message = "La description ne peut excéder 800 caractères."
+     * @Assert\Length(
+     *     max = 800,
+     *     maxMessage = "La description ne peut excéder 800 caractères."
      * )
      */
     private $description;
@@ -151,11 +151,7 @@ class Sortie
 	/**
 	* Lycéens ayant participé à la sortie
 	*
-	* * @ORM\ManyToMany(targetEntity = "CEC\MembreBundle\Entity\Eleve" )
-	* @ORM\JoinTable(name="eleves_sorties",
-    *      joinColumns={@ORM\JoinColumn(name="sortie_id", referencedColumnName="id")},
-    *      inverseJoinColumns={@ORM\JoinColumn(name="eleve_id", referencedColumnName="id")}
-    *      )
+	* * @ORM\OneToMany(targetEntity = "CEC\SecteurSortiesBundle\Entity\SortieEleve", mappedBy="sortie" )
     */
 	private $lyceens = array();
 
@@ -183,9 +179,9 @@ class Sortie
      * @var string
      *
      * @ORM\Column(name = "commentaire", type = "string", length = 800, nullable=true)
-     * @Assert\MaxLength(
-     *     limit = 800,
-     *     message = "Le commentaire ne peut excéder 800 caractères."
+     * @Assert\Length(
+     *     max = 800,
+     *     maxMessage = "Le commentaire ne peut excéder 800 caractères."
      * )
      */
     private $commentaire;
@@ -217,6 +213,7 @@ class Sortie
     {
         $this->okCR = 0;
         $this->anneeScolaire = AnneeScolaire::withDate();
+        $this->lyceens = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -463,39 +460,6 @@ class Sortie
     {
         return $this->description;
     }
-
-	/**
-     * Add lycéens
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceen
-     * @return Seance
-     */
-    public function addLyceen(\CEC\MembreBundle\Entity\Eleve $lyceen)
-    {
-        $this->lyceens[] = $lyceen;
-    
-        return $this;
-    }
-
-    /**
-     * Remove lycéens
-     *
-     * @param \CEC\MembreBundle\Entity\Eleve $lyceen
-     */
-    public function removeLyceen(\CEC\MembreBundle\Entity\Eleve $lyceen)
-    {
-        $this->lyceens->removeElement($lyceen);
-    }
-
-    /**
-     * Get lycéens
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getLyceens()
-    {
-        return $this->lyceens;
-    }
 	
     /**
      * Set nbLyceens
@@ -616,7 +580,7 @@ class Sortie
 	{
 		$this->places = $places;
 		
-		return $places;
+		return $this;
 	}
 	
 	public function getPlaces()
@@ -624,4 +588,37 @@ class Sortie
 		return $this->places;
 	}
 	
+
+    /**
+     * Add lyceens
+     *
+     * @param \CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens
+     * @return Sortie
+     */
+    public function addLyceen(\CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens)
+    {
+        $this->lyceens->add($lyceens);
+    
+        return $this;
+    }
+
+    /**
+     * Remove lyceens
+     *
+     * @param \CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens
+     */
+    public function removeLyceen(\CEC\SecteurSortiesBundle\Entity\SortieEleve $lyceens)
+    {
+        $this->lyceens->removeElement($lyceens);
+    }
+
+    /**
+     * Get lyceens
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLyceens()
+    {
+        return $this->lyceens->toArray();
+    }
 }

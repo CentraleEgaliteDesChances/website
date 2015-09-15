@@ -66,7 +66,7 @@ class Reunion
 	/**
 	* @var \CEC\MembreBundle\Entity\Eleve
 	*
-	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", mappedBy="reunions")
+	* @ORM\ManyToMany(targetEntity="\CEC\MembreBundle\Entity\Eleve", inversedBy="reunions")
 	*/
 	private $presents;
 	
@@ -230,11 +230,11 @@ class Reunion
     /**
      * Get presents
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getPresents()
     {
-        return $this->presents;
+        return $this->presents->toArray();
     }
 	
 	/**
@@ -301,7 +301,7 @@ class Reunion
      */
     public function addPresent(\CEC\MembreBundle\Entity\Eleve $presents)
     {
-        $this->presents[] = $presents;
+        $this->presents->add($presents);
     
         return $this;
     }

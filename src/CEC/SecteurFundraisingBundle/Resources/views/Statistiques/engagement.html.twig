@@ -1,0 +1,258 @@
+{% extends 'CECSecteurFundraisingBundle:Statistiques:base.html.twig' %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+        $('[data-toggle="popover"]').popover();   
+
+        });
+
+    </script>
+{% endblock %}
+
+{% block right %}
+{{ parent() }}
+
+<div role="tabpanel">
+
+    <h2> Indicateurs sur l'engagement des lycéens de CEC </h2>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Indicateurs généraux</a></li>
+    <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Indicateurs détaillés</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="general">
+
+{% set pourcentagePasseSecondes = 0 %}
+{% set pourcentagePassePremieres = 0 %}
+{% set pourcentagePasseTotal = 0 %}
+
+        <table class="table table-bordered table-striped table-stats">
+            <thead>
+                <tr>
+                    <th colspan="3"> Engagement des lycéens dans le programme </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for annee in anneesScolaires %}
+                    {% set effectifs = statsEngagementGeneral1[annee.afficherAnnees] %}
+                    <tr>
+                        <th colspan="3"> {{annee}} </th>
+                    </tr>
+                    <tr>
+                        <td> Secondes qui ont continué CEC </td>
+                        <td> 
+                            <strong>
+                                {{effectifs[3]}} sur {{effectifs[2]}} (
+                                {% if effectifs[2] > 0 %}
+                                    {% set pourcentageSecondes = effectifs[3] / effectifs[2] * 100 %}
+                                    {{pourcentageSecondes|round(1)}}%
+                                {% else %}
+                                    {% set pourcentageSecondes = 0 %}
+                                    &#8212;
+                                {% endif %}
+                                )
+                            </strong>
+                        </td>
+                        {% if loop.first or (pourcentagePasseSecondes == pourcentageSecondes) %}
+                            <td>
+                                <strong>
+                                    &#8212;
+                                </strong>
+                            </td>
+                        {% elseif (pourcentagePasseSecondes - pourcentageSecondes) > 0 %}
+                            <td class="success">
+                                <strong>
+                                    {{(pourcentagePasseSecondes-pourcentageSecondes)|round(1)}}
+                                </strong>
+                            </td>
+                        {% elseif (pourcentagePasseSecondes - pourcentageSecondes) < -15 %}
+                            <td class="error">
+                                <strong>
+                                    {{(pourcentagePasseSecondes-pourcentageSecondes)|round(1)}}
+                                </strong>
+                            </td>
+                        {% else %}
+                            <td class="warning">
+                                <strong>
+                                    {{(pourcentagePasseSecondes-pourcentageSecondes)|round(1)}}
+                                </strong>
+                            </td>
+                        {% endif %}
+
+                        {% set pourcentagePasseSecondes = pourcentageSecondes %}
+                    </tr>
+                    <tr>
+                        <td> Premières qui ont continué CEC </td>
+                        <td> 
+                            <strong>
+                                {{effectifs[5]}} sur {{effectifs[4]}} (
+                                {% if effectifs[4] > 0 %}
+                                    {% set pourcentagePremieres = effectifs[5] / effectifs[4] * 100 %}
+                                    {{pourcentagePremieres|round(1)}}%
+                                {% else %}
+                                {% set pourcentagePremieres = 0 %}
+                                    &#8212;
+                                {% endif %}
+                                )
+                            </strong>
+                        </td>
+                        {% if loop.first or (pourcentagePassePremieres == pourcentagePremieres) %}
+                            <td>
+                                <strong>
+                                    &#8212;
+                                </strong>
+                            </td>
+                        {% elseif (pourcentagePassePremieres - pourcentagePremieres) > 0 %}
+                            <td class="success">
+                                <strong>
+                                    {{(pourcentagePassePremieres - pourcentagePremieres)|round(1)}}
+                                </strong>
+                            </td>
+                        {% elseif (pourcentagePassePremieres - pourcentagePremieres) < -15 %}
+                            <td class="error">
+                                <strong>
+                                    {{(pourcentagePassePremieres - pourcentagePremieres)|round(1)}}
+                                </strong>
+                            </td>
+                        {% else %}
+                            <td class="warning">
+                                <strong>
+                                    {{(pourcentagePassePremieres - pourcentagePremieres)|round(1)}}
+                                </strong>
+                            </td>
+                        {% endif %}
+
+                        {% set pourcentagePassePremieres = pourcentagePremieres %}
+                    </tr>
+                    <tr>
+                        <td> <strong>Total</strong> </td>
+                        <td> 
+                            <strong>
+                                {{effectifs[1]}} sur {{effectifs[0]}} (
+                                {% if effectifs[0] > 0 %}
+                                    {% set pourcentageTotal = effectifs[1] / effectifs[0] * 100 %}
+                                    {{pourcentageTotal|round(1)}}%
+                                {% else %}
+                                    {% set pourcentageTotal = 0 %}
+                                    &#8212;
+                                {% endif %}
+                                )
+                            </strong>
+                        </td>
+                        {% if loop.first or (pourcentagePasseTotal == pourcentageTotal) %}
+                            <td>
+                                <strong>
+                                    &#8212;
+                                </strong>
+                            </td>
+                        {% elseif (pourcentagePasseTotal - pourcentageTotal) > 0 %}
+                            <td class="success">
+                                <strong>
+                                    {{(pourcentagePasseTotal - pourcentageTotal)|round(1)}}
+                                </strong>
+                            </td>
+                        {% elseif (pourcentagePasseTotal - pourcentageTotal) < -15 %}
+                            <td class="error">
+                                <strong>
+                                    {{(pourcentagePasseTotal - pourcentageTotal)|round(1)}}
+                                </strong>
+                            </td>
+                        {% else %}
+                            <td class="warning">
+                                <strong>
+                                    {{(pourcentagePasseTotal - pourcentageTotal)|round(1)}}
+                                </strong>
+                            </td>
+                        {% endif %}
+
+                        {% set pourcentagePasseTotal = pourcentageTotal %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th colspan="3" class="muted"> Pas assez de données pour effectuer des statistiques </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-striped table-stats">
+            <thead>
+                <tr>
+                    <th colspan="2"> Nouveaux lycéens qui auraient pu déjà être à CEC </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for annee in anneesScolaires %}
+                    {% set effectifs = statsEngagementGeneral2[annee.afficherAnnees] %}
+                    <tr>
+                        <th colspan="2"> {{annee}} </th>
+                    </tr>
+                    <tr>
+                        <td> Nouveaux Premières à CEC </td>
+                        <td> 
+                            <strong>
+                                {{effectifs[3]}} sur {{effectifs[2]}} (
+                                {% if effectifs[2] > 0 %}
+                                    {{(effectifs[3] / effectifs[2] * 100)|round(1)}}%
+                                {% else %}
+                                    &#8212;
+                                {% endif %}
+                                )
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Nouveaux Terminales à CEC </td>
+                        <td> 
+                            <strong>
+                                {{effectifs[5]}} sur {{effectifs[4]}} (
+                                {% if effectifs[4] > 0 %}
+                                    {{(effectifs[5] / effectifs[4] * 100)|round(1)}}%
+                                {% else %}
+                                    &#8212;
+                                {% endif %}
+                                )
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> Total </td>
+                        <td> 
+                            <strong>
+                                {{effectifs[1]}} sur {{effectifs[0]}} (
+                                {% if effectifs[0] > 0 %}
+                                    {{(effectifs[1] / effectifs[0] * 100)|round(1)}}%
+                                {% else %}
+                                    &#8212;
+                                {% endif %}
+                                )
+                            </strong>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <th colspan="2" class="muted"> Pas assez de données pour effectuer des statistiques </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="detail">
+
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}

@@ -4,10 +4,10 @@ namespace CEC\SecteurProjetsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use CEC\SecteurProjetsBundle\Form\ProjetType;
-use CEC\SecteurProjetsBundle\Form\ReunionType;
-use CEC\SecteurProjetsBundle\Form\DossierType;
-use CEC\SecteurProjetsBundle\Form\AlbumType;
+use CEC\SecteurProjetsBundle\Form\Type\ProjetType;
+use CEC\SecteurProjetsBundle\Form\Type\ReunionType;
+use CEC\SecteurProjetsBundle\Form\Type\DossierType;
+use CEC\SecteurProjetsBundle\Form\Type\AlbumType;
 use CEC\SecteurProjetsBundle\Entity\Reunion;
 use CEC\SecteurProjetsBundle\Entity\Dossier;
 use CEC\SecteurProjetsBundle\Entity\Album;
@@ -33,7 +33,7 @@ class AlbumsController extends Controller
 		$request = $this->getRequest();
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			if($form->isValid())
 			{
 				$em = $this->getDoctrine()->getEntityManager();
@@ -46,7 +46,11 @@ class AlbumsController extends Controller
 				}
 				$em->flush();
 				
-				$this->get('session')->setFlash('success', 'L\'album photo a bien été créé !');
+				$this->get('session')->getFlashBag()->add('success', 'L\'album photo a bien été créé !');
+
+				// Envoi d'un mail à tous les tutorés et tous les profs
+				$this->get('cec.mailer')->sendNouvelAlbum($album, $_SERVER['HTTP_HOST']);
+				
 				return $this->redirect($this->generateUrl('voir_albums'));
 			}
 		}
@@ -110,19 +114,19 @@ class AlbumsController extends Controller
 			$album->removeImage($image);
 			$em->flush();
 
-			$this->get('session')->setFlash('success', 'La photo a bien été supprimée !');
+			$this->get('session')->getFlashBag()->add('success', 'La photo a bien été supprimée !');
 			$this->redirect($this->generateUrl('gerer_album', array('id'=>$id)));
 		}
 
 		$infosalbum = new Album();
 		$infosalbum->setProjet($album->getProjet());
 		$infosalbum->setAnnee($album->getAnnee());
-		$form = $this->createForm(new AlbumType(), $infosalbum, array('disabled'=>true));
+		$form = $this->createForm(new AlbumType(), $infosalbum, array('read_only'=>true));
 		
 		$request = $this->getRequest();
 		if($request->isMethod('POST'))
 		{
-			$form->bindRequest($request);
+			$form->handleRequest($request);
 			if($form->isValid())
 			{
 				$em = $this->getDoctrine()->getEntityManager();
@@ -138,7 +142,7 @@ class AlbumsController extends Controller
 				}
 				$em->flush();
 				
-				$this->get('session')->setFlash('success', 'L\'album photo a bien été modifié !');
+				$this->get('session')->getFlashBag()->add('success', 'L\'album photo a bien été modifié !');
 				return $this->redirect($this->generateUrl('gerer_albums'));
 			}
 		}

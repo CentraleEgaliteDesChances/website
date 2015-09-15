@@ -1,3 +1,14 @@
-{% for lyceen in lyceens %}
-	<p style="font-weight:bold;"><a href="mailto:{{lyceen.mail}}">{{lyceen}}</a></p>
-{% endfor %}
+<table class="table" style="padding-left:20px;">	
+	{% for lyceenSortie in lyceensSortie %}
+		{% if lyceenSortie.lyceen.lycee == lycee %}
+			<tr>
+				<td>
+					<a href="{{path('voir_eleve', {'id' : lyceenSortie.lyceen.id } ) }}">{{lyceenSortie.lyceen}}</a>
+				</td>
+				<td>
+					{% if lyceenSortie.listeAttente > 0 %} <span class="label pull-right"> {{lyceenSortie.listeAttente}} sur liste d'attente {% endif %}
+				</td>
+			</tr>
+		{% endif %}
+	{% endfor %}
+</table>

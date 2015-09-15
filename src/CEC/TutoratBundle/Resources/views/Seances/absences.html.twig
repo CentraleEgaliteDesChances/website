@@ -1,5 +1,23 @@
 {% extends 'CECMembreBundle:Membres:voirEleve.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/seances.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% set nbrSeances = 0 %}
+{% for seancesParAnnee in seancesTotal %}
+	{% for seance in seancesParAnnee %}
+		{% if date(seance.date) < date() %}
+			{% set nbrSeances = nbrSeances +1 %}
+		{% endif %}
+	{% endfor %}
+{% endfor %}
+
 {% block right %}
 
 	<h2> Tableau récapitulatif des présences en séances de tutorat </h2>
@@ -8,7 +26,7 @@
 		{% for anneeScolaire in anneesScolaires%}
 			<thead>
 				<tr>
-					<th> {{anneeScolaire}} </th>
+					<th colspan="{{seancesTotal[anneeScolaire.afficherAnnees]|length +1}}"> {{anneeScolaire}}  <span class="count"> {{eleve.seances|length}} sur {{nbrSeances}}</th>
 				</tr>
 			</thead>
 			<tbody>

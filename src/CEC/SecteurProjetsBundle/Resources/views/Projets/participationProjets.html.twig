@@ -1,0 +1,49 @@
+{% extends 'CECMembreBundle:Membres:voirEleve.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+        '@CECTutoratBundle/Resources/public/less/seances.less'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block right %}
+
+	<h2> Tableau récapitulatif de la participation aux projets </h2>
+
+	<table class="table table-bordered table-hover table-striped table-large">
+		{% for anneeScolaire in anneesScolaires%}
+			<thead>
+				<tr>
+					<th colspan="{{projets|length + 1}}"> {{anneeScolaire}} </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for projet in projets %}
+					<tr>
+						<td>
+							<a href="{{ path('description_projet', { 'slug': projet.slug }) }}">
+                        		<strong>{{projet.nom}}</strong>
+                        	</a>
+                        </td>
+                        {% if projet in participationParAnnee[anneeScolaire.afficherAnnees] %}
+                        	<td class="success">
+                        		<span class="checkmark">&#10004;</span>
+                        	</td>
+                        {% else %}
+                        	<td>
+                        		<span class="checkmark">&#10008;</span>
+                        	</td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                	<tr>
+                		<td colspan="2" class="muted"> Pas de projet effectué cette année </td>
+                	</tr>
+                {% endfor %}
+            </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

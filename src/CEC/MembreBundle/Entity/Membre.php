@@ -49,9 +49,9 @@ class Membre implements UserInterface, \Serializable
      *
      * @ORM\Column(name = "prenom", type = "string", length = 100)
      * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le prénom ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le prénom ne peut excéder 100 caractères."
      * )
      */
     private $prenom;
@@ -65,9 +65,9 @@ class Membre implements UserInterface, \Serializable
      *
      * @ORM\Column(name = "nom", type = "string", length = 100)
      * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom de famille ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom de famille ne peut excéder 100 caractères."
      * )
      */
     private $nom;
@@ -86,12 +86,12 @@ class Membre implements UserInterface, \Serializable
      *     checkHost = true
      * )
      * @Assert\NotBlank(message = "L'adresse email ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "L'adresse email ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
-    private $email;
+    private $mail;
 
     /**
      * Numéro de téléphone du membre.
@@ -105,9 +105,9 @@ class Membre implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephone;
@@ -224,12 +224,6 @@ class Membre implements UserInterface, \Serializable
     private $groupeParAnnee;
 
     /**
-     * Groupe de tutorat fréquenté régulièrement par le membre.
-     * Ce champ permet de définir le groupe de tutorat du membre ; in fine, cela lui permet d'accéder
-     * au menu de tutorat avec les informations sur son groupe, soon/ses lycée(s), les prochaine séances,
-     * le choix d'activité et la rédaction de compte-rendus.
-     * Un tuteur appartenant à un groupe est considéré comme "actif" pour l'activité de tutorat. Il sera
-     * comptabilisé dans les statistiques et recevra — si disponible — les notifications associées.
      *
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -258,7 +252,7 @@ class Membre implements UserInterface, \Serializable
 	*
 	*@ORM\ManyToMany(targetEntity="CEC\SecteurProjetsBundle\Entity\Projet", mappedBy="contacts")
 	*/
-	private $contactProjets = array();
+	private $contactProjets;
 
     /**
      * Divers documents (versions d'une activite) téléchargés par le membre.
@@ -307,6 +301,13 @@ class Membre implements UserInterface, \Serializable
      */
     private $compteRendus;
 
+    /** 
+    * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
+    *
+    *@ORM\Column(name="checkMail", type="boolean")
+    */
+    private $checkMail = true;
+
 
     /**
      * Constructor
@@ -318,6 +319,10 @@ class Membre implements UserInterface, \Serializable
         $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->quizzActus = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contactProjets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lyceesPourVP = new \Doctrine\Common\Collections\ArrayCollection();
 
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
@@ -356,12 +361,97 @@ class Membre implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+
+        $this->roles->clear();
+        foreach($roles as $role)
+        {
+            $this->roles->add($role);
+        }
+
+        return $this;
+    }
+
+    /**
+    * Fonction qui met à jour la liste des roles du membre. Appelée après chaque insert/update
+    * A appeler dès qu'on modifie des roles dans un controleur.
+    */
+    public function updateRoles()
+    {
+        $this->setRoles(array('ROLE_TUTEUR'));
+
+        // Le rôle buro est supérieur hiérarchique de tous les rôles donc, s'il est attribué, pas la peine de faire le reste.
+        if ($this->buro)
+        {
+            $this->addRole('ROLE_BURO');
+            return $this;
+        }
+
+
+        $secteurs = $this->secteurs;
+        foreach($secteurs as $secteur)
+        {
+            $nom = $secteur->getNom();
+            switch($nom)
+            {
+                case "Secteur Activités Scientifiques":
+                    $this->addRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
+                    break;
+                case "Secteur Activités Culturelles":
+                    $this->addRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
+                    break;
+                case "Secteur Fundraising":
+                    $this->addRole("ROLE_SECTEUR_FUNDRAISING");
+                    break;
+                case "Secteur Evènements":
+                    $this->addRole("ROLE_SECTEUR_EVCOM");
+                    break;
+                case "Secteur Good Morning London":
+                    $this->addRole("ROLE_SECTEUR_GML");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Centrale Prépa":
+                    $this->addRole("ROLE_SECTEUR_PREPA");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Focus Europe":
+                    $this->addRole("ROLE_SECTEUR_FOCUS_EUROPE");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Stage Théâtre":
+                    $this->addRole("ROLE_SECTEUR_THEATRE");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur (Art)cessible":
+                    $this->addRole("ROLE_SECTEUR_ARTCESSIBLE");
+                    $this->addRole("ROLE_SECTEUR_PROJETS");
+                    break;
+                case "Secteur Geek":
+                    $this->addRole("ROLE_SECTEUR_GEEK");
+                    break;
+                case "Secteur Saclay":
+                    $this->addRole("ROLE_SECTEUR_SACLAY");
+                    break;
+                case "Secteur Europen":
+                    $this->addRole("ROLE_SECTEUR_EUROPEN");
+                    break;
+                case "Secteur Sorties":
+                    $this->addRole("ROLE_SECTEUR_SORTIES");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if(count($this->lyceesPourVP) > 0)
+            $this->addRole('ROLE_VP_LYCEE');
+
+        return $this;
+
     }
 
      /**
@@ -369,15 +459,8 @@ class Membre implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->roles))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[i] == $role)
-                    unset($this->roles[i]);
-            }
-        }
-        $this->roles = array_values($this->roles);
+        $this->roles->removeElement($role);
+
     }
 
     /**
@@ -385,10 +468,9 @@ class Membre implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!(in_array($role, $this->roles)))
-        {
-            $this->roles[] = $role; 
-        }
+        if(!$this->roles->contains($role))
+            $this->roles->add($role);
+        return $this;
            
     }
 
@@ -499,9 +581,9 @@ class Membre implements UserInterface, \Serializable
      * @param string $email
      * @return Membre
      */
-    public function setEmail($email)
+    public function setMail($mail)
     {
-        $this->email = $email;
+        $this->mail = $mail;
 
         return $this;
     }
@@ -511,9 +593,9 @@ class Membre implements UserInterface, \Serializable
      *
      * @return string
      */
-    public function getEmail()
+    public function getMail()
     {
-        return $this->email;
+        return $this->mail;
     }
 
     /**
@@ -683,6 +765,8 @@ class Membre implements UserInterface, \Serializable
         $this->lyceesPourVP->removeElement($lyceesPourVP);
         if (count($this->lyceesPourVP)==0)
             $this->removeRole('ROLE_VP_LYCEE');
+
+        return $this;
     }
 
     /**
@@ -692,7 +776,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getLyceesPourVP()
     {
-        return $this->lyceesPourVP;
+        return $this->lyceesPourVP->toArray();
     }
 
     /**
@@ -704,57 +788,7 @@ class Membre implements UserInterface, \Serializable
     public function addSecteur(\CEC\MembreBundle\Entity\Secteur $secteur)
     {
         $this->secteurs[] = $secteur;
-        $nom = $secteur->getNom();
-        switch($nom)
-        {
-            case "Secteur Activités Scientifiques":
-                $this->addRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
-                break;
-            case "Secteur Activités Culturelles":
-                $this->addRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
-                break;
-            case "Secteur Fundraising":
-                $this->addRole("ROLE_SECTEUR_FUNDRAISING");
-                break;
-            case "Secteur Evènements":
-                $this->addRole("ROLE_SECTEUR_EVCOM");
-                break;
-            case "Secteur Good Morning London":
-                $this->addRole("ROLE_SECTEUR_GML");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Centrale Prépa":
-                $this->addRole("ROLE_SECTEUR_PREPA");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Focus Europe":
-                $this->addRole("ROLE_SECTEUR_FOCUS_EUROPE");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Stage Théâtre":
-                $this->addRole("ROLE_SECTEUR_THEATRE");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur (Art)cessible":
-                $this->addRole("ROLE_SECTEUR_ARTCESSIBLE");
-                $this->addRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Geek":
-                $this->addRole("ROLE_SECTEUR_GEEK");
-                break;
-            case "Secteur Saclay":
-                $this->addRole("ROLE_SECTEUR_SACLAY");
-                break;
-            case "Secteur Europen":
-                $this->addRole("ROLE_SECTEUR_EUROPEN");
-                break;
-            case "Secteur Sorties":
-                $this->addRole("ROLE_SECTEUR_SORTIES");
-                break;
-            default:
-                break;
-        }
-
+        
         return $this;
     }
 
@@ -767,56 +801,7 @@ class Membre implements UserInterface, \Serializable
     {
         $this->secteurs->removeElement($secteurs);
 
-        $nom = $secteur->getNom();
-        switch($nom)
-        {
-            case "Secteur Activités Scientifiques":
-                $this->removeRole("ROLE_SECTEUR_ACTIS_SCIENTIFIQUES");
-                break;
-            case "Secteur Activités Culturelles":
-                $this->removeRole('ROLE_SECTEUR_ACTIS_CULTURELLES');
-                break;
-            case "Secteur Fundraising":
-                $this->removeRole("ROLE_SECTEUR_FUNDRAISING");
-                break;
-            case "Secteur Evènements":
-                $this->removeRole("ROLE_SECTEUR_EVCOM");
-                break;
-            case "Secteur Good Morning London":
-                $this->removeRole("ROLE_SECTEUR_GML");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Centrale Prépa":
-                $this->removeRole("ROLE_SECTEUR_PREPA");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Focus Europe":
-                $this->removeRole("ROLE_SECTEUR_FOCUS_EUROPE");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Stage Théâtre":
-                $this->removeRole("ROLE_SECTEUR_THEATRE");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur (Art)cessible":
-                $this->removeRole("ROLE_SECTEUR_ARTCESSIBLE");
-                $this->removeRole("ROLE_SECTEUR_PROJETS");
-                break;
-            case "Secteur Geek":
-                $this->removeRole("ROLE_SECTEUR_GEEK");
-                break;
-            case "Secteur Saclay":
-                $this->removeRole("ROLE_SECTEUR_SACLAY");
-                break;
-            case "Secteur Europen":
-                $this->removeRole("ROLE_SECTEUR_EUROPEN");
-                break;
-            case "Secteur Sorties":
-                $this->removeRole("ROLE_SECTEUR_SORTIES");
-                break;
-            default:
-                break;
-        }
+        return $this;
     }
 
     /**
@@ -826,7 +811,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getSecteurs()
     {
-        return $this->secteurs;
+        return $this->secteurs->toArray();
     }
 
     /**
@@ -850,6 +835,8 @@ class Membre implements UserInterface, \Serializable
     public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances->removeElement($seances);
+
+        return $this;
     }
 
     /**
@@ -859,7 +846,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getSeances()
     {
-        return $this->seances;
+        return $this->seances->toArray();
     }
 
     /**
@@ -883,6 +870,8 @@ class Membre implements UserInterface, \Serializable
     public function removeDocument(\CEC\ActiviteBundle\Entity\Document $documents)
     {
         $this->documents->removeElement($documents);
+
+        return $this;
     }
 
     /**
@@ -892,7 +881,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getDocuments()
     {
-        return $this->documents;
+        return $this->documents->toArray();
     }
 	
 	/**
@@ -916,6 +905,8 @@ class Membre implements UserInterface, \Serializable
     public function removeContactProjet(\CEC\SecteurProjetsBundle\Entity\Projet $projet)
     {
         $this->contactProjets->removeElement($projet);
+
+        return $this;
     }
 
     /**
@@ -925,7 +916,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getContactProjets()
     {
-        return $this->contactProjets;
+        return $this->contactProjets->toArray();
     }
 
     /**
@@ -949,6 +940,8 @@ class Membre implements UserInterface, \Serializable
     public function removeCompteRendu(\CEC\ActiviteBundle\Entity\CompteRendu $compteRendus)
     {
         $this->compteRendus->removeElement($compteRendus);
+
+        return $this;
     }
 
     /**
@@ -958,7 +951,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getCompteRendus()
     {
-        return $this->compteRendus;
+        return $this->compteRendus->toArray();
     }
 
     /**
@@ -991,7 +984,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getQuizzActus()
     {
-        return $this->quizzActus;
+        return $this->quizzActus->toArray();
     }
 
 
@@ -1025,7 +1018,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getGroupeParAnnee()
     {
-        return $this->groupeParAnnee;
+        return $this->groupeParAnnee->toArray();
     }
 
     public function getGroupe()
@@ -1041,5 +1034,28 @@ class Membre implements UserInterface, \Serializable
             }
         }while($e = $this->groupeParAnnee->next());
         return null;
+    }
+
+    /**
+     * Set checkMail
+     *
+     * @param boolean $checkMail
+     * @return Membre
+     */
+    public function setCheckMail($checkMail)
+    {
+        $this->checkMail = $checkMail;
+    
+        return $this;
+    }
+
+    /**
+     * Get checkMail
+     *
+     * @return boolean 
+     */
+    public function getCheckMail()
+    {
+        return $this->checkMail;
     }
 }

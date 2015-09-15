@@ -1,27 +1,31 @@
 tous_groupes:
-    pattern: /
-    defaults: { _controller: CECTutoratBundle:Groupes:tous }
+    path: /actifs
+    defaults: { _controller: CECTutoratBundle:Groupes:actifs }
+
+groupes_passifs:
+    path: /passifs
+    defaults: {_controller: CECTutoratBundle:Groupes:passifs }
 
 creer_groupe:
-    pattern: /creation/{lycee}
+    path: /creation/{lycee}
     defaults: { _controller: CECTutoratBundle:Groupes:creer, lycee: null }
     requirements:
         lycee: \d+
 
 groupe:
-    pattern: /{groupe}
+    path: /{groupe}
     defaults: { _controller: CECTutoratBundle:Groupes:voir }
     requirements:
         groupe: \d+
 
 editer_groupe:
-    pattern: /{groupe}/edition
+    path: /{groupe}/edition
     defaults: { _controller: CECTutoratBundle:Groupes:editer }
     requirements:
         groupe: \d+
 
 groupe_supprimer_lyceen:
-    pattern: /{groupe}/{anneeScolaire}/supprimer_lyceen/{lyceen}
+    path: /{groupe}/{anneeScolaire}/supprimer_lyceen/{lyceen}
     defaults: { _controller: CECTutoratBundle:Groupes:supprimerLyceen }
     requirements:
         groupe: \d+
@@ -29,13 +33,13 @@ groupe_supprimer_lyceen:
         anneeScolaire: "[0-9]{4}-[0-9]{4}"
 
 groupe_ajouter_lyceen:
-    pattern: /{groupe}/ajouter_lyceen
+    path: /{groupe}/ajouter_lyceen
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterLyceen }
     requirements:
         groupe: \d+
 
 groupe_supprimer_tuteur:
-    pattern: /{groupe}/{anneeScolaire}/supprimer_tuteur/{tuteur}
+    path: /{groupe}/{anneeScolaire}/supprimer_tuteur/{tuteur}
     defaults: { _controller: CECTutoratBundle:Groupes:supprimerTuteur }
     requirements:
         groupe: \d+
@@ -43,13 +47,13 @@ groupe_supprimer_tuteur:
         anneeScolaire: "[0-9]{4}-[0-9]{4}"
 
 groupe_ajouter_tuteur:
-    pattern: /{groupe}/ajouter_tuteur
+    path: /{groupe}/ajouter_tuteur
     defaults: { _controller: CECTutoratBundle:Groupes:ajouterTuteur }
     requirements:
         groupe: \d+
 
 groupe_compterendu_arediger:
-    pattern: /{groupe}/comptes_rendus
+    path: /{groupe}/comptes_rendus
     defaults: {_controller: CECTutoratBundle:Groupes:compteRendus}
     requirements:
         groupe: \d+

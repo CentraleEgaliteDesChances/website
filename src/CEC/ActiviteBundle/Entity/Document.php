@@ -57,7 +57,7 @@ class Document
      * Description pour la première version d'une activité.
      * @var string
      */
-    const DocumentDescriptionPremiereVersion = "Première version de l'activité";
+    const DOCUMENT_DESCRIPTION_PREMIERE_VERSION = "Première version de l'activité";
 
     /**
      * @var integer
@@ -78,9 +78,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name = "description", type = "string", length = 255, nullable = true)
-     * @Assert\MaxLength(
-     *     limit = 255,
-     *     message = "La description du document ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "La description du document ne peut excéder 255 caractères."
      * )
      */
     private $description;
@@ -135,9 +135,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name = "nomFichierOriginal", type = "string", length = 50)
-     * @Assert\MaxLength(
-     *     limit = 50,
-     *     message = "Le nom du fichier original ne peut excéder 50 caractères."
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom du fichier original ne peut excéder 50 caractères."
      * )
      */
     private $nomFichierOriginal;
@@ -150,9 +150,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name = "nomFichierPDF", type = "string", length = 50)
-     * @Assert\MaxLength(
-     *     limit = 50,
-     *     message = "Le nom du fichier PDF ne peut excéder 50 caractères."
+     * @Assert\Length(
+     *     max = 50,
+     *     maxMessage = "Le nom du fichier PDF ne peut excéder 50 caractères."
      * )
      */
     private $nomFichierPDF;
@@ -317,21 +317,6 @@ class Document
     }
 
     /**
-     * Génère le fichier PDF à partir du fichier original associé à l'entité.
-     * Ne fait rien si aucun fichier Word n'existe. Le fichier PDF généré est déplacé sur le serveur
-     * suivant l'attribut $nomFichierPDF.
-     *
-     * Pour la génération, on utilise le site tierce http://www.conv2pdf.com, qui converti sur un serveur
-     * les documents Word en PDF. On télécharge ensuite le résultat.
-     *
-     * @return false
-     */
-    public function genererFichierPDF()
-    {
-        return false;
-    }
-
-    /**
      * Vérifie l'existence des documents sur le serveur.
      * Cette méthode renvoie "true" si le fichier Original ET le fichier PDF se trouvent sur le serveur.
      * Dans le cas contraire, on renvoie "false".
@@ -340,7 +325,7 @@ class Document
      */
     public function getDisponible()
     {
-        return is_file($this->getCheminAbsoluPDF()) and is_file($this->getCheminAbsoluOriginal());
+        return is_file($this->getCheminAbsoluPDF()) && is_file($this->getCheminAbsoluOriginal());
     }
 
     /**

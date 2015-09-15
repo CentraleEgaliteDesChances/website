@@ -33,9 +33,9 @@ class Eleve implements UserInterface, \Serializable
      *
      * @ORM\Column(name="prenom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le prénom ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le prénom ne peut excéder 100 caractères."
      * )
      */
     private $prenom;
@@ -45,9 +45,9 @@ class Eleve implements UserInterface, \Serializable
      *
      * @ORM\Column(name="nom", type="string", length=100)
 	 * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "Le nom de famille ne peut excéder 100 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "Le nom de famille ne peut excéder 100 caractères."
      * )
      */
     private $nom;
@@ -61,9 +61,9 @@ class Eleve implements UserInterface, \Serializable
      *     checkHost = true
      * )
      * @Assert\NotBlank(message = "L'adresse email ne peut être vide.")
-     * @Assert\MaxLength(
-     *     limit = 100,
-     *     message = "L'adresse email ne peut excéder 255 caractères."
+     * @Assert\Length(
+     *     max = 100,
+     *     maxMessage = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
     private $mail;
@@ -80,9 +80,9 @@ class Eleve implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephone;
@@ -134,9 +134,9 @@ class Eleve implements UserInterface, \Serializable
      *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
      *     message = "Le numéro de téléphone n'est pas valide."
      * )
-     * @Assert\MaxLength(
-     *     limit = 15,
-     *     message = "Un numéro de téléphone ne peut excéder 15 caractères."
+     * @Assert\Length(
+     *     max = 15,
+     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
     private $telephoneParent;
@@ -215,7 +215,7 @@ class Eleve implements UserInterface, \Serializable
 	/**
 	* @var \Doctrine\Common\Collections\Collection
 	*
-	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", inversedBy="presents")
+	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", mappedBy="presents")
 	*/
 	private $reunions;
 
@@ -256,10 +256,11 @@ class Eleve implements UserInterface, \Serializable
 	* Répertorie les sorties auxquelles s'est inscrit le lycéen.
 	* ATTENTION : la suppression du lycéen supprime ses inscriptions.
 	* 
-	* Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de Sorties pour ajouter un lycéen à une sortie.
+	* Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de SortieEleve pour ajouter un lycéen à une sortie.
 	* 
 	* @var \Doctrine\Common\Collections\Collection
     *
+    * @ORM\OneToMany(targetEntity="\CEC\SecteurSortiesBundle\Entity\SortieEleve", mappedBy="lyceen")
 	*/
 	private $sorties;
 
@@ -270,6 +271,13 @@ class Eleve implements UserInterface, \Serializable
     */
     private $projetsParAnnee;
 
+    /** 
+    * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
+    *
+    *@ORM\Column(name="checkMail", type="boolean")
+    */
+    private $checkMail = true;
+
     /**
      * Constructor
      */
@@ -278,6 +286,7 @@ class Eleve implements UserInterface, \Serializable
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sorties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(array("ROLE_ELEVE"));
         $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
@@ -502,18 +511,38 @@ class Eleve implements UserInterface, \Serializable
      */
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+
+        $this->roles->clear();
+        foreach($roles as $role)
+        {
+            $this->roles->add($role);
+        }
     
         return $this;
     }
 
     /**
+    * Update les roles donnés à l'utilisateur
+    */
+    public function updateRoles()
+    {
+        $this->setRoles(array('ROLE_ELEVE'));
+
+        if($this->delegue)
+            $this->addRole('ROLE_ELEVE_DELEGUE');
+
+        return $this;
+    }
+    /**
     * Add role
     */
     public function addRole($role)
     {
-        if(!in_array($role, $this->roles))
-            $this->roles[] = $role;
+
+        if(!$this->roles->contains($role))
+            $this->roles->add($role);
+
+        return $this;
     }
 
      /**
@@ -521,15 +550,9 @@ class Eleve implements UserInterface, \Serializable
     */
     public function removeRole($role)
     {
-        if (in_array($role, $this->roles))
-        {
-            for($i=0; $i<count($this->roles); $i++)
-            {
-                if ($this->roles[$i] == $role)
-                    unset($this->roles[$i]);
-            }
-        }
-        $this->roles = array_values($this->roles);
+
+        $this->roles->removeElement($role);
+
     }
 
 
@@ -540,20 +563,7 @@ class Eleve implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
-    }
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Eleve
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    
-        return $this;
+        return $this->roles->toArray();
     }
 
     /**
@@ -564,19 +574,6 @@ class Eleve implements UserInterface, \Serializable
     public function getDateCreation()
     {
         return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Eleve
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-    
-        return $this;
     }
 
     /**
@@ -598,10 +595,6 @@ class Eleve implements UserInterface, \Serializable
     public function setDelegue($delegue)
     {
         $this->delegue = $delegue;
-        if(!($delegue== null))
-            $this->addRole("ROLE_ELEVE_DELEGUE");
-        else
-            $this->removeRole("ROLE_ELEVE_DELEGUE");
     
         return $this;
     }
@@ -609,23 +602,23 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get delegue
      *
-     * @return boolean 
+     * @return \CEC\TutoratBundle\Entity\Lycee 
      */
     public function getDelegue()
     {
         return $this->delegue;
     }
-	
-	 /**
+
+    /**
      * Set motDePasse
      *
      * @param string $motDePasse
-     * @return Eleve
+     * @return Membre
      */
     public function setMotDePasse($motDePasse)
     {
         $this->motDePasse = $motDePasse;
-    
+
         return $this;
     }
 
@@ -677,11 +670,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get reunions
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getReunions()
     {
-        return $this->reunions;
+        return $this->reunions->toArray();
     }
 
     
@@ -695,6 +688,8 @@ class Eleve implements UserInterface, \Serializable
     public function addProjetsParAnnee(\CEC\SecteurProjetsBundle\Entity\ProjetEleve $projetsParAnnee)
     {
         $this->projetsParAnnee[] = $projetsParAnnee;
+
+        return $this;
     }
 
     /**
@@ -710,11 +705,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get projetsParAnnee
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getProjetsParAnnee()
     {
-        return $this->projetsParAnnee;
+        return $this->projetsParAnnee->toArray();
     }
     
     /**
@@ -744,11 +739,11 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get sorties
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return array
      */
     public function getSorties()
     {
-        return $this->sorties;
+        return $this->sorties->toArray();
     }
 
     
@@ -842,16 +837,18 @@ class Eleve implements UserInterface, \Serializable
     public function removeSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances->removeElement($seances);
+
+        return $this;
     }
 
     /**
      * Get seances
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getSeances()
     {
-        return $this->seances;
+        return $this->seances->toArray();
     }
 
     /**
@@ -967,16 +964,18 @@ class Eleve implements UserInterface, \Serializable
     public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
     {
         $this->groupeParAnnee->removeElement($groupeParAnnee);
+
+        return $this;
     }
 
     /**
      * Get groupeParAnnee
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return array 
      */
     public function getGroupeParAnnee()
     {
-        return $this->groupeParAnnee;
+        return $this->groupeParAnnee->toArray();
     }
 
     public function getGroupe()
@@ -993,5 +992,28 @@ class Eleve implements UserInterface, \Serializable
             }
         }while($e = $this->groupeParAnnee->next());
         return null;
+    }
+
+    /**
+     * Set checkMail
+     *
+     * @param boolean $checkMail
+     * @return Eleve
+     */
+    public function setCheckMail($checkMail)
+    {
+        $this->checkMail = $checkMail;
+    
+        return $this;
+    }
+
+    /**
+     * Get checkMail
+     *
+     * @return boolean 
+     */
+    public function getCheckMail()
+    {
+        return $this->checkMail;
     }
 }

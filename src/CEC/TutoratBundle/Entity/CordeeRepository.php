@@ -16,7 +16,7 @@ class CordeeRepository extends EntityRepository
     /**
      * Retourne le compte des cordées actives pour l'année scolaire indiquée.
      * On retourne le nombre de cordées actives, c'est-à-dire les cordées contenant des lycées
-     * dont un groupe appartient à l'année scolaire indiquée en argument.
+     * dont un groupe a une activité de tutorat durant l'année scolaire concernée.
      *
      * @param AnneeScolaire $anneeScolaire Année scolaire
      * @return integer Compte des cordées actives.
@@ -27,7 +27,8 @@ class CordeeRepository extends EntityRepository
             ->select('COUNT(DISTINCT c)')
             ->join('c.lycees', 'l')
             ->join('l.groupes', 'g')
-            ->where('g.anneeScolaire = :annee_scolaire')
+            ->join('g.tuteursParAnnee', 'gt')
+            ->where('gt.anneeScolaire = :annee_scolaire')
             ->setParameter('annee_scolaire', $anneeScolaire->getAnneeInferieure())
             ->getQuery();
         return $query->getSingleScalarResult();

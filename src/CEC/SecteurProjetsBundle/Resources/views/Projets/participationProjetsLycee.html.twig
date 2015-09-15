@@ -1,0 +1,58 @@
+{% extends 'CECTutoratBundle:Lycees:base.html.twig' %}
+
+{% block right %}
+
+	<h2> Tableau récapitulatif des présences en séances de tutorat pour le lycée {{lycee.nom|trim('Lycée')}}</h2>
+
+	<table class="table table-bordered table-hover table-striped">
+		{% for anneeScolaire in anneesScolaires%}
+			<thead>
+				<tr class="text-center">
+					<th colspan="{{projets|length + 1}}"> {{anneeScolaire}} </th>
+				</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<th> Lycéens </th>
+				{% for projet in projets %}
+					<th>
+						<a href="{{ path('description_projet', {'slug' : projet.slug } ) }}">
+							{{projet.nom}}
+						</a>
+					</th>
+				{% endfor %}
+			</tr>
+			{% for lyceen in lyceens %}
+				{# On vérifie que le lycéen était dans le lycée pendant cette année #}
+				{% set booleen = false %}
+				{% for groupe in lycee.groupes %}
+					{% if lyceen in groupe.lyceensAnnee(anneeScolaire) %}
+						{% set booleen = true %}
+					{% endif %}
+				{% endfor %}
+				{% if booleen %}
+					<tr>
+						<td>
+							<a href="{{ path('voir_eleve', {'id' : lyceen.id } ) }}">
+								{{lyceen.prenom}} {{lyceen.nom}}
+							</a>
+						</td>
+						{% for projet in projets %}
+							{% if anneeScolaire.afficherAnnees in participations[lyceen.id]|keys and projet in participations[lyceen.id][anneeScolaire.afficherAnnees] %}
+								<td class="success">
+									<span class="checkmark">&#10004;</span>
+								</td>
+							{% else %}
+								<td class="error">
+									<span class="checkmark">&#10008;</span>
+								</td>
+							{% endif %}
+						{% endfor %}
+					</tr>
+				{% endif %}
+			{% endfor %}
+			</tbody>
+		{% endfor %}
+	</table>
+
+{% endblock %}

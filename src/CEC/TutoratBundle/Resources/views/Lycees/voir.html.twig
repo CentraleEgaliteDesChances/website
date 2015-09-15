@@ -5,7 +5,11 @@
 {% block right %}
 {{ parent() }}
 
-{% if lycee in app.user.groupe.lycees|default('') or lycee == app.user.lycee %}
+{% if is_granted('ROLE_TUTEUR') and lycee in app.user.groupe.lycees|default('') %}
+{{ flash('info', 'Bienvenue sur la page de votre lycée !') }}
+{% endif %}
+
+{% if (is_granted('ROLE_ELEVE') or is_granted('ROLE_REFERENT')) and lycee == app.user.lycee %}
 {{ flash('info', 'Bienvenue sur la page de votre lycée !') }}
 {% endif %}
 
@@ -93,13 +97,13 @@
 
 <table class="table table-bordered table-hover table-striped table-large">
     {% if lycee.professeurs|length > 0 %}
-        <thead><tr><th><h4>Enseignants</h4></th></tr></thead>
+        <thead><tr><th><h4>Equipe pédagogique <span class="count">{{ lycee.professeurs|length }}</span></h4></th></tr></thead>
         <tbody>
             {% for enseignant in lycee.professeurs %}
             <tr>
                 <td>
                     <a href="
-                            {% if ((is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR')) and app.user in lycee.professeurs)
+                            {% if (is_granted('ROLE_PROFESSEUR') and app.user in lycee.professeurs)
                                or is_granted('ROLE_TUTEUR')
                                or (is_granted('ROLE_ELEVE_DELEGUE') and lycee in app.user.groupe.lycees) %}
                                 
@@ -110,9 +114,9 @@
                             ">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />
                         {% if is_granted("ROLE_PROFESSEUR_REFERENT") %}
-                            <span class="label pull-right">Professeur référent</span>
+                            <span class="label labek-default pull-right">Professeur référent</span>
                         {% elseif is_granted("ROLE_PROVISEUR") %}
-                            <span class="label pull-right">Proviseur</span>
+                            <span class="label label-default pull-right">Proviseur</span>
                         {% endif %}
                     </a>
                 </td>
@@ -125,19 +129,19 @@
 </table>
 
 <table class="table table-bordered table-hover table-striped table-large">
+    <thead>
+        <tr>
+            <th>
+                <h4>
+                    Prochaines séances de tutorat
+                    <a href="{{ path('toutes_seances') }}" class="btn btn-default btn-small pull-right">
+                        Planning des séances
+                    </a>
+                </h4>
+            </th>
+        </tr>
+    </thead>
     {% if seances %}
-        <thead>
-            <tr>
-                <th>
-                    <h4>
-                        Prochaines séances de tutorat
-                        <a href="{{ path('toutes_seances') }}" class="btn btn-small pull-right">
-                            Planning des séances
-                        </a>
-                    </h4>
-                </th>
-            </tr>
-        </thead>
         <tbody>
             {% for seance in seances %}
             <tr>
@@ -151,7 +155,7 @@
             {% endfor %}
         </tbody>
     {% else %}
-        <thead><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></thead>
+        <tbody><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce lycée</h4></th></tr></tbody>
     {% endif %}
 </table>
 

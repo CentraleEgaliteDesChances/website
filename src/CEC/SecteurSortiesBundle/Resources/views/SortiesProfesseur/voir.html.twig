@@ -8,7 +8,7 @@
     <tbody>
         {% for sortie in sorties %}
         <tr>
-            <td>
+            <td id="{{sortie.id}}">
                 <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
                 <p>Adresse : {{sortie.adresse}}</p>
                 <p style="text-align:justify;">{{sortie.description}}</p>
@@ -23,7 +23,7 @@
 							</h4>
 						</div>
 						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-						{% render "CECSecteurSortiesBundle:SortiesProfesseur:lyceens" with {'sortie' : sortie} %}
+						{% include "CECSecteurSortiesBundle:SortiesProfesseur:lyceens.html.twig" with {'lyceensSortie' : sortie.lyceens, 'lycee' : app.user.lycee} %}
 						</div>
 					</div>
 				</div>

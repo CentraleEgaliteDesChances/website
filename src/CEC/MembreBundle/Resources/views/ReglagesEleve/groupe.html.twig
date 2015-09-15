@@ -4,7 +4,7 @@
 {{ parent() }}
 
     <div class="section">
-        <div class="section-title">Mes groupes de tutorat</div>
+        <div class="section-title">Mon groupe de tutorat</div>
         <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
             <p>Sélectionnez le groupe de tutorat que vous fréquentez régulièrement :</p>
             {{ form_widget(form) }}

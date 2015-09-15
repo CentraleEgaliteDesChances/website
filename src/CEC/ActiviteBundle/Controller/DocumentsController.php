@@ -35,7 +35,7 @@ class DocumentsController extends Controller
         
         // S'il s'agit de la seule version de l'activité, on ne la supprime pas
         if (count($activite->getVersions()) == 1) {
-            $this->get('session')->setFlash('error', 'Vous ne pouvez supprimer l\'unique version d\'une activité !');
+            $this->get('session')->getFlashBag()->add('error', 'Vous ne pouvez supprimer l\'unique version d\'une activité !');
             return $this->redirect($this->generateUrl('cec_activite_activites_editer', array('activite' => $activite->getId())));
         }
       
@@ -47,8 +47,6 @@ class DocumentsController extends Controller
         $this->get('session')->getFlashBag()
             ->add('success', 'La version ainsi que les fichiers associés ont bien été supprimés.');
         return $this->redirect($this->generateUrl('cec_activite_activites_editer', array('activite' => $activite->getId())));
-        
-        return array();
     }
     
     /**
@@ -73,7 +71,7 @@ class DocumentsController extends Controller
       
         // Hydrate le document avec les informations du formulaires
         $request = $this->getRequest();
-        $documentForm->bindRequest($request);
+        $documentForm->handleRequest($request);
         
         if ($documentForm->isValid())
         {

@@ -1,4 +1,4 @@
-{% extends 'CECMainBundle::narrow.html.twig' %}
+{% extends 'CECMainBundle::2-columns.html.twig' %}
 
 {% block stylesheets %}
 {{ parent() }}
@@ -9,11 +9,15 @@
     {% endstylesheets %}
 {% endblock %}
 
+{% block left %}
+    {{ render(controller('CECSecteurFundraising:menu', { 'request' : request })) }}
+{% endblock %}
 
-{% block narrow_title %}Statistiques pour l'année {{ annee_scolaire.afficherAnnees }}{% endblock narrow_title %}
 
-{% block narrow_body %}
+{% block right %}
 {{ parent() }}
+
+<h2> Statistiques de l'année {{anneeScolaire.afficherAnnees}} </h2>
 
     <table class="table table-bordered table-large table-striped table-stats">
         <thead>
@@ -117,4 +121,4 @@
         </tbody>
     </table>
 
-{% endblock narrow_body %}
+{% endblock right %}

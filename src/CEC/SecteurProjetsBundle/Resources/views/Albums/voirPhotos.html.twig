@@ -1,19 +1,17 @@
 {% extends 'CECSecteurProjetsBundle::base.html.twig' %}
 
 
-
 {% block right %}
 
 {{parent()}}
-<div class="well" style = "padding-left:20px;padding-right:15px;">
-	<h1>{{album.projet.nom}} - Edition {{album.annee}}</h1>
+	<h2>{{album.projet.nom}} - Edition {{album.annee}}</h2>
 
 	<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 	  <!-- Indicators -->
 	  <ol class="carousel-indicators">
 		<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-		{% for i in range(1, (album.images|length)-1) %}
-			<li data-target="#carousel-example-generic" data-slide-to="{{i}}"></li>
+		{% for key, image in album.images %}
+			<li data-target="#carousel-example-generic" data-slide-to="{{key}}"></li>
 		{% endfor %}
 	  </ol>
 
@@ -39,7 +37,6 @@
 		<span class="sr-only">Next</span>
 	  </a>
 	</div>
-	
+	<br/>
 	<a href="{{path('voir_albums')}}" class="btn btn-default">Retourner à la liste des albums</a>
-</div>
 {% endblock %}

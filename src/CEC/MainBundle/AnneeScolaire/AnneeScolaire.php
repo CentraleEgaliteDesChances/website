@@ -233,7 +233,6 @@ class AnneeScolaire
         $validation = ($annee >= 1000) && ($annee < 3000);
         if (!$validation) {
             throw new MauvaisFormatAnneeException("Le format de l'année ('" . $annee . "') ne correspond pas à celui attendu !");
-            return false;
         }
         
         return true;

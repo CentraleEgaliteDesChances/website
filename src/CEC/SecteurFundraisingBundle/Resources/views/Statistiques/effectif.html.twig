@@ -1,0 +1,845 @@
+{% extends 'CECSecteurFundraisingBundle:Statistiques:base.html.twig' %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+        $('[data-toggle="popover"]').popover();   
+
+        });
+
+    </script>
+{% endblock %}
+
+{% block right %}
+{{ parent() }}
+
+<div role="tabpanel">
+
+    <h2> Indicateurs sur l'évolution des effectifs à CEC </h2>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Indicateurs généraux</a></li>
+    <li role="presentation"><a href="#detail" aria-controls="detail" role="tab" data-toggle="tab">Indicateurs détaillés</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="general">
+
+
+
+        {# On crée des variables pour retenir les participations de l'année d'avant dans le but de calculer les pourcentages #}
+        {%  set part2nde = 0 %}
+        {%  set part1ere = 0 %}
+        {%  set partTerm = 0 %}
+
+        <table class="table table-bordered table-striped table-stats">
+            <thead>
+                <tr >
+                    <th colspan="9"> Nombre de participations par année </th>
+                </tr>
+                <tr>
+                    <th> Année Scolaire </th>
+                    <th colspan="2"> Secondes </th>
+                    <th colspan="2"> Premières </th>
+                    <th colspan="2"> Terminales </th>
+                    <th colspan="2"> Total </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key,participations in statsEffectifGeneral %}
+                <tr>
+                    <td> <strong>Année scolaire {{key}}</strong> </td>
+                    <td > 
+                        <div class="statsDetail">
+                            {{participations[0]}}
+                        </div>
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[0] %}
+                    {% if part2nde == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif part2nde == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - part2nde)/part2nde * 100 %}
+                    {% endif %}
+
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+
+                    {% if pourcentage == 0  or loop.first%}
+                        <td>
+                            <div class="statsDetail">
+                                &#8212;
+                            </div>
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            <div class="statsDetail">
+                                +{{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% endif %} 
+
+                    <td> 
+                        <div class="statsDetail">
+                            {{participations[1]}}
+                        </div>
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[1] %}
+                    {% if part1ere == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif part1ere == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - part1ere)/part1ere * 100 %}
+                    {% endif %}
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+
+                    {% if pourcentage == 0 or loop.first %}
+                        <td>
+                            <div class="statsDetail">
+                                &#8212;
+                            </div>
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            <div class="statsDetail">
+                                +{{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% endif %} 
+
+                    <td> 
+                        <div class="statsDetail">
+                            {{participations[2]}}
+                        </div>
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[2] %}
+                    {% if partTerm == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif partTerm == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - partTerm)/partTerm * 100 %}
+                    {% endif %}
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+                    {% if pourcentage == 0 or loop.first %}
+                        <td>
+                            <div class="statsDetail">
+                                &#8212;
+                            </div>
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            <div class="statsDetail">
+                                +{{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% endif %} 
+
+                    <td > 
+                        <div class="statsDetail">
+                            {{participations[3]}}
+                        </div>
+                    </td>
+                    {# On calcule le pourcentage de progression depuis l'année dernière #}
+                    {% set nbrPart = participations[3] %}
+                    {% set partTotal = part2nde + part1ere + partTerm %}
+                    {% if partTotal == 0 and nbrPart == 0 %}
+                        {% set pourcentage = 0 %}
+                    {% elseif partTotal == 0 %}
+                        {% set pourcentage = 100 %}
+                    {% else %}
+                        {% set pourcentage = (nbrPart - partTotal)/partTotal * 100 %}
+                    {% endif %}
+
+
+                    {# Suivant la valeur du pourcentage on affiche différentes cases #}
+
+                    {% if pourcentage == 0  or loop.first%}
+                        <td>
+                            <div class="statsDetail">
+                                &#8212;
+                            </div>
+                        </td>
+                    {% elseif pourcentage > 0 %}
+                        <td class="success">
+                            <div class="statsDetail">
+                                +{{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% elseif pourcentage < -15 %}
+                        <td class="error">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% else %}
+                        <td class="warning">
+                            <div class="statsDetail">
+                                {{pourcentage|round(1)}}%
+                            </div>
+                        </td>
+                    {% endif %} 
+
+                    {# On change la valeur de part2nde a celle de ce rang pour le rang suivant #}
+                    {% set part2nde = participations[0] %}
+
+                    {# On change la valeur de part1ere a celle de ce rang pour le rang suivant #}
+                    {% set part1ere = participations[1] %}
+
+                    {# On change la valeur de partTerm a celle de ce rang pour le rang suivant #}
+                    {% set partTerm = participations[2] %}
+
+                </tr>
+                {% else %}
+                <tr>
+                    <th colspan="7" class="muted"> Pas de statistiques disponibles </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="detail">
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée </th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetail %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+                            {% set partLycee = 0 %}
+
+                            {% for key, effectif in effectifsLycee %}
+
+                                {% set old = partLycee %}
+                                {% if statsEffectifGeneral[key][3] > 0 %}
+                                    {% set partLycee = effectif/statsEffectifGeneral[key][3] * 100 %}
+                                {% endif %}
+
+                                <td>
+                                    <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part du lycée (%)" data-content="{{partLycee|round(1)}}% (
+                                        {% if old > 0 %}
+                                            {% if partLycee - old > 0 %}
+                                                <span style='color:green'> +{{partLycee - old}}% </span>
+                                            {% elseif partLycee == old %}
+                                                &#8212;
+                                            {% else %}
+                                                <span style='color:red'> {{partLycee - old}}% </span>
+                                            {% endif %}
+                                        {% else %}
+                                            &#8212;
+                                        {% endif %})
+                                    "> % </span>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/eff*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+                        {% set partCordee = 0 %}
+
+                        {% for key,effectif in effCordee %}
+
+                            {% set old = partCordee %}
+                            {% if statsEffectifGeneral[key][3] > 0 %}
+                                    {% set partLycee = effectif/statsEffectifGeneral[key][3] * 100 %}
+                                {% endif %}
+
+                            <td>
+                                <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part de la Cordée (%)" data-content="{{partCordee|round(1)}}% (
+                                    {% if old > 0 %}
+                                        {% if partCordee - old > 0 %}
+                                            <span style='color:green'> +{{partCordee - old}}% </span>
+                                        {% elseif partCordee == old %}
+                                            &#8212;
+                                        {% else %}
+                                            <span style='color:red'> {{partCordee - old}}% </span>
+                                        {% endif %}
+                                    {% else %}
+                                        &#8212;
+                                    {% endif %})
+                                "> % </span>
+                                <div class="statsDetail">
+                                    {{ effectif }}
+                                </div>
+                            </td>
+
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/eff*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée (Secondes)</th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetailSecondes %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+                            {% set partLycee = 0 %}
+
+                            {% for key, effectif in effectifsLycee %}
+
+                                {% set old = partLycee %}
+                                {% if statsEffectifGeneral[key][0] > 0 %}
+                                    {% set partLycee = effectif/statsEffectifGeneral[key][0] * 100 %}
+                                {% endif %}
+
+                                <td>
+                                    <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part du lycée (%)" data-content="{{partLycee|round(1)}}% (
+                                        {% if old > 0 %}
+                                            {% if partLycee - old > 0 %}
+                                                <span style='color:green'> +{{partLycee - old}}% </span>
+                                            {% elseif partLycee == old %}
+                                                &#8212;
+                                            {% else %}
+                                                <span style='color:red'> {{partLycee - old}}% </span>
+                                            {% endif %}
+                                        {% else %}
+                                            &#8212;
+                                        {% endif %})
+                                    "> % </span>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/eff*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+                        {% set partCordee = 0 %}
+
+                        {% for key,effectif in effCordee %}
+
+                            {% set old = partCordee %}
+                            {% if statsEffectifGeneral[key][0] > 0 %}
+                                {% set partLycee = effectif/statsEffectifGeneral[key][0] * 100 %}
+                            {% endif %}
+
+                            <td>
+                                <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part de la cordée (%)" data-content="{{partCordee|round(1)}}% (
+                                    {% if old > 0 %}
+                                        {% if partCordee - old > 0 %}
+                                            <span style='color:green'> +{{partCordee - old}}% </span>
+                                        {% elseif partCordee == old %}
+                                            &#8212;
+                                        {% else %}
+                                            <span style='color:red'> {{partCordee - old}}% </span>
+                                        {% endif %}
+                                    {% else %}
+                                        &#8212;
+                                    {% endif %})
+                                "> % </span>
+                                <div class="statsDetail">
+                                    {{ effectif }}
+                                </div>
+                            </td>
+
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/eff*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée (Premières)</th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetailPremieres %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+                            {% set partLycee = 0 %}
+
+                            {% for key, effectif in effectifsLycee %}
+
+                                {% set old = partLycee %}
+                                {% if statsEffectifGeneral[key][1] > 0 %}
+                                    {% set partLycee = effectif/statsEffectifGeneral[key][1] * 100 %}
+                                {% endif %}
+
+                                <td>
+                                    <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part du lycée (%)" data-content="{{partLycee|round(1)}}% (
+                                        {% if old > 0 %}
+                                            {% if partLycee - old > 0 %}
+                                                <span style='color:green'> +{{partLycee - old}}% </span>
+                                            {% elseif partLycee == old %}
+                                                &#8212;
+                                            {% else %}
+                                                <span style='color:red'> {{partLycee - old}}% </span>
+                                            {% endif %}
+                                        {% else %}
+                                            &#8212;
+                                        {% endif %})
+                                    "> % </span>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/eff*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+                        {% set partCordee = 0 %}
+
+                        {% for key,effectif in effCordee %}
+
+                            {% set old = partCordee %}
+                            {% if statsEffectifGeneral[key][1] > 0 %}
+                                {% set partLycee = effectif/statsEffectifGeneral[key][1] * 100 %}
+                            {% endif %}
+
+                            <td>
+                                <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part de la cordée (%)" data-content="{{partCordee|round(1)}}% (
+                                    {% if old > 0 %}
+                                        {% if partCordee - old > 0 %}
+                                            <span style='color:green'> +{{partCordee - old}}% </span>
+                                        {% elseif partCordee == old %}
+                                            &#8212;
+                                        {% else %}
+                                            <span style='color:red'> {{partCordee - old}}% </span>
+                                        {% endif %}
+                                    {% else %}
+                                        &#8212;
+                                    {% endif %})
+                                "> % </span>
+                                <div class="statsDetail">
+                                    {{ effectif }}
+                                </div>
+                            </td>
+
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/eff*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-large table-striped table-stats">
+            <thead>
+                <tr><th colspan="{{ 1 + (anneesScolaires|length) * 2 }}">Effectif par Lycée et par Cordée (Terminales)</th></tr>
+                <tr>
+                    <th> Nom </th>
+                    {% for anneeScolaire in anneesScolaires %}
+                    <th colspan="2">
+                        {{anneeScolaire.afficherAnnees}}
+                    </th>
+                    {% endfor %}
+            </thead>
+            <tbody>
+                {% for ligneCordee in statsEffectifDetailTerminales %}
+                    {% set cordee = ligneCordee[0] %}
+                    {% set effectifsCordee = ligneCordee[1] %}
+                    {% set effCordee = ligneCordee[2] %}
+
+                    {% for ligneLycee in effectifsCordee %}
+                        {% set effectifsLycee = ligneLycee[1] %}
+                        <tr>
+                            <td>
+                                <strong> {{ligneLycee[0].nom}} </strong>
+                            </td>
+
+                            {% set eff = 0 %}
+                            {% set partLycee = 0 %}
+
+                            {% for key, effectif in effectifsLycee %}
+
+                                {% set old = partLycee %}
+                                {% if statsEffectifGeneral[key][2] > 0 %}
+                                    {% set partLycee = effectif/statsEffectifGeneral[key][2] * 100 %}
+                                {% endif %}
+
+                                <td>
+                                    <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part du lycée (%)" data-content="{{partLycee|round(1)}}% (
+                                        {% if old > 0 %}
+                                            {% if partLycee - old > 0 %}
+                                                <span style='color:green'> +{{partLycee - old}}% </span>
+                                            {% elseif partLycee == old %}
+                                                &#8212;
+                                            {% else %}
+                                                <span style='color:red'> {{partLycee - old}}% </span>
+                                            {% endif %}
+                                        {% else %}
+                                            &#8212;
+                                        {% endif %})
+                                    "> % </span>
+                                    <div class="statsDetail">
+                                        {{ effectif }}
+                                    </div>
+                                </td>
+
+                                {% set pourcentage = 0 %}
+                                {% if eff > 0 %}
+                                    {% set pourcentage = (effectif-eff)/eff*100 %}
+                                {% endif %}
+                                <td class="
+                                    {% if pourcentage == 0 or eff == 0 %}
+
+                                    {% elseif pourcentage > 0 %}
+                                        success
+                                    {% elseif pourcentage < -15 %}
+                                        error
+                                    {% else %}
+                                        warning
+                                    {% endif %}
+                                    ">
+                                    <div class="statsDetail">
+                                        {% if eff == 0 %}
+                                            &#8212;
+                                        {% else %}
+                                            {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                {% set eff = effectif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>
+                            <strong> {{cordee.nom}} </strong>
+                        </td>
+
+                        {% set eff = 0 %}
+                        {% set partCordee = 0 %}
+
+                        {% for key,effectif in effCordee %}
+
+                            {% set old = partCordee %}
+                            {% if statsEffectifGeneral[key][2] > 0 %}
+                                {% set partLycee = effectif/statsEffectifGeneral[key][2] * 100 %}
+                            {% endif %}
+
+                            <td>
+                                <span class="label pull-right" role="button" data-toggle="popover" data-trigger="hover" title="Part de la cordée (%)" data-content="{{partCordee|round(1)}}% (
+                                    {% if old > 0 %}
+                                        {% if partCordee - old > 0 %}
+                                            <span style='color:green'> +{{partCordee - old}}% </span>
+                                        {% elseif partCordee == old %}
+                                            &#8212;
+                                        {% else %}
+                                            <span style='color:red'> {{partCordee - old}}% </span>
+                                        {% endif %}
+                                    {% else %}
+                                        &#8212;
+                                    {% endif %})
+                                "> % </span>
+                                <div class="statsDetail">
+                                    {{ effectif }}
+                                </div>
+                            </td>
+
+
+                            {% set pourcentage = 0 %}
+                            {% if eff > 0 %}
+                                {% set pourcentage = (effectif-eff)/eff*100 %}
+                            {% endif %}
+                            <td class="
+                                {% if pourcentage == 0 or eff == 0 %}
+
+                                {% elseif pourcentage > 0 %}
+                                    success
+                                {% elseif pourcentage < -15 %}
+                                    error
+                                {% else %}
+                                    warning
+                                {% endif %}
+                                ">
+                                <div class="statsDetail">
+                                    {% if eff == 0 %}
+                                        &#8212;
+                                    {% else %}
+                                        {{pourcentage > 0 ? '+' : ''}}{{pourcentage|round(1)}}%
+                                    {% endif %}
+                                </div>
+                            </td>
+
+                            {% set eff = effectif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}

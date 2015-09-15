@@ -53,6 +53,10 @@ class SecuriteController extends Controller
     public function oubliAction()
     {
         $form = $this->createFormBuilder()
+        	->add('categorie', 'choice', array(
+        		'label' => 'Statut :',
+        		'choices' => array('tuteur' => 'Tuteur', 'lyceen' => 'Lycéen', 'prof' => 'Enseignant')
+        		))
             ->add('prenom', 'text')
             ->add('nom', 'text')
             ->getForm();
@@ -61,17 +65,35 @@ class SecuriteController extends Controller
 
         if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
             if ($form->isValid())
             {
                 $data = $form->getData();
 
-                try { //En cas d'erreur (notamment membre non trouvé), on retourne au formulaire qui affiche l'erreur
-                    $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
-                } catch (\Exception $e) {
-                    $form->addError(new FormError($e->getMessage()));
-                    return array('form' => $form->createView());
+                // On checke chaque base de données suivant la catégorie
+                try
+                {
+	                switch($data['categorie'])
+	                {
+	                	case 'tuteur':
+	                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+	                		break;
+	                	case 'lyceen':
+	                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+	                		break;
+	                	case 'professeur':
+	                		$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+	                		break;
+	                	default:
+	                	break;
+	                }	
+				}catch( \Exception $e)
+                {
+        			$form->addError(new FormError($e->getMessage()));
+                	return array('form' => $form->createView());
+
                 }
+
                 //Création d'un nouveau mot de passe aléatoire
                 $motDePasse = substr(str_shuffle(MD5(microtime())), 0, 10);
 
@@ -85,22 +107,10 @@ class SecuriteController extends Controller
                 $entityManager->flush();
                 
                 //Envoi du mail
-                $email = \Swift_Message::newInstance()
-                    ->setSubject("Mot de passe pour le site interne de CEC")
-                    ->setFrom(array("notification@cec-ecp.com" => "Notification CEC"))
-                    ->setTo(array($membre->getEmail() => $membre->__toString()))
-                    ->setBody(
-                        $this->renderView('CECMembreBundle:Mail:oubli.html.twig',
-                            array(
-                                'membre' => $membre,
-                                'mot_de_passe' => $motDePasse,
-                                'base_url' => $_SERVER['HTTP_HOST'],
-                            )),
-                        'text/html');
-                $this->get('mailer')->send($email);
+                $this->get('cec.mailer')->sendOubliMdP($membre, $motDePasse, $_SERVER['HTTP_HOST']);
 
                 //Retour à la page de connexion
-                $this->get('session')->setFlash('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
+                $this->get('session')->getFlashBag()->add('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
                 return $this->redirect($this->generateUrl('connexion'));
             }
         }
@@ -114,10 +124,6 @@ class SecuriteController extends Controller
 	{
 			//Creation of the form to register a new teacher
 			$inscrit = new Professeur();
-			$inscrit->setDateCreation(new \DateTime('now'));
-			$inscrit->setDateModification(new \DateTime('now'));
-			$inscrit->setRoles(array('ROLE_PROFESSEUR'));
-			$inscrit->setReferent(false);
 
 			$form = $this->createFormBuilder($inscrit)
 				->add('prenom', 'text', array(
@@ -132,13 +138,21 @@ class SecuriteController extends Controller
 					'label' => 'Adresse email',
 					'attr' => array('placeholder' => 'Adresse Mail'),
 				))
-				->add('telephone', 'text', array(
-					'label' => 'Numéro de téléphone',
+				->add('telephoneFixe', 'text', array(
+					'label' => 'Numéro de téléphone fixe',
+					'required' => false,
+				))
+				->add('telephonePortable', 'text', array(
+					'label' => 'Numéro de téléphone portable',
+					'required' => false,
 				))
 				->add('lycee', null, array(
 					'label'=>'Lycée de provenance',
 				))
-
+				->add('role', 'choice', array(
+					'choices' => array ('proviseur' => "Proviseur", "proviseurAdjoint" => "Proviseur Adjoint", "cpe" => "Conseiller Principal d'Education", "professeur" => "Enseignant"),
+					'label' => 'Rôle dans l\'établissement'
+				))
 				->add('motDePasse', 'repeated', array(
 					'label'=>'Mot de passe',
 					'first_name' => 'Mot-de-passe',
@@ -151,7 +165,7 @@ class SecuriteController extends Controller
 			
 		if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 			if ($form->isValid())
 			{
 			//Enregistrement en BDD
@@ -180,10 +194,6 @@ class SecuriteController extends Controller
 			//Creation of form to register a new high-school student
 			
 			$eleve = new Eleve();
-			$eleve->setDateCreation(new \DateTime('now'));
-			$eleve->setDateModification(new \DateTime('now'));
-			$eleve->setRoles(array('ROLE_ELEVE'));
-			$eleve->setDelegue(false);
 
 			$form = $this->createFormBuilder($eleve)
 				->add('prenom', 'text', array(
@@ -194,18 +204,32 @@ class SecuriteController extends Controller
 					'label'=>'Nom',
 					'attr' => array('placeholder' =>'Nom'),
 				))
-				->add('mail', 'text', array(
-					'label' => 'Adresse email',
-					'attr' => array('placeholder' => 'Adresse Mail'),
-				))
-				->add('lycee', null, array(
-					'label'=>'Lycée de provenance',
-				))
 				->add('datenaiss', null, array(
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
                 'attr' => array('placeholder' => 'JJ/MM/AAAA'),
+				))
+				->add('mail', 'text', array(
+					'label' => 'Adresse email',
+					'attr' => array('placeholder' => 'Adresse Mail'),
+				))
+				->add('telephone', null, array('label' => 'Numéro de téléphone personnel', 'required' => false
+				))
+				->add('telephoneParent', null, array('label'=>'Numéro de téléphone du(des) parent(s)'
+				))
+				->add('nomPere', null, array('label' => 'Nom du père (optionnel)', 'required' => false, 'attr' => array('placeholder' => 'Prénom Nom')
+				))
+				->add('nomMere', null, array('label' => 'Nom de la mère (optionnel)', 'required' => false, 'attr' => array('placeholder' => 'Prénom Nom')
+				))
+				->add('adresse', null, array('label' => 'Adresse du domicile'
+				))
+				->add('codePostal', null, array('label' => 'Code Postal'
+				))
+				->add('ville', null, array('label' => 'Ville'
+				))
+				->add('lycee', null, array(
+					'label'=>'Lycée de provenance',
 				))
 				->add('motDePasse', 'repeated', array(
 					'label'=>'Mot de passe',
@@ -219,7 +243,7 @@ class SecuriteController extends Controller
 		
         if ($request->isMethod("POST"))
         {            
-            $form->bindRequest($request);
+            $form->handleRequest($request);
 		
 			if ($form->isValid())
 			{

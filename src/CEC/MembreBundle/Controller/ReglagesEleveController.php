@@ -10,7 +10,10 @@ use CEC\MembreBundle\Form\Type\InfosEleveType;
 use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use CEC\MembreBundle\Form\Type\GroupeEleveType;
 
+use CEC\TutoratBundle\Entity\GroupeEleves;
+
 use CEC\MainBundle\Utility\Referer;
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 
 
@@ -24,23 +27,10 @@ class ReglagesEleveController extends Controller
      *
      * @Template()
      */
-    public function infosAction($lyceen)
+    public function infosAction()
     {
         // On récupère l'utilisateur actuel
-        $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
-        if (!$membre) throw $this->createNotFoundException('L\'utilisateur actif n\'a pas pu être trouvé !');
-
-        if($membre != $this->getUser())
-        {
-            $this->get('session')->setFlash('warning', 'Vous n\'avez pas accès à cette page !');
-            $params = $this->getRefererParams();
-            return $this->redirect($this->generateUrl(
-                $params['_route'],
-                [
-                    'slug' => $params['slug']
-                ]
-                ));
-        }
+        $membre = $this->getUser();
         
         $nomInformationsGenerales = 'InfosEleve';
         $infomationsGenerales = $this->get('form.factory')
@@ -56,16 +46,16 @@ class ReglagesEleveController extends Controller
         if ($request->isMethod("POST"))
         {
             if ($request->request->has($nomInformationsGenerales)) {
-                $infomationsGenerales->bindRequest($request);
+                $infomationsGenerales->handleRequest($request);
                 if ($infomationsGenerales->isValid()) {
                     $this->getDoctrine()->getEntityManager()->flush();
-                    $this->get('session')->setFlash('success', 'Les modifications ont bien été enregistrées.');
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
                     return $this->redirect($this->generateUrl('reglages_infos_eleve'));
                 }
             }
             
             if ($request->request->has($nomMotDePasse)) {
-                $motDePasse->bindRequest($request);
+                $motDePasse->handleRequest($request);
                 if ($motDePasse->isValid()) {
 					$data = $motDePasse->getData(); 
 					$factory = $this->get('security.encoder_factory');
@@ -77,11 +67,11 @@ class ReglagesEleveController extends Controller
 						$membre->setMotDePasse($password);
 						
 						$this->getDoctrine()->getEntityManager()->flush();
-						$this->get('session')->setFlash('success', 'Le mot de passe a bien été modifié.');
+						$this->get('session')->getFlashBag()->add('success', 'Le mot de passe a bien été modifié.');
 					} else {
-						$this->get('session')->setFlash('danger', 'Mauvais mot de passe'); 
+						$this->get('session')->getFlashBag()->add('danger', 'Mauvais mot de passe'); 
 					}
-					return $this->redirect($this->generateUrl('reglages_infos_eleve', array('lyceen'=>$lyceen->getId())));
+					return $this->redirect($this->generateUrl('reglages_infos_eleve'));
                 }
             }
         }
@@ -89,7 +79,7 @@ class ReglagesEleveController extends Controller
         return array(
             'informations_generales' => $infomationsGenerales->createView(),
             'mot_de_passe'           => $motDePasse->createView(),
-            'lyceen'                 => $lyceen
+            'lyceen'                 => $membre
         );
     }
     
@@ -97,47 +87,48 @@ class ReglagesEleveController extends Controller
      * Sélection de son groupe de tutorat régulier.
      * @Template()
      */
-    public function groupeAction($lyceen)
+    public function groupeAction()
     {
-        $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
-        if(!$lyceen) throw $this->createNotFoundException('Le lycéen n\'a pas pu être trouvé.');
+        $lyceen = $this->getUser();
 
-        if($lyceen != $this->getUser())
-        {
-            $this->get('session')->setFlash('warning', 'Vous n\'avez pas accès à cette page !');
-            $params = $this->getRefererParams();
-            return $this->redirect($this->generateUrl(
-                $params['_route'],
-                [
-                    'slug' => $params['slug']
-                ]
-                ));
-        }
-
-        $form = $this->createForm(new GroupeEleveType(), $membre);
+        $form = $this->createForm(new GroupeEleveType(), $lyceen);
 
         $data = $this->getRequest()->get($form->getName());
-        if (array_key_exists('groupe', $data))
+        if($data != null)
         {
-            $groupe = $data['groupe'];
-        } else {
-            $this->get('session')->setFlash('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
-            return $this->redirect($this->generateUrl('reglages_groupe_eleve', array('lyceen'=>$lyceen->getId())));
+            if (array_key_exists('groupe', $data))
+            {
+                $groupe = $data['groupe'];
+            } else {
+                $this->get('session')->getFlashBag()->add('error', 'Merci de spécifier un groupe que vous voulez rejoindre.');
+                return $this->redirect($this->generateUrl('reglages_groupe_eleve'));
+            }
+
+            $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
+            if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
+
+            $groupeEleve = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findOneBy(array('lyceen'=>$lyceen, 'anneeScolaire' => AnneeScolaire::withDate()));
+                
+            $em = $this->getDoctrine()->getEntityManager();
+
+            if(!$groupeEleve)
+            {
+                $groupeMembre = new GroupeEleves();
+                $groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+                $groupeMembre->setLyceen($lyceen);
+                $groupeMembre->setGroupe($groupe);
+
+                $em->persist($groupeMembre);
+            }
+            else
+            {
+                $groupeLyceen->setGroupe($groupe);
+            }
+            
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Votre groupe de tutorat a bien été modifié.');
         }
-        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupe);
-        if (!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe !');
-
-        $groupeLyceen = new GroupeEleves();
-        $groupeLyceen->setAnneeScolaire(AnneeScolaire::withDate());
-        $groupeLyceen->setLyceen($lyceen);
-        $groupeLyceen->setGroupe($groupe);
-
-        $em = $this->getDoctrine()->getEntityManager();
-
-        $em->persist($groupeLyceen);
-        $em->flush();
-
-        $this->get('session')->setFlash('success', 'Votre groupe de tutorat a bien été modifié.');
         
         
         return array('form' => $form->createView(), 'lyceen' => $lyceen );

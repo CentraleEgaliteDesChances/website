@@ -20,6 +20,7 @@ class SortieType extends AbstractType
                 ))
                 ->add('dateSortie', 'date', array(
                     'widget' => 'choice',
+                    'view_timezone' => 'Europe/Paris',
                     'label' => 'Date de la sortie',
                     'attr' => array('placeholder' => 'Date de la sortie'),
                 ))
@@ -33,14 +34,14 @@ class SortieType extends AbstractType
                     'label' => 'Estimation de l\'heure de fin',
                     'attr' => array('placeholder' => 'Estimation de l\'heure de fin'),
                 ))
+                ->add('places', null, array(
+                    'label' => 'Nombre de places offertes (0 si pas de limite)',
+                    'data' => 0
+                ))
                 ->add('description', 'textarea', array(
                     'label' => 'Description',
                     'attr' => array('rows' => '6', 'placeholder' => 'Description'),
                     'help_inline' => 'La description ne peut excéder 800 caractères.',
-                ))
-                ->add('nbLyceens', 'integer', array(
-                    'label' => 'Nombre de lycéens participants',
-                    'attr' => array('placeholder' => 'Nombre de lycéens qui ont participés à la sortie'),
                 ))
                 ->add('nbTuteurs', 'integer', array(
                     'label' => 'Nombre de tuteurs accompagnateurs',

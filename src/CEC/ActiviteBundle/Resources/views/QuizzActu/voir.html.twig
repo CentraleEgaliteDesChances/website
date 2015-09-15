@@ -19,7 +19,7 @@
         <tr>
             <td>
                 {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES') or is_granted('ROLE_BURO') %}
-                    <a href="{{ path('quizzActu_creer') }}" class="btn pull-left" style="margin-bottom: 20px;">Créer un quizz actu</a>
+                    <a href="{{ path('quizzActu_creer') }}" class="btn btn-primary pull-left" style="margin-bottom: 20px;">Créer un quizz actu</a>
                 {% endif %}
 
                 <table class="table table-bordered table-hover table-striped">
@@ -51,7 +51,7 @@
                         <h4>{{ quizzActuVu }}</h4>
                         {% if is_granted('ROLE_SECTEUR_ACTIVITÉS_CULTURELLES') or is_granted('ROLE_BURO') %}
                             <a class="btn btn-danger pull-right" href="{{ path('quizzActu_supprimer', { 'id':quizzActuVu.id }) }}">Supprimer</a>
-                            <a class="btn pull-right" href="{{ path('quizzActu_editer', { 'id':quizzActuVu.id }) }}">Modifier</a>
+                            <a class="btn btn-default pull-right" href="{{ path('quizzActu_editer', { 'id':quizzActuVu.id }) }}">Modifier</a>
                         {% endif %}
                         {% if quizzActuVu.disponible %}
                             <a class="btn btn-primary pull-right" href="{{ quizzActuVu.cheminPDF }}">Télécharger</a>

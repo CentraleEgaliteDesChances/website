@@ -12,8 +12,13 @@ class InfosMembreType extends AbstractType
         $builder->add('prenom', null, array('label' => 'Prénom'))
             ->add('nom')
             ->add('promotion', null, array('grouping' => false))
-			->add('email')
-            ->add('telephone', null, array('label' => 'Numéro de téléphone'));
+			->add('mail')
+            ->add('telephone', null, array('label' => 'Numéro de téléphone'
+            ))
+            ->add('checkMail', 'checkbox', array(
+                    'label' => 'Recevoir les mails automatiques de CEC',
+                    'required' => false
+            ));
     }
     
     public function getName() {
