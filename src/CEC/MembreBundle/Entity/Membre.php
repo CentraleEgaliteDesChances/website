@@ -27,7 +27,7 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
  * @ORM\Table()
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="CEC\MembreBundle\Entity\MembreRepository")
- * @UniqueEntity(fields="email", message="Email already taken")
+ * @UniqueEntity(fields="mail", message="Email already taken")
  */
 class Membre implements UserInterface, \Serializable
 {
