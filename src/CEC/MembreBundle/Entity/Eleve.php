@@ -539,7 +539,7 @@ class Eleve implements UserInterface, \Serializable
     public function addRole($role)
     {
 
-        if(!in_array($role, $roles)) {
+        if(!in_array($role, $this->roles)) {
             $this->roles[] = $role;
         }
 

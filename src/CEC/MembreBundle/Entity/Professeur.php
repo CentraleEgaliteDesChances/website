@@ -462,8 +462,9 @@ class Professeur implements UserInterface, \Serializable
     public function addRole($role)
     {
 
-        if (!$this->roles->contains($role))
-            $this->roles->add($role);
+        if(!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
 
         return $this;
 
@@ -476,7 +477,7 @@ class Professeur implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles->toArray();
+        return $this->roles;
     }
 
 
