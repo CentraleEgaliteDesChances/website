@@ -361,7 +361,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
     public function setRoles($roles)
