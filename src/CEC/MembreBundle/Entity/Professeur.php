@@ -179,8 +179,8 @@ class Professeur implements UserInterface, \Serializable
      */
     public function __construct()
     {
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setRoles(array("ROLE_PROFESSEUR"));
+        $this->roles = [];
+        $this->setRoles(["ROLE_PROFESSEUR"]);
         $this->setReferent(false);
     }
 
@@ -406,10 +406,10 @@ class Professeur implements UserInterface, \Serializable
      */
     public function setRoles($roles)
     {
-        $this->roles->clear();
+        $this->roles = [];
         foreach($roles as $role)
         {
-            $this->roles->add($role);
+            $this->addRole($role);
         }
     
         return $this;
@@ -420,7 +420,7 @@ class Professeur implements UserInterface, \Serializable
     */
     public function updateRoles()
     {
-        $this->setRoles(array('ROLE_PROFESSEUR'));
+        $this->setRoles(['ROLE_PROFESSEUR']);
 
         switch($this->role)
         {
@@ -445,8 +445,15 @@ class Professeur implements UserInterface, \Serializable
     public function removeRole($role)
     {
 
-        $this->roles->removeElement($role);
-
+        if (in_array($role, $this->roles)) {
+            $roles = $this->roles;
+            foreach ($roles as $key => $role) {
+                if ($role == $oldRole) {
+                    unset($roles[$key]);
+                }
+            }
+            $this->roles = $roles;
+        }
     }
 
     /**

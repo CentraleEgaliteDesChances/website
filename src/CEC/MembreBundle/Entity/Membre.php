@@ -319,7 +319,7 @@ class Membre implements UserInterface, \Serializable
         $this->documents = new \Doctrine\Common\Collections\ArrayCollection();
         $this->quizzActus = new \Doctrine\Common\Collections\ArrayCollection();
         $this->compteRendus = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = [];
         $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->contactProjets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->lyceesPourVP = new \Doctrine\Common\Collections\ArrayCollection();
@@ -327,7 +327,7 @@ class Membre implements UserInterface, \Serializable
         // Valeurs par défaut
         $this->setPromotion(date('Y') + 3);
         $this->setBuro(false);
-        $this->setRoles(array('ROLE_TUTEUR'));
+        $this->setRoles(['ROLE_TUTEUR']);
     }
 
     /**
@@ -361,16 +361,16 @@ class Membre implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles->toArray();
+        return $this->roles;
     }
 
     public function setRoles($roles)
     {
 
-        $this->roles->clear();
+        $this->roles = [];
         foreach($roles as $role)
         {
-            $this->roles->add($role);
+            $this->roles[] = $role;
         }
 
         return $this;
@@ -457,9 +457,17 @@ class Membre implements UserInterface, \Serializable
      /**
     * Remove role
     */
-    public function removeRole($role)
+    public function removeRole($oldRole)
     {
-        $this->roles->removeElement($role);
+        if (in_array($role, $this->roles)) {
+            $roles = $this->roles;
+            foreach ($roles as $key => $role) {
+                if ($role == $oldRole) {
+                    unset($roles[$key]);
+                }
+            }
+            $this->roles = $roles;
+        }
 
     }
 
@@ -468,8 +476,9 @@ class Membre implements UserInterface, \Serializable
     */
     public function addRole($role)
     {
-        if(!$this->roles->contains($role))
-            $this->roles->add($role);
+        if(!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
         return $this;
            
     }

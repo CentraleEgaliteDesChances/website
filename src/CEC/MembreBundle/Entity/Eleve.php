@@ -286,9 +286,9 @@ class Eleve implements UserInterface, \Serializable
         $this->seances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sorties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reunions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = [];
         $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setRoles(array("ROLE_ELEVE"));
+        $this->setRoles(["ROLE_ELEVE"]);
         $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -512,10 +512,10 @@ class Eleve implements UserInterface, \Serializable
     public function setRoles($roles)
     {
 
-        $this->roles->clear();
+        $this->roles = [];
         foreach($roles as $role)
         {
-            $this->roles->add($role);
+            $this->addRole($role);
         }
     
         return $this;
@@ -526,7 +526,7 @@ class Eleve implements UserInterface, \Serializable
     */
     public function updateRoles()
     {
-        $this->setRoles(array('ROLE_ELEVE'));
+        $this->setRoles(['ROLE_ELEVE']);
 
         if($this->delegue)
             $this->addRole('ROLE_ELEVE_DELEGUE');
@@ -539,8 +539,9 @@ class Eleve implements UserInterface, \Serializable
     public function addRole($role)
     {
 
-        if(!$this->roles->contains($role))
-            $this->roles->add($role);
+        if(!in_array($role, $roles)) {
+            $this->roles[] = $role;
+        }
 
         return $this;
     }
@@ -551,7 +552,15 @@ class Eleve implements UserInterface, \Serializable
     public function removeRole($role)
     {
 
-        $this->roles->removeElement($role);
+        if (in_array($role, $this->roles)) {
+            $roles = $this->roles;
+            foreach ($roles as $key => $role) {
+                if ($role == $oldRole) {
+                    unset($roles[$key]);
+                }
+            }
+            $this->roles = $roles;
+        }
 
     }
 
@@ -563,7 +572,7 @@ class Eleve implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles->toArray();
+        return $this->roles;
     }
 
     /**
