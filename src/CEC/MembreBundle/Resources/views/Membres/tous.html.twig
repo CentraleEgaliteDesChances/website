@@ -3,46 +3,37 @@
 
 
 {% block right %}
+    {{ parent() }}
+    <h2> Liste des membres </h2>
 
 
-{{ parent() }}
-
- <h2> Liste des membres </h2>
-
-
-{% if is_granted('ROLE_BURO') %}
-<div class="alert alert-warning">
-    {{ flash('alert', 'Attention ! La suppression d\'un membre est définitive et entraîne aussi la suppression de toutes les activités dont il est l\'auteur.') }}
-</div>
-{% endif %}
-
-<table class="table table-bordered table-hover table-striped">
-    {% if membres|length > 0 %}
-        <tbody>
-            {% for membre in membres %}
-            <tr>
-                <td>
-                    {% if is_granted('ROLE_BURO') and membre != app.user %}
-                        <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" class="btn btn-xs btn-danger pull-right" ole="button">Supprimer définitivement</a>
-                    {% endif %}
-                    <a href="{{ path('voir_membre', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
-                        {{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun membre dans la base de donnée !</h4></th></tr></thead>
+    {% if is_granted('ROLE_BURO') %}
+        <div class="alert alert-warning">
+            {{ flash('alert', 'Attention ! La suppression d\'un membre est définitive et entraîne aussi la suppression de toutes les activités dont il est l\'auteur.') }}
+        </div>
+        <a href="{{ path('creer_membre') }}" class="btn btn-default pull-right" role="button">Ajouter un membre</a>
     {% endif %}
-</table>
 
-{% if is_granted('ROLE_BURO') %}
-<a href="{{ path('creer_membre') }}" class="btn btn-default pull-right" role="button">Ajouter un membre</a>
-{% endif %}
-
-<br/>
-
+    <table class="table table-bordered table-hover table-striped">
+        {% if membres|length > 0 %}
+            <tbody>
+                {% for membre in membres %}
+                <tr>
+                    <td>
+                        {% if is_granted('ROLE_BURO') and membre != app.user %}
+                            <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" class="btn btn-xs btn-danger pull-right" ole="button">Supprimer définitivement</a>
+                        {% endif %}
+                        <a href="{{ path('voir_membre', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
+                            {{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucun membre dans la base de donnée !</h4></th></tr></thead>
+        {% endif %}
+    </table>
 {% endblock %}
 
 {% block left %}
