@@ -138,6 +138,56 @@ class SeancesController extends Controller
             'infos'          => $infos,
         ));
     }
+
+    /**
+     * Crée une séance de tutorat
+     *
+     * @param integer $groupe id du groupe auquel la séance est reliée
+     * @Template()
+     */
+    public function creerAction($groupe)
+    {
+
+        $groupe = $this->getDoctrine()->getRepository("CECTutoratBundle:Groupe")->find($groupe);
+        if(!$groupe) throw $this->createNotFoundException('Impossible de trouver le groupe de tutorat !');
+
+        // On génère le formulaire de nouvelle séance
+
+        // Tableau pour les placeholders (on met les infos du groupe)
+        $options = array(
+            'lieu' => $groupe->getLieu(),
+            'rendezVous' => $groupe->getRendezVous(),
+            'debut' => $groupe->getDebut()->format('H:i'),
+            'fin' => $groupe->getFin()->format('H:i'));
+
+        $nouvelleSeance = new Seance();
+        $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance, $options);
+        $nouvelleSeance->setGroupe($groupe);
+        foreach ($tuteurs as $Groupetuteur) {
+            $Groupetuteur->getTuteur()->addSeance($nouvelleSeance);
+            $nouvelleSeance->addTuteur($Groupetuteur->getTuteur());
+        }
+
+        $request = $this->getRequest();
+        if ($request->getMethod() == 'POST' )
+        {
+            $nouvelleSeanceForm->handleRequest($request);
+            if ($nouvelleSeanceForm->isValid())
+            {
+                $entityManager = $this->getDoctrine()->getEntityManager();
+                $entityManager->persist($nouvelleSeance);
+                $entityManager->flush();
+                $this->get('session')->getFlashBag()->add('success', 'La séance de tutorat a bien été ajoutée.');
+                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
+            }
+        }
+
+        return [
+            'nouvelleSeanceForm' => $nouvelleSeanceForm->createView(),
+            'groupe' => $groupe,
+            'anneeScolaire' => AnneeScolaire::withDate()
+        ];
+    }
     
     /**
      * Supprime la séance de tutorat.

@@ -12,6 +12,12 @@ creer_groupe:
     requirements:
         lycee: \d+
 
+creer_seance:
+    path: /{groupe}/seance/creation
+    defaults: {_controller: CECTutoratBundle:Seances:creer }
+    requirements:
+        groupe: \d+
+
 groupe:
     path: /{groupe}
     defaults: { _controller: CECTutoratBundle:Groupes:voir }

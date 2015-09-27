@@ -93,51 +93,11 @@ class GroupesController extends Controller
         if ($annee == $autreAnnee) return 0;
         return ($annee->getAnneeInferieure() < $autreAnnee->getAnneeInferieure()) ? 1 : -1;
         });
-        
-        // On génère le formulaire de nouvelle séance
 
-        // Tableau pour les placeholders (on met les infos du groupe)
-        $options = array(
-            'lieu' => $groupe->getLieu(),
-            'rendezVous' => $groupe->getRendezVous(),
-            'debut' => $groupe->getDebut()->format('H:i'),
-            'fin' => $groupe->getFin()->format('H:i'));
-
-        $nouvelleSeance = new Seance();
-        $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance, $options);
-        $nouvelleSeance->setGroupe($groupe);
-        foreach ($tuteurs as $Groupetuteur) {
-            $Groupetuteur->getTuteur()->addSeance($nouvelleSeance);
-            $nouvelleSeance->addTuteur($Groupetuteur->getTuteur());
-        }
-        
-        // Par défaut, on masque le modal
-        $afficherModal = false;
-        
-        $request = $this->getRequest();
-        if ($request->getMethod() == 'POST' )
-        {
-            $nouvelleSeanceForm->handleRequest($request);
-            if ($nouvelleSeanceForm->isValid())
-            {
-                $entityManager = $this->getDoctrine()->getEntityManager();
-                $entityManager->persist($nouvelleSeance);
-                $entityManager->flush();
-                $this->get('session')->getFlashBag()->add('success', 'La séance de tutorat a bien été ajoutée.');
-                return $this->redirect($this->generateUrl('groupe', array('groupe' => $groupe->getId())));
-            } else {
-                $afficherModal = true;
-            }
-        }
-        
-        
-        
         return $this->render('CECTutoratBundle:Groupes:voir.html.twig', array(
             'groupe'       => $groupe,
             'seances'      => $seances,
-            'anneesScolaires' => $anneesScolaires,
-            'nouvelle_seance_form' => $nouvelleSeanceForm->createView(),
-            'afficher_modal'       => $afficherModal,
+            'anneesScolaires' => $anneesScolaires
         ));
     }
     

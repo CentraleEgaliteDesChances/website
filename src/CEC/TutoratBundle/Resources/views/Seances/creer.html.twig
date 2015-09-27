@@ -1,0 +1,15 @@
+{% extends 'CECTutoratBundle:Groupes:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block right %}
+	{{ parent() }}
+	<h1>Créer une nouvelle séance de tutorat</h1>
+	<form class="form" method="post" action="{{ path('creer_seance', {'groupe' : groupe.id}) }}">
+	    {{ form_widget(nouvelleSeanceForm) }}
+	    <div class="footer-controls">
+	        <input type="submit" value="Créer la séance de tutorat" class="btn btn-primary pull-right" />
+	        <a href="{{ path('groupe', {'groupe' : groupe.id } ) }}" class="btn btn-default pull-right">Annuler</a>
+	        <br>
+	    </div>
+	</form>
+{% endblock %}
