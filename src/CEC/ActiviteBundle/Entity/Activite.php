@@ -212,7 +212,9 @@ class Activite
      */
     public function getDocument()
     {
-        return $this->getVersions()->last();
+        $versions = $this->getVersions();
+        
+        return $versions[count($versions) -1];
     }
 
     /**
