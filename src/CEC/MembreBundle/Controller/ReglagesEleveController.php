@@ -122,7 +122,7 @@ class ReglagesEleveController extends Controller
             }
             else
             {
-                $groupeLyceen->setGroupe($groupe);
+                $groupeEleve->setGroupe($groupe);
             }
             
             $em->flush();
