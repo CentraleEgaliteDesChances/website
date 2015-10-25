@@ -32,9 +32,10 @@ class ActivitesController extends Controller
     {
         // On enregistre le groupe s'il existe et si une séance est à venir
         $recherche = new RechercheActivite();
-        $seanceAVenir = null;
-        if ($groupe = $this->getUser()->getGroupe()
-                && $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)) {
+        $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe)
+        $groupe = $this->getUser()->getGroupe();
+        
+        if (!empty($groupe) && !empty($seanceAVenir)) {
             $recherche->setGroupe($groupe);
         }
         $form = $this->createForm(new RechercheActiviteType(), $recherche);
