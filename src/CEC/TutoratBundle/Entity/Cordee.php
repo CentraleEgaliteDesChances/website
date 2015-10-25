@@ -161,7 +161,7 @@ class Cordee
      */
     public function isActive()
     {
-        return $this->getLycees()->count() > 0;
+        return count($this->getLycees()) > 0;
     }
     
     /**
