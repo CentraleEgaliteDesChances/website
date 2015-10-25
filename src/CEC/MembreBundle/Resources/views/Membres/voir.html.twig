@@ -127,7 +127,7 @@
         {% if membre.secteurs|length or is_granted('ROLE_BURO') %}
             <thead><tr><th><h4>Secteurs</h4></th></tr></thead>
             <tbody>
-                {% if is_granted('ROLE_BURO') %}
+                {% if membre.buro %}
                     <tr>
                         <td>
                             <strong>Membre du bureau de l'association</strong>
