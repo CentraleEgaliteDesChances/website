@@ -220,12 +220,30 @@
 
 
 {% block left %}
-{{ parent() }}
+    {{ parent() }}
 
-{% if (is_granted('ROLE_VP_LYCEE') and app.user.groupe == seance.groupe ) or is_granted('ROLE_BURO') %}
-{{ modal.button('Éditer la séance', 'btn btn-default btn-block') }}
-{% endif %}
+    {% if (is_granted('ROLE_VP_LYCEE') and app.user.groupe == seance.groupe ) or is_granted('ROLE_BURO') %}
+        <button class="btn btn-default btn-block" data-toggle="modal" data-target="#modalEditionSeance">Éditer la séance</button>
+    {% endif %}
 {% endblock %}
+
+<div class="modal fade" id="modalEditionSeance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Éditer la séance de tutorat</h4>
+            </div>
+            <div class="modal-body">
+                {{ form(form) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% block modals %}
