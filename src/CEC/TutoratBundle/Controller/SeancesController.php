@@ -232,7 +232,7 @@ class SeancesController extends Controller
         if (!$tuteur) throw $this->createNotFoundException('Impossible de trouver le tuteur !');
         
         // On bascule l'état
-        if ($seance->getTuteurs()->contains($tuteur))
+        if (in_array($tuteur, $seance->getTuteurs()))
         {
             $seance->removeTuteur($tuteur);
         } else {
@@ -260,7 +260,7 @@ class SeancesController extends Controller
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lyceen !');
         
         // On bascule l'état
-        if ($seance->getLyceens()->contains($lyceen))
+        if (in_array($lyceen, $seance->getLyceens()))
         {
             $seance->removeLyceen($lyceen);
         } else {

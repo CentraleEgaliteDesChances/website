@@ -16,57 +16,55 @@
 {{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquer que vous venez.") }}
 {% endif %}
 
-{% if seance_a_venir %}
-    <table class="table table-bordered table-striped table-large">
-        <thead><tr><th>
-            {% if seance.compteRendus is empty %}
-                <span class="glyphicon glyphicon-alert pull-right"></span>
-            {% endif %}
-            <h4>Informations sur la séance</h4>
-        </th></tr></thead>
-        <tbody>
-            {% for compteRendu in seance.compteRendus %}
-                {% set activite = compteRendu.activite %}
-                <tr>
+<table class="table table-bordered table-striped table-large">
+    <thead><tr><th>
+        {% if seance.compteRendus is empty %}
+            <span class="glyphicon glyphicon-alert pull-right"></span>
+        {% endif %}
+        <h4>Informations sur la séance</h4>
+    </th></tr></thead>
+    <tbody>
+        {% for compteRendu in seance.compteRendus %}
+            {% set activite = compteRendu.activite %}
+            <tr>
+                <td>
+                    <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
+                        {{ type(activite.type, 'pull-right') }}
+                        <strong>{{ activite.titre }}</strong><br />
+                        <p>{{ activite.description }}</p>
+                        <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
+                        {% if is_granted("ROLE_VP_LYCEE") and app.user in tuteurs %}
+                        <a href="{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
+                        {% endif %}
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr class="warning">
+                {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
                     <td>
-                        <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
-                            {{ type(activite.type, 'pull-right') }}
-                            <strong>{{ activite.titre }}</strong><br />
-                            <p>{{ activite.description }}</p>
-                            <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
-                            {% if is_granted("ROLE_VP_LYCEE") and app.user in tuteurs %}
-                            <a href="{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
-                            {% endif %}
-                        </a>
+                        Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
                     </td>
-                </tr>
-            {% else %}
-                <tr class="warning">
-                    {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
-                        <td>
-                            Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
-                        </td>
-                    {% else %}
-                        <td class="muted">
-                            Aucune activité n'a encore été choisie pour cette séance.
-                        </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-            {% if infos is not empty %}
-                <tr>
-                    {% for info in infos %}
-                        <td class="reduced-padding">
-                            {{ flash('info', info) }}
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-    {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
-    <p class="center-block"><a href="{{path('activites_rechercher')}}" class="btn btn-primary"> Rechercher une activité</a></p>
-    {% endif %}
+                {% else %}
+                    <td class="muted">
+                        Aucune activité n'a encore été choisie pour cette séance.
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        {% if infos is not empty %}
+            <tr>
+                {% for info in infos %}
+                    <td class="reduced-padding">
+                        {{ flash('info', info) }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
+<p class="center-block"><a href="{{path('activites_rechercher')}}" class="btn btn-primary"> Rechercher une activité</a></p>
 {% endif %}
 
 {% if is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or is_granted('ROLE_ELEVE_DELEGUE') or is_granted('ROLE_TUTEUR') %}
