@@ -85,26 +85,30 @@
             <tbody>
                 <tr class="warning">
                     <td style="text-align: center;">
-                        <a href="{% if deja_choisie %}{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% else %}{{ path('seance_creer_acti', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% endif %}" 
-                                class="btn btn-warning{{ deja_choisie ? ' active' }}" 
-                                style="display: block; padding: 10px;">
-                            <div style="font-size: 140%; margin-bottom: 5px;">
-                                Choisir l'activité
-                            </div>
-                            <div style="font-weight: normal;">
-                                {% for lycee in app.user.groupe.lycees %}
-                                    {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
-                                {% endfor %}
-                                ({{ app.user.groupe.niveau }})
-                                <br />
-                                Séance du
-                                {{ cycle(jours, seance_a_venir.date|date('N'))|lower }}
-                                {{ seance_a_venir.date|date('d') }}
-                                {{ cycle(mois, seance_a_venir.date|date('m'))|lower }}
-                                à
-                                {{ seance_a_venir.retreiveDebut|date('G\\hi') }}
-                            </div>
-                        </a>
+                        {% if seance_a_venir %}
+                            <a href="{% if deja_choisie %}{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% else %}{{ path('seance_creer_acti', { 'activite' : activite.id, 'seance' : seance_a_venir.id }) }}{% endif %}"
+                                    class="btn btn-warning{{ deja_choisie ? ' active' }}"
+                                    style="display: block; padding: 10px;">
+                                <div style="font-size: 140%; margin-bottom: 5px;">
+                                    Choisir l'activité
+                                </div>
+                                <div style="font-weight: normal;">
+                                    {% for lycee in app.user.groupe.lycees %}
+                                        {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
+                                    {% endfor %}
+                                    ({{ app.user.groupe.niveau }})
+                                    <br />
+                                    Séance du
+                                    {{ cycle(jours, seance_a_venir.date|date('N'))|lower }}
+                                    {{ seance_a_venir.date|date('d') }}
+                                    {{ cycle(mois, seance_a_venir.date|date('m'))|lower }}
+                                    à
+                                    {{ seance_a_venir.retreiveDebut|date('G\\hi') }}
+                                </div>
+                            </a>
+                        {% elseif seances_sans_actis %}
+                            Test
+                        {% endif %}
                     </td>
                 </tr>
                 

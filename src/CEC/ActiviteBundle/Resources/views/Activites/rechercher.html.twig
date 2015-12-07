@@ -23,9 +23,9 @@
                         {{ form_row(form.type) }}
                     </td>
                 </tr>
-                <tr class="warning" {% if not seance_a_venir %} style="display: none;"{% endif %}>
+                <tr class="warning" {% if not seance_a_venir and not seances_sans_actis %} style="display: none;"{% endif %}>
                     <td>
-                        {% if seance_a_venir or seances_sans_actis %}
+                        {% if seance_a_venir %}
                             <strong>
                                 <a href="{{ path('groupe', { 'groupe': seance_a_venir.groupe.id }) }}">
                                     {% for lycee in app.user.groupe.lycees %}
@@ -42,9 +42,33 @@
                                 à
                                 {{ seance_a_venir.retreiveDebut|date('G\\hi') }}
                             </a>
+                        {% elseif seances_sans_actis %}
+                            <strong>
+                                <a href="{{ path('groupe', { 'groupe': seance_sans_actis[0].groupe.id }) }}">
+                                    {% for lycee in seances_sans_actis[0].groupe.lycees %}
+                                        {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
+                                    {% endfor %}
+                                    ({{ app.user.groupe.niveau }})
+                                </a>
+                            </strong>
+                            <br>
+                            Liste des séances sans actis:
+                            <ul>
+                                {% for seance in seances_sans_actis %}
+                                    <li>
+                                        <a href="{{ path('seance', { 'seance' : seance.id }) }}">
+                                            {{ cycle(jours, seance.date|date('N'))|lower }}
+                                            {{ seance.date|date('d') }}
+                                            {{ cycle(mois, seance.date|date('m'))|lower }}
+                                            à
+                                            {{ seance.retreiveDebut|date('G\\hi') }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         {% endif %}
                         <p style="font-size: 85%; margin-top: 5px;">
-                            Une séance de tutorat est prévue prochainement. Utilisez la recherche pour sélectionner une activité pertinente et, sur la page de l'activité, cliquez sur "Choisir l'activité".
+                            Une séance de tutorat est prévue prochainement ou vous avez des séances passées sans activités rattachées. Utilisez la recherche pour sélectionner une activité pertinente et, sur la page de l'activité, cliquez sur "Choisir l'activité".
                         </p>
                         {{ form_widget(form.filtrerActivitesRealisees) }}
                     </td>
