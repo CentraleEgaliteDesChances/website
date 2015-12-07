@@ -240,6 +240,9 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                 <button type="button" class="btn btn-primary">Valider</button>
+                <a href="{{ path('supprimer_seance', { 'seance': seance.id }) }}" class="btn btn-danger pull-left">
+                    Supprimer la séance
+                </a>
             </div>
         </div>
     </div>
