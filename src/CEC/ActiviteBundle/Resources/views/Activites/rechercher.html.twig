@@ -25,7 +25,7 @@
                 </tr>
                 <tr class="warning" {% if not seance_a_venir %} style="display: none;"{% endif %}>
                     <td>
-                        {% if seance_a_venir %}
+                        {% if seance_a_venir or seances_sans_actis %}
                             <strong>
                                 <a href="{{ path('groupe', { 'groupe': seance_a_venir.groupe.id }) }}">
                                     {% for lycee in app.user.groupe.lycees %}

@@ -30,11 +30,20 @@ class ActivitesController extends Controller
      */
     public function rechercherAction()
     {
+        $seancesSansActi = array();
+
         // On enregistre le groupe s'il existe et si une séance est à venir
         $recherche = new RechercheActivite();
         $groupe = $this->getUser()->getGroupe();
         if ($groupe) {
             $seanceAVenir = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findOneAVenir($groupe);
+
+            // On checke pour des séances sans actis
+            foreach($seancesGroupe as $seance)
+            {
+                if(count($seance->getCompteRendus()) == 0 and $anneeScolaire->contientDate($seance->getDate()))
+                    $seancesSansActi[] = $seance;
+            }
         }
         
         if (!empty($groupe) && !empty($seanceAVenir)) {
@@ -80,6 +89,7 @@ class ActivitesController extends Controller
             'resultats' => $resultats,
             'notes' => $notes,
             'seance_a_venir' => $seanceAVenir,
+            'seances_sans_actis' => $seancesSansActi
         );
     }
     
@@ -100,7 +110,7 @@ class ActivitesController extends Controller
     {
         $activite = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->find($activite);
         if (!$activite) throw $this->createNotFoundException("Impossible de trouver l'activité !");
-        
+
         // On détermine si une séance est à venir et si l'activité n'est pas déjà ajoutée
         $seanceAVenir = false;
         $dejaChoisie = false;
@@ -109,9 +119,17 @@ class ActivitesController extends Controller
                 $activites = $this->getDoctrine()->getRepository('CECActiviteBundle:Activite')->findBySeance($seanceAVenir);
                 $dejaChoisie = in_array($activite, $activites);
             }
-        } 
-            
-        
+        }
+
+        // On liste les séances sans activités
+        $seancesSansActi = array();
+        foreach($seancesGroupe as $seance)
+        {
+            if(count($seance->getCompteRendus()) == 0 and $anneeScolaire->contientDate($seance->getDate()))
+                $seancesSansActi[] = $seance;
+        }
+
+
         // On récupère les notes moyennes de cette activité
         $doctrine = $this->getDoctrine();
         $noteMoyenne['globale'] = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
@@ -122,7 +140,7 @@ class ActivitesController extends Controller
                                                  ->getNoteMoyenneInteractivitePourActivite($activite);
         $noteMoyenne['atteinteObjectifs'] = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
                                                      ->getNoteMoyenneAtteinteObjectifsPourActivite($activite);
-                                                     
+
         // On détermine si une nouvelle version est disponible (dernier document postérieur au dernier compte-rendu)
         $nouvelleVersion = false;
         $dernierCompteRendu = $doctrine->getRepository('CECActiviteBundle:CompteRendu')
@@ -141,6 +159,7 @@ class ActivitesController extends Controller
             'note_moyenne' => $noteMoyenne,
             'nouvelle_version' => $nouvelleVersion,
             'seance_a_venir' => $seanceAVenir,
+            'seances_sans_actis' => $seancesSansActi,
             'deja_choisie' => $dejaChoisie,
         );
     }
@@ -165,7 +184,7 @@ class ActivitesController extends Controller
         
         // On classe les versions par date de création
 
-        $versionsTriees = $activite->getVersions()->toArray();
+        $versionsTriees = $activite->getVersions();
         usort($versionsTriees, function (Document $version1, Document $version2) {
 
             return $version1->getDateCreation() < $version2->getDateCreation();
