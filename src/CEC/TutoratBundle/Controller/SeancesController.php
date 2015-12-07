@@ -163,9 +163,14 @@ class SeancesController extends Controller
         $nouvelleSeance = new Seance();
         $nouvelleSeanceForm = $this->createForm(new SeanceType(), $nouvelleSeance, $options);
         $nouvelleSeance->setGroupe($groupe);
-        foreach ($tuteurs as $Groupetuteur) {
-            $Groupetuteur->getTuteur()->addSeance($nouvelleSeance);
-            $nouvelleSeance->addTuteur($Groupetuteur->getTuteur());
+
+        $anneeScolaire = AnneeScolaire::withDate();
+
+        $tuteurs = $groupe->getTuteursAnnee($anneeScolaire);
+
+        foreach ($tuteurs as $tuteur) {
+            $tuteur->addSeance($nouvelleSeance);
+            $nouvelleSeance->addTuteur($tuteur);
         }
 
         $request = $this->getRequest();
