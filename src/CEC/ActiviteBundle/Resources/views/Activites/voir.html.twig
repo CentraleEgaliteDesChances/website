@@ -114,12 +114,10 @@
                             <ul>
                                 {% for seance in seances_sans_actis %}
                                     <li>
-                                        Séance du
-                                        {{ cycle(jours, seance.date|date('N'))|lower }}
-                                        {{ seance.date|date('d') }}
-                                        {{ cycle(mois, seance.date|date('m'))|lower }}
-                                        à
-                                        {{ seance.retreiveDebut|date('G\\hi') }}
+                                        <span>
+                                            Séance du {{ cycle(jours, seance.date|date('N'))|lower }} {{ seance.date|date('d') }}
+                                            {{ cycle(mois, seance.date|date('m'))|lower }} à {{ seance.retreiveDebut|date('G\\hi') }}
+                                        </span>
                                         <a class="btn  btn-default btn-xs pull-right"
                                             href="{% if deja_choisie %}
                                                 {{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}
@@ -127,7 +125,7 @@
                                                 {{ path('seance_creer_acti', { 'activite' : activite.id, 'seance' : seance.id }) }}
                                             {% endif %}"
                                         >
-                                            Choisir l'activité
+                                            Choisir
                                         </a>
                                     </li>
                                 {% endfor %}
