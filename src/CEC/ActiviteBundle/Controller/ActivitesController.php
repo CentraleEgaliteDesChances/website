@@ -15,6 +15,8 @@ use CEC\ActiviteBundle\Entity\Document;
 use CEC\ActiviteBundle\Utility\NouvelleActivite;
 use CEC\ActiviteBundle\Utility\RechercheActivite;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
 class ActivitesController extends Controller
 {
     /**
@@ -31,6 +33,7 @@ class ActivitesController extends Controller
     public function rechercherAction()
     {
         $seancesSansActi = array();
+        $anneeScolaire = AnneeScolaire::withDate();
 
         // On enregistre le groupe s'il existe et si une séance est à venir
         $recherche = new RechercheActivite();
@@ -125,6 +128,7 @@ class ActivitesController extends Controller
 
         // On liste les séances sans activités
         $seancesSansActi = array();
+        $anneeScolaire = AnneeScolaire::withDate();
         $seancesGroupe = $groupe->getSeances();
         foreach($seancesGroupe as $seance)
         {
