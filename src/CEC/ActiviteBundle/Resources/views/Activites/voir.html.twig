@@ -107,7 +107,32 @@
                                 </div>
                             </a>
                         {% elseif seances_sans_actis %}
-                            Test
+                            <ul>
+                                {% for seance in seances_sans_actis %}
+                                    <li>
+                                        {% for lycee in seance.groupe.lycees %}
+                                            {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
+                                        {% endfor %}
+                                        ({{ seance.groupe.niveau }})
+                                        <br />
+                                        Séance du
+                                        {{ cycle(jours, seance.date|date('N'))|lower }}
+                                        {{ seance.date|date('d') }}
+                                        {{ cycle(mois, seance.date|date('m'))|lower }}
+                                        à
+                                        {{ seance.retreiveDebut|date('G\\hi') }}
+                                        <a class="btn  btn-default btn-xs pull-right"
+                                            href="{% if deja_choisie %}
+                                                {{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}
+                                            {% else %}
+                                                {{ path('seance_creer_acti', { 'activite' : activite.id, 'seance' : seance.id }) }}
+                                            {% endif %}"
+                                        >
+                                            Choisir l'activité
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         {% endif %}
                     </td>
                 </tr>
