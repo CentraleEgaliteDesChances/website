@@ -6,216 +6,238 @@
 
 
 {% block right %}
-{{ parent() }}
+    {{ parent() }}
 
-{% if seance.groupe is null %}
-{{ flash('error', 'Attention ! Le groupe de tutorat associé à cette séance a été supprimée et certaines informations ne sont donc plus disponibles. Les statistiques sont en revanche conservées.') }}
-{% endif %}
+    {% if seance.groupe is null %}
+    {{ flash('error', 'Attention ! Le groupe de tutorat associé à cette séance a été supprimée et certaines informations ne sont donc plus disponibles. Les statistiques sont en revanche conservées.') }}
+    {% endif %}
 
-{% if app.user in tuteurs and app.user not in seance.tuteurs %}
-{{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquer que vous venez.") }}
-{% endif %}
+    {% if app.user in tuteurs and app.user not in seance.tuteurs %}
+    {{ flash('alert', "Vous avez indiqué ne pas pouvoir venir à cette séance de tutorat. Si le nombre de tuteur n'est pas suffisant, la séance ne pourra pas avoir lieu. Cliquez sur votre nom ci-dessous pour indiquer que vous venez.") }}
+    {% endif %}
 
-<table class="table table-bordered table-striped table-large">
-    <thead><tr><th>
-        {% if seance.compteRendus is empty %}
-            <span class="glyphicon glyphicon-alert pull-right"></span>
-        {% endif %}
-        <h4>Informations sur la séance</h4>
-    </th></tr></thead>
-    <tbody>
-        {% for compteRendu in seance.compteRendus %}
-            {% set activite = compteRendu.activite %}
-            <tr>
-                <td>
-                    <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
-                        {{ type(activite.type, 'pull-right') }}
-                        <strong>{{ activite.titre }}</strong><br />
-                        <p>{{ activite.description }}</p>
-                        <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
-                        {% if is_granted("ROLE_VP_LYCEE") and app.user in tuteurs %}
-                        <a href="{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
-                        {% endif %}
-                    </a>
-                </td>
-            </tr>
-        {% else %}
-            <tr class="warning">
-                {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
-                    <td>
-                        Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
-                    </td>
-                {% else %}
-                    <td class="muted">
-                        Aucune activité n'a encore été choisie pour cette séance.
-                    </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        {% if infos is not empty %}
-            <tr>
-                {% for info in infos %}
-                    <td class="reduced-padding">
-                        {{ flash('info', info) }}
-                    </td>
-                {% endfor %}
-            </tr>
-        {% endif %}
-    </tbody>
-</table>
-{% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
-<p class="center-block"><a href="{{path('activites_rechercher')}}" class="btn btn-primary"> Rechercher une activité</a></p>
-{% endif %}
-
-{% if is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or is_granted('ROLE_ELEVE_DELEGUE') or is_granted('ROLE_TUTEUR') %}
-    <table class="table table-bordered table-hover table-condensed table-striped table-large">
-        {% if tuteurs %}
-            <thead>
+    <table class="table table-bordered table-striped table-large">
+        <thead><tr><th>
+            {% if seance.compteRendus is empty %}
+                <span class="glyphicon glyphicon-alert pull-right"></span>
+            {% endif %}
+            <h4>Informations sur la séance</h4>
+        </th></tr></thead>
+        <tbody>
+            {% for compteRendu in seance.compteRendus %}
+                {% set activite = compteRendu.activite %}
                 <tr>
-                    <th>
-                        <h4>
-                            Tuteurs
-                            <span class="count">{{ seance.tuteurs|length }} sur {{ tuteurs|length }}</span>
-                        </h4>
-                        <p>Cette liste présente, pour chaque tuteur du groupe de tutorat, sa participation ou non à la séance. 
-                            {% if is_granted('ROLE_TUTEUR') %} Pour basculer votre état, cliquez sur votre nom. {% endif %}
-                         </p>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tuteur in tuteurs %}
-                    {% set VP= false %}
-                    {% for lycee in seance.groupe.lycees%}
-                            {% if lycee in tuteur.lyceesPourVP %}
-                                {% set VP = true %}
-                            {% endif %}
-                    {% endfor %}
-                <tr class="{{ tuteur in seance.tuteurs ? 'success' : 'warning' }}">
                     <td>
-                        <span class="checkmark">
-                            {% if tuteur in seance.tuteurs %}&#10004;{% else %}&#10008;{% endif %}
-                        </span>
-                        {% if tuteur == app.user or ((is_granted('ROLE_VP_LYCEE') and app.user in tuteurs)) %}
-                        <a href="{{ path('seance_basculer_tuteur', { 'seance': seance.id, 'tuteur': tuteur.id }) }}">
-                            <strong>
-                                {{ tuteur.prenom }} {{ tuteur.nom }} <br/>
-                            </strong>
+                        <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
+                            {{ type(activite.type, 'pull-right') }}
+                            <strong>{{ activite.titre }}</strong><br />
+                            <p>{{ activite.description }}</p>
+                            <a href="{{ activite.document.cheminPDF }}" class="btn btn-primary btn-small">Télécharger</a>
+                            {% if is_granted("ROLE_VP_LYCEE") and app.user in tuteurs %}
+                            <a href="{{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}" class="btn btn-danger btn-small" style="margin-left: 5px;">Retirer l'activité</a>
+                            {% endif %}
                         </a>
-                            {% if VP %}
-                                <a href="mailto:{{tuteur.email}}">{{tuteur.email}}</a> / {{tuteur.telephone}}
-                            {% endif %}
-                        {% else %}
-                            <strong>
-                                {{tuteur.prenom}} {{tuteur.nom}} <br/>
-                            </strong>
-                            {% if VP %}
-                            <a href="mailto:{{tuteur.email}}">{{tuteur.email}}</a> / {{tuteur.telephone}}
-                            {% endif %}
-                        {% endif %}
                     </td>
                 </tr>
-                {% endfor %}
-            </tbody>
-        {% else %}
-            <thead><tr><th class="muted"><h4>Aucun tuteur pour ce groupe de tutorat</h4></th></tr></thead>
-        {% endif %}
-    </table>
-
-    <table class="table table-bordered table-hover table-striped table-large">
-        {% if lyceens %}
-            <thead>
-                <tr>
-                    <th>
-                        <h4>
-                            Lycéens 
-                            <span class="count">{{seance.lyceens|length}} sur {{ lyceens|length }}</span>
-                        </h4>
-                        <p>Cette liste enregistre la participation ou non des lycéens à la dite séance.</p>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lyceen in lyceens %}
-                <tr class="{{ lyceen in seance.lyceens ? 'success' : 'warning' }}">
-                    <td>
-                        <span class="checkmark">
-                            {% if lyceen in seance.lyceens %}&#10004;{% else %}&#10008;{% endif %}
-                        </span>
-                        {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
-                        <a href="{{ path('seance_basculer_lyceen', { 'seance': seance.id, 'lyceen': lyceen.id }) }}">
-                            <strong>
-                                {{ lyceen.prenom }} {{ lyceen.nom }}
-                            </strong>
-                        </a>
-                        {% else %}
-                        <strong>
-                            {{lyceen.prenom}} {{lyceen.nom}}
-                        </strong>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        {% else %}
-            <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
-        {% endif %}
-    </table>
-{% endif %}
-
-{% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
-    {% for compteRendu in seance.compteRendus %}
-        <form method="post" action="{{ path('seance', { 'seance' : seance.id }) }}">
-            <table class="table table-bordered table-striped table-large">
-                <thead><tr><th colspan="3">
-                    {% if seance.date|date('Ymd') < "now"|date('Ymd') and not compteRendu.redige %}
-                        <span class="badge badge-important pull-right">1</span>
+            {% else %}
+                <tr class="warning">
+                    {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
+                        <td>
+                            Vous devez sélectionner une ou plusieurs activités pour cette séance. Pour ce faire, n'hésitez pas à <strong><a href="{{ path('activites_rechercher') }}">cliquer ici pour lancer une recherche</a></strong>.
+                        </td>
+                    {% else %}
+                        <td class="muted">
+                            Aucune activité n'a encore été choisie pour cette séance.
+                        </td>
                     {% endif %}
-                    <h4>Compte-rendu de séance</h4>
-                </th></tr></thead>
+                </tr>
+            {% endfor %}
+            {% if infos is not empty %}
+                <tr>
+                    {% for info in infos %}
+                        <td class="reduced-padding">
+                            {{ flash('info', info) }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
+    <p class="center-block"><a href="{{path('activites_rechercher')}}" class="btn btn-primary"> Rechercher une activité</a></p>
+    {% endif %}
+
+    {% if is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or is_granted('ROLE_ELEVE_DELEGUE') or is_granted('ROLE_TUTEUR') %}
+        <table class="table table-bordered table-hover table-condensed table-striped table-large">
+            {% if tuteurs %}
+                <thead>
+                    <tr>
+                        <th>
+                            <h4>
+                                Tuteurs
+                                <span class="count">{{ seance.tuteurs|length }} sur {{ tuteurs|length }}</span>
+                            </h4>
+                            <p>Cette liste présente, pour chaque tuteur du groupe de tutorat, sa participation ou non à la séance.
+                                {% if is_granted('ROLE_TUTEUR') %} Pour basculer votre état, cliquez sur votre nom. {% endif %}
+                             </p>
+                        </th>
+                    </tr>
+                </thead>
                 <tbody>
-                    {% set activite = compteRendu.activite %}
-                    <tr>
-                        <td colspan="3">
-                            <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
-                                <strong>{{ activite.titre }}</strong><br />
-                                {{ activite.description }}
+                    {% for tuteur in tuteurs %}
+                        {% set VP= false %}
+                        {% for lycee in seance.groupe.lycees%}
+                                {% if lycee in tuteur.lyceesPourVP %}
+                                    {% set VP = true %}
+                                {% endif %}
+                        {% endfor %}
+                    <tr class="{{ tuteur in seance.tuteurs ? 'success' : 'warning' }}">
+                        <td>
+                            <span class="checkmark">
+                                {% if tuteur in seance.tuteurs %}&#10004;{% else %}&#10008;{% endif %}
+                            </span>
+                            {% if tuteur == app.user or ((is_granted('ROLE_VP_LYCEE') and app.user in tuteurs)) %}
+                            <a href="{{ path('seance_basculer_tuteur', { 'seance': seance.id, 'tuteur': tuteur.id }) }}">
+                                <strong>
+                                    {{ tuteur.prenom }} {{ tuteur.nom }} <br/>
+                                </strong>
                             </a>
+                                {% if VP %}
+                                    <a href="mailto:{{tuteur.email}}">{{tuteur.email}}</a> / {{tuteur.telephone}}
+                                {% endif %}
+                            {% else %}
+                                <strong>
+                                    {{tuteur.prenom}} {{tuteur.nom}} <br/>
+                                </strong>
+                                {% if VP %}
+                                <a href="mailto:{{tuteur.email}}">{{tuteur.email}}</a> / {{tuteur.telephone}}
+                                {% endif %}
+                            {% endif %}
                         </td>
                     </tr>
-                    <tr>
-                        <td class="note">
-                            {{ form_row(cr_forms[compteRendu.id].noteContenu) }}
-                        </td>
-                        <td class="note">
-                            {{ form_row(cr_forms[compteRendu.id].noteInteractivite) }}
-                        </td>
-                        <td class="note">
-                            {{ form_row(cr_forms[compteRendu.id].noteAtteinteObjectifs) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            {{ form_row(cr_forms[compteRendu.id].dureeAdaptee) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <input type="hidden" name="cr_id" value="{{ compteRendu.id }}" />
-                            {{ form_rest(cr_forms[compteRendu.id]) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            {{ form_errors(cr_forms[compteRendu.id]) }}
-                            <input type="submit" name="editer_cr" value="Envoyer le compte-rendu" class="btn btn-block btn-primary" />
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
-            </table>
-        </form>
-    {% endfor %}
-{% endif %}
+            {% else %}
+                <thead><tr><th class="muted"><h4>Aucun tuteur pour ce groupe de tutorat</h4></th></tr></thead>
+            {% endif %}
+        </table>
+
+        <table class="table table-bordered table-hover table-striped table-large">
+            {% if lyceens %}
+                <thead>
+                    <tr>
+                        <th>
+                            <h4>
+                                Lycéens
+                                <span class="count">{{seance.lyceens|length}} sur {{ lyceens|length }}</span>
+                            </h4>
+                            <p>Cette liste enregistre la participation ou non des lycéens à la dite séance.</p>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lyceen in lyceens %}
+                    <tr class="{{ lyceen in seance.lyceens ? 'success' : 'warning' }}">
+                        <td>
+                            <span class="checkmark">
+                                {% if lyceen in seance.lyceens %}&#10004;{% else %}&#10008;{% endif %}
+                            </span>
+                            {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
+                            <a href="{{ path('seance_basculer_lyceen', { 'seance': seance.id, 'lyceen': lyceen.id }) }}">
+                                <strong>
+                                    {{ lyceen.prenom }} {{ lyceen.nom }}
+                                </strong>
+                            </a>
+                            {% else %}
+                            <strong>
+                                {{lyceen.prenom}} {{lyceen.nom}}
+                            </strong>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            {% else %}
+                <thead><tr><th class="muted"><h4>Aucun lycéen pour ce lycée</h4></th></tr></thead>
+            {% endif %}
+        </table>
+    {% endif %}
+
+    {% if is_granted('ROLE_VP_LYCEE') and app.user in tuteurs %}
+        {% for compteRendu in seance.compteRendus %}
+            <form method="post" action="{{ path('seance', { 'seance' : seance.id }) }}">
+                <table class="table table-bordered table-striped table-large">
+                    <thead><tr><th colspan="3">
+                        {% if seance.date|date('Ymd') < "now"|date('Ymd') and not compteRendu.redige %}
+                            <span class="badge badge-important pull-right">1</span>
+                        {% endif %}
+                        <h4>Compte-rendu de séance</h4>
+                    </th></tr></thead>
+                    <tbody>
+                        {% set activite = compteRendu.activite %}
+                        <tr>
+                            <td colspan="3">
+                                <a href="{{ path('activites_voir', { 'activite': activite.id }) }}">
+                                    <strong>{{ activite.titre }}</strong><br />
+                                    {{ activite.description }}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="note">
+                                {{ form_row(cr_forms[compteRendu.id].noteContenu) }}
+                            </td>
+                            <td class="note">
+                                {{ form_row(cr_forms[compteRendu.id].noteInteractivite) }}
+                            </td>
+                            <td class="note">
+                                {{ form_row(cr_forms[compteRendu.id].noteAtteinteObjectifs) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                {{ form_row(cr_forms[compteRendu.id].dureeAdaptee) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <input type="hidden" name="cr_id" value="{{ compteRendu.id }}" />
+                                {{ form_rest(cr_forms[compteRendu.id]) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                {{ form_errors(cr_forms[compteRendu.id]) }}
+                                <input type="submit" name="editer_cr" value="Envoyer le compte-rendu" class="btn btn-block btn-primary" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        {% endfor %}
+    {% endif %}
+
+    <div class="modal fade" id="modalEditionSeance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Éditer la séance de tutorat</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form(form) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Valider</button>
+                    <a href="{{ path('supprimer_seance', { 'seance': seance.id }) }}" class="btn btn-danger pull-left">
+                        Supprimer la séance
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 
@@ -226,28 +248,6 @@
         <button class="btn btn-default btn-block" data-toggle="modal" data-target="#modalEditionSeance">Éditer la séance</button>
     {% endif %}
 {% endblock %}
-
-<div class="modal fade" id="modalEditionSeance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Éditer la séance de tutorat</h4>
-            </div>
-            <div class="modal-body">
-                {{ form(form) }}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary">Valider</button>
-                <a href="{{ path('supprimer_seance', { 'seance': seance.id }) }}" class="btn btn-danger pull-left">
-                    Supprimer la séance
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 {% block modals %}
 {{ parent() }}
