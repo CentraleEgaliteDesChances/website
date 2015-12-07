@@ -123,7 +123,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 
 		$template = "CECMainBundle:Mails:nouvelAlbum.html.twig";
@@ -150,7 +150,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 
 		$template = "CECMainBundle:Mails:inscriptionsOuvertes.html.twig";
@@ -205,7 +205,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 
 		$template = "CECMainBundle:Mails:nouvelleReunion.html.twig";
@@ -235,7 +235,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 
 		$template = "CECMainBundle:Mails:modifReunion.html.twig";
@@ -266,7 +266,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 
 		$template = "CECMainBundle:Mails:reunionSupprimee.html.twig";
@@ -303,7 +303,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 
 		$template = "CECMainBundle:Mails:sortieModifiee.html.twig";
@@ -334,7 +334,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 
 		$template = "CECMainBundle:Mails:sortieCreee.html.twig";
@@ -363,7 +363,7 @@ class Mailer
 
 		foreach($membres as $m)
 		{
-			$to[$m->getMail()] = $m->_toString();
+			$to[$m->getMail()] = $m->__toString();
 		}
 		
 		$template = "CECMainBundle:Mails:sortieSupprimee.html.twig";
@@ -398,7 +398,7 @@ class Mailer
 	{
 		$subject = "Confirmation de ta désinscription à une sortie CEC";
 		$template = "CECMainBundle:Mails:desinscription.html.twig";
-		$to = array($eleve->getMail() => $eleve->_toString());
+		$to = array($eleve->getMail() => $eleve->__toString());
 		
 		$body = $this->templating->render($template, array('sortie'=>$sortie));
 		
