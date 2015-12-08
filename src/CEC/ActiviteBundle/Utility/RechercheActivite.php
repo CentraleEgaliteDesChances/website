@@ -3,7 +3,7 @@
 namespace CEC\ActiviteBundle\Utility;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\ExecutionContext;
+use Symfony\Component\Validator\Context\ExecutionContext;
 use CEC\TutoratBundle\Entity\Groupe;
 
 /**

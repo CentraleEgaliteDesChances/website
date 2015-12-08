@@ -44,7 +44,7 @@
                             </a>
                         {% elseif seances_sans_actis %}
                             <strong>
-                                <a href="{{ path('groupe', { 'groupe': seance_sans_actis[0].groupe.id }) }}">
+                                <a href="{{ path('groupe', { 'groupe': seances_sans_actis[0].groupe.id }) }}">
                                     {% for lycee in seances_sans_actis[0].groupe.lycees %}
                                         {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
                                     {% endfor %}
