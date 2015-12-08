@@ -111,14 +111,14 @@
                                 {{ lycee.nom }}{% if not loop.last %} {{ '&' }} {% endif %}
                             {% endfor %}
                             ({{ seances_sans_actis[0].groupe.niveau }})
-                            <ul>
+                            <ul class="text-left">
                                 {% for seance in seances_sans_actis %}
-                                    <li>
+                                    <li style="line-height:25px;">
                                         <span>
                                             Séance du {{ cycle(jours, seance.date|date('N'))|lower }} {{ seance.date|date('d') }}
                                             {{ cycle(mois, seance.date|date('m'))|lower }} à {{ seance.retreiveDebut|date('G\\hi') }}
                                         </span>
-                                        <a class="btn  btn-default btn-xs pull-right"
+                                        <a class="btn btn-default btn-xs pull-right"
                                             href="{% if deja_choisie %}
                                                 {{ path('seance_supprimer_compterendu', { 'activite' : activite.id, 'seance' : seance.id }) }}
                                             {% else %}
