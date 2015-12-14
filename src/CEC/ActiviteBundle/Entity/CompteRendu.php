@@ -265,7 +265,7 @@ class CompteRendu
      */
     public function isRedige()
     {
-        return (((bool) $this->getNoteGlobale()) && (count($this->seance->getLyceens()) !=0));
+        return (((bool) $this->getNoteGlobale()) && (count($this->seance->getLyceens()) != 0));
     }
     
     /**

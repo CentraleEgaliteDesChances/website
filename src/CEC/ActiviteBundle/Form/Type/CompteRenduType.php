@@ -13,17 +13,17 @@ class CompteRenduType extends AbstractType
         $builder->add('noteContenu', null, array(
                 'label' => 'Contenu du sujet (Note /5)',
                 'help_inline' => 'Le sujet possède-t-il un contenu pédagogique pertinent ?',
-                'attr' => array('class' => 'note-input'),
+                'attr' => array('class' => 'note-input', 'min' => 0, 'max' => 5),
             ))
             ->add('noteInteractivite', null, array(
                 'label' => 'Interactivité (Note /5)',
                 'help_inline' => 'Le sujet est-il suffisamment interactif et ludique ? ',
-                'attr' => array('class' => 'note-input'),
+                'attr' => array('class' => 'note-input', 'min' => 0, 'max' => 5),
             ))
             ->add('noteAtteinteObjectifs', null, array(
                 'label' => 'Atteinte des objectifs (Note /5)',
                 'help_inline' => 'Les objectifs pédagogiques annoncés ont-ils été atteints en fin de la séance ?',
-                'attr' => array('class' => 'note-input'),
+                'attr' => array('class' => 'note-input', 'min' => 0, 'max' => 5),
             ))
             ->add('dureeAdaptee', 'choice', array(
                 'label' => 'La durée de l\'activité vous semble-t-elle adaptée ?',
