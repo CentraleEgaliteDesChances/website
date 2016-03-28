@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Représente un contenu prédagoique que les tuteurs peuvent utiliser clef-en-main,
+ * Représente un contenu pédagogique que les tuteurs peuvent utiliser clef-en-main,
  * en combinaison avec d'autres activités, pour réaliser une séance de tutorat.
  *
  * Une séance peut se composer de plusieurs activités, sélectionnées et attribuées
