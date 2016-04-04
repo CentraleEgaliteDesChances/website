@@ -5,7 +5,7 @@
 
 	Une nouvelle sortie CEC vient d'être créée : <strong>{{sortie.nom}}</strong> !<br/><br/>
 
-	Elle aura lieu le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }}
+	Elle aura lieu le <strong>{{ cycle(jours, sortie.dateSortie|date('N') - 1) }} {{ sortie.dateSortie|date('j') }}
 	{{ cycle(mois, sortie.dateSortie|date('n')) -1 }} {{ sortie.dateSortie|date('Y') }} de {{sortie.heureDebut|date('G\\hi')}} à
 	{{sortie.heureFin|date('G\\hi')}}</strong>.<br/><br/>
 
