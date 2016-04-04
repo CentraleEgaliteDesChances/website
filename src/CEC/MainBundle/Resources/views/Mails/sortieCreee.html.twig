@@ -5,8 +5,8 @@
 
 	Une nouvelle sortie CEC vient d'être créée : <strong>{{sortie.nom}}</strong> !<br/><br/>
 
-	Elle aura lieu le {{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} 
-	{{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }} de {{sortie.heureDebut|date('G\\hi')}} à 
+	Elle aura lieu le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }}
+	{{ cycle(mois, sortie.dateSortie|date('n')) -1 }} {{ sortie.dateSortie|date('Y') }} de {{sortie.heureDebut|date('G\\hi')}} à
 	{{sortie.heureFin|date('G\\hi')}}</strong>.<br/><br/>
 
 	Pour avoir plus d'informations sur cette sortie et t'y inscrire, rends-toi sur le site  : {{path('sorties_eleve')}}.<br/><br/>
@@ -16,4 +16,5 @@
 	<span class="pull-right">L'équipe CEC</span>
 </p>
 
-<p class="muted small"> Pour ne plus recevoir ces mails automatiques de CEC, connectez-vous sur <a href="http://{{base_url}}/connexion"> le site interne et décochez la case "Recevoir les mails automatiques" dans vos réglages. </p>
+<p> class="muted small"> Pour ne plus recevoir ces mails automatiques de CEC, connectez-vous sur <a href="http://{{base_url}}/connexion"> le site interne </a> et décochez la case "Recevoir les mails automatiques" dans vos réglages.
+</p>
