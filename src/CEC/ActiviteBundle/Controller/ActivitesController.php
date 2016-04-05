@@ -230,7 +230,7 @@ class ActivitesController extends Controller
         $activite = $nouvelleActivite->getActivite();
         $document = $nouvelleActivite->getDocument();
         
-        $document->setDescription(Document::DocumentDescriptionPremiereVersion);
+        $document->setDescription(Document::DOCUMENT_DESCRIPTION_PREMIERE_VERSION);
         $document->setActivite($activite);
         $document->setAuteur($this->getUser());
         $activite->addVersion($document);
