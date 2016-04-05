@@ -479,10 +479,10 @@ class Projet
     /**
      * Add reunions
      *
-     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunions
+     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
      * @return Projet
      */
-    public function addReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunions)
+    public function addReunion(\CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
     {
         $this->reunions->add($reunion);
     
