@@ -26,7 +26,7 @@ class MembreRepository extends EntityRepository implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $query = $this->createQueryBuilder('membre')
-            ->where('CONCAT(CONCAT(membre.prenom, \' \'), membre.nom) = :username')
+            ->where('membre.username = :username')
             ->setParameter('username', $username)
             ->getQuery();
         
@@ -39,6 +39,16 @@ class MembreRepository extends EntityRepository implements UserProviderInterface
         }
 
         return $user;
+    }
+
+    public function findByUsername($nom, $prenom){
+        $query = $this->createQueryBuilder('eleve')
+            ->where('eleve.nom = :nom')
+            ->setParameter('nom',$nom)
+            ->andWhere('eleve.prenom = :prenom')
+            ->setParameter('prenom', $prenom)
+            ->getQuery();
+        return $query->getResult();
     }
 
     /**

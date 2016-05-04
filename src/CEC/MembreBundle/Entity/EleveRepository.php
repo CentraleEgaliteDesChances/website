@@ -23,7 +23,7 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $query = $this->createQueryBuilder('eleve')
-            ->where('CONCAT(CONCAT(eleve.prenom, \' \'), eleve.nom) = :username')
+            ->where('eleve.username = :username')
             ->setParameter('username', $username)
             ->getQuery();
         
@@ -37,6 +37,17 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
 
         return $user;
     }
+
+    public function findByUsername($nom, $prenom){
+        $query = $this->createQueryBuilder('eleve')
+            ->where('eleve.nom = :nom')
+            ->setParameter('nom',$nom)
+            ->andWhere('eleve.prenom = :prenom')
+            ->setParameter('prenom', $prenom)
+            ->getQuery();
+        return $query->getResult();
+    }
+
 
     /**
      * @inheritDoc

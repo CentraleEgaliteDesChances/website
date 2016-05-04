@@ -186,6 +186,22 @@ class MembresController extends Controller
         if ($request->isMethod("POST")) {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                
+                //Création de l'username du membre
+                $nom = $form->get('nom')->getData();
+                $prenom= $form->get('prenom')->getData();
+                $membresExistant = $this
+                    ->getDoctrine()
+                    ->getRepository('CECMembreBundle:Membre')
+                    ->findByUsername($nom,$prenom);
+                if (count($membresExistant) > 0)
+                {
+                    $membre->setUsername($prenom. ' ' . $nom.(count($membresExistant)+1));
+                }
+                else
+                {
+                    $membre->setUsername($prenom . ' ' .$nom);
+                }
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($membre);
                 $entityManager->flush();
@@ -261,7 +277,7 @@ class MembresController extends Controller
     /**
      * Retire les privilèges du buro à un membre.
      *
-     * @param CEC\MembreBundle\Entity\Membre $membre Membre à retirer du buro
+     * @param CEC\Membre\MBundle\Entity\Membre $membre Membre à retirer du buro
      *
      * @Template()
      */

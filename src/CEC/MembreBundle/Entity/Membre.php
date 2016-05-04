@@ -71,7 +71,21 @@ class Membre implements UserInterface, \Serializable
      * )
      */
     private $nom;
-
+    
+    /**
+     * Identifiant du membre.
+     * Il est requis pour la connexion sur le site
+     * Lors de la création d'une nouvelle instance, il est fait en srote que l'identifiant soit unique à chaque instance
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "username", type = "string", length = 255)
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "L'username ne peut excéder 255 caractères."
+     * )
+     */
+    private $username;
     /**
      * Adresse email du membre.
      * L'adresse email est nécessaire pour contacter le membre et permettre
@@ -335,7 +349,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getUsername()
     {
-        return $this->getPrenom() . ' ' . $this->getNom();
+        return $this->username;
     }
 
     /**
@@ -459,7 +473,7 @@ class Membre implements UserInterface, \Serializable
     */
     public function removeRole($oldRole)
     {
-        if (in_array($role, $this->roles)) {
+        if (in_array($oldRole, $this->roles)) {
             $roles = $this->roles;
             foreach ($roles as $key => $role) {
                 if ($role == $oldRole) {
@@ -1066,5 +1080,12 @@ class Membre implements UserInterface, \Serializable
     public function getCheckMail()
     {
         return $this->checkMail;
+    }
+    
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        
+        return $this;
     }
 }
