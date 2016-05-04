@@ -297,6 +297,31 @@ class Eleve implements UserInterface, \Serializable
     private $checkMail = true;
 
     /**
+     * Booléen enregistrant si l'élève a bien rendu sa charte élève
+     * @var boolean
+     *
+     * @ORM\COlumn(name="charte_eleve_rendu", type="boolean")
+     */
+    private $charteEleveRendue;
+
+    /**
+     * Booléen enregistrant si l'élève a bien rendu son autorisation parentale
+     * @var boolean
+     *
+     * @ORM\COlumn(name="autorisation_parentale_rendue", type="boolean")
+     */
+    private $autorisationParentaleRendue;
+
+    /**
+     * Booléen enregistrant si l'élève a bien rendu son droit à l'image
+     * @var boolean
+     *
+     * @ORM\COlumn(name="droit_image_rendue", type="boolean")
+     */
+    private $droitImageRendue;
+
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -308,6 +333,9 @@ class Eleve implements UserInterface, \Serializable
         $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(["ROLE_ELEVE"]);
         $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->charteEleveRendue = false;
+        $this->autorisationParentaleRendue = false;
+        $this->droitImageRendue = false;
     }
 
 
@@ -1053,4 +1081,54 @@ class Eleve implements UserInterface, \Serializable
     {
         return $this->checkMail;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isCharteEleveRendue()
+    {
+        return $this->charteEleveRendue;
+    }
+
+    /**
+     * @param boolean $charteEleveRendue
+     */
+    public function setCharteEleveRendue($charteEleveRendue)
+    {
+        $this->charteEleveRendue = $charteEleveRendue;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAutorisationParentaleRendue()
+    {
+        return $this->autorisationParentaleRendue;
+    }
+
+    /**
+     * @param boolean $autorisationParentaleRendue
+     */
+    public function setAutorisationParentaleRendue($autorisationParentaleRendue)
+    {
+        $this->autorisationParentaleRendue = $autorisationParentaleRendue;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDroitImageRendue()
+    {
+        return $this->droitImageRendue;
+    }
+
+    /**
+     * @param boolean $droitImageRendue
+     */
+    public function setDroitImageRendue($droitImageRendue)
+    {
+        $this->droitImageRendue = $droitImageRendue;
+    }
+
+
 }

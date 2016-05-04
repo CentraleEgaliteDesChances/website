@@ -37,12 +37,32 @@
                     </a></li>
                 {% endif %}
                 <li><a href="{{ path('groupe', { 'groupe': eleve.groupe.id }) }}">Mon groupe de tutorat</a></li>
-            {% else %}
+            {% else %}</p>
                 <p>Tu n'es pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, <br />et consulter les activités, tu dois t'inscrire à un groupe.</p>
                 <a href="{{ path('reglages_groupe_eleve') }}" class="btn btn-primary btn-large inscription">
                     <strong>M'inscrire à un groupe de tutorat</strong>
                 </a>
             {% endif %}
+        </ul>
+        <ul class ="liens">
+            {% if not (eleve.charteEleveRendue and eleve.autorisationParentaleRendue and eleve.droitImageRendue) %}
+                <p>
+                    <b>Tu as encore des documents à rendre !</b><br/>
+                    Il manque encore à ton dossier les éléments suivants :
+                    <ul>
+                        {% if not eleve.charteEleveRendue  %}
+                          <li>La charte Élève</li>
+                        {% endif %}
+                        {% if not eleve.autorisationParentaleRendue %}
+                            <li>Ton autorisation Parentale</li>
+                        {% endif %}
+                        {% if not eleve.droitImageRendue %}
+                            <li>Ton droit à l'image</li>
+                        {% endif %}
+                    </ul>
+                </p>
+            {% endif %}
+
         </ul>
         <ul class="liens">
             <li><a href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">Mon profil</a></li>
