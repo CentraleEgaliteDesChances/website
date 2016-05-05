@@ -46,6 +46,14 @@ class EleveType extends AbstractType
             ->add('lycee', null, array(
                 'label'=>'Lycée de provenance',
             ))
+            ->add('niveau', 'choice', array(
+                'label' => 'Niveau de scolarité',
+                'choices' => array(
+                    'Seconde' => 'Seconde',
+                    'Première' => 'Première',
+                    'Terminale' => 'Terminale'
+                    )
+                ))
             ->add('motDePasse', 'repeated', array(
                 'label'=>'Mot de passe',
                 'first_name' => 'Mot-de-passe',

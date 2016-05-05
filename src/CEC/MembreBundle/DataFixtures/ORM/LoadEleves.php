@@ -119,7 +119,8 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
             $this->telephoneAleatoire(false),
             new \DateTime(),
             $this->lyceeAleatoire(),
-            $delegue
+            $delegue,
+            $this->niveauAleatoire()
         );
         return $lyceen;
     }
@@ -142,7 +143,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
      */
     public function nouveauLyceen($prenom, $nom,
                                   $telephone = null, $email = null, $adresse = null, $codePostal = null, $ville = null,
-                                  $nomPere = null, $nomMere = null, $telephoneParent = null, $dateNaiss = null, $lycee = null, $delegue = null)
+                                  $nomPere = null, $nomMere = null, $telephoneParent = null, $dateNaiss = null, $lycee = null, $delegue = null,$niveau = null)
     {
 
         $lyceen = new Eleve();
@@ -170,6 +171,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
             ->setMotDePasse($mdp)
             ->setCheckMail(false)
             ->setLycee($this->getReference($lycee))
+            ->setNiveau($niveau)
             ->setDelegue($lyceeDelegue);
         return $lyceen;
     }
@@ -460,6 +462,16 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         return array(
             'CEC\TutoratBundle\DataFixtures\ORM\LoadLycees',
         );
+    }
+
+    private function niveauAleatoire()
+    {
+        $niveaux = array(
+            'Seconde',
+            'Première',
+            'Terminales'
+        );
+        return $niveaux[rand(0, count($niveaux) - 1)];
     }
 }
   

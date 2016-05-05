@@ -320,6 +320,24 @@ class Eleve implements UserInterface, \Serializable
      */
     private $droitImageRendue;
 
+    /**
+     * Niveau de l'élève (Secondes, Premières ou Terminales)
+     * Il est représenté par un string et on le modifie toujours de sorte à ce qu'il soit égal à (Secondes|Premières|Terminales)
+     *
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "niveau", type = "string", length = 11)
+     * @Assert\NotBlank(message = "Merci de spécifier votre niveau de scolarité.")
+     * @Assert\Regex(
+     *     pattern="/Seconde|Première|Terminale/",
+     *     match=true,
+     *     message="Merci de spécifier votre niveau de scolarité "
+     *     )
+     */
+    private $niveau;
+
+
 
     /**
      * Constructor
@@ -1024,6 +1042,7 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Remove groupeParAnnee
      *
+     * @return array
      * @param \CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee
      */
     public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
@@ -1130,5 +1149,22 @@ class Eleve implements UserInterface, \Serializable
         $this->droitImageRendue = $droitImageRendue;
     }
 
+    /**
+     * @return string
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
+    }
+
+    /**
+     * @return Eleve
+     * @param string $niveau
+     */
+    public function setNiveau($niveau)
+    {
+        $this->niveau = $niveau;
+        return $this;
+    }
 
 }
