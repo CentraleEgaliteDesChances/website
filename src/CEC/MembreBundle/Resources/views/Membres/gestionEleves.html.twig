@@ -1,7 +1,10 @@
-{% extends 'CECMainBundle::2-columns.html.twig' %}
-{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
 
-{% block right %}
+
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% block container %}
+
     <h2> Liste des élèves</h2>
 
     {{ parent() }}
@@ -36,10 +39,4 @@
         {% endif %}
     </table>
 
-
-{% endblock %}
-
-{% block left %}
-    {{parent()}}
-    {{ render(controller('CECMembreBundle:Membres:menu', { 'request': app.request})) }}
 {% endblock %}

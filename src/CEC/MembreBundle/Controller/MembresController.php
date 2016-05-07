@@ -2,6 +2,7 @@
 
 namespace CEC\MembreBundle\Controller;
 
+use CEC\MembreBundle\Form\Type\EleveGestionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -102,7 +103,7 @@ class MembresController extends Controller
      */
     public function tousEleveAction()
     {
-        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAll();    // tous les Membres
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByLyceeAndNiveau();    // tous les Membres
         return array('eleves' => $membres);
     }
 	
@@ -217,6 +218,10 @@ class MembresController extends Controller
             'form' => $form->createView(),
         );
     }
+
+
+
+
     
     /**
      * Supprimer un membre de manière définitive.
@@ -238,8 +243,8 @@ class MembresController extends Controller
         $this->get('session')->getFlashBag()->add('success', 'Le membre a bien été définitivement supprimé.');
         return $this->redirect($this->generateUrl('voir_tous_membres'));
     }
-    
-    
+
+
     /**
      * Permet d'effectuer les passations du Buro.
      * La page affiche tous les membres bénéficiant du statut de membre du buro, et permet
@@ -280,6 +285,7 @@ class MembresController extends Controller
      * @param CEC\Membre\MBundle\Entity\Membre $membre Membre à retirer du buro
      *
      * @Template()
+     *
      */
     public function supprimerMembreBuroAction(Membre $membre) {
         $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($membre);
@@ -291,5 +297,56 @@ class MembresController extends Controller
         
         return $this->redirect($this->generateUrl('passations'));
     }
+
+    /**
+     * Permet de gérer l'ensemble des lycéens.
+     * Cette page n'est accessible qu'aux membres du buro
+     * La page affiche tous les lycéens inscrits sur le site et donne la possibilité de :
+     * - trier la liste selon le paramètre voulu
+     * - récuperer un excel de tous les lycéens
+     * - dire si un élève a bien rendu ses documents
+     *
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+
+    public function gestionElevesAction()
+    {
+        $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByLyceeAndNiveau();
+        return array('eleves' => $eleves);
+    }
+
+    /**
+     * Permet de gérer les documents d'un lycéen
+     * Cette page n'est accessible qu'aux membres du buro
+     * La page affiche tous les lycéens inscrits sur le site et donne la possibilité de :
+     * - trier la liste selon le paramètre voulu
+     * - récuperer un excel de tous les lycéens
+     * - dire si un élève a bien rendu ses documents
+     *
+     * @param CEC\MembreBundle\Entity\Eleve
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function gestionEleveAction($eleveid)
+    {
+        $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($eleveid);
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        $form = $this->createForm(EleveGestionType::class,$eleve);
+        $request = $this->getRequest();
+        if ($request->isMethod("POST")) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->getFlashBag()->add('success', "Documents de ".$eleve->getPrenom() . " mis à jour !");
+            }
+        }
+        return array(
+            'eleve' => $eleve,
+            'form' => $form->createView(),
+        );
+
+    }
+
     
 }

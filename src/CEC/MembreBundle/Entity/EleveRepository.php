@@ -90,4 +90,12 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
         return $query->getSingleScalarResult();
     }
 
+    public function findAllOrderByLyceeAndNiveau(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.lycee')
+            ->addOrderBy('eleve.niveau')
+            ->getQuery();
+        return $query->getResult();
+    }
+
 }

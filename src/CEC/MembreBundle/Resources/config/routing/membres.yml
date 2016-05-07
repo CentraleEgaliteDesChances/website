@@ -58,3 +58,13 @@ retirer_buro:
     defaults: {_controller: CECMembreBundle:Membres:supprimerMembreBuro}
     requirements:
         membre: \d+
+
+gestion_eleves:
+    path: /gestionEleves
+    defaults: {_controller: CECMembreBundle:Membres:gestionEleves}
+
+gestion_eleve:
+    path: /gestionEleves/{eleveid}
+    defaults: {_controller: CECMembreBundle:Membres:gestionEleve}
+    requirements:
+        membre: \d+
