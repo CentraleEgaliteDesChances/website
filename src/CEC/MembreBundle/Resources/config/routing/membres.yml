@@ -68,3 +68,7 @@ gestion_eleve:
     defaults: {_controller: CECMembreBundle:Membres:gestionEleve}
     requirements:
         membre: \d+
+
+gestion_eleves_test:
+    path: /gestionElevesTest
+    defaults: {_controller: CECMembreBundle:Membres:gestionElevesTest}

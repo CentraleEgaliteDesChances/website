@@ -2,7 +2,13 @@
 
 namespace CEC\MembreBundle\Controller;
 
+use CEC\MembreBundle\Entity\Eleve;
+use CEC\MembreBundle\Entity\EleveCollection;
 use CEC\MembreBundle\Form\Type\EleveGestionType;
+use CEC\MembreBundle\Form\Type\ElevesGestionType;
+use CEC\MembreBundle\Form\Type\TableEleveType;
+use Doctrine\Common\Collections\ArrayCollection;
+use PhpParser\Node\Expr\List_;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -35,12 +41,12 @@ class MembresController extends Controller
     }
 
     /**
-    * Affiche la liste de tous les tuteurs d'un lycée
-    * @param integer $lycee : id du lycée
-    * @param string $categorie : indique si c'est tuteurs/eleves/professeurs
-    *
-    * @Template()
-    */
+     * Affiche la liste de tous les tuteurs d'un lycée
+     * @param integer $lycee : id du lycée
+     * @param string $categorie : indique si c'est tuteurs/eleves/professeurs
+     *
+     * @Template()
+     */
     public function tousLyceeAction($lycee, $categorie)
     {
         $lycees = $this->getDoctrine()->getRepository("CECTutoratBundle:Lycee")->find($lycee);
@@ -63,18 +69,18 @@ class MembresController extends Controller
         $tutorat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeTuteurs')->findByTuteur($membre);
 
         usort($tutorat, function(GroupeTuteurs $g1, GroupeTuteurs $g2) {
-        if ($g1->getAnneeScolaire() == $g2->getAnneeScolaire()) return 0;
-        return ($g1->getAnneeScolaire()->getAnneeInferieure() < $g2->getAnneeScolaire()->getAnneeInferieure()) ? 1 : -1;
+            if ($g1->getAnneeScolaire() == $g2->getAnneeScolaire()) return 0;
+            return ($g1->getAnneeScolaire()->getAnneeInferieure() < $g2->getAnneeScolaire()->getAnneeInferieure()) ? 1 : -1;
         });
-        
+
         return array(
             'membre'    => $membre, 'tutorat' => $tutorat
         );
     }
-	
-	/**
+
+    /**
      * Affiche le profil d'un élève.
-     *
+     * @return array
      * @param integer $id: id du membre, null pour afficher le profil du membre connecté
      *@Template()
      */
@@ -86,16 +92,16 @@ class MembresController extends Controller
         $tutorat = $this->getDoctrine()->getRepository('CECTutoratBundle:GroupeEleves')->findByLyceen($eleve);
 
         usort($tutorat, function(GroupeEleves $g1, GroupeEleves $g2) {
-        if ($g1->getAnneeScolaire() == $g2->getAnneeScolaire()) return 0;
-        return ($g1->getAnneeScolaire()->getAnneeInferieure() < $g2->getAnneeScolaire()->getAnneeInferieure()) ? 1 : -1;
+            if ($g1->getAnneeScolaire() == $g2->getAnneeScolaire()) return 0;
+            return ($g1->getAnneeScolaire()->getAnneeInferieure() < $g2->getAnneeScolaire()->getAnneeInferieure()) ? 1 : -1;
         });
-        
+
         return array(
             'eleve'    => $eleve, 'tutorat' => $tutorat
         );
     }
 
-     /**
+    /**
      * Affiche la liste de tous les élèves.
      * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
      *
@@ -106,8 +112,8 @@ class MembresController extends Controller
         $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByLyceeAndNiveau();    // tous les Membres
         return array('eleves' => $membres);
     }
-	
-	/**
+
+    /**
      * Affiche le profil d'un professeur.
      *
      * @param integer $id: id du membre, null pour afficher le profil du membre connecté
@@ -117,13 +123,13 @@ class MembresController extends Controller
     {
         $professeur = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->find($id);
         if (!$professeur) throw $this->createNotFoundException('Impossible de trouver le profil !');
-        
+
         return array(
             'professeur'    => $professeur,
         );
     }
 
-     /**
+    /**
      * Affiche la liste de tous les professeurs.
      * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
      *
@@ -136,10 +142,10 @@ class MembresController extends Controller
     }
 
     /**
-    * Menu des pages d'affichage de tous les membres/eleves/professeurs
-    *
-    * @Template()
-    */
+     * Menu des pages d'affichage de tous les membres/eleves/professeurs
+     *
+     * @Template()
+     */
     public function menuAction($request)
     {
         $path = $request->getPathInfo();
@@ -164,7 +170,7 @@ class MembresController extends Controller
             'lyceens' => $lyceens,
             'professeurs' => $professeurs);
     }
-    
+
     /**
      * Permet de créer un nouveau membre.
      * Affiche un formulaire permettant d'entrer le nom, le prénom, l'adresse email,
@@ -178,16 +184,16 @@ class MembresController extends Controller
     {
         $membre = new Membre();
         $motDePasse = substr(str_shuffle(MD5(microtime())), 0, 10);
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($membre);    
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($membre);
         $membre->setMotDePasse($encoder->encodePassword($motDePasse, $membre->getSalt()));
-    
+
         $form = $this->createForm(new MembreType(), $membre);
-        
+
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                
+
                 //Création de l'username du membre
                 $nom = $form->get('nom')->getData();
                 $prenom= $form->get('prenom')->getData();
@@ -206,10 +212,10 @@ class MembresController extends Controller
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($membre);
                 $entityManager->flush();
-                
+
                 // Envoyer un message de confirmation
                 $this->get('cec.mailer')->sendInscription($membre, $motDePasse, $_SERVER['HTTP_HOST']);
-                
+
                 $this->get('session')->getFlashBag()->add('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
                 return $this->redirect($this->generateUrl('creer_membre'));
             }
@@ -222,7 +228,7 @@ class MembresController extends Controller
 
 
 
-    
+
     /**
      * Supprimer un membre de manière définitive.
      *
@@ -235,11 +241,11 @@ class MembresController extends Controller
     {
         $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($membre);
         if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil !');
-        
+
         $entityManager = $this->getDoctrine()->getEntityManager();
         $entityManager->remove($membre);
         $entityManager->flush();
-        
+
         $this->get('session')->getFlashBag()->add('success', 'Le membre a bien été définitivement supprimé.');
         return $this->redirect($this->generateUrl('voir_tous_membres'));
     }
@@ -256,10 +262,10 @@ class MembresController extends Controller
     public function passationsAction()
     {
         $membresBuro = $this->getDoctrine()->getRepository("CECMembreBundle:Membre")->findBuro();
-        
+
         $nouveauMembreBuro = new NouveauMembreBuro();
         $form = $this->createForm(new NouveauMembreBuroType(), $nouveauMembreBuro);
-        
+
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
             $form->handleRequest($request);
@@ -272,13 +278,13 @@ class MembresController extends Controller
                 return $this->redirect($this->generateUrl('passations'));
             }
         }
-        
+
         return array(
             'membres_buro' => $membresBuro,
             'form' => $form->createView(),
         );
     }
-    
+
     /**
      * Retire les privilèges du buro à un membre.
      *
@@ -290,11 +296,11 @@ class MembresController extends Controller
     public function supprimerMembreBuroAction(Membre $membre) {
         $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($membre);
         if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil !');
-        
+
         $membre->setBuro(false);
         $membre->updateRoles();
         $this->getDoctrine()->getEntityManager()->flush();
-        
+
         return $this->redirect($this->generateUrl('passations'));
     }
 
@@ -305,16 +311,59 @@ class MembresController extends Controller
      * - trier la liste selon le paramètre voulu
      * - récuperer un excel de tous les lycéens
      * - dire si un élève a bien rendu ses documents
-     *
+     * @return array
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
 
     public function gestionElevesAction()
     {
+        $request = $this->getRequest();
+        if ($request->isMethod("POST")) {
+            if (empty($_POST['checkbox'])) {
+
+
+            }
+            elseif (!(isset($_POST['documents_recus']))) {
+
+            }
+            else {
+
+                $em = $this->getDoctrine()->getManager();
+                foreach ($_POST['checkbox'] as $item) {
+                    $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($item);
+                    switch ($_POST['documents_recus']){
+                        case 'charte_eleve':
+                            $eleve->setCharteEleveRendue(true);
+                            break;
+                        case 'autorisation_parentale':
+                            $eleve->setAutorisationParentaleRendue(true);
+                            break;
+                        case 'droit_image':
+                            $eleve->setDroitImageRendue(true);
+                            break;
+                        case 'tous':
+                            $eleve->setCharteEleveRendue(true);
+                            $eleve->setAutorisationParentaleRendue(true);
+                            $eleve->setDroitImageRendue(true);
+                            break;
+                        default:
+                    }
+
+                    $em->persist($eleve);
+                }
+                $em->flush();
+            }
+        }
         $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByLyceeAndNiveau();
         return array('eleves' => $eleves);
     }
+
+    public function gestionElevesTestAction()
+    {
+    }
+
+
 
     /**
      * Permet de gérer les documents d'un lycéen
@@ -325,6 +374,7 @@ class MembresController extends Controller
      * - dire si un élève a bien rendu ses documents
      *
      * @param CEC\MembreBundle\Entity\Eleve
+     * @return array
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
@@ -348,5 +398,5 @@ class MembresController extends Controller
 
     }
 
-    
+
 }
