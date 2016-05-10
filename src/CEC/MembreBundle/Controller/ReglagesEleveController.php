@@ -2,6 +2,7 @@
 
 namespace CEC\MembreBundle\Controller;
 
+use CEC\MembreBundle\Form\Type\DossierInscriptionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -9,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use CEC\MembreBundle\Form\Type\InfosEleveType;
 use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use CEC\MembreBundle\Form\Type\GroupeEleveType;
+
 
 use CEC\TutoratBundle\Entity\GroupeEleves;
 
@@ -134,5 +136,31 @@ class ReglagesEleveController extends Controller
         return array('form' => $form->createView(), 'lyceen' => $lyceen );
     }
 
-       
+
+    /**
+     * Sélection de son groupe de tutorat régulier.
+     * @Template()
+     */
+    public function dossierInscriptionAction()
+    {  // On récupère l'utilisateur actuel
+        $eleve = $this->getUser();
+        $dossierInscription = $eleve->getDossierInscription();
+        $form = $this->createForm(new DossierInscriptionType(),$dossierInscription);
+        $request = $this->getRequest();
+        if ($request->isMethod("POST"))
+        {
+                $form->handleRequest($request);
+                if ($form->isValid()) {
+                    $this->getDoctrine()->getEntityManager()->flush();
+                    $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
+                    return $this->redirect($this->generateUrl('reglages_dossier_inscription_eleve'));
+                }
+
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'eleve'=> $eleve
+        );
+    }
 }

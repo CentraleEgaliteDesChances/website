@@ -60,8 +60,12 @@ retirer_buro:
         membre: \d+
 
 gestion_eleves:
-    path: /gestionEleves
-    defaults: {_controller: CECMembreBundle:Membres:gestionEleves}
+    path: /gestionEleves/{sorting}
+    defaults:
+        _controller: CECMembreBundle:Membres:gestionEleves
+        sorting: id
+    requirements:
+        sorting: id|prenom|nom|lycee|niveau|charte_eleve|autorisation_parentale|droit_image
 
 gestion_eleve:
     path: /gestionEleves/{eleveid}

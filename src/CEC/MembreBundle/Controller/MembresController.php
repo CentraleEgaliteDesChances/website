@@ -305,44 +305,92 @@ class MembresController extends Controller
     }
 
     /**
+     * Auteur : Jimmy EUng
+     * 
      * Permet de gérer l'ensemble des lycéens.
      * Cette page n'est accessible qu'aux membres du buro
      * La page affiche tous les lycéens inscrits sur le site et donne la possibilité de :
      * - trier la liste selon le paramètre voulu
      * - récuperer un excel de tous les lycéens
      * - dire si un élève a bien rendu ses documents
+     *
+     * 
      * @return array
      * @Template()
      * @Secure(roles = "ROLE_BURO")
      */
 
-    public function gestionElevesAction()
+    public function gestionElevesAction($sorting)
     {
+        //On génère la liste des élèves affichés triés selon le critère voulu
+        switch ($sorting) {
+            case 'nom':
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByNom();
+                break;
+            case 'prenom':
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByPrenom();
+                break;
+            case 'lycee':
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByLycee();
+                break;
+            case 'niveau':
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByNiveau();
+                break;
+            case 'charte_eleve':
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByCharteEleve();
+                break;
+            case 'autorisation_parentale':
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByAutorisationParentale();
+                break;
+            case 'droit_image':
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByDroitImage();
+                break;
+            default:
+                $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderById();
+
+        }
+        
+        //Ici, on traite les données soumises par le formulaire, par contre, ce n'est pas un formulaire  crée à partir de Symfony
+        //c'est un formulaire HTML d'où la nécessité de traiter les données avec la variable $_POST
+        
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
+            $compteur = 0;
             if (empty($_POST['checkbox'])) {
-
-
+                //ne fait rien si aucune ligne n'est sélectionnée
             }
             elseif (!(isset($_POST['documents_recus']))) {
-
+                //ne fait rien si aucun type document n'est sélectionné
             }
             else {
+                //Modification des attributs des élèves
 
                 $em = $this->getDoctrine()->getManager();
                 foreach ($_POST['checkbox'] as $item) {
                     $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($item);
                     switch ($_POST['documents_recus']){
                         case 'charte_eleve':
-                            $eleve->setCharteEleveRendue(true);
+                            if (!($eleve->isCharteEleveRendue())) {
+                                $compteur = $compteur +1;
+                                $eleve->setCharteEleveRendue(true);
+                            }
                             break;
                         case 'autorisation_parentale':
-                            $eleve->setAutorisationParentaleRendue(true);
+                            if (!($eleve->isAutorisationParentaleRendue())) {
+                                $compteur = $compteur +1;
+                                $eleve->setAutorisationParentaleRendue(true);
+                            }
                             break;
                         case 'droit_image':
-                            $eleve->setDroitImageRendue(true);
+                            if (!($eleve->isDroitImageRendue())) {
+                                $compteur = $compteur +1;
+                                $eleve->setDroitImageRendue(true);
+                            }
                             break;
                         case 'tous':
+                            if (!($eleve->isCharteEleveRendue() and $eleve->isAutorisationParentaleRendue() and $eleve->isDroitImageRendue())) {
+                                $compteur = $compteur +1;
+                            }
                             $eleve->setCharteEleveRendue(true);
                             $eleve->setAutorisationParentaleRendue(true);
                             $eleve->setDroitImageRendue(true);
@@ -354,8 +402,22 @@ class MembresController extends Controller
                 }
                 $em->flush();
             }
+            //Affichage d'une notification
+            $textFlashBag = "Aucun élève mis à jour";
+            if ($compteur == 1) {
+                $textFlashBag = "Documents de 1 élève mis à jour";
+                $this->get('session')->getFlashBag()->add('success', $textFlashBag);
+            }
+            elseif ($compteur > 1) {
+                $textFlashBag = "Documents de ".$compteur." élèves mis à jour";
+                $this->get('session')->getFlashBag()->add('success', $textFlashBag);
+            }
+            else {
+                $this->get('session')->getFlashBag()->add('info', $textFlashBag);
+            }
         }
-        $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderByLyceeAndNiveau();
+
+
         return array('eleves' => $eleves);
     }
 

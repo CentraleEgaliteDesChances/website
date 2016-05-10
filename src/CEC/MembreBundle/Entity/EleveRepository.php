@@ -98,4 +98,75 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
         return $query->getResult();
     }
 
+    public function findAllOrderById(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.id')
+            ->getQuery();
+        return $query->getResult();
+    }
+    
+    public function findAllOrderByNom(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByPrenom(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.prenom')
+            ->addOrderBy('eleve.nom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByLycee(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.lycee')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByNiveau(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.niveau')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByCharteEleve(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.charteEleveRendue')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByAutorisationParentale(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.autorisationParentaleRendue')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByDroitImage(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.droitImageRendue')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+    
+    
+
+
 }

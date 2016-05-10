@@ -11,7 +11,24 @@
         <h2> Liste des élèves</h2>
 
         <form method="post">
-            <div class="row">
+            <div class="row" style="padding-top: 20px">
+                <div class="btn-group pull-left" style="padding-left: 20px;padding-bottom: 20px">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Trier par <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'id'}) }}">Id</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'nom'}) }}">Nom</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'prenom'}) }}">Prénom</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'lycee'}) }}">Lycee</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'niveau'}) }}">Niveau</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'charte_eleve'}) }}">Charte Élève</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'autorisation_parentale'}) }}">Autorisation Parentale</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'droit_image'}) }}">Droit à l'image</a></li>
+                    </ul>
+                </div>
+
+
                 <div class="btn-toolbar pull-right" style="padding-right: 20px;padding-bottom: 20px">
                     <div class="btn-group" data-toggle="buttons">
 
@@ -31,7 +48,7 @@
                     </div>
                     <div class ="btn-group">
                         <div class="footer-controls">
-                            <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                            <input type="submit" name = "execute" value="Ajouter" class="btn btn-primary" />
                         </div>
                     </div>
                 </div>
@@ -40,14 +57,30 @@
                 <thead>
                 <tr>
                     <td> </td>
-                    <td> <b>Id </b> <small><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></small></td>
-                    <td> <b>Nom</b> </td>
-                    <td> <b>Prénom</b> </td>
-                    <td> <b>Lycée</b> </td>
-                    <td> <b>Niveau</b> </td>
-                    <td> <b>Charte Élève</b> </td>
-                    <td> <b>Autorisation Parentale</b> </td>
-                    <td> <b>Droit à l'image</b> </td>
+                    <td>
+                        <b>Id </b>
+                    </td>
+                    <td>
+                        <b>Nom</b>
+                    </td>
+                    <td>
+                        <b>Prénom</b>
+                    </td>
+                    <td>
+                        <b>Lycée</b>
+                    </td>
+                    <td>
+                        <b>Niveau</b>
+                    </td>
+                    <td>
+                        <b>Charte Élève</b>
+                    </td>
+                    <td>
+                        <b>Autorisation Parentale</b>
+                    </td>
+                    <td>
+                        <b>Droit à l'image</b>
+                    </td>
                 </tr>
                 </thead>
                 {% if eleves|length > 0 %}
@@ -58,9 +91,7 @@
                                 <input type="checkbox" value={{ eleve.id }} name="checkbox[]">
                             </td>
                             <td>
-                                <a href="{{ path('gestion_eleve', { 'eleveid': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
-                                    {{ eleve.id }}
-                                </a>
+                                {{ eleve.id }}
                             </td>
                             <td>
                                 {{ eleve.nom }}
@@ -102,6 +133,11 @@
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </td>
                             {% endif %}
+                            <td>
+                                <a href="{{ path('gestion_eleve', { 'eleveid': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    Modifier
+                                </a>
+                            </td>
 
 
                         </tr>

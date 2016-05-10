@@ -167,7 +167,7 @@ class Eleve implements UserInterface, \Serializable
     private $nomMere;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="datenaiss", type="date")
      */
@@ -337,7 +337,13 @@ class Eleve implements UserInterface, \Serializable
      */
     private $niveau;
 
+    /**
+     * Dossier d'inscription que l'eleve doit remplir lors de l'inscription au site
+     *
+     * @ORM\OneToOne(targetEntity="CEC\MembreBundle\Entity\DossierInscription", cascade={"persist"})
+     */
 
+    private $dossierInscription;
 
     /**
      * Constructor
@@ -1166,5 +1172,23 @@ class Eleve implements UserInterface, \Serializable
         $this->niveau = $niveau;
         return $this;
     }
+
+    /**
+     * @return DossierInscription
+     */
+    public function getDossierInscription()
+    {
+        return $this->dossierInscription;
+    }
+
+    /**
+     * @param DossierInscription $dossierInscription
+     */
+    public function setDossierInscription($dossierInscription)
+    {
+        $this->dossierInscription = $dossierInscription;
+    }
+    
+    
 
 }

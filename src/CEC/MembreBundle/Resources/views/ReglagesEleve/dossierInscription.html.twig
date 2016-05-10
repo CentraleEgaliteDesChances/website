@@ -1,0 +1,17 @@
+{% extends 'CECMembreBundle:Reglages:base.html.twig' %}
+
+{% block right %}
+    {{ parent() }}
+
+    <div class="section">
+        <div class="section-title text-center"><h2>Informations personnelles</h2></div>
+        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+            {{ form_widget(form) }}
+            <div class="form-actions">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </form>
+        <br/>
+    </div>
+
+{% endblock %}
