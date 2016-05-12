@@ -27,7 +27,7 @@ reglages_groupe_eleve:
         lyceen: \d+
 
 reglages_dossier_inscription_eleve:
-    path: /dossier-inscription-eleve/
+    path: /dossier-inscription-eleve
     defaults: {_controller: CECMembreBundle:ReglagesEleve:dossierInscription}
     requirements:
         lyceen: \d+

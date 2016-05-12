@@ -121,14 +121,14 @@ class DossierInscription
     private $nombreEnfants;
 
     /**
-     * Dit si un des enfants est titulaire d'une bourse
-     *
-     *@ORM\Column(name="boursier", type="boolean")
+     * @var string
+     * 
+     * @ORM\Column(name = "enfants", type = "text")
      */
-    private $boursier = false;
+    private $enfants;
+
 
     /**
-
      *
      * @var string
      *
@@ -150,16 +150,9 @@ class DossierInscription
     /**
 
      *
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name = "nombre_annee_chez_cec", type = "integer")
-     * @Assert\Range(
-     *     min = 2,
-     *     max = 3,
-     *     minMessage = "Ce n'est pas possible",
-     *     maxMessage = "Ce n'est pas possible"
-     * )
-     * 
+     * @ORM\Column(name = "nombre_annee_chez_cec", type = "string")
      * 
      */
     private $nombreAnneeChezCec;
@@ -417,15 +410,14 @@ class DossierInscription
      * @var array
      *
      * @ORM\Column(name = "projets_cec_interets", type = "array", length = 255)
-     *
      */
     private $projetsCecInterets;
 
     /**
      *
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name = "langue_vivante", type = "array", length = 255)
+     * @ORM\Column(name = "langue_vivante", type = "string", length = 255)
      *
      */
     private $langueVivante;
@@ -464,13 +456,19 @@ class DossierInscription
     private $voyagesRealises;
 
     /**
-     * Get id
-     *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
@@ -482,19 +480,43 @@ class DossierInscription
     }
 
     /**
+     * @param string $professionPere
+     */
+    public function setProfessionPere($professionPere)
+    {
+        $this->professionPere = $professionPere;
+    }
+
+    /**
      * @return string
      */
     public function getProfessionMere()
     {
         return $this->professionMere;
     }
-    
+
+    /**
+     * @param string $professionMere
+     */
+    public function setProfessionMere($professionMere)
+    {
+        $this->professionMere = $professionMere;
+    }
+
     /**
      * @return string
      */
     public function getTelephoneParent()
     {
         return $this->telephoneParent;
+    }
+
+    /**
+     * @param string $telephoneParent
+     */
+    public function setTelephoneParent($telephoneParent)
+    {
+        $this->telephoneParent = $telephoneParent;
     }
 
     /**
@@ -506,11 +528,27 @@ class DossierInscription
     }
 
     /**
+     * @param string $mailParent
+     */
+    public function setMailParent($mailParent)
+    {
+        $this->mailParent = $mailParent;
+    }
+
+    /**
      * @return string
      */
     public function getStatutParents()
     {
         return $this->statutParents;
+    }
+
+    /**
+     * @param string $statutParents
+     */
+    public function setStatutParents($statutParents)
+    {
+        $this->statutParents = $statutParents;
     }
 
     /**
@@ -522,6 +560,14 @@ class DossierInscription
     }
 
     /**
+     * @param int $nombrePersonnesACharge
+     */
+    public function setNombrePersonnesACharge($nombrePersonnesACharge)
+    {
+        $this->nombrePersonnesACharge = $nombrePersonnesACharge;
+    }
+
+    /**
      * @return int
      */
     public function getNombreEnfants()
@@ -530,11 +576,27 @@ class DossierInscription
     }
 
     /**
-     * @return mixed
+     * @param int $nombreEnfants
      */
-    public function getBoursier()
+    public function setNombreEnfants($nombreEnfants)
     {
-        return $this->boursier;
+        $this->nombreEnfants = $nombreEnfants;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnfants()
+    {
+        return $this->enfants;
+    }
+
+    /**
+     * @param string $enfants
+     */
+    public function setEnfants($enfants)
+    {
+        $this->enfants = $enfants;
     }
 
     /**
@@ -546,6 +608,14 @@ class DossierInscription
     }
 
     /**
+     * @param string $bourses
+     */
+    public function setBourses($bourses)
+    {
+        $this->bourses = $bourses;
+    }
+
+    /**
      * @return boolean
      */
     public function isRaisonInscriptionCecParticipeAuProgramme()
@@ -554,11 +624,27 @@ class DossierInscription
     }
 
     /**
-     * @return int
+     * @param boolean $raisonInscriptionCecParticipeAuProgramme
+     */
+    public function setRaisonInscriptionCecParticipeAuProgramme($raisonInscriptionCecParticipeAuProgramme)
+    {
+        $this->raisonInscriptionCecParticipeAuProgramme = $raisonInscriptionCecParticipeAuProgramme;
+    }
+
+    /**
+     * @return string
      */
     public function getNombreAnneeChezCec()
     {
         return $this->nombreAnneeChezCec;
+    }
+
+    /**
+     * @param string $nombreAnneeChezCec
+     */
+    public function setNombreAnneeChezCec($nombreAnneeChezCec)
+    {
+        $this->nombreAnneeChezCec = $nombreAnneeChezCec;
     }
 
     /**
@@ -570,11 +656,27 @@ class DossierInscription
     }
 
     /**
+     * @param boolean $raisonInscriptionCecEncourageParProche
+     */
+    public function setRaisonInscriptionCecEncourageParProche($raisonInscriptionCecEncourageParProche)
+    {
+        $this->raisonInscriptionCecEncourageParProche = $raisonInscriptionCecEncourageParProche;
+    }
+
+    /**
      * @return string
      */
     public function getProcheQuiAEncouragePourCec()
     {
         return $this->procheQuiAEncouragePourCec;
+    }
+
+    /**
+     * @param string $procheQuiAEncouragePourCec
+     */
+    public function setProcheQuiAEncouragePourCec($procheQuiAEncouragePourCec)
+    {
+        $this->procheQuiAEncouragePourCec = $procheQuiAEncouragePourCec;
     }
 
     /**
@@ -586,11 +688,27 @@ class DossierInscription
     }
 
     /**
+     * @param boolean $raisonInscriptionCecCuriosite
+     */
+    public function setRaisonInscriptionCecCuriosite($raisonInscriptionCecCuriosite)
+    {
+        $this->raisonInscriptionCecCuriosite = $raisonInscriptionCecCuriosite;
+    }
+
+    /**
      * @return boolean
      */
     public function isRaisonInscriptionCecProgrammeEducatif()
     {
         return $this->raisonInscriptionCecProgrammeEducatif;
+    }
+
+    /**
+     * @param boolean $raisonInscriptionCecProgrammeEducatif
+     */
+    public function setRaisonInscriptionCecProgrammeEducatif($raisonInscriptionCecProgrammeEducatif)
+    {
+        $this->raisonInscriptionCecProgrammeEducatif = $raisonInscriptionCecProgrammeEducatif;
     }
 
     /**
@@ -602,11 +720,27 @@ class DossierInscription
     }
 
     /**
+     * @param boolean $raisonInscriptionCecSortiesProjets
+     */
+    public function setRaisonInscriptionCecSortiesProjets($raisonInscriptionCecSortiesProjets)
+    {
+        $this->raisonInscriptionCecSortiesProjets = $raisonInscriptionCecSortiesProjets;
+    }
+
+    /**
      * @return boolean
      */
     public function isRaisonInscriptionCecLycee()
     {
         return $this->raisonInscriptionCecLycee;
+    }
+
+    /**
+     * @param boolean $raisonInscriptionCecLycee
+     */
+    public function setRaisonInscriptionCecLycee($raisonInscriptionCecLycee)
+    {
+        $this->raisonInscriptionCecLycee = $raisonInscriptionCecLycee;
     }
 
     /**
@@ -618,11 +752,27 @@ class DossierInscription
     }
 
     /**
+     * @param string $matieresPreferees
+     */
+    public function setMatieresPreferees($matieresPreferees)
+    {
+        $this->matieresPreferees = $matieresPreferees;
+    }
+
+    /**
      * @return string
      */
     public function getMatieresDetestees()
     {
         return $this->matieresDetestees;
+    }
+
+    /**
+     * @param string $matieresDetestees
+     */
+    public function setMatieresDetestees($matieresDetestees)
+    {
+        $this->matieresDetestees = $matieresDetestees;
     }
 
     /**
@@ -634,11 +784,27 @@ class DossierInscription
     }
 
     /**
+     * @param string $ideeOrientationPostBac
+     */
+    public function setIdeeOrientationPostBac($ideeOrientationPostBac)
+    {
+        $this->ideeOrientationPostBac = $ideeOrientationPostBac;
+    }
+
+    /**
      * @return string
      */
     public function getIdeeMetier()
     {
         return $this->ideeMetier;
+    }
+
+    /**
+     * @param string $ideeMetier
+     */
+    public function setIdeeMetier($ideeMetier)
+    {
+        $this->ideeMetier = $ideeMetier;
     }
 
     /**
@@ -650,11 +816,27 @@ class DossierInscription
     }
 
     /**
+     * @param int $aisanceOral
+     */
+    public function setAisanceOral($aisanceOral)
+    {
+        $this->aisanceOral = $aisanceOral;
+    }
+
+    /**
      * @return int
      */
     public function getAisanceSystemeScolaire()
     {
         return $this->aisanceSystemeScolaire;
+    }
+
+    /**
+     * @param int $aisanceSystemeScolaire
+     */
+    public function setAisanceSystemeScolaire($aisanceSystemeScolaire)
+    {
+        $this->aisanceSystemeScolaire = $aisanceSystemeScolaire;
     }
 
     /**
@@ -666,11 +848,27 @@ class DossierInscription
     }
 
     /**
+     * @param int $capaciteObtentionEtudesSouhaitees
+     */
+    public function setCapaciteObtentionEtudesSouhaitees($capaciteObtentionEtudesSouhaitees)
+    {
+        $this->capaciteObtentionEtudesSouhaitees = $capaciteObtentionEtudesSouhaitees;
+    }
+
+    /**
      * @return int
      */
     public function getInformationEnseignementSuperieur()
     {
         return $this->informationEnseignementSuperieur;
+    }
+
+    /**
+     * @param int $informationEnseignementSuperieur
+     */
+    public function setInformationEnseignementSuperieur($informationEnseignementSuperieur)
+    {
+        $this->informationEnseignementSuperieur = $informationEnseignementSuperieur;
     }
 
     /**
@@ -682,11 +880,27 @@ class DossierInscription
     }
 
     /**
+     * @param int $attachementActualites
+     */
+    public function setAttachementActualites($attachementActualites)
+    {
+        $this->attachementActualites = $attachementActualites;
+    }
+
+    /**
      * @return int
      */
     public function getInteretScience()
     {
         return $this->interetScience;
+    }
+
+    /**
+     * @param int $interetScience
+     */
+    public function setInteretScience($interetScience)
+    {
+        $this->interetScience = $interetScience;
     }
 
     /**
@@ -698,11 +912,27 @@ class DossierInscription
     }
 
     /**
+     * @param string $activitesExtrascolaires
+     */
+    public function setActivitesExtrascolaires($activitesExtrascolaires)
+    {
+        $this->activitesExtrascolaires = $activitesExtrascolaires;
+    }
+
+    /**
      * @return string
      */
     public function getPratiqueMusee()
     {
         return $this->pratiqueMusee;
+    }
+
+    /**
+     * @param string $pratiqueMusee
+     */
+    public function setPratiqueMusee($pratiqueMusee)
+    {
+        $this->pratiqueMusee = $pratiqueMusee;
     }
 
     /**
@@ -714,11 +944,27 @@ class DossierInscription
     }
 
     /**
+     * @param string $pratiqueTheatre
+     */
+    public function setPratiqueTheatre($pratiqueTheatre)
+    {
+        $this->pratiqueTheatre = $pratiqueTheatre;
+    }
+
+    /**
      * @return string
      */
     public function getPratiqueCinema()
     {
         return $this->pratiqueCinema;
+    }
+
+    /**
+     * @param string $pratiqueCinema
+     */
+    public function setPratiqueCinema($pratiqueCinema)
+    {
+        $this->pratiqueCinema = $pratiqueCinema;
     }
 
     /**
@@ -730,11 +976,27 @@ class DossierInscription
     }
 
     /**
+     * @param string $pratiqueJournalTelevise
+     */
+    public function setPratiqueJournalTelevise($pratiqueJournalTelevise)
+    {
+        $this->pratiqueJournalTelevise = $pratiqueJournalTelevise;
+    }
+
+    /**
      * @return string
      */
     public function getPratiqueJournaux()
     {
         return $this->pratiqueJournaux;
+    }
+
+    /**
+     * @param string $pratiqueJournaux
+     */
+    public function setPratiqueJournaux($pratiqueJournaux)
+    {
+        $this->pratiqueJournaux = $pratiqueJournaux;
     }
 
     /**
@@ -746,6 +1008,14 @@ class DossierInscription
     }
 
     /**
+     * @param string $pratiqueLecture
+     */
+    public function setPratiqueLecture($pratiqueLecture)
+    {
+        $this->pratiqueLecture = $pratiqueLecture;
+    }
+
+    /**
      * @return array
      */
     public function getProjetsCecInterets()
@@ -754,11 +1024,27 @@ class DossierInscription
     }
 
     /**
-     * @return array
+     * @param array $projetsCecInterets
+     */
+    public function setProjetsCecInterets($projetsCecInterets)
+    {
+        $this->projetsCecInterets = $projetsCecInterets;
+    }
+
+    /**
+     * @return string
      */
     public function getLangueVivante()
     {
         return $this->langueVivante;
+    }
+
+    /**
+     * @param string $langueVivante
+     */
+    public function setLangueVivante($langueVivante)
+    {
+        $this->langueVivante = $langueVivante;
     }
 
     /**
@@ -770,11 +1056,27 @@ class DossierInscription
     }
 
     /**
+     * @param string $correspondantEtranger
+     */
+    public function setCorrespondantEtranger($correspondantEtranger)
+    {
+        $this->correspondantEtranger = $correspondantEtranger;
+    }
+
+    /**
      * @return int
      */
     public function getInteretEuropen()
     {
         return $this->interetEuropen;
+    }
+
+    /**
+     * @param int $interetEuropen
+     */
+    public function setInteretEuropen($interetEuropen)
+    {
+        $this->interetEuropen = $interetEuropen;
     }
 
     /**
@@ -785,5 +1087,13 @@ class DossierInscription
         return $this->voyagesRealises;
     }
 
-    
+    /**
+     * @param string $voyagesRealises
+     */
+    public function setVoyagesRealises($voyagesRealises)
+    {
+        $this->voyagesRealises = $voyagesRealises;
+    }
+
+
 }

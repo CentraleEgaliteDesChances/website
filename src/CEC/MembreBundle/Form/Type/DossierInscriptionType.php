@@ -15,51 +15,96 @@ class DossierInscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('professionPere',null,array(
-                'required' =>false
+            ->add('professionPere','text',array(
+                'required' =>false,
+                'label' => 'Profession du père'
             ))
-            ->add('professionMere',null,array(
-                'required' =>false
+            ->add('professionMere','text',array(
+                'required' =>false,
+                'label' => 'Profession de la mère'
             ))
             ->add('telephoneParent',null,array(
-                'required' =>false
-            ))
-            ->add('mailParent')
-            ->add('statutParents')
-            ->add('nombrePersonnesACharge')
-            ->add('nombreEnfants')
-            ->add('enfant','collection', array(
                 'required' =>false,
-                'entry_type' => EnfantType::class,
-                'allow_add' => true,
+                'label' => 'Téléphone où joindre un des parents'
             ))
-            ->add('boursier')
+            ->add('mailParent', null, array(
+                'label' => 'Email où joindre un des parents'
+            ))
+            ->add('statutParents','choice', array(
+                'choices' => array(
+                    'Mariés' => 'Mariés',
+                    'Divorcés' => 'Divorcés',
+                    'Concubinage' => 'Concubinage',
+                    'Famille Monoparentale' => 'Famille Monoparentale'
+                ),
+                'label' => 'Statut des parents'
+            ))
+            ->add('nombrePersonnesACharge',null, array(
+                'label' => 'Nombre de personnes à charge'
+            ))
+            ->add('nombreEnfants',null,array(
+                'label' => 'Nombre d\'enfants'
+            ))
+            ->add('enfants','textarea', array(
+                'required' =>false,
+                'label' => 'Âge, niveau d\'études de chaque enfant'
+            ))
             ->add('bourses',null,array(
+                'required' =>false,
+                'label' => 'Es-tu titulaire d\'une bourse ? Si oui, lesquelles ?'
+            ))
+            ->add('raisonInscriptionCecParticipeAuProgramme','checkbox',array(
+                'label' => 'J\'ai déjà participé au programme',
                 'required' =>false
             ))
-            ->add('raisonInscriptionCecParticipeAuProgramme','checkbox')
-            ->add('nombreAnneeChezCec',null,array(
+            ->add('nombreAnneeChezCec','choice',array(
+                'required' =>false,
+                'label' => 'Si tu as déjà participé au programme, cette année sera ta...',
+                'choices' => array(
+                    '2ème année' => '2ème année',
+                    '3ème année' => '3ème année'
+                )
+            ))
+            ->add('raisonInscriptionCecEncourageParProche','checkbox',array(
+                'label' => 'J\'ai été encouragé par un proche',
                 'required' =>false
             ))
-            ->add('raisonInscriptionCecEncourageParProche','checkbox')
             ->add('procheQuiAEncouragePourCec',null,array(
+                'required' =>false,
+                'label' => 'Si tu as été encouragé par un proche, lequel ?'
+            ))
+            ->add('raisonInscriptionCecCuriosite','checkbox', array(
+                'label' => 'La curiosité',
                 'required' =>false
             ))
-            ->add('raisonInscriptionCecCuriosite','checkbox')
-            ->add('raisonInscriptionCecProgrammeEducatif','checkbox')
-            ->add('raisonInscriptionCecSortiesProjets','checkbox')
-            ->add('raisonInscriptionCecLycee','checkbox')
-            ->add('matieresPreferees',null,array(
+            ->add('raisonInscriptionCecProgrammeEducatif','checkbox', array(
+                'label' => 'Le programme éducatif',
                 'required' =>false
+            ))
+            ->add('raisonInscriptionCecSortiesProjets','checkbox',array(
+                'label' => 'Les sorties et les projets',
+                'required' =>false
+            ))
+            ->add('raisonInscriptionCecLycee','checkbox', array(
+                'label' => 'Mon lycée',
+                'required' =>false
+            ))
+            ->add('matieresPreferees',null,array(
+                'required' =>false,
+                'label' => 'Quelles sont tes matières préférées'
             ))
             ->add('matieresDetestees',null,array(
-                'required' =>false
+                'required' =>false,
+                'label' => 'Quelles sont les matières que tu apprécies le moins ?'
             ))
             ->add('ideeOrientationPostBac',null,array(
-                'required' =>false
+                'required' =>false,
+                'label' => false
+
             ))
             ->add('ideeMetier',null,array(
-                'required' =>false
+                'required' =>false,
+                'label' => false
             ))
             ->add('aisanceOral','choice',array(
                 'choices' => array(
@@ -70,7 +115,7 @@ class DossierInscriptionType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ),
-                'expanded' => true
+                'label' => false
             ))
             ->add('aisanceSystemeScolaire','choice',array(
                 'choices' => array(
@@ -81,7 +126,7 @@ class DossierInscriptionType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ),
-                'expanded' => true
+                'label' => false
             ))
             ->add('capaciteObtentionEtudesSouhaitees','choice',array(
                 'choices' => array(
@@ -92,7 +137,7 @@ class DossierInscriptionType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ),
-                'expanded' => true
+                'label' => false
             ))
             ->add('informationEnseignementSuperieur','choice',array(
                 'choices' => array(
@@ -103,7 +148,7 @@ class DossierInscriptionType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ),
-                'expanded' => true
+                'label' => false
             ))
             ->add('attachementActualites','choice',array(
                 'choices' => array(
@@ -114,7 +159,7 @@ class DossierInscriptionType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ),
-                'expanded' => true
+                'label' => false
             ))
             ->add('interetScience','choice',array(
                 'choices' => array(
@@ -125,17 +170,18 @@ class DossierInscriptionType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ),
-                'expanded' => true
+                'label' => false
             ))
-            ->add('activitesExtrascolaires')
+            ->add('activitesExtrascolaires',null, array(
+                'label' => 'Quels sont tes principaux loisirs et tes activités extra-scolaires ?'
+            ))
             ->add('pratiqueMusee','choice',array(
                 'choices' => array(
                     'Jamais' => 'Jamais',
                     'Moins d\'1 fois /  an' => 'Moins d\'1 fois /  an',
                     '1-2 fois / an' => '1-2 fois / an',
                     'Assez souvent' => 'Assez souvent'
-                ),
-                'expanded' => true
+                )
             ))
             ->add('pratiqueTheatre','choice',array(
                 'choices' => array(
@@ -143,8 +189,7 @@ class DossierInscriptionType extends AbstractType
                     'Moins d\'1 fois /  an' => 'Moins d\'1 fois /  an',
                     '1-2 fois / an' => '1-2 fois / an',
                     'Assez souvent' => 'Assez souvent'
-                ),
-                'expanded' => true
+                )
             ))
             ->add('pratiqueCinema','choice',array(
                 'choices' => array(
@@ -152,8 +197,7 @@ class DossierInscriptionType extends AbstractType
                     'Moins d\'1 fois /  an' => 'Moins d\'1 fois /  an',
                     '1-2 fois / an' => '1-2 fois / an',
                     'Assez souvent' => 'Assez souvent'
-                ),
-                'expanded' => true
+                )
             ))
             ->add('pratiqueJournalTelevise','choice',array(
                 'choices' => array(
@@ -161,8 +205,7 @@ class DossierInscriptionType extends AbstractType
                     'Moins d\'1 fois /  semaine' => 'Moins d\'1 fois /  semaine',
                     '1-2 fois / semaine' => '1-2 fois / semaine',
                     'Tous les jours' => 'Tous les jours'
-                ),
-                'expanded' => true
+                )
             ))
             ->add('pratiqueJournaux','choice',array(
                 'choices' => array(
@@ -170,8 +213,7 @@ class DossierInscriptionType extends AbstractType
                     'Moins d\'1 fois /  semaine' => 'Moins d\'1 fois /  semaine',
                     '1-2 fois / semaine' => '1-2 fois / semaine',
                     'Tous les jours' => 'Tous les jours'
-                ),
-                'expanded' => true
+                )
             ))
             ->add('pratiqueLecture','choice',array(
                 'choices' => array(
@@ -179,8 +221,7 @@ class DossierInscriptionType extends AbstractType
                     'De temps en temps' => 'De temps en temps',
                     'Souvent' => 'Souvent',
                     'Tous les jours' => 'Tous les jours'
-                ),
-                'expanded' => true
+                )
             ))
             ->add('projetsCecInterets','choice',array(
                 'choices' => array(
@@ -191,18 +232,17 @@ class DossierInscriptionType extends AbstractType
                     'Centrale Prépa' => 'Centrale Prépa'
                 ),
                 'expanded' => true,
-                'multiple' => true
+                'multiple' => true,
+                'label' => 'Quels projets de CEC t\'intéressent le plus ? (2 choix)'
             ))
-            ->add('langueVivante', 'collection', array(
-                'entry_type' => \Symfony\Component\Form\Extension\Core\Type\TextType::class,
-                'allow_add' => true,
-                'allow_delete' => true
+            ->add('langueVivante',null, array(
+               'label' => 'Quelles sont tes langues vivantes au lycée ?'
             ))
             ->add('correspondantEtranger','textarea',array(
-                'required' =>false
+                'required' =>false,
+                'label' => 'As tu déjà eu un correspondant étranger ?'
             ))
             ->add('interetEuropen','choice',array(
-                'required' =>false,
                 'choices' => array(
                     '0' => 0,
                     '1' => 1,
@@ -216,10 +256,11 @@ class DossierInscriptionType extends AbstractType
                     '9' => 9,
                     '10' => 10,
                 ),
-                'expanded' => true
+                'label' => 'À travers son programme Europen, CEC essaie de trouver des lycéens étrangers souhaitant correspondre avec des lycéens comme toi... serais-tu intéressé(e) pour échanger par mail avec un lycéen européen ?'
             ))
             ->add('voyagesRealises','textarea',array(
-                'required' =>false
+                'required' =>false,
+                'label' => 'As-tu déjà visité d\'autres payrs ? combien ? lesquels ? dans quels cadres ? (familles colonies, école, stages linguistiques...) ? avec quelle régularité voyages-tu ?'
             ))
         ;
     }

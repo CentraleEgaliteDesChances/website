@@ -143,8 +143,8 @@ class ReglagesEleveController extends Controller
      */
     public function dossierInscriptionAction()
     {  // On récupère l'utilisateur actuel
-        $eleve = $this->getUser();
-        $dossierInscription = $eleve->getDossierInscription();
+        $lyceen = $this->getUser();
+        $dossierInscription = $lyceen->getDossierInscription();
         $form = $this->createForm(new DossierInscriptionType(),$dossierInscription);
         $request = $this->getRequest();
         if ($request->isMethod("POST"))
@@ -160,7 +160,7 @@ class ReglagesEleveController extends Controller
 
         return array(
             'form' => $form->createView(),
-            'eleve'=> $eleve
+            'lyceen'=> $lyceen
         );
     }
 }

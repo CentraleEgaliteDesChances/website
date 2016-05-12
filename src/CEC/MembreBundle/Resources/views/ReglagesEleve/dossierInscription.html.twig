@@ -1,17 +1,99 @@
-{% extends 'CECMembreBundle:Reglages:base.html.twig' %}
+{% extends 'CECMembreBundle:ReglagesEleve:base.html.twig' %}
 
 {% block right %}
     {{ parent() }}
+    <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+        <div class="section">
+            <div class="section-title text-center"><h2>Informations relatives à la situation familiale</h2></div>
+            {{ form_row(form.professionPere) }}
+            {{ form_row(form.professionMere) }}
+            {{ form_row(form.telephoneParent) }}
+            {{ form_row(form.mailParent) }}
+            {{ form_row(form.statutParents) }}
+            {{ form_row(form.nombrePersonnesACharge) }}
+            {{ form_row(form.nombreEnfants) }}
+            {{ form_row(form.enfants) }}
+            {{ form_row(form.bourses) }}
+            <span id="helpBlock" class="help-block">Laisse ce champ vide si tu ne bénéficies pas de bourse.</span>
+        </div>
 
-    <div class="section">
-        <div class="section-title text-center"><h2>Informations personnelles</h2></div>
-        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
-            {{ form_widget(form) }}
-            <div class="form-actions">
-                <input type="submit" value="Enregistrer" class="btn btn-primary" />
-            </div>
-        </form>
         <br/>
-    </div>
+        <div class="section">
+            <div class="section-title text-center"><h2>Questionnaire personnel</h2></div>
+            <p class="lead">Inscription</p>
+            <p><b>Qu'est ce qui t'as poussé à t'inscrire à CEC ?</b></p>
+            {{ form_row(form.raisonInscriptionCecParticipeAuProgramme) }}
+            {{ form_row(form.raisonInscriptionCecEncourageParProche) }}
+            {{ form_row(form.raisonInscriptionCecCuriosite) }}
+            {{ form_row(form.raisonInscriptionCecProgrammeEducatif) }}
+            {{ form_row(form.raisonInscriptionCecSortiesProjets) }}
+            {{ form_row(form.raisonInscriptionCecLycee) }}
 
+            {{ form_row(form.nombreAnneeChezCec) }}
+            {{ form_row(form.procheQuiAEncouragePourCec) }}
+            <p class = "lead">Études et orientation</p>
+            {{ form_row(form.matieresPreferees) }}
+            {{ form_row(form.matieresDetestees) }}
+            <p><b>As-tu une idée de ton orientation après le bac ? de tes études ?</b> (Plusieurs idées, même vagues ou farfelues)</p>
+            {{ form_row(form.ideeOrientationPostBac) }}
+            <p><b>As-tu une idée du métier dans lequel tu voudrais travailler ? du secteur ?</b> (ce sont tes choix, ne te retiens pas !)
+            {{ form_row(form.ideeMetier) }}
+
+
+            <p class = "lead">Jugements, connaissances et activités</p>
+            <p><b>Personnellement, comment te juges-tu ?</b></p>
+            <p>Te sens-tu à l'aise à l'oral ?</p>
+            {{ form_widget(form.aisanceOral) }}
+            <span id="helpBlock" class="help-block">0 : mal à l'aise, 5 : à l'aise</span>
+            <p style="margin-top: 10px">Te sens-tu à l'aise dans le système scolaire ?</p>
+            {{ form_widget(form.aisanceSystemeScolaire) }}
+            <span id="helpBlock" class="help-block"> 0 : mal à l'aise, 5 : à l'aise</span>
+            <p style="margin-top: 10px">Te sens-tu confiant(e) sur ta capacié à obtenir les études que tu souhaites ?</p>
+            {{ form_widget(form.capaciteObtentionEtudesSouhaitees) }}
+            <span id="helpBlock" class="help-block">0 : peu confiant(e), 5 : confiant(e)</span>
+            <p style="margin-top: 10px">Te sens-tu informé(e) sur l'enseignement supérieur (postbac) ?</p>
+            {{ form_widget(form.informationEnseignementSuperieur) }}
+            <span id="helpBlock" class="help-block">0 : peu informé(e), 5 : bien informé(e)</span>
+            <p style="margin-top: 10px">Te sens-tu intéressé(e) par l'actualité ?</p>
+            {{ form_widget(form.attachementActualites) }}
+            <span id="helpBlock" class="help-block">0 : détaché(e) de l'actualité, 5 : intéressé(e) par l'actualité</span>
+            <p style="margin-top: 10px">Te sens-tu intéressé(e) par les sciences ?</p>
+            {{ form_widget(form.interetScience) }}
+            <span id="helpBlock" class="help-block">0 : désintéressé(e) 5 : intéressé(e)</span>
+            <br/>
+            {{ form_row(form.activitesExtrascolaires) }}
+
+            <p><b>Quelle est ta pratique des activités suivantes ?</b></p>
+            <p>Aller au musée :</p>
+            {{ form_widget(form.pratiqueMusee) }}
+            <p style="margin-top: 10px">Aller au théâtre :</p>
+            {{ form_widget(form.pratiqueTheatre) }}
+            <p style="margin-top: 10px">Aller au cinéma :</p>
+            {{ form_widget(form.pratiqueCinema) }}
+            <p style="margin-top: 10px">Regarder le journal télévisé :</p>
+            {{ form_widget(form.pratiqueJournalTelevise) }}
+            <p style="margin-top: 10px">Lire les journaux :</p>
+            {{ form_widget(form.pratiqueJournaux) }}
+            <p style="margin-top: 10px">Lire :</p>
+            {{ form_widget(form.pratiqueLecture) }}
+            <br/>
+
+            <p class = "lead">Projets</p>
+            {{ form_row(form.projetsCecInterets) }}
+            <p class = "lead">Langues, voyages et échanges</p>
+            {{ form_label(form.langueVivante) }}
+            {{ form_widget(form.langueVivante) }}
+            <span id="helpBlock" class="help-block"> LV1, LV2, éventuellement LV3</span>
+            {{ form_label(form.correspondantEtranger) }}
+            {{ form_widget(form.correspondantEtranger) }}
+            <span id="helpBlock" class="help-block">Si oui, de quelle nationalité, à quel âge et pendant combien de temps ?</span>
+            {{ form_label(form.interetEuropen) }}
+            {{ form_widget(form.interetEuropen) }}
+            <span id="helpBlock" class="help-block">0 : Pas du tout, 10 : Carrément !</span>
+            {{ form_row(form.voyagesRealises) }}
+        </div>
+        <div class="form-actions">
+            <input type="submit" value="Enregistrer" class="btn btn-primary" />
+        </div>
+    </form>
 {% endblock %}
