@@ -71,8 +71,13 @@ gestion_eleve:
     path: /gestionEleves/{eleveid}
     defaults: {_controller: CECMembreBundle:Membres:gestionEleve}
     requirements:
-        membre: \d+
+        eleveid: \d+
+
+excel_eleves:
+    path: /gestionEleves/excel-eleves
+    defaults: {_controller: CECMembreBundle:Membres:excelEleves}
 
 gestion_eleves_test:
     path: /gestionElevesTest
     defaults: {_controller: CECMembreBundle:Membres:gestionElevesTest}
+

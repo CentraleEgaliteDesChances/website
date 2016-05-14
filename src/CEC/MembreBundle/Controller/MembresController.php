@@ -24,6 +24,7 @@ use CEC\TutoratBundle\Entity\GroupeEleves;
 use CEC\TutoratBundle\Entity\GroupeTuteurs;
 
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class MembresController extends Controller
@@ -224,6 +225,66 @@ class MembresController extends Controller
             'form' => $form->createView(),
         );
     }
+    /**
+     * Permet de générer un excel comportant la liste des élèves ainsi que toutes les informations qui les concernent
+     *
+     * @return StreamedResponse
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function excelElevesAction()
+    {
+        $response = new StreamedResponse(function() {
+            $handle = fopen('php://output', 'r+');
+            //Ajout de l'entete
+            $tab = array(
+                'Id',
+                'Nom',
+                'Prenom',
+                'Email',
+                'Lycee',
+                'Classe',
+                'Adresse',
+                'Ville',
+                'Code Postal',
+                'Telephone',
+                'Date de naissance',
+                'Charte Eleve',
+                'Autorisation Parentale',
+                'Droit image',
+                'Inscrit sur le site',
+            );
+            fputcsv($handle, $tab,';');
+            //Recherche dans la base de donnée
+            $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAll();
+            foreach ($eleves as $eleve) {
+                $tab = array(
+                    $eleve->getId(),
+                    $eleve->getNom(),
+                    $eleve->getPrenom(),
+                    $eleve->getMail(),
+                    $eleve->getLycee(),
+                    $eleve->getNiveau(),
+                    $eleve->getAdresse(),
+                    $eleve->getVille(),
+                    $eleve->getCodePostal(),
+                    $eleve->getTelephone(),
+                    $eleve->getDatenaiss()->format('d/m/Y'),
+                    $eleve->isCharteEleveRendue()?'Oui':'Non',
+                    $eleve->isAutorisationParentaleRendue()?'Oui':'Non',
+                    $eleve->isDroitImageRendue()?'Oui':'Non',
+                    'Oui',
+                );
+                fputcsv($handle, $tab,';');
+            }
+            fclose($handle);
+
+        });
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+        //$response->headers->set('Content-Disposition','attachment; filename="excel_eleves.csv"');
+        
+        return $response;
+    }
+
 
 
 
@@ -306,7 +367,7 @@ class MembresController extends Controller
 
     /**
      * Auteur : Jimmy EUng
-     * 
+     *
      * Permet de gérer l'ensemble des lycéens.
      * Cette page n'est accessible qu'aux membres du buro
      * La page affiche tous les lycéens inscrits sur le site et donne la possibilité de :
@@ -314,7 +375,7 @@ class MembresController extends Controller
      * - récuperer un excel de tous les lycéens
      * - dire si un élève a bien rendu ses documents
      *
-     * 
+     *
      * @return array
      * @Template()
      * @Secure(roles = "ROLE_BURO")
@@ -349,10 +410,10 @@ class MembresController extends Controller
                 $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAllOrderById();
 
         }
-        
+
         //Ici, on traite les données soumises par le formulaire, par contre, ce n'est pas un formulaire  crée à partir de Symfony
         //c'est un formulaire HTML d'où la nécessité de traiter les données avec la variable $_POST
-        
+
         $request = $this->getRequest();
         if ($request->isMethod("POST")) {
             $compteur = 0;
@@ -459,6 +520,8 @@ class MembresController extends Controller
         );
 
     }
+
+
 
 
 }
