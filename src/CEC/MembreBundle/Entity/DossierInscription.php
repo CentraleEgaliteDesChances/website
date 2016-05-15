@@ -29,7 +29,7 @@ class DossierInscription
      * @ORM\Column(name = "profession_pere", type = "text")
      *
      */
-    private $professionPere;
+    private $professionPere ="";
 
     /**
      *
@@ -38,7 +38,7 @@ class DossierInscription
      * @ORM\Column(name = "profession_mere", type = "text")
      *
      */
-    private $professionMere;
+    private $professionMere="";
 
 
 
@@ -55,7 +55,7 @@ class DossierInscription
      *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
      * )
      */
-    private $telephoneParent;
+    private $telephoneParent ="";
 
     /**
      * @var string
@@ -71,7 +71,7 @@ class DossierInscription
      *     maxMessage = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
-    private $mailParent;
+    private $mailParent="";
 
     /**
 
@@ -86,7 +86,7 @@ class DossierInscription
      *     message="Merci de spécifier votre niveau de scolarité "
      *     )
      */
-    private $statutParents;
+    private $statutParents = "Mariés";
 
     /**
 
@@ -102,7 +102,7 @@ class DossierInscription
      *     maxMessage = "Le nombre de personne à charge doit être inférieure à 9999."
      * )
      */
-    private $nombrePersonnesACharge;
+    private $nombrePersonnesACharge = 0;
 
     /**
 
@@ -118,14 +118,14 @@ class DossierInscription
      *     maxMessage = "Le nombre d'enfants doit être inférieure à 9999."
      * )
      */
-    private $nombreEnfants;
+    private $nombreEnfants = 0;
 
     /**
      * @var string
      * 
      * @ORM\Column(name = "enfants", type = "text")
      */
-    private $enfants;
+    private $enfants="";
 
 
     /**
@@ -135,7 +135,7 @@ class DossierInscription
      * @ORM\Column(name = "bourses", type = "string", length = 255)
      *
      */
-    private $bourses;
+    private $bourses="";
 
     /**
 
@@ -155,7 +155,7 @@ class DossierInscription
      * @ORM\Column(name = "nombre_annee_chez_cec", type = "string")
      * 
      */
-    private $nombreAnneeChezCec;
+    private $nombreAnneeChezCec ="";
 
     /**
      *
@@ -173,7 +173,7 @@ class DossierInscription
      * @ORM\Column(name = "proche_qui_a_encourage_pour_cec", type = "string", length = 255)
      *
      */
-    private $procheQuiAEncouragePourCec;
+    private $procheQuiAEncouragePourCec="";
 
     /**
      *
@@ -218,7 +218,7 @@ class DossierInscription
      * @ORM\Column(name = "matieres_preferees", type = "string", length = 255)
      *
      */
-    private $matieresPreferees;
+    private $matieresPreferees="";
 
     /**
      *
@@ -227,7 +227,7 @@ class DossierInscription
      * @ORM\Column(name = "matieres_detestees", type = "string", length = 255)
      *
      */
-    private $matieresDetestees;
+    private $matieresDetestees="";
 
     /**
      *
@@ -236,7 +236,7 @@ class DossierInscription
      * @ORM\Column(name = "idee_orientation_post_bac", type = "string", length = 255)
      *
      */
-    private $ideeOrientationPostBac;
+    private $ideeOrientationPostBac="";
 
     /**
      *
@@ -245,7 +245,7 @@ class DossierInscription
      * @ORM\Column(name = "idee_metier", type = "string", length = 255)
      *
      */
-    private $ideeMetier;
+    private $ideeMetier="";
 
     /**
      *
@@ -261,7 +261,7 @@ class DossierInscription
      *
      *
      */
-    private $aisanceOral;
+    private $aisanceOral = 0;
 
     /**
      *
@@ -277,7 +277,7 @@ class DossierInscription
      *
      *
      */
-    private $aisanceSystemeScolaire;
+    private $aisanceSystemeScolaire = 0;
 
     /**
      *
@@ -292,7 +292,7 @@ class DossierInscription
      * )
      *
      */
-    private $capaciteObtentionEtudesSouhaitees;
+    private $capaciteObtentionEtudesSouhaitees = 0;
 
     /**
      *
@@ -308,7 +308,7 @@ class DossierInscription
      *
      *
      */
-    private $informationEnseignementSuperieur;
+    private $informationEnseignementSuperieur = 0;
 
     /**
      *
@@ -324,7 +324,7 @@ class DossierInscription
      *
      *
      */
-    private $attachementActualites;
+    private $attachementActualites = 0;
 
     /**
      *
@@ -340,7 +340,7 @@ class DossierInscription
      *
      *
      */
-    private $interetScience;
+    private $interetScience = 0;
 
     /**
      *
@@ -349,7 +349,7 @@ class DossierInscription
      * @ORM\Column(name = "activites_extrascolaires", type = "string", length = 255)
      *
      */
-    private $activitesExtrascolaires;
+    private $activitesExtrascolaires ="";
 
     /**
      *
@@ -358,7 +358,7 @@ class DossierInscription
      * @ORM\Column(name = "pratique_musee", type = "string", length = 255)
      *
      */
-    private $pratiqueMusee;
+    private $pratiqueMusee="";
 
     /**
      *
@@ -367,7 +367,7 @@ class DossierInscription
      * @ORM\Column(name = "pratique_theatre", type = "string", length = 255)
      *
      */
-    private $pratiqueTheatre;
+    private $pratiqueTheatre="";
 
     /**
      *
@@ -376,7 +376,7 @@ class DossierInscription
      * @ORM\Column(name = "pratique_cinema", type = "string", length = 255)
      *
      */
-    private $pratiqueCinema;
+    private $pratiqueCinema="";
 
     /**
      *
@@ -385,7 +385,7 @@ class DossierInscription
      * @ORM\Column(name = "pratique_journal_televise", type = "string", length = 255)
      *
      */
-    private $pratiqueJournalTelevise;
+    private $pratiqueJournalTelevise="";
 
     /**
      *
@@ -394,7 +394,7 @@ class DossierInscription
      * @ORM\Column(name = "pratique_journaux", type = "string", length = 255)
      *
      */
-    private $pratiqueJournaux;
+    private $pratiqueJournaux="";
 
     /**
      *
@@ -403,7 +403,7 @@ class DossierInscription
      * @ORM\Column(name = "pratique_lecture", type = "string", length = 255)
      *
      */
-    private $pratiqueLecture;
+    private $pratiqueLecture="";
 
     /**
      *
@@ -411,7 +411,7 @@ class DossierInscription
      *
      * @ORM\Column(name = "projets_cec_interets", type = "array", length = 255)
      */
-    private $projetsCecInterets;
+    private $projetsCecInterets = [];
 
     /**
      *
@@ -420,7 +420,7 @@ class DossierInscription
      * @ORM\Column(name = "langue_vivante", type = "string", length = 255)
      *
      */
-    private $langueVivante;
+    private $langueVivante="";
 
     /**
      *
@@ -429,7 +429,7 @@ class DossierInscription
      * @ORM\Column(name = "correspondant_etranger", type = "text")
      *
      */
-    private $correspondantEtranger;
+    private $correspondantEtranger="";
 
     /**
      *
@@ -444,7 +444,7 @@ class DossierInscription
      * )
      *
      */
-    private $interetEuropen;
+    private $interetEuropen = 0;
 
     /**
      *
@@ -453,7 +453,7 @@ class DossierInscription
      * @ORM\Column(name = "voyages_realises", type = "text")
      *
      */
-    private $voyagesRealises;
+    private $voyagesRealises="";
 
     /**
      * @return int

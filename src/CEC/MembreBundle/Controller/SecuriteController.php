@@ -2,7 +2,10 @@
 
 namespace CEC\MembreBundle\Controller;
 
+use CEC\MembreBundle\Entity\DossierInscription;
+use CEC\MembreBundle\Form\Type\DossierInscriptionType;
 use CEC\MembreBundle\Form\Type\EleveType;
+use CEC\SecteurProjetsBundle\Entity\Dossier;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -195,50 +198,49 @@ class SecuriteController extends Controller
 		//Creation of form to register a new high-school student
 
 		$eleve = new Eleve();
-
-		$form = $this->get('form.factory')->create(EleveType::class,$eleve);
-
+		$dossier = new DossierInscription();
+		$formProfil = $this->get('form.factory')->create(EleveType::class,$eleve);
 		$request= $this->getRequest();
 
 		if ($request->isMethod("POST"))
 		{
-			$form->handleRequest($request);
-
-			if ($form->isValid())
+			$formProfil->handleRequest($request);
+			if ($formProfil->isValid())
 			{
 				//Enregistrement en BDD
 					//Génère l'username de l'élève
-				$nom = $form->get('nom')->getData();
-				$prenom= $form->get('prenom')->getData();
+				$nom = $formProfil->get('nom')->getData();
+				$prenom= $formProfil->get('prenom')->getData();
 				$membresExistant = $this
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Eleve')
 					->findByUsername($nom,$prenom);
 				if (count($membresExistant) > 0)
 				{
-					$eleve->setUsername($prenom. ' ' . $nom.(count($membresExistant)+1));
+					$eleve->setUsername($prenom.$nom.(count($membresExistant)+1));
 				}
 				else
 				{
-					$eleve->setUsername($prenom . ' ' .$nom);
+					$eleve->setUsername($prenom .$nom);
 				}
 
 					// Enregistre dans la BDD
 				$encoder = $this->container->get('security.encoder_factory')->getEncoder($eleve);
 				$motDePasse = $eleve->getMotDePasse();
 				$eleve->setMotDePasse($encoder->encodePassword($motDePasse, $eleve->getSalt()));
+				$eleve->setDossierInscription($dossier);
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($eleve);
 				$em->flush();
 
-				$request->getSession()->getFlashBag()->add('notice', 'Inscription bien effectuée.');
+				$this->get('session')->getFlashBag()->add('success', 'Inscription bien effectuée.');
 				$this->get('cec.mailer')->sendInscriptionEleve($eleve,$motDePasse,$_SERVER['HTTP_HOST']);
 				return $this->redirect($this->generateUrl('connexion'));
 			}
 		}
 
 		return $this->render('CECMembreBundle:Inscription:eleve.html.twig', array(
-			'form' => $form->createView(),
+			'formProfil' => $formProfil->createView()
 		));
 	}
 }

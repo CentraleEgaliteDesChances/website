@@ -173,7 +173,8 @@ class DossierInscriptionType extends AbstractType
                 'label' => false
             ))
             ->add('activitesExtrascolaires',null, array(
-                'label' => 'Quels sont tes principaux loisirs et tes activités extra-scolaires ?'
+                'label' => 'Quels sont tes principaux loisirs et tes activités extra-scolaires ?',
+                'required' => false
             ))
             ->add('pratiqueMusee','choice',array(
                 'choices' => array(
@@ -236,7 +237,8 @@ class DossierInscriptionType extends AbstractType
                 'label' => 'Quels projets de CEC t\'intéressent le plus ? (2 choix)'
             ))
             ->add('langueVivante',null, array(
-               'label' => 'Quelles sont tes langues vivantes au lycée ?'
+               'label' => 'Quelles sont tes langues vivantes au lycée ?',
+                'required' => false
             ))
             ->add('correspondantEtranger','textarea',array(
                 'required' =>false,
@@ -260,7 +262,7 @@ class DossierInscriptionType extends AbstractType
             ))
             ->add('voyagesRealises','textarea',array(
                 'required' =>false,
-                'label' => 'As-tu déjà visité d\'autres payrs ? combien ? lesquels ? dans quels cadres ? (familles colonies, école, stages linguistiques...) ? avec quelle régularité voyages-tu ?'
+                'label' => 'As-tu déjà visité d\'autres pays ? combien ? lesquels ? dans quels cadres ? (familles colonies, école, stages linguistiques...) ? avec quelle régularité voyages-tu ?'
             ))
         ;
     }

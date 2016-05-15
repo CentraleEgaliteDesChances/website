@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\List_;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
@@ -204,11 +205,11 @@ class MembresController extends Controller
                     ->findByUsername($nom,$prenom);
                 if (count($membresExistant) > 0)
                 {
-                    $membre->setUsername($prenom. ' ' . $nom.(count($membresExistant)+1));
+                    $membre->setUsername($prenom.$nom.(count($membresExistant)+1));
                 }
                 else
                 {
-                    $membre->setUsername($prenom . ' ' .$nom);
+                    $membre->setUsername($prenom .$nom);
                 }
                 $entityManager = $this->getDoctrine()->getEntityManager();
                 $entityManager->persist($membre);
@@ -294,8 +295,7 @@ class MembresController extends Controller
      * Supprimer un membre de manière définitive.
      *
      * @param integer $membre Id du membre à supprimer.
-     *
-     * @Template()
+     * @return RedirectResponse
      * @Secure(roles = "ROLE_BURO")
      */
     public function supprimerAction($membre)
@@ -349,9 +349,9 @@ class MembresController extends Controller
     /**
      * Retire les privilèges du buro à un membre.
      *
-     * @param CEC\Membre\MBundle\Entity\Membre $membre Membre à retirer du buro
+     * @param Membre $membre Membre à retirer du buro
      *
-     * @Template()
+     * @return RedirectResponse
      *
      */
     public function supprimerMembreBuroAction(Membre $membre) {

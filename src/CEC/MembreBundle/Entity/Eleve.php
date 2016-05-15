@@ -132,39 +132,7 @@ class Eleve implements UserInterface, \Serializable
      * @ORM\Column(name="ville", type="string")
      */
     private $ville;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nomPere", type="string", nullable=true)
-     */
-    private $nomPere;
-
-    /**
-     * Numéro de téléphone du membre.
-     * Ce champ n'est pas requis mais permet de pouvoir contacter par téléphone
-     * (fixe ou portable) un tuteur en cas de besoin. La syntaxe du numéro est vérifiée.
-     *
-     * @var string
-     *
-     * @ORM\Column(name = "telephoneParent", type = "string", length = 15, nullable = true)
-     * @Assert\Regex(
-     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
-     *     message = "Le numéro de téléphone n'est pas valide."
-     * )
-     * @Assert\Length(
-     *     max = 15,
-     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
-     * )
-     */
-    private $telephoneParent;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nomMere", type="string", nullable=true)
-     */
-    private $nomMere;
+    
 
     /**
      * @var \DateTime
@@ -360,6 +328,7 @@ class Eleve implements UserInterface, \Serializable
         $this->charteEleveRendue = false;
         $this->autorisationParentaleRendue = false;
         $this->droitImageRendue = false;
+        $this->dossierInscription = null;
     }
 
 
@@ -939,75 +908,7 @@ class Eleve implements UserInterface, \Serializable
     {
         return $this->seances->toArray();
     }
-
-    /**
-     * Set nomPere
-     *
-     * @param string $nomPere
-     * @return Eleve
-     */
-    public function setNomPere($nomPere)
-    {
-        $this->nomPere = $nomPere;
-
-        return $this;
-    }
-
-    /**
-     * Get nomPere
-     *
-     * @return string
-     */
-    public function getNomPere()
-    {
-        return $this->nomPere;
-    }
-
-    /**
-     * Set nomMere
-     *
-     * @param string $nomMere
-     * @return Eleve
-     */
-    public function setNomMere($nomMere)
-    {
-        $this->nomMere = $nomMere;
-
-        return $this;
-    }
-
-    /**
-     * Get nomMere
-     *
-     * @return string
-     */
-    public function getNomMere()
-    {
-        return $this->nomMere;
-    }
-
-    /**
-     * Set telephoneParent
-     *
-     * @param string $telephoneParent
-     * @return Eleve
-     */
-    public function setTelephoneParent($telephoneParent)
-    {
-        $this->telephoneParent = $telephoneParent;
-
-        return $this;
-    }
-
-    /**
-     * Get telephoneParent
-     *
-     * @return string
-     */
-    public function getTelephoneParent()
-    {
-        return $this->telephoneParent;
-    }
+    
 
     /**
      * Set lycee

@@ -31,12 +31,6 @@ class EleveType extends AbstractType
             ))
             ->add('telephone', null, array('label' => 'Numéro de téléphone personnel', 'required' => false
             ))
-            ->add('telephoneParent', null, array('label'=>'Numéro de téléphone du(des) parent(s)'
-            ))
-            ->add('nomPere', null, array('label' => 'Nom du père (optionnel)', 'required' => false, 'attr' => array('placeholder' => 'Prénom Nom')
-            ))
-            ->add('nomMere', null, array('label' => 'Nom de la mère (optionnel)', 'required' => false, 'attr' => array('placeholder' => 'Prénom Nom')
-            ))
             ->add('adresse', null, array('label' => 'Adresse du domicile'
             ))
             ->add('codePostal', null, array('label' => 'Code Postal'
