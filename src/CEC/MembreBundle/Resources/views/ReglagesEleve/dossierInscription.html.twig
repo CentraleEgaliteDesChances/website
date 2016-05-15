@@ -13,6 +13,7 @@
             {{ form_row(form.nombrePersonnesACharge) }}
             {{ form_row(form.nombreEnfants) }}
             {{ form_row(form.enfants) }}
+            <span id="helpBlock" class="help-block">Ex : Matthieu, 15 ans, 3ème au collège Léonard de Vinci </span>
             {{ form_row(form.bourses) }}
             <span id="helpBlock" class="help-block">Laisse ce champ vide si tu ne bénéficies pas de bourse.</span>
         </div>
@@ -21,6 +22,7 @@
         <div class="section">
             <div class="section-title text-center"><h2>Questionnaire personnel</h2></div>
             <p class="lead">Inscription</p>
+            {{ form_row(form.nombreAnneeChezCec) }}
             <p><b>Qu'est ce qui t'as poussé à t'inscrire à CEC ?</b></p>
             {{ form_row(form.raisonInscriptionCecParticipeAuProgramme) }}
             {{ form_row(form.raisonInscriptionCecEncourageParProche) }}
@@ -28,9 +30,8 @@
             {{ form_row(form.raisonInscriptionCecProgrammeEducatif) }}
             {{ form_row(form.raisonInscriptionCecSortiesProjets) }}
             {{ form_row(form.raisonInscriptionCecLycee) }}
-
-            {{ form_row(form.nombreAnneeChezCec) }}
             {{ form_row(form.procheQuiAEncouragePourCec) }}
+
             <p class = "lead">Études et orientation</p>
             {{ form_row(form.matieresPreferees) }}
             {{ form_row(form.matieresDetestees) }}

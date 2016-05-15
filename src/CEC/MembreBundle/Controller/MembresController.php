@@ -2,6 +2,7 @@
 
 namespace CEC\MembreBundle\Controller;
 
+use CEC\MembreBundle\Entity\DossierInscription;
 use CEC\MembreBundle\Entity\Eleve;
 use CEC\MembreBundle\Entity\EleveCollection;
 use CEC\MembreBundle\Form\Type\EleveGestionType;
@@ -253,11 +254,62 @@ class MembresController extends Controller
                 'Autorisation Parentale',
                 'Droit image',
                 'Inscrit sur le site',
+                'Profession Père',
+                'Profession Mère',
+                'Telephone Parent',
+                'Email Parent',
+                'Statut des parents',
+                'Nombre personnes à charge',
+                'Nombre d\'enfants',
+                'Caractéristiques enfants',
+                'Bourses',
+                'Nombre d\'année à CEC',
+                'Raison 1 : J\ai déjà participé au programme',
+                'Raison 2 : J\'ai été encouragé par un proche',
+                'Raison 3 : Par curiosité',
+                'Raison 4 : Pour le programme éducatif',
+                'Raison 5 : Pour les projets et sorties',
+                'Raison 6 : Mon lycée',
+                'Proche qui a encouragé',
+                'Matières préférées',
+                'Matières moins appréciées',
+                'Idée orientation post_bac',
+                'Idée métier après études',
+                'Aisance à l\'oral',
+                'Aisance dans le système scolaire',
+                'Capacité à obtenir les études souhaitées',
+                'Information sur l\'enseignement post-bac',
+                'Attachement à l\'actualité',
+                'Intérêt sciences',
+                'Loisirs et activités extrascolaires',
+                'Pratique : aller au musée',
+                'Pratique : aller au théâtre',
+                'Pratique : aller au cinéma',
+                'Pratique : regarder le journal télévisé',
+                'Pratique : lire les journaux',
+                'Pratique : Lire',
+                'Projets qui l\'intéresse',
+                'Langues vivantes',
+                'Correspondant étranger',
+                'Interêt Europen',
+                'Voyages à l\'étranger'
             );
             fputcsv($handle, $tab,';');
             //Recherche dans la base de donnée
             $eleves = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->findAll();
             foreach ($eleves as $eleve) {
+
+                $dossier = $eleve->getDossierInscription();
+                //Gère le cas où l'élève a compléter son dossier d'inscription
+                if ($dossier == null) {
+                    $dossier = new DossierInscription();
+                }
+                //Génération de la case des projets qui intéressent l'élève
+                $projetQuiInteresse = "";
+                foreach ($dossier->getProjetsCecInterets() as $projet) {
+                    $projetQuiInteresse = $projetQuiInteresse.$projet.",";
+                }
+                //Génération de la ligne
                 $tab = array(
                     $eleve->getId(),
                     $eleve->getNom(),
@@ -274,6 +326,45 @@ class MembresController extends Controller
                     $eleve->isAutorisationParentaleRendue()?'Oui':'Non',
                     $eleve->isDroitImageRendue()?'Oui':'Non',
                     'Oui',
+                    $dossier->getProfessionPere(),
+                    $dossier->getProfessionMere(),
+                    $dossier->getTelephoneParent(),
+                    $dossier->getMailParent(),
+                    $dossier->getStatutParents(),
+                    $dossier->getNombrePersonnesACharge(),
+                    $dossier->getNombreEnfants(),
+                    $dossier->getEnfants(),
+                    $dossier->getBourses(),
+                    $dossier->getNombreAnneeChezCec(),
+                    $dossier->isRaisonInscriptionCecParticipeAuProgramme()?'Oui':'Non',
+                    $dossier->isRaisonInscriptionCecEncourageParProche()?'Oui':'Non',
+                    $dossier->isRaisonInscriptionCecCuriosite()?'Oui':'Non',
+                    $dossier->isRaisonInscriptionCecProgrammeEducatif()?'Oui':'Non',
+                    $dossier->isRaisonInscriptionCecSortiesProjets()?'Oui':'Non',
+                    $dossier->isRaisonInscriptionCecLycee()?'Oui':'Non',
+                    $dossier->getProcheQuiAEncouragePourCec(),
+                    $dossier->getMatieresPreferees(),
+                    $dossier->getMatieresDetestees(),
+                    $dossier->getIdeeOrientationPostBac(),
+                    $dossier->getIdeeMetier(),
+                    $dossier->getAisanceOral(),
+                    $dossier->getAisanceSystemeScolaire(),
+                    $dossier->getCapaciteObtentionEtudesSouhaitees(),
+                    $dossier->getInformationEnseignementSuperieur(),
+                    $dossier->getAttachementActualites(),
+                    $dossier->getInteretScience(),
+                    $dossier->getActivitesExtrascolaires(),
+                    $dossier->getPratiqueMusee(),
+                    $dossier->getPratiqueTheatre(),
+                    $dossier->getPratiqueCinema(),
+                    $dossier->getPratiqueJournalTelevise(),
+                    $dossier->getPratiqueJournaux(),
+                    $dossier->getPratiqueLecture(),
+                    $projetQuiInteresse,
+                    $dossier->getLangueVivante(),
+                    $dossier->getCorrespondantEtranger(),
+                    $dossier->getInteretEuropen(),
+                    $dossier->getVoyagesRealises()
                 );
                 fputcsv($handle, $tab,';');
             }

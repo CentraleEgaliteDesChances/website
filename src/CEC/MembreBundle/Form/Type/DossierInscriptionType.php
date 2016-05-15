@@ -47,7 +47,7 @@ class DossierInscriptionType extends AbstractType
             ))
             ->add('enfants','textarea', array(
                 'required' =>false,
-                'label' => 'Âge, niveau d\'études de chaque enfant'
+                'label' => 'Prénom, âge, lieu et niveau d\'études de chaque enfant (Un enfant par ligne)'
             ))
             ->add('bourses',null,array(
                 'required' =>false,
@@ -58,9 +58,9 @@ class DossierInscriptionType extends AbstractType
                 'required' =>false
             ))
             ->add('nombreAnneeChezCec','choice',array(
-                'required' =>false,
-                'label' => 'Si tu as déjà participé au programme, cette année sera ta...',
+                'label' => 'Cette année sera ta combien-tième année à CEC ?',
                 'choices' => array(
+                    '1ère année' => '1ère année',
                     '2ème année' => '2ème année',
                     '3ème année' => '3ème année'
                 )
