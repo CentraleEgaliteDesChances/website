@@ -61,8 +61,7 @@ class SecuriteController extends Controller
 				'label' => 'Statut :',
 				'choices' => array('tuteur' => 'Tuteur', 'lyceen' => 'Lycéen', 'prof' => 'Enseignant')
 			))
-			->add('prenom', 'text')
-			->add('nom', 'text')
+			->add('username', 'text')
 			->getForm();
 
 		$request = $this->getRequest();
@@ -80,13 +79,13 @@ class SecuriteController extends Controller
 					switch($data['categorie'])
 					{
 						case 'tuteur':
-							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->loadUserByUsername($data['username']);
 							break;
 						case 'lyceen':
-							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->loadUserByUsername($data['username']);
 							break;
 						case 'professeur':
-							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->loadUserByUsername($data['prenom'] . ' ' . $data['nom']);
+							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->loadUserByUsername($data['username']);
 							break;
 						default:
 							break;
@@ -114,7 +113,7 @@ class SecuriteController extends Controller
 				$this->get('cec.mailer')->sendOubliMdP($membre, $motDePasse, $_SERVER['HTTP_HOST']);
 
 				//Retour à la page de connexion
-				$this->get('session')->getFlashBag()->add('success', 'Le mot de passe de ' . $data['prenom'] . ' ' . $data['nom'] . ' a bien été réinitialisé.');
+				$this->get('session')->getFlashBag()->add('success', 'Le mot de passe de ' . $data['username'] . ' a bien été réinitialisé.');
 				return $this->redirect($this->generateUrl('connexion'));
 			}
 		}
@@ -172,6 +171,30 @@ class SecuriteController extends Controller
 			$form->handleRequest($request);
 			if ($form->isValid())
 			{
+				//Génère l'username de l'élève
+				$nom = $form->get('nom')->getData();
+				$prenom= $form->get('prenom')->getData();
+				$elevesExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:Eleve')
+					->findByUsername($nom,$prenom);
+				$membresExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:Membre')
+					->findByUsername($nom,$prenom);
+				$professeursExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:Professeur')
+					->findByUsername($nom,$prenom);
+				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant);
+				if ($count > 0)
+				{
+					$inscrit->setUsername($prenom.$nom.($count + 1));
+				}
+				else
+				{
+					$inscrit->setUsername($prenom.$nom);
+				}
 				//Enregistrement en BDD
 
 				$encoder = $this->container->get('security.encoder_factory')->getEncoder($inscrit);
@@ -211,13 +234,22 @@ class SecuriteController extends Controller
 					//Génère l'username de l'élève
 				$nom = $formProfil->get('nom')->getData();
 				$prenom= $formProfil->get('prenom')->getData();
-				$membresExistant = $this
+				$elevesExistant = $this
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Eleve')
 					->findByUsername($nom,$prenom);
-				if (count($membresExistant) > 0)
+				$membresExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:Membre')
+					->findByUsername($nom,$prenom);
+				$professeursExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:Professeur')
+					->findByUsername($nom,$prenom);
+				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant);
+				if ($count > 0)
 				{
-					$eleve->setUsername($prenom.$nom.(count($membresExistant)+1));
+					$eleve->setUsername($prenom.$nom.($count + 1));
 				}
 				else
 				{

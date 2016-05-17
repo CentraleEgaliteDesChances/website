@@ -111,6 +111,21 @@ class Professeur implements UserInterface, \Serializable
     private $telephonePortable;
 
     /**
+     * Identifiant du membre.
+     * Il est requis pour la connexion sur le site
+     * Lors de la création d'une nouvelle instance, il est fait en srote que l'identifiant soit unique à chaque instance
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "username", type = "string", length = 255)
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "L'username ne peut excéder 255 caractères."
+     * )
+     */
+    private $username;
+
+    /**
      * @var array
      *
      * @ORM\Column(name="roles", type="array")
@@ -190,7 +205,7 @@ class Professeur implements UserInterface, \Serializable
      */
     public function getUsername()
     {
-        return $this->getPrenom() . ' ' . $this->getNom();
+        return $this->username;
     }
 
     /**
@@ -614,5 +629,10 @@ class Professeur implements UserInterface, \Serializable
     public function getCheckMail()
     {
         return $this->checkMail;
+    }
+    
+    public function setUsername($username)
+    {
+        $this->username = $username;
     }
 }

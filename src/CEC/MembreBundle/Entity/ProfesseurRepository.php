@@ -38,6 +38,16 @@ class ProfesseurRepository extends EntityRepository implements UserProviderInter
         return $user;
     }
 
+    public function findByUsername($nom, $prenom){
+        $query = $this->createQueryBuilder('prof')
+            ->where('prof.nom = :nom')
+            ->setParameter('nom',$nom)
+            ->andWhere('prof.prenom = :prenom')
+            ->setParameter('prenom', $prenom)
+            ->getQuery();
+        return $query->getResult();
+    }
+
     /**
      * @inheritDoc
      */

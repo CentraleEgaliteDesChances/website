@@ -200,13 +200,22 @@ class MembresController extends Controller
                 //Création de l'username du membre
                 $nom = $form->get('nom')->getData();
                 $prenom= $form->get('prenom')->getData();
+                $elevesExistant = $this
+                    ->getDoctrine()
+                    ->getRepository('CECMembreBundle:Eleve')
+                    ->findByUsername($nom,$prenom);
                 $membresExistant = $this
                     ->getDoctrine()
                     ->getRepository('CECMembreBundle:Membre')
                     ->findByUsername($nom,$prenom);
-                if (count($membresExistant) > 0)
+                $professeursExistant = $this
+                    ->getDoctrine()
+                    ->getRepository('CECMembreBundle:Professeur')
+                    ->findByUsername($nom,$prenom);
+                $count = count($elevesExistant) + count($membresExistant) + count($professeursExistant);
+                if ($count > 0)
                 {
-                    $membre->setUsername($prenom.$nom.(count($membresExistant)+1));
+                    $membre->setUsername($prenom.$nom.($count + 1));
                 }
                 else
                 {
