@@ -1,12 +1,21 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: eung
+ * Date: 17/05/16
+ * Time: 15:42
+ */
 
 namespace CEC\MembreBundle\Form\Type;
 
+
+use CEC\MembreBundle\Entity\EleveRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ProfesseurType extends AbstractType
+class ParentEleveType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,20 +32,20 @@ class ProfesseurType extends AbstractType
                 'label' => 'Adresse email',
                 'attr' => array('placeholder' => 'Adresse Mail'),
             ))
-            ->add('telephoneFixe', 'text', array(
-                'label' => 'Numéro de téléphone fixe',
-                'required' => false,
-            ))
-            ->add('telephonePortable', 'text', array(
+            ->add('telephone', 'text', array(
                 'label' => 'Numéro de téléphone portable',
                 'required' => false,
             ))
-            ->add('lycee', null, array(
-                'label'=>'Lycée de provenance',
-            ))
-            ->add('role', 'choice', array(
-                'choices' => array ('proviseur' => "Proviseur", "proviseurAdjoint" => "Proviseur Adjoint", "cpe" => "Conseiller Principal d'Education", "professeur" => "Enseignant"),
-                'label' => 'Rôle dans l\'établissement'
+            ->add('eleves', 'entity', array(
+                'class' => 'CEC\MembreBundle\Entity\Eleve',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('eleve')
+                        ->orderBy('eleve.nom')
+                        ->addOrderBy('eleve.prenom');
+                },
+                'multiple' => true,
+                'placeholder' => 'Choisir parmi les élèves inscrits',
+                'label' => 'De quels élèves êtes-vous le parent ?'
             ))
             ->add('motDePasse', 'repeated', array(
                 'label'=>'Mot de passe',
@@ -50,12 +59,12 @@ class ProfesseurType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\MembreBundle\Entity\Professeur'
+            'data_class' => 'CEC\MembreBundle\Entity\ParentEleve'
         ));
     }
 
     public function getName()
     {
-        return 'cec_membrebundle_professeurtype';
+        return 'cec_membrebundle_parentelevetype';
     }
 }
