@@ -5,6 +5,7 @@ namespace CEC\MembreBundle\Controller;
 use CEC\MembreBundle\Entity\ParentEleve;
 use CEC\MembreBundle\Form\Type\EleveType;
 use CEC\MembreBundle\Form\Type\ParentEleveType;
+use CEC\MembreBundle\Form\Type\ProfesseurType;
 use CEC\SecteurProjetsBundle\Entity\Dossier;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -128,7 +129,7 @@ class SecuriteController extends Controller
 		//Creation of the form to register a new teacher
 		$inscrit = new Professeur();
 
-		$form = $this->get('form.factory')->create(EleveType::class,$inscrit);
+		$form = $this->get('form.factory')->create(ProfesseurType::class,$inscrit);
 
 		$request= $this->getRequest();
 
@@ -152,7 +153,11 @@ class SecuriteController extends Controller
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Professeur')
 					->findByUsername($nom,$prenom);
-				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant);
+				$parentsExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:ParentEleve')
+					->findByUsername($nom, $prenom);
+				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant) + count($parentsExistant);
 				if ($count > 0)
 				{
 					$inscrit->setUsername($prenom.$nom.($count + 1));
@@ -210,7 +215,11 @@ class SecuriteController extends Controller
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Professeur')
 					->findByUsername($nom, $prenom);
-				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant);
+				$parentsExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:ParentEleve')
+					->findByUsername($nom, $prenom);
+				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant) + count($parentsExistant);
 				if ($count > 0) {
 					$eleve->setUsername($prenom . $nom . ($count + 1));
 				} else {
@@ -271,7 +280,11 @@ class SecuriteController extends Controller
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Professeur')
 					->findByUsername($nom, $prenom);
-				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant);
+				$parentsExistant = $this
+					->getDoctrine()
+					->getRepository('CECMembreBundle:ParentEleve')
+					->findByUsername($nom, $prenom);
+				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant) + count($parentsExistant);
 				if ($count > 0) {
 					$parent->setUsername($prenom . $nom . ($count + 1));
 				} else {

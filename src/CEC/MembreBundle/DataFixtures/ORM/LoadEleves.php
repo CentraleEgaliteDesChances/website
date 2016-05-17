@@ -98,7 +98,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
     /**
      * Crée et retourne un lycéen avec des informations aléatoires.
      *
-     * @return Lycee Nouveau Lycéen.
+     * @return Eleve Nouveau Lycéen.
      */
     public function nouveauLyceenAleatoire($prenom, $nom)
     {

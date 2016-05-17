@@ -289,10 +289,12 @@ class ParentEleve implements UserInterface, \Serializable
 
     /**
      * @param string $prenom
+     * @return ParentEleve
      */
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
+        return $this;
     }
 
     /**
@@ -305,10 +307,12 @@ class ParentEleve implements UserInterface, \Serializable
 
     /**
      * @param string $nom
+     * @return ParentEleve
      */
     public function setNom($nom)
     {
         $this->nom = $nom;
+        return $this;
     }
 
     /**
@@ -321,10 +325,12 @@ class ParentEleve implements UserInterface, \Serializable
 
     /**
      * @param string $mail
+     * @return ParentEleve
      */
     public function setMail($mail)
     {
         $this->mail = $mail;
+        return $this;
     }
 
     /**
@@ -337,17 +343,19 @@ class ParentEleve implements UserInterface, \Serializable
 
     /**
      * @param string $telephone
+     * @return ParentEleve
      */
     public function setTelephone($telephone)
     {
         $this->telephone = $telephone;
+        return $this;
     }
 
     /**
      * Set motDePasse
      *
      * @param string $motDePasse
-     * @return Membre
+     * @return ParentEleve
      */
     public function setMotDePasse($motDePasse)
     {
@@ -376,11 +384,13 @@ class ParentEleve implements UserInterface, \Serializable
     }
 
     /**
-     * @param mixed $checkMail
+     * @param boolean $checkMail
+     * @return ParentEleve
      */
     public function setCheckMail($checkMail)
     {
         $this->checkMail = $checkMail;
+        return $this;
     }
 
     /**
@@ -417,14 +427,23 @@ class ParentEleve implements UserInterface, \Serializable
 
     /**
      * @param Collection $eleves
+     * @return ParentEleve
      */
     public function setEleves($eleves)
     {
         $this->eleves = $eleves;
+        return $this;
     }
 
-
-
+    /**
+     * @param Eleve $eleve
+     * @return ParentEleve
+     */
+    public function addEleve($eleve)
+    {
+        $this->eleves->add($eleve);
+        return $this;
+    }
 
 
 }

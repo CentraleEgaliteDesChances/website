@@ -212,7 +212,11 @@ class MembresController extends Controller
                     ->getDoctrine()
                     ->getRepository('CECMembreBundle:Professeur')
                     ->findByUsername($nom,$prenom);
-                $count = count($elevesExistant) + count($membresExistant) + count($professeursExistant);
+                $parentsExistant = $this
+                    ->getDoctrine()
+                    ->getRepository('CECMembreBundle:ParentEleve')
+                    ->findByUsername($nom, $prenom);
+                $count = count($elevesExistant) + count($membresExistant) + count($professeursExistant) + count($parentsExistant);
                 if ($count > 0)
                 {
                     $membre->setUsername($prenom.$nom.($count + 1));

@@ -2,14 +2,14 @@
 
 namespace CEC\MembreBundle\DataFixtures\ORM;
 
+use CEC\MembreBundle\Entity\ParentEleve;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use CEC\MembreBundle\Entity\Professeur;
 
-class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
+class LoadParents extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface
@@ -29,70 +29,92 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
      */
     public function load(ObjectManager $manager)
     {
-        $marie_pierre_abada = $this->nouveauProfAleatoire("Marie-Pierre", "Carlotti");
-        $emmanuel_alves = $this->nouveauProfAleatoire("Emmanuel", "Deloges");
-        $marie_ambrosini = $this->nouveauProfAleatoire("Marie", "Geider");
-        $jacquie_guichard = $this->nouveauProfAleatoire("Jacqueline", "Guichard");
-        $adele_leclere = $this->nouveauProfAleatoire("Adèle", "Leclere");
-        $catherine_mourette = $this->nouveauProfAleatoire("Catherine", "Mourette");
-        $sidonie_richon = $this->nouveauProfAleatoire("Sidonie", "Richon");
-        $joelle_sportiello = $this->nouveauProfAleatoire("Joëlle", "Sportiello");
-        $monique_thiollet = $this->nouveauProfAleatoire("Monique", "Thiollet");
-        $erwan_leon = $this->nouveauProfAleatoire("Erwan", "Léon");
-        $pierrick_madinier = $this->nouveauProfAleatoire("Pierrick", "Madinier");
-        $thierry_merlet = $this->nouveauProfAleatoire("Thierry", "Merlet");
-
-
-
-        $manager->persist($marie_pierre_abada);
-        $manager->persist($emmanuel_alves);
-        $manager->persist($marie_ambrosini);
-        $manager->persist($jacquie_guichard);
-        $manager->persist($adele_leclere);
-        $manager->persist($catherine_mourette);
-        $manager->persist($sidonie_richon);
-        $manager->persist($joelle_sportiello);
-        $manager->persist($monique_thiollet);
-        $manager->persist($erwan_leon);
-        $manager->persist($pierrick_madinier);
-        $manager->persist($thierry_merlet);
+        $alice_abada=$this->nouveauParentAleatoire('Alice','Abada','nesrine_abada');
+        $christophe_alves=$this->nouveauParentAleatoire('Christophe','Alves','claire_alves');
+        $jean_ambrosini=$this->nouveauParentAleatoire('Jean','Ambrosini','aude_ambrosini');
+        $marc_chiandotto=$this->nouveauParentAleatoire('Marc','Chiandotto','ines_chiandotto');
+        $isabelle_de_souza=$this->nouveauParentAleatoire('Isabelle','De Souza','titouan_de_souza');
+        $julien_decoodt=$this->nouveauParentAleatoire('Julien','Decoodt','leo_decoodt');
+        $martine_doucet=$this->nouveauParentAleatoire('Martine','Doucet','lauren_doucet');
+        $geraldine_melina=$this->nouveauParentAleatoire('Géraldine','Melina','maia_melina');
+        $serge_sachet=$this->nouveauParentAleatoire('Serge','Sachet','mateo_sachet');
+        $philippe_melo=$this->nouveauParentAleatoire('Philippe','Melo','nelson_melo');
+        $herve_michel=$this->nouveauParentAleatoire('Hervé','Michel','anna_michel');
+        $michelle_milome=$this->nouveauParentAleatoire('Michelle','Milome','arnaud_milome');
+        $matthieu_felix=$this->nouveauParentAleatoire('Matthieu','Felix','yanis_felix');
+        $laurent_geoffroy=$this->nouveauParentAleatoire('Laurent','Geoffroy','louis_geoffroy');
+        $laure_grapindor=$this->nouveauParentAleatoire('Laure','Grapindor','noemie_grapindor');
+        $anna_gausson=$this->nouveauParentAleatoire('Anna','Gausson','emma_gausson');
+        $victoire_gasparini=$this->nouveauParentAleatoire('Victoire','Gasparini','lucile_gasparini');
+        $jordan_ferdoss=$this->nouveauParentAleatoire('Jordan','Ferdoss','mehdi_ferdoss');
+        $henry_el_fezzazi=$this->nouveauParentAleatoire('Henry','El Fezzazi','karim_el_fezzazi');
+        $mickael_dubois=$this->nouveauParentAleatoire('Mickael','Dubois','arno_dubois');
+        
+        
+        $manager->persist($alice_abada);
+        $manager->persist($christophe_alves);
+        $manager->persist($jean_ambrosini);
+        $manager->persist($marc_chiandotto);
+        $manager->persist($isabelle_de_souza);
+        $manager->persist($julien_decoodt);
+        $manager->persist($martine_doucet);
+        $manager->persist($geraldine_melina);
+        $manager->persist($serge_sachet);
+        $manager->persist($philippe_melo);
+        $manager->persist($herve_michel);
+        $manager->persist($michelle_milome);
+        $manager->persist($matthieu_felix);
+        $manager->persist($laurent_geoffroy);
+        $manager->persist($laure_grapindor);
+        $manager->persist($anna_gausson);
+        $manager->persist($victoire_gasparini);
+        $manager->persist($jordan_ferdoss);
+        $manager->persist($henry_el_fezzazi);
+        $manager->persist($mickael_dubois);
+        
 
         $manager->flush();
 
-        $this->addReference('marie_pierre_abada', $marie_pierre_abada);
-        $this->addReference('emmanuel_alves', $emmanuel_alves);
-        $this->addReference('marie_ambrosini', $marie_ambrosini);
-        $this->addReference('jacquie_guichard', $jacquie_guichard);
-        $this->addReference('adele_leclere', $adele_leclere);
-        $this->addReference('catherine_mourette', $catherine_mourette);
-        $this->addReference('sidonie_richon', $sidonie_richon);
-        $this->addReference('joelle_sportiello', $joelle_sportiello);
-        $this->addReference('monique_thiollet', $monique_thiollet);
-        $this->addReference('erwan_leon', $erwan_leon);
-        $this->addReference('pierrick_madinier', $pierrick_madinier);
-        $this->addReference('thierry_merlet', $thierry_merlet);
+        $this->addReference('alice_abada',$alice_abada);
+        $this->addReference('christophe_alves',$christophe_alves);
+        $this->addReference('$jean_ambrosini',$jean_ambrosini);
+        $this->addReference('marc_chiandotto',$marc_chiandotto);
+        $this->addReference('isabelle_de_souza',$isabelle_de_souza);
+        $this->addReference('julien_decoodt',$julien_decoodt);
+        $this->addReference('martine_doucet',$martine_doucet);
+        $this->addReference('geraldine_melina',$geraldine_melina);
+        $this->addReference('serge_sachet',$serge_sachet);
+        $this->addReference('philippe_melo',$philippe_melo);
+        $this->addReference('herve_michel',$herve_michel);
+        $this->addReference('michelle_milome',$michelle_milome);
+        $this->addReference('matthieu_felix',$matthieu_felix);
+        $this->addReference('laurent_geoffroy',$laurent_geoffroy);
+        $this->addReference('laure_grapindor',$laure_grapindor);
+        $this->addReference('anna_gausson',$anna_gausson);
+        $this->addReference('victoire_gasparini',$victoire_gasparini);
+        $this->addReference('jordan_ferdoss',$jordan_ferdoss);
+        $this->addReference('henry_el_fezzazi',$henry_el_fezzazi);
+        $this->addReference('mickael_dubois',$mickael_dubois);
+
+
     }
 
     /**
      * Crée et retourne un professeur avec des informations aléatoires.
      *
-     * @return Professeur Nouveau professeur
+     * @return ParentEleve Nouveau parent
      */
-    public function nouveauProfAleatoire($prenom, $nom)
+    public function nouveauParentAleatoire($prenom, $nom, $refEleve)
     {
-
         $adresse = rand(0, 1);
-        $professeur = $this->nouveauProfesseur(
+        $parent = $this->nouveauParent(
             $prenom,
             $nom,
-            $this->telephoneAleatoire(false),
             $this->telephoneAleatoire(),
             $this->emailAleatoire($prenom, $nom),
-            $this->lyceeAleatoire(),
-            $this->roleAleatoire(),
-            rand(0,10)
+            $refEleve
         );
-        return $professeur;
+        return $parent;
     }
 
 
@@ -101,37 +123,26 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
      *
      * @param string $prenom
      * @param string $nom
-     * @param string $telephone fixe
      * @param string $portable
-     * @param string $lycee
-     * @param string $role
-     * @return Professeur Nouveau professeur
+     * @param string $refeleve
+     * @return Parent Nouveau parent
      */
-    public function nouveauProfesseur($prenom, $nom,
-                                      $telephone = null, $portable = null, $email = null, $lycee = null, $role = null, $referent = null)
+    public function nouveauParent($prenom, $nom, $portable = null, $email = null, $refeleve = null)
     {
 
-        $professeur = new Professeur();
-        $encoder = $this->container->get('security.encoder_factory')->getEncoder($professeur);
-        $mdp = $encoder->encodePassword('debug', $professeur->getSalt());
+        $parent = new ParentEleve();
+        $encoder = $this->container->get('security.encoder_factory')->getEncoder($parent);
+        $mdp = $encoder->encodePassword('debug', $parent->getSalt());
 
-        if($referent == 0)
-            $lyceeReferent = $this->getReference($lycee);
-        else
-            $lyceeReferent = null;
-
-        $professeur->setPrenom($prenom)
+        $parent->setPrenom($prenom)
             ->setNom($nom)
-            ->setTelephoneFixe($telephone)
-            ->setTelephonePortable($portable)
+            ->setTelephone($portable)
             ->setMail($email)
-            ->setLycee($this->getReference($lycee))
-            ->setRole($role)
-            ->setReferent($lyceeReferent)
             ->setMotDePasse($mdp)
-            ->setCheckMail(false)
-            ->setUsername($prenom.$nom);
-        return $professeur;
+            ->addEleve($this->getReference($refeleve))
+            ->setUsername($prenom.$nom)
+            ->setCheckMail(false);
+        return $parent;
     }
 
     /**
@@ -428,7 +439,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
     public function getDependencies() {
         return array(
             'CEC\TutoratBundle\DataFixtures\ORM\LoadLycees',
+            'CEC\MembreBundle\DataFixtures\ORM\LoadEleves'
         );
     }
 }
-  
