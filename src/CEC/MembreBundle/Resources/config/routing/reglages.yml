@@ -45,3 +45,9 @@ creer_secteur:
 supprimer_secteur:
     path: /supprimer_secteur
     defaults: {_controller: CECMembreBundle:Reglages:supprimerSecteur}
+
+reglages_infos_parent:
+    path: /infos-parent
+    defaults: {_controller: CECMembreBundle:ReglagesParent:infos}
+    requirements:
+        parent: \d+

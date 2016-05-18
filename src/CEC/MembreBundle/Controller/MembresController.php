@@ -47,16 +47,18 @@ class MembresController extends Controller
      * Affiche la liste de tous les tuteurs d'un lycée
      * @param integer $lycee : id du lycée
      * @param string $categorie : indique si c'est tuteurs/eleves/professeurs
-     *
+     * @return array
      * @Template()
      */
     public function tousLyceeAction($lycee, $categorie)
     {
         $lycees = $this->getDoctrine()->getRepository("CECTutoratBundle:Lycee")->find($lycee);
-        if(!$lycees) throw new $this->createNotFoundException("Pas de lycée trouvé");
+        if(!$lycees) throw $this->createNotFoundException("Pas de lycée trouvé");
 
         return array('lycee' => $lycees, 'categorie'=> $categorie, 'anneeScolaire'=> AnneeScolaire::withDate());
     }
+
+
 
     /**
      * Affiche le profil d'un membre.
@@ -85,7 +87,7 @@ class MembresController extends Controller
      * Affiche le profil d'un élève.
      * @return array
      * @param integer $id: id du membre, null pour afficher le profil du membre connecté
-     *@Template()
+     * @Template()
      */
     public function voirEleveAction($id)
     {
@@ -102,6 +104,35 @@ class MembresController extends Controller
         return array(
             'eleve'    => $eleve, 'tutorat' => $tutorat
         );
+    }
+
+    /**
+     * Affiche le profil d'un parent.
+     * @return array
+     * @param integer $id: id du membre, null pour afficher le profil du membre connecté
+     * @Template()
+     */
+
+    public function voirParentAction($id)
+    {
+        $parent = $this->getDoctrine()->getRepository('CECMembreBundle:ParentEleve')->find($id);
+        if (!$parent) throw $this->createNotFoundException('Impossible de trouver le profil !');
+
+        return array(
+            'parent'    => $parent, 'eleves' => $parent->getEleves()
+        );
+    }
+
+    /**
+     * Affiche la liste de tous les élèves.
+     * Cette page affiche simplement la liste de tous les membres enregistrés sur le site internet.
+     *
+     * @Template()
+     */
+    public function tousParentAction()
+    {
+        $parents = $this->getDoctrine()->getRepository('CECMembreBundle:ParentEleve')->findAll();
+        return array('parents' => $parents);
     }
 
     /**
@@ -624,6 +655,8 @@ class MembresController extends Controller
         );
 
     }
+
+
 
 
 

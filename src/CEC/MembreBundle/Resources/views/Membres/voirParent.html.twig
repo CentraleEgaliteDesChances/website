@@ -1,0 +1,55 @@
+{% extends 'CECMembreBundle:Membres:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block left %}
+    {{ parent() }}
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th colspan="2" class="titre">
+                <h3>{{ parent.prenom|ucwords }} {{ parent.nom|ucwords }}</h3>
+            </th>
+        </tr>
+        <tr><th colspan="2" class="image">
+                {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
+                <img src="{{ asset_url }}" alt="Image du lycée"/>
+                {% endimage %}
+            </th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Username</td>
+            <td>{{ parent.username }}</a></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><a href="mailto:{{ parent.mail }}">{{ parent.mail }}</a></td>
+        </tr>
+        {% if is_granted('ROLE_VP_LYCEE') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') %}
+            <tr>
+                <td>Téléphone</td>
+                <td>{{ parent.telephone }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block right %}
+    {{ parent() }}
+    <table class="table table-bordered table-hover table-striped table-large">
+        <thead><tr><th><h4>Parent de </h4></th></tr></thead>
+        <tbody>
+        {% for eleve in eleves %}
+            <tr>
+                <td>
+                    <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                        {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

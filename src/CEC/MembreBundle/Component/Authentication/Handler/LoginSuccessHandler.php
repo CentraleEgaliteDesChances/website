@@ -33,6 +33,9 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 		{
 			$response = new RedirectResponse($this->router->generate('tableau_de_bord_eleve'));
 		}
+		elseif ($this->security->isGranted('ROLE_PARENT')) {
+			$response = new RedirectResponse($this->router->generate('tableau_de_bord_parent'));
+		}
 		return $response;
 	}
 }

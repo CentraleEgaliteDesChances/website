@@ -27,7 +27,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
     /**
      * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+     public function load(ObjectManager $manager)
     {
         $marie_pierre_abada = $this->nouveauProfAleatoire("Marie-Pierre", "Carlotti");
         $emmanuel_alves = $this->nouveauProfAleatoire("Emmanuel", "Deloges");
@@ -108,7 +108,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
      * @return Professeur Nouveau professeur
      */
     public function nouveauProfesseur($prenom, $nom,
-                                      $telephone = null, $portable = null, $email = null, $lycee = null, $role = null, $referent = null)
+                $telephone = null, $portable = null, $email = null, $lycee = null, $role = null, $referent = null)
     {
 
         $professeur = new Professeur();
@@ -121,20 +121,20 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
             $lyceeReferent = null;
 
         $professeur->setPrenom($prenom)
-            ->setNom($nom)
-            ->setTelephoneFixe($telephone)
-            ->setTelephonePortable($portable)
-            ->setMail($email)
-            ->setLycee($this->getReference($lycee))
-            ->setRole($role)
-            ->setReferent($lyceeReferent)
-            ->setMotDePasse($mdp)
-            ->setCheckMail(false)
-            ->setUsername($prenom.$nom);
+               ->setNom($nom)
+               ->setTelephoneFixe($telephone)
+               ->setTelephonePortable($portable)
+               ->setMail($email)
+               ->setLycee($this->getReference($lycee))
+               ->setRole($role)
+               ->setReferent($lyceeReferent)
+               ->setMotDePasse($mdp)
+               ->setCheckMail(false)
+                ->setUsername($prenom.$nom);
         return $professeur;
     }
 
-    /**
+        /**
      * Retourne une adresse email aléatoire construite à partir
      * du nom et du prénom.
      *
@@ -388,8 +388,8 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
     }
 
     /**
-     * Retourne un rôle aléatoire
-     */
+    * Retourne un rôle aléatoire
+    */
     public function roleAleatoire()
     {
         $roles = ['Enseignant', 'Proviseur', 'Proviseur Adjoint', 'Conseiller Principal d\'Education'];
@@ -397,8 +397,8 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
     }
 
     /**
-     * Retourne la référence d'un lycée source
-     */
+    * Retourne la référence d'un lycée source
+    */
     public function lyceeAleatoire()
     {
         $lycees = $this->tableauDesNomsLycees();

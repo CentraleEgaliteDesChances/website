@@ -8,6 +8,17 @@ tous_eleves:
     path: /eleves
     defaults: {_controller: CECMembreBundle:Membres:tousEleve}
 
+voir_parent:
+    path: /parent/{id}
+    defaults: {_controller: CECMembreBundle:Membres:voirParent}
+    requirements:
+        id: \d+
+
+tous_parents:
+    path: /parents
+    defaults: {_controller: CECMembreBundle:Membres:tousParent}
+
+
 participation_sorties:
     path: /sortiesRealisees/{lyceen}
     defaults: {_controller: CECSecteurSortiesBundle:SortiesEleve:participationSorties}

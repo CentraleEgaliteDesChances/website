@@ -7,3 +7,7 @@ tableau_de_bord_professeur:
 tableau_de_bord_eleve:
     path: /eleve/
     defaults: {_controller: CECMembreBundle:TableauDeBord:voirEleve}
+
+tableau_de_bord_parent:
+    path: /parent/
+    defaults: {_controller: CECMembreBundle:TableauDeBord:voirParent}
