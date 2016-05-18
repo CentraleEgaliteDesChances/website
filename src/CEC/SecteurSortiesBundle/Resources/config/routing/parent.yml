@@ -1,0 +1,7 @@
+sorties_parent:
+    path: /sorties
+    defaults: { _controller: CECSecteurSortiesBundle:SortiesParent:voir }
+
+anciennes_sorties_parent:
+    path: /sortiesPassees
+    defaults: { _controller: CECSecteurSortiesBundle:SortiesParent:voirAnciennes }

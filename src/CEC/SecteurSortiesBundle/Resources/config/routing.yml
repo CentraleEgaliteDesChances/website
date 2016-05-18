@@ -9,3 +9,7 @@ actions_professeur:
 actions_eleve:
     resource: "@CECSecteurSortiesBundle/Resources/config/routing/eleve.yml"
     prefix: /eleve
+
+actions_parent:
+    resource: "@CECSecteurSortiesBundle/Resources/config/routing/parent.yml"
+    prefix: /parent

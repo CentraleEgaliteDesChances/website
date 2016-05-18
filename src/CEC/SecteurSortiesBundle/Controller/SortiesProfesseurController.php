@@ -37,6 +37,7 @@ class SortiesProfesseurController extends Controller
      * Affiche le menu des sorties
      *
      * @param Request $request: requête original
+     * @return array
      */
     public function menuAction($request)
     {
@@ -81,7 +82,7 @@ class SortiesProfesseurController extends Controller
     * Affiche les participations aux sorties des élèves d'un lycée
     *
     * @param integer $lycee : id du lycée cherché
-    *
+    * @return array
     * @Template()
     */
     public function participationSortiesLyceeAction($lycee)

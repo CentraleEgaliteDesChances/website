@@ -327,7 +327,7 @@ class SortiesController extends Controller
 	* Crée l'excel des inscrits à une sortie
 	*
 	* @param integer $id Id de la sortie concernée
-	* @Template()
+    * @return StreamedResponse
 	*/
 	public function excelAction($id)
     {
@@ -382,7 +382,7 @@ class SortiesController extends Controller
         });
 
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-        $response->headers->set('Content-Disposition','attachment; filename="export_inscrits_sortie'.$id.'.csv"');
+        $response->headers->set('Content-Disposition','attachment; filename="export_inscrits_sortie'.$id.'.csv');
 
         return $response;
     }
