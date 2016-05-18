@@ -1,0 +1,14 @@
+<div class="well">
+    <ul class="nav nav-pills nav-stacked" style="padding: 10px;">
+        <li class="nav-header">Mes informations</li>
+        <li
+                {% if app.request.attributes.get('_route') == 'reglages_infos_parent' %}class="active"{% endif %}
+        >
+            <a href="{{ path('reglages_infos_parent', {'parent' : parent.id}) }}">Profil</a>
+        </li>
+    </ul>
+    <br/>
+
+    <a href="{{ path('voir_parent', { 'id' : app.user.id }) }}" class="btn btn-primary" style="margin-left:15px;">Retour au profil public</a>
+</div>
+

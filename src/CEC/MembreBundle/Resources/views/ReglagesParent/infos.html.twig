@@ -1,0 +1,27 @@
+{% extends 'CECMembreBundle:ReglagesParent:base.html.twig' %}
+
+{% block right %}
+    {{ parent() }}
+
+    <div class="section">
+        <div class="section-title text-center"><h2>Informations générales</h2></div>
+        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+            {{ form_widget(informations_generales) }}
+            <div class="form-actions">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </form>
+        <br/>
+    </div>
+
+    <div class="section">
+        <div class="section-title text-center"><h2>Changer de mot de passe</h2></div>
+        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+            {{ form_widget(mot_de_passe) }}
+            <div class="form-actions">
+                <input type="submit" value="Modifier le mot de passe" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

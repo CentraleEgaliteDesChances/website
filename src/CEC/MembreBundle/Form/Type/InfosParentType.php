@@ -2,25 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: eung
- * Date: 17/05/16
- * Time: 15:42
+ * Date: 18/05/16
+ * Time: 14:39
  *
- * Genere le formulaire d'inscription au site d'un parent
+ * Genere le formulaire de modification de profil d'un parent
  */
 
 namespace CEC\MembreBundle\Form\Type;
 
 
-use CEC\MembreBundle\Entity\EleveRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ParentEleveType extends AbstractType
+class InfosParentType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             ->add('prenom', 'text', array(
                 'label' => 'Prénom',
@@ -49,24 +47,20 @@ class ParentEleveType extends AbstractType
                 'placeholder' => 'Choisir parmi les élèves inscrits',
                 'label' => 'De quels élèves êtes-vous le parent ?'
             ))
-            ->add('motDePasse', 'repeated', array(
-                'label'=>'Mot de passe',
-                'first_name' => 'Mot-de-passe',
-                'second_name' => 'Confirmation',
-                'type' => 'password',
-            ))
-        ;
+            ->add('checkMail', 'checkbox', array(
+                'label' => 'Recevoir les mails automatiques de CEC',
+                'required' => false
+            ));
+    }
+
+    public function getName() {
+        return 'InfosParent';
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CEC\MembreBundle\Entity\ParentEleve'
+            'data_class' => 'CEC\MembreBundle\Entity\ParentEleve',
         ));
-    }
-
-    public function getName()
-    {
-        return 'cec_membrebundle_parentelevetype';
     }
 }
