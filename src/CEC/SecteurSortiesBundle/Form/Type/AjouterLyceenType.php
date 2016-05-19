@@ -11,20 +11,19 @@ use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 class AjouterLyceenType extends AbstractType
 {
+    private $sortie;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $sortie = $this->sortie;
+
 
         $builder->add('lyceen', 'entity', array(
             'label' => false,
             'class' => 'CECMembreBundle:Eleve',
-            'query_builder' => function (EntityRepository $entityRepository) use($sortie)
-            {
-                return $entityRepository->createQueryBuilder('e')
-                                        ->join('e.sorties', 'se')
-                                        ->where('se.sortie = :sortie')
-                                            ->setParameter('sortie', $sortie)
-                                        ->andWhere('se.listeAttente > 0');
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('eleve')
+                    ->orderBy('eleve.nom')
+                    ->addOrderBy('eleve.prenom');
             },
             'empty_value' => false,
             'attr' => array('class' => 'input-ajouter'),
