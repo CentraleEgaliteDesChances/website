@@ -21,12 +21,14 @@ class SortiesParentController extends Controller
      */
     public function voirAction()
     {
+        $parent = $this->getUser();
         $now = new \DateTime("now");
 
         $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findFollowingSorties($now);
 
         return array(
-            'sorties' => $sorties
+            'sorties' => $sorties,
+            'parent' => $parent
         );
     }
 
