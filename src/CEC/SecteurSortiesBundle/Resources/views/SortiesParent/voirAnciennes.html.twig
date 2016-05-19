@@ -12,6 +12,24 @@
                     <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
                     <p>Adresse : {{sortie.adresse}}</p>
                     <p style="text-align:justify;">{{sortie.description}}</p>
+                    <br/>
+                    {% if sortie.okCr %}
+                        {% for eleve in parent.eleves %}
+                            {% if eleve in sortie.eleves %}
+                                <div class = "alert alert-success">
+                                    {{ eleve }} est allé(e) à cette sortie.
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for eleve in parent.eleves %}
+                            {% if eleve in sortie.eleves %}
+                                <div class = "alert alert-info">
+                                    {{ eleve }} était inscrit(e) à cette sortie.
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

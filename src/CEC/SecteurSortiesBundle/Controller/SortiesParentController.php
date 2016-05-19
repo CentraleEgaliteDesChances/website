@@ -53,11 +53,13 @@ class SortiesParentController extends Controller
     public function voirAnciennesAction()
     {
         $now = new \DateTime("now");
+        $parent = $this->getUser();
 
         $sorties = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:Sortie')->findPreviousSorties($now);
 
         return array(
             'sorties' => $sorties,
+            'parent' => $parent
         );
     }
 
