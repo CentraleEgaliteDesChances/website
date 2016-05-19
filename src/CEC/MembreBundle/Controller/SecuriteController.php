@@ -2,6 +2,7 @@
 
 namespace CEC\MembreBundle\Controller;
 
+use CEC\MembreBundle\Entity\DossierInscription;
 use CEC\MembreBundle\Entity\ParentEleve;
 use CEC\MembreBundle\Form\Type\EleveType;
 use CEC\MembreBundle\Form\Type\ParentEleveType;
@@ -138,9 +139,9 @@ class SecuriteController extends Controller
 			$form->handleRequest($request);
 			if ($form->isValid())
 			{
-				//Génère l'username de l'élève
-				$nom = $form->get('nom')->getData();
-				$prenom= $form->get('prenom')->getData();
+				//Génère l'username du professeur
+				$nom = str_replace(' ','' ,$form->get('nom')->getData());
+				$prenom= str_replace(' ','' ,$form->get('prenom')->getData());
 				$elevesExistant = $this
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Eleve')
@@ -192,7 +193,6 @@ class SecuriteController extends Controller
 		//Creation of form to register a new high-school student
 
 		$eleve = new Eleve();
-		$dossier = new DossierInscription();
 		$formProfil = $this->get('form.factory')->create(EleveType::class, $eleve);
 		$request = $this->getRequest();
 
@@ -201,8 +201,8 @@ class SecuriteController extends Controller
 			if ($formProfil->isValid()) {
 				//Enregistrement en BDD
 				//Génère l'username de l'élève
-				$nom = $formProfil->get('nom')->getData();
-				$prenom = $formProfil->get('prenom')->getData();
+				$nom = str_replace(' ','' ,$formProfil->get('nom')->getData());
+				$prenom= str_replace(' ','' ,$formProfil->get('prenom')->getData());
 				$elevesExistant = $this
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Eleve')
@@ -230,7 +230,7 @@ class SecuriteController extends Controller
 				$encoder = $this->container->get('security.encoder_factory')->getEncoder($eleve);
 				$motDePasse = $eleve->getMotDePasse();
 				$eleve->setMotDePasse($encoder->encodePassword($motDePasse, $eleve->getSalt()));
-				$eleve->setDossierInscription($dossier);
+				$eleve->setDossierInscription(null);
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($eleve);
 				$em->flush();
@@ -266,8 +266,8 @@ class SecuriteController extends Controller
 			$form->handleRequest($request);
 			if ($form->isValid()) {
 				//Génère l'username de l'élève
-				$nom = $form->get('nom')->getData();
-				$prenom = $form->get('prenom')->getData();
+				$nom = str_replace(' ','' ,$form->get('nom')->getData());
+				$prenom= str_replace(' ','' ,$form->get('prenom')->getData());
 				$elevesExistant = $this
 					->getDoctrine()
 					->getRepository('CECMembreBundle:Eleve')

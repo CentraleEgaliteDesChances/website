@@ -229,8 +229,8 @@ class MembresController extends Controller
             if ($form->isValid()) {
 
                 //Création de l'username du membre
-                $nom = $form->get('nom')->getData();
-                $prenom= $form->get('prenom')->getData();
+                $nom = str_replace(' ','' ,$form->get('nom')->getData());
+                $prenom= str_replace(' ','' ,$form->get('prenom')->getData());
                 $elevesExistant = $this
                     ->getDoctrine()
                     ->getRepository('CECMembreBundle:Eleve')
