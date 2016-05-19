@@ -98,13 +98,15 @@
                                 <input type="checkbox" value={{ eleve.id }} name="checkbox[]">
                             </td>
                             <td>
-                                {{ eleve.id }}
+                                <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    {{ eleve.id }}
+                                </a>
                             </td>
                             <td>
-                                {{ eleve.nom }}
+                                {{ eleve.nom|ucwords }}
                             </td>
                             <td>
-                                {{ eleve.prenom }}
+                                {{ eleve.prenom|ucwords }}
                             </td>
                             <td>
                                 {{ eleve.lycee.nom }}
