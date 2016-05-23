@@ -454,12 +454,12 @@ class Membre implements UserInterface, \Serializable
 
     }
 
-     /**
+    /**
     * Remove role
     */
     public function removeRole($oldRole)
     {
-        if (in_array($role, $this->roles)) {
+        if (in_array($oldRole, $this->roles)) {
             $roles = $this->roles;
             foreach ($roles as $key => $role) {
                 if ($role == $oldRole) {

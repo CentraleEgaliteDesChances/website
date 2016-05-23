@@ -1,0 +1,3 @@
+cec_calendrier_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: CECCalendrierBundle:Default:index }

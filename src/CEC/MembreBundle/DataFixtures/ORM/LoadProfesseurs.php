@@ -388,6 +388,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
 
     /**
     * Retourne un rôle aléatoire
+    * @return string Rôle aléatoire.
     */
     public function roleAleatoire()
     {
