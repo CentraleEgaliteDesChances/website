@@ -47,6 +47,12 @@ class SeancesPlanningEventListener
         $dateDebut = $calendarEvent->getStartDatetime();
         $dateFin = $calendarEvent->getEndDatetime();
 
+        // The original request so you can get filters from the calendar
+        // Use the filter in your query for example
+
+        $request = $calendarEvent->getRequest();
+        $filter = $request->get('filtre_seances');
+
         // On récupère les séances correspondant aux dates voulues
         $seances = $this->entityManager
                         ->getRepository('CECTutoratBundle:Seance')
