@@ -1,3 +1,3 @@
-cec_calendrier_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: CECCalendrierBundle:Default:index }
+afficher_le_planning:
+    path: /planning
+    defaults: { _controller: CECCalendrierBundle:Calendrier:afficher }

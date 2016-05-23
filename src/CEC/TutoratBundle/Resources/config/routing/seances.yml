@@ -10,9 +10,6 @@ seance:
     requirements:
         seance: \d+
 
-toutes_seances:
-    path: /planning
-    defaults: { _controller: CECTutoratBundle:Seances:toutes }
 
 seance_basculer_tuteur:
     path: /{seance}/basculer_tuteur/{tuteur}
