@@ -15,7 +15,6 @@ use CEC\MembreBundle\Form\Type\GroupeEleveType;
 
 use CEC\TutoratBundle\Entity\GroupeEleves;
 
-use CEC\MainBundle\Utility\Referer;
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 
 

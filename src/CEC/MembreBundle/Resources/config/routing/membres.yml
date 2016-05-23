@@ -92,3 +92,9 @@ gestion_eleves_test:
     path: /gestionElevesTest
     defaults: {_controller: CECMembreBundle:Membres:gestionElevesTest}
 
+supprimer_eleves:
+    path: /supprimerEleve/{eleveid}
+    defaults: {_controller: CECMembreBundle:Membres:supprimerEleve}
+    requirements:
+        eleveid: \d+
+

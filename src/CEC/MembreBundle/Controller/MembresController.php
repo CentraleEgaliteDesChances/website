@@ -447,6 +447,8 @@ class MembresController extends Controller
     }
 
 
+
+
     /**
      * Permet d'effectuer les passations du Buro.
      * La page affiche tous les membres bénéficiant du statut de membre du buro, et permet
@@ -654,6 +656,32 @@ class MembresController extends Controller
             'form' => $form->createView(),
         );
 
+    }
+
+    /**
+     * Permet de supprimer un lycéen
+     *
+     * @param CEC\MembreBundle\Entity\Eleve
+     * @return array
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+
+    public function supprimerEleveAction($eleveid)
+    {
+        $eleve = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($eleveid);
+        if (!$eleve) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        $request = $this->getRequest();
+        if ($request->isMethod("POST")) {
+            $entityManager = $this->getDoctrine()->getEntityManager();
+            $entityManager->remove($eleve);
+            $entityManager->flush();
+            $this->get('session')->getFlashBag()->add('success', $eleve->getUsername().' a bien été définitivement supprimé.');
+            return $this->redirect($this->generateUrl('gestion_eleves'));
+        }
+        return array(
+            'eleve' =>$eleve,
+        );
     }
 
 
