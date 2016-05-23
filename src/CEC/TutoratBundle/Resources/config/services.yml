@@ -1,6 +1,1 @@
 services:
-    cec_tutorat.seances_planning_event_listener:
-        class: CEC\TutoratBundle\EventListener\SeancesPlanningEventListener
-        arguments: [@doctrine.orm.entity_manager, @router]
-        tags:
-            - { name: kernel.event_listener, event: calendar.load_events, method: loadEvents }

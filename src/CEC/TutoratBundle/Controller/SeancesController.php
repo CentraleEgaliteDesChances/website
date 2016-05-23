@@ -20,13 +20,6 @@ use \DateTime;
 
 class SeancesController extends Controller
 {
-    /**
-     * Affiche le planning de toutes les séances de tutorat.
-     */
-    public function toutesAction()
-    {
-        return $this->render('CECTutoratBundle:Seances:planning.html.twig');
-    }
 
     /**
      * Affiche la page de la séance de tutorat.
