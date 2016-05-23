@@ -3,6 +3,20 @@
 namespace CEC\CalendrierBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use CEC\TutoratBundle\Entity\Seance;
+use CEC\TutoratBundle\Form\Type\SeanceType;
+use CEC\ActiviteBundle\Form\Type\CompteRenduType;
+
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
+
+use CEC\TutoratBundle\Entity\GroupeEleves;
+use CEC\TutoratBundle\Entity\GroupeTuteurs;
+
+use CEC\MembreBundle\Entity\Membre;
+use CEC\MembreBundle\Entity\Eleve;
+
+use \DateTime;
 
 class CalendrierController extends Controller
 {
