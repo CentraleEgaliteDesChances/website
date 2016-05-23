@@ -1,6 +1,6 @@
 cec_calendrier:
     resource: "@CECCalendrierBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /planning
 
 cec_secteur_projets:
     resource: "@CECSecteurProjetsBundle/Resources/config/routing.yml"
