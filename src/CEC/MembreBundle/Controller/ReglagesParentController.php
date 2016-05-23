@@ -9,6 +9,7 @@
 namespace CEC\MembreBundle\Controller;
 
 
+use CEC\MembreBundle\Form\Type\EnfantsParentType;
 use CEC\MembreBundle\Form\Type\InfosParentType;
 use CEC\MembreBundle\Form\Type\MotDePasseMembreType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -18,8 +19,8 @@ class ReglagesParentController extends Controller
 {
     /**
      * Modification des informations personnelles.
-     * Cette page permet de modifier les informations personnelles d'un membre (nom, prénom,
-     * adresse électronique, numéro de téléphone et promotion). Elle permet aussi de changer le mot de passe.
+     * Cette page permet de modifier les informations personnelles d'un parent (nom, prénom,
+     * adresse électronique, numéro de téléphone). Elle permet aussi de changer le mot de passe.
      *
      * @Template()
      */
@@ -78,4 +79,31 @@ class ReglagesParentController extends Controller
             'parent'             => $parent
         );
     }
+
+    /**
+     * Cette page permet au parent de modifier ces enfants
+     *
+     * @Template()
+     */
+    public function enfantsAction()
+    {
+        $parent = $this->getUser();
+        $form = $this->createForm(EnfantsParentType::class,$parent);
+
+        $request = $this->getRequest();
+        if ($request->isMethod("POST"))
+        {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
+                return $this->redirect($this->generateUrl('reglages_enfants_parent'));
+            }
+        }
+        return array(
+            'parent' => $parent,
+            'form' => $form->createView()
+        );
+    }
+
 }

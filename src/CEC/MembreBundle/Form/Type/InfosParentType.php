@@ -36,17 +36,6 @@ class InfosParentType extends AbstractType
                 'label' => 'Numéro de téléphone portable',
                 'required' => false,
             ))
-            ->add('eleves', 'entity', array(
-                'class' => 'CEC\MembreBundle\Entity\Eleve',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('eleve')
-                        ->orderBy('eleve.nom')
-                        ->addOrderBy('eleve.prenom');
-                },
-                'multiple' => true,
-                'placeholder' => 'Choisir parmi les élèves inscrits',
-                'label' => 'De quels élèves êtes-vous le parent ?'
-            ))
             ->add('checkMail', 'checkbox', array(
                 'label' => 'Recevoir les mails automatiques de CEC',
                 'required' => false

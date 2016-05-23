@@ -51,3 +51,9 @@ reglages_infos_parent:
     defaults: {_controller: CECMembreBundle:ReglagesParent:infos}
     requirements:
         parent: \d+
+
+reglages_enfants_parent:
+    path: /enfants-parent
+    defaults: {_controller: CECMembreBundle:ReglagesParent:enfants}
+    requirements:
+        parent: \d+
