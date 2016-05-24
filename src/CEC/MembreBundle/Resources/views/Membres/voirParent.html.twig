@@ -49,6 +49,13 @@
                 </td>
             </tr>
         {% endfor %}
+        {% if parent == app.user %}
+            <tr>
+                <td>
+                    {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilisez le bouton en bas à gauche de votre écran.") }}
+                </td>
+            </tr>
+        {% endif %}
         </tbody>
     </table>
 
