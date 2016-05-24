@@ -7,11 +7,18 @@
 
 
     {{ parent() }}
-<div class="well"style="padding:20px;">
-    <h2> Liste des parents</h2>
+    <div class="well"style="padding:20px;">
+        <h2> Liste des parents</h2>
 
-    <form method="post">
         <div class="row" style="padding-top: 20px">
+            <div class="btn-group pull-left" style="padding-left: 20px;padding-bottom: 20px">
+                <a href="{{ path('excel_parents') }}">
+                    <button type="button" class="btn btn-primary">
+                        Excel des parents
+                    </button>
+                </a>
+
+            </div>
             <table class="table table-hover table-bordered table-condensed table-striped text-center">
                 <thead>
                 <tr>
@@ -70,6 +77,6 @@
                 {% endif %}
             </table>
         </div>
+    </div>
 
-
-        {% endblock %}
+{% endblock %}

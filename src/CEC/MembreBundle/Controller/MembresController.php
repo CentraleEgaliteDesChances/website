@@ -421,6 +421,55 @@ class MembresController extends Controller
         return $response;
     }
 
+    /**
+     * Permet de générer un excel comportant la liste des élèves ainsi que toutes les informations qui les concernent
+     *
+     * @return StreamedResponse
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function excelParentsAction()
+    {
+        $response = new StreamedResponse(function() {
+            $handle = fopen('php://output', 'r+');
+            //Ajout de l'entete
+            $tab = array(
+                'Id',
+                'Nom',
+                'Prenom',
+                'Email',
+                'Telephone',
+                'Enfants'
+            );
+            fputcsv($handle, $tab,';');
+            //Recherche dans la base de donnée
+            $parents = $this->getDoctrine()->getRepository('CECMembreBundle:ParentEleve')->findAll();
+            foreach ($parents as $parent) {
+
+                //Génération de la case des projets qui intéressent l'élève
+                $enfants = "";
+                foreach ($parent->getEleves() as $enfant) {
+                    $enfants = $enfants.$enfant.",";
+                }
+                //Génération de la ligne
+                $tab = array(
+                    $parent->getId(),
+                    $parent->getNom(),
+                    $parent->getPrenom(),
+                    $parent->getMail(),
+                    $parent->getTelephone(),
+                    $enfants
+                );
+                fputcsv($handle, $tab,';');
+            }
+            fclose($handle);
+
+        });
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+        //$response->headers->set('Content-Disposition','attachment; filename="excel_parents.csv"');
+
+        return $response;
+    }
+
 
 
 

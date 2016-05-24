@@ -107,3 +107,7 @@ supprimer_parent:
     defaults: {_controller: CECMembreBundle:Membres:supprimerParent}
     requirements:
         eleveid: \d+
+
+excel_parents:
+    path: /gestionParents/excel-parents
+    defaults: {_controller: CECMembreBundle:Membres:excelParents}
