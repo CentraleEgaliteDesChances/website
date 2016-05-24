@@ -98,3 +98,12 @@ supprimer_eleves:
     requirements:
         eleveid: \d+
 
+gestion_parents:
+    path: /gestionParents
+    defaults: {_controller: CECMembreBundle:Membres:gestionParents}
+
+supprimer_parent:
+    path: /supprimerParent/{parentid}
+    defaults: {_controller: CECMembreBundle:Membres:supprimerParent}
+    requirements:
+        eleveid: \d+

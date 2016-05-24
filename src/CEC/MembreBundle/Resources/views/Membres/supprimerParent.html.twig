@@ -1,0 +1,48 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% block container %}
+    <form method="post" action="{{ path('supprimer_parent', {'parentid': parent.id }) }}">
+        <h2> Voulez-vous vraiment supprimer {{ parent }} ?</h2>
+
+        {{ parent() }}
+
+        <table class="table table-bordered">
+
+            <tbody>
+            <tr>
+                <td> <b> Id </b> </td>
+                <td> <b> Username </b> </td>
+                <td> <b> Prénom </b> </td>
+                <td> <b> Nom </b> </td>
+                <td> <b> Enfants </b> </td>
+            </tr>
+            <tr>
+                <td> {{ parent.id }} </td>
+                <td> {{ parent.username }} </td>
+                <td> {{ parent.nom }} </td>
+                <td> {{ parent.prenom }} </td>
+                <td>
+                    <ul class ="list-inline">
+                        {% for eleve in parent.eleves %}
+                            <li>
+                                <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    {{ eleve }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="footer-controls">
+            <input type="submit" value="Supprimer" class="btn btn-danger pull-right" />
+            <a href="{{ path('gestion_parents') }}" class="btn btn-default pull-right">Annuler</a>
+
+        </div>
+
+    </form>
+{% endblock %}

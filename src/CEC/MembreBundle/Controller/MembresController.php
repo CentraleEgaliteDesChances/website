@@ -502,6 +502,7 @@ class MembresController extends Controller
         return $this->redirect($this->generateUrl('passations'));
     }
 
+
     /**
      * Auteur : Jimmy EUng
      *
@@ -621,6 +622,31 @@ class MembresController extends Controller
 
     public function gestionElevesTestAction()
     {
+
+    }
+
+    /**
+     * Auteur : Jimmy EUng
+     *
+     * Permet de gérer l'ensemble des lycéens.
+     * Cette page n'est accessible qu'aux membres du buro
+     * La page affiche tous les lycéens inscrits sur le site et donne la possibilité de :
+     * - trier la liste selon le paramètre voulu
+     * - récuperer un excel de tous les lycéens
+     * - dire si un élève a bien rendu ses documents
+     *
+     *
+     * @return array
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function gestionParentsAction()
+    {
+        $parents = $this->getDoctrine()->getRepository('CECMembreBundle:ParentEleve')->findAll();
+
+        return array(
+            'parents' =>$parents
+        );
     }
 
 
@@ -683,6 +709,32 @@ class MembresController extends Controller
             'eleve' =>$eleve,
         );
     }
+
+    /**
+     * Permet de supprimer un parent
+     *
+     * @param CEC\MembreBundle\Entity\Parent
+     * @return array
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function supprimerParentAction($parentid)
+    {
+        $parent = $this->getDoctrine()->getRepository('CECMembreBundle:ParentEleve')->find($parentid);
+        if (!$parent) throw $this->createNotFoundException('Impossible de trouver le profil !');
+        $request = $this->getRequest();
+        if ($request->isMethod("POST")) {
+            $entityManager = $this->getDoctrine()->getEntityManager();
+            $entityManager->remove($parent);
+            $entityManager->flush();
+            $this->get('session')->getFlashBag()->add('success', $parent->getUsername().' a bien été définitivement supprimé.');
+            return $this->redirect($this->generateUrl('gestion_parents'));
+        }
+        return array(
+            'parent' =>$parent,
+        );
+    }
+
 
 
 
