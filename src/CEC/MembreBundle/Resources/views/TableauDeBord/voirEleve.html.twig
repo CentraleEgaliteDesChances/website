@@ -2,26 +2,59 @@
 
 
 {% block stylesheets %}
-	{{parent()}}
-    {% stylesheets 
-		'@CECMembreBundle/Resources/public/less/tableau_de_bord.less'
-	%}
+    {{parent()}}
+    {% stylesheets
+    '@CECMembreBundle/Resources/public/less/tableau_de_bord.less'
+    %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
 {% endblock %}
 
 
 {% block container %}
-{{ parent() }}
+    {{ parent() }}
 
     <div class="text-centered">
 
+
+
         {% image '@CECMembreBundle/Resources/public/img/logo_cec.png' %}
-            <img src="{{ asset_url }}" alt="Logo CEC" class="logo"/>
+        <img src="{{ asset_url }}" alt="Logo CEC" class="logo"/>
         {% endimage %}
-
         <h4 class="bienvenue">Bienvenue sur le site interne, {{ eleve }} !</h4>
+        {% if not (eleve.charteEleveRendue and eleve.autorisationParentaleRendue and eleve.droitImageRendue) %}
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="alert alert-warning">
+                        <b>Tu as encore des documents à rendre !</b><br/>
+                        Il manque encore à ton dossier les éléments suivants :
+                        <ul>
+                            {% if not eleve.charteEleveRendue  %}
+                                <li>La charte Élève</li>
+                            {% endif %}
+                            {% if not eleve.autorisationParentaleRendue %}
+                                <li>Ton autorisation Parentale</li>
+                            {% endif %}
+                            {% if not eleve.droitImageRendue %}
+                                <li>Ton droit à l'image</li>
+                            {% endif %}
+                        </ul>
+                        Si tu les as déjà rendu auprès de tes tuteurs et que ton statut n'est toujours pas mis à jour, nous t'invitons à le signaler en envoyant un <a href="mailto:contact@cec-ecp.com" class="alert-link">mail</a>.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
+        {% if eleve.dossierInscription == null %}
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="alert alert-warning">
+                        <b>Tu n'as toujours pas rempli ton dossier inscription !</b><br/>
+                        Tu peux le faire en <a href="{{ path('reglages_dossier_inscription_eleve') }}" class="alert-link">cliquant ici</a>.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
         <ul class="liens">
             <li><a href="{{ path('toutes_seances') }}">Planning de l'association</a></li>
@@ -32,37 +65,17 @@
             {% if eleve.groupe %}
                 {% if seance_a_venir %}
                     <li><a href="{{ path('seance', { 'seance': seance_a_venir.id }) }}">
-                        Ma prochaine séance :
-                        <strong>{{ cycle(jours, seance_a_venir.date|date('N'))|lower }} {{ seance_a_venir.date|date('j') }} {{ cycle(mois, seance_a_venir.date|date('n')) }} à {{ seance_a_venir.retreiveDebut|date('G\\hi') }}</strong>
-                    </a></li>
+                            Ma prochaine séance :
+                            <strong>{{ cycle(jours, seance_a_venir.date|date('N'))|lower }} {{ seance_a_venir.date|date('j') }} {{ cycle(mois, seance_a_venir.date|date('n')) }} à {{ seance_a_venir.retreiveDebut|date('G\\hi') }}</strong>
+                        </a></li>
                 {% endif %}
                 <li><a href="{{ path('groupe', { 'groupe': eleve.groupe.id }) }}">Mon groupe de tutorat</a></li>
-            {% else %}</p>
+            {% else %}
                 <p>Tu n'es pas inscrit dans un groupe de tutorat. <br />Pour être prévenu des séances à venir, <br />et consulter les activités, tu dois t'inscrire à un groupe.</p>
                 <a href="{{ path('reglages_groupe_eleve') }}" class="btn btn-primary btn-large inscription">
                     <strong>M'inscrire à un groupe de tutorat</strong>
                 </a>
             {% endif %}
-        </ul>
-        <ul class ="liens">
-            {% if not (eleve.charteEleveRendue and eleve.autorisationParentaleRendue and eleve.droitImageRendue) %}
-                <p>
-                    <b>Tu as encore des documents à rendre !</b><br/>
-                    Il manque encore à ton dossier les éléments suivants :
-                    <ul>
-                        {% if not eleve.charteEleveRendue  %}
-                          <li>La charte Élève</li>
-                        {% endif %}
-                        {% if not eleve.autorisationParentaleRendue %}
-                            <li>Ton autorisation Parentale</li>
-                        {% endif %}
-                        {% if not eleve.droitImageRendue %}
-                            <li>Ton droit à l'image</li>
-                        {% endif %}
-                    </ul>
-                </p>
-            {% endif %}
-
         </ul>
         <ul class="liens">
             <li><a href="{{ path('voir_eleve', { 'id' : eleve.id }) }}">Mon profil</a></li>
@@ -70,23 +83,23 @@
         </ul>
 
 
-{#
-        <div class="alert alert-info">
-            <h3>Le site interne est en version 1.0 BÊTA 3</h3>
-            <p><strong>Merci de vous pencher de plus près sur ces points qui ont été corrigés :</strong></p>
-            <ul>
-                <li>Permet la modification et l'affichage des VP Lycées</li>
-                <li>Correction d'un bug qui empêchait l'authentification avec un prénom ou un nom composé</li>
-                <li>Correction d'un bug qui obligeait à cocher "Lycée de ZEP"</li>
-                <li>Correction d'un bug Vous avez indiqué ne pas pouvoir venir à cette séance" même si le membre n'appartient pas au groupe de tutorat</li>
-                <li>Masque la liste des activités rédigées par un membre s'il n'y en a aucune</li>
-                <li>Affichage "Aucun numéro" si un membre n'a pas renseigné de numéro de téléphone</li>
-                <li>Déplace l'affichage de l'appartenance au buro dans la liste des secteurs du membre</li>
-                <li>Capitalisation correcte des prénoms et des noms</li>
-            </ul>
-            <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
-        </div>
-#}
+        {#
+                <div class="alert alert-info">
+                    <h3>Le site interne est en version 1.0 BÊTA 3</h3>
+                    <p><strong>Merci de vous pencher de plus près sur ces points qui ont été corrigés :</strong></p>
+                    <ul>
+                        <li>Permet la modification et l'affichage des VP Lycées</li>
+                        <li>Correction d'un bug qui empêchait l'authentification avec un prénom ou un nom composé</li>
+                        <li>Correction d'un bug qui obligeait à cocher "Lycée de ZEP"</li>
+                        <li>Correction d'un bug Vous avez indiqué ne pas pouvoir venir à cette séance" même si le membre n'appartient pas au groupe de tutorat</li>
+                        <li>Masque la liste des activités rédigées par un membre s'il n'y en a aucune</li>
+                        <li>Affichage "Aucun numéro" si un membre n'a pas renseigné de numéro de téléphone</li>
+                        <li>Déplace l'affichage de l'appartenance au buro dans la liste des secteurs du membre</li>
+                        <li>Capitalisation correcte des prénoms et des noms</li>
+                    </ul>
+                    <a href="mailto:jean-baptiste.bayle@student.ecp.fr" class="btn btn-info">Reporter un bug</a>
+                </div>
+        #}
 
     </div>
 
