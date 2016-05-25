@@ -160,6 +160,13 @@ class ParentEleve implements UserInterface, \Serializable
      */
     private $checkMail = true;
 
+    /**
+     * Booléen enregistrant si le parent souhaite ou non rendre public son email
+     *
+     *@ORM\Column(name="hideMail", type="boolean")
+     */
+    private $hideMail = true;
+
 
     /**
      * @var Collection
@@ -445,5 +452,22 @@ class ParentEleve implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getHideMail()
+    {
+        return $this->hideMail;
+    }
+
+    /**
+     * @param mixed $hideMail
+     */
+    public function setHideMail($hideMail)
+    {
+        $this->hideMail = $hideMail;
+    }
+
+    
 
 }

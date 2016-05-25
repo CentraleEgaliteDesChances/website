@@ -32,6 +32,10 @@ class InfosParentType extends AbstractType
                 'label' => 'Adresse email',
                 'attr' => array('placeholder' => 'Adresse Mail'),
             ))
+            ->add('hideMail', 'checkbox', array(
+                'label' => 'Ne pas afficher votre email en public',
+                'required' => false
+            ))
             ->add('telephone', 'text', array(
                 'label' => 'Numéro de téléphone portable',
                 'required' => false,
