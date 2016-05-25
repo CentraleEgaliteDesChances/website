@@ -101,6 +101,94 @@ class Mailer
 
 
 	/**
+	 *
+	 * ################################
+	 *
+	 * Mails dédiés aux lycéens
+	 *
+	 * ################################
+	 *
+	 */
+
+	/**
+	 *
+	 * Mail d'inscription d'un nouveau tutoré
+	 *
+	 */
+	public function sendInscriptionEleve($eleve, $motDePasse, $baseUrl)
+	{
+		$subject = "Bienvenue sur le site de CEC !";
+		$to = array($eleve->getMail() => $eleve->__toString());
+		$body = $this->templating->render('CECMembreBundle:Mail:bienvenueEleve.html.twig',
+			array(
+				'eleve' => $eleve,
+				'mot_de_passe' => $motDePasse,
+				'base_url' => $baseUrl,
+			));
+
+		$this->sendMessage($to, $subject, $body);
+	}
+
+	/**
+	 * ################################
+	 *
+	 * Mails dédiés aux parents
+	 *
+	 * ################################
+	 */
+
+	/**
+	 *
+	 * Mail de notification à un parent lorsque son enfant s'inscrit
+	 *
+	 */
+	public function sendNotificationParentInscriptionEleve($parent, $baseUrl)
+	{
+		$subject = "[CEC] Votre enfant vient de s'inscrire sur le site de CEC !";
+		$to = array($parent->getMail() => $parent->__toString());
+		$body = $this->templating->render('CECMembreBundle:Mail:notificationParentInscriptionEleve.html.twig',
+			array(
+				'parent' => $parent,
+				'base_url' => $baseUrl,
+			));
+
+		$this->sendMessage($to, $subject, $body);
+	}
+
+	public function sendNotificationParentInscriptionSortieEleve($parent, $eleve, $baseUrl)
+	{
+		$subject = "[CEC] Votre enfant s'est inscrit à une sortie  !";
+		$to = array($parent->getMail() => $parent->__toString());
+		$body = $this->templating->render('CECMembreBundle:Mail:notificationParentInscriptionSortieEleve.html.twig',
+			array(
+				'parent' => $parent,
+				'eleve' => $eleve,
+				'base_url' => $baseUrl,
+			));
+
+		$this->sendMessage($to, $subject, $body);
+	}
+
+	/**
+	 *
+	 * Mail d'inscription d'un nouveau parent
+	 *
+	 */
+	public function sendInscriptionParent($parent, $motDePasse, $baseUrl)
+	{
+		$subject = "Bienvenue sur le site de CEC !";
+		$to = array($parent->getMail() => $parent->__toString());
+		$body = $this->templating->render('CECMembreBundle:Mail:bienvenueParent.html.twig',
+			array(
+				'parent' => $parent,
+				'mot_de_passe' => $motDePasse,
+				'base_url' => $baseUrl,
+			));
+
+		$this->sendMessage($to, $subject, $body);
+	}
+	
+	/**
 	* ################################
 	*
 	* Mails dédiés aux projets 
