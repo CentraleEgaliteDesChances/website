@@ -61,7 +61,12 @@ class SecuriteController extends Controller
 		$form = $this->createFormBuilder()
 			->add('categorie', 'choice', array(
 				'label' => 'Statut :',
-				'choices' => array('tuteur' => 'Tuteur', 'lyceen' => 'Lycéen', 'prof' => 'Enseignant')
+				'choices' => array(
+					'tuteur' => 'Tuteur',
+					'lyceen' => 'Lycéen',
+					'prof' => 'Enseignant',
+					'parent' =>'Parent'
+				)
 			))
 			->add('username', 'text')
 			->getForm();
@@ -86,8 +91,11 @@ class SecuriteController extends Controller
 						case 'lyceen':
 							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->loadUserByUsername($data['username']);
 							break;
-						case 'professeur':
+						case 'prof':
 							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:Professeur')->loadUserByUsername($data['username']);
+							break;
+						case 'parent':
+							$membre = $this->getDoctrine()->getRepository('CECMembreBundle:ParentEleve')->loadUserByUsername($data['username']);
 							break;
 						default:
 							break;
