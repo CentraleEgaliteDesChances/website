@@ -47,7 +47,7 @@
                                 
                                     {{ path('voir_eleve', { 'id': lyceen.id }) }}
                             {% else %}
-                                    #
+                                    {{ path('voir_eleve', { 'id': lyceen.id }) }}
                             {% endif %}
                             ">
                         <strong>{{ lyceen.prenom }} {{ lyceen.nom }}</strong>
@@ -78,7 +78,7 @@
                                 
                                     {{ path('voir_membre', { 'membre': tuteur.id }) }}
                             {% else %}
-                                    #
+                                    {{ path('voir_membre', { 'membre': tuteur.id }) }}
                             {% endif %}
                             ">
                         <strong>{{ tuteur.prenom }} {{ tuteur.nom }}</strong>
@@ -109,7 +109,7 @@
                                 
                                     {{ path('voir_professeur', { 'id': enseignant.id }) }}
                             {% else %}
-                                    #
+                                    {{ path('voir_professeur', { 'id': enseignant.id }) }}
                             {% endif %}
                             ">
                         <strong>{{ enseignant.prenom }} {{ enseignant.nom }}</strong><br />

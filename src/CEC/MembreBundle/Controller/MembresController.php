@@ -298,6 +298,7 @@ class MembresController extends Controller
                 'Autorisation Parentale',
                 'Droit image',
                 'Inscrit sur le site',
+                'Dossier rendu',
                 'Profession Père',
                 'Profession Mère',
                 'Telephone Parent',
@@ -344,9 +345,11 @@ class MembresController extends Controller
             foreach ($eleves as $eleve) {
 
                 $dossier = $eleve->getDossierInscription();
+                $dossierRempli = "Oui";
                 //Gère le cas où l'élève a compléter son dossier d'inscription
                 if ($dossier == null) {
                     $dossier = new DossierInscription();
+                    $dossierRempli = "Non";
                 }
                 //Génération de la case des projets qui intéressent l'élève
                 $projetQuiInteresse = "";
@@ -370,6 +373,7 @@ class MembresController extends Controller
                     $eleve->isAutorisationParentaleRendue()?'Oui':'Non',
                     $eleve->isDroitImageRendue()?'Oui':'Non',
                     'Oui',
+                    $dossierRempli,
                     $dossier->getProfessionPere(),
                     $dossier->getProfessionMere(),
                     $dossier->getTelephoneParent(),
