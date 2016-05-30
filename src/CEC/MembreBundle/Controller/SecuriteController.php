@@ -175,6 +175,7 @@ class SecuriteController extends Controller
 				{
 					$inscrit->setUsername($prenom.$nom);
 				}
+				$inscrit->setReferent($form->get('lycee')->getData());
 				//Enregistrement en BDD
 
 				$encoder = $this->container->get('security.encoder_factory')->getEncoder($inscrit);
