@@ -42,16 +42,11 @@ class SeancesPlanningEventListener
         $this->router = $router;
     }
 
-    public function loadEvents(CalendarEvent $calendarEvent)
+    public function loadEvents1(CalendarEvent $calendarEvent)
     {
         $dateDebut = $calendarEvent->getStartDatetime();
         $dateFin = $calendarEvent->getEndDatetime();
 
-        // The original request so you can get filters from the calendar
-        // Use the filter in your query for example
-
-        $request = $calendarEvent->getRequest();
-        $filter = $request->get('filtre_seances');
 
         // On récupère les séances correspondant aux dates voulues
         $seances = $this->entityManager
@@ -61,7 +56,7 @@ class SeancesPlanningEventListener
         foreach($seances as $seance)
         {
             // On crée l'event et on attribue l'URL
-            $event = new EventEntity('Séance de tutorat', $seance->retreiveDateDebut(), $seance->retreiveDateFin());
+            $event = new EventEntity('seance_de_tutorat','categorie_seances', $seance->retreiveDateDebut(), $seance->retreiveDateFin());
             $event->setUrl($this->router->generate('seance', array('seance' => $seance->getId())));
             
             if ($seance->getGroupe())
@@ -72,6 +67,23 @@ class SeancesPlanningEventListener
             } else {
                 $event->setBgColor($this->couleurGris);
             }
+
+            $calendarEvent->addEvent($event);
+        }
+
+        // On récupère les sorties correspondant aux dates voulues
+        $sorties = $this->entityManager
+                        ->getRepository('CECSecteurSortiesBundle:Sortie')
+                        ->findAllBetweenDates($dateDebut, $dateFin);
+
+        foreach($sorties as $sortie)
+        {
+            // On crée l'event
+            $event = new EventEntity('Sortie', 'categorie_sorties', $sortie->retreiveDateDebut(), $sortie->retreiveDateFin());
+
+            $titre = $sortie->getNom();
+            $event->setTitle('Sortie : ' . $titre);
+            $event->setBgColor('#dd0000');
 
             $calendarEvent->addEvent($event);
         }

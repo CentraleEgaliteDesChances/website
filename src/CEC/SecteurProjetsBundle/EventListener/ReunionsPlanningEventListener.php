@@ -32,7 +32,7 @@ class ReunionsPlanningEventListener
         foreach($reunions as $reunion)
         {
             // On crée l'event
-            $event = new EventEntity('Reunion', $reunion->retreiveDateDebut(), $reunion->retreiveDateFin());
+            $event = new EventEntity('Reunion','categorie_reunions', $reunion->retreiveDateDebut(), $reunion->retreiveDateFin());
 
             $titre = $reunion->getNom();
             $event->setTitle('Reunion : ' . $titre);

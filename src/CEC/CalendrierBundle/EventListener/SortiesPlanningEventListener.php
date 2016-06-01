@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\SecteurSortiesBundle\EventListener;
+namespace CEC\CalendrierBundle\EventListener;
 
 use ADesigns\CalendarBundle\Event\CalendarEvent;
 use ADesigns\CalendarBundle\Entity\EventEntity;
@@ -19,7 +19,7 @@ class SortiesPlanningEventListener
         $this->router = $router;
     }
 
-    public function loadEvents(CalendarEvent $calendarEvent)
+    public function loadEvents2(CalendarEvent $calendarEvent)
     {
         $dateDebut = $calendarEvent->getStartDatetime();
         $dateFin = $calendarEvent->getEndDatetime();
@@ -32,7 +32,7 @@ class SortiesPlanningEventListener
         foreach($sorties as $sortie)
         {
             // On crée l'event
-            $event = new EventEntity('Sortie', $sortie->retreiveDateDebut(), $sortie->retreiveDateFin());
+            $event = new EventEntity('Sortie','categorie_sorties', $sortie->retreiveDateDebut(), $sortie->retreiveDateFin());
 
             $titre = $sortie->getNom();
             $event->setTitle('Sortie : ' . $titre);

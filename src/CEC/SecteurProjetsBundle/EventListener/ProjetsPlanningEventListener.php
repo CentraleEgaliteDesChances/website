@@ -32,7 +32,7 @@ class ProjetsPlanningEventListener
         foreach($projets as $projet)
         {
             // On crée l'event
-            $event = new EventEntity('Projet', $projet->retreiveDateDebut(), $projet->retreiveDateFin());
+            $event = new EventEntity('Projet','categorie_projets', $projet->retreiveDateDebut(), $projet->retreiveDateFin());
 
             $titre = $projet->getNom();
             $event->setTitle('Projet : ' . $titre);

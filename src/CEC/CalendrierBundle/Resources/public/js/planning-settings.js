@@ -24,7 +24,8 @@ $(function () {
 						type: 'POST',
 						// A way to add custom filters to your event listeners
                         data: {
-                        filter: 'filtre_seances'
+                        filter: ''
+                        },
                         error: function() {
                            //alert('There was an error while fetching Google Calendar!');
                         }

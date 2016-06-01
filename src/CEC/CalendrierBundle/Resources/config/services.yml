@@ -3,4 +3,9 @@ services:
         class: CEC\CalendrierBundle\EventListener\SeancesPlanningEventListener
         arguments: [@doctrine.orm.entity_manager, @router]
         tags:
-            - { name: kernel.event_listener, event: calendar.load_events, method: loadEvents }
+            - { name: kernel.event_listener, event: calendar.load_events, method: loadEvents1 }
+    cec_secteur_sorties.sorties_planning_event_listener:
+        class: CEC\CalendrierBundle\EventListener\SortiesPlanningEventListener
+        arguments: [@doctrine.orm.entity_manager, @router]
+        tags:
+            - { name: kernel.event_listener, event: calendar.load_events, method: loadEvents2 }
