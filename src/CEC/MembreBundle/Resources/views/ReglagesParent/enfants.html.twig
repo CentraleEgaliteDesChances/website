@@ -17,7 +17,7 @@
             <ul>
                 {% for eleve in parent.eleves %}
                     <li>
-                        {{ eleve }}
+                        {{ eleve }} (<a href="{{ path('voir_eleve', { 'id': eleve.id }) }}">Voir profil</a>)
                     </li>
                 {% endfor %}
             </ul>
