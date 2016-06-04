@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use CEC\TutoratBundle\Entity\Seance;
 
-class SeancesPlanningEventListener
+class PlanningEventListener
 {
     private $entityManager;
     private $router;
@@ -42,7 +42,7 @@ class SeancesPlanningEventListener
         $this->router = $router;
     }
 
-    public function loadEvents1(CalendarEvent $calendarEvent)
+    public function loadEvents(CalendarEvent $calendarEvent)
     {
         $dateDebut = $calendarEvent->getStartDatetime();
         $dateFin = $calendarEvent->getEndDatetime();
@@ -71,6 +71,9 @@ class SeancesPlanningEventListener
             $calendarEvent->addEvent($event);
         }
 
+
+
+
         // On récupère les sorties correspondant aux dates voulues
         $sorties = $this->entityManager
                         ->getRepository('CECSecteurSortiesBundle:Sortie')
@@ -87,6 +90,48 @@ class SeancesPlanningEventListener
 
             $calendarEvent->addEvent($event);
         }
+
+
+
+        // On récupère les projets correspondant aux dates voulues
+        $projets = $this->entityManager
+                        ->getRepository('CECSecteurProjetsBundle:Projet')
+                        ->findAllBetweenDates($dateDebut, $dateFin);
+
+        foreach($projets as $projet)
+        {
+            // On crée l'event
+            $event = new EventEntity('Projet','categorie_projets', $projet->retreiveDateDebut(), $projet->retreiveDateFin());
+
+            $titre = $projet->getNom();
+            $event->setTitle('Projet : ' . $titre);
+            $event->setBgColor('#00dd00');
+            $event->setUrl($this->router->generate('description_projet', array('slug' => $projet->getSlug())));
+
+            $calendarEvent->addEvent($event);
+        }
+
+
+
+        // On récupère les réunions correspondant aux dates voulues
+        $reunions = $this->entityManager
+                        ->getRepository('CECSecteurProjetsBundle:Reunion')
+                        ->findAllBetweenDates($dateDebut, $dateFin);
+
+        foreach($reunions as $reunion)
+        {
+            // On crée l'event
+            $event = new EventEntity('Reunion','categorie_reunions', $reunion->retreiveDateDebut(), $reunion->retreiveDateFin());
+
+            $titre = $reunion->getNom();
+            $event->setTitle('Reunion : ' . $titre);
+            $event->setBgColor('#0000dd');
+            $event->setUrl($this->router->generate('liste_reunions'));
+
+            $calendarEvent->addEvent($event);
+        }
+
+
     }
     
     /**

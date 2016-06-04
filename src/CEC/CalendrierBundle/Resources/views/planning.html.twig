@@ -14,21 +14,113 @@
     {{ parent() }}
     <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    {% javascripts
-        '@ADesignsCalendarBundle/Resources/public/js/jquery/jquery-1.8.2.min.js'
-        '@ADesignsCalendarBundle/Resources/public/js/fullcalendar/jquery.fullcalendar.min.js'
-        '@CECCalendrierBundle/Resources/public/js/planning-settings.js'
-    %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+
+    {% if filtre == "all" %}
+
+        {% javascripts
+            '@ADesignsCalendarBundle/Resources/public/js/jquery/jquery-1.8.2.min.js'
+            '@ADesignsCalendarBundle/Resources/public/js/fullcalendar/jquery.fullcalendar.min.js'
+            '@CECCalendrierBundle/Resources/public/js/planning-settings.js'
+        %}
+
+
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% elseif filtre == "categorie_seances" %}
+
+        {% javascripts
+            '@ADesignsCalendarBundle/Resources/public/js/jquery/jquery-1.8.2.min.js'
+            '@ADesignsCalendarBundle/Resources/public/js/fullcalendar/jquery.fullcalendar.min.js'
+            '@CECCalendrierBundle/Resources/public/js/planning-settings_seances.js'
+        %}
+
+
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% elseif filtre == "categorie_sorties" %}
+
+        {% javascripts
+            '@ADesignsCalendarBundle/Resources/public/js/jquery/jquery-1.8.2.min.js'
+            '@ADesignsCalendarBundle/Resources/public/js/fullcalendar/jquery.fullcalendar.min.js'
+            '@CECCalendrierBundle/Resources/public/js/planning-settings_sorties.js'
+        %}
+
+
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% elseif filtre == "categorie_projets" %}
+
+        {% javascripts
+            '@ADesignsCalendarBundle/Resources/public/js/jquery/jquery-1.8.2.min.js'
+            '@ADesignsCalendarBundle/Resources/public/js/fullcalendar/jquery.fullcalendar.min.js'
+            '@CECCalendrierBundle/Resources/public/js/planning-settings_projets.js'
+        %}
+
+
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% elseif filtre == "categorie_reunions" %}
+
+        {% javascripts
+            '@ADesignsCalendarBundle/Resources/public/js/jquery/jquery-1.8.2.min.js'
+            '@ADesignsCalendarBundle/Resources/public/js/fullcalendar/jquery.fullcalendar.min.js'
+            '@CECCalendrierBundle/Resources/public/js/planning-settings_reunions.js'
+        %}
+
+
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+    {% endif %}
 {% endblock %}
 
 {% block container %}
     {{ parent() }}
     
+    <div class="btn-group pull-right">
+                <a class="btn btn-default navbar-btn" >
+                    {% if filtre == "all" %}
+                        {{ "Filtrer..."}}
+
+                    {% elseif filtre == "categorie_seances" %}
+                        {{ "Filtre : séances"}}
+
+                    {% elseif filtre == "categorie_sorties" %}
+                        {{ "Filtre : sorties"}}
+
+                    {% elseif filtre == "categorie_projets" %}
+                        {{ "Filtre : projets"}}
+
+                    {% elseif filtre == "categorie_reunions" %}
+                        {{ "Filtre : réunions"}}
+
+                    {% endif %}
+
+
+
+                </a>
+                <a class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                        <li><a href="{{ path('afficher_le_planning_filtre',{'filtre': "categorie_seances"}) }}">Séances</a></li>
+                        <li><a href="{{ path('afficher_le_planning_filtre',{'filtre': "categorie_sorties"}) }}">Sorties</a></li>
+                        <li><a href="{{ path('afficher_le_planning_filtre',{'filtre': "categorie_projets"}) }}">Projets</a></li>
+                        <li><a href="{{ path('afficher_le_planning_filtre',{'filtre': "categorie_reunions"}) }}">Réunions</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ path('afficher_le_planning') }}">Tout afficher</a></li>
+                        
+                    </ul>
+             </div>
+
     <div class="row">
         <div class="span12 planning">
             {% include 'ADesignsCalendarBundle::calendar.html.twig' %}
         </div>
     </div>
+
+
 {% endblock %}
+

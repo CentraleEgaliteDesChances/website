@@ -30,6 +30,14 @@ class CalendrierController extends Controller
      */
     public function afficherAction()
     {
-        return $this->render('CECCalendrierBundle::planning.html.twig');
+        return $this->render('CECCalendrierBundle::planning.html.twig', array(
+            'filtre'=>"all"));
+    }
+
+public function afficher_avec_filtreAction($filtre)
+    {
+        return $this->render('CECCalendrierBundle::planning.html.twig', array(
+            'filtre'=>$filtre)
+        );
     }
 }

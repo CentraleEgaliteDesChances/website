@@ -20,7 +20,7 @@ $(function () {
             },
 			eventSources: [
                     {
-                        url: Routing.generate('fullcalendar_loader', {'filtre':"all"}),
+                        url: Routing.generate('fullcalendar_loader', {'filtre':"categorie_sorties"}),
 						type: 'POST',
 						// A way to add custom filters to your event listeners
                         data: {
