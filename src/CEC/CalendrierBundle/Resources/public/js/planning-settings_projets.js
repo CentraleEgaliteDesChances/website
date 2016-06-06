@@ -20,8 +20,12 @@ $(function () {
             },
 			eventSources: [
                     {
-                        url: Routing.generate('fullcalendar_loader'),
+                        url: Routing.generate('fullcalendar_loader', {'filtre':"categorie_projets"}),
 						type: 'POST',
+						// A way to add custom filters to your event listeners
+                        data: {
+                        
+                        },
                         error: function() {
                            //alert('There was an error while fetching Google Calendar!');
                         }

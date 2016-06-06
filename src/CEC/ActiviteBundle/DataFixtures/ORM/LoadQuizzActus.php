@@ -36,19 +36,19 @@ class LoadQuizzActus extends AbstractFixture implements DependentFixtureInterfac
                 ->setAuteur($this->getReference('pol_maire'))
                 ->setSemaine($maintenant->modify(($maintenant->format('w') === '0') ? 'monday last week' : 'monday this week'))
                 ->setCommentaire('Quizz Actu bidon mais très intéressant');
-
         $quizz2 = new QuizzActu();
         $quizz2->setNomFichierPDF($pdfFixture)
                 ->setCommentaire('Ajout de tel et tel éléments, permettant de rallonger la durée de l\'activité.')
                 ->setAuteur($this->getReference('helene_sicsic'))
                 ->setSemaine($maintenant->modify(($maintenant->format('w') === '0')? 'monday last week' : 'monday this week'));
+
         
         $manager->persist($quizz1);
-        $manager->persist($quizz2);
+        //$manager->persist($quizz2);
         $manager->flush();
 
         $this->addReference('quizz1', $quizz1);
-        $this->addReference('quizz2', $quizz2);
+        //$this->addReference('quizz2', $quizz2);
 
     }
     

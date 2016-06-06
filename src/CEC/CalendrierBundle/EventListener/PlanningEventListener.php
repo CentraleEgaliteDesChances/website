@@ -1,6 +1,6 @@
 <?php
 
-namespace CEC\TutoratBundle\EventListener;
+namespace CEC\CalendrierBundle\EventListener;
 
 use ADesigns\CalendarBundle\Event\CalendarEvent;
 use ADesigns\CalendarBundle\Entity\EventEntity;
@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use CEC\TutoratBundle\Entity\Seance;
 
-class SeancesPlanningEventListener
+class PlanningEventListener
 {
     private $entityManager;
     private $router;
@@ -47,6 +47,7 @@ class SeancesPlanningEventListener
         $dateDebut = $calendarEvent->getStartDatetime();
         $dateFin = $calendarEvent->getEndDatetime();
 
+
         // On récupère les séances correspondant aux dates voulues
         $seances = $this->entityManager
                         ->getRepository('CECTutoratBundle:Seance')
@@ -55,7 +56,7 @@ class SeancesPlanningEventListener
         foreach($seances as $seance)
         {
             // On crée l'event et on attribue l'URL
-            $event = new EventEntity('Séance de tutorat', $seance->retreiveDateDebut(), $seance->retreiveDateFin());
+            $event = new EventEntity('seance_de_tutorat','categorie_seances', $seance->retreiveDateDebut(), $seance->retreiveDateFin());
             $event->setUrl($this->router->generate('seance', array('seance' => $seance->getId())));
             
             if ($seance->getGroupe())
@@ -69,6 +70,68 @@ class SeancesPlanningEventListener
 
             $calendarEvent->addEvent($event);
         }
+
+
+
+
+        // On récupère les sorties correspondant aux dates voulues
+        $sorties = $this->entityManager
+                        ->getRepository('CECSecteurSortiesBundle:Sortie')
+                        ->findAllBetweenDates($dateDebut, $dateFin);
+
+        foreach($sorties as $sortie)
+        {
+            // On crée l'event
+            $event = new EventEntity('Sortie', 'categorie_sorties', $sortie->retreiveDateDebut(), $sortie->retreiveDateFin());
+
+            $titre = $sortie->getNom();
+            $event->setTitle('Sortie : ' . $titre);
+            $event->setBgColor('#dd0000');
+
+            $calendarEvent->addEvent($event);
+        }
+
+
+
+        // On récupère les projets correspondant aux dates voulues
+        $projets = $this->entityManager
+                        ->getRepository('CECSecteurProjetsBundle:Projet')
+                        ->findAllBetweenDates($dateDebut, $dateFin);
+
+        foreach($projets as $projet)
+        {
+            // On crée l'event
+            $event = new EventEntity('Projet','categorie_projets', $projet->retreiveDateDebut(), $projet->retreiveDateFin());
+
+            $titre = $projet->getNom();
+            $event->setTitle('Projet : ' . $titre);
+            $event->setBgColor('#00dd00');
+            $event->setUrl($this->router->generate('description_projet', array('slug' => $projet->getSlug())));
+
+            $calendarEvent->addEvent($event);
+        }
+
+
+
+        // On récupère les réunions correspondant aux dates voulues
+        $reunions = $this->entityManager
+                        ->getRepository('CECSecteurProjetsBundle:Reunion')
+                        ->findAllBetweenDates($dateDebut, $dateFin);
+
+        foreach($reunions as $reunion)
+        {
+            // On crée l'event
+            $event = new EventEntity('Reunion','categorie_reunions', $reunion->retreiveDateDebut(), $reunion->retreiveDateFin());
+
+            $titre = $reunion->getNom();
+            $event->setTitle('Reunion : ' . $titre);
+            $event->setBgColor('#0000dd');
+            $event->setUrl($this->router->generate('liste_reunions'));
+
+            $calendarEvent->addEvent($event);
+        }
+
+
     }
     
     /**

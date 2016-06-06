@@ -2,14 +2,3 @@ parameters:
 #    cec_secteur_projets.example.class: CEC\SecteurProjetsBundle\Example
 
 services:
-    cec_secteur_projets.projets_planning_event_listener:
-        class: CEC\SecteurProjetsBundle\EventListener\ProjetsPlanningEventListener
-        arguments: [@doctrine.orm.entity_manager, @router]
-        tags:
-            - { name: kernel.event_listener, event: calendar.load_events, method: loadEvents, priority: -1 }
-            
-    cec_secteur_projets.reunions_planning_event_listener:
-        class: CEC\SecteurProjetsBundle\EventListener\ReunionsPlanningEventListener
-        arguments: [@doctrine.orm.entity_manager, @router]
-        tags:
-            - { name: kernel.event_listener, event: calendar.load_events, method: loadEvents, priority: -1 }

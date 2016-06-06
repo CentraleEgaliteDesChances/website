@@ -311,10 +311,14 @@ class Document
             $this->fichierPDF->move($this->getDossierRacineTelechargement(), $this->getNomFichierPDF());
             unset($this->fichierPDF);
         }
-        else
-        {
-            $this->genererFichierPDF();
-        }
+        /**
+        *
+        *
+        *else
+        *{
+        *    $this->genererFichierPDF();
+        *}
+        */
     }
 
     /**
