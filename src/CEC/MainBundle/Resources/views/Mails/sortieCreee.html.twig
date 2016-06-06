@@ -9,7 +9,7 @@
 	{{ cycle(mois, sortie.dateSortie|date('n')) -1 }} {{ sortie.dateSortie|date('Y') }} de {{sortie.heureDebut|date('G\\hi')}} à
 	{{sortie.heureFin|date('G\\hi')}}</strong>.<br/><br/>
 
-	Pour avoir plus d'informations sur cette sortie et t'y inscrire, rends-toi sur le site  : {{path('sorties_eleve')}}.<br/><br/>
+	Pour avoir plus d'informations sur cette sortie et t'y inscrire, rends-toi sur le <a href="{{ path('connexion') }}">site</a>, dans la section <strong>Sortie à venir</strong>.<br/><br/>
 
 	A très bientôt en séance,<br/><br/>
 

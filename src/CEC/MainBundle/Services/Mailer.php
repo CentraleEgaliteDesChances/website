@@ -154,20 +154,7 @@ class Mailer
 
 		$this->sendMessage($to, $subject, $body);
 	}
-
-	public function sendNotificationParentInscriptionSortieEleve($parent, $eleve, $baseUrl)
-	{
-		$subject = "[CEC] Votre enfant s'est inscrit à une sortie  !";
-		$to = array($parent->getMail() => $parent->__toString());
-		$body = $this->templating->render('CECMembreBundle:Mail:notificationParentInscriptionSortieEleve.html.twig',
-			array(
-				'parent' => $parent,
-				'eleve' => $eleve,
-				'base_url' => $baseUrl,
-			));
-
-		$this->sendMessage($to, $subject, $body);
-	}
+	
 
 	/**
 	 *
@@ -187,7 +174,27 @@ class Mailer
 
 		$this->sendMessage($to, $subject, $body);
 	}
-	
+
+	public function sendParentSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
+	{
+		$subject = "Une sortie CEC vient d'être créée !";
+		$to = array();
+
+		$parents = $this->doctrine->getRepository('CECMembreBundle:ParentEleve')->findByCheckMail(true);
+
+
+
+		foreach($parents as $p)
+		{
+			$to[$p->getMail()] = $p->__toString();
+		}
+
+
+		$body = $this->templating->render('CECMembreBundle:Mail:notificationParentCreationSortie.html.twig', array('sortie' => $sortie, 'base_url'=> $baseUrl));
+
+		$this->sendMessage($to, $subject, $body);
+
+	}
 	/**
 	* ################################
 	*
@@ -407,13 +414,14 @@ class Mailer
 	* Envoie un message à tous les lyceens et aux profs référents quand une sortie a été créée
 	*
 	*/
-	public function sendSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
+	public function sendEleveSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
 	{
 		$subject = "Une sortie CEC vient d'être créée !";
 		$to = array();
 
 		$lyceens = $this->doctrine->getEntityManager()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
 		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+
 
 		// On ne prévient que les professeurs référents.
 		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });

@@ -19,7 +19,7 @@
 
             <ul class="navbar-nav nav">
                 <li><a href="{{ path('tableau_de_bord_parent') }}">Tableau de bord</a></li>
-                <li><a href="{{path('toutes_seances') }}">Planning de CEC</a></li>
+                <li><a href="{{ path('afficher_le_planning') }}">Planning de CEC</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         Le tutorat
@@ -56,7 +56,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{path('toutes_seances')}}"> Planning </a> </li>
+                        <li><a href="{{ path('afficher_le_planning') }}"> Planning </a> </li>
                         <li class="secteur"> Les sorties </li>
                         <li><a href="{{path('sorties_parent')}}"> Liste des sorties</a></li>
                     </ul>
