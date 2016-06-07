@@ -38,6 +38,8 @@
 										{{path('anciennes_sorties_eleve')}}#{{sortie.id}}
 									{% elseif is_granted('ROLE_PROFESSEUR') %}
 										{{path('anciennes_sorties_professeur')}}#{{sortie.id}}
+									{% elseif is_granted('ROLE_PARENT') %}
+										{{path('anciennes_sorties_parent')}}#{{sortie.id}}
 									{% endif %}
 							">
                         		<strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} - {{sortie.nom}}</strong>

@@ -142,13 +142,12 @@ class Mailer
 	 * Mail de notification à un parent lorsque son enfant s'inscrit
 	 *
 	 */
-	public function sendNotificationParentInscriptionEleve($parent,$eleve, $baseUrl)
+	public function sendNotificationParentInscriptionEleve($mailParent,$eleve, $baseUrl)
 	{
 		$subject = "[CEC] Votre enfant vient de s'inscrire sur le site de CEC !";
-		$to = array($parent->getMail() => $parent->__toString());
+		$to = array($mailParent => $mailParent);
 		$body = $this->templating->render('CECMembreBundle:Mail:notificationParentInscriptionEleve.html.twig',
 			array(
-				'parent' => $parent,
 				'eleve' =>$eleve,
 				'base_url' => $baseUrl,
 			));
