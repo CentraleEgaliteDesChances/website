@@ -1,0 +1,61 @@
+creer_membre:
+    path: /creation
+    defaults: {_controller: CECMembreBundle:Administration:creer}
+
+supprimer_membre:
+    path: /suppression/{membre}
+    defaults: {_controller: CECMembreBundle:Administration:supprimer}
+    requirements:
+        membre: \d+
+
+passations:
+    path: /passations
+    defaults: {_controller: CECMembreBundle:Administration:passations}
+
+retirer_buro:
+    path: /passations/retirer_membre/{membre}
+    defaults: {_controller: CECMembreBundle:Administration:supprimerMembreBuro}
+    requirements:
+        membre: \d+
+
+gestion_eleves:
+    path: /gestionEleves/{sorting}
+    defaults:
+        _controller: CECMembreBundle:Administration:gestionEleves
+        sorting: id
+    requirements:
+        sorting: id|prenom|nom|lycee|niveau|charte_eleve|autorisation_parentale|droit_image
+
+gestion_eleve:
+    path: /gestionEleves/{eleveid}
+    defaults: {_controller: CECMembreBundle:Administration:gestionEleve}
+    requirements:
+        eleveid: \d+
+
+excel_eleves:
+    path: /gestionEleves/excel-eleves
+    defaults: {_controller: CECMembreBundle:Administration:excelEleves}
+
+gestion_eleves_test:
+    path: /gestionElevesTest
+    defaults: {_controller: CECMembreBundle:Administration:gestionElevesTest}
+
+supprimer_eleves:
+    path: /supprimerEleve/{eleveid}
+    defaults: {_controller: CECMembreBundle:Administration:supprimerEleve}
+    requirements:
+        eleveid: \d+
+
+gestion_parents:
+    path: /gestionParents
+    defaults: {_controller: CECMembreBundle:Administration:gestionParents}
+
+supprimer_parent:
+    path: /supprimerParent/{parentid}
+    defaults: {_controller: CECMembreBundle:Administration:supprimerParent}
+    requirements:
+        eleveid: \d+
+
+excel_parents:
+    path: /gestionParents/excel-parents
+    defaults: {_controller: CECMembreBundle:Administration:excelParents}

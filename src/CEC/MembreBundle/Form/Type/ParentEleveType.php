@@ -38,17 +38,6 @@ class ParentEleveType extends AbstractType
                 'label' => 'Numéro de téléphone portable',
                 'required' => false,
             ))
-            ->add('eleves', 'entity', array(
-                'class' => 'CEC\MembreBundle\Entity\Eleve',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('eleve')
-                        ->orderBy('eleve.nom')
-                        ->addOrderBy('eleve.prenom');
-                },
-                'multiple' => true,
-                'placeholder' => 'Choisir parmi les élèves inscrits',
-                'label' => 'De quels élèves êtes-vous le parent ?'
-            ))
             ->add('motDePasse', 'repeated', array(
                 'label'=>'Mot de passe',
                 'first_name' => 'Mot-de-passe',
