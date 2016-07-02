@@ -20,6 +20,16 @@
 
         <h4 class="bienvenue">Bienvenue sur le site interne, {{ parent }} !</h4>
 
+        {% if parent.eleves |length == 0%}
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="alert alert-warning">
+                        <b>Vous n'avez pas indiqué de quel(s) élève(s) vous êtes le parent !</b><br/>
+                        Vous pouvez le faire en <a href="{{ path('reglages_enfants_parent') }}" class="alert-link">cliquant ici</a>.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         <ul class="liens">
             <li><a href="{{path('afficher_le_planning')}}">Planning de l'association</a></li>
             <li><a href="{{path('sorties_parent')}}">Les sorties à venir</a></li>
