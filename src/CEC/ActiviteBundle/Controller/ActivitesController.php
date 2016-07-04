@@ -110,6 +110,7 @@ class ActivitesController extends Controller
      * @param $activite : id de l'activité
      *
      * @Template()
+     * @return array
      */
     public function voirAction($activite)
     {

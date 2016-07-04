@@ -14,6 +14,7 @@ class LoadDocuments extends AbstractFixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+       /*
         // On supprime les fichiers de toutes les activités
         $cheminDossierDocuments = __DIR__ . '/../../../../../web/uploads/documents';
         try{
@@ -67,6 +68,8 @@ class LoadDocuments extends AbstractFixture implements DependentFixtureInterface
         $this->addReference('acti1v1', $acti1v1);
         $this->addReference('acti1v2', $acti1v2);
         $this->addReference('acti2v1', $acti2v1);
+
+       */
     }
     
     /**

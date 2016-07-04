@@ -35,7 +35,7 @@ class LoadGroupeTuteurs extends AbstractFixture implements DependentFixtureInter
         $tuteurs[3] = new GroupeTuteurs();
         $tuteurs[3]->setAnneeScolaire($anneeScolaireP)
             ->setGroupe($this->getReference('comessa_premieres'))
-            ->setTuteur($this->getReference('gabrielle_jourdain'));
+            ->setTuteur($this->getReference('jimmy_eung'));
         $tuteurs[4] = new GroupeTuteurs();
         $tuteurs[4]->setAnneeScolaire($anneeScolaireP)
             ->setGroupe($this->getReference('tropajuste_comessa_terminales'))
@@ -82,7 +82,7 @@ class LoadGroupeTuteurs extends AbstractFixture implements DependentFixtureInter
         $tuteurs[14] = new GroupeTuteurs();
         $tuteurs[14]->setAnneeScolaire($anneeScolaire)
             ->setGroupe($this->getReference('comessa_premieres'))
-            ->setTuteur($this->getReference('gabrielle_jourdain'));
+            ->setTuteur($this->getReference('jimmy_eung'));
         $tuteurs[15] = new GroupeTuteurs();
         $tuteurs[15]->setAnneeScolaire($anneeScolaire)
             ->setGroupe($this->getReference('tropajuste_comessa_terminales'))

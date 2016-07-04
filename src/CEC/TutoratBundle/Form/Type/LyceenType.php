@@ -30,16 +30,7 @@ class LyceenType extends AbstractType
             ->add('codePostal', null, array(
                 'label' => 'Code postal',
             ))
-            ->add('ville')
-            ->add('nomPere', null, array(
-                'label' => 'Nom du père',
-            ))
-            ->add('nomMere', null, array(
-                'label' => 'Nom de la mère',
-            ))
-            ->add('telephoneParent', null, array(
-                'label' => 'Téléphone des parents',
-            ));
+            ->add('ville');
     }
     
     public function getName()

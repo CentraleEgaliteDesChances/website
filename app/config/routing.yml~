@@ -1,0 +1,54 @@
+cec_secteur_projets:
+    resource: "@CECSecteurProjetsBundle/Resources/config/routing.yml"
+    prefix:   /projets
+
+cec_extern_site:
+    resource: "@CECExternSiteBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cec_secteur_sorties:
+    resource: "@CECSecteurSortiesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cec_secteur_fundraising:
+    resource: "@CECSecteurFundraisingBundle/Resources/config/routing.yml"
+    prefix:   /tuteur
+
+cec_activite:
+    resource: "@CECActiviteBundle/Resources/config/routing.yml"
+    prefix:   /tuteur
+
+cec_tutorat:
+    resource: "@CECTutoratBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cec_membre:
+    resource: "@CECMembreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+#Enable EMC Table Bundle
+emc_table:
+    resource: "@EMCTableBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Security routes
+connexion_verifications:
+    path: /connexion/verifications
+deconnexion:
+    path: /connexion/deconnexion
+connexion:
+    path: /connexion
+    defaults: { _controller: CECMembreBundle:Securite:connexion }
+
+# FOSJsRoutingBundle (needed for adesigns/calendar-bundle)
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+# adesigns/calendar-bundle
+adesigns_calendar:
+    resource: "@ADesignsCalendarBundle/Resources/config/routing.xml"
+
+# Internal routing configuration to handle ESI
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal

@@ -263,7 +263,8 @@ class SortiesController extends Controller
                 $entityManager->flush();
 
                 $this->get('session')->getFlashBag()->add('success', "La sortie a bien été ajoutée.");
-                $this->get('cec.mailer')->sendSortieCreee($sortie, $_SERVER['HTTP_HOST']);
+                $this->get('cec.mailer')->sendEleveSortieCreee($sortie, $_SERVER['HTTP_HOST']);
+                $this->get('cec.mailer')->sendParentSortieCreee($sortie, $_SERVER['HTTP_HOST']);
                 
 
                 return $this->redirect($this->generateUrl('sorties'));

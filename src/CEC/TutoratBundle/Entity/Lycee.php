@@ -2,6 +2,7 @@
 
 namespace CEC\TutoratBundle\Entity;
 
+use CEC\MembreBundle\Entity\Professeur;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -368,7 +369,7 @@ class Lycee
     /**
      * Remove professeurs
      *
-     * @param \CEC\MembreTutoratBundle\Entity\Professeur $professeurs
+     * @param Professeur $professeurs
      */
     public function removeProfesseur(\CEC\MembreBundle\Entity\Professeur $professeurs)
     {

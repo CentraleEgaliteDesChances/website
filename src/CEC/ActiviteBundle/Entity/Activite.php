@@ -190,6 +190,7 @@ class Activite
      */
     private $compteRendus;
 
+    
 
     /**
      * Constructor

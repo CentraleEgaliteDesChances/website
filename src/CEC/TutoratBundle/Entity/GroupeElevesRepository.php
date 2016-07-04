@@ -27,4 +27,7 @@ class GroupeElevesRepository extends EntityRepository
             ->getQuery();
         return $query->getSingleScalarResult();
 	}
+	
+	
+	
 }

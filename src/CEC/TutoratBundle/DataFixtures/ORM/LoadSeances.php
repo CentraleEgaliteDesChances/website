@@ -286,7 +286,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
                 $seance->addLyceen($this->getReference('aude_ambrosini'));
             }
 
-            $seance->addTuteur($this->getReference('gabrielle_jourdain'));
+            $seance->addTuteur($this->getReference('jimmy_eung'));
         }
 
         foreach($seances['comessa_premieres'] as $seance)
@@ -300,7 +300,7 @@ class LoadSeances extends AbstractFixture implements DependentFixtureInterface
                     $seance->addLyceen($this->getReference('anna_michel'));
                 }
 
-                $seance->addTuteur($this->getReference('gabrielle_jourdain'));
+                $seance->addTuteur($this->getReference('jimmy_eung'));
             }
         }
 

@@ -138,6 +138,7 @@ class SortiesEleveController extends Controller
     * @param integer $lyceen : id du lyceen
     *
     * @Template()
+    * @return array
     */
     public function participationSortiesAction($lyceen)
     {
