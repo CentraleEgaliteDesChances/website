@@ -18,22 +18,12 @@
 {% block body %}{% endblock %}
 {% block javascripts %}
     {% javascripts
-    'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/transition.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/dropdown.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/scrollspy.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tab.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/popover.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/alert.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/button.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/collapse.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/carousel.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/affix.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+    '@MopaBootstrapBundle/Resources/bootstrap/js/*'
+    '@MopaBootstrapBundle/Resources/public/js/*'
     %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

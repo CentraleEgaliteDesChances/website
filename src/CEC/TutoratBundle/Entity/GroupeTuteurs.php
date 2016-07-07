@@ -17,7 +17,7 @@ class GroupeTuteurs
     private $id;
 
     /**
-    * @var \CEC\MainBundle\Utility\AnneeScolaire
+    * @var AnneeScolaire
     */
     private $anneeScolaire;
 

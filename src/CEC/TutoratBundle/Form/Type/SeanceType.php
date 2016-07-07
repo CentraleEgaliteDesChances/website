@@ -21,19 +21,13 @@ class SeanceType extends AbstractType
                 'label' => 'Horaires de la séance',
                 'widget' => 'single_text',
                 'attr' => array('placeholder' => $options['debut']),
-                'widget_addon' => array(
-                    'type' => 'prepend',
-                    'text' => 'de'
-                ),
+
             ))
             ->add('fin', null, array(
                 'label' => false,
                 'widget' => 'single_text',
                 'attr' => array('placeholder' => $options['fin']),
-                'widget_addon' => array(
-                    'type' => 'prepend',
-                    'text' => 'à'
-                ),
+
             ))
             ->add('lieu', null, array(
                 'label' => 'Lieu de la séance de tutorat',

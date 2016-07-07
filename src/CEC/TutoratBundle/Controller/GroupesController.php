@@ -70,6 +70,7 @@ class GroupesController extends Controller
      * Affiche la page d'un groupe de tutorat.
      *
      * @param integer $groupe: id du groupe de tutorat
+     * @return array
      */
     public function voirAction($groupe)
     {
@@ -158,6 +159,7 @@ class GroupesController extends Controller
             'ajouter_tuteur_form'  => $ajouterTuteurForm->createView(),
         ));
     }
+
     
     /**
      * Permet de créer un nouveau groupe de tutorat
@@ -370,5 +372,30 @@ class GroupesController extends Controller
                      'seancesSansActi' => $seancesSansActi,
                      'groupe' => $groupe,
                      'anneeScolaire' => $anneeScolaire);
+    }
+
+
+    /**
+     *
+     * Affiche la liste des séances pour un groupe de tutorat
+     * Permet d'avoir un accès simple à la liste des séances, que ce soit pour un tuteur ou un tutoré.
+     *
+     * @param integer $groupe: id du groupe de tutorat
+     * @Template()
+     * @return array
+     * 
+     */
+    public function listeSeancesAction($groupeid)
+    {
+        $groupe = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->find($groupeid);
+        $seances = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findAllSeanceThisYearByGroupe($groupe);
+        $seancesincoming = $this->getDoctrine()->getRepository('CECTutoratBundle:Seance')->findComingByGroupe($groupe);
+
+        return array(
+            'groupe'       => $groupe,
+            'seances'      => $seances,
+            'seancesincoming' => $seancesincoming,
+            'anneeScolaire' => AnneeScolaire::withDate()
+        );
     }
 }

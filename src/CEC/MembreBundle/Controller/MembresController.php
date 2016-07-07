@@ -4,7 +4,6 @@ namespace CEC\MembreBundle\Controller;
 
 use CEC\MembreBundle\Entity\DossierInscription;
 use CEC\MembreBundle\Entity\Eleve;
-use CEC\MembreBundle\Entity\EleveCollection;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpParser\Node\Expr\List_;

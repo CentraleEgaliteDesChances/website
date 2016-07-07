@@ -2,6 +2,7 @@
 
 namespace CEC\TutoratBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use CEC\TutoratBundle\Entity\Groupe;
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
@@ -60,8 +61,8 @@ class SeanceRepository extends EntityRepository
      *     - aucune autre séance n'est programmée avant.
      * Si aucune séance n'est à venir, la méthode renvoit 'false'.
      *
-     * @param CEC\TutoratBundle\Entity\Groupe $groupe : le groupe de tutorat pour lequel on cherche la séance.
-     * @return CEC\TutoratBundle\Entity\Seance La séance à venir, ou 'false'
+     * @param Groupe $groupe : le groupe de tutorat pour lequel on cherche la séance.
+     * @return Seance La séance à venir, ou 'false'
      */
     public function findOneAVenir(Groupe $groupe)
     {
@@ -124,5 +125,26 @@ class SeanceRepository extends EntityRepository
             $minutesTutorat += $duree->h * 60 + $duree->i;
         }
         return floor($minutesTutorat / 60);
+    }
+
+    /**
+     * Récupère toutes les séances pour un groupe
+     * On se limite par défaut aux 3 dernières années
+     *
+     * @param Groupe $groupe: the groupe
+     * @return ArrayCollection
+     */
+    public function findAllSeanceThisYearByGroupe(Groupe $groupe)
+    {
+        $anneeactuel = AnneeScolaire::withDate();
+        $datelimit = $anneeactuel->getDateRentree();
+        $query = $this->createQueryBuilder('s')
+            ->where('s.groupe = :groupe_id')
+            ->setParameter('groupe_id', $groupe->getId())
+            ->andWhere('s.date > :datelimit')
+            ->setParameter('datelimit', $datelimit)
+            ->orderBy('s.date', 'ASC')
+            ->getQuery();
+        return $query->getResult();
     }
 }

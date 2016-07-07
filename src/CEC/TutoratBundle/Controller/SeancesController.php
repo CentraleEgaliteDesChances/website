@@ -27,6 +27,7 @@ class SeancesController extends Controller
      * prochaine séance est disponible.
      *
      * @param integer $seance: id de la séance de tutorat
+     * @return array
      */
     public function voirAction($seance)
     {
