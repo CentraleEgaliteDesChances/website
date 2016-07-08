@@ -16,6 +16,14 @@ class InfosEleveType extends AbstractType
 					'attr' => array('placeholder' => 'Adresse Mail'),
 			))
             ->add('lycee', null, array('label' => 'Lycée de provenance'))
+            ->add('niveau', 'choice', array(
+                'label' => 'Niveau de scolarité',
+                'choices' => array(
+                    'Seconde' => 'Seconde',
+                    'Première' => 'Première',
+                    'Terminale' => 'Terminale'
+                )
+            ))
             ->add('adresse', null, array('label' => 'Numéro et nom de la rue'))
             ->add('codePostal', null, array('label' => 'Code Postal'))
             ->add('ville', null, array('label' => 'Ville'))
