@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new CEC\SecteurSortiesBundle\CECSecteurSortiesBundle(),
             new CEC\SecteurProjetsBundle\CECSecteurProjetsBundle(),
             new CEC\CalendrierBundle\CECCalendrierBundle(),
+            new CEC\SiteVitrineBundle\CECSiteVitrineBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,31 +1,31 @@
 cec_externe_activites:
-    path: /activites
+    path: /ancien_site_externe/activites
     defaults: {_controller: CECExternSiteBundle:ExternSite:activites}
 
 cec_externe_actualites:
-    path: /actualites
+    path: /ancien_site_externe/actualites
     defaults: {_controller: CECExternSiteBundle:ExternSite:actualites}
 
 cec_externe_cecetvous:
-    path: /cecetvous
+    path: /ancien_site_externe/cecetvous
     defaults: {_controller: CECExternSiteBundle:ExternSite:cecetvous}
 
 cec_externe_devenir_partenaire:
-    path: /devenir-partenaire
+    path: /ancien_site_externe/devenir-partenaire
     defaults: {_controller: CECExternSiteBundle:ExternSite:devenirpartenaire}
 
 cec_externe_histoire:
-    path: /histoire
+    path: /ancien_site_externe/histoire
     defaults: {_controller: CECExternSiteBundle:ExternSite:histoire}
 
 cec_externe_partenaires:
-    path: /partenaires
+    path: /ancien_site_externe/partenaires
     defaults: {_controller: CECExternSiteBundle:ExternSite:partenaires}
 
 cec_externe_structure:
-    path: /structure
+    path: /ancien_site_externe/structure
     defaults: {_controller: CECExternSiteBundle:ExternSite:structure}
 
-cec_externe_accueil:
-    path: /
+cec_ancien_externe_accueil:
+    path: /ancien_site_externe
     defaults: {_controller: CECExternSiteBundle:ExternSite:index}

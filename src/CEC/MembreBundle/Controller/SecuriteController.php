@@ -2,12 +2,14 @@
 
 namespace CEC\MembreBundle\Controller;
 
+use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
 use CEC\MembreBundle\Entity\DossierInscription;
 use CEC\MembreBundle\Entity\ParentEleve;
 use CEC\MembreBundle\Form\Type\EleveType;
 use CEC\MembreBundle\Form\Type\ParentEleveType;
 use CEC\MembreBundle\Form\Type\ProfesseurType;
 use CEC\SecteurProjetsBundle\Entity\Dossier;
+use CEC\TutoratBundle\Entity\GroupeEleves;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -207,7 +209,9 @@ class SecuriteController extends Controller
 
 		if ($request->isMethod("POST")) {
 			$formProfil->handleRequest($request);
-			if ($formProfil->isValid()) {
+			if ($formProfil->isValid())
+			{
+				$em = $this->getDoctrine()->getManager();
 				//Enregistrement en BDD
 				//Génère l'username de l'élève
 				$nom = str_replace(' ','' ,$formProfil->get('nom')->getData());
@@ -234,13 +238,35 @@ class SecuriteController extends Controller
 				} else {
 					$eleve->setUsername($prenom . $nom);
 				}
+				
+				//Assigne l'élève a un groupe de tutorat
+				$niveau = $formProfil->get('niveau')->getData();
+				$lycee = $formProfil ->get('lycee')->getData();
+
+				$groupes = $this->getDoctrine()->getRepository('CECTutoratBundle:Groupe')->findByNiveau($niveau);
+				$groupe = null;
+				foreach ($groupes as $g) {
+					if (in_array($lycee,$g->getLycees())) {
+						$groupe = $g;
+					};
+				}
+				
+				if ($groupe != null) {
+					$groupeMembre = new GroupeEleves();
+					$groupeMembre->setAnneeScolaire(AnneeScolaire::withDate());
+					$groupeMembre->setLyceen($eleve);
+					$groupeMembre->setGroupe($groupe);
+					$em->persist($groupeMembre);
+
+				}
+
+
 
 				// Enregistre dans la BDD
 				$encoder = $this->container->get('security.encoder_factory')->getEncoder($eleve);
 				$motDePasse = $eleve->getMotDePasse();
 				$eleve->setMotDePasse($encoder->encodePassword($motDePasse, $eleve->getSalt()));
 				$eleve->setDossierInscription(null);
-				$em = $this->getDoctrine()->getManager();
 				$em->persist($eleve);
 				$em->flush();
 

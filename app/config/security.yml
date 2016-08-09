@@ -94,3 +94,4 @@ security:
         - { path: ^/buro/, roles : ROLE_BURO}
         - { path: ^/(reglages|membres|projets|seances|planning)/, roles: ROLE_USER}
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/site_vitrine, roles: IS_AUTHENTICATED_ANONYMOUSLY}

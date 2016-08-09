@@ -606,6 +606,17 @@ class AdministrationController extends Controller
         );
     }
 
+    /**
+     * Permet d'avoir une vue simple des différents groupes de tutorat
+     * 
+     * @return array
+     */
+    public function gestionTutoratAction()
+    {
+        
+    }
 
+
+    
 
 }

@@ -1,0 +1,3 @@
+cec_externe_accueil:
+    path:     /
+    defaults: { _controller: CECSiteVitrineBundle:Default:index }

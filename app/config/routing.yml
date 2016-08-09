@@ -1,3 +1,7 @@
+cec_site_vitrine:
+    resource: "@CECSiteVitrineBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cec_calendrier:
     resource: "@CECCalendrierBundle/Resources/config/routing.yml"
     prefix:   /planning/

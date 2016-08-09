@@ -18,6 +18,14 @@ class Groupe
 
     /**
      * @var string
+     *
+     * @ORM\Column(name = "niveau", type = "string", length = 11)
+     * @Assert\NotBlank(message = "Merci de spécifier votre niveau de scolarité.")
+     * @Assert\Regex(
+     *     pattern="/Secondes|Premières|Terminales/",
+     *     match=true,
+     *     message="Merci de spécifier votre niveau de scolarité "
+     *     )
      */
     private $niveau;
 

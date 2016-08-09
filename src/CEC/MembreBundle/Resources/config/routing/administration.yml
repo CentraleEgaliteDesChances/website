@@ -59,3 +59,7 @@ supprimer_parent:
 excel_parents:
     path: /gestionParents/excel-parents
     defaults: {_controller: CECMembreBundle:Administration:excelParents}
+
+gestion_tutorat:
+    path: /gestion_tutorat
+    defaults: {_controller: CECMembreBundle:Administration:gestionTutorat}
