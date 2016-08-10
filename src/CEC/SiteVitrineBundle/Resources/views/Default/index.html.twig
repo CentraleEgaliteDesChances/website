@@ -11,11 +11,12 @@
 	'@CECSiteVitrineBundle/Resources/public/css/style.css'
 	%}
 	<link href="{{ asset_url }}" rel="stylesheet" media="screen" />
+	{% endstylesheets %}
 
 	<!-- Custom Theme files -->
 	<link href='//fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
 	<link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-	{% endstylesheets %}
+
 {% endblock %}
 
 {% block javascripts %}
@@ -29,6 +30,7 @@
 	'@CECSiteVitrineBundle/Resources/public/js/wow.min.js'
 	%}
 	<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			$(".scroll").click(function(event){
@@ -51,13 +53,12 @@
 		});
 	</script>
 	<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	a
 	<!--animate-->
 	<script>
 		new WOW().init();
 	</script>
 	<!--//end-animate-->
-	{% endjavascripts %}
+
 {% endblock %}
 {% block body %}
 	{{ parent() }}
