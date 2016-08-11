@@ -7,7 +7,7 @@
     <title>{% block titre %}Centrale Egalité des Chances{% endblock %}</title>
 
     {% block stylesheets %}
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
     {% endblock %}
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 
@@ -17,15 +17,7 @@
 <body data-spy="scroll">
 {% block body %}{% endblock %}
 {% block javascripts %}
-    {% javascripts
-    '@MopaBootstrapBundle/Resources/bootstrap/js/*'
-    '@MopaBootstrapBundle/Resources/public/js/*'
-    %}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+
 {% endblock %}
 </body>
 </html>

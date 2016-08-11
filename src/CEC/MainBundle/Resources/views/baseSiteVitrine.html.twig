@@ -8,12 +8,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets
-    '@CECMainBundle/Resources/public/less/bootstrap-override.less'
-
-    %}
-    <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
-    {% endstylesheets %}
+    
 {% endblock %}
 
 {% block body %}
