@@ -16,16 +16,11 @@
 
 {% block javascripts %}
 	{{ parent() }}
-
-	{% javascripts
-	'@CECSiteVitrineBundle/Resources/public/js/bootstrap.min.js'
-	'@CECSiteVitrineBundle/Resources/public/js/jquery-1.11.1.min.js'
-	'@CECSiteVitrineBundle/Resources/public/js/easing.js'
-	'@CECSiteVitrineBundle/Resources/public/js/move-top.js'
-	'@CECSiteVitrineBundle/Resources/public/js/wow.min.js'
-	%}
-	<script type="text/javascript" src="{{ asset_url }}"></script>
-	{% endjavascripts %}
+	<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<script src="http://dev.cec-ecp.com/site_vitrine/js/jquery-1.11.1.min.js"></script>
+	<script src="http://dev.cec-ecp.com/site_vitrine/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://dev.cec-ecp.com/site_vitrine/js/move-top.js"></script>
+	<script type="text/javascript" src="http://dev.cec-ecp.com/site_vitrine/js/easing.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			$(".scroll").click(function(event){
@@ -47,8 +42,8 @@
 			$().UItoTop({ easingType: 'easeOutQuart' });
 		});
 	</script>
-	<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!--animate-->
+	<script src="http://dev.cec-ecp.com/site_vitrine/js/wow.min.js"></script>
 	<script>
 		new WOW().init();
 	</script>
