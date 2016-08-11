@@ -3,21 +3,16 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	{% stylesheets
-	'@CECSiteVitrineBundle/Resources/public/css/bootstrap.css'
-	'@CECSiteVitrineBundle/Resources/public/css/font-awesome.min.css'
-	'@CECSiteVitrineBundle/Resources/public/css/style.css'
-	'@CECSiteVitrineBundle/Resources/public/css/flexslider.css'
-	'@CECSiteVitrineBundle/Resources/public/css/style.css'
-	%}
-	<link href="{{ asset_url }}" rel="stylesheet" media="screen" />
-	{% endstylesheets %}
 
-	<!-- Custom Theme files -->
-	<link href='//fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
-	<link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 
-{% endblock %}
+    <link href="http://dev.cec-ecp.com/site_vitrine/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="http://dev.cec-ecp.com/site_vitrine/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="http://dev.cec-ecp.com/site_vitrine/css/flexslider.css" type="text/css" media="screen" />
+    <link href="http://dev.cec-ecp.com/site_vitrine/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="http://dev.cec-ecp.com/site_vitrine/css/animate.css" rel="stylesheet" type="text/css" media="all">
+    <!-- Custom Theme files -->
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>{% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
