@@ -1,0 +1,25 @@
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% block container %}
+
+    <h2> Modification des secteurs de {{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}</h2>
+
+    {{ parent() }}
+    {{ form_start(form, {'attr': {'class': 'form-inline'} }) }}
+    {{ form_widget(form) }}
+        <span id="helpBlock" class="help-block">Pour sélectionner plusieurs secteurs à la fois, cliquez sur les secteurs concernées tout en mainteant la touche CTRL. </span>
+
+        <div class="footer-controls">
+            <input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
+            <a href="{{ path('gestion_membres') }}" class="btn btn-default pull-right">Retour</a>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+
+        </div>
+    </form>
+{% endblock %}
+
+{% block checkbox_widget %}
+
+{% endblock %}
+

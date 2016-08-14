@@ -14,6 +14,7 @@ use CEC\MembreBundle\Entity\Membre;
 use CEC\MembreBundle\Form\Type\EleveGestionType;
 use CEC\MembreBundle\Form\Type\MembreType;
 use CEC\MembreBundle\Form\Type\NouveauMembreBuroType;
+use CEC\MembreBundle\Form\Type\SecteurMembreType;
 use CEC\MembreBundle\Utility\NouveauMembreBuro;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -490,10 +491,64 @@ class AdministrationController extends Controller
 
         return array('eleves' => $eleves);
     }
+    /**
+     * Auteur : Jimmy EUng
+     *
+     * Permet de définir les secteurs d'un membre
+     *
+     *
+     * @return array
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function gestionMembreSecteursAction($membreid)
+    {
+        $membre = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->find($membreid);
+        if (!$membre) throw $this->createNotFoundException('Impossible de trouver le profil !');
 
-    public function gestionElevesTestAction()
+        $form = $this->createForm(new SecteurMembreType(), $membre);
+        $request = $this->getRequest();
+        if ($request->isMethod("POST"))
+        {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $this->getDoctrine()->getEntityManager()->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
+                return $this->redirect($this->generateUrl('gestion_membres'));
+            }
+        }
+        return array(
+            'membre' => $membre,
+            'form' => $form->createView()
+        );
+
+    }
+
+    /**
+     * Auteur : Jimmy EUng
+     *
+     * Permet de définir si un membre est VP Lycee et les lycées dont il est VP.
+     * @return array
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function gestionMembreVPLyceeAction()
     {
 
+    }
+
+    /**
+     * Auteur : Jimmy EUng
+     *
+     *
+     * @return array
+     * @Template()
+     * @Secure(roles = "ROLE_BURO")
+     */
+    public function gestionMembresAction()
+    {
+        $membres = $this->getDoctrine()->getRepository('CECMembreBundle:Membre')->findAll();    // tous les Membres
+        return array('membres' => $membres);
     }
 
     /**
@@ -605,17 +660,6 @@ class AdministrationController extends Controller
             'parent' =>$parent,
         );
     }
-
-    /**
-     * Permet d'avoir une vue simple des différents groupes de tutorat
-     * 
-     * @return array
-     */
-    public function gestionTutoratAction()
-    {
-        
-    }
-
 
     
 

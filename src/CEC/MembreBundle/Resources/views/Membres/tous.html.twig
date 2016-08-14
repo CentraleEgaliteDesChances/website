@@ -20,12 +20,15 @@
                 {% for membre in membres %}
                 <tr>
                     <td>
-                        {% if is_granted('ROLE_BURO') and membre != app.user %}
-                            <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" class="btn btn-xs btn-danger pull-right" ole="button">Supprimer définitivement</a>
-                        {% endif %}
                         <a href="{{ path('voir_membre', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
                             {{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}
                         </a>
+                    </td>
+                    <td>
+                        {% if is_granted('ROLE_BURO') and membre != app.user %}
+                            <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" class="btn btn-xs btn-danger pull-right" role="button">Supprimer définitivement</a>
+                        {% endif %}
+
                     </td>
                 </tr>
                 {% endfor %}

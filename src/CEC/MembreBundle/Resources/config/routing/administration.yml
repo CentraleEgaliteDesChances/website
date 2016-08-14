@@ -36,10 +36,6 @@ excel_eleves:
     path: /gestionEleves/excel-eleves
     defaults: {_controller: CECMembreBundle:Administration:excelEleves}
 
-gestion_eleves_test:
-    path: /gestionElevesTest
-    defaults: {_controller: CECMembreBundle:Administration:gestionElevesTest}
-
 supprimer_eleves:
     path: /supprimerEleve/{eleveid}
     defaults: {_controller: CECMembreBundle:Administration:supprimerEleve}
@@ -60,6 +56,18 @@ excel_parents:
     path: /gestionParents/excel-parents
     defaults: {_controller: CECMembreBundle:Administration:excelParents}
 
-gestion_tutorat:
-    path: /gestion_tutorat
-    defaults: {_controller: CECMembreBundle:Administration:gestionTutorat}
+gestion_membres:
+    path: /gestionMembres
+    defaults: {_controller: CECMembreBundle:Administration:gestionMembres}
+
+gestion_membre_vp_lycee:
+    path: /gestionMembre/vp_lycee/{membreid}
+    defaults: {_controller: CECMembreBundle:Administration:gestionMembreVPLycee}
+    requirements:
+        membreid: \d+
+
+gestion_membre_secteurs:
+    path: /gestionMembre/secteurs/{membreid}
+    defaults: {_controller: CECMembreBundle:Administration:gestionMembreSecteurs}
+    requirements:
+        membreid: \d+

@@ -1,0 +1,87 @@
+{% extends 'CECMainBundle::base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+
+{% block container %}
+    {{ parent() }}
+    <h2> Liste des membres </h2>
+
+
+        <div class="alert alert-warning">
+            {{ flash('alert', 'Attention ! La suppression d\'un membre est définitive et entraîne aussi la suppression de toutes les activités dont il est l\'auteur.') }}
+        </div>
+
+        <a href="{{ path('creer_membre') }}" class="btn btn-default pull-right" role="button">Ajouter un membre</a>
+
+    <table class="table table-bordered table-hover table-striped">
+        {% if membres|length > 0 %}
+            <tbody>
+            <tr>
+                <td>
+                    <strong>Prénom Nom</strong>
+                </td>
+                <td>
+                    <strong>Promotion</strong>
+                </td>
+                <td>
+                    <strong>Buro</strong>
+                </td>
+                <td>
+                    <strong>VP Lycée</strong>
+                </td>
+                <td>
+                    <strong>Secteurs</strong>
+                </td>
+
+                <td></td>
+            </tr>
+            {% for membre in membres %}
+                <tr>
+                    <td>
+                        <a href="{{ path('voir_membre', { 'membre': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
+                            {{ membre.prenom|ucwords }} {{ membre.nom|ucwords }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ membre.promotion }}
+                    </td>
+                    <td>
+                        {% if membre.buro %}
+                            Oui
+                        {% else %}
+                            Non
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if membre.lyceesPourVP | length > 0 %}
+                            Oui
+                        {% else %}
+                            Non
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% for secteur in membre.secteurs %}
+                            {{ secteur.nom }} ,
+                        {% endfor %}
+                        <a href="{{ path('gestion_membre_secteurs', { 'membreid': membre.id }) }}" style="margin-top: 1px; display: inline-block;">
+                            Modifier
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('supprimer_membre', { 'membre': membre.id }) }}" >
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucun membre dans la base de donnée !</h4></th></tr></thead>
+        {% endif %}
+    </table>
+{% endblock %}
+
+{% block left %}
+    {{parent()}}
+    {{ render(controller('CECMembreBundle:Membres:menu', { 'request': app.request })) }}
+{% endblock %}
