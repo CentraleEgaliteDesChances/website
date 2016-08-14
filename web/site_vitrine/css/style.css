@@ -370,13 +370,23 @@ line-height: 3em;
 .services-right {
     padding: 4.52em 11em;
     background:#C92727;
-	height : 336px;
+    height : 21em;
 }
 
 .services-right-bis {
     padding: 4.52em 11em;
     background:#ea2d2d;
-	height : 336px;
+    height : 21em;
+}
+
+.services-image {
+    height : 21em;
+    float:right;
+}
+
+.services-image-bis {
+    height : 21em;
+    float:left;
 }
 .services h4{
     font-size: 1.3em;
