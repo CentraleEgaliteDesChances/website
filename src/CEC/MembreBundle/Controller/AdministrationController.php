@@ -12,6 +12,7 @@ namespace CEC\MembreBundle\Controller;
 use CEC\MembreBundle\Entity\DossierInscription;
 use CEC\MembreBundle\Entity\Membre;
 use CEC\MembreBundle\Form\Type\EleveGestionType;
+use CEC\MembreBundle\Form\Type\LyceeVPMembreType;
 use CEC\MembreBundle\Form\Type\MembreType;
 use CEC\MembreBundle\Form\Type\NouveauMembreBuroType;
 use CEC\MembreBundle\Form\Type\SecteurMembreType;
@@ -524,18 +525,7 @@ class AdministrationController extends Controller
 
     }
 
-    /**
-     * Auteur : Jimmy EUng
-     *
-     * Permet de définir si un membre est VP Lycee et les lycées dont il est VP.
-     * @return array
-     * @Template()
-     * @Secure(roles = "ROLE_BURO")
-     */
-    public function gestionMembreVPLyceeAction()
-    {
 
-    }
 
     /**
      * Auteur : Jimmy EUng

@@ -60,11 +60,6 @@ gestion_membres:
     path: /gestionMembres
     defaults: {_controller: CECMembreBundle:Administration:gestionMembres}
 
-gestion_membre_vp_lycee:
-    path: /gestionMembre/vp_lycee/{membreid}
-    defaults: {_controller: CECMembreBundle:Administration:gestionMembreVPLycee}
-    requirements:
-        membreid: \d+
 
 gestion_membre_secteurs:
     path: /gestionMembre/secteurs/{membreid}
