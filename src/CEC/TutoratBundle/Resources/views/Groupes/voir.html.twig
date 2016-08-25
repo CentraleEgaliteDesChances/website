@@ -67,6 +67,7 @@
     </div>
 </div>
 
+    <a href="{{ path('groupe_liste_seances', {'groupeid' : groupe.id }) }}" class="btn btn-default btn-block">Afficher la liste des séances de tutorat</a>
 
 <table class="table table-bordered table-hover table-striped table-large">
     <thead>
@@ -74,7 +75,7 @@
             <th>
                 <h4>
                     Prochaines séances de tutorat
-                    <a href="{{ path('toutes_seances', { 'groupe': groupe.id }) }}" class="btn btn-default btn-small pull-right">
+                    <a href="{{ path('afficher_le_planning', { 'groupe': groupe.id }) }}" class="btn btn-default btn-small pull-right">
                         Planning des séances
                     </a>
                 </h4>

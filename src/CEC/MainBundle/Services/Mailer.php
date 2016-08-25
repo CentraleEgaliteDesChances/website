@@ -101,6 +101,101 @@ class Mailer
 
 
 	/**
+	 *
+	 * ################################
+	 *
+	 * Mails dédiés aux lycéens
+	 *
+	 * ################################
+	 *
+	 */
+
+	/**
+	 *
+	 * Mail d'inscription d'un nouveau tutoré
+	 *
+	 */
+	public function sendInscriptionEleve($eleve, $motDePasse, $baseUrl)
+	{
+		$subject = "Bienvenue sur le site de CEC !";
+		$to = array($eleve->getMail() => $eleve->__toString());
+		$body = $this->templating->render('CECMembreBundle:Mail:bienvenueEleve.html.twig',
+			array(
+				'eleve' => $eleve,
+				'mot_de_passe' => $motDePasse,
+				'base_url' => $baseUrl,
+			));
+
+		$this->sendMessage($to, $subject, $body);
+	}
+
+	/**
+	 * ################################
+	 *
+	 * Mails dédiés aux parents
+	 *
+	 * ################################
+	 */
+
+	/**
+	 *
+	 * Mail de notification à un parent lorsque son enfant s'inscrit
+	 *
+	 */
+	public function sendNotificationParentInscriptionEleve($mailParent,$eleve, $baseUrl)
+	{
+		$subject = "[CEC] Votre enfant vient de s'inscrire sur le site de CEC !";
+		$to = array($mailParent => $mailParent);
+		$body = $this->templating->render('CECMembreBundle:Mail:notificationParentInscriptionEleve.html.twig',
+			array(
+				'eleve' =>$eleve,
+				'base_url' => $baseUrl,
+			));
+
+		$this->sendMessage($to, $subject, $body);
+	}
+	
+
+	/**
+	 *
+	 * Mail d'inscription d'un nouveau parent
+	 *
+	 */
+	public function sendInscriptionParent($parent, $motDePasse, $baseUrl)
+	{
+		$subject = "Bienvenue sur le site de CEC !";
+		$to = array($parent->getMail() => $parent->__toString());
+		$body = $this->templating->render('CECMembreBundle:Mail:bienvenueParent.html.twig',
+			array(
+				'parent' => $parent,
+				'mot_de_passe' => $motDePasse,
+				'base_url' => $baseUrl,
+			));
+
+		$this->sendMessage($to, $subject, $body);
+	}
+
+	public function sendParentSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
+	{
+		$subject = "Une sortie CEC vient d'être créée !";
+		$to = array();
+
+		$parents = $this->doctrine->getRepository('CECMembreBundle:ParentEleve')->findByCheckMail(true);
+
+
+
+		foreach($parents as $p)
+		{
+			$to[$p->getMail()] = $p->__toString();
+		}
+
+
+		$body = $this->templating->render('CECMembreBundle:Mail:notificationParentCreationSortie.html.twig', array('sortie' => $sortie, 'base_url'=> $baseUrl));
+
+		$this->sendMessage($to, $subject, $body);
+
+	}
+	/**
 	* ################################
 	*
 	* Mails dédiés aux projets 
@@ -319,13 +414,14 @@ class Mailer
 	* Envoie un message à tous les lyceens et aux profs référents quand une sortie a été créée
 	*
 	*/
-	public function sendSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
+	public function sendEleveSortieCreee(\CEC\SecteurSortiesBundle\Entity\Sortie $sortie, $baseUrl)
 	{
 		$subject = "Une sortie CEC vient d'être créée !";
 		$to = array();
 
 		$lyceens = $this->doctrine->getEntityManager()->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
 		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
+
 
 		// On ne prévient que les professeurs référents.
 		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });

@@ -1,0 +1,12 @@
+afficher_le_planning:
+    path: /
+    defaults: 
+        _controller: CECCalendrierBundle:Calendrier:afficher
+
+afficher_le_planning_filtre:
+    path: /{filtre}
+    defaults: 
+        _controller: CECCalendrierBundle:Calendrier:afficher_avec_filtre
+        filtre : "all"
+    requirements : 
+        filtre : \w*

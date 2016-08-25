@@ -71,7 +71,21 @@ class Membre implements UserInterface, \Serializable
      * )
      */
     private $nom;
-
+    
+    /**
+     * Identifiant du membre.
+     * Il est requis pour la connexion sur le site
+     * Lors de la création d'une nouvelle instance, il est fait en srote que l'identifiant soit unique à chaque instance
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "username", type = "string", length = 255)
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "L'username ne peut excéder 255 caractères."
+     * )
+     */
+    private $username;
     /**
      * Adresse email du membre.
      * L'adresse email est nécessaire pour contacter le membre et permettre
@@ -335,7 +349,7 @@ class Membre implements UserInterface, \Serializable
      */
     public function getUsername()
     {
-        return $this->getPrenom() . ' ' . $this->getNom();
+        return $this->username;
     }
 
     /**
@@ -454,12 +468,12 @@ class Membre implements UserInterface, \Serializable
 
     }
 
-     /**
+    /**
     * Remove role
     */
     public function removeRole($oldRole)
     {
-        if (in_array($role, $this->roles)) {
+        if (in_array($oldRole, $this->roles)) {
             $roles = $this->roles;
             foreach ($roles as $key => $role) {
                 if ($role == $oldRole) {
@@ -1066,5 +1080,72 @@ class Membre implements UserInterface, \Serializable
     public function getCheckMail()
     {
         return $this->checkMail;
+    }
+    
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        
+        return $this;
+    }
+
+    /**
+     * Permet d'avoir un string des roles du membres avec une bonne syntaxe
+     *
+     * @return string
+     */
+    public function getRolesBienEcrit() {
+        $result = "Tuteur";
+        if (count($this->roles) > 1) {
+            foreach ($this->roles as $role) {
+                if ($role != "ROLE_TUTEUR") {
+                    switch ($role) {
+                    case "ROLE_VP_LYCEE":
+                        $result = $result.", "."VP Lycée";
+                            break;
+                    case "ROLE_SECTEUR_ACTIS_SCIENTIFIQUES":
+                        $result = $result.", "."Acti Sci";
+                            break;
+                    case "ROLE_SECTEUR_ACTIS_CULTURELLES" :
+                        $result = $result.", "."ActiKu";
+                        break;
+                    case "ROLE_SECTEUR_EVCOM":
+                        $result = $result.", "."Ev-Com";
+                        break;
+                    case "ROLE_SECTEUR_GML":
+                        $result = $result.", "."GML";
+                        break;
+                    case "ROLE_SECTEUR_PREPA":
+                        $result = $result.", "."Centrale Prépa";
+                        break;
+                    case "ROLE_SECTEUR_FOCUS_EUROPE":
+                        $result = $result.", "."Focus Europe";
+                        break;
+                    case "ROLE_SECTEUR_THEATRE":
+                        $result = $result.", "."Stage Théatre";
+                        break;
+                    case "ROLE_SECTEUR_ARTCESSIBLE":
+                        $result = $result.", "."(Art)ccessible";
+                        break;
+                    case "ROLE_SECTEUR_GEEK":
+                        $result = $result.", "."Geek";
+                        break;
+                    case "ROLE_SECTEUR_SACLAY":
+                        $result = $result.", "."Saclay";
+                        break;
+                    case "ROLE_SECTEUR_EUROPEN":
+                        $result = $result.", "."Europen";
+                        break;
+                    case "ROLE_SECTEUR_SORTIES":
+                        $result = $result.", "."Sorties";
+                        break;
+                    case "ROLE_BURO":
+                        $result = $result.", "."Buro";
+                        break;
+                    }
+                }
+            }
+        }
+        return $result;
     }
 }

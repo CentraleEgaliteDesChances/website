@@ -1,0 +1,20 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
+{% extends 'MopaBootstrapBundle::baseSiteVitrine.html.twig' %}
+{% set jours = ['Invalide', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'] %}
+{% set mois = ['Invalide', 'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'] %}
+{% set moisCourts = ['Invalide', 'Jan', 'Fév', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'] %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        {% block container %}
+            {{ session_flash() }}
+        {% endblock %}
+    </div>
+{% endblock %}

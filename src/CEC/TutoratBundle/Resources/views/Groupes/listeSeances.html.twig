@@ -1,0 +1,85 @@
+{% extends 'CECTutoratBundle:Groupes:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block right %}
+    {{ parent() }}
+
+    {% if groupe == app.user.groupe %}
+        {{ flash('info', 'Bienvenue sur la page de votre groupe de tutorat !') }}
+    {% endif %}
+
+    <table class="table table-bordered table-hover table-striped table-large">
+        <thead>
+        <tr>
+            <th>
+                <h4>
+                    Liste des séances de tutorat cette année
+                </h4>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if seances | length == 0 %}
+            <tr>
+                <td colspan="2" class="muted"> Pas de séance à afficher </td>
+            </tr>
+
+        {% else %}
+            {% for seance in seances %}
+                <tr>
+                    <td>
+                        <a href="{{ path('seance', { 'seance': seance.id }) }}">
+                            <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }}</strong>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('groupe', {'groupe' : groupe.id }) }}" class="btn btn-default btn-block">Afficher la liste des tuteurs et lycéens</a>
+
+
+    <table class="table table-bordered table-hover table-striped table-large">
+        <thead>
+        <tr>
+            <th>
+                <h4>
+                    Prochaines séances de tutorat
+                    <a href="{{ path('afficher_le_planning', { 'groupe': groupe.id }) }}" class="btn btn-default btn-small pull-right">
+                        Planning des séances
+                    </a>
+                </h4>
+            </th>
+        </tr>
+        </thead>
+        {% if seancesincoming %}
+            <tbody>
+            {% for seance in seancesincoming %}
+                <tr>
+                    <td>
+                        <a href="{{ path('seance', { 'seance': seance.id }) }}">
+                            <strong>{{ cycle(jours, seance.date|date('N')) }} {{ seance.date|date('j') }} {{ cycle(mois, seance.date|date('n')) }} à {{ (seance.debut ?: seance.groupe.debut)|date('G\\hi') }}</strong><br />
+                            Séance pour les {{ seance.groupe.niveau|lower }}, {{ (seance.lieu ?: seance.groupe.lieu) }} (rendez-vous {{ (seance.rendezVous ?: seance.groupe.rendezVous) }})
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {% else %}
+            <tbody><tr><th class="muted"><h4>Aucune séance de tutorat à venir pour ce groupe de tutorat</h4></th></tr></tbody>
+        {% endif %}
+        {% if (is_granted('ROLE_VP_LYCEE') and groupe == app.user.groupe) or is_granted('ROLE_BURO') %}
+            <tbody>
+            <tr>
+                <td class="ajout">
+                    <a href="{{ path('creer_seance', {'groupe' : groupe.id }) }}" class="btn btn-default btn-block">Créer une séance de tutorat</a>
+                </td>
+            </tr>
+            </tbody>
+        {% endif %}
+    </table>
+{% endblock %}
+
+

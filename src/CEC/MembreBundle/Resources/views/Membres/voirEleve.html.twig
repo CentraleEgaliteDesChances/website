@@ -53,6 +53,10 @@
                 </td>
             </tr>
             <tr>
+                <td> Niveau </td>
+                <td> {{ eleve.niveau }}</td>
+            </tr>
+            <tr>
                 <td>Tutorat</td>
                 <td>
                     {% if eleve.groupe %}
@@ -76,7 +80,7 @@
                 </tr>
             {% endif %}
 
-            {% if is_granted('ROLE_TUTEUR') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or eleve == app.user %}
+            {% if is_granted('ROLE_TUTEUR') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or eleve == app.user or (is_granted('ROLE_PARENT') and eleve in app.user.eleves)%}
                 <tr>
                     <td> Relevé de présences </td>
                     <td> <a class="label label-default" href="{{ path('absences', {'lyceen' : eleve.id} ) }}" style="margin-right:10px;"> Séances </a> 
@@ -126,6 +130,12 @@
         {% else %}
             <thead><tr><th class="muted"><h4>Aucune activité de tutorat</h4></th></tr></thead>
         {% endif %}
-    </table>  
+    </table>
 
+    {% if is_granted('ROLE_TUTEUR') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') or eleve == app.user or (is_granted('ROLE_PARENT') and eleve in app.user.eleves) %}
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Vous pouvez visualisez le relevé de présence de cet élève en cliquant sur les icônes en bas à gauche.
+        </div>
+    {% endif %}
 {% endblock %}

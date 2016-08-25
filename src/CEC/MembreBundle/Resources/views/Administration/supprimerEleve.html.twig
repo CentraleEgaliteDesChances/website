@@ -1,0 +1,40 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% block container %}
+    <form method="post" action="{{ path('supprimer_eleves', {'eleveid': eleve.id }) }}">
+        <h2> Voulez-vous vraiment supprimer {{ eleve }} ?</h2>
+
+        {{ parent() }}
+
+        <table class="table table-bordered">
+
+            <tbody>
+            <tr>
+                <td> <b> Id </b> </td>
+                <td> <b> Username </b> </td>
+                <td> <b> Prénom </b> </td>
+                <td> <b> Nom </b> </td>
+                <td> <b> Lycée </b> </td>
+                <td> <b> Niveau </b></td>
+            </tr>
+            <tr>
+                <td> {{ eleve.id }} </td>
+                <td> {{ eleve.username }} </td>
+                <td> {{ eleve.nom }} </td>
+                <td> {{ eleve.prenom }} </td>
+                <td> {{ eleve.lycee }} </td>
+                <td> {{ eleve.niveau }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="footer-controls">
+            <input type="submit" value="Supprimer" class="btn btn-danger pull-right" />
+            <a href="{{ path('gestion_eleves') }}" class="btn btn-default pull-right">Annuler</a>
+
+        </div>
+
+    </form>
+{% endblock %}

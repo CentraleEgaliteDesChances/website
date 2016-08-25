@@ -20,8 +20,7 @@
             {{ form_errors(form) }}
             {{form_label(form.categorie)}}
             {{form_widget(form.categorie, {'attr' : {'class' : 'input-block-level'}} ) }}<br/>
-            {{ form_widget(form.prenom, {'attr': {'class': 'input-block-level', 'placeholder': 'Prénom'}}) }}
-            {{ form_widget(form.nom, {'attr': {'class': 'input-block-level', 'placeholder': 'Nom'}}) }}
+            {{ form_widget(form.username, {'attr': {'class': 'input-block-level', 'placeholder': 'Username'}}) }}
             
 
             {{ form_rest(form) }}

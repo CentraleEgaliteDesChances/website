@@ -2,6 +2,8 @@
 
 namespace CEC\SecteurSortiesBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -620,5 +622,20 @@ class Sortie
     public function getLyceens()
     {
         return $this->lyceens->toArray();
+    }
+
+    /**
+     * Retourne une liste des lycéens qui participe à la sortie
+     *
+     * @return Collection
+     */
+    public function getEleves()
+    {
+        $eleves = new ArrayCollection();
+        foreach ($this->lyceens as $sortieEleve) {
+            $eleves->add($sortieEleve->getLyceen());
+        }
+        return $eleves;
+
     }
 }

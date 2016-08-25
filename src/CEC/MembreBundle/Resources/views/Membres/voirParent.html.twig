@@ -1,0 +1,68 @@
+{% extends 'CECMembreBundle:Membres:base.html.twig' %}
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash %}
+
+{% block left %}
+    {{ parent() }}
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th colspan="2" class="titre">
+                <h3>{{ parent.prenom|ucwords }} {{ parent.nom|ucwords }}</h3>
+            </th>
+        </tr>
+        <tr><th colspan="2" class="image">
+                {% image '@CECMembreBundle/Resources/public/img/tuteur.jpg' %}
+                <img src="{{ asset_url }}" alt="Image du lycée"/>
+                {% endimage %}
+            </th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Email</td>
+            <td>
+                {% if not(parent.hideMail) %}
+                    <a href="mailto:{{ parent.mail }}">{{ parent.mail }}</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% if is_granted('ROLE_VP_LYCEE') or is_granted('ROLE_PROFESSEUR_REFERENT') or is_granted('ROLE_PROVISEUR') %}
+            <tr>
+                <td>Téléphone</td>
+                <td>{{ parent.telephone }}</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+    {% if app.user == parent %}
+        <a href="{{ path('reglages_infos_parent', {'parentid' : parent.id }) }}" class="btn btn-default btn-block">Modifier mon profil</a>
+    {% endif %}
+{% endblock %}
+{% block right %}
+    {{ parent() }}
+    <table class="table table-bordered table-hover table-striped table-large">
+        <thead><tr><th><h4>Parent de </h4></th></tr></thead>
+        <tbody>
+        {% for eleve in eleves %}
+            <tr>
+                <td>
+                    <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                        {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if parent == app.user %}
+        <table>
+            <tr>
+                <td>
+                    {{ flash('info', "Voici votre page de profil telle qu'elle apparaît pour les utilisateurs. Pour modifier vos infos, utilisez le bouton en bas à gauche de votre écran.") }}
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+
+{% endblock %}

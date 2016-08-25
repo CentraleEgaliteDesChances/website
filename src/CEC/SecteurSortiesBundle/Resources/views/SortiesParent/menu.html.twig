@@ -1,0 +1,23 @@
+<div class="well">
+    <ul class="nav nav-pills nav-stacked">
+        <li
+                {% if app.request.attributes.get('_route') == 'sorties_parent' %}
+                    class="active"
+                {% endif %}
+        >
+            <a href="{{ path('sorties_parent') }}" class="sorties">Sorties à venir</a>
+        </li>
+
+        <li
+                {% if app.request.attributes.get('_route') == 'anciennes_sorties_parent' %}
+                    class="active"
+                {% endif %}
+        >
+            <a href="{{ path('anciennes_sorties_parent') }}">Sorties passées</a>
+        </li>
+        <li>
+            {{ app.request.attributes.get('_route') }}
+        </li>
+    </ul>
+</div>
+

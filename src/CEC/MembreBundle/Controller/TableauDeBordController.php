@@ -82,4 +82,20 @@ class TableauDeBordController extends Controller
             'seance_a_venir' => $seanceAVenir
         );
     }
+    /**
+     * Affiche le tableau de bord d'un parent.
+     * Le tableau de bord est la page d'accueil du site interne.
+     * Elle consiste en un logo et un message de bienvenue, ainsi qu'une liste
+     * de liens contextuels utiles pour accéder rapidement aux fonctions principales.
+     * @Template()
+     */
+    public function voirParentAction()
+    {
+        $parent= $this->getUser();
+        if (!$parent) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        return array(
+            'parent' => $parent,
+        );
+    }
 }

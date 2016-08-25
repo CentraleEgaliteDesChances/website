@@ -4,26 +4,37 @@
 {% block right %}
     <h2> Liste des élèves</h2>
 
-{{ parent() }}
+    {{ parent() }}
 
-<table class="table table-hover table-bordered table-striped">
-    {% if eleves|length > 0 %}
-        <tbody>
-            {% for eleve in eleves %}
+    <table class="table table-hover table-bordered table-striped">
+        {% if eleves|length > 0 %}
+            <tbody>
             <tr>
-                <td>
-                    
-                    <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
-                        {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
-                    </a>
-                </td>
+                <td> <b>Prénom Nom</b> </td>
+                <td> <b>Lycée</b> </td>
+                <td> <b>Niveau</b> </td>
             </tr>
+            {% for eleve in eleves %}
+                <tr>
+                    <td>
+
+                        <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                            {{ eleve.prenom|ucwords }} {{ eleve.nom|ucwords }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ eleve.lycee.nom }}
+                    </td>
+                    <td>
+                        {{ eleve.niveau }}
+                    </td>
+                </tr>
             {% endfor %}
-        </tbody>
-    {% else %}
-        <thead><tr><th class="muted"><h4>Aucun eleve dans la base de donnée !</h4></th></tr></thead>
-    {% endif %}
-</table>
+            </tbody>
+        {% else %}
+            <thead><tr><th class="muted"><h4>Aucun eleve dans la base de donnée !</h4></th></tr></thead>
+        {% endif %}
+    </table>
 
 
 {% endblock %}

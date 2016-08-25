@@ -5,6 +5,7 @@ namespace CEC\SecteurSortiesBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use CEC\SecteurSortiesBundle\Entity\Sortie;
 use CEC\SecteurSortiesBundle\Entity\SortieEleve;
@@ -86,6 +87,7 @@ class SortiesController extends Controller
      * @param integer $id Id de la sortie à modifier.
      * @param string $action Permet de différencier édition de la sortie et rédaction du CR
      * @Template()
+     * @return RedirectResponse
      */
     public function editerAction($action, $id)
     {
@@ -198,6 +200,7 @@ class SortiesController extends Controller
     *
     * @param integer $sortie: id du sortie de tutorat
     * @param integer $lyceen: id du lycéen — Variable POST
+    * @return array
     */
     public function ajouterLyceenAction($sortie)
     {
@@ -217,15 +220,25 @@ class SortiesController extends Controller
         }
         $lyceen = $this->getDoctrine()->getRepository('CECMembreBundle:Eleve')->find($lyceen);
         if (!$lyceen) throw $this->createNotFoundException('Impossible de trouver le lycéen !');
-        
+        $em = $this->getDoctrine()->getEntityManager();
         $sortieLyceen = $this->getDoctrine()->getRepository('CECSecteurSortiesBundle:SortieEleve')->findOneBy(array('sortie'=>$sortie, 'lyceen'=>$lyceen));
+        if ($sortieLyceen == null) {
+            $sortieLyceen = new SortieEleve();
+            $sortieLyceen->setSortie($sortie);
+            $sortieLyceen->setLyceen($lyceen);
+            $sortie->addLyceen($sortieLyceen);
+            $em->persist($sortieLyceen);
+            $em->persist($sortie);
+            $em->flush();
+        }
+        else {
         $sortieLyceen->setListeAttente(0);
         $sortieLyceen->setPresence(true);
-        $em = $this->getDoctrine()->getEntityManager();
+
 
         $em->persist($sortieLyceen);
         $em->flush();
-        
+        }
         return $this->redirect($this->generateUrl('editer_sortie', array('action' => 'cr', 'id' => $sortie->getId())));
     }
 
@@ -250,7 +263,8 @@ class SortiesController extends Controller
                 $entityManager->flush();
 
                 $this->get('session')->getFlashBag()->add('success', "La sortie a bien été ajoutée.");
-                $this->get('cec.mailer')->sendSortieCreee($sortie, $_SERVER['HTTP_HOST']);
+                $this->get('cec.mailer')->sendEleveSortieCreee($sortie, $_SERVER['HTTP_HOST']);
+                $this->get('cec.mailer')->sendParentSortieCreee($sortie, $_SERVER['HTTP_HOST']);
                 
 
                 return $this->redirect($this->generateUrl('sorties'));
@@ -266,7 +280,7 @@ class SortiesController extends Controller
      * Supprime une sortie
      *
      * @param integer $id Id de la sortie à supprimer.
-     * @Template()
+     * @return RedirectResponse
      */
     public function supprimerSortieAction($id)
     {
@@ -287,7 +301,7 @@ class SortiesController extends Controller
     * Désinscrit un lycéen d'une sortie et met à jour la liste d'attente
     * @param : integer $sortie : id de la sortie concernée
     * @param : integer $lyceen : id du lycéen concerné
-    *
+    * @return RedirectResponse
     */
     public function desinscrireAction($sortie, $lyceen)
     {
@@ -327,7 +341,7 @@ class SortiesController extends Controller
 	* Crée l'excel des inscrits à une sortie
 	*
 	* @param integer $id Id de la sortie concernée
-	* @Template()
+    * @return StreamedResponse
 	*/
 	public function excelAction($id)
     {
@@ -382,7 +396,7 @@ class SortiesController extends Controller
         });
 
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-        $response->headers->set('Content-Disposition','attachment; filename="export_inscrits_sortie'.$id.'.csv"');
+        $response->headers->set('Content-Disposition','attachment; filename="export_inscrits_sortie'.$id.'.csv');
 
         return $response;
     }

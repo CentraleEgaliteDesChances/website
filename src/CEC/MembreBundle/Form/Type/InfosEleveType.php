@@ -16,6 +16,14 @@ class InfosEleveType extends AbstractType
 					'attr' => array('placeholder' => 'Adresse Mail'),
 			))
             ->add('lycee', null, array('label' => 'Lycée de provenance'))
+            ->add('niveau', 'choice', array(
+                'label' => 'Niveau de scolarité',
+                'choices' => array(
+                    'Seconde' => 'Seconde',
+                    'Première' => 'Première',
+                    'Terminale' => 'Terminale'
+                )
+            ))
             ->add('adresse', null, array('label' => 'Numéro et nom de la rue'))
             ->add('codePostal', null, array('label' => 'Code Postal'))
             ->add('ville', null, array('label' => 'Ville'))
@@ -24,9 +32,6 @@ class InfosEleveType extends AbstractType
 					'label'     => 'Afficher publiquement le numéro de téléphone ?',
 					'required'  => false,
 			))
-			->add('nomPere', null, array('label' => 'Nom du père'))
-			->add('nomMere', null, array('label' => 'Nom de la mère'))
-			->add('telephoneParent', null, array('label' => 'Téléphone du(es) parent(s)'))
             ->add('checkMail', 'checkbox', array(
                     'label' => 'Recevoir les mails automatiques de CEC',
                     'required' => false

@@ -1,0 +1,30 @@
+{% extends 'CECSecteurSortiesBundle:SortiesParent:base.html.twig' %}
+
+{% block right %}
+
+    <h1>Liste des sorties à venir</h1>
+
+    <table class="table table-bordered table-striped table-large">
+        <tbody>
+        {% for sortie in sorties %}
+            <tr>
+                <td id="{{sortie.id}}">
+                    <p><strong>{{sortie.nom}}</strong> le <strong>{{ cycle(jours, sortie.dateSortie|date('N')) }} {{ sortie.dateSortie|date('j') }} {{ cycle(mois, sortie.dateSortie|date('n')) }} {{ sortie.dateSortie|date('Y') }}</strong> de <strong>{{sortie.heureDebut|date('G\\hi')}} à {{sortie.heureFin|date('G\\hi')}}</strong>.</p>
+                    <p>Adresse : {{sortie.adresse}}</p>
+                    <p style="text-align:justify;">{{sortie.description}}</p>
+                    <br/>
+
+                    {% for eleve in parent.eleves %}
+                        {% if eleve in sortie.eleves %}
+                    <div class = "alert alert-info">
+                        {{ eleve }} s'est inscrit(e) à cette sortie.
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

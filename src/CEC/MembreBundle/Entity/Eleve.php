@@ -32,7 +32,7 @@ class Eleve implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=100)
-	 * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
+     * @Assert\NotBlank(message = "Le prénom ne peut être vide.")
      * @Assert\Length(
      *     max = 100,
      *     maxMessage = "Le prénom ne peut excéder 100 caractères."
@@ -44,7 +44,7 @@ class Eleve implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=100)
-	 * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
+     * @Assert\NotBlank(message = "Le nom de famille ne peut être vide.")
      * @Assert\Length(
      *     max = 100,
      *     maxMessage = "Le nom de famille ne peut excéder 100 caractères."
@@ -52,11 +52,27 @@ class Eleve implements UserInterface, \Serializable
      */
     private $nom;
 
+
+    /**
+     * Identifiant du membre.
+     * Il est requis pour la connexion sur le site
+     * Lors de la création d'une nouvelle instance, il est fait en srote que l'identifiant soit unique à chaque instance
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "username", type = "string", length = 255)
+     * @Assert\Length(
+     *     max = 255,
+     *     maxMessage = "L'username ne peut excéder 255 caractères."
+     * )
+     */
+    private $username;
+
     /**
      * @var string
      *
      * @ORM\Column(name="mail", type="string", length=150)
-	 * @Assert\Email(
+     * @Assert\Email(
      *     message = "L'adresse email n'est pas valide.",
      *     checkHost = true
      * )
@@ -66,9 +82,11 @@ class Eleve implements UserInterface, \Serializable
      *     maxMessage = "L'adresse email ne peut excéder 255 caractères."
      * )
      */
+
+
     private $mail;
-	
-	/**
+
+    /**
      * Numéro de téléphone du membre.
      * Ce champ n'est pas requis mais permet de pouvoir contacter par téléphone
      * (fixe ou portable) un tuteur en cas de besoin. La syntaxe du numéro est vérifiée.
@@ -86,70 +104,38 @@ class Eleve implements UserInterface, \Serializable
      * )
      */
     private $telephone;
-	 
-	 /**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="telephonePublic", type="boolean")
-	 */
-	 private $telephonePublic = false;
 
-     /**
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="telephonePublic", type="boolean")
+     */
+    private $telephonePublic = false;
+
+    /**
      * @var string
-     * 
+     *
      * @ORM\COlumn(name="adresse", type="string")
      */
-     private $adresse;
+    private $adresse;
 
-     /**
+    /**
      * @var integer
      *
      * @ORM\Column(name="code_postal", type="integer")
      */
-     private $codePostal;
+    private $codePostal;
 
-     /**
+    /**
      * @var string
      *
      * @ORM\Column(name="ville", type="string")
      */
-     private $ville;
-
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomPere", type="string", nullable=true)
-     */
-     private $nomPere;
-
-     /**
-     * Numéro de téléphone du membre.
-     * Ce champ n'est pas requis mais permet de pouvoir contacter par téléphone
-     * (fixe ou portable) un tuteur en cas de besoin. La syntaxe du numéro est vérifiée.
-     *
-     * @var string
-     *
-     * @ORM\Column(name = "telephoneParent", type = "string", length = 15, nullable = true)
-     * @Assert\Regex(
-     *     pattern = "/^((0[1-7] ?)|\+33 ?[67] ?)([0-9]{2} ?){4}$/",
-     *     message = "Le numéro de téléphone n'est pas valide."
-     * )
-     * @Assert\Length(
-     *     max = 15,
-     *     maxMessage = "Un numéro de téléphone ne peut excéder 15 caractères."
-     * )
-     */
-    private $telephoneParent;
-
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomMere", type="string", nullable=true)
-     */
-     private $nomMere;
+    private $ville;
+    
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="datenaiss", type="date")
      */
@@ -161,8 +147,8 @@ class Eleve implements UserInterface, \Serializable
      * @ORM\Column(name="roles", type="array")
      */
     private $roles;
-	
-	    /**
+
+    /**
      * Mot de passe hashé du membre.
      * Ce champ contient le mot de passe en clair lors de sa modification par
      * formulaire, avant d'être hashé et remplaçé dans ce champ. Dans la BDD, seul
@@ -191,7 +177,7 @@ class Eleve implements UserInterface, \Serializable
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime")
-	 * @Gedmo\Timestampable(on = "create")
+     * @Gedmo\Timestampable(on = "create")
      * @Assert\DateTime()
      */
     private $dateCreation;
@@ -200,7 +186,7 @@ class Eleve implements UserInterface, \Serializable
      * @var \DateTime
      *
      * @ORM\Column(name="dateModification", type="datetime")
-	 * @Gedmo\Timestampable(on = "update")
+     * @Gedmo\Timestampable(on = "update")
      * @Assert\DateTime()
      */
     private $dateModification;
@@ -211,13 +197,13 @@ class Eleve implements UserInterface, \Serializable
      * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="delegues")
      */
     private $delegue;
-	
-	/**
-	* @var \Doctrine\Common\Collections\Collection
-	*
-	* @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", mappedBy="presents")
-	*/
-	private $reunions;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\Reunion", mappedBy="presents")
+     */
+    private $reunions;
 
     /**
      * Groupe de tutorat fréquenté régulièrement par le membre.
@@ -230,12 +216,12 @@ class Eleve implements UserInterface, \Serializable
     private $groupeParAnnee;
 
     /**
-    * Lycée de l'élève
-    * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="lyceens")
-    */
+     * Lycée de l'élève
+     * @ORM\ManyToOne(targetEntity="\CEC\TutoratBundle\Entity\Lycee", inversedBy="lyceens")
+     */
     private $lycee;
-    	
-	/**
+
+    /**
      * Séances auxquelles le tuteur a participé.
      * Ce champ liste les séances de tutorat pour lesquelles le membre a indiqué qu'il participait.
      * Ceci sert principalement deux objectifs :
@@ -252,31 +238,80 @@ class Eleve implements UserInterface, \Serializable
     private $seances;
 
     /**
-	*
-	* Répertorie les sorties auxquelles s'est inscrit le lycéen.
-	* ATTENTION : la suppression du lycéen supprime ses inscriptions.
-	* 
-	* Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de SortieEleve pour ajouter un lycéen à une sortie.
-	* 
-	* @var \Doctrine\Common\Collections\Collection
-    *
-    * @ORM\OneToMany(targetEntity="\CEC\SecteurSortiesBundle\Entity\SortieEleve", mappedBy="lyceen")
-	*/
-	private $sorties;
+     *
+     * Répertorie les sorties auxquelles s'est inscrit le lycéen.
+     * ATTENTION : la suppression du lycéen supprime ses inscriptions.
+     *
+     * Il ne s'agit pas du coté propriétaire. Utiliser les méthodes de SortieEleve pour ajouter un lycéen à une sortie.
+     *
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="\CEC\SecteurSortiesBundle\Entity\SortieEleve", mappedBy="lyceen")
+     */
+    private $sorties;
 
     /**
-    *@var \Doctrine\Common\Collections\Collection
-    *
-    *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="lyceen")
-    */
+     *@var \Doctrine\Common\Collections\Collection
+     *
+     *@ORM\OneToMany(targetEntity="\CEC\SecteurProjetsBundle\Entity\ProjetEleve", mappedBy="lyceen")
+     */
     private $projetsParAnnee;
 
-    /** 
-    * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
-    *
-    *@ORM\Column(name="checkMail", type="boolean")
-    */
+    /**
+     * Booléen enregistrant si le membre choisit de recevoir ou non les mails automatiques de CEC
+     *
+     *@ORM\Column(name="checkMail", type="boolean")
+     */
     private $checkMail = true;
+
+    /**
+     * Booléen enregistrant si l'élève a bien rendu sa charte élève
+     * @var boolean
+     *
+     * @ORM\COlumn(name="charte_eleve_rendu", type="boolean")
+     */
+    private $charteEleveRendue;
+
+    /**
+     * Booléen enregistrant si l'élève a bien rendu son autorisation parentale
+     * @var boolean
+     *
+     * @ORM\COlumn(name="autorisation_parentale_rendue", type="boolean")
+     */
+    private $autorisationParentaleRendue;
+
+    /**
+     * Booléen enregistrant si l'élève a bien rendu son droit à l'image
+     * @var boolean
+     *
+     * @ORM\COlumn(name="droit_image_rendue", type="boolean")
+     */
+    private $droitImageRendue;
+
+    /**
+     * Niveau de l'élève (Secondes, Premières ou Terminales)
+     * Il est représenté par un string et on le modifie toujours de sorte à ce qu'il soit égal à (Secondes|Premières|Terminales)
+     *
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "niveau", type = "string", length = 11)
+     * @Assert\NotBlank(message = "Merci de spécifier votre niveau de scolarité.")
+     * @Assert\Regex(
+     *     pattern="/Seconde|Première|Terminale/",
+     *     match=true,
+     *     message="Merci de spécifier votre niveau de scolarité "
+     *     )
+     */
+    private $niveau;
+
+    /**
+     * Dossier d'inscription que l'eleve doit remplir lors de l'inscription au site
+     *
+     * @ORM\OneToOne(targetEntity="CEC\MembreBundle\Entity\DossierInscription", cascade={"persist"})
+     */
+
+    private $dossierInscription;
 
     /**
      * Constructor
@@ -290,16 +325,30 @@ class Eleve implements UserInterface, \Serializable
         $this->groupeParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
         $this->setRoles(["ROLE_ELEVE"]);
         $this->projetsParAnnee = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->charteEleveRendue = false;
+        $this->autorisationParentaleRendue = false;
+        $this->droitImageRendue = false;
+        $this->dossierInscription = null;
     }
 
-    
+
 
     /**
      * @inheritDoc
      */
     public function getUsername()
     {
-        return $this->getPrenom() . ' ' . $this->getNom();
+        return $this->username;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -343,10 +392,10 @@ class Eleve implements UserInterface, \Serializable
     {
         list (
             $this->id,
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
-	
-	/**
+
+    /**
      * Retourne la description d'un membre.
      * La description est le résultat de la concaténation du prénom et du nom.
      *
@@ -361,7 +410,7 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -377,14 +426,14 @@ class Eleve implements UserInterface, \Serializable
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
-    
+
         return $this;
     }
 
     /**
      * Get prenom
      *
-     * @return string 
+     * @return string
      */
     public function getPrenom()
     {
@@ -400,14 +449,14 @@ class Eleve implements UserInterface, \Serializable
     public function setNom($nom)
     {
         $this->nom = $nom;
-    
+
         return $this;
     }
 
     /**
      * Get nom
      *
-     * @return string 
+     * @return string
      */
     public function getNom()
     {
@@ -423,21 +472,21 @@ class Eleve implements UserInterface, \Serializable
     public function setMail($mail)
     {
         $this->mail = $mail;
-    
+
         return $this;
     }
 
     /**
      * Get mail
      *
-     * @return string 
+     * @return string
      */
     public function getMail()
     {
         return $this->mail;
     }
-	
-	/**
+
+    /**
      * Set telephone
      *
      * @param string $telephone
@@ -459,25 +508,25 @@ class Eleve implements UserInterface, \Serializable
     {
         return $this->telephone;
     }
-	
-	/**
-	*
-	* Vérifier si le telephone est public
-	* @return boolean*/
-	public function getTelephonePublic()
-	{
-		return $this->telephonePublic;
-	}
-	
-	/**
-	*
-	* Change l'état du téléphone
-	* @return boolean*/
-	public function setTelephonePublic($boolean)
-	{
-		$this->telephonePublic = $boolean;
-		return $this;
-	}
+
+    /**
+     *
+     * Vérifier si le telephone est public
+     * @return boolean*/
+    public function getTelephonePublic()
+    {
+        return $this->telephonePublic;
+    }
+
+    /**
+     *
+     * Change l'état du téléphone
+     * @return boolean*/
+    public function setTelephonePublic($boolean)
+    {
+        $this->telephonePublic = $boolean;
+        return $this;
+    }
 
 
     /**
@@ -489,14 +538,14 @@ class Eleve implements UserInterface, \Serializable
     public function setDatenaiss($datenaiss)
     {
         $this->datenaiss = $datenaiss;
-    
+
         return $this;
     }
 
     /**
      * Get datenaiss
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDatenaiss()
     {
@@ -517,13 +566,13 @@ class Eleve implements UserInterface, \Serializable
         {
             $this->addRole($role);
         }
-    
+
         return $this;
     }
 
     /**
-    * Update les roles donnés à l'utilisateur
-    */
+     * Update les roles donnés à l'utilisateur
+     */
     public function updateRoles()
     {
         $this->setRoles(['ROLE_ELEVE']);
@@ -534,8 +583,8 @@ class Eleve implements UserInterface, \Serializable
         return $this;
     }
     /**
-    * Add role
-    */
+     * Add role
+     */
     public function addRole($role)
     {
 
@@ -546,15 +595,15 @@ class Eleve implements UserInterface, \Serializable
         return $this;
     }
 
-     /**
-    * Remove role
-    */
+    /**
+     * Remove role
+     */
     public function removeRole($role)
     {
 
         if (in_array($role, $this->roles)) {
             $roles = $this->roles;
-            foreach ($roles as $key => $role) {
+            foreach ($roles as $key => $oldRole) {
                 if ($role == $oldRole) {
                     unset($roles[$key]);
                 }
@@ -568,7 +617,7 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get roles
      *
-     * @return array 
+     * @return array
      */
     public function getRoles()
     {
@@ -578,7 +627,7 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get dateCreation
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateCreation()
     {
@@ -588,7 +637,7 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get dateModification
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateModification()
     {
@@ -604,14 +653,14 @@ class Eleve implements UserInterface, \Serializable
     public function setDelegue($delegue)
     {
         $this->delegue = $delegue;
-    
+
         return $this;
     }
 
     /**
      * Get delegue
      *
-     * @return \CEC\TutoratBundle\Entity\Lycee 
+     * @return \CEC\TutoratBundle\Entity\Lycee
      */
     public function getDelegue()
     {
@@ -634,14 +683,14 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get motDePasse
      *
-     * @return string 
+     * @return string
      */
     public function getMotDePasse()
     {
         return $this->motDePasse;
     }
-	
-	/**
+
+    /**
      * Set reunions
      *
      * @param array $reunions
@@ -649,24 +698,24 @@ class Eleve implements UserInterface, \Serializable
      */
     public function setReunions($reunions)
     {
-        $this->motDePasse = $motDePasse;
-    
+        $this->reunions = $reunions;
+
         return $this;
     }
-	
-	/**
-	* Add reunions
-	*
-	* @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
-	* @return Eleve
-	*/
-	public function addReunion( \CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
-	{
-		$this->reunions[] = $reunion;
-		return $this;
-	}
-	
-	/**
+
+    /**
+     * Add reunions
+     *
+     * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
+     * @return Eleve
+     */
+    public function addReunion( \CEC\SecteurProjetsBundle\Entity\Reunion $reunion)
+    {
+        $this->reunions[] = $reunion;
+        return $this;
+    }
+
+    /**
      * Remove reunion
      *
      * @param \CEC\SecteurProjetsBundle\Entity\Reunion $reunion
@@ -686,7 +735,7 @@ class Eleve implements UserInterface, \Serializable
         return $this->reunions->toArray();
     }
 
-    
+
 
     /**
      * Add projetsParAnnee
@@ -714,13 +763,13 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get projetsParAnnee
      *
-     * @return array 
+     * @return array
      */
     public function getProjetsParAnnee()
     {
         return $this->projetsParAnnee->toArray();
     }
-    
+
     /**
      * Add sorties
      *
@@ -734,7 +783,7 @@ class Eleve implements UserInterface, \Serializable
         return $this;
     }
 
-    
+
     /**
      * Remove sorties
      *
@@ -755,7 +804,7 @@ class Eleve implements UserInterface, \Serializable
         return $this->sorties->toArray();
     }
 
-    
+
     /**
      * Set adresse
      *
@@ -765,14 +814,14 @@ class Eleve implements UserInterface, \Serializable
     public function setAdresse($adresse)
     {
         $this->adresse = $adresse;
-    
+
         return $this;
     }
 
     /**
      * Get adresse
      *
-     * @return string 
+     * @return string
      */
     public function getAdresse()
     {
@@ -788,14 +837,14 @@ class Eleve implements UserInterface, \Serializable
     public function setCodePostal($codePostal)
     {
         $this->codePostal = $codePostal;
-    
+
         return $this;
     }
 
     /**
      * Get codePostal
      *
-     * @return integer 
+     * @return integer
      */
     public function getCodePostal()
     {
@@ -811,14 +860,14 @@ class Eleve implements UserInterface, \Serializable
     public function setVille($ville)
     {
         $this->ville = $ville;
-    
+
         return $this;
     }
 
     /**
      * Get ville
      *
-     * @return string 
+     * @return string
      */
     public function getVille()
     {
@@ -834,7 +883,7 @@ class Eleve implements UserInterface, \Serializable
     public function addSeance(\CEC\TutoratBundle\Entity\Seance $seances)
     {
         $this->seances[] = $seances;
-    
+
         return $this;
     }
 
@@ -853,81 +902,13 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get seances
      *
-     * @return array 
+     * @return array
      */
     public function getSeances()
     {
         return $this->seances->toArray();
     }
-
-    /**
-     * Set nomPere
-     *
-     * @param string $nomPere
-     * @return Eleve
-     */
-    public function setNomPere($nomPere)
-    {
-        $this->nomPere = $nomPere;
     
-        return $this;
-    }
-
-    /**
-     * Get nomPere
-     *
-     * @return string 
-     */
-    public function getNomPere()
-    {
-        return $this->nomPere;
-    }
-
-    /**
-     * Set nomMere
-     *
-     * @param string $nomMere
-     * @return Eleve
-     */
-    public function setNomMere($nomMere)
-    {
-        $this->nomMere = $nomMere;
-    
-        return $this;
-    }
-
-    /**
-     * Get nomMere
-     *
-     * @return string 
-     */
-    public function getNomMere()
-    {
-        return $this->nomMere;
-    }
-
-    /**
-     * Set telephoneParent
-     *
-     * @param string $telephoneParent
-     * @return Eleve
-     */
-    public function setTelephoneParent($telephoneParent)
-    {
-        $this->telephoneParent = $telephoneParent;
-    
-        return $this;
-    }
-
-    /**
-     * Get telephoneParent
-     *
-     * @return string 
-     */
-    public function getTelephoneParent()
-    {
-        return $this->telephoneParent;
-    }
 
     /**
      * Set lycee
@@ -938,14 +919,14 @@ class Eleve implements UserInterface, \Serializable
     public function setLycee(\CEC\TutoratBundle\Entity\Lycee $lycee = null)
     {
         $this->lycee = $lycee;
-    
+
         return $this;
     }
 
     /**
      * Get lycee
      *
-     * @return \CEC\TutoratBundle\Entity\Lycee 
+     * @return \CEC\TutoratBundle\Entity\Lycee
      */
     public function getLycee()
     {
@@ -961,13 +942,14 @@ class Eleve implements UserInterface, \Serializable
     public function addGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
     {
         $this->groupeParAnnee[] = $groupeParAnnee;
-    
+
         return $this;
     }
 
     /**
      * Remove groupeParAnnee
      *
+     * @return array
      * @param \CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee
      */
     public function removeGroupeParAnnee(\CEC\TutoratBundle\Entity\GroupeEleves $groupeParAnnee)
@@ -980,7 +962,7 @@ class Eleve implements UserInterface, \Serializable
     /**
      * Get groupeParAnnee
      *
-     * @return array 
+     * @return array
      */
     public function getGroupeParAnnee()
     {
@@ -1012,17 +994,102 @@ class Eleve implements UserInterface, \Serializable
     public function setCheckMail($checkMail)
     {
         $this->checkMail = $checkMail;
-    
+
         return $this;
     }
 
     /**
      * Get checkMail
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getCheckMail()
     {
         return $this->checkMail;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isCharteEleveRendue()
+    {
+        return $this->charteEleveRendue;
+    }
+
+    /**
+     * @param boolean $charteEleveRendue
+     */
+    public function setCharteEleveRendue($charteEleveRendue)
+    {
+        $this->charteEleveRendue = $charteEleveRendue;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAutorisationParentaleRendue()
+    {
+        return $this->autorisationParentaleRendue;
+    }
+
+    /**
+     * @param boolean $autorisationParentaleRendue
+     */
+    public function setAutorisationParentaleRendue($autorisationParentaleRendue)
+    {
+        $this->autorisationParentaleRendue = $autorisationParentaleRendue;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDroitImageRendue()
+    {
+        return $this->droitImageRendue;
+    }
+
+    /**
+     * @param boolean $droitImageRendue
+     */
+    public function setDroitImageRendue($droitImageRendue)
+    {
+        $this->droitImageRendue = $droitImageRendue;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
+    }
+
+    /**
+     * @return Eleve
+     * @param string $niveau
+     */
+    public function setNiveau($niveau)
+    {
+        $this->niveau = $niveau;
+        return $this;
+    }
+
+    /**
+     * @return DossierInscription
+     */
+    public function getDossierInscription()
+    {
+        return $this->dossierInscription;
+    }
+
+    /**
+     * @param DossierInscription $dossierInscription
+     */
+    public function setDossierInscription($dossierInscription)
+    {
+        $this->dossierInscription = $dossierInscription;
+    }
+    
+    
+
 }

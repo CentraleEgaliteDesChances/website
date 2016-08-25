@@ -11,3 +11,7 @@ actions_securite:
 
 actions_tableaudebord:
     resource: "@CECMembreBundle/Resources/config/routing/tableaudebord.yml"
+
+actions_admin:
+    resource: "@CECMembreBundle/Resources/config/routing/administration.yml"
+    prefix: /buro

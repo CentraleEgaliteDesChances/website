@@ -7,6 +7,12 @@
                 <a href="{{ path('reglages_infos_eleve') }}">Profil</a>
         </li>
 
+        <li
+                {% if app.request.attributes.get('_route') == 'reglages_dossier_inscription_eleve' %}class="active"{% endif %}
+        >
+            <a href="{{ path('reglages_dossier_inscription_eleve') }}">Dossier Inscription</a>
+        </li>
+
         <li 
             {% if app.request.attributes.get('_route') == 'reglages_groupe_eleve' %}class="active"{% endif %}
             >

@@ -23,7 +23,7 @@ class ProfesseurRepository extends EntityRepository implements UserProviderInter
     public function loadUserByUsername($username)
     {
         $query = $this->createQueryBuilder('professeur')
-            ->where('CONCAT(CONCAT(professeur.prenom, \' \'), professeur.nom) = :username')
+            ->where('professeur.username = :username')
             ->setParameter('username', $username)
             ->getQuery();
         
@@ -36,6 +36,16 @@ class ProfesseurRepository extends EntityRepository implements UserProviderInter
         }
 
         return $user;
+    }
+
+    public function findByUsername($nom, $prenom){
+        $query = $this->createQueryBuilder('prof')
+            ->where('prof.nom = :nom')
+            ->setParameter('nom',$nom)
+            ->andWhere('prof.prenom = :prenom')
+            ->setParameter('prenom', $prenom)
+            ->getQuery();
+        return $query->getResult();
     }
 
     /**

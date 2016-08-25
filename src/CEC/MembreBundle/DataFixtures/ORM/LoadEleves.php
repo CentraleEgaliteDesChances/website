@@ -15,7 +15,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
      * @var ContainerInterface
      */
     private $container;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -27,7 +27,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
     /**
      * {@inheritDoc}
      */
-     public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $nesrine_abada = $this->nouveauLyceenAleatoire("Nesrine", "Abada");
         $claire_alves = $this->nouveauLyceenAleatoire("Claire", "Alves");
@@ -49,7 +49,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         $mehdi_ferdoss = $this->nouveauLyceenAleatoire("Mehdi", "Ferdoss");
         $karim_el_fezzazi = $this->nouveauLyceenAleatoire("Karim", "El Fezzazi");
         $arno_dubois = $this->nouveauLyceenAleatoire("Arno", "Dubois");
-        
+
         $manager->persist($nesrine_abada);
         $manager->persist($claire_alves);
         $manager->persist($aude_ambrosini);
@@ -93,12 +93,12 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         $this->addReference('mehdi_ferdoss', $mehdi_ferdoss);
         $this->addReference('karim_el_fezzazi', $karim_el_fezzazi);
         $this->addReference('arno_dubois', $arno_dubois);
-    }   
-    
+    }
+
     /**
      * Crée et retourne un lycéen avec des informations aléatoires.
      *
-     * @return Lycee Nouveau Lycéen.
+     * @return Eleve Nouveau Lycéen.
      */
     public function nouveauLyceenAleatoire($prenom, $nom)
     {
@@ -119,12 +119,13 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
             $this->telephoneAleatoire(false),
             new \DateTime(),
             $this->lyceeAleatoire(),
-            $delegue
+            $delegue,
+            $this->niveauAleatoire()
         );
         return $lyceen;
     }
-    
-    
+
+
     /**
      * Crée et retourne un nouveau lycéen avec les informations fournies.
      *
@@ -141,8 +142,8 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
      * @return Lyceen Nouveau lycéen.
      */
     public function nouveauLyceen($prenom, $nom,
-        $telephone = null, $email = null, $adresse = null, $codePostal = null, $ville = null,
-        $nomPere = null, $nomMere = null, $telephoneParent = null, $dateNaiss = null, $lycee = null, $delegue = null)
+                                  $telephone = null, $email = null, $adresse = null, $codePostal = null, $ville = null,
+                                  $nomPere = null, $nomMere = null, $telephoneParent = null, $dateNaiss = null, $lycee = null, $delegue = null,$niveau = null)
     {
 
         $lyceen = new Eleve();
@@ -155,25 +156,24 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
             $lyceeDelegue = null;
 
         $lyceen->setPrenom($prenom)
-               ->setNom($nom)
-               ->setTelephone($telephone)
-               ->setTelephonePublic(false)
-               ->setMail($email)
-               ->setAdresse($adresse)
-               ->setCodePostal($codePostal)
-               ->setVille($ville)
-               ->setNomPere($nomPere)
-               ->setNomMere($nomMere)
-               ->setTelephoneParent($telephoneParent)
-               ->setDatenaiss($dateNaiss)
-               ->setMotDePasse($mdp)
-               ->setCheckMail(false)
-               ->setLycee($this->getReference($lycee))
-               ->setDelegue($lyceeDelegue);
+            ->setNom($nom)
+            ->setUsername($prenom.$nom)
+            ->setTelephone($telephone)
+            ->setTelephonePublic(false)
+            ->setMail($email)
+            ->setAdresse($adresse)
+            ->setCodePostal($codePostal)
+            ->setVille($ville)
+            ->setDatenaiss($dateNaiss)
+            ->setMotDePasse($mdp)
+            ->setCheckMail(false)
+            ->setLycee($this->getReference($lycee))
+            ->setNiveau($niveau)
+            ->setDelegue($lyceeDelegue);
         return $lyceen;
     }
 
-        /**
+    /**
      * Retourne une adresse email aléatoire construite à partir
      * du nom et du prénom.
      *
@@ -194,7 +194,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
             'free'
         );
         $extensions = array('fr', 'com');
-        
+
         $email = '';
         $prenom = strtolower($prenom);
         $nom = strtolower($nom);
@@ -237,11 +237,11 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         $email .= '@';
         $email .= $fournisseurs[rand(0, count($fournisseurs) - 1)];
         $email .= '.' . $extensions[rand(0, count($extensions) - 1)];
-        
+
         return $email;
     }
-    
-    
+
+
     /**
      * Retourne une adresse postale aléatoire.
      *
@@ -341,14 +341,14 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
             "des Piliers",
             "des Bons-Vivants",
         );
-        
+
         $adresse  = rand(1, 90);
         $adresse .= ', ';
         $adresse .= $rues[rand(0, count($rues) - 1)] . ' ';
         $adresse .= $nomsRues[rand(0, count($nomsRues) - 1)];
         return $adresse;
     }
-    
+
     /**
      * Retourne un code postal aléatoire.
      *
@@ -359,7 +359,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         $codePostal = rand(12, 78) . rand(0, 4) . rand(0, 9) . rand(0, 9);
         return $codePostal;
     }
-    
+
     /**
      * Retourne un numéro de téléphone aléatoire.
      * Il s'agit d'un numéro de portable par défaut.
@@ -371,7 +371,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
     {
         $indicatifPortable = array('06', '07');
         $indicatifFixe = array('01', '02', '03', '04', '05');
-        
+
         $telephone = '';
         if ($telephonePortable) {
             $telephone .= $indicatifPortable[rand(0, count($indicatifPortable) - 1)];
@@ -381,7 +381,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         $telephone .= ' ' . rand(10, 99) . ' ' . rand(10, 99) . ' ' . rand(10, 99) . ' ' . rand(10, 99) . ' ' . rand(10, 99);
         return $telephone;
     }
-    
+
     /**
      * Retourne une ville aléatoire.
      *
@@ -425,17 +425,17 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         );
         return $villes[rand(0, count($villes) - 1)];
     }
-    
+
     /**
-    * Retourne la référence d'un lycée source
-    */
+     * Retourne la référence d'un lycée source
+     */
     public function lyceeAleatoire()
     {
         $lycees = $this->tableauDesNomsLycees();
 
         return $lycees[rand(0, count($lycees) -1)];
     }
-    
+
     /**
      * Retourne un tableau contenant le nom des groupes de test.
      *
@@ -451,7 +451,7 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
             'palhom_kipranlamaire'
         );
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -459,6 +459,16 @@ class LoadEleves extends AbstractFixture implements DependentFixtureInterface, C
         return array(
             'CEC\TutoratBundle\DataFixtures\ORM\LoadLycees',
         );
+    }
+
+    private function niveauAleatoire()
+    {
+        $niveaux = array(
+            'Seconde',
+            'Première',
+            'Terminales'
+        );
+        return $niveaux[rand(0, count($niveaux) - 1)];
     }
 }
   

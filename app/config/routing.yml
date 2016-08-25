@@ -1,3 +1,11 @@
+cec_site_vitrine:
+    resource: "@CECSiteVitrineBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cec_calendrier:
+    resource: "@CECCalendrierBundle/Resources/config/routing.yml"
+    prefix:   /planning/
+
 cec_secteur_projets:
     resource: "@CECSecteurProjetsBundle/Resources/config/routing.yml"
     prefix:   /projets
@@ -27,6 +35,7 @@ cec_membre:
     prefix:   /
 
 
+
 # Security routes
 connexion_verifications:
     path: /connexion/verifications
@@ -48,3 +57,4 @@ adesigns_calendar:
 #_internal:
 #    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #    prefix:   /_internal
+

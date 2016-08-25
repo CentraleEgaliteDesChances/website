@@ -11,20 +11,21 @@ class GroupeEleveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('groupe', 'entity', array(
-        'label' => 'Choisir son groupe de tutorat',
-        'class' => 'CECTutoratBundle:Groupe',
-        'empty_value' => false,
-        'attr' => array('class' => 'input-ajouter'),
+            'label' => 'Choisir son groupe de tutorat',
+            'class' => 'CECTutoratBundle:Groupe',
+            'empty_value' => false,
+
+            'attr' => array('class' => 'input-ajouter'),
         ));
     }
-    
+
     public function getName()
     {
         return 'GroupeEleve';
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-    
+
     }
 }

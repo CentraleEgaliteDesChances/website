@@ -2,6 +2,7 @@
 
 namespace CEC\MainBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use CEC\MainBundle\AnneeScolaire\AnneeScolaire;
@@ -85,4 +86,28 @@ class MenuController extends Controller
             'projets' => $projets,
 		));
 	}
+
+    public function menuParentAction()
+    {
+        $parent = $this->getUser();
+        if (!$parent) throw $this->createNotFoundException('Impossible de trouver votre profil !');
+
+        $projets = $this->getDoctrine()->getRepository('CECSecteurProjetsBundle:Projet')->findAll();
+
+        //On recupere la liste des lycees dans lequel sont les enfants du parent
+        $eleves = $parent->getEleves();
+        $lycees = new ArrayCollection();
+        foreach ($eleves as $eleve) {
+            if (!($lycees->contains($eleve->getLycee()))) {
+                $lycees->add($eleve->getLycee());
+            }
+        }
+
+        return $this->render('CECMainBundle:Menu:menu_parent.html.twig', array(
+            'parent' => $parent,
+            'projets' => $projets,
+            'lycees' => $lycees
+        ));
+    }
+
 }

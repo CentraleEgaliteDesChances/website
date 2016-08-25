@@ -1,9 +1,9 @@
 {% extends 'CECMainBundle::base.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    
+
     {% stylesheets
-        '@CECMembreBundle/Resources/public/less/connexion.less'
+    '@CECMembreBundle/Resources/public/less/connexion.less'
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
@@ -11,21 +11,25 @@
 
 {% block container %}
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-3 well">
-        {{ parent() }}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {{ form_start(formProfil) }}
+            <div class="well"style="padding:20px;">
 
-        <h2> Inscription d'un nouveau lycéen </h2>
+                {{ parent() }}
 
-        <form class="form-connexion" method="post" action="{{ path('inscriptionEleve') }}">
-            {{ form_widget(form) }}
+                <h2> Inscription d'un nouveau lycéen </h2>
+
+                {{ form_widget(formProfil) }}
+            </div>
             <div class="footer-controls">
                 <input type="submit" value="S'inscrire" class="btn btn-primary pull-right" />
                 <a href="{{ path('connexion') }}" class="btn btn-default pull-right">Annuler</a>
             </div>
+            {{ form_end(formProfil) }}
             <br/><br/>
-        </form>
+
+        </div>
     </div>
-</div>
 
 {% endblock %}

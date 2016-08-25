@@ -8,6 +8,17 @@ tous_eleves:
     path: /eleves
     defaults: {_controller: CECMembreBundle:Membres:tousEleve}
 
+voir_parent:
+    path: /parent/{id}
+    defaults: {_controller: CECMembreBundle:Membres:voirParent}
+    requirements:
+        id: \d+
+
+tous_parents:
+    path: /parents
+    defaults: {_controller: CECMembreBundle:Membres:tousParent}
+
+
 participation_sorties:
     path: /sortiesRealisees/{lyceen}
     defaults: {_controller: CECSecteurSortiesBundle:SortiesEleve:participationSorties}
@@ -39,22 +50,3 @@ voir_membre:
     requirements:
         membre: \d+
 
-creer_membre:
-    path: /creation
-    defaults: {_controller: CECMembreBundle:Membres:creer}
-
-supprimer_membre:
-    path: /suppression/{membre}
-    defaults: {_controller: CECMembreBundle:Membres:supprimer}
-    requirements:
-        membre: \d+
-
-passations:
-    path: /passations
-    defaults: {_controller: CECMembreBundle:Membres:passations}
-
-retirer_buro:
-    path: /passations/retirer_membre/{membre}
-    defaults: {_controller: CECMembreBundle:Membres:supprimerMembreBuro}
-    requirements:
-        membre: \d+

@@ -1,0 +1,48 @@
+{% extends 'CECMembreBundle:ReglagesParent:base.html.twig' %}
+
+{% block right %}
+    {{ parent() }}
+
+    <div class="section">
+        <div class="section-title text-center"><h2>Vos enfants </h2></div>
+        {% if parent.eleves|length == 0 %}
+            <div class = "alert alert-danger">
+                Vous n'avez actuellement aucun élève enregistré comme un de vos enfants.
+            </div>
+
+        {% elseif parent.eleves|length == 1%}
+
+            <p>Vous avez actuellement enregistré l'élève suivant comme votre enfant :
+            </p>
+            <ul>
+                {% for eleve in parent.eleves %}
+                    <li>
+                        {{ eleve }} (<a href="{{ path('voir_eleve', { 'id': eleve.id }) }}">Voir profil</a>)
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+        {% else %}
+            <p>Vous avez actuellement enregistrés les élèves suivant comme vos enfants :
+            </p>
+            <ul>
+                {% for eleve in parent.eleves %}
+                    <li>
+                        {{ eleve }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <br/>
+        <form method="post" action="{{ path(app.request.attributes.get('_route')) }}">
+            {{ form_widget(form) }}
+            <span id="helpBlock" class="help-block">Pour sélectionner plusieurs élèves à la fois, cliquez sur les personnes concernées tout en mainteant la touche CTRL. </span>
+            <div class="form-actions">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+            </div>
+        </form>
+        <br/>
+    </div>
+
+{% endblock %}

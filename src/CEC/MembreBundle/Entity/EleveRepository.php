@@ -23,7 +23,7 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         $query = $this->createQueryBuilder('eleve')
-            ->where('CONCAT(CONCAT(eleve.prenom, \' \'), eleve.nom) = :username')
+            ->where('eleve.username = :username')
             ->setParameter('username', $username)
             ->getQuery();
         
@@ -37,6 +37,17 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
 
         return $user;
     }
+
+    public function findByUsername($nom, $prenom){
+        $query = $this->createQueryBuilder('eleve')
+            ->where('eleve.nom = :nom')
+            ->setParameter('nom',$nom)
+            ->andWhere('eleve.prenom = :prenom')
+            ->setParameter('prenom', $prenom)
+            ->getQuery();
+        return $query->getResult();
+    }
+
 
     /**
      * @inheritDoc
@@ -78,5 +89,84 @@ class EleveRepository extends EntityRepository implements UserProviderInterface
             ->getQuery();
         return $query->getSingleScalarResult();
     }
+
+    public function findAllOrderByLyceeAndNiveau(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.lycee')
+            ->addOrderBy('eleve.niveau')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderById(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.id')
+            ->getQuery();
+        return $query->getResult();
+    }
+    
+    public function findAllOrderByNom(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByPrenom(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.prenom')
+            ->addOrderBy('eleve.nom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByLycee(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.lycee')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByNiveau(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.niveau')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByCharteEleve(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.charteEleveRendue')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByAutorisationParentale(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.autorisationParentaleRendue')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function findAllOrderByDroitImage(){
+        $query = $this->createQueryBuilder('eleve')
+            ->orderBy('eleve.droitImageRendue')
+            ->addOrderBy('eleve.nom')
+            ->addOrderBy('eleve.prenom')
+            ->getQuery();
+        return $query->getResult();
+    }
+    
+    
+
 
 }

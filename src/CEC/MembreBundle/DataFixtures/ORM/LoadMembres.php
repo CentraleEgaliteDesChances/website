@@ -32,6 +32,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $pol_maire = new Membre();
         $pol_maire->setPrenom('Pol')
             ->setNom('Maire')
+            ->setUsername('Pol Maire')
             ->setMail('paul.maire@student.ecp.fr')
             ->setTelephone('0607080910')
             ->setPromotion('2013')
@@ -47,6 +48,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $helene_sicsic = new Membre();
         $helene_sicsic->setPrenom('Hélène')
             ->setNom('Sicsic')
+            ->setUsername('Hélène Sicisc')
             ->setMail('helene.sicsic@student.ecp.fr')
             ->setTelephone('0709080706')
             ->setMotDePasse($mdp)
@@ -59,6 +61,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $jb_bayle = new Membre();
         $jb_bayle->setPrenom('Jean-Baptiste')
             ->setNom('Bayle')
+            ->setUsername('Jean-Baptiste Bayle')
             ->setMail('jean-baptiste.bayle@student.ecp.fr')
             ->setTelephone('06 08 02 83 25')
             ->setMotDePasse($mdp)
@@ -70,6 +73,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $eloise_vailland = new Membre();
         $eloise_vailland->setPrenom('Eloise')
             ->setNom('Vailland')
+            ->setUsername('Eloise Vailland')
             ->setMail('eloise.vailland@student.ecp.fr')
             ->setTelephone('0709080706')
             ->setMotDePasse($mdp)
@@ -81,6 +85,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $charles_giachetti = new Membre();
         $charles_giachetti->setPrenom('Charles')
             ->setNom('Giachetti')
+            ->setUsername('Charles Giachetti')
             ->setMail('charles.giachetti@student.ecp.fr')
             ->setTelephone('0709080706')
             ->setMotDePasse($mdp)
@@ -92,6 +97,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $paul_chauchat = new Membre();
         $paul_chauchat->setPrenom('Paul')
             ->setNom('Chauchat')
+            ->setUsername('Paul Chauchat')
             ->setMail('paul.chauchat@student.ecp.fr')
             ->setTelephone('0709080706')
             ->setMotDePasse($mdp)
@@ -103,6 +109,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $ml_charpignon = new Membre();
         $ml_charpignon->setPrenom('Marie-Laure')
             ->setNom('Charpignon')
+            ->setUsername('Marie-Laure Charpignon')
             ->setMail('marie---laure.charpignon-choquet@student.ecp.fr')
             ->setTelephone('0709080706')
             ->setMotDePasse($mdp)
@@ -114,6 +121,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $thomas_beligne = new Membre();
         $thomas_beligne->setPrenom('Thomas')
             ->setNom('Beligné')
+            ->setUsername('Thomas Beligné')
             ->setMail('paul.beligne@student.ecp.fr')
             ->setTelephone('0709080706')
             ->setMotDePasse($mdp)
@@ -125,6 +133,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $jean_philippe_de_la_taillardiere = new Membre();
         $jean_philippe_de_la_taillardiere->setPrenom('Jean-Philippe')
             ->setNom('De La Taillardière')
+            ->setUsername('Jean-Philippe De La Taillardière')
             ->setMail('jean-philippe.de-la-taillardiere@student.ecp.fr')
             ->setTelephone('0709080706')
             ->setMotDePasse($mdp)
@@ -136,6 +145,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $gurvan_hermange = new Membre();
         $gurvan_hermange->setPrenom('Gurvan')
             ->setNom('Hermange')
+            ->setUsername('Gurvan Hermange')
             ->setMail('gurvan.hermange@student.ecp.fr')
             ->setTelephone('00 00 00 00 00')
             ->setMotDePasse($mdp)
@@ -148,6 +158,7 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $tristan_pouliquen = new Membre();
         $tristan_pouliquen->setPrenom('Tristan')
             ->setNom('Pouliquen')
+            ->setUsername('Tristan Pouliquen')
             ->setMail('tristan.pouliquen@student.ecp.fr')
             ->setTelephone('0638396593')
             ->setMotDePasse($mdp)
@@ -158,10 +169,11 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
             ->setCheckMail(false)
             ->updateRoles();
 
-        $gabrielle_jourdain = new Membre();
-        $gabrielle_jourdain->setPrenom('Gabrielle')
-            ->setNom('Jourdain')
-            ->setMail('gabrielle.jourdain@student.ecp.fr')
+        $jimmy_eung = new Membre();
+        $jimmy_eung->setPrenom('Jimmy')
+            ->setNom('Eung')
+            ->setUsername('Jimmy Eung')
+            ->setMail('jimmy.eung@student.ecp.fr')
             ->setTelephone('0638396593')
             ->setMotDePasse($mdp)
             ->setPromotion('2016')
@@ -181,12 +193,12 @@ class LoadMembres extends AbstractFixture implements DependentFixtureInterface, 
         $manager->persist($gurvan_hermange);
         $manager->persist($jean_philippe_de_la_taillardiere);
         $manager->persist($tristan_pouliquen);
-        $manager->persist($gabrielle_jourdain);
+        $manager->persist($jimmy_eung);
         $manager->flush();
         
         $this->addReference('pol_maire', $pol_maire);
         $this->addReference('helene_sicsic', $helene_sicsic);
-        $this->addReference('gabrielle_jourdain', $gabrielle_jourdain);
+        $this->addReference('jimmy_eung', $jimmy_eung);
         $this->addReference('jb_bayle', $jb_bayle);
         $this->addReference('eloise_vailland', $eloise_vailland);
         $this->addReference('charles_giachetti', $charles_giachetti);

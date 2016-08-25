@@ -9,8 +9,10 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets
-        '@CECMainBundle/Resources/public/less/bootstrap-override.less'
-        '@CECMainBundle/Resources/public/less/menu.less'
+    '@CECMainBundle/Resources/public/less/bootstrap-override.less'
+    '@CECMainBundle/Resources/public/less/menu.less'
+
+
     %}
     <link href="{{ asset_url }}" rel="stylesheet" media="screen" />
     {% endstylesheets %}
@@ -19,18 +21,20 @@
 {% block body %}
     {% block modals %}{% endblock %}
     {% block menu %}
-		{% if is_granted('ROLE_TUTEUR')%}
-			{{ render(controller('CECMainBundle:Menu:menu')) }}
-		{% elseif is_granted('ROLE_ELEVE') %}
-			{{render(controller('CECMainBundle:Menu:menuEleve')) }}
-		{% elseif is_granted('ROLE_PROFESSEUR') %}
-			{{ render(controller('CECMainBundle:Menu:MenuProf')) }}
-		{% else %}
-			{{render(controller('CECMainBundle:Menu:MenuAnon')) }}
-		{% endif %}
-		
+        {% if is_granted('ROLE_TUTEUR')%}
+            {{ render(controller('CECMainBundle:Menu:menu')) }}
+        {% elseif is_granted('ROLE_ELEVE') %}
+            {{render(controller('CECMainBundle:Menu:menuEleve')) }}
+        {% elseif is_granted('ROLE_PROFESSEUR') %}
+            {{ render(controller('CECMainBundle:Menu:MenuProf')) }}
+        {% elseif is_granted('ROLE_PARENT') %}
+            {{ render(controller('CECMainBundle:Menu:menuParent')) }}
+        {% else %}
+            {{render(controller('CECMainBundle:Menu:MenuAnon')) }}
+        {% endif %}
+
     {% endblock %}
-    
+
     <div class="container-fluid">
         {% block container %}
             {{ session_flash() }}

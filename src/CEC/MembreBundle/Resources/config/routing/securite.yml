@@ -7,3 +7,6 @@ inscriptionProfesseur:
 inscriptionEleve:
     path: /inscription/lyceen
     defaults: {_controller: CECMembreBundle:Securite:inscriptionEleve}
+inscriptionParent:
+    path: /inscription/parent
+    defaults: {_controller: CECMembreBundle:Securite:inscriptionParent}

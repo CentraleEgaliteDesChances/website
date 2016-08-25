@@ -1,0 +1,16 @@
+<html>
+
+<body>
+<p><strong>Bienvenue sur le site de CEC, {{ eleve.prenom }} !</strong></p>
+<p>Tu as été ajouté sur le site de Centrale Egalité des Chances. Grâce à lui, tu as facilement accès à toutes les informations sur les activités liées au tutorat, que ce soit les séances, les sorties ou bien les projets. Pense à t'inscrire à ton groupe de tutorat sur lequel tu pourras consulter le planning de toutes les séances, être prévenu lorsque la prochaine est imminente, etc.</p>
+<p>Pour te connecter, rien de plus simple : connecte-toi sur <a href="http://{{ base_url }}">{{ base_url }}</a> et entre ton pseudo et ton mot de passe :</p>
+<p style="text-align: center;"><strong>
+        <b>Identifiant : </b>{{ eleve.username }}<br />
+        <b>Mot de passe : </b>{{ mot_de_passe }}<br/>
+    </strong></p>
+<p>Tu as toujours la possibilité de <strong>modifier le mot de passe</strong> en <a href="http://{{ base_url }}/reglages">cliquant ici</a>. Et si tu as la moindre question, n'hésite pas à les poser à tes tuteurs !</p>
+<p>En espérant te voir rapidement en séance,</p>
+
+<p class="pull-right">Toute l'équipe de CEC</p>
+</body>
+</html>

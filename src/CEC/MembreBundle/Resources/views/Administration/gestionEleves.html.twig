@@ -1,0 +1,181 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% block container %}
+
+
+    {{ parent() }}
+    <div class="well"style="padding:20px;">
+        <h2> Liste des élèves</h2>
+
+        <form method="post">
+            <div class="row" style="padding-top: 20px">
+                <div class="btn-group pull-left" style="padding-left: 20px;padding-bottom: 20px">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Trier par <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'id'}) }}">Id</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'nom'}) }}">Nom</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'prenom'}) }}">Prénom</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'lycee'}) }}">Lycee</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'niveau'}) }}">Niveau</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'charte_eleve'}) }}">Charte Élève</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'autorisation_parentale'}) }}">Autorisation Parentale</a></li>
+                        <li><a href="{{ path('gestion_eleves',{'sorting' : 'droit_image'}) }}">Droit à l'image</a></li>
+                    </ul>
+                    <a href="{{ path('excel_eleves') }}">
+                        <button type="button" class="btn btn-primary">
+                            Excel des élèves
+                        </button>
+                    </a>
+
+                </div>
+
+
+
+                <div class="btn-toolbar pull-right" style="padding-right: 20px;padding-bottom: 20px">
+                    <div class="btn-group" data-toggle="buttons">
+
+                        <label class ="btn btn-default">
+                            <input type ="radio" name = "documents_recus" value="charte_eleve"> Charte Élève
+                        </label>
+                        <label class="btn btn-default">
+                            <input type ="radio" name = "documents_recus" value="autorisation_parentale"> Autorisation Parentale
+                        </label>
+                        <label class="btn btn-default">
+                            <input type ="radio" name = "documents_recus" value="droit_image">Droit Image
+                        </label>
+                        <label class="btn btn-default">
+                            <input type ="radio" name = "documents_recus" value="tous">Tous
+                        </label>
+
+                    </div>
+                    <div class ="btn-group">
+                        <div class="footer-controls">
+                            <input type="submit" name = "execute" value="Ajouter" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-hover table-bordered table-condensed table-striped text-center">
+                <thead>
+                <tr>
+                    <td> </td>
+                    <td>
+                        <b>Id </b>
+                    </td>
+                    <td>
+                        <b>Nom</b>
+                    </td>
+                    <td>
+                        <b>Prénom</b>
+                    </td>
+                    <td>
+                        <b>Lycée</b>
+                    </td>
+                    <td>
+                        <b>Niveau</b>
+                    </td>
+                    <td>
+                        <b>Dossier d'inscription</b>
+                    </td>
+                    <td>
+                        <b>Charte Élève</b>
+                    </td>
+                    <td>
+                        <b>Autorisation Parentale</b>
+                    </td>
+                    <td>
+                        <b>Droit à l'image</b>
+                    </td>
+                </tr>
+                </thead>
+                {% if eleves|length > 0 %}
+                    <tbody class="text-center">
+                    {% for eleve in eleves %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" value={{ eleve.id }} name="checkbox[]">
+                            </td>
+                            <td>
+                                <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    {{ eleve.id }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ eleve.nom|ucwords }}
+                            </td>
+                            <td>
+                                {{ eleve.prenom|ucwords }}
+                            </td>
+                            <td>
+                                {{ eleve.lycee.nom }}
+                            </td>
+                            <td>
+                                {{ eleve.niveau }}
+                            </td>
+                            {% if eleve.dossierInscription == null%}
+                                <td class = "danger">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </td>
+                            {% else %}
+                                <td class = "success">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </td>
+                            {% endif %}
+                            {% if eleve.charteEleveRendue%}
+                                <td class = "success">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </td>
+                            {% else %}
+                                <td class = "danger">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </td>
+                            {% endif %}
+                            {% if eleve.autorisationParentaleRendue %}
+                                <td class = "success">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </td>
+                            {% else %}
+                                <td class = "danger">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </td>
+                            {% endif %}
+                            {% if eleve.droitImageRendue%}
+                                <td class = "success">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </td>
+                            {% else %}
+                                <td class = "danger">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </td>
+                            {% endif %}
+                            <td>
+                                <a href="{{ path('gestion_eleve', { 'eleveid': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    Modifier
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ path('supprimer_eleves', { 'eleveid': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    Supprimer
+                                </a>
+                            </td>
+
+
+                        </tr>
+                        </tbody>
+                    {% endfor %}
+                {% else %}
+                    <tbody><tr><th class="muted"><h4>Aucun eleve dans la base de donnée !</h4></th></tr></tbody>
+                {% endif %}
+            </table>
+
+
+        </form>
+    </div>
+
+
+{% endblock %}

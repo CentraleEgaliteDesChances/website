@@ -18,6 +18,8 @@ class Groupe
 
     /**
      * @var string
+     *
+     * @ORM\Column(name = "niveau", type = "string", length = 11)
      */
     private $niveau;
 

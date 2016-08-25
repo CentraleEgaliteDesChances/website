@@ -1,0 +1,55 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% form_theme form _self %}
+
+{%- block checkbox_widget -%}
+    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked=""{% endif %} />
+{%- endblock checkbox_widget -%}
+
+
+
+
+{% block container %}
+
+    <h2> Modification des documents d'un élève</h2>
+
+    {{ parent() }}
+    {{ form_start(form, {'attr': {'class': 'form-inline'} }) }}
+    <table class="table table-bordered">
+
+        <tbody>
+        <tr>
+            <td> <b> Prénom </b> </td>
+            <td> <b> Nom </b> </td>
+            <td> <b> Lycée </b> </td>
+            <td> <b> Niveau </b></td>
+            <td> <b> Charte Élève </b></td>
+            <td> <b> Autorisation Parentale </b></td>
+            <td> <b> Droit à l'image </b></td>
+        </tr>
+        <tr>
+            <td> {{ eleve.nom }} </td>
+            <td> {{ eleve.prenom }} </td>
+            <td> {{ eleve.lycee }} </td>
+            <td> {{ eleve.niveau }}</td>
+            <td> {{ form_widget(form.charteEleveRendue) }}</td>
+
+            <td>
+                {{ form_widget(form.autorisationParentaleRendue) }}</td>
+
+            <td> {{ form_widget(form.droitImageRendue) }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="footer-controls">
+        <input type="submit" value="Enregistrer" class="btn btn-primary pull-right" />
+        <a href="{{ path('gestion_eleves') }}" class="btn btn-default pull-right">Retour</a>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+
+    </div>
+
+{% endblock %}

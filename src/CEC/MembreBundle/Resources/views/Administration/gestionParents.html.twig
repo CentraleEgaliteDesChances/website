@@ -1,0 +1,82 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+
+{% extends 'CECMainBundle::base.html.twig' %}
+
+{% block container %}
+
+
+    {{ parent() }}
+    <div class="well"style="padding:20px;">
+        <h2> Liste des parents</h2>
+
+        <div class="row" style="padding-top: 20px">
+            <div class="btn-group pull-left" style="padding-left: 20px;padding-bottom: 20px">
+                <a href="{{ path('excel_parents') }}">
+                    <button type="button" class="btn btn-primary">
+                        Excel des parents
+                    </button>
+                </a>
+
+            </div>
+            <table class="table table-hover table-bordered table-condensed table-striped text-center">
+                <thead>
+                <tr>
+                    <td>
+                        <b>Id </b>
+                    </td>
+                    <td>
+                        <b>Nom</b>
+                    </td>
+                    <td>
+                        <b>Prénom</b>
+                    </td>
+                    <td>
+                        <b>Enfants</b>
+                    </td>
+                </tr>
+                </thead>
+                {% if parents|length > 0 %}
+                    <tbody class="text-center">
+                    {% for parent in parents %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('voir_parent', { 'id': parent.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    {{ parent.id }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ parent.nom|ucwords }}
+                            </td>
+                            <td>
+                                {{ parent.prenom|ucwords }}
+                            </td>
+                            <td>
+                                <ul class ="list-inline">
+                                    {% for eleve in parent.eleves %}
+                                        <li>
+                                            <a href="{{ path('voir_eleve', { 'id': eleve.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                                {{ eleve }}
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="{{ path('supprimer_parent', { 'parentid': parent.id }) }}" style="margin-top: 1px; display: inline-block;">
+                                    Supprimer
+                                </a>
+                            </td>
+
+
+                        </tr>
+                        </tbody>
+                    {% endfor %}
+                {% else %}
+                    <tbody><tr><th class="muted"><h4>Aucun parent dans la base de donnée !</h4></th></tr></tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

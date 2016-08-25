@@ -15,7 +15,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
      * @var ContainerInterface
      */
     private $container;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -29,9 +29,9 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
      */
      public function load(ObjectManager $manager)
     {
-        $marie_pierre_carlotti = $this->nouveauProfAleatoire("Marie-Pierre", "Carlotti");
-        $emmanuel_deloges = $this->nouveauProfAleatoire("Emmanuel", "Deloges");
-        $marie_geider = $this->nouveauProfAleatoire("Marie", "Geider");
+        $marie_pierre_abada = $this->nouveauProfAleatoire("Marie-Pierre", "Carlotti");
+        $emmanuel_alves = $this->nouveauProfAleatoire("Emmanuel", "Deloges");
+        $marie_ambrosini = $this->nouveauProfAleatoire("Marie", "Geider");
         $jacquie_guichard = $this->nouveauProfAleatoire("Jacqueline", "Guichard");
         $adele_leclere = $this->nouveauProfAleatoire("Adèle", "Leclere");
         $catherine_mourette = $this->nouveauProfAleatoire("Catherine", "Mourette");
@@ -41,11 +41,12 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
         $erwan_leon = $this->nouveauProfAleatoire("Erwan", "Léon");
         $pierrick_madinier = $this->nouveauProfAleatoire("Pierrick", "Madinier");
         $thierry_merlet = $this->nouveauProfAleatoire("Thierry", "Merlet");
-        
 
-        $manager->persist($marie_pierre_carlotti);
-        $manager->persist($emmanuel_deloges);
-        $manager->persist($marie_geider);
+
+
+        $manager->persist($marie_pierre_abada);
+        $manager->persist($emmanuel_alves);
+        $manager->persist($marie_ambrosini);
         $manager->persist($jacquie_guichard);
         $manager->persist($adele_leclere);
         $manager->persist($catherine_mourette);
@@ -58,9 +59,9 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
 
         $manager->flush();
 
-        $this->addReference('marie_pierre_carlotti', $marie_pierre_carlotti);
-        $this->addReference('emmanuel_deloges', $emmanuel_deloges);
-        $this->addReference('marie_geider', $marie_geider);
+        $this->addReference('marie_pierre_abada', $marie_pierre_abada);
+        $this->addReference('emmanuel_alves', $emmanuel_alves);
+        $this->addReference('marie_ambrosini', $marie_ambrosini);
         $this->addReference('jacquie_guichard', $jacquie_guichard);
         $this->addReference('adele_leclere', $adele_leclere);
         $this->addReference('catherine_mourette', $catherine_mourette);
@@ -70,8 +71,8 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
         $this->addReference('erwan_leon', $erwan_leon);
         $this->addReference('pierrick_madinier', $pierrick_madinier);
         $this->addReference('thierry_merlet', $thierry_merlet);
-    }   
-    
+    }
+
     /**
      * Crée et retourne un professeur avec des informations aléatoires.
      *
@@ -79,8 +80,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
      */
     public function nouveauProfAleatoire($prenom, $nom)
     {
-        $prenom = $prenom;
-        $nom = $nom;
+
         $adresse = rand(0, 1);
         $professeur = $this->nouveauProfesseur(
             $prenom,
@@ -94,15 +94,15 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
         );
         return $professeur;
     }
-    
-    
+
+
     /**
      * Crée et retourne un nouveau lycéen avec les informations fournies.
      *
      * @param string $prenom
      * @param string $nom
      * @param string $telephone fixe
-     * @param string $portable 
+     * @param string $portable
      * @param string $lycee
      * @param string $role
      * @return Professeur Nouveau professeur
@@ -129,7 +129,8 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
                ->setRole($role)
                ->setReferent($lyceeReferent)
                ->setMotDePasse($mdp)
-               ->setCheckMail(false);
+               ->setCheckMail(false)
+                ->setUsername($prenom.$nom);
         return $professeur;
     }
 
@@ -154,7 +155,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
             'free'
         );
         $extensions = array('fr', 'com');
-        
+
         $email = '';
         $prenom = strtolower($prenom);
         $nom = strtolower($nom);
@@ -197,11 +198,11 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
         $email .= '@';
         $email .= $fournisseurs[rand(0, count($fournisseurs) - 1)];
         $email .= '.' . $extensions[rand(0, count($extensions) - 1)];
-        
+
         return $email;
     }
-    
-    
+
+
     /**
      * Retourne une adresse postale aléatoire.
      *
@@ -301,14 +302,14 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
             "des Piliers",
             "des Bons-Vivants",
         );
-        
+
         $adresse  = rand(1, 90);
         $adresse .= ', ';
         $adresse .= $rues[rand(0, count($rues) - 1)] . ' ';
         $adresse .= $nomsRues[rand(0, count($nomsRues) - 1)];
         return $adresse;
     }
-    
+
     /**
      * Retourne un code postal aléatoire.
      *
@@ -319,7 +320,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
         $codePostal = rand(12, 78) . rand(0, 4) . rand(0, 9) . rand(0, 9);
         return $codePostal;
     }
-    
+
     /**
      * Retourne un numéro de téléphone aléatoire.
      * Il s'agit d'un numéro de portable par défaut.
@@ -331,7 +332,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
     {
         $indicatifPortable = array('06', '07');
         $indicatifFixe = array('01', '02', '03', '04', '05');
-        
+
         $telephone = '';
         if ($telephonePortable) {
             $telephone .= $indicatifPortable[rand(0, count($indicatifPortable) - 1)];
@@ -341,7 +342,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
         $telephone .= ' ' . rand(10, 99) . ' ' . rand(10, 99) . ' ' . rand(10, 99) . ' ' . rand(10, 99) . ' ' . rand(10, 99);
         return $telephone;
     }
-    
+
     /**
      * Retourne une ville aléatoire.
      *
@@ -388,12 +389,13 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
 
     /**
     * Retourne un rôle aléatoire
+    * @return string Rôle aléatoire.
     */
     public function roleAleatoire()
     {
         $roles = ['Enseignant', 'Proviseur', 'Proviseur Adjoint', 'Conseiller Principal d\'Education'];
         return $roles[rand(0, count($roles) -1)];
-    }   
+    }
 
     /**
     * Retourne la référence d'un lycée source
@@ -404,7 +406,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
 
         return $lycees[rand(0, count($lycees) -1)];
     }
-    
+
     /**
      * Retourne un tableau contenant le nom des groupes de test.
      *
@@ -420,7 +422,7 @@ class LoadProfesseurs extends AbstractFixture implements DependentFixtureInterfa
             'palhom_kipranlamaire'
         );
     }
-    
+
     /**
      * {@inheritDoc}
      */

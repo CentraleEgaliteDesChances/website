@@ -7,6 +7,7 @@ security:
         CEC\MembreBundle\Entity\Membre: sha512
         CEC\MembreBundle\Entity\Eleve: sha512
         CEC\MembreBundle\Entity\Professeur: sha512
+        CEC\MembreBundle\Entity\ParentEleve: sha512
 
     role_hierarchy:
         #Rôles internes des tuteurs
@@ -37,18 +38,23 @@ security:
         ROLE_PROFESSEUR_REFERENT: ROLE_PROFESSEUR
         ROLE_PROVISEUR: ROLE_PROFESSEUR
 
+        #Rôles des parents
+        ROLE_PARENT: ROLE_USER
+
         ROLE_ADMIN : [ROLE_BURO, ROLE_ELEVE_DELEGUE, ROLE_PROFESSEUR_REFERENT, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         chain_provider:
             chain:
-                providers: [membres,eleves,professeurs]
+                providers: [membres,eleves,professeurs,parents]
         membres:
-            entity: { class: CECMembreBundle:Membre }
+            entity: { class: CECMembreBundle:Membre}
         eleves:
             entity: { class: CECMembreBundle:Eleve}
         professeurs:
             entity: { class: CECMembreBundle:Professeur}
+        parents:
+            entity: { class: CECMembreBundle:ParentEleve}
 
     firewalls:
         dev:
@@ -56,7 +62,7 @@ security:
             security: false
 
         intern:
-            pattern:    ^/(eleve|professeur|tuteur|reglages|membres|groupes|cordees|lycees|seances|projets|connexion)/
+            pattern:    ^/(eleve|professeur|tuteur|reglages|membres|groupes|cordees|lycees|seances|projets|connexion|parent|planning|buro)/
             form_login:
                 check_path: /connexion/verifications
                 login_path: /connexion
@@ -84,5 +90,8 @@ security:
         - { path: ^/professeur/, roles: ROLE_PROFESSEUR }
         - { path: ^/tuteur/, roles: ROLE_TUTEUR}
         - { path: ^/eleve/, roles: ROLE_ELEVE}
-        - { path: ^/(reglages|membres|projets|seances)/, roles: ROLE_USER}
+        - { path: ^/parent/, roles : ROLE_PARENT}
+        - { path: ^/buro/, roles : ROLE_BURO}
+        - { path: ^/(reglages|membres|projets|seances|planning)/, roles: ROLE_USER}
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/site_vitrine, roles: IS_AUTHENTICATED_ANONYMOUSLY}

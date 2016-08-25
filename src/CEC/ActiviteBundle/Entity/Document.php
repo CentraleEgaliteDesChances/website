@@ -2,6 +2,7 @@
 
 namespace CEC\ActiviteBundle\Entity;
 
+use CEC\MembreBundle\Entity\Membre;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -195,7 +196,7 @@ class Document
      * Membre auteur du document.
      * Il est enregistré lors de l'ajout du document et permet de garder une trace de l'activité du membre.
      *
-     * @var CEC\MembreBundle\Entity\Membre
+     * @var Membre
      *
      * @ORM\ManyToOne(targetEntity = "CEC\MembreBundle\Entity\Membre", inversedBy = "documents")
      * @Assert\NotBlank(message = "Le document doit être associé à un auteur.")
@@ -310,10 +311,14 @@ class Document
             $this->fichierPDF->move($this->getDossierRacineTelechargement(), $this->getNomFichierPDF());
             unset($this->fichierPDF);
         }
-        else
-        {
-            $this->genererFichierPDF();
-        }
+        /**
+        *
+        *
+        *else
+        *{
+        *    $this->genererFichierPDF();
+        *}
+        */
     }
 
     /**

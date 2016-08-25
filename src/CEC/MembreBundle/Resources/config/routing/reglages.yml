@@ -26,6 +26,12 @@ reglages_groupe_eleve:
     requirements:
         lyceen: \d+
 
+reglages_dossier_inscription_eleve:
+    path: /dossier-inscription-eleve
+    defaults: {_controller: CECMembreBundle:ReglagesEleve:dossierInscription}
+    requirements:
+        lyceen: \d+
+
 reglages_infos_professeur:
     path: /infos-professeur
     defaults: {_controller: CECMembreBundle:ReglagesProfesseur:infos}
@@ -39,3 +45,15 @@ creer_secteur:
 supprimer_secteur:
     path: /supprimer_secteur
     defaults: {_controller: CECMembreBundle:Reglages:supprimerSecteur}
+
+reglages_infos_parent:
+    path: /infos-parent
+    defaults: {_controller: CECMembreBundle:ReglagesParent:infos}
+    requirements:
+        parent: \d+
+
+reglages_enfants_parent:
+    path: /enfants-parent
+    defaults: {_controller: CECMembreBundle:ReglagesParent:enfants}
+    requirements:
+        parent: \d+

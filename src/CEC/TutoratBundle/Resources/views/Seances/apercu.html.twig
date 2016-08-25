@@ -5,7 +5,6 @@
 
 <table class="table table-bordered table-striped table-centered">
     <tbody>
-        <tr><td></td></tr>
         <tr>
             <td class="date">
                 {{ cycle(jours, seance.date|date('N'))|lower }}<br />
@@ -80,7 +79,7 @@
         </tr>
         <tr>
             <td class="td-content">
-                <a href="{{ path('toutes_seances', { 'groupe': seance.groupe.id }) }}" class="btn btn-default btn-block">
+                <a href="{{ path('afficher_le_planning', { 'groupe': seance.groupe.id }) }}" class="btn btn-default btn-block">
                     Planning des séances
                 </a>
             </td>

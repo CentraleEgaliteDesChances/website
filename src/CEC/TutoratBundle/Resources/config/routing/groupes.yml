@@ -63,3 +63,9 @@ groupe_compterendu_arediger:
     defaults: {_controller: CECTutoratBundle:Groupes:compteRendus}
     requirements:
         groupe: \d+
+
+groupe_liste_seances:
+    path: /{groupeid}/liste_seances
+    defaults: {_controller: CECTutoratBundle:Groupes:listeSeances}
+    requirements:
+        groupeid: \d+
