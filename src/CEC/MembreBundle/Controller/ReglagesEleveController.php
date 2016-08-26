@@ -161,7 +161,7 @@ class ReglagesEleveController extends Controller
                 $this->getDoctrine()->getEntityManager()->persist($lyceen);
                 $this->getDoctrine()->getEntityManager()->flush();
                 $this->get('session')->getFlashBag()->add('success', 'Les modifications ont bien été enregistrées.');
-                $this->get('cec.mailer')->sendInscrit($mailparent, $lyceen, $_SERVER['HTTP_HOST']);
+                $this->get('cec.mailer')->sendNotificationParentInscriptionEleve($mailparent, $lyceen, $_SERVER['HTTP_HOST']);
                 return $this->redirect($this->generateUrl('reglages_dossier_inscription_eleve'));
             }
         }

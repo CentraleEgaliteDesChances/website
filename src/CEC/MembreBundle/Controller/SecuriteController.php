@@ -335,7 +335,7 @@ class SecuriteController extends Controller
 				$em->flush();
 
 				$this->get('session')->getFlashBag()->add('notice', 'Inscription bien effectuée.');
-
+                $this->get('cec.mailer')->sendInscriptionParent($parent, $motDePasse, $_SERVER['HTTP_HOST']);
 				return $this->redirect($this->generateUrl('connexion'));
 			}
 		}

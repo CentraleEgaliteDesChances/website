@@ -237,7 +237,7 @@ class Mailer
 
 		$eleves = $this->doctrine->getRepository('CECMembreBundle:Eleve')->findByCheckMail(true);
 		$professeurs = $this->doctrine->getRepository('CECMembreBundle:Professeur')->findByCheckMail(true);
-
+        $parents = $this->doctrine->getRepository('CECMembreBundle:ParentEleve')->findByCheckMail(true);
 		// On ne prévient que les professeurs référents.
 		$professeurs = array_filter($professeurs, function(Professeur $p) { return (in_array('ROLE_PROFESSEUR_REFERENT', $p->getRoles())); });
 
