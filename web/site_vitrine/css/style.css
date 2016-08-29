@@ -129,7 +129,7 @@ font-size:1.1em;
 /*--navigation--*/
 /*--banner--*/
 .banner{
-background: url(http://dev.cec-ecp.com/site_vitrine/images/banner-1.jpg) no-repeat 0px 0px;
+background: url(http://cec-ecp.com/site_vitrine/images/banner-1.jpg) no-repeat 0px 0px;
 background-size:cover;
 -webkit-background-size: cover;
 -o-background-size: cover;
@@ -260,7 +260,7 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
 /*--about--*/
 /*--mid-bann--*/
 .mid-bann{
-	background: url(http://dev.cec-ecp.com/site_vitrine/images/mid-banner.png) no-repeat 0px 20px;
+	background: url(http://cec-ecp.com/site_vitrine/images/mid-banner.png) no-repeat 0px 20px;
 	background-size:cover;
 	-webkit-background-size: cover;
 	-o-background-size: cover;
@@ -512,7 +512,7 @@ line-height: 3em;
 }
 /*--news--*/
 .news {
-    background: url(http://dev.cec-ecp.com/site_vitrine/images/mid-banner.jpg) no-repeat 0px 0px;
+    background: url(http://cec-ecp.com/site_vitrine/images/mid-banner.jpg) no-repeat 0px 0px;
     background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
@@ -788,7 +788,7 @@ i.glyphicon.glyphicon-calendar {
 	height: 48px;
 	border: none;
 	text-indent: 100%;
-	background: url(http://dev.cec-ecp.com/site_vitrine/images/arrow.1.png) no-repeat 0px 0px;
+	background: url(http://cec-ecp.com/site_vitrine/images/arrow.1.png) no-repeat 0px 0px;
 }
 #toTop:hover{
 	outline: none;
@@ -1450,7 +1450,7 @@ span.glyphicon.glyphicon-thumbs-up, span.glyphicon.glyphicon-heart, span.glyphic
     margin: 2em 0 0;
 }
 .banner {
-	background: url(http://dev.cec-ecp.com/site_vitrine/images/banner-1.jpg) no-repeat -76px 0px;
+	background: url(http://cec-ecp.com/site_vitrine/images/banner-1.jpg) no-repeat -76px 0px;
 	background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
