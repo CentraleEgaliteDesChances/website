@@ -703,10 +703,18 @@ i.glyphicon.glyphicon-calendar {
     margin: 2.5em 0;
 }
 .contact-bottom {
-    margin-top: 5em;
+    margin-top: 3em;
 }
 .contact-right {
     padding: 0 5em;
+}
+.contact-row {
+    padding: 0 1.5em;
+}
+.contact-images {
+    height : 10em;
+    max-width: 100%;
+    float:right;
 }
 /*--contact--*/
 .footer {

@@ -5,14 +5,14 @@
 	{{ parent() }}
 
 
-    <link href="http://cec-ecp.com/site_vitrine/css/bootstrap.css" rel='stylesheet' type='text/css' />
-    <link href="http://cec-ecp.com/site_vitrine/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
-    <link rel="stylesheet" href="http://cec-ecp.com/site_vitrine/css/flexslider.css" type="text/css" media="screen" />
-    <link href="http://cec-ecp.com/site_vitrine/css/style.css" rel='stylesheet' type='text/css' />
-    <link href="http://cec-ecp.com/site_vitrine/css/animate.css" rel="stylesheet" type="text/css" media="all">
-    <!-- Custom Theme files -->
-    <link href='//fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>{% endblock %}
+	<link href="http://cec-ecp.com/site_vitrine/css/bootstrap.css" rel='stylesheet' type='text/css' />
+	<link href="http://cec-ecp.com/site_vitrine/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="http://cec-ecp.com/site_vitrine/css/flexslider.css" type="text/css" media="screen" />
+	<link href="http://cec-ecp.com/site_vitrine/css/style.css" rel='stylesheet' type='text/css' />
+	<link href="http://cec-ecp.com/site_vitrine/css/animate.css" rel="stylesheet" type="text/css" media="all">
+	<!-- Custom Theme files -->
+	<link href='//fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>{% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
@@ -545,7 +545,8 @@
 	<div class="news-1" id="news">
 		<div class="container">
 			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms"> Actualités</h3>
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">Blabla sur l'actualité de CEC.</p>
+			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">En cours de construction</p>
+			<!--
 			<div class="news-1-bottom">
 				<div class="col-md-6 news-1-left wow fadeInLeft animated" data-wow-delay=".5s">
 					<div class="im-left">
@@ -577,6 +578,7 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
+			-->
 		</div>
 	</div>
 	<!--- news-1 ---->
@@ -591,32 +593,74 @@
 			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">CONTACT</h3>
 			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">N'hésitez pas à nous contacter si vous avez des questions ou des suggestions !</p>
 			<div class="contact-bottom">
-				<div class="col-md-7 contact-left wow fadeInLeft animated" data-wow-delay=".5s">
-					<form>
-						<input placeholder="Name" type="text" required="">
-						<input placeholder="Email" type="text" required="">
-						<textarea placeholder="Message"></textarea>
-						<div class="submit-btn">
-							<input type="submit" value="SUBMIT">
-						</div>
-					</form>
-				</div>
-				<div class="col-md-5 contact-right wow fadeInRight animated" data-wow-delay=".5s">
-					<div class="contact-top">
-						<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
-						<p>École Centrale Paris</p>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-2 wow fadeInUp animated">
+						<a href="https://fr-fr.facebook.com/CEC.CentraleEgaliteDesChances">
+							<img src="http://cec-ecp.com/images/icon_facebook.png" alt="" class="img-responsive contact-images"/>
+						</a>
 					</div>
-					<div class="contact-top">
-						<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-						<p>+33667180711 (présidente)</p>
-						<div class="contact-top">
-						</div>
-						<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-						<p><a href="mailto:example@email.com">contact@cec-ecp.fr</a></p>
+					<div class="col-md-2 col-md-offset-1 wow fadeInUp animated">
+						<a href = "https://twitter.com/CEC_ecp">
+							<img src="http://cec-ecp.com/images/icon_twitter.png" alt="" class="img-responsive contact-images"/>
+						</a>
 					</div>
-					<div class="clearfix"></div>
+					<div class="col-md-2 col-md-offset-1 wow fadeInUp animated">
+						<a href = "https://www.linkedin.com/company/centrale-%C3%A9galit%C3%A9-des-chances">
+							<img src="http://cec-ecp.com/images/icon_linkedin.png" alt="" class="img-responsive contact-images"/>
+						</a>
+					</div>
 
 				</div>
+				<div class="row contact-row">
+					<div class="col-md-2 col-md-offset-2 wow fadeInDown animated">
+						<a href = "https://www.instagram.com/cec_ecp/">
+							<img src="http://cec-ecp.com/images/icon_instagram.png" alt="" class="img-responsive contact-images"/>
+						</a>
+					</div>
+					<div class="col-md-2 col-md-offset-1 wow fadeInDown animated">
+						<a href = "http://cec-ecp.com/">
+							<img src="http://cec-ecp.com/images/icon_web.png" alt="" class="img-responsive contact-images"/>
+						</a>
+					</div>
+					<div class="col-md-2 col-md-offset-1 wow fadeInDown animated">
+						<a href = "mailto:contact@cec-ecp.com">
+							<img src="http://cec-ecp.com/images/icon_email.png" alt="" class="img-responsive contact-images"/>
+						</a>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-md-7 contact-left wow fadeInLeft animated" data-wow-delay=".5s">
+						<form>
+							<input placeholder="Name" type="text" required="">
+							<input placeholder="Email" type="text" required="">
+							<textarea placeholder="Message"></textarea>
+							<div class="submit-btn">
+								<input type="submit" value="SUBMIT">
+							</div>
+						</form>
+					</div>
+					<div class="col-md-5 contact-right wow fadeInRight animated" data-wow-delay=".5s">
+						<div class="contact-top">
+							<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+							<p>École Centrale Paris</p>
+						</div>
+						<div class="contact-top">
+							<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+							<p>+33667180711 (présidente)</p>
+							<div class="contact-top">
+							</div>
+							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+							<p><a href="mailto:example@email.com">contact@cec-ecp.fr</a></p>
+						</div>
+						<div class="clearfix"></div>
+
+					</div>
+				</div>
+
+
+
+
 				<div class="clearfix"></div>
 			</div>
 		</div>
