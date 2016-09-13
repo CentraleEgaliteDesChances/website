@@ -118,7 +118,7 @@ class Mailer
 	public function sendInscriptionEleve($eleve, $motDePasse, $baseUrl)
 	{
 		$subject = "Bienvenue sur le site de CEC !";
-		$to = array($eleve->getMail() => $eleve->__toString());
+		$to = array($eleve->getMail() => $eleve->getMail());
 		$body = $this->templating->render('CECMembreBundle:Mail:bienvenueEleve.html.twig',
 			array(
 				'eleve' => $eleve,

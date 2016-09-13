@@ -147,7 +147,6 @@ class ReglagesEleveController extends Controller
         $dossierInscription = $lyceen->getDossierInscription();
         if ($dossierInscription == null){
             $dossierInscription = new DossierInscription();
-            $dossierInscription->setProcheQuiAEncouragePourCec("");
         }
         $form = $this->createForm(new DossierInscriptionType(),$dossierInscription);
         $request = $this->getRequest();

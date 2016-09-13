@@ -136,16 +136,19 @@ class AdministrationController extends Controller
                 'Raison 5 : Pour les projets et sorties',
                 'Raison 6 : Mon lycée',
                 'Proche qui a encouragé',
-                'Matières préférées',
-                'Matières moins appréciées',
+                'Opinion présentations CEC',
+                'Participation forum orientation',
+                'Connaissance filière post_bac',
                 'Idée orientation post_bac',
                 'Idée métier après études',
                 'Aisance à l\'oral',
                 'Aisance dans le système scolaire',
                 'Capacité à obtenir les études souhaitées',
-                'Information sur l\'enseignement post-bac',
-                'Attachement à l\'actualité',
-                'Intérêt sciences',
+                'Encouragement par proche à faire des études supérieures',
+                'Poussé vers l\'actualité',
+                'Poussé vers les sciences',
+                'Poussé vers la culture',
+                'Facilité d\'intégration à un groupe',
                 'Loisirs et activités extrascolaires',
                 'Pratique : aller au musée',
                 'Pratique : aller au théâtre',
@@ -153,10 +156,9 @@ class AdministrationController extends Controller
                 'Pratique : regarder le journal télévisé',
                 'Pratique : lire les journaux',
                 'Pratique : Lire',
-                'Projets qui l\'intéresse',
+                'Cours particuliers',
                 'Langues vivantes',
                 'Correspondant étranger',
-                'Interêt Europen',
                 'Voyages à l\'étranger'
             );
             fputcsv($handle, $tab,';');
@@ -170,11 +172,6 @@ class AdministrationController extends Controller
                 if ($dossier == null) {
                     $dossier = new DossierInscription();
                     $dossierRempli = "Non";
-                }
-                //Génération de la case des projets qui intéressent l'élève
-                $projetQuiInteresse = "";
-                foreach ($dossier->getProjetsCecInterets() as $projet) {
-                    $projetQuiInteresse = $projetQuiInteresse.$projet.",";
                 }
                 //Génération de la ligne
                 $tab = array(
@@ -211,16 +208,19 @@ class AdministrationController extends Controller
                     $dossier->isRaisonInscriptionCecSortiesProjets()?'Oui':'Non',
                     $dossier->isRaisonInscriptionCecLycee()?'Oui':'Non',
                     $dossier->getProcheQuiAEncouragePourCec(),
-                    $dossier->getMatieresPreferees(),
-                    $dossier->getMatieresDetestees(),
+                    $dossier->getOpinionPresentationCec(),
+                    $dossier->getParticipationForumOrientation(),
+                    $dossier->getConnaissanceFiliereApresBac(),
                     $dossier->getIdeeOrientationPostBac(),
                     $dossier->getIdeeMetier(),
                     $dossier->getAisanceOral(),
                     $dossier->getAisanceSystemeScolaire(),
                     $dossier->getCapaciteObtentionEtudesSouhaitees(),
-                    $dossier->getInformationEnseignementSuperieur(),
+                    $dossier->getEncouragementParEntourageEtudeSup(),
                     $dossier->getAttachementActualites(),
                     $dossier->getInteretScience(),
+                    $dossier->getInteretCulture(),
+                    $dossier->getIntegrationGroupe(),
                     $dossier->getActivitesExtrascolaires(),
                     $dossier->getPratiqueMusee(),
                     $dossier->getPratiqueTheatre(),
@@ -228,10 +228,9 @@ class AdministrationController extends Controller
                     $dossier->getPratiqueJournalTelevise(),
                     $dossier->getPratiqueJournaux(),
                     $dossier->getPratiqueLecture(),
-                    $projetQuiInteresse,
+                    $dossier->getCoursParticulier(),
                     $dossier->getLangueVivante(),
                     $dossier->getCorrespondantEtranger(),
-                    $dossier->getInteretEuropen(),
                     $dossier->getVoyagesRealises()
                 );
                 fputcsv($handle, $tab,';');

@@ -31,14 +31,18 @@
             {{ form_row(form.raisonInscriptionCecSortiesProjets) }}
             {{ form_row(form.raisonInscriptionCecLycee) }}
             {{ form_row(form.procheQuiAEncouragePourCec) }}
+            {{ form_row(form.opinionPresentationCec) }}
 
             <p class = "lead">Études et orientation</p>
-            {{ form_row(form.matieresPreferees) }}
-            {{ form_row(form.matieresDetestees) }}
+            {{ form_row(form.participationForumOrientation) }}
+            {{ form_row(form.connaissanceFiliereApresBac) }}
+            <p><b>As-tu une idée de ton orientation après le bac ? de tes études ?</b> (Plusieurs idées, même vagues ou farfelues)</p>
+            {{ form_row(form.ideeOrientationPostBac) }}
             <p><b>As-tu une idée de ton orientation après le bac ? de tes études ?</b> (Plusieurs idées, même vagues ou farfelues)</p>
             {{ form_row(form.ideeOrientationPostBac) }}
             <p><b>As-tu une idée du métier dans lequel tu voudrais travailler ? du secteur ?</b> (ce sont tes choix, ne te retiens pas !)
             {{ form_row(form.ideeMetier) }}
+
 
 
             <p class = "lead">Jugements, connaissances et activités</p>
@@ -46,21 +50,34 @@
             <p>Te sens-tu à l'aise à l'oral ?</p>
             {{ form_widget(form.aisanceOral) }}
             <span id="helpBlock" class="help-block">0 : mal à l'aise, 5 : à l'aise</span>
+
             <p style="margin-top: 10px">Te sens-tu à l'aise dans le système scolaire ?</p>
             {{ form_widget(form.aisanceSystemeScolaire) }}
             <span id="helpBlock" class="help-block"> 0 : mal à l'aise, 5 : à l'aise</span>
+
             <p style="margin-top: 10px">Te sens-tu confiant(e) sur ta capacié à obtenir les études que tu souhaites ?</p>
             {{ form_widget(form.capaciteObtentionEtudesSouhaitees) }}
             <span id="helpBlock" class="help-block">0 : peu confiant(e), 5 : confiant(e)</span>
-            <p style="margin-top: 10px">Te sens-tu informé(e) sur l'enseignement supérieur (postbac) ?</p>
-            {{ form_widget(form.informationEnseignementSuperieur) }}
-            <span id="helpBlock" class="help-block">0 : peu informé(e), 5 : bien informé(e)</span>
-            <p style="margin-top: 10px">Te sens-tu intéressé(e) par l'actualité ?</p>
+
+            <p style="margin-top: 10px">Te sens-tu encouragé(e) par ton entourage à faire des études supérieures ?</p>
+            {{ form_widget(form.encouragementParEntourageEtudeSup) }}
+            <span id="helpBlock" class="help-block">0 : peu encouragé(e), 5 : très encouragé(e)</span>
+
+            <p style="margin-top: 10px">Te sens-tu poussé(e) par ton entourage vers l'actualité ?</p>
             {{ form_widget(form.attachementActualites) }}
-            <span id="helpBlock" class="help-block">0 : détaché(e) de l'actualité, 5 : intéressé(e) par l'actualité</span>
-            <p style="margin-top: 10px">Te sens-tu intéressé(e) par les sciences ?</p>
+            <span id="helpBlock" class="help-block">0 : pas vraiment, 5 : très poussé(e)</span>
+
+            <p style="margin-top: 10px">Te sens-tu poussé(e) par ton entourage vers les sciences ?</p>
             {{ form_widget(form.interetScience) }}
-            <span id="helpBlock" class="help-block">0 : désintéressé(e) 5 : intéressé(e)</span>
+            <span id="helpBlock" class="help-block">pas vraiment, 5 : très poussé(e)</span>
+
+            <p style="margin-top: 10px">Te sens-tu poussé(e) par ton entourage vers la culture ?</p>
+            {{ form_widget(form.interetCulture) }}
+            <span id="helpBlock" class="help-block">pas vraiment, 5 : très poussé(e)</span>
+
+            <p style="margin-top: 10px">Penses tu t'intégrer facilement dans un groupe ?</p>
+            {{ form_widget(form.integrationGroupe) }}
+            <span id="helpBlock" class="help-block">0 : difficilement 5 : facilement</span>
             <br/>
             {{ form_row(form.activitesExtrascolaires) }}
 
@@ -78,9 +95,8 @@
             <p style="margin-top: 10px">Lire :</p>
             {{ form_widget(form.pratiqueLecture) }}
             <br/>
+            {{ form_row(form.coursParticulier) }}
 
-            <p class = "lead">Projets</p>
-            {{ form_row(form.projetsCecInterets) }}
             <p class = "lead">Langues, voyages et échanges</p>
             {{ form_label(form.langueVivante) }}
             {{ form_widget(form.langueVivante) }}
@@ -88,9 +104,6 @@
             {{ form_label(form.correspondantEtranger) }}
             {{ form_widget(form.correspondantEtranger) }}
             <span id="helpBlock" class="help-block">Si oui, de quelle nationalité, à quel âge et pendant combien de temps ?</span>
-            {{ form_label(form.interetEuropen) }}
-            {{ form_widget(form.interetEuropen) }}
-            <span id="helpBlock" class="help-block">0 : Pas du tout, 10 : Carrément !</span>
             {{ form_row(form.voyagesRealises) }}
             {{ form_rest(form) }}
         </div>

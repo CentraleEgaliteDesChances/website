@@ -211,23 +211,34 @@ class DossierInscription
      */
     private $raisonInscriptionCecLycee = false;
 
-    /**
-     *
-     * @var string
-     *
-     * @ORM\Column(name = "matieres_preferees", type = "string", length = 255)
-     *
-     */
-    private $matieresPreferees="";
 
     /**
      *
      * @var string
      *
-     * @ORM\Column(name = "matieres_detestees", type = "string", length = 255)
+     * @ORM\Column(name = "opinion_presentation_cec", type = "string", length = 255)
      *
      */
-    private $matieresDetestees="";
+    private $opinionPresentationCec="";
+
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "participation_forum_orientation", type = "string", length = 255)
+     *
+     */
+    private $participationForumOrientation="";
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name = "connaissance_filiere_apres_bac", type = "string", length = 255)
+     *
+     */
+    private $connaissanceFiliereApresBac="";
 
     /**
      *
@@ -298,7 +309,7 @@ class DossierInscription
      *
      * @var integer
      *
-     * @ORM\Column(name = "information_enseignement_superieur", type = "integer")
+     * @ORM\Column(name = "encouragement_par_entourage_etude_sup", type = "integer")
      * @Assert\Range(
      *     min = 0,
      *     max = 5,
@@ -308,7 +319,7 @@ class DossierInscription
      *
      *
      */
-    private $informationEnseignementSuperieur = 0;
+    private $encouragementParEntourageEtudeSup = 0;
 
     /**
      *
@@ -341,6 +352,38 @@ class DossierInscription
      *
      */
     private $interetScience = 0;
+
+    /**
+     *
+     * @var integer
+     *
+     * @ORM\Column(name = "interet_culture", type = "integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     max = 5,
+     *     minMessage = "Ce n'est pas possible",
+     *     maxMessage = "Ce n'est pas possible"
+     * )
+     *
+     *
+     */
+    private $interetCulture = 0;
+
+    /**
+     *
+     * @var integer
+     *
+     * @ORM\Column(name = "integration_groupe", type = "integer")
+     * @Assert\Range(
+     *     min = 0,
+     *     max = 5,
+     *     minMessage = "Ce n'est pas possible",
+     *     maxMessage = "Ce n'est pas possible"
+     * )
+     *
+     *
+     */
+    private $integrationGroupe = 0;
 
     /**
      *
@@ -405,13 +448,16 @@ class DossierInscription
      */
     private $pratiqueLecture="";
 
+
     /**
      *
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name = "projets_cec_interets", type = "array", length = 255)
+     * @ORM\Column(name = "cours_particulier", type = "string", length = 255)
+     *
      */
-    private $projetsCecInterets = [];
+    private $coursParticulier = "";
+
 
     /**
      *
@@ -431,20 +477,6 @@ class DossierInscription
      */
     private $correspondantEtranger="";
 
-    /**
-     *
-     * @var integer
-     *
-     * @ORM\Column(name = "interet_europen", type = "integer")
-     * @Assert\Range(
-     *     min = 0,
-     *     max = 10,
-     *     minMessage = "Ce n'est pas possible",
-     *     maxMessage = "Ce n'est pas possible"
-     * )
-     *
-     */
-    private $interetEuropen = 0;
 
     /**
      *
@@ -743,37 +775,6 @@ class DossierInscription
         $this->raisonInscriptionCecLycee = $raisonInscriptionCecLycee;
     }
 
-    /**
-     * @return string
-     */
-    public function getMatieresPreferees()
-    {
-        return $this->matieresPreferees;
-    }
-
-    /**
-     * @param string $matieresPreferees
-     */
-    public function setMatieresPreferees($matieresPreferees)
-    {
-        $this->matieresPreferees = $matieresPreferees;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMatieresDetestees()
-    {
-        return $this->matieresDetestees;
-    }
-
-    /**
-     * @param string $matieresDetestees
-     */
-    public function setMatieresDetestees($matieresDetestees)
-    {
-        $this->matieresDetestees = $matieresDetestees;
-    }
 
     /**
      * @return string
@@ -855,21 +856,6 @@ class DossierInscription
         $this->capaciteObtentionEtudesSouhaitees = $capaciteObtentionEtudesSouhaitees;
     }
 
-    /**
-     * @return int
-     */
-    public function getInformationEnseignementSuperieur()
-    {
-        return $this->informationEnseignementSuperieur;
-    }
-
-    /**
-     * @param int $informationEnseignementSuperieur
-     */
-    public function setInformationEnseignementSuperieur($informationEnseignementSuperieur)
-    {
-        $this->informationEnseignementSuperieur = $informationEnseignementSuperieur;
-    }
 
     /**
      * @return int
@@ -1016,22 +1002,6 @@ class DossierInscription
     }
 
     /**
-     * @return array
-     */
-    public function getProjetsCecInterets()
-    {
-        return $this->projetsCecInterets;
-    }
-
-    /**
-     * @param array $projetsCecInterets
-     */
-    public function setProjetsCecInterets($projetsCecInterets)
-    {
-        $this->projetsCecInterets = $projetsCecInterets;
-    }
-
-    /**
      * @return string
      */
     public function getLangueVivante()
@@ -1064,22 +1034,6 @@ class DossierInscription
     }
 
     /**
-     * @return int
-     */
-    public function getInteretEuropen()
-    {
-        return $this->interetEuropen;
-    }
-
-    /**
-     * @param int $interetEuropen
-     */
-    public function setInteretEuropen($interetEuropen)
-    {
-        $this->interetEuropen = $interetEuropen;
-    }
-
-    /**
      * @return string
      */
     public function getVoyagesRealises()
@@ -1093,6 +1047,118 @@ class DossierInscription
     public function setVoyagesRealises($voyagesRealises)
     {
         $this->voyagesRealises = $voyagesRealises;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOpinionPresentationCec()
+    {
+        return $this->opinionPresentationCec;
+    }
+
+    /**
+     * @param string $opinionPresentationCec
+     */
+    public function setOpinionPresentationCec($opinionPresentationCec)
+    {
+        $this->opinionPresentationCec = $opinionPresentationCec;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParticipationForumOrientation()
+    {
+        return $this->participationForumOrientation;
+    }
+
+    /**
+     * @param string $participationForumOrientation
+     */
+    public function setParticipationForumOrientation($participationForumOrientation)
+    {
+        $this->participationForumOrientation = $participationForumOrientation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConnaissanceFiliereApresBac()
+    {
+        return $this->connaissanceFiliereApresBac;
+    }
+
+    /**
+     * @param string $connaissanceFiliereApresBac
+     */
+    public function setConnaissanceFiliereApresBac($connaissanceFiliereApresBac)
+    {
+        $this->connaissanceFiliereApresBac = $connaissanceFiliereApresBac;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIntegrationGroupe()
+    {
+        return $this->integrationGroupe;
+    }
+
+    /**
+     * @param int $integrationGroupe
+     */
+    public function setIntegrationGroupe($integrationGroupe)
+    {
+        $this->integrationGroupe = $integrationGroupe;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEncouragementParEntourageEtudeSup()
+    {
+        return $this->encouragementParEntourageEtudeSup;
+    }
+
+    /**
+     * @param int $encouragementParEntourageEtudeSup
+     */
+    public function setEncouragementParEntourageEtudeSup($encouragementParEntourageEtudeSup)
+    {
+        $this->encouragementParEntourageEtudeSup = $encouragementParEntourageEtudeSup;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCoursParticulier()
+    {
+        return $this->coursParticulier;
+    }
+
+    /**
+     * @param string $coursParticulier
+     */
+    public function setCoursParticulier($coursParticulier)
+    {
+        $this->coursParticulier = $coursParticulier;
+    }
+
+    /**
+     * @return int
+     */
+    public function getInteretCulture()
+    {
+        return $this->interetCulture;
+    }
+
+    /**
+     * @param int $interetCulture
+     */
+    public function setInteretCulture($interetCulture)
+    {
+        $this->interetCulture = $interetCulture;
     }
 
 

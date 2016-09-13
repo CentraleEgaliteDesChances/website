@@ -47,10 +47,12 @@ class DossierInscriptionType extends AbstractType
             ))
             ->add('enfants','textarea', array(
                 'required' =>false,
+                'empty_data'=> 'Pas d\'enfants à charge',
                 'label' => 'Prénom, âge, lieu et niveau d\'études de chaque enfant (Un enfant par ligne)'
             ))
             ->add('bourses',null,array(
                 'required' =>false,
+                'empty_data'=> 'Pas de bourses',
                 'label' => 'Es-tu titulaire d\'une bourse ? Si oui, lesquelles ?'
             ))
             ->add('raisonInscriptionCecParticipeAuProgramme','checkbox',array(
@@ -71,6 +73,7 @@ class DossierInscriptionType extends AbstractType
             ))
             ->add('procheQuiAEncouragePourCec',null,array(
                 'required' =>false,
+                'empty_data'=> 'Case non cochée',
                 'label' => 'Si tu as été encouragé par un proche, lequel ?'
             ))
             ->add('raisonInscriptionCecCuriosite','checkbox', array(
@@ -89,13 +92,19 @@ class DossierInscriptionType extends AbstractType
                 'label' => 'Mon lycée',
                 'required' =>false
             ))
-            ->add('matieresPreferees',null,array(
+            ->add('opinionPresentationCec',null,array(
                 'required' =>false,
-                'label' => 'Quelles sont tes matières préférées'
+                'label' => 'Considères-tu que les présentations de CEC ( au lycée, aux parents, etc.) étaient suffisantes et assez claires ? Si non, pourquoi ?'
             ))
-            ->add('matieresDetestees',null,array(
+            ->add('participationForumOrientation',null,array(
                 'required' =>false,
-                'label' => 'Quelles sont les matières que tu apprécies le moins ?'
+                'label' => 'As-tu déjà participé à un forum d’orientation ? Si oui, lesquels ?',
+                'empty_data' => "Non"
+            ))
+            ->add('connaissanceFiliereApresBac',null,array(
+                'required' =>false,
+                'label' => 'Connais-tu les différentes filières possibles après le BAC (IUT,BTS,...) ?',
+                'empty_data' => "Non"
             ))
             ->add('ideeOrientationPostBac',null,array(
                 'required' =>false,
@@ -139,7 +148,7 @@ class DossierInscriptionType extends AbstractType
                 ),
                 'label' => false
             ))
-            ->add('informationEnseignementSuperieur','choice',array(
+            ->add('encouragementParEntourageEtudeSup','choice',array(
                 'choices' => array(
                     '0' => 0,
                     '1' => 1,
@@ -162,6 +171,28 @@ class DossierInscriptionType extends AbstractType
                 'label' => false
             ))
             ->add('interetScience','choice',array(
+                'choices' => array(
+                    '0' => 0,
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5
+                ),
+                'label' => false
+            ))
+            ->add('interetCulture','choice',array(
+                'choices' => array(
+                    '0' => 0,
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5
+                ),
+                'label' => false
+            ))
+            ->add('integrationGroupe','choice',array(
                 'choices' => array(
                     '0' => 0,
                     '1' => 1,
@@ -224,44 +255,25 @@ class DossierInscriptionType extends AbstractType
                     'Tous les jours' => 'Tous les jours'
                 )
             ))
-            ->add('projetsCecInterets','choice',array(
-                'choices' => array(
-                    'Good Morning London' => 'Good Morning London',
-                    'Focus Europe' => 'Focus Europe',
-                    '(Art)cessible' => '(Art)cessible',
-                    'Stage Théâtre' => 'Stage Théâtre',
-                    'Centrale Prépa' => 'Centrale Prépa'
-                ),
-                'expanded' => true,
-                'multiple' => true,
-                'label' => 'Quels projets de CEC t\'intéressent le plus ? (2 choix)'
+
+            ->add('coursParticulier',null,array(
+                'required' =>false,
+                'label' => 'Prends-tu des cours particuliers ? Si oui, en quoi ?',
+                'empty_data' => "Non"
             ))
+
             ->add('langueVivante',null, array(
                'label' => 'Quelles sont tes langues vivantes au lycée ?',
                 'required' => false
             ))
             ->add('correspondantEtranger','textarea',array(
                 'required' =>false,
-                'label' => 'As tu déjà eu un correspondant étranger ?'
-            ))
-            ->add('interetEuropen','choice',array(
-                'choices' => array(
-                    '0' => 0,
-                    '1' => 1,
-                    '2' => 2,
-                    '3' => 3,
-                    '4' => 4,
-                    '5' => 5,
-                    '6' => 6,
-                    '7' => 7,
-                    '8' => 8,
-                    '9' => 9,
-                    '10' => 10,
-                ),
-                'label' => 'À travers son programme Europen, CEC essaie de trouver des lycéens étrangers souhaitant correspondre avec des lycéens comme toi... serais-tu intéressé(e) pour échanger par mail avec un lycéen européen ?'
+                'label' => 'As tu déjà eu un correspondant étranger ?',
+                'empty_data'=> 'Non',
             ))
             ->add('voyagesRealises','textarea',array(
                 'required' =>false,
+                'empty_data'=> 'Non rempli',
                 'label' => 'As-tu déjà visité d\'autres pays ? combien ? lesquels ? dans quels cadres ? (familles colonies, école, stages linguistiques...) ? avec quelle régularité voyages-tu ?'
             ))
         ;
