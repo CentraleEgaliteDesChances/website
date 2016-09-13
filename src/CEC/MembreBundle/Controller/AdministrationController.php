@@ -315,7 +315,7 @@ class AdministrationController extends Controller
         $entityManager->flush();
 
         $this->get('session')->getFlashBag()->add('success', 'Le membre a bien été définitivement supprimé.');
-        return $this->redirect($this->generateUrl('voir_tous_membres'));
+        return $this->redirect($this->generateUrl('gestion_membres'));
     }
 
 
