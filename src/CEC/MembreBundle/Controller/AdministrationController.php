@@ -83,7 +83,7 @@ class AdministrationController extends Controller
                 // Envoyer un message de confirmation
                 $this->get('cec.mailer')->sendInscription($membre, $motDePasse, $_SERVER['HTTP_HOST']);
 
-                $this->get('session')->getFlashBag()->add('success', "'" . $membre . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
+                $this->get('session')->getFlashBag()->add('success', "'" . $membre->getUsername() . "' a bien été ajouté. Un email de bienvenue, contenant son mot de passe provisoire '" . $motDePasse . "', lui a été envoyé.");
                 return $this->redirect($this->generateUrl('creer_membre'));
             }
         }
