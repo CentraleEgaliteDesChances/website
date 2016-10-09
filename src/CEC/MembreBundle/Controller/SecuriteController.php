@@ -214,6 +214,7 @@ class SecuriteController extends Controller
 				$em = $this->getDoctrine()->getManager();
 				//Enregistrement en BDD
 				//Génère l'username de l'élève
+                $username = "";
 				$nom = str_replace(' ','' ,$formProfil->get('nom')->getData());
 				$prenom= str_replace(' ','' ,$formProfil->get('prenom')->getData());
 				$elevesExistant = $this
@@ -234,10 +235,11 @@ class SecuriteController extends Controller
 					->findByUsername($nom, $prenom);
 				$count = count($elevesExistant) + count($membresExistant) + count($professeursExistant) + count($parentsExistant);
 				if ($count > 0) {
-					$eleve->setUsername($prenom . $nom . ($count + 1));
+					$username = $prenom . $nom . ($count + 1);
 				} else {
-					$eleve->setUsername($prenom . $nom);
+					$username = $prenom . $nom;
 				}
+				$eleve->setUsername($username);
 				
 				//Assigne l'élève a un groupe de tutorat
 				$niveau = $formProfil->get('niveau')->getData();
@@ -270,7 +272,7 @@ class SecuriteController extends Controller
 				$em->persist($eleve);
 				$em->flush();
 
-				$this->get('session')->getFlashBag()->add('success', 'Inscription bien effectuée.');
+				$this->get('session')->getFlashBag()->add('success', 'Inscription bien effectuée. Username : \"'.$username.'\".');
 				$this->get('cec.mailer')->sendInscriptionEleve($eleve, $motDePasse, $_SERVER['HTTP_HOST']);
 				return $this->redirect($this->generateUrl('connexion'));
 			}
