@@ -272,7 +272,7 @@ class SecuriteController extends Controller
 				$em->persist($eleve);
 				$em->flush();
 
-				$this->get('session')->getFlashBag()->add('success', 'Inscription bien effectuée. Username : \"'.$username.'\".');
+				$this->get('session')->getFlashBag()->add('success', 'Inscription bien effectuée. Username : "'.$username.'".');
 				$this->get('cec.mailer')->sendInscriptionEleve($eleve, $motDePasse, $_SERVER['HTTP_HOST']);
 				return $this->redirect($this->generateUrl('connexion'));
 			}
