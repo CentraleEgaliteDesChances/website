@@ -9,8 +9,8 @@ parameters:
     mailer_transport:  smtp
     mailer_encryption: ssl
     mailer_port:       465
-    mailer_host:       auth.smtp.1and1.fr
-    mailer_user:       notification@cec-ecp.com
+    mailer_host:       ssl0.ovh.net
+    mailer_user:       notifications@cec-ecp.com
     mailer_password:   reussitecec
 
     locale:            fr
