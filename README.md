@@ -38,7 +38,7 @@ __documentation__ du WikiDesChances (<http://cec-ecp.com/wiki/index.php?title=Do
 
 Pour contribuer au développement du site, n'hésitez pas à installer un serveur web local avec
 une version PHP très récente (> 5.4) et MySQL. Les logiciels WAMP, MAMP et XAMP sont des
-très bons exemples, et sont gratuits.
+très bons exemples, et sont gratuits. Ces logiciels intègrent en général un serveur MySQL (c'est le cas pour MAMP).
 
 Il faut aussi vous procurer GIT. Les puristes de la ligne de commande installeront directement
 la distribution de GIT (<http://git-scm.com>), les autres pourront opter pour un logiciel avec
@@ -48,8 +48,8 @@ le logiciel GitHub (Windows : <http://windows.github.com>, Mac OS : <http://mac.
 
 ### Connexion à GitHub et clonage du dépôt ###
 
-Avant de cloner le dépôt, vous devez créer un compte GitHub (gratuit) et communiquer votre
-nom d'utilisateur à un propriétaire du compte CentraleEgaliteDesChances (liste disponible [ici](https://github.com/centraleegalitedeschances?tab=members)) pour qu'il vous 
+Avant de cloner le dépôt, vous devez créer un compte GitHub (gratuit) et **communiquer votre
+nom d'utilisateur à un administrateur du groupe CentraleEgaliteDesChances** (liste disponible [ici](https://github.com/centraleegalitedeschances?tab=members)) pour qu'il vous 
 donne les droit de contribuer au dépôt.
 
 Vous pouvez ensuite cloner ce dépôt sur votre ordinateur en utilisant le logiciel GitHub ou en ligne
@@ -64,7 +64,7 @@ git clone https://github.com/CentraleEgaliteDesChances/website.git chemin/pour/v
 
 Le projet du site utilise le framework PHP Symfony2 (http://symfony.com). Pour des raisons d'optimisation,
 seuls les fichiers de notre projet ont été copiés et non pas toutes les bibliothèques requises du
-framework. Pour télécharger ces "vendors", utilisez la ligne de commande :
+framework. Pour télécharger ces "vendors", vous aurez besoin de [Composer](https://getcomposer.org/download/), le package manager pour PHP. Utilisez alors la ligne de commande :
 
 ```
 cd chemin/vers/votre/depot/local
@@ -75,8 +75,12 @@ Une fois les vendors installés, vous avez l'opportunité de donner les paramèt
 Il s'agit principalement des paramètres de connexion à la base de donnée locale et au serveur d'envoi de mail SMTP.
 Acceptez toutes les valeurs par défaut (entre crochets, tapez entrer pour accepter) sauf pour :
 
-* database_user
-* database_password
+* database_user -> indiquez le database_user propre à votre serveur (`root` par défaut sous MAMP)
+* database_password -> indiquez le database_password propre à votre serveur (`root` par défaut sous MAMP)
+
+> Note : vous pourrez retrouver ces paramètres dans le fichier `app/config/parameters.yml` en cas de besoin.
+
+> Assurez-vous que les paramètres de la base de donnée (notamment `database_user`, `database_password`, `database_port`) correspondent à ceux de votre serveur PHP. Sous MAMP, ces paramètres sont accessibles dans Préférences/Ports. Une mauvaise configuration peut faire apparatre une erreur de type "Database access denied" à l'étape qui suit.
 
 Il faut ensuite créer la base de donnée, et tout cela est fait automatiquement en tapant :
 
@@ -101,6 +105,8 @@ php app/console cache:clear
 Et voilà, vous devriez pouvoir accéder au site localement en utilisant une URL qui ressemble à
 `http://localhost/web/app_dev.php` ou à `http://localhost/app_dev.php` si votre serveur pointe directement
 sur le dossier web du dépôt (conseillé, c'est moins fatiguant à écrire).
+
+Attention : assurez-vous que votre serveur PHP soit positionné sur le dossier du site. Sous MAMP, allez dans les préférences, onglet WebServer et renseignez le dossier du site dans "Document Root".
 
 
 Bonnes pratiques et utilisation du dépôt
