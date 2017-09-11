@@ -16,7 +16,8 @@ class LoadQuizzActus extends AbstractFixture implements DependentFixtureInterfac
     public function load(ObjectManager $manager)
     {
         // On supprime les fichiers de toutes les activités
-        $cheminDossierQuizzActus = __DIR__ . '/../../../../../web/uploads/quizzActus';
+        /*
+        $cheminDossierQuizzActus = __DIR__ . '/../../../web/uploads/quizzActus';
         $dossier = opendir($cheminDossierQuizzActus);
         while ($fichier = readdir($dossier)) {
             if ($fichier != '.' && $fichier != '..') unlink($cheminDossierQuizzActus . '/' . $fichier);
@@ -49,10 +50,9 @@ class LoadQuizzActus extends AbstractFixture implements DependentFixtureInterfac
 
         $this->addReference('quizz1', $quizz1);
         //$this->addReference('quizz2', $quizz2);
-
+        */
     }
-    
-    /**
+    /*
      * {@inheritDoc}
      */
     public function getDependencies() {
