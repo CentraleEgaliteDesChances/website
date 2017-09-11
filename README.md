@@ -49,7 +49,7 @@ le logiciel GitHub (Windows : <http://windows.github.com>, Mac OS : <http://mac.
 ### Connexion à GitHub et clonage du dépôt ###
 
 Avant de cloner le dépôt, vous devez créer un compte GitHub (gratuit) et communiquer votre
-nom d'utilisateur à un propriétaire du compte CentraleEgaliteDesChances (liste disponible [ici](https://github.com/nxtelevision?tab=members)) pour qu'il vous 
+nom d'utilisateur à un propriétaire du compte CentraleEgaliteDesChances (liste disponible [ici](https://github.com/centraleegalitedeschances?tab=members)) pour qu'il vous 
 donne les droit de contribuer au dépôt.
 
 Vous pouvez ensuite cloner ce dépôt sur votre ordinateur en utilisant le logiciel GitHub ou en ligne
