@@ -31,19 +31,6 @@
 			});
 		});
 	</script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			/*
-			 var defaults = {
-			 containerID: 'toTop', // fading element id
-			 containerHoverID: 'toTopHover', // fading element hover id
-			 scrollSpeed: 1200,
-			 easingType: 'linear'
-			 };
-			 */
-			$().UItoTop({ easingType: 'easeOutQuart' });
-		});
-	</script>
 	<!--animate-->
 	<script src="http://cec-ecp.com/site_vitrine/js/wow.min.js"></script>
 	<script>
@@ -77,7 +64,7 @@
 							<li><a href="#activites" class="scroll">Action</a></li>
 							<li><a href="#news" class="scroll">Actualités</a></li>
 							<li><a href="#contact" class="scroll">Contact</a></li>
-							<li><a href="{{ path('connexion') }}">Se connecter</a></li>
+							<!-- <li><a href="{{ path('connexion') }}">Se connecter</a></li> -->
 							<div class="clearfix"></div>
 						</ul>
 
@@ -625,14 +612,4 @@
 			</div>
 		</div>
 	</div>
-	<!--- contact ---->
-	<!--- footer
-	<div class="footer">
-		<div class="container">
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">© 2016 Diction. All Rights Reserved | Template by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
-		</div>
-	</div>
-	<a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover" style="opacity: 0;"> </span></a>
-
-	footer ---->
 {% endblock %}

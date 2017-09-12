@@ -4,10 +4,17 @@ Author URL: http://w3layouts.com
 License: Creative Commons Attribution 3.0 Unported
 License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
+
+:root {
+	--color-primary: rgb(0, 186, 189);
+	--color-secondary: rgb(37, 36, 100);
+	--color-ternary: rgb(20, 90, 140);
+}
+
 html, body{
 	/*--font-family: 'Roboto', sans-serif;--*/
 	/*font-family: 'Oswald', sans-serif; */
-	font-family: 'AvenirLTStd-Book', sans-serif;
+	font-family: 'AvenirLTStd-Book', 'Arial', sans-serif;
 	font-size: 100%;
 	background: #ffffff;
 }
@@ -31,10 +38,9 @@ input[type="button"],input[type="submit"],li.parallelogram{
 h1,h2,h3,h4,h5,h6{
 	margin:0;
 	font-family: 'Oswald', sans-serif;
-}	
+}
 p{
 	margin:0;
-	font-family: 'Lora', serif;
 }
 ul{
 	margin:0;
@@ -56,17 +62,17 @@ label{
 }
 .navbar-collapse {
   padding-right: 0;
-  padding-left: 0;  
+  padding-left: 0;
   }
 .navbar-default .navbar-nav > li > a {
     color: #ffffff;
 }
 .navbar-default .navbar-nav > li > a:hover {
-  color:#CE1220;
+  color: var(--color-primary);
   background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a:focus{
-  color:#CE1220;
+  color: var(--color-primary);
 }
 .navbar-nav > li {
     float: left;
@@ -82,18 +88,7 @@ font-size:1.1em;
   padding: 30px 16px !important;
   letter-spacing: 1px;
 }
-.logo {
-	margin-bottom:1em;
-}
-.logo a {
-    border: 3px solid #CCB76C;
-    padding: 0.2em 0.45em;
-    border-radius: 50%;
-    font-size: 3.5em;
-    color: #CE1220;
-    display: inline-block;
-    text-decoration: none;
-}
+
 .navbar-right {
     float: left !important;
 }
@@ -107,7 +102,7 @@ font-size:1.1em;
 	left: 0;
 	width: 100%;
 	height: 1px;
-	background:#CE1220;
+	background: var(--color-primary);
 	content: '';
 	opacity: 0;
 	-webkit-transition: height 0.3s, opacity 0.3s, -webkit-transform 0.3s;
@@ -143,7 +138,7 @@ min-height: 730px;
 }
 .banner-info h1 {
     font-size: 3em;
-    color:#CE1220;
+    color: var(--color-primary);
     margin: 0;
 }
 
@@ -151,9 +146,6 @@ min-height: 730px;
 	text-align: right;
 	padding-top: 5em;
 	padding-left: 5em;
-}
-.banner-info h1 a{
-    color: #CCB76C;
 }
 .banner-info p {
     font-size: 1.5em;
@@ -171,7 +163,7 @@ min-height: 730px;
 }
 .about h3,.three-steps h3,.work h3,.services h3,.team h3,.contact h3,.news-1 h3 {
     font-size: 2em;
-    color: #CE1220;
+    color: var(--color-primary);
     margin: 0;
 }
 .about h4,.three-steps h4,.work h4{
@@ -324,7 +316,7 @@ line-height: 3em;
     position: absolute;
     left: 231px;
     top: 43px;
-    background:#CE1220;
+    background: var(--color-primary);
 }
 .three-left span.glyphicon.glyphicon-phone, span.glyphicon.glyphicon-signal, span.glyphicon.glyphicon-random {
     font-size: 2em;
@@ -369,13 +361,13 @@ line-height: 3em;
 }
 .services-right {
     padding: 4.52em 11em;
-    background:#C92727;
+    background:var(--color-secondary);
     height : 21em;
 }
 
 .services-right-bis {
     padding: 4.52em 11em;
-    background:#ea2d2d;
+    background: var(--color-secondary);
     height : 21em;
 }
 
@@ -613,8 +605,7 @@ ul.social-icons1 li {
 }
 .news-1 ul li {
     color: #fff;
-    font-size: 0.875em; 
-	font-family: 'Lora', serif;
+    font-size: 0.875em;
 }
 .news-1 ul li {
     display: block;
@@ -633,48 +624,7 @@ i.glyphicon.glyphicon-calendar {
     padding: 5em 0;
     text-align: center;
 }
-.contact-right span{
-	color:#D57D39;
-	font-size:2.2em;
-	display:inline-block;
-	vertical-align:middle;
-}
-.contact-right p {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 15px;
-    color: #81868e;
-    margin: 0 0 0 10px;
-}
-.contact-right p a{
-	color:#81868e;
-}
-.contact-right p a:hover{
-	color:#b3a020;
-}
-.contact-left input[type="text"] {
-    width: 49.38%;
-    margin: 0px;
-    color: #999;
-    background: none;
-    padding: 15px 10px;
-    outline: none;
-    border: 1px solid #BEBEBE;
-}
-.contact-left input[type="text"]:nth-child(1) {
-    margin-right: 0px;
-}
-.contact-left textarea {
-    width: 100%;
-    color: #999;
-    resize: none;
-    background: none;
-    height: 12.7em;
-    padding: 15px;
-    outline: none;
-    border: 1px solid #BEBEBE;
-    margin-top: 1.4%;
-}
+
 .submit-btn input[type=submit] {
     color:#fff;
     padding: 7px 41px;
@@ -698,39 +648,13 @@ i.glyphicon.glyphicon-calendar {
     -o-transition: 0.5s all ease;
     -ms-transition: 0.5s all ease;
 }
-.contact-top {
-    text-align: left;
-    margin: 2.5em 0;
-}
 .contact-bottom {
     margin-top: 3em;
-}
-.contact-right {
-    padding: 0 5em;
-}
-.contact-row {
-    padding: 0 1.5em;
 }
 .contact-images {
     height : 10em;
     max-width: 100%;
     float:right;
-}
-/*--contact--*/
-.footer {
-    background:#CCB76C;
-    padding: 1em 0;
-    text-align: center;
-}
-.footer p {
-    color: #fff;
-    font-size: 1em;
-}
-.footer p a{
-    color: #fff;
-}
-.footer p a:hover{
-    color: #44221F;
 }
 /* FIFTH EFFECTS */
 .fifth-effect img {
@@ -750,7 +674,7 @@ i.glyphicon.glyphicon-calendar {
    cursor:pointer;
    opacity:0.7;
    visibility:visible;
-   border:25px solid #CE1220;
+   border:25px solid  var(--color-primary);
    -moz-box-sizing:border-box;
    -webkit-box-sizing:border-box;
    box-sizing:border-box;
@@ -1159,17 +1083,17 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
 }
 .navbar-default .navbar-toggle {
     border: none ! important;
-    background: #CCB76C;
+    background: var(--color-secondary);
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #CCB76C ! important;
+    background-color: var(--color-secondary) ! important;
 }
 .nav > li > a {
     padding: 15px 12px !important;
 }
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-    border-color: #B3A020 !important;
-    background: rgb(193, 174, 46) !important;
+    border-color: white !important;
+    background: var(--color-secondary) !important;
 }
 .navbar-default .navbar-toggle .icon-bar {
     background-color: #fff !important;
@@ -1208,10 +1132,6 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
 }
 .banner {
     min-height: 450px;
-}
-.logo a {
-    font-size: 3em;
-}
 }
 /*-- responsive-design --*/
 @media (max-width: 667px){
@@ -1450,9 +1370,6 @@ span.glyphicon.glyphicon-thumbs-up, span.glyphicon.glyphicon-heart, span.glyphic
     width: 100%;
     float: none;
 	text-align:center;
-}
-.logo a {
-    font-size: 2.5em;
 }
 .banner-info {
     margin: 2em 0 0;

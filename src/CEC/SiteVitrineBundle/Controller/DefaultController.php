@@ -8,6 +8,6 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('CECSiteVitrineBundle:Default:index.html.twig', array());
+        return $this->render('CECSiteVitrineBundle:Default:index_simple.html.twig', array());
     }
 }
