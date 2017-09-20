@@ -31,19 +31,6 @@
 			});
 		});
 	</script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			/*
-			 var defaults = {
-			 containerID: 'toTop', // fading element id
-			 containerHoverID: 'toTopHover', // fading element hover id
-			 scrollSpeed: 1200,
-			 easingType: 'linear'
-			 };
-			 */
-			$().UItoTop({ easingType: 'easeOutQuart' });
-		});
-	</script>
 	<!--animate-->
 	<script src="http://cec-ecp.com/site_vitrine/js/wow.min.js"></script>
 	<script>
@@ -56,8 +43,15 @@
 	{{ parent() }}
 	<!-- navigation -->
 	<!-- banner -->
-	<div class="banner">
-		<div class="container">
+	{% image '@CECSiteVitrineBundle/Resources/public/images/banner.jpg' %}
+	<div class="banner" style="background: url({{ asset_url }}) no-repeat center bottom;
+	background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    -moz-background-size: cover;">
+	{% endimage %}
+		<div class="container-fluid">
 			<div class="navigation wow fadeInLeft animated" data-wow-delay=".5s">
 				<nav class="navbar navbar-default">
 					<!-- Brand and toggle get grouped for better mobile display -->
@@ -75,14 +69,10 @@
 							<li><a href="#home" class="scroll">Accueil</a></li>
 							<li><a href="#about" class="scroll">À propos</a></li>
 							<li><a href="#activites" class="scroll">Action</a></li>
-							<li><a href="#news" class="scroll">Actualités</a></li>
 							<li><a href="#contact" class="scroll">Contact</a></li>
-							<li><a href="{{ path('connexion') }}">Se connecter</a></li>
 							<div class="clearfix"></div>
 						</ul>
-
-
-					</div><!-- /.navbar-collapse -->
+					</div>
 				</nav>
 			</div>
 
@@ -93,8 +83,10 @@
 						<img src="{{ asset_url }}" alt="Logo" class="img-responsive"/>
 						{% endimage %}
 					</div>
+				</div>
+				<div class="row">
 					<div class="banner-text">
-						<h1 class="wow fadeInRight animated" data-wow-delay=".5s">Ouverture Sociale pour l'Egalité et la Réussite</h1>
+						<h1 class="wow fadeInRight animated" data-wow-delay=".5s">Ouverture Sociale pour l'Égalité et la Réussite</h1>
 						<p class="wow fadeInRight animated" data-wow-delay=".5s">Ils ont l'envie, nous sommes le coup de pouce.</p>
 					</div>
 				</div>
@@ -108,87 +100,27 @@
 	<div class="about" id="about">
 		<div class="container">
 			<div class="col-md-6 about-left wow fadeInLeft animated" data-wow-delay=".5s">
-				<h3>À propos de nous</h3>
-				<p> Bienvenue ! Nous sommes une association de l'Ecole CentraleSupelec campus Gif-sur-Yvette et nous proposons nous proposons à de nombreux lycéens de la région parisienne de les accompagner vers les études supérieures, quel que soit leur milieu socioculturel. Élèves, parents, administrations, entreprises, centraliens, nous vous invitons à découvrir Centrale Égalité des Chances.</p>
-
+				<h3>À PROPOS DE NOUS</h3>
+				<p>Bienvenue ! Nous sommes une association d’étudiants de l'École CentraleSupelec et nous proposons à de nombreux lycéens de région parisienne de les accompagner vers les études supérieures grâce à diverses actions, quel que soit leur milieu socioculturel. Élèves, parents, professeurs, entreprises, étudiants, nous vous invitons à découvrir Ouverture Sociale pour l’Egalité et la Réussite.</p>
 			</div>
 			<div class="col-md-6 about-left wow fadeInRight animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/1.jpg' %}
+				{% image '@CECSiteVitrineBundle/Resources/public/images/a-propos.jpg' %}
 				<img src="{{ asset_url }}" alt="Photo à propos" class="img-responsive"/>
 				{% endimage %}
 			</div>
-			<div class="clearfix"></div>
-			<!--
-			<div class="what wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-				<h3>WHAT WE DO</h3>
-				<p> Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
-				saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.
-				Itaque earum rerum hic tenetur a sapiente delectus.</p>
-			</div>
-			<div class="ui-1">
-				<div class="col-md-6 ui-1-grd1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-					<div class="ui-1-top">
-						<div class="col-xs-3 ui-1-left">
-							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-						</div>
-						<div class="col-xs-9 ui-1-right">
-							<h4>UI / UX DESIGN</h4>
-							<p> Nam libero tempore, cum soluta nobis est eligendi optio
-								cumque nihil impedit quo minus id quod .</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="col-md-6 ui-1-grd1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-					<div class="ui-1-top">
-						<div class="col-xs-3 ui-1-left">
-							<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-						</div>
-						<div class="col-xs-9 ui-1-right">
-							<h4>BRANDING & IDENTITY</h4>
-							<p> Nam libero tempore, cum soluta nobis est eligendi optio
-								cumque nihil impedit quo minus id quod .</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-				<div class="col-md-6 ui-1-grd1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-					<div class="ui-1-top">
-						<div class="col-xs-3 ui-1-left">
-							<span class="glyphicon glyphicon-phone" aria-hidden="true"></span>
-						</div>
-						<div class="col-xs-9 ui-1-right">
-							<h4>APP DESIGN</h4>
-							<p> Nam libero tempore, cum soluta nobis est eligendi optio
-								cumque nihil impedit quo minus id quod .</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="col-md-6 ui-1-grd1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-					<div class="ui-1-top">
-						<div class="col-xs-3 ui-1-left">
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-						</div>
-						<div class="col-xs-9 ui-1-right">
-							<h4>PRINT DESIGN</h4>
-							<p> Nam libero tempore, cum soluta nobis est eligendi optio
-								cumque nihil impedit quo minus id quod .</p>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-
-			</div>
--->
 		</div>
 	</div>
 
 	<!-- Fin à propos -->
 	<!-- mid-bann -->
-	<div class="mid-bann">
+	{% image '@CECSiteVitrineBundle/Resources/public/images/mid-banner.jpg' %}
+	<div class="mid-bann" style="background: url({{ asset_url }}) center center no-repeat; background-size:cover;
+	-webkit-background-size: cover;
+	-o-background-size: cover;
+	-ms-background-size: cover;
+	-moz-background-size: cover;
+	min-height: 300px;">
+	{% endimage %}
 		<div class="container">
 			<div class="mid-bann-info">
 				<div class="col-md-3 mid-left animated wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
@@ -206,7 +138,7 @@
 						<li>{% image '@CECSiteVitrineBundle/Resources/public/fonts/school.png' %}
 							<img src="{{ asset_url }}" alt="" class="mid-banner-icon"/>
 							{% endimage %}</li>
-						<li><h5>8</h5></li>
+						<li><h5>12</h5></li>
 						<h6>LYCÉES PARTENAIRES</h6>
 					</ul>
 				</div>
@@ -224,7 +156,7 @@
 						<li>{% image '@CECSiteVitrineBundle/Resources/public/fonts/group-of-people-in-a-formation.png' %}
 							<img src="{{ asset_url }}" alt="" class="mid-banner-icon"/>
 							{% endimage %}</span></li>
-						<li><h5>275</h5></li>
+						<li><h5>300</h5></li>
 						<h6>LYCÉENS ACCOMPAGNÉS</h6>
 					</ul>
 				</div>
@@ -236,66 +168,47 @@
 	<!-- Notre activité -->
 	<div class="work" id="activites">
 		<div class="container">
-			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms"> <strong>Notre action</strong></h3>
+			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				NOTRE ACTION
+			</h3>
 			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-				Pour accomplir notre mission, nous menons trois types d’activités: le tutorat, des sorties sur Paris, et aussi de grands projets. Clique sur les images pour en savoir plus !
+				Pour accomplir notre mission, nous menons trois types d’activités : le tutorat, des sorties sur Paris, et aussi de grands projets. Clique sur les images pour en savoir plus !
 			</p>
 		</div>
 		<div class="work-btm">
-			<div class ="row">
-				<div class="col-md-offset-4 col-md-4 work-left wow fadeInDown animated" data-wow-delay=".5s">
+			<div class="row">
+				<div class="col-md-4 work-left wow fadeInDown animated" data-wow-delay=".5s">
 					<a href="#tutorat" class="scroll">
 						<div class="view fifth-effect">
-							{% image '@CECSiteVitrineBundle/Resources/public/images/5.jpg' %}
+							{% image '@CECSiteVitrineBundle/Resources/public/images/action-tutorat.jpg' %}
 							<img src="{{ asset_url }}" alt="tutorat" class="img-responsive"/>
 							{% endimage %}
 
 							<div class="mask"></div>
 						</div>
 					</a>
-
 				</div>
-			</div>
-
-			<div class="row">
 				<div class="col-md-4 work-left wow fadeInLeft animated" data-wow-delay=".5s">
 					<a href="#sorties" class="scroll">
 						<div class="view fifth-effect">
-							{% image '@CECSiteVitrineBundle/Resources/public/images/3.jpg' %}
+							{% image '@CECSiteVitrineBundle/Resources/public/images/action-sorties.jpg' %}
 							<img src="{{ asset_url }}" alt="" class="img-responsive"/>
 							{% endimage %}
 							<div class="mask"></div>
 						</div>
 					</a>
-
 				</div>
-				<div class="col-md-4 work-left animated wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				<div class="col-md-4 work-left wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
 					<a href="#projets" class="scroll">
 						<div class="view fifth-effect">
-							{% image '@CECSiteVitrineBundle/Resources/public/images/4.jpg' %}
+							{% image '@CECSiteVitrineBundle/Resources/public/images/action-projets.jpg' %}
 							<img src="{{ asset_url }}" alt="" class="img-responsive"/>
 							{% endimage %}
 							<div class="mask"></div>
 						</div>
 					</a>
-
-				</div>
-				<div class="col-md-4 work-left wow fadeInRight animated" data-wow-delay=".5s">
-					<a href="#journees" class="scroll">
-						<div class="view fifth-effect">
-							{% image '@CECSiteVitrineBundle/Resources/public/images/20.jpg' %}
-							<img src="{{ asset_url }}" alt="" class="img-responsive"/>
-							{% endimage %}
-							<div class="mask"></div>
-						</div>
-					</a>
-
 				</div>
 			</div>
-
-
-
-
 			<div class="clearfix"></div>
 		</div>
 	</div>
@@ -303,39 +216,27 @@
 	<!-- Le tutorat -->
 	<div class="services" id="tutorat">
 		<div class="container">
-			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">Le tutorat</h3>
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">  			Voilà notre coeur de métier ! Nous organisons des séances bimensuelles de tutorat sur des thèmes culturels et scientifiques, permettant aux tutorés de développer leur ouverture d'esprit,leur confiance en eux et leur curiosité.
+			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				LE TUTORAT
+			</h3>
+			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				Voilà notre coeur de métier ! Nous organisons des séances de tutorat bimensuelles qui permettent aux lycéens de découvrir de nouvelles choses, de mieux comprendre l’actualité, de réfléchir et de débattre tous ensemble, de porter un regard différent sur les notions étudiées en cours et de développer leur confiance en eux et leur curiosité.
 			</p>
 		</div>
-		<div class="services-bottom">
-			<div class="services-row">
-				<div class="col-md-5 services-left wow fadeInLeft animated" data-wow-delay=".5s">
-					{% image '@CECSiteVitrineBundle/Resources/public/images/6.jpg' %}
-					<img src="{{ asset_url }}" alt="" class="img-responsive services-images"/>
+		<div class="work-btm">
+			<div class="row">
+				<div class="col-md-offset-2 col-md-4 work-left wow fadeInRight animated" data-wow-delay=".5s">
+					{% image '@CECSiteVitrineBundle/Resources/public/images/le-tutorat.jpg' %}
+					<img src="{{ asset_url }}" alt="tutorat" class="img-responsive"/>
 					{% endimage %}
 				</div>
-				<div class="col-md-7 services-right wow fadeInRight animated" data-wow-delay=".5s">
-					<h4>LE TUTORAT SCIENTIFIQUE</h4>
-					<p>
-						Comment la science peut-elle expliquer des phénomènes de la vie courante ? Les tuteurs répondent à cette question lors d’activités qui permettent aux lycéens d’appréhender, avec leurs outils, des sujets aussi variés que le vol d’une montgolfière ou qu’un mirage optique. En se détachant encore une fois des activités « scolaires », le tutorat montre aux lycéens que les mathématiques et la physique peuvent modéliser des phénomènes passionnants et que des études supérieures leur permettraient d’aller encore plus loin.</p>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-			<div class="services-row">
-				<div class="col-md-7 services-right-bis wow fadeInLeft animated" data-wow-delay=".5s">
-					<h4>LE TUTORAT CULTUREL</h4>
-					<p>
-						L’objectif du tutorat culturel est de proposer aux lycéens de développer des compétences supplémentaires indispensables à leur vie future en se détachant des activités « scolaires ». À travers débats, improvisations théâtrales, analyse d’articles de presse, simulation d’émissions télévisées, quizz sur l’actualité, activités en anglais ou des ateliers à thème, les lycéens développent leur ouverture d ‘esprit, leur confiance en eux, leur curiosité et le goût de la culture !
-					</p>
-				</div>
-				<div class="col-md-5 services-left wow fadeInRight animated" data-wow-delay=".5s">
-					{% image '@CECSiteVitrineBundle/Resources/public/images/TutoratCulturel.jpg' %}
-					<img src="{{ asset_url }}" alt="" class="img-responsive services-images-bis"/>
+				<div class="col-md-4 work-left wow fadeInRight animated" data-wow-delay=".5s">
+					{% image '@CECSiteVitrineBundle/Resources/public/images/le-tutorat2.jpg' %}
+					<img src="{{ asset_url }}" alt="tutorat" class="img-responsive"/>
 					{% endimage %}
 				</div>
 			</div>
 			<div class="clearfix"></div>
-
 		</div>
 	</div>
 	<!-- Fin le tutorat -->
@@ -343,36 +244,31 @@
 	<!-- Les Sorties -->
 	<div class="services" id="sorties">
 		<div class="container">
-			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">Les Sorties</h3>
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms"> La culture et l’enseignement supérieur ne s’apprennent pas que dans une salle de classe, c’est pourquoi nous organisons des sorties à Paris tous les mois pour les élèves intéressés, comme par exemple au Palais de la Découverte, à la Comédie Française, au Musée Grévin ou à des écoles et universités.</p>
+			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				LES SORTIES
+			</h3>
+			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				La culture et l’enseignement supérieur ne s’apprennent pas que dans une salle de classe, c’est pourquoi nous organisons des sorties à Paris tous les mois pour les élèves intéressés, comme par exemple au Palais de la Découverte, à la Comédie Française, au Musée Grévin ou à des écoles et universités.
+			</p>
 		</div>
 
 		<div class="work-btm">
 			<div class="row">
 				<div class="col-md-4 work-left wow fadeInLeft animated" data-wow-delay=".5s">
-					<div class="view">
-						{% image '@CECSiteVitrineBundle/Resources/public/images/sortie1.png' %}
-						<img src="{{ asset_url }}" alt="" class="img-responsive"/>
-						{% endimage %}
-						<div class="mask"></div>
-					</div>
+					{% image '@CECSiteVitrineBundle/Resources/public/images/sortie1.jpg' %}
+					<img src="{{ asset_url }}" alt="" class="img-responsive"/>
+					{% endimage %}
 
 				</div>
 				<div class="col-md-4 work-left animated wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-					<div class="view">
-						{% image '@CECSiteVitrineBundle/Resources/public/images/sortie2.png' %}
-						<img src="{{ asset_url }}" alt="" class="img-responsive"/>
-						{% endimage %}
-						<div class="mask"></div>
-					</div>
+					{% image '@CECSiteVitrineBundle/Resources/public/images/sortie2.jpg' %}
+					<img src="{{ asset_url }}" alt="" class="img-responsive"/>
+					{% endimage %}
 				</div>
 				<div class="col-md-4 work-left wow fadeInRight animated" data-wow-delay=".5s">
-					<div class="view">
-						{% image '@CECSiteVitrineBundle/Resources/public/images/sortie3.png' %}
-						<img src="{{ asset_url }}" alt="" class="img-responsive"/>
-						{% endimage %}
-						<div class="mask"></div>
-					</div>
+					{% image '@CECSiteVitrineBundle/Resources/public/images/sortie3.jpg' %}
+					<img src="{{ asset_url }}" alt="" class="img-responsive"/>
+					{% endimage %}
 				</div>
 			</div>
 
@@ -385,43 +281,38 @@
 	<!-- Les Projets -->
 	<div class="services" id="projets">
 		<div class="container">
-			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">Les Projets</h3>
+			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				LES PROJETS
+			</h3>
 			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-				Nous proposons de nombreux projets tous différents les uns des autres pour que nos tutorés découvrent de nouveaux horizons et brisent la routine, en tissant aussi des liens forts avec les tuteurs. À la carte, un voyage dans une grande ville européenne, des stages artistiques, un séjour linguistique à Londres, un stage d'acclimatation aux classes préparatoires, et descorrespondances.
+				Nous proposons de nombreux projets, tous différents les uns des autres, pour que nos tutorés découvrent de nouveaux horizons et brisent la routine, en tissant aussi des liens forts avec les tuteurs. À la carte, des voyages dans de grandes villes françaises et européennes, des stages artistiques, un séjour linguistique à Londres ou encore un stage d'acclimatation aux classes préparatoires.
 			</p>
 		</div>
 		<div class="services-bottom">
 
 			<!-- Focus Europe -->
 			<div class="col-md-5 services-left wow fadeInLeft animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/FocusEurope.png' %}
+				{% image '@CECSiteVitrineBundle/Resources/public/images/projets-focus-europe.jpg' %}
 				<img src="{{ asset_url }}" alt="" class="img-responsive  services-images"/>
 				{% endimage %}
 			</div>
 			<div class="col-md-7 services-right wow fadeInRight animated" data-wow-delay=".5s">
-				<h4> FOCUS EUROPE</h4>
+				<h4>FOCUS EUROPE</h4>
 				<p>
-					Tous les ans en Avril, 60 lycéens partent découvrir une capitale européenne pendant 5 jours. C’est l’opportunité unique d’aller à la rencontre d’un nouveau pays et de son histoire, d’un nouveau mode de vie, d’une nouvelle culture. Ce séjour se partage entre visites de musées, d’églises, de parcs et autres bâtiments réputés mais aussi un jeu de piste pour parcourir la ville sous un autre angle, de temps libre et des repas typiques de la ville !
+					Tous les ans en Avril, 60 lycéens partent découvrir une capitale européenne pendant 5 jours. C’est l’opportunité unique d’aller à la rencontre d’un nouveau pays et de son histoire, d’un nouveau mode de vie, d’une nouvelle culture. Ce séjour se partage entre visites de musées, d’églises, de parcs et autres bâtiments réputés mais aussi un jeu de piste pour parcourir la ville sous un autre angle, du temps libre et des repas typiques de la ville !
 				</p>
 			</div>
 			<div class="clearfix"></div>
 
 			<!-- GML -->
 			<div class="col-md-7 services-right-bis wow fadeInLeft animated" data-wow-delay=".5s">
-				<h4> GOOD MORNING LONDON</h4>
+				<h4>GOOD MORNING LONDON</h4>
 				<p>
-					Good Morning London, ou plus simplement GML, est un voyage linguistique de dix jours à
-					Londres. Une occasion unique de t’immerger dans la culture anglaise et découvrir ses richesses
-					tout en travaillant ton anglais de manière ludique et appliquée autour du thème du journalisme.
-					GML c’est donc des visites, des séances d’anglais type tutorat le matin pour progresser
-					notamment à l’oral, un jeu de piste mémorable, des balades dans les quartiers les plus
-					excentriques comme Camden, les plus exotiques comme Chinatown, ou les plus chics comme
-					Oxford Street et Westminster, et plein d’autres surprises ! Alors n’hésite plus, guette les
-					inscriptions et viens vivre l’expérience GML !
+					Good Morning London, ou plus simplement GML, est un voyage linguistique de dix jours à Londres. Une occasion unique de t’immerger dans la culture anglaise et découvrir ses richesses tout en travaillant ton anglais de manière ludique et appliquée autour du thème du journalisme. Au programme : visites, séances d’anglais type tutorat pour progresser à l’oral, jeu de piste mémorable, balades dans les quartiers comme Camden, Chinatown, ou Oxford Street et Westminster, et plein d’autres surprises ! Guette les inscriptions et viens vivre l’expérience GML !
 				</p>
 			</div>
 			<div class="col-md-5 services-left wow fadeInRight animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/GML.png' %}
+				{% image '@CECSiteVitrineBundle/Resources/public/images/projets-gml.jpg' %}
 				<img src="{{ asset_url }}" alt="" class="img-responsive services-images-bis"/>
 				{% endimage %}
 			</div>
@@ -430,32 +321,27 @@
 
 			<!-- Stage Théâtre -->
 			<div class="col-md-5 services-left wow fadeInLeft animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/StageTheatre.png' %}
+				{% image '@CECSiteVitrineBundle/Resources/public/images/projets-stage-theatre.jpg' %}
 				<img src="{{ asset_url }}" alt="" class="img-responsive services-images"/>
 				{% endimage %}
 			</div>
 			<div class="col-md-7 services-right wow fadeInRight animated" data-wow-delay=".5s">
-				<h4> STAGE THÉÂTRE</h4>
+				<h4>STAGE THÉÂTRE</h4>
 				<p>
 					Afin de leur faire découvrir le monde du théâtre mais aussi développer leur aisance à l’oral, une équipe de tuteurs organise un stage pendant trois jours sur notre campus en Octobre. Des professionnels du théâtre viennent encadrer les lycéens sur scène et leur apprendre de l’écriture au jeu, de l’entraînement à la représentation, du rôle de spectateur à celui d’acteur, du texte à l’improvisation ! Le tout pour présenter leur pièce de théâtre aux parents à la fin du stage !
 				</p>
 			</div>
 			<div class="clearfix"></div>
 
-			<!-- Centrale Prépa -->
+			<!-- Oser la Prépa -->
 			<div class="col-md-7 services-right-bis wow fadeInLeft animated" data-wow-delay=".5s">
-				<h4> CENTRALE PREPA</h4>
+				<h4>OSER LA PRÉPA</h4>
 				<p>
-					Centrale Prépa est un stage d’acclimatation à l’univers des classes préparatoires scientifiques
-					proposé à une vingtaine de lycéens en classe de terminale de la région parisienne issus de tousmilieux sociaux pendant deux semaines en Juillet, à Centrale. L’emploi du temps comprend une
-					soixantaine d’heures de cours et travaux dirigés, des colles, une journées de devoirs surveillés et
-					une visite des oraux de concours. Par ailleurs, pour souligner l’importance d’un rythme de vie sain
-					en classe préparatoires, des moments de détente avec les tuteurs sont aussi proposés ! Alors si tu
-					t’embarques dans l’aventure des classes préparatoires, n’hésite pas et participe à Centrale Prépa !
+					Oser la Prépa est un stage d’acclimatation à l’univers des classes préparatoires scientifiques. Proposé à une vingtaine de nos lycéens de terminale, il se déroule pendant deux semaines à CentraleSupélec. L’emploi du temps comprend une soixantaine d’heures de cours et travaux dirigés, des colles, des devoirs surveillés, une visite des oraux de concours... Et parce qu'un rythme de vie sain est primordial en classes préparatoires, de nombreux moments de détente avec les tuteurs sont aussi proposés ! Si tu t’embarques dans l’aventure des classes préparatoires, n’hésite plus et viens oser la prépa avec nous !
 				</p>
 			</div>
 			<div class="col-md-5 services-left wow fadeInRight animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/CentralePrepa.png' %}
+				{% image '@CECSiteVitrineBundle/Resources/public/images/projets-oser-la-prepa.jpg' %}
 				<img src="{{ asset_url }}" alt="" class="img-responsive services-images-bis"/>
 				{% endimage %}
 			</div>
@@ -464,175 +350,65 @@
 
 			<!-- (Art)ccessible -->
 			<div class="col-md-5 services-left wow fadeInLeft animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/Artccessible.png' %}
+				{% image '@CECSiteVitrineBundle/Resources/public/images/projets-artccessible.jpg' %}
 				<img src="{{ asset_url }}" alt="" class="img-responsive services-images"/>
 				{% endimage %}
 			</div>
 			<div class="col-md-7 services-right wow fadeInRight animated" data-wow-delay=".5s">
-				<h4> (ART)CCESSIBLE</h4>
+				<h4>(ART)CCESSIBLE</h4>
 				<p>
-					Pendant 3 jours, les lycéens intéressés ont l’opportunité de découvrir différentes formes d’art: musique, peinture, sculpture, danse, cuisine, street art... Un vrai weekend de découvertes avec un vernissage des créations des tutorés à la fin où tous les parents sont invités!
+					Pendant 3 jours, les lycéens intéressés ont l’opportunité de découvrir différentes formes d’art : musique, peinture, sculpture, danse, cuisine, street art, magie, cinéma... Un vrai weekend de découvertes avec un vernissage des créations des tutorés à la fin où tous les parents sont invités !
 				</p>
 			</div>
 			<div class="clearfix"></div>
 
-			<!-- Europen
-                    <div class="col-md-7 services-right wow fadeInLeft animated" data-wow-delay=".5s">
-                        <h4> EUROPEN</h4>
-                        <p>
-                            Ce programme de correspondances permet aux lycéens qui le veulent de se mettre en relation avec des jeunes d’autres pays, pour ainsi découvrir leur culture, leur langue, leurs habitudes !
-                        </p>
-                    </div>
-                    <div class="col-md-5 services-left wow fadeInRight animated" data-wow-delay=".5s">
-                        <img src="images/7.jpg" alt="" class="img-responsive">
-                    </div>
-
-                    <div class="clearfix"></div>
-            -->
-		</div>
-	</div>
-	<!-- Fin les projets -->
-
-	<!-- Les Journées à Centrale -->
-	<div class="services" id="journees">
-		<div class="container">
-			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">Les Journées à Centrale</h3>
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">  En plus des sorties et des projets proposés durant l'année, nous organisons deux journées qui ont lieu sur le campus de l'École, à Châtenay-Malabry. Non limitées en place, ces journées sont l'occasion pour les tutorés de découvrir l'ensemble des tuteurs de l'association et les autres lycéens, autour de conférences, de repas et d'activités de tout genre.</p>
-		</div>
-		<div class="services-bottom">
-			<!-- Journée des Cordées -->
-			<div class="col-md-5 services-left wow fadeInLeft animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/JourneeCordees.png' %}
-				<img src="{{ asset_url }}" alt="" class="img-responsive services-images-bis"/>
-				{% endimage %}
-			</div>
-			<div class="col-md-7 services-right wow fadeInRight animated" data-wow-delay=".5s">
-				<h4> JOURNÉES DES CORDÉES</h4>
-				<p>
-					Ayant lieu vers mi-janvier, cette journée est un moyen pour nos tutorés d’apprendre un peu plus sur leur orientation, à travers une conférence sur un thème clé mais aussi une après-midi où ils rencontrent des étudiants de différentes filières et participent à une activité avec une entreprise.
-				</p>
-			</div>
-			<div class="clearfix"></div>
+			<!-- Carnets de France -->
 			<div class="col-md-7 services-right-bis wow fadeInLeft animated" data-wow-delay=".5s">
-				<h4> JOURNÉE DE CLOTURE</h4>
+				<h4>CARNETS DE FRANCE</h4>
 				<p>
-					Cette journée organisée en Juin permet de réunir tous les acteurs de notre association - lycéens, professeurs référents, membres de l’administration et tuteurs - pour célébrer la fin de l’année.
-					Au programme, une conférence et une après-midi d’activités divertissantes organisées par les associations de notre École.
+					Pendant quatre jours, les lycéens partent à la découverte d’une grande ville française afin d’en découvrir le patrimoine, l’histoire et la culture locale. Grâce aux activités organisées par les tuteurs, l’apport culturel aux tutorés est maximal, toujours dans la bonne humeur ! Viens toi aussi écrire une nouvelle page dans les Carnets de France !
 				</p>
 			</div>
 			<div class="col-md-5 services-left wow fadeInRight animated" data-wow-delay=".5s">
-				{% image '@CECSiteVitrineBundle/Resources/public/images/JourneeCloture.png' %}
+				{% image '@CECSiteVitrineBundle/Resources/public/images/projets-carnets-de-france.jpg' %}
 				<img src="{{ asset_url }}" alt="" class="img-responsive services-images-bis"/>
 				{% endimage %}
 			</div>
-
 			<div class="clearfix"></div>
-
 		</div>
 	</div>
-	<!-- Fin les projets -->
-
-	<!--- news-1 ---->
-	<div class="news-1" id="news">
-		<div class="container">
-			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms"> Actualités</h3>
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">En cours de construction</p>
-			<!--
-			<div class="news-1-bottom">
-				<div class="col-md-6 news-1-left wow fadeInLeft animated" data-wow-delay=".5s">
-					<div class="im-left">
-						<img src="images/10.jpg" alt="" class="img-responsive">
-					</div>
-					<div class="tex-right">
-						<h4>Actualités 1</h4>
-						<h6>Aut rerum</h6>
-						<p>Necessitatibus saepe eveniet ut et voluptates repudiandae sint . </p>
-						<ul>
-							<li><i class="glyphicon glyphicon-calendar"> </i>12th, December 30-12-2015</li>
-						</ul>
-					</div>
-					<div class="clearfix"></div>
-				</div>
-				<div class="col-md-6 news-1-left wow fadeInRight animated" data-wow-delay=".5s">
-					<div class="im-left">
-						<img src="images/9.jpg" alt="" class="img-responsive">
-					</div>
-					<div class="tex-right">
-						<h4>Actualités 2</h4>
-						<h6>Aut rerum</h6>
-						<p>Necessitatibus saepe eveniet ut et voluptates repudiandae sint . </p>
-						<ul>
-							<li><i class="glyphicon glyphicon-calendar"> </i>12th, December 30-12-2015</li>
-						</ul>
-					</div>
-					<div class="clearfix"></div>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			-->
-		</div>
-	</div>
-	<!--- news-1 ---->
-
-	<!--- testimonials ---->
-
-	<!--- testimonials ---->
+	<!-- Fin projets -->
 
 	<!--- contact ---->
 	<div class="contact" id="contact">
 		<div class="container">
 			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">CONTACT</h3>
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">N'hésitez pas à nous contacter si vous avez des questions ou des suggestions !</p>
+			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">Pour toutes questions ou suggestions, n'hésitez pas à nous contacter !</p>
 			<div class="contact-bottom">
 				<div class="row">
-					<div class="col-md-2 col-md-offset-2 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href="https://fr-fr.facebook.com/CEC.CentraleEgaliteDesChances">
-							<img src="http://cec-ecp.com/images/icon_facebook.png" alt="" class="img-responsive contact-images"/>
+					<div class="col-xs-2 col-xs-offset-2 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+						<a href="https://www.facebook.com/OSERCentraleSupelec/">
+							{% image '@CECSiteVitrineBundle/Resources/public/images/icon-facebook.png' %}
+							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
+							{% endimage %}
 						</a>
 					</div>
-					<div class="col-md-2 col-md-offset-1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href = "https://twitter.com/CEC_ecp">
-							<img src="http://cec-ecp.com/images/icon_twitter.png" alt="" class="img-responsive contact-images"/>
+					<div class="col-xs-2 col-xs-offset-1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+						<a href = "https://twitter.com/OSER_CS">
+							{% image '@CECSiteVitrineBundle/Resources/public/images/icon-twitter.png' %}
+							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
+							{% endimage %}
+					</div>
+					<div class="col-xs-2 col-xs-offset-1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+						<a href="mailto:oser.contact@ml.viarezo.fr">
+							{% image '@CECSiteVitrineBundle/Resources/public/images/icon-mail.png' %}
+							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
+							{% endimage %}
 						</a>
 					</div>
-					<div class="col-md-2 col-md-offset-1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href = "https://www.linkedin.com/company/centrale-%C3%A9galit%C3%A9-des-chances">
-							<img src="http://cec-ecp.com/images/icon_linkedin.png" alt="" class="img-responsive contact-images"/>
-						</a>
-					</div>
-
 				</div>
-				<div class="row" style="padding-top: 2em;">
-					<div class="col-md-2 col-md-offset-2 wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href = "https://www.instagram.com/cec_ecp/">
-							<img src="http://cec-ecp.com/images/icon_instagram.png" alt="" class="img-responsive contact-images"/>
-						</a>
-					</div>
-					<div class="col-md-2 col-md-offset-1 wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href = "http://cec-ecp.com/">
-							<img src="http://cec-ecp.com/images/icon_web.png" alt="" class="img-responsive contact-images"/>
-						</a>
-					</div>
-					<div class="col-md-2 col-md-offset-1 wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href = "mailto:contact@cec-ecp.com">
-							<img src="http://cec-ecp.com/images/icon_email.png" alt="" class="img-responsive contact-images"/>
-						</a>
-					</div>
-
-				</div>
-
 				<div class="clearfix"></div>
 			</div>
 		</div>
 	</div>
-	<!--- contact ---->
-	<!--- footer
-	<div class="footer">
-		<div class="container">
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">© 2016 Diction. All Rights Reserved | Template by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
-		</div>
-	</div>
-	<a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover" style="opacity: 0;"> </span></a>
-
-	footer ---->
 {% endblock %}

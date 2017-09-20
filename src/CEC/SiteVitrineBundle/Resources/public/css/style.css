@@ -123,7 +123,7 @@ font-size:1.1em;
 /*-- /Link Effect: bottom border enlarge --*/
 /*--navigation--*/
 /*--banner--*/
-.banner{
+/*.banner{
 background: url(http://cec-ecp.com/site_vitrine/images/banner-1.jpg) no-repeat 0px 0px;
 background-size:cover;
 -webkit-background-size: cover;
@@ -131,21 +131,19 @@ background-size:cover;
 -ms-background-size: cover;
 -moz-background-size: cover;
 min-height: 730px;
-}
+}*/
 .banner-info {
-   margin: 17em 0 0;
-    width: 100%;
+   margin: 5em 0 7em 0;
+   width: 100%;
 }
 .banner-info h1 {
     font-size: 3em;
-    color: var(--color-primary);
+    color: white;
     margin: 0;
 }
 
 .banner-text {
-	text-align: right;
-	padding-top: 5em;
-	padding-left: 5em;
+	text-align: center;
 }
 .banner-info p {
     font-size: 1.5em;
@@ -154,8 +152,11 @@ min-height: 730px;
     line-height: 1.2em;
 }
 .banner-logo {
-    width: 30em;
-	float:left;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+    max-width: 30em;
 }
 /*--about--*/
 .about {
@@ -251,15 +252,7 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
 }
 /*--about--*/
 /*--mid-bann--*/
-.mid-bann{
-	background: url(http://cec-ecp.com/site_vitrine/images/mid-banner.png) no-repeat 0px 20px;
-	background-size:cover;
-	-webkit-background-size: cover;
-	-o-background-size: cover;
-	-ms-background-size: cover;
-	-moz-background-size: cover;
-	min-height: 300px;
-}
+
 .mid-left li {
     display: inline-block;
     vertical-align: middle;
@@ -348,6 +341,7 @@ line-height: 3em;
 }
 .services-left {
     padding: 0;
+	height: 21em;
 }
 .services-btm {
     margin-top: 3em;
@@ -652,8 +646,7 @@ i.glyphicon.glyphicon-calendar {
     margin-top: 3em;
 }
 .contact-images {
-    height : 10em;
-    max-width: 100%;
+	min-width: 50px;
     float:right;
 }
 /* FIFTH EFFECTS */
@@ -797,9 +790,9 @@ i.glyphicon.glyphicon-calendar {
     width:336px;
     height: 204px;
 }
-.banner-info {
+/*.banner-info {
     width: 40%;
-}
+}*/
 .banner {
     min-height: 570px;
 }
@@ -830,9 +823,6 @@ i.glyphicon.glyphicon-calendar {
     left: 199px;
     top: 45px;
 }
-.banner-info {
-    margin: 6em 0 0;
-}
 }
 /*-- responsive-design --*/
 @media (max-width: 966px){
@@ -843,9 +833,6 @@ i.glyphicon.glyphicon-calendar {
 .banner-info p {
     font-size: 1.4em;
     line-height: 1.5em;
-}
-.banner-info {
-    width: 50%;
 }
 .banner {
     min-height: 470px;
@@ -1061,9 +1048,6 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
 .contact-right span {
     padding-right: 0.3em;
 }
-.banner-info {
-    margin: 4em 0 0;
-}
 .banner {
     min-height: 480px;
 }
@@ -1223,9 +1207,6 @@ span.glyphicon.glyphicon-thumbs-up, span.glyphicon.glyphicon-heart, span.glyphic
 }
 /*-- responsive-design --*/
 @media (max-width: 568px){
-.banner-info {
-    width: 56%;
-}
 .about {
     padding: 2em 0;
 }
@@ -1317,9 +1298,6 @@ span.glyphicon.glyphicon-thumbs-up, span.glyphicon.glyphicon-heart, span.glyphic
 .banner-info p {
     font-size: 1.2em;
 }
-.banner-info {
-    width: 67%;
-}
 .view {
     width: 393px;
     height: 160px;
@@ -1366,22 +1344,7 @@ span.glyphicon.glyphicon-thumbs-up, span.glyphicon.glyphicon-heart, span.glyphic
 .ser-banner {
     padding: 3em 0 0;
 }
-.banner-info {
-    width: 100%;
-    float: none;
-	text-align:center;
-}
-.banner-info {
-    margin: 2em 0 0;
-}
 .banner {
-	background: url(http://cec-ecp.com/site_vitrine/images/banner-1.jpg) no-repeat -76px 0px;
-	background-size: cover;
-    -webkit-background-size: cover;
-    -o-background-size: cover;
-    -ms-background-size: cover;
-    -moz-background-size: cover;
-    min-height: 360px;
 }
 }
 /*-- responsive-design --*/
@@ -1407,9 +1370,6 @@ span.glyphicon.glyphicon-thumbs-up, span.glyphicon.glyphicon-heart, span.glyphic
 }
 /*-- responsive-design --*/
 @media (max-width:320px){
-.banner-info {
-    width: 100%;
-}
 .about h3, .three-steps h3, .work h3, .services h3, .team h3, .contact h3, .news-1 h3 {
     font-size: 1.3em;
 }
@@ -1550,9 +1510,6 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
 }
 .banner {
     min-height: 310px;
-}
-.banner-info {
-    margin: 1.5em 0 0;
 }
 .captn p {
     margin: 0;
