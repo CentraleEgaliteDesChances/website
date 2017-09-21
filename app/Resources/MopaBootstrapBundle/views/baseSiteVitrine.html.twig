@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block titre %}Centrale Egalité des Chances{% endblock %}</title>
+    <title>{% block titre %}OSER – Ouverture Sociale pour l'Égalité et la Réussite{% endblock %}</title>
 
     {% block stylesheets %}
 
     {% endblock %}
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    {% image '@CECSiteVitrineBundle/Resources/public/images/oser-favicon.png' %}
+    <link rel="shortcut icon" href="{{ asset_url }}" />
+    {% endimage %}
 
 
 </head>
