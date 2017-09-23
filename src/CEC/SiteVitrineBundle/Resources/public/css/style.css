@@ -325,7 +325,7 @@ line-height: 3em;
     text-align: center;
 }
 .work-left {
-    padding: 0;
+	padding: 0;
 }
 .work-btm {
     margin-top: 3em;
@@ -561,7 +561,6 @@ i.glyphicon.glyphicon-calendar {
 .services-right {
     padding: 3em 8em;
 }
-
 .services-right-bis {
     padding: 3em 8em;
 }
@@ -736,7 +735,7 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
     padding: 3em 0 0;
 }
 .work-left {
-    width: 33.33%;
+	width: 33.33%;
 	float:left;
 }
 .view .mask, .view .content {
