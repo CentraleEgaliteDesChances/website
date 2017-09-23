@@ -4,25 +4,42 @@
 {% block stylesheets %}
 	{{ parent() }}
 
+	<!-- Bootstrap 3 -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-	<link href="http://cec-ecp.com/site_vitrine/css/bootstrap.css" rel='stylesheet' type='text/css' />
-	<link href="http://cec-ecp.com/site_vitrine/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+	<!-- FontAwesome -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+
+	<!-- JQuery FlexSlider -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.1/flexslider-min.css" type="text/css" media="screen" />
+
+	<!-- Animate -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/2.1.1/animate.min.css" rel="stylesheet" type="text/css" media="all">
+
+	<!-- Custom style -->
 	{% stylesheets '@CECSiteVitrineBundle/Resources/public/css/style.css' %}
-  		<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+		<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
 	{% endstylesheets %}
-	<link rel="stylesheet" href="http://cec-ecp.com/site_vitrine/css/flexslider.css" type="text/css" media="screen" />
-	<link href="http://cec-ecp.com/site_vitrine/css/animate.css" rel="stylesheet" type="text/css" media="all">
-	<!-- Custom Theme files -->
+
+	<!-- Google Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
 	<link href='//fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>{% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
-	<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-	<script src="http://cec-ecp.com/site_vitrine/js/jquery-1.11.1.min.js"></script>
-	<script src="http://cec-ecp.com/site_vitrine/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="http://cec-ecp.com/site_vitrine/js/move-top.js"></script>
-	<script type="text/javascript" src="http://cec-ecp.com/site_vitrine/js/easing.js"></script>
+
+	<!-- JQuery js -->
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+
+	<!-- JQuery Easing js -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.1.2/jquery.easing.min.js"></script>
+
+	<!-- JQuery FlexSlider js -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.1/jquery.flexslider-min.js"></script>
+
+	<!-- Boostrap js -->
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			$(".scroll").click(function(event){
@@ -31,9 +48,10 @@
 			});
 		});
 	</script>
+
 	<!--animate-->
-	<script src="http://cec-ecp.com/site_vitrine/js/wow.min.js"></script>
-	<script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+	<script type="text/javascript">
 		new WOW().init();
 	</script>
 	<!--//end-animate-->
@@ -392,7 +410,7 @@
 							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
 							{% endimage %}
 						</a>
-						<div class="text-center hidden-sm-down">
+						<div class="text-center hidden-sm hidden-xs">
 							<p>OSERCentraleSupelec</p>
 						</div>
 					</div>
@@ -402,7 +420,7 @@
 							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
 							{% endimage %}
 						</a>
-						<div class="text-center hidden-sm-down">
+						<div class="text-center hidden-sm hidden-xs">
 							<p>@OSER_CS</p>
 						</div>
 					</div>
@@ -412,7 +430,7 @@
 							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
 							{% endimage %}
 						</a>
-						<div class="text-center hidden-sm-down">
+						<div class="text-center hidden-sm hidden-xs">
 							<p>Envoyer un email</p>
 						</div>
 					</div>
