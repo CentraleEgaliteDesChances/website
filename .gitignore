@@ -9,6 +9,8 @@ web/uploads
 web/css
 web/images
 web/js
+web/site_vitrine/fonts
+web/site_votrine/images
 
 composer.phar
 composer.lock
