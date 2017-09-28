@@ -69,7 +69,7 @@
     -webkit-background-size: cover;
     -o-background-size: cover;
     -ms-background-size: cover;
-    -moz-background-size: cover;">
+    -moz-background-size: cover;" id="home">
 	{% endimage %}
 		<div class="container">
 			<div class="navigation wow fadeInLeft animated" data-wow-delay=".5s">
@@ -89,6 +89,7 @@
 							<li><a href="#home" class="scroll">Accueil</a></li>
 							<li><a href="#about" class="scroll">À propos</a></li>
 							<li><a href="#activites" class="scroll">Action</a></li>
+							<li><a href="#partners" class="scroll">Partenaires</a></li>
 							<li><a href="#contact" class="scroll">Contact</a></li>
 							<div class="clearfix"></div>
 						</ul>
@@ -122,6 +123,7 @@
 			<div class="col-md-6 about-left wow fadeInLeft animated" data-wow-delay=".5s">
 				<h3>À PROPOS DE NOUS</h3>
 				<p>Bienvenue ! Nous sommes une association d’étudiants de l'École CentraleSupelec et nous proposons à de nombreux lycéens de région parisienne de les accompagner vers les études supérieures grâce à diverses actions, quel que soit leur milieu socioculturel. Élèves, parents, professeurs, entreprises, étudiants, nous vous invitons à découvrir Ouverture Sociale pour l’Egalité et la Réussite.</p>
+				<p class="text-muted small"><em>OSER agit dans le cadre du programme national des <a href="http://www.cordeesdelareussite.fr" title="Cordées de la Réussite (site web)">Cordées de la Réussite</a>.</em></p>
 			</div>
 			<div class="col-md-6 about-left wow fadeInRight animated" data-wow-delay=".5s">
 				{% image '@CECSiteVitrineBundle/Resources/public/images/a-propos.jpg' %}
@@ -401,56 +403,87 @@
 
 	<!-- Partenaires -->
 
-	<!-- <div class="services" id="partners">
+	<div class="services" id="partners">
 		<div class="container">
 			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-				LES SORTIES
+				NOS PARTENAIRES
 			</h3>
 			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-				La culture et l’enseignement supérieur ne s’apprennent pas que dans une salle de classe, c’est pourquoi nous organisons des sorties à Paris tous les mois pour les élèves intéressés, comme par exemple au Palais de la Découverte, à la Comédie Française, au Musée Grévin ou à des écoles et universités.
+				Nous sommes fiers de compter parmi nos partenaires <a href="https://www.akoyaconsulting.com">Akoya Consulting</a>. Merci à eux pour tout leur soutien.
 			</p>
+
+			<div class="row animated wow fadeInLeft animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				<a href="http://www.akoyaconsulting.com" title="Akoya Consulting (site web)">
+					{% image '@CECSiteVitrineBundle/Resources/public/images/partenaires-akoya.png' %}
+					<img src="{{ asset_url }}" alt="Logo Akoya" class="img-responsive partner-img bigger"/>
+					{% endimage %}
+				</a>
+			</div>
+
+			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				L'action d'OSER est en partie financée par des organismes de subventions départementaux et régionaux.
+			</p>
+
+			<div class="row">
+				<div class="text-center animated wow fadeInRight animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+					<a href="https://www.iledefrance.fr" title="Région Ile-de-France (site web)">
+						{% image '@CECSiteVitrineBundle/Resources/public/images/partenaires-ridf.png' %}
+						<img src="{{ asset_url }}" alt="Logo Région Ile-de-France" class="img-responsive partner-img"/>
+						{% endimage %}
+					</a>
+
+					<a href="http://www.cget.gouv.fr" title="CGET (site web)">
+						{% image '@CECSiteVitrineBundle/Resources/public/images/partenaires-cget.png' %}
+						<img src="{{ asset_url }}" alt="Logo CGET" class="img-responsive partner-img"/>
+						{% endimage %}
+					</a>
+
+					<a href="http://www.ac-versailles.fr" title="Académie de Versailles (site web)">
+						{% image '@CECSiteVitrineBundle/Resources/public/images/partenaires-rectorat.png' %}
+						<img src="{{ asset_url }}" alt="Logo Rectorat de Versailles" class="img-responsive partner-img"/>
+						{% endimage %}
+					</a>
+				</div>
+			</div>
 		</div>
-	</div> -->
+	</div>
 
 	<!--- contact ---->
 	<div class="contact" id="contact">
 		<div class="container">
 			<h3 class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">CONTACT</h3>
-			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">Pour toutes questions ou suggestions, n'hésitez pas à nous contacter !</p>
+			<p class="animated wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+				Vous pouvez nous joindre par mail en <a href="mailto:oser.contact@ml.viarezo.fr">cliquant ici</a>. <br>
+				Nous sommes aussi présents sur <a href="https://www.facebook/OSERCentraleSupélec">Facebook (OSERCentraleSupélec)</a> et <a href="https://twitter.com/OSER_CS">Twitter (@OSER_CS)</a> :  n'hésitez pas à nous envoyer un message !
+			</p>
 			<div class="contact-bottom">
 				<div class="row">
-					<div class="col-xs-2 col-xs-offset-2 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href="https://www.facebook.com/OSERCentraleSupelec/">
+					<div class="text-center wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+						<a href="https://www.facebook.com/OSERCentraleSupelec/" title="OSERCentraleSupelec (Facebook)">
 							{% image '@CECSiteVitrineBundle/Resources/public/images/icon-facebook.png' %}
 							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
 							{% endimage %}
 						</a>
-						<div class="text-center hidden-sm hidden-xs">
-							<p>OSERCentraleSupelec</p>
-						</div>
-					</div>
-					<div class="col-xs-2 col-xs-offset-1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href = "https://twitter.com/OSER_CS">
+						<a href = "https://twitter.com/OSER_CS" title="@OSER_CS (Twitter)">
 							{% image '@CECSiteVitrineBundle/Resources/public/images/icon-twitter.png' %}
 							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
 							{% endimage %}
 						</a>
-						<div class="text-center hidden-sm hidden-xs">
-							<p>@OSER_CS</p>
-						</div>
-					</div>
-					<div class="col-xs-2 col-xs-offset-1 wow fadeInUp animated" data-wow-duration="1200ms" data-wow-delay="500ms">
-						<a href="mailto:oser.contact@ml.viarezo.fr">
-							{% image '@CECSiteVitrineBundle/Resources/public/images/icon-mail.png' %}
-							<img src="{{ asset_url }}" alt="" class="img-responsive contact-images"/>
-							{% endimage %}
-						</a>
-						<div class="text-center hidden-sm hidden-xs">
-							<p>Envoyer un email</p>
-						</div>
 					</div>
 				</div>
-				<div class="clearfix"></div>
+			</div>
+			<div class="row">
+				<hr>
+				<div class="text-center wow fadeInDown animated" data-wow-duration="1200ms" data-wow-delay="500ms">
+					<p class="text-muted small">
+						<em>Crédits photos : <a href="https://galerie.pics">PICS</a>.</em>
+						<br>
+						© <script type="text/javascript">
+							var d = new Date()
+							document.write(d.getFullYear())
+						</script> OSER
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>

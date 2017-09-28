@@ -119,6 +119,21 @@ font-size:1.1em;
 	transform: translateY(0px);
 }
 /*-- /Link Effect: bottom border enlarge --*/
+
+/* Partners */
+
+img.partner-img {
+	width: 128px;
+	display: inline-block;
+    text-decoration: none;
+    text-indent: -10000px;
+    font-size: 0px;
+    line-height: 0px;
+}
+img.partner-img.bigger {
+	width: 256px;
+}
+
 /*--navigation--*/
 /*--banner--*/
 .banner-info {
@@ -168,15 +183,12 @@ font-size:1.1em;
     margin: 0;
 }
 .about p,.three-steps p,.work p,.services p,.team p,.contact p,.news-1 p{
-    font-size: 15px;
     color: #81868e;
     margin: 2em 0;
     line-height: 1.8em;
 }
 .about a {
     text-decoration: none;
-    padding: 6px 30px;
-    font-size: 16px;
 }
 /* Shutter In Horizontal */
 a.hvr-shutter-in-horizontal {
@@ -495,11 +507,12 @@ i.glyphicon.glyphicon-calendar {
     -ms-transition: 0.5s all ease;
 }
 .contact-bottom {
-    margin-top: 3em;
+	margin-bottom: 3em:
 }
 .contact-images {
-	min-width: 50px;
-    float:right;
+	width: 100px;
+	margin: 1em;
+	display: inline-block;
 }
 /* FIFTH EFFECTS */
 .fifth-effect img {
@@ -682,8 +695,6 @@ i.glyphicon.glyphicon-calendar {
     margin: 1em 0;
 }
 .about a {
-    padding: 6px 24px;
-    font-size: 14px;
 }
 .about-left {
     margin-bottom: 2em;
@@ -829,7 +840,6 @@ span.glyphicon.glyphicon-folder-open, span.glyphicon.glyphicon-star-empty, span.
     height: 150px;
 }
 .about p, .three-steps p, .work p, .services p, .team p, .contact p, .news-1 p {
-    font-size: 13px;
 }
 .services h4 {
     font-size: 1.1em;
@@ -1067,9 +1077,6 @@ span.glyphicon.glyphicon-thumbs-up, span.glyphicon.glyphicon-heart, span.glyphic
 
 .contact {
     padding: 2em 0;
-}
-.contact-bottom {
-    margin-top: 2em;
 }
 .team-grids a .captn {
     bottom: -82%;
