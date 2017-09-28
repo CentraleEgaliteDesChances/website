@@ -12,9 +12,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 }
 
 html, body{
-	/*--font-family: 'Roboto', sans-serif;--*/
-	/*font-family: 'Oswald', sans-serif; */
-	font-family: 'AvenirLTStd-Book', 'Arial', sans-serif;
+	font-family: 'Nunito', 'Arial', sans-serif;
 	font-size: 100%;
 	background: #ffffff;
 }
